@@ -191,6 +191,7 @@ export class PublishedComponent extends WorkSpace implements OnInit {
     };
     this.search(searchParams).subscribe(
       (data: ServerResponse) => {
+        console.log('data id', data);
         if (data.result.count && data.result.content.length > 0) {
           this.publishedContent = data.result.content;
           this.totalCount = data.result.count;

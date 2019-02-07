@@ -7,7 +7,7 @@
   <a *ngIf='permissionService.permissionAvailable' appPermission [permission]='createRole' class="item" [routerLink]="['create']" routerLinkActive="active">
       {{resourceService?.frmelmnts?.snav?.start}}
     </a>
-  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') " 
+  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') "
   appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]">
        {{resourceService?.frmelmnts?.snav?.allmycontents}}
   </a>
@@ -51,5 +51,8 @@
   <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]"
   [class.active]="router.isActive('/workspace/content/collaborating-on')">
  {{resourceService?.frmelmnts?.snav?.Collaboratingon}}
+</a>
+<a class="item" *ngIf='permissionService.orgAdmin||permissionService.permissionAvailable' appPermission [permission]='adminRole' [routerLink]="['adduser',1]">
+ADD USER
 </a>
 </div>

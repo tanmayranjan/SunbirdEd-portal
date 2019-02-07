@@ -1,0 +1,9 @@
+<button
+  class="ui semi-circular dodger-blue button right-0 mt-60 right-aligned-button absolute computer only"
+  (click)="adduser($event)" name="bulk"
+>
+  Add Bulk User
+</button>
+<div *ngIf="showbulkupload">
+  <app-bulk-upload></app-bulk-upload>
+</div>

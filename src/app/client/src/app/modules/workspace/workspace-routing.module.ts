@@ -8,6 +8,7 @@ import {
   FlagConentplayerComponent, PublishedPopupComponent, RequestChangesPopupComponent, LimitedPublishedComponent,
   AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent} from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
+import { AdduserComponent } from './components/adduser/adduser.component';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -173,6 +174,16 @@ const routes: Routes = [
             env: telemetryEnv, pageid: 'workspace-content-upforreview', subtype: 'paginate', uri: 'workspace/content/upForReview',
             type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
           }, roles: 'upForReviewRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+        }
+      },
+      {
+        path: 'adduser/:pageNumber', component: AdduserComponent, canActivate: [AuthGuard],
+        data: {
+          telemetry: {
+            env: telemetryEnv, pageid: 'workspace-content-adduser', subtype: 'paginate', uri: 'workspace/content/adduser',
+            type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
+          }, roles: 'adminRole',
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
         }
       },

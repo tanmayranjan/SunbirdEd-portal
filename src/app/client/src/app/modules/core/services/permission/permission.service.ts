@@ -34,6 +34,8 @@ export class PermissionService {
    * flag to store permission availability
    */
   permissionAvailable = false;
+  orgAdmin = false;
+  admin = false;
   /**
    * BehaviorSubject with permission status.
    * 1.Undefined if the role not fetched from the server.
@@ -41,6 +43,7 @@ export class PermissionService {
    * 3.error if server error while fetching roles.
    */
   public permissionAvailable$ = new BehaviorSubject<string>(undefined);
+  public admin$ = new BehaviorSubject<string>(undefined);
   /**
    * reference of ResourceService service.
    */
@@ -117,7 +120,23 @@ export class PermissionService {
     this.userService.userData$.subscribe((user: IUserData) => {
       if (user && !user.err) {
         this.userRoles = user.userProfile.userRoles;
+        if (_.includes(this.userRoles, 'ORG_ADMIN')) {
+          const publicuser = _.difference(this.userRoles, ['PUBLIC', 'ORG_ADMIN']);
+          console.log(publicuser.length, publicuser);
+          if (publicuser.length >= 1) {
+            this.admin$.next('success');
+            this.admin =  true ;
+            console.log(this.admin);
+          } else if (user && user.err) {
+            this.toasterService.error(this.resourceService.messages.emsg.m0005 || 'Something went wrong, please try again later...');
+            this.admin$.next('error');
+          }
+        }
         _.forEach(this.userRoles, (role) => {
+          if (role === 'ORG_ADMIN') {
+            console.log('inside if', role);
+            this.orgAdmin = true;
+          }
           const roleActions = _.filter(this.rolesAndPermissions, { role: role });
           if (_.isArray(roleActions) && roleActions.length > 0) {
             this.userRoleActions = _.concat(this.userRoleActions, _.map(roleActions[0].actions, 'id'));
