@@ -12,8 +12,7 @@ name=$(e "${m}" "name")
 version=$(e "${m}" "version")
 
 artifactLabel=${ARTIFACT_LABEL:-bronze}
-withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhubpwd')]) {
-docker login -u "${hubuser}" -p ${dockerhubpwd}"
-}
+
+docker login -u "${hubuser}" -p$(cat /home/ops/vault_pass)
 docker push ${org}/${name}:${version}-${artifactLabel}
 docker logout
