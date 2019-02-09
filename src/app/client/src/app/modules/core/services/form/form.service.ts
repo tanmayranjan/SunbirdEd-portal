@@ -40,6 +40,7 @@ export class FormService {
     * @param {selectedContent} content selected content type
     */
   getFormConfig(formInputParams, hashTagId?: string): Observable<any> {
+    console.log(formInputParams);
     const channelOptions: any = {
       url: this.configService.urlConFig.URLS.dataDrivenForms.READ,
       data: {
@@ -47,7 +48,8 @@ export class FormService {
           type: formInputParams.formType,
           action: formInputParams.formAction,
           subType: this.configService.appConfig.formApiTypes[formInputParams.contentType],
-          rootOrgId: hashTagId ? hashTagId : this.userService.hashTagId
+          rootOrgId: hashTagId ? hashTagId : this.userService.hashTagId,
+          component: 'portal'
         }
       }
     };
@@ -63,6 +65,7 @@ export class FormService {
       }
       return this.publicDataService.post(channelOptions).pipe(map(
         (formConfig: ServerResponse) => {
+          console.log(formConfig);
           this.setForm(formKey, formConfig.result.form.data.fields);
           return formConfig.result.form.data.fields;
         }));

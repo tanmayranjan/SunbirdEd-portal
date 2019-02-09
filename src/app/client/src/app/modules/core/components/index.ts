@@ -12,4 +12,4 @@ export * from './content-player-metadata/content-player-metadata.component';
 export * from './language-dropdown/language-dropdown.component';
 export * from './prominent-filter/prominent-filter.component';
 export * from './topic-picker/topic-picker.component';
-
+export * from './navbar/navbar.component';

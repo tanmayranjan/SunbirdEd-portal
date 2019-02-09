@@ -1,0 +1,8 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+
+.roles {
+  word-break: break-all;
+  width: 21vw;
+  line-height: 1.5rem;
+}

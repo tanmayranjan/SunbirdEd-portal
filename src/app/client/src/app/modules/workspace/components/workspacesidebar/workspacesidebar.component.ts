@@ -81,7 +81,10 @@ export class WorkspacesidebarComponent implements OnInit {
   * allContentRole  access roles
   */
  collaboratingRole: Array<string>;
-
+/**
+ * adduserRole access roles
+ */
+adduserRole: Array<string>;
    /**
    * reference of Router.
    */
