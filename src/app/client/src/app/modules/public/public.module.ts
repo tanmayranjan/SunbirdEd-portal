@@ -19,6 +19,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BadgingModule } from '@sunbird/badge';
 import { CourseDetailPageComponent } from './components/course-detail-page/course-detail-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,10 +32,11 @@ import { CourseDetailPageComponent } from './components/course-detail-page/cours
     TelemetryModule,
     NgInviewModule,
     DeviceDetectorModule,
-    BadgingModule
+    BadgingModule,
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
-    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent],
+    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent, HomePageComponent],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
+
 })
 export class PublicModule { }

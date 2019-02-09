@@ -1,0 +1,90 @@
+@import '../../../../../../node_modules/bootstrap//dist/css/bootstrap.min.css';
+
+.jumbotron {
+  background: url('http://niittvimgcdn.azureedge.net/Images/siteBnr.jpg') no-repeat;
+  background-size: cover;
+  height: 90vh;
+  position: relative;
+  opacity: 1;
+  box-shadow: 0px 10px 20px 9px black;
+  top: 1em;
+}
+
+.jumbotron .text-bg {
+  position:absolute;
+  left: 18em;
+}
+.text-bg {
+  width: 75vw;
+  color:white;
+  text-shadow: black;
+  background: rgb(12, 12, 12);
+  padding: 6em 4em 8em 0em !important;
+  left: 10em !important;
+  opacity: 0.6;
+}
+h1 {
+  color:white;
+  text-shadow: black;
+}
+
+.highlight {
+  color: black;
+}
+
+a {
+  font-size: 25px;
+}
+
+.popular-courses {
+  margin-left: 8em !important;
+}
+.course-image {
+  width: auto;
+  height: 180px;
+
+}
+.card-img-top {
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0.8;;
+}
+ .text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: black;
+  text-shadow: white;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+ }
+ hr {
+   max-width: 50px;
+   border-width: 3px;
+   border-color: #F05F40;
+ }
+
+ hr.light {
+   border-color: #fff;
+ }
+
+ #services {
+   padding: 3rem 0;
+ }
+
+ #services h6, h2{
+     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+
+ }
+
+ .form-control {
+   width: 80vw;
+ }
+
+ .exam-link, .scholarship-link {
+   color: black;
+ }
+ .exam-link:hover, .scholarship-link:hover {
+   color: black;
+   text-decoration: none;
+ }

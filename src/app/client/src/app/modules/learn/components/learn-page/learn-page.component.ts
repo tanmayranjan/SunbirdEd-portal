@@ -173,6 +173,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     }));
   }
   public prepareVisits(event) {
+    console.log('inside orepare visits');
     _.forEach(event, (inView, index) => {
       if (inView.metaData.identifier) {
         this.inViewLogs.push({

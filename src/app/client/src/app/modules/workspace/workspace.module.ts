@@ -24,6 +24,7 @@ import { ReviewCommentsComponent } from './components/review-comments/review-com
 import { OrderModule } from 'ngx-order-pipe';
 import { AdduserComponent } from './components/adduser/adduser.component';
 import { OrgManagementModule } from '@sunbird/org-management';
+import { AddSingleUserComponent } from './components/add-single-user/add-single-user.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -57,6 +58,7 @@ import { OrgManagementModule } from '@sunbird/org-management';
     ReviewCommentsComponent,
     CollaborationContentFilterComponent,
     AdduserComponent,
+    AddSingleUserComponent,
   ],
   providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService]
 })

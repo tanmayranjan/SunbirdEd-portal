@@ -1,4 +1,10 @@
-<button
+<button *ngIf="!showbulkupload"
+  class="ui semi-circular dodger-blue button  mt-60 right-aligned-button absolute computer only"
+  (click)="addSingleUser()"
+>
+  Add Single User
+</button>
+<button *ngIf="!singleUser"
   class="ui semi-circular dodger-blue button right-0 mt-60 right-aligned-button absolute computer only"
   (click)="adduser($event)" name="bulk"
 >
@@ -6,4 +12,7 @@
 </button>
 <div *ngIf="showbulkupload">
   <app-bulk-upload></app-bulk-upload>
+</div>
+<div *ngIf="singleUser">
+  <app-add-single-user></app-add-single-user>
 </div>

@@ -9,6 +9,7 @@ import {
   AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent} from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { AdduserComponent } from './components/adduser/adduser.component';
+import { AddSingleUserComponent } from './components/add-single-user/add-single-user.component';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -185,7 +186,17 @@ const routes: Routes = [
             type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
           }, roles: 'adminRole',
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-        }
+        },
+        // children: [{
+        //   path: '/addSingleUser', component: AddSingleUserComponent, canActivate: [AuthGuard],
+        //   data: {
+        //     telemetry: {
+        //       env: telemetryEnv, pageid: 'batch-edit', uri: '/addSingleUser',
+        //       type: 'detail', mode: 'create', object: { type: objectType, ver: '1.0' }
+        //     }, roles: 'adminRole',
+        //     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+        //   }
+        // }]
       },
       {
         path: 'limited-publish/:pageNumber', component: LimitedPublishedComponent, canActivate: [AuthGuard],

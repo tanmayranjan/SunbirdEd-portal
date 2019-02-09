@@ -1,0 +1,150 @@
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="ml-5 mb-5 pb-5">
+        India’s largest Free Online Learning Platform <a href="#">Join Now</a>
+      </h1>
+      <div class="text-bg ml-5">
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-group">
+              <div class="col-12  mb-2 mb-md-0 searchicon ui fluid icon input">
+                <input
+                  type="text"
+                  id="keyword"
+                  name="filter_search"
+                  class="form-control form-control-lg"
+                  title="Search"
+                  placeholder="Search for courses"
+                  [(ngModel)]="key"
+                  (keyup.enter)="onEnter(key)"
+                />
+                <i
+                  class="circular search link icon"
+                  id="searchIcon"
+                  (click)="onEnter(key)"
+                ></i>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Compete to get Scholarship</h2>
+          <hr class="my-4" />
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-6">
+          <div class="service-box text-center">
+            <i class="fas fa-4x fa-file-alt text-warning mb-3 sr-icon-1"></i>
+            <!-- <i class="fas fa-4x fa-file-alt text-warning"></i> -->
+            <a href="#" class="exam-link"
+              ><h3>Prepare for competitive Exams</h3>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="service-box text-center">
+            <i
+              class="fas fa-4x fa-graduation-cap text-warning mb-3 sr-icon-1"
+            ></i>
+            <a href="#" class="scholarship-link"><h3>Find a Scholarship</h3></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br />
+  <section>
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-4 pb-3" *ngFor="let category of images">
+          <div class="card course-image">
+            <img [src]="category.background" class="card-img-top" alt="..." />
+          </div>
+          <div class="text">{{ category.name }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container my-5 mx-5">
+      <div class="row popular-courses">
+        <div class="col-md-6 pb-3 px-0" *ngFor="let category of popularcourses">
+          <div class="card course-image" style="width: 23rem;">
+            <img
+              [src]="category.background"
+              class="card-img-top"
+              alt="..."
+            />
+          </div>
+          <div class="text">{{ category.name }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="services">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading">At Your Service</h2>
+            <hr class="my-4" />
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fas fa-4x fa-paper-plane text-warning mb-3 sr-icon-2"></i>
+              <h3 class="mb-3">Hands On Exercises</h3>
+              <p class="text-muted mb-0">
+                Your training is packed with assignments, assessment tests, quizzes
+                and exercises
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i
+                class="fas fa-4x fa-chalkboard-teacher mb-3 sr-icon-3 text-warning"
+              ></i>
+              <h3 class="mb-3">Expert Instructors</h3>
+              <p class="text-muted mb-0">Take help from our Instructors</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fas fa-4x fa-question text-warning mb-3 sr-icon-4"></i>
+              <h3 class="mb-3">Queries</h3>
+              <p class="text-muted mb-0">Post your Queries</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fas fa-4x fa-ribbon text-warning mb-3 sr-icon-1"></i>
+              <h3 class="mb-3">Global Certificate</h3>
+              <p class="text-muted mb-0">
+                Our templates are updated regularly so they don't break.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <div class="container">
+    <div class="row">
+        <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
+            <app-page-section (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
+          </div>
+    </div>
+    </div>
+<router-outlet></router-outlet>

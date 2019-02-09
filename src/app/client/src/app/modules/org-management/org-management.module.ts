@@ -27,7 +27,7 @@ import { NgInviewModule } from 'angular-inport';
   ],
   declarations: [CreateOrgTypeComponent, ViewOrgTypeComponent, OrganizationUploadComponent,
     UserUploadComponent, BulkUploadComponent, StatusComponent],
-  exports: [BulkUploadComponent],
+  exports: [BulkUploadComponent, OrganizationUploadComponent, UserUploadComponent, StatusComponent],
   providers: [ResourceService, ToasterService, RouterNavigationService, OrgTypeService, OrgManagementService]
 })
 export class OrgManagementModule { }

@@ -52,7 +52,8 @@
   [class.active]="router.isActive('/workspace/content/collaborating-on')">
  {{resourceService?.frmelmnts?.snav?.Collaboratingon}}
 </a>
-<a class="item" *ngIf='permissionService.orgAdmin||permissionService.permissionAvailable' appPermission [permission]='adminRole' [routerLink]="['adduser',1]">
+<a class="item" *ngIf='permissionService.orgAdmin||permissionService.permissionAvailable' appPermission [permission]='adminRole' [routerLink]="['adduser',1]"
+[class.active]="router.isActive('/workspace/content/adduser')">
 ADD USER
 </a>
 </div>
