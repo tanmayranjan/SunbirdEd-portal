@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FrameworkService } from '@sunbird/core';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public frameworkService: FrameworkService) { }
 
   ngOnInit() {
+
   }
 
 }

@@ -1,4 +1,8 @@
 # sunbird-portal
+<<<<<<< HEAD
+=======
+
+>>>>>>> b399f945ff346b117b6c6e686377da615f91b086
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5b3a8965fbe9447a9e74967e852c38df)](https://www.codacy.com/app/sunbird-bot/SunbirdEd-portal?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Sunbird-Ed/SunbirdEd-portal&amp;utm_campaign=Badge_Grade)
 
 [![Build Status](https://travis-ci.org/project-sunbird/sunbird-portal.svg?branch=master)](https://travis-ci.org/project-sunbird/sunbird-portal)

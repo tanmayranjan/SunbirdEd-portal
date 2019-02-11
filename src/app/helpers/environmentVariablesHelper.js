@@ -2,7 +2,6 @@
 const env = process.env
 const fs = require('fs')
 const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-
 let envVariables = {
   LEARNER_URL: env.sunbird_learner_player_url || 'http://sunbird-ilimi.stackroute.com/api/',
   CONTENT_URL: env.sunbird_content_player_url || 'http://sunbird-ilimi.stackroute.com/api/',
@@ -29,7 +28,7 @@ let envVariables = {
   CONTENT_SERVICE_UPSTREAM_URL: env.sunbird_content_service_upstream_url || 'http://localhost:5000/',
   LEARNER_SERVICE_UPSTREAM_URL: env.sunbird_learner_service_upstream_url || 'http://localhost:9000/',
   DATASERVICE_URL: env.sunbird_dataservice_url || 'http://sunbird-ilimi.stackroute.com/api/',
-  KEY_CLOAK_PUBLIC: env.sunbird_keycloak_public || 'true',
+  KEY_CLOAK_PUBLIC: env.sunbird_keycloak_public || 'http://sunbird-ilimi.stackroute.com/auth',
   KEY_CLOAK_REALM: env.sunbird_keycloak_realm || 'sunbird',
   CACHE_STORE: env.sunbird_cache_store || 'memory',
   CACHE_TTL: env.sunbird_cache_ttl || 1800,
@@ -63,8 +62,6 @@ let envVariables = {
   },
   sunbird_google_captcha_site_key: env.sunbird_google_captcha_site_key
 }
-
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
-
 module.exports = envVariables

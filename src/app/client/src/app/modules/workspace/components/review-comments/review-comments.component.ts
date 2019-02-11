@@ -50,6 +50,7 @@ export class ReviewCommentsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.setInteractEventData();
+    console.log('id', this.sortedComments);
     this.getReviewComments().pipe(takeUntil(this.unsubscribe)).subscribe(
         (data) => {
           this.sortedComments = data;

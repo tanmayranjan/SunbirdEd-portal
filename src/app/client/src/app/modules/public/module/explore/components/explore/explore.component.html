@@ -1,5 +1,5 @@
 <div [appTelemetryImpression]="telemetryImpression">
-  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']" 
+  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']"
   [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
   <div class="ui container mt-20">
     <div class="ui grid">
@@ -23,7 +23,11 @@
       </div>
       <a href={{baseUrl}} class="ui button primary announcement-button close mt-20">
         {{resourceService.frmelmnts?.btn?.signin}}
-      </a> 
+      </a>
     </div>
   </div>
 </sui-modal>
+
+
+
+
