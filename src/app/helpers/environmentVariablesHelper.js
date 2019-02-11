@@ -2,7 +2,6 @@
 const env = process.env
 const fs = require('fs')
 const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-
 let envVariables = {
   LEARNER_URL: env.sunbird_learner_player_url || 'http://sunbird-ilimi.stackroute.com/api/',
   CONTENT_URL: env.sunbird_content_player_url || 'http://sunbird-ilimi.stackroute.com/api/',
@@ -63,8 +62,6 @@ let envVariables = {
   },
   sunbird_google_captcha_site_key: env.sunbird_google_captcha_site_key
 }
-
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
-
 module.exports = envVariables

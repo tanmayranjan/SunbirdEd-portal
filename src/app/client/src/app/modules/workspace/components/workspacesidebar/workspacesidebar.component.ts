@@ -81,12 +81,18 @@ export class WorkspacesidebarComponent implements OnInit {
   * allContentRole  access roles
   */
  collaboratingRole: Array<string>;
-
+/**
+ * adduserRole access roles
+ */
+adduserRole: Array<string>;
    /**
    * reference of Router.
    */
   private router: Router;
-
+/**
+   * add user.
+   */
+  adminRole: Array<string>;
   /**
   * Constructor to create injected service(s) object
      Default method of Draft Component class
@@ -116,6 +122,7 @@ export class WorkspacesidebarComponent implements OnInit {
     this.allContentRole = this.config.rolesConfig.workSpaceRole.allContentRole;
     this.flagReviewer = this.config.rolesConfig.workSpaceRole.flagReviewer;
     this.collaboratingRole = this.config.rolesConfig.workSpaceRole.collaboratingRole;
+    this.adminRole = this.config.rolesConfig.workSpaceRole.adminRole;
   }
 
 }

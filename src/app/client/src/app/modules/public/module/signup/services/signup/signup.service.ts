@@ -33,8 +33,16 @@ export class SignupService {
   }
 
   createUser(data) {
+    console.log(data);
     const options = {
       url: this.configService.urlConFig.URLS.USER.CREATE_V2,
+      data: data
+    };
+    return this.learnerService.post(options);
+  }
+  createUser1(data) {
+    const options = {
+      url: this.configService.urlConFig.URLS.USER.SIGNUP,
       data: data
     };
     return this.learnerService.post(options);

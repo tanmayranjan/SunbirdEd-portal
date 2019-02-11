@@ -202,12 +202,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     _.forEach(this.userProfile.organisations, (org, index) => {
       if (this.userProfile.rootOrgId !== org.organisationId) {
         orgList.push(org);
+        console.log('role', orgList);
       }
       _.forEach(org.roles, (value, key) => {
         if (value !== 'PUBLIC') {
           const roleName = _.find(this.userProfile.roleList, {id: value});
           if (roleName) {
             this.roles.push(roleName['name']);
+            console.log('role', this.roles);
           }
         }
       });

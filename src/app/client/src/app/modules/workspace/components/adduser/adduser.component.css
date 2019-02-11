@@ -1,0 +1,23 @@
+@import "../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+.add_user {
+  padding-left:15rem;
+
+}
+.card {
+  width: 27vw;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.signup-btn {
+  margin-left: 7em;
+}
+.add-single-user {
+  left: 51em;
+  top: 2em;
+}
+/* merge */

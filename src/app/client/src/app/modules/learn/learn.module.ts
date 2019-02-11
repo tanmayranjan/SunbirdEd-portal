@@ -37,6 +37,6 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
   providers: [CourseConsumptionService, CourseBatchService, CourseProgressService],
   declarations: [LearnPageComponent, CoursePlayerComponent, CourseConsumptionHeaderComponent,
     CourseConsumptionPageComponent, BatchDetailsComponent, EnrollBatchComponent, CreateBatchComponent,
-    UpdateCourseBatchComponent, CurriculumCardComponent, UnEnrollBatchComponent]
-})
+    UpdateCourseBatchComponent, CurriculumCardComponent, UnEnrollBatchComponent],
+   })
 export class LearnModule { }

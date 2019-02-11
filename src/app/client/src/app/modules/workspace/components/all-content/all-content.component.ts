@@ -192,6 +192,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   }
 
   ngOnInit() {
+    console.log('content' , this.allContent);
     this.filterType = this.config.appConfig.allmycontent.filterType;
     this.redirectUrl = this.config.appConfig.allmycontent.inPageredirectUrl;
     observableCombineLatest(
@@ -260,6 +261,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
       (data: ServerResponse) => {
         if (data.result.count && data.result.content.length > 0) {
           this.allContent = data.result.content;
+          console.log('datas', this.allContent);
           this.totalCount = data.result.count;
           this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
           this.showLoader = false;

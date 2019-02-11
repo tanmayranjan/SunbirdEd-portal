@@ -1,0 +1,133 @@
+
+<button *ngIf="!singleUser"
+  class="ui semi-circular dodger-blue button right-0 mt-5 right-aligned-button absolute computer only"
+  (click)="adduser($event)" name="bulk"
+>
+  Add Bulk User
+</button>
+<div *ngIf="showbulkupload">
+  <app-bulk-upload></app-bulk-upload>
+</div>
+
+<button *ngIf="!showbulkupload"
+  class="ui semi-circular dodger-blue button  mt-60 right-aligned-button absolute computer only add-single-user"
+  (click)="addSingleUser()"
+>
+  Add Single User
+</button>
+<div class="containner" *ngIf="singleUser">
+  <div class="row">
+      <div class="add_user" *ngIf="enableadduser">
+        <div class="card justify-content">
+          <form
+            class="form-width px-5 py-4"
+          >
+            <div class="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Name"
+                name="firstName"
+                [formControl]="name"
+                required
+                ngModel
+              />
+            </div>
+            <div class="form-group">
+              <label>UserName</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                name="username"
+                [formControl]="username"
+                required
+                ngModel
+              />
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                  <div class="form-check" >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="field-value"
+                      id="email"
+                      value="email"
+                      checked
+                      (change)="isDisabled($event)"
+                    />
+                    <label class="form-check-label" for="email">
+                      Email
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="field-value"
+                      id="phone"
+                      value="phone"
+                      (change)="isDisabled($event)"
+                    />
+                    <label class="form-check-label" for="phone">
+                      Phone Number
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="enabled">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  name="email"
+                  [formControl]="email"
+                  required
+                  ngModel
+                />
+              </div>
+              <div class="form-group" *ngIf="!enabled">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="PhoneNumber"
+                  name="phonenumber"
+                  [formControl]="phonenumber"
+                  required
+                  ngModel
+                />
+              </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="password"
+                name="password"
+                [formControl]="password"
+                ngModel
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="confirm password"
+                name="cpassword"
+                [formControl]="cpassword"
+                ngModel
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary signup-btn" (click)="submit()">SignUp</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

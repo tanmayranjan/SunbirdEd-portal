@@ -131,6 +131,7 @@ export class CourseComponent implements OnInit, OnDestroy {
     };
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
+        console.log('course data', data);
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
       }, err => {

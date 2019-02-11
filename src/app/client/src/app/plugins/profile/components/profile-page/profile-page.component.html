@@ -84,14 +84,12 @@
             <span class="fs-1-16 font-w-bold" *ngIf="userProfile.framework">{{convertToString(userProfile.framework.subject)}}</span>
           </div>
         </div>
-        <button class="ui semi-circular dodger-blue button right-aligned-button  top-50 right-0 absolute computer only"
-          appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="myFrameworkEditEdata"
-          (click)="showEdit = !showEdit">{{resourceService.frmelmnts.lbl.edit}}</button>
-      </div>
-
+         <button class="ui semi-circular dodger-blue button right-0 mt-60 right-aligned-button absolute computer only"
+        appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="myFrameworkEditEdata"
+       (click)="showEdit = !showEdit">{{resourceService.frmelmnts.lbl.edit}}</button>
+        </div>
     </div>
     <!-- User info computer view ends-->
-
     <!-- User info mobile view starts-->
     <div class="max-w-300 mobile only">
       <div class="mb-15 d-flex flex-ai-center flex-dc">
@@ -185,7 +183,11 @@
       <!-- tarainings attended computer view ends-->
     </div>
   </div>
-
+  <div  *ngFor="let role of roles">
+      <div *ngIf='(role === "Org Admin")'>
+          <app-bulk-upload></app-bulk-upload>
+      </div>
+      </div>
   <!-- tarainings attended mobile view strats-->
   <div class="fs-1-7 font-w-bold mt-30 pl-20 mobile only" *ngIf="attendedTraining && attendedTraining.length > 0">
     {{resourceService.frmelmnts.lbl.trainingAttended}} ({{attendedTraining.length}})&#x200E;</div>
