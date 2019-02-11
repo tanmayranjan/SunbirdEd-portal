@@ -9,7 +9,7 @@ import {
   AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent} from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { AdduserComponent } from './components/adduser/adduser.component';
-import { AddSingleUserComponent } from './components/add-single-user/add-single-user.component';
+import { ViewuserComponent } from './components/viewuser/viewuser.component';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -184,19 +184,21 @@ const routes: Routes = [
           telemetry: {
             env: telemetryEnv, pageid: 'workspace-content-adduser', subtype: 'paginate', uri: 'workspace/content/adduser',
             type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
-          }, roles: 'adminRole',
-          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-        },
-        // children: [{
-        //   path: '/addSingleUser', component: AddSingleUserComponent, canActivate: [AuthGuard],
-        //   data: {
-        //     telemetry: {
-        //       env: telemetryEnv, pageid: 'batch-edit', uri: '/addSingleUser',
-        //       type: 'detail', mode: 'create', object: { type: objectType, ver: '1.0' }
-        //     }, roles: 'adminRole',
-        //     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-        //   }
-        // }]
+          }, roles: 'adduserRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+          {label: 'Add User', url: ''}]
+        }
+      },
+      {
+        path: 'viewuser/:pageNumber', component: ViewuserComponent, canActivate: [AuthGuard],
+        data: {
+          telemetry: {
+            env: telemetryEnv, pageid: 'workspace-content-viewuser', subtype: 'paginate', uri: 'workspace/content/viewuser',
+            type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
+          }, roles: 'adduserRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+          {label: 'View User', url: ''}]
+        }
       },
       {
         path: 'limited-publish/:pageNumber', component: LimitedPublishedComponent, canActivate: [AuthGuard],
@@ -257,8 +259,9 @@ const routes: Routes = [
             type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
           }, roles: 'collaboratingRole',
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-        }
-      }
+        },
+      },
+
     ]
   },
   {
@@ -296,7 +299,16 @@ const routes: Routes = [
       roles: 'workspace',
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
     }
-  }
+  },
+  // {
+  //   path: 'content/adduser', component: AdduserComponent, canActivate: [AuthGuard],
+  //   data: {
+  //     roles: 'workspace',
+  //     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+  //   {label: 'Adduser', url: 'Adduser'}]
+  //   }
+  // },
+
 ];
 
 @NgModule({

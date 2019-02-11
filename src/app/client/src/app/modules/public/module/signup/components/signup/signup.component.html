@@ -59,8 +59,10 @@
                 formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="{{resourceService.frmelmnts.lbl.reEnterPassword}}">
             </div>
             <!-- Google invisible recaptcha -->
-            <re-captcha #captchaRef="reCaptcha" (resolved)="resolved($event)" siteKey="{{googleCaptchaSiteKey}}" size="invisible"></re-captcha>
+            <!-- <re-captcha #captchaRef="reCaptcha" (resolved)="resolved($event)" siteKey="{{googleCaptchaSiteKey}}" size="invisible"></re-captcha> -->
           </form>
+          <!-- <button appTelemetryInteract [telemetryInteractEdata]="submitInteractEdata"  [telemetryInteractCdata]="telemetryCdata" [ngClass]="{'grey':disableSubmitBtn, 'light-sea-green':!disableSubmitBtn}" class="ui button width-300 mt-10" tabindex="0"
+          (click)="createUser(); disableSubmitBtn = true;">{{resourceService.frmelmnts.lbl.signUp}}</button> -->
           <button appTelemetryInteract [telemetryInteractEdata]="submitInteractEdata"  [telemetryInteractCdata]="telemetryCdata" [ngClass]="{'grey':disableSubmitBtn, 'light-sea-green':!disableSubmitBtn}" class="ui button width-300 mt-10" tabindex="0"
             (click)="captchaRef.execute(); disableSubmitBtn = true;">{{resourceService.frmelmnts.lbl.signUp}}</button>
           <a (click)="captchaRef.reset()" id="resetGoogleCaptcha"></a>

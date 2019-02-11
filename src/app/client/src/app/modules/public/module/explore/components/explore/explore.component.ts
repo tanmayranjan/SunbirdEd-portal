@@ -44,10 +44,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.activatedRoute.snapshot.params.slug);
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
         this.hashTagId = orgDetails.hashTagId;
         this.initFilters = true;
+        console.log(this.hashTagId, this.initFilters);
         return this.dataDrivenFilterEvent;
       }), first()
     ).subscribe((filters: any) => {
@@ -70,6 +72,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
     this.dataDrivenFilterEvent.emit(defaultFilters);
   }
   private fetchContentOnParamChange() {
+    console.log(this.activatedRoute.params, this.activatedRoute.queryParams);
     combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
       .pipe(map((result) => ({ params: result[0], queryParams: result[1] })),
         filter(({ queryParams }) => !_.isEqual(this.queryParams, queryParams)), // fetch data if queryParams changed
@@ -109,6 +112,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
     }
     this.pageApiService.getPageData(option)
       .subscribe(data => {
+        console.log('page in explore', data);
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
       }, err => {

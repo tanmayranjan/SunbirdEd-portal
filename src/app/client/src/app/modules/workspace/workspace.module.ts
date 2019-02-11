@@ -24,7 +24,8 @@ import { ReviewCommentsComponent } from './components/review-comments/review-com
 import { OrderModule } from 'ngx-order-pipe';
 import { AdduserComponent } from './components/adduser/adduser.component';
 import { OrgManagementModule } from '@sunbird/org-management';
-import { AddSingleUserComponent } from './components/add-single-user/add-single-user.component';
+import { ViewuserComponent } from './components/viewuser/viewuser.component';
+import { PublicModule} from '@sunbird/public';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { AddSingleUserComponent } from './components/add-single-user/add-single-
     TelemetryModule,
     OrderModule,
     OrgManagementModule,
+    PublicModule
   ],
   declarations: [WorkspaceComponent, WorkspacesidebarComponent,
     CreateContentComponent, DraftComponent, ReviewSubmissionsComponent,
@@ -58,7 +60,7 @@ import { AddSingleUserComponent } from './components/add-single-user/add-single-
     ReviewCommentsComponent,
     CollaborationContentFilterComponent,
     AdduserComponent,
-    AddSingleUserComponent,
+    ViewuserComponent,
   ],
   providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService]
 })

@@ -22,6 +22,7 @@ import { AuthGuard } from './guard/auth-gard.service';
 import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
+import { NavbarComponent } from './components/navbar/navbar.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,11 +38,11 @@ import { TelemetryModule } from '@sunbird/telemetry';
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
     BodyScrollDirective, ConceptPickerComponent, DataDrivenFilterComponent, BreadcrumbsComponent, SortByComponent,
     ErrorPageComponent, FlagContentComponent, ContentPlayerMetadataComponent, LanguageDropdownComponent,
-    ProminentFilterComponent, TopicPickerComponent],
+    ProminentFilterComponent, TopicPickerComponent, NavbarComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent,
     DataDrivenFilterComponent, SortByComponent, BreadcrumbsComponent, FlagContentComponent,
     ContentPlayerMetadataComponent, TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent,
-    TopicPickerComponent]
+    TopicPickerComponent, NavbarComponent]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {

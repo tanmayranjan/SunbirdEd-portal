@@ -253,6 +253,7 @@ export class UserService {
     };
     this.publicDataService.post(option).subscribe
       ((data: ServerResponse) => {
+        console.log(data);
         this.orgnisationsDetails = _.get(data, 'result.response.content');
         _.forEach(this.orgnisationsDetails, (orgData) => {
           this.orgNames.push(orgData.orgName);
