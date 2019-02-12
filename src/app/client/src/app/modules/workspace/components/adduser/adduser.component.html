@@ -1,28 +1,20 @@
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <button *ngIf="!singleUser"
+<button *ngIf="!singleUser"
+  class="ui semi-circular dodger-blue button right-0 mt-5 right-aligned-button absolute computer only"
   (click)="adduser($event)" name="bulk"
 >
   Add Bulk User
 </button>
-    </div>
-    <div class="col-md-6">
+<div *ngIf="showbulkupload">
+  <app-bulk-upload></app-bulk-upload>
+</div>
 
 <button *ngIf="!showbulkupload"
+  class="ui semi-circular dodger-blue button  mt-60 right-aligned-button absolute computer only add-single-user"
   (click)="addSingleUser()"
 >
   Add Single User
 </button>
-    </div>
-  </div>
-</div>
-<div *ngIf="showbulkupload">
-  <app-bulk-upload></app-bulk-upload>
-</div>
-<div class="ui vertical divider">
-
 <div class="containner" *ngIf="singleUser">
   <div class="row">
       <div class="add_user" *ngIf="enableadduser">
