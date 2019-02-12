@@ -155,6 +155,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
+        console.log('data img', data.tenantData.logo);
         if (data && !data.err) {
           this.logo = data.tenantData.logo;
           this.tenantName = data.tenantData.titleName;

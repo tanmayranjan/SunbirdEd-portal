@@ -4,7 +4,7 @@
   color:$primary-color;
 }
 .primary-navbar-bg {
-  background-color: $primary-color;
+  background-color: darkblue;;
 }
 .ui.basic.button.qr-code-btn {
   background: #fff !important;
@@ -22,6 +22,9 @@
 }
 .ui.basic.button.qr-code-btn.disabled {
   opacity: 0.7 !important;
+}
+#img{
+  height: 39px !important;
 }
 
 @media only screen and (max-width: 767px) {

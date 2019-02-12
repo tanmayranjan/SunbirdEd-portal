@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ResourceService } from '@sunbird/shared';
 @Component({
   selector: 'app-footer',
-  templateUrl: './main-footer.component.html'
+  templateUrl: './main-footer.component.html',
+  styleUrls: ['./main-footer.component.css']
 })
 export class MainFooterComponent implements OnInit {
   /**

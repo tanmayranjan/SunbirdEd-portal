@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ConfigService } from '@sunbird/shared';
+import { ConfigService, ToasterService } from '@sunbird/shared';
 import { UserService, LearnerService, PublicDataService } from '@sunbird/core';
 import * as _ from 'lodash';
 
@@ -18,10 +18,10 @@ export class ViewuserComponent implements OnInit {
   existingUserRoles;
   roles = [
     { name: 'COURSE_MENTOR' },
-    { name: 'CONTENT_CREATOR '},
-    { name: 'BOOK_CREATOR'},
-    { name: 'CONTENT_REVIEWER'},
-    { name: 'CONTENT_REVIEW'},
+    { name: 'CONTENT_CREATOR ' },
+    { name: 'BOOK_CREATOR' },
+    { name: 'CONTENT_REVIEWER' },
+    { name: 'CONTENT_REVIEW' },
     { name: 'BOOK_REVIEWER ' },
     { name: 'FLAG_REVIEWER' }
   ];
@@ -29,7 +29,8 @@ export class ViewuserComponent implements OnInit {
     public configService: ConfigService,
     public userService: UserService,
     public learnerService: LearnerService,
-    public publicdataService: PublicDataService
+    public publicdataService: PublicDataService,
+    public toasterService: ToasterService
   ) {}
 
   ngOnInit() {
@@ -75,28 +76,34 @@ export class ViewuserComponent implements OnInit {
   }
 
   updateUser(user, role) {
- _.forEach(role.value, (value, key) => {
-   if (value) {
-     this.userroles.push(key);
-   }
- });
- console.log(this.userroles);
+    _.forEach(role.value, (value, key) => {
+      if (value) {
+        this.userroles.push(key);
+      }
+    });
+    console.log(this.userroles);
     const option = {
       url: this.configService.urlConFig.URLS.ADMIN.UPDATE_USER_ORG_ROLES,
       data: {
         request: {
           userId: user.id,
           organisationId: user.organisationId,
-          roles : this.userroles
+          roles: this.userroles
         }
       }
     };
     console.log(option);
-    this.publicdataService.post(option).subscribe(data => {
+    this.publicdataService.post(option).subscribe(
+      data => {
         console.log(data);
-        this.goBackToCoursePage();
+        this.toasterService.success('user role updated successfully');
 
-    });
+        this.goBackToCoursePage();
+      },
+      err => {
+        this.toasterService.error(err);
+      }
+    );
   }
 
   deleteUser(user) {
@@ -111,12 +118,17 @@ export class ViewuserComponent implements OnInit {
         }
       }
     };
-    this.publicdataService.post(option).subscribe(data => {
+    this.publicdataService.post(option).subscribe(
+      data => {
         console.log(data);
+        this.toasterService.success('user deleted successfully');
+
         this.goBackToCoursePage();
-
-    });
-
+      },
+      err => {
+        this.toasterService.error(err);
+      }
+    );
   }
   goBackToCoursePage() {
     setTimeout(() => {

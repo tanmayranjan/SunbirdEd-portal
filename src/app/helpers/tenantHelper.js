@@ -52,6 +52,7 @@ module.exports = {
     })
   },
   getInfo: function (req, res) {
+
     let tenantId = req.params.tenantId || envHelper.DEFAULT_CHANNEL
     let host = req.hostname
     let headerHost = req.headers.host.split(':')
@@ -64,7 +65,7 @@ module.exports = {
     if (tenantId) {
       async.parallel({
         logo: function (callback) {
-          module.exports.getImagePath(baseUrl, tenantId, 'logo.png', callback)
+          module.exports.getImagePath(baseUrl, tenantId, 'appLogo.png', callback)
         },
         poster: function (callback) {
           module.exports.getImagePath(baseUrl, tenantId, 'poster.png', callback)
@@ -77,6 +78,7 @@ module.exports = {
         }
       }, function (err, results) {
         if (err) { }
+        console.log('eerr', err , 'resul', results);
         responseObj.logo = results.logo
           ? results.logo : baseUrl + '/assets/images/sunbird_logo.png'
         responseObj.poster = results.poster
