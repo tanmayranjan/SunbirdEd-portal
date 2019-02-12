@@ -16,7 +16,6 @@ import { SignupService } from '../../../public/module/signup';
   styleUrls: ['./adduser.component.css']
 })
 export class AdduserComponent implements OnInit {
-  userId = '31c1ed5f-398e-4b20-89d2-a6ae3c772294';
   channel;
   email = new FormControl('', [Validators.email, Validators.required]);
   enableadduser = true;
@@ -79,19 +78,19 @@ export class AdduserComponent implements OnInit {
               userName: this.username.value,
               email: this.email.value,
               password: this.password.value,
-              channel: channel
+              channel: channel,
+              emailVerified: true
             }
           };
           console.log(option1, 'in submit');
           this.signupService.createUser1(option1).subscribe();
           this.toasterService.success('user created successfully');
-        },
-        err => {
+          this.goBackToCoursePage();
+        }, (err) => {
           this.toasterService.error(err);
+          this.goBackToCoursePage();
         }
       );
-    } else {
-      this.toasterService.error('Invalid details');
     }
   }
   isDisabled(event) {
@@ -102,31 +101,22 @@ export class AdduserComponent implements OnInit {
       this.validdetails = true;
     } else {
       this.validdetails = false;
-      this.toasterService.error('Required');
+      this.toasterService.error('Name Required');
+      return this.validdetails;
     }
     if (this.username.status === 'VALID') {
       this.validdetails = true;
     } else {
       this.validdetails = false;
-      this.toasterService.error('Required');
+      this.toasterService.error(' UserName Required');
+      return this.validdetails;
     }
     if (this.password.status === 'VALID') {
       this.validdetails = true;
     } else {
       this.validdetails = false;
-      this.toasterService.error('Required');
-    }
-    if (this.cpassword.status === 'VALID') {
-      if (this.password.value === this.cpassword.value) {
-        this.validdetails = true;
-      } else {
-        this.toasterService.error(
-          'password should be same as above passoword '
-        );
-      }
-    } else {
-      this.validdetails = false;
-      this.toasterService.error('Required');
+      this.toasterService.error(' Password Required');
+      return this.validdetails;
     }
     if (this.enabled) {
       if (this.email.status === 'VALID') {
@@ -134,15 +124,37 @@ export class AdduserComponent implements OnInit {
       } else {
         this.validdetails = false;
         this.toasterService.error('Invalid email');
+        return this.validdetails;
       }
     } else {
       if (this.phonenumber.status === 'VALID') {
         this.validdetails = true;
       } else {
         this.validdetails = false;
-        this.toasterService.error('Required');
+        this.toasterService.error(' Phone Number or email Required');
+        return this.validdetails;
       }
     }
+    if (this.cpassword.status === 'VALID') {
+      if (this.password.value === this.cpassword.value) {
+        this.validdetails = true;
+      } else {
+        this.validdetails = false;
+        this.toasterService.error(
+          'password should be same as above passoword '
+        );
+        return this.validdetails;
+      }
+    } else {
+      this.validdetails = false;
+      this.toasterService.error(' Confirm your password');
+      return this.validdetails;
+    }
     return this.validdetails;
+  }
+  goBackToCoursePage() {
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   }
 }

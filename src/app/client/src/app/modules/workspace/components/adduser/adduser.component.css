@@ -21,3 +21,12 @@ input[type=number]::-webkit-outer-spin-button {
   top: 2em;
 }
 /* merge */
+.ui.semi-circular.dodger-blue.button{
+  padding: 12px 30px !important;
+}
+#ui{
+  margin-top: 5rem;
+}
+#font{
+  size: bold;
+}

@@ -1,20 +1,36 @@
+<div class="text-ac">
+  <h3 class="font">Add User to the Organisation</h3>
+</div>
+<div class="ui segment" id="ui">
+  <div class="ui two column very relaxed grid">
+    <div class="column text-ac">
+      <button *ngIf="!singleUser"
+      class="ui semi-circular button computer only add-single-user"
+      (click)="adduser($event)" name="bulk"
+    >
+      Add Bulk User
+    </button>
+    </div>
+    <div class="column text-ac">
+      <button *ngIf="!showbulkupload"
+      class="ui semi-circular button right-aligned-button computer only add-single-user"
+      (click)="addSingleUser()"
+    >
+      Add Single User
+    </button>
+    </div>
+  </div>
+  <div class="ui vertical divider">
+    or
+  </div>
+</div>
 
-<button *ngIf="!singleUser"
-  class="ui semi-circular dodger-blue button right-0 mt-5 right-aligned-button absolute computer only"
-  (click)="adduser($event)" name="bulk"
->
-  Add Bulk User
-</button>
+
 <div *ngIf="showbulkupload">
   <app-bulk-upload></app-bulk-upload>
 </div>
 
-<button *ngIf="!showbulkupload"
-  class="ui semi-circular dodger-blue button  mt-60 right-aligned-button absolute computer only add-single-user"
-  (click)="addSingleUser()"
->
-  Add Single User
-</button>
+
 <div class="containner" *ngIf="singleUser">
   <div class="row">
       <div class="add_user" *ngIf="enableadduser">

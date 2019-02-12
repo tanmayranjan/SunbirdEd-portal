@@ -51,6 +51,7 @@ export class ViewuserComponent implements OnInit {
     this.learnerService.post(option).subscribe(data => {
       const response = data.result;
       let userorgid;
+      console.log('user response', response);
       _.forOwn(response, content => {
         _.forEach(content, value => {
           _.forEach(value, user => {
@@ -114,7 +115,8 @@ export class ViewuserComponent implements OnInit {
           userId: user.id,
           organisationId: user.organisationId,
           userName: user.firstName,
-          provider: user.provider
+          provider: user.provider,
+
         }
       }
     };
@@ -133,6 +135,6 @@ export class ViewuserComponent implements OnInit {
   goBackToCoursePage() {
     setTimeout(() => {
       window.location.reload();
-    }, 1000);
+    }, 500);
   }
 }
