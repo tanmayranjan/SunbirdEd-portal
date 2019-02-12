@@ -111,6 +111,7 @@ export class LibrarySearchComponent implements OnInit, OnDestroy {
             facets: this.facets,
             params: this.configService.appConfig.Library.contentApiQueryParams
         };
+        option.filters.channel = this.userService.rootOrgId;
         option.filters.contentType = filters.contentType ||
         ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
         if (_.get(manipulatedData, 'filters')) {
