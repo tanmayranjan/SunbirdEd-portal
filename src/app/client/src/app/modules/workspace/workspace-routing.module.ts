@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { AdduserComponent } from './components/adduser/adduser.component';
 import { ViewuserComponent } from './components/viewuser/viewuser.component';
+import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -187,6 +188,42 @@ const routes: Routes = [
           }, roles: 'adduserRole',
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
           {label: 'Add User', url: ''}]
+        }
+      },
+      {
+        path: 'addOrganisation/:pageNumber', component: OrganizationUploadComponent, canActivate: [AuthGuard],
+        data: {
+          redirectUrl: 'workspace/content/adduser/1',
+          telemetry: {
+            env: telemetryEnv, pageid: 'workspace-content-addOrganisation', subtype: 'paginate', uri: 'workspace/content/addOraganisation',
+            type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
+          }, roles: 'adduserRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+          {label: 'Add Organisation', url: ''}]
+        }
+      },
+      {
+        path: 'addMultipleUsers/:pageNumber', component: UserUploadComponent, canActivate: [AuthGuard],
+        data: {
+          redirectUrl: 'workspace/content/adduser/1',
+          telemetry: {
+            env: telemetryEnv, pageid: 'workspace-content-addMultipleUsers', subtype: 'paginate', uri: 'workspace/content/addMultipleUsers',
+            type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
+          }, roles: 'adduserRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+          {label: 'Add Multiple Users', url: ''}]
+        }
+      },
+      {
+        path: 'checkUploadStatus/:pageNumber', component: StatusComponent, canActivate: [AuthGuard],
+        data: {
+          redirectUrl: 'workspace/content/adduser/1',
+          telemetry: {
+            env: telemetryEnv, pageid: 'workspace-content-status', subtype: 'paginate', uri: 'workspace/content/checkUploadStatus',
+            type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
+          }, roles: 'adduserRole',
+          breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' },
+          {label: 'Check Upload Status', url: ''}]
         }
       },
       {

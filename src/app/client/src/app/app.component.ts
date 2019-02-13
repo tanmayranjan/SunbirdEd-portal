@@ -155,8 +155,6 @@ export class AppComponent implements OnInit {
    * set slug from url only for Anonymous user.
    */
   private setSlug(): Observable<string> {
-    // tslint:disable-next-line:no-debugger
-    // debugger;
     if (this.userService.loggedIn) {
       return of(undefined);
     } else {

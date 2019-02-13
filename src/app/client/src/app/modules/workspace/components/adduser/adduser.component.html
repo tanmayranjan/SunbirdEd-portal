@@ -1,4 +1,4 @@
-<div class="text-ac">
+<!-- <div class="text-ac">
   <h3 class="font">Add User to the Organisation</h3>
 </div>
 <div class="ui segment" id="ui">
@@ -28,10 +28,10 @@
 
 <div *ngIf="showbulkupload">
   <app-bulk-upload></app-bulk-upload>
-</div>
+</div> -->
 
 
-<div class="containner" *ngIf="singleUser">
+<div class="containner">
   <div class="row">
       <div class="add_user" *ngIf="enableadduser">
         <div class="card justify-content">
@@ -141,7 +141,7 @@
                 required
               />
             </div>
-            <button type="submit" class="btn btn-primary signup-btn" (click)="submit()">SignUp</button>
+            <button type="submit" class="btn btn-primary signup-btn" (click)="submit()">Create User</button>
           </form>
         </div>
       </div>

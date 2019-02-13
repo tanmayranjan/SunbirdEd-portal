@@ -54,11 +54,22 @@
 </a>
 <a class="item" *ngIf='permissionService.admin' [routerLink]= "['adduser', 1]"
 [class.active]="router.isActive('/workspace/content/adduser')">
-Add User
+Add Users
 </a>
 <a class="item" *ngIf='permissionService.admin' [routerLink]= "['viewuser', 1]"
 [class.active]="router.isActive('/workspace/content/viewuser')">
-View User
+View Users
 </a>
-
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addOrganisation', 1]"
+[class.active]="router.isActive('/workspace/content/addOrganisation')">
+Add Organisations
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addMultipleUsers', 1]"
+[class.active]="router.isActive('/workspace/content/addMultipleUsers')">
+Add Multiple Users
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['checkUploadStatus', 1]"
+[class.active]="router.isActive('/workspace/content/checkUploadStatus')">
+Check Upload Status
+</a>
 </div>

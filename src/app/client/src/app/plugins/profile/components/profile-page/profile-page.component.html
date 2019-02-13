@@ -183,11 +183,11 @@
       <!-- tarainings attended computer view ends-->
     </div>
   </div>
-  <div  *ngFor="let role of roles">
+  <!-- <div  *ngFor="let role of roles">
       <div *ngIf='(role === "Org Admin")'>
           <app-bulk-upload></app-bulk-upload>
       </div>
-      </div>
+      </div> -->
   <!-- tarainings attended mobile view strats-->
   <div class="fs-1-7 font-w-bold mt-30 pl-20 mobile only" *ngIf="attendedTraining && attendedTraining.length > 0">
     {{resourceService.frmelmnts.lbl.trainingAttended}} ({{attendedTraining.length}})&#x200E;</div>

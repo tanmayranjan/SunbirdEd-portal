@@ -26,7 +26,8 @@
      "contentUploadRole":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW"],
      "allContentRole": ["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
      "collaboratingRole": ["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-     "adduserRole" : ["ORG_ADMIN"]
+     "adduserRole" : ["ORG_ADMIN"] ,
+     "addOrganisation": ["ORG_ADMIN"]
   },
   "organizationRole":{
 
@@ -51,7 +52,8 @@
      "allContentRole": ["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
      "flagReviewerRole": ["FLAG_REVIEWER"],
      "collaboratingRole": ["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-     "adduserRole": ["ORG_ADMIN"]
+     "adduserRole": ["ORG_ADMIN"] ,
+     "addOrganisation": ["ORG_ADMIN"]
   }
   ,"WORKSPACEAUTHGARDROLES":[
   {
@@ -104,6 +106,18 @@
   {
     "roles":["ORG_ADMIN"],
     "roleName":"adduserRole","url":"workspace/content/view/1","tab":" View User"
+  },
+  {
+    "roles":["ORG_ADMIN"],
+    "roleName":"addOrgnisationRole","url":"workspace/content/addOrganisation/1","tab":"Add Organisation"
+  },
+  {
+    "roles":["ORG_ADMIN"],
+    "roleName":"adduserRole","url":"workspace/content/addMultipleUsers/1","tab":"Add MultipleUsers"
+  } ,
+  {
+    "roles":["ORG_ADMIN"],
+    "roleName":"adduserRole","url":"workspace/content/checkUploadStatus/1","tab":"Check Upload Status"
   }
  ]
 
