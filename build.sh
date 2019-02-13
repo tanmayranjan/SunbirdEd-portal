@@ -2,7 +2,7 @@
 set -euo pipefail
 
 commit_hash=$1
-org=sunbird
+org=stackrouteniit
 name=player
 version=$2
 
