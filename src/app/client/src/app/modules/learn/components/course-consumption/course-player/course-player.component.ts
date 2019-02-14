@@ -121,6 +121,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         this.setTelemetryCourseImpression();
         const inputParams = {params: this.configService.appConfig.CourseConsumption.contentApiQueryParams};
         if (this.batchId) {
+          console.log('con', this.courseConsumptionService.getCourseHierarchy(courseId, inputParams));
           return combineLatest(
             this.courseConsumptionService.getCourseHierarchy(courseId, inputParams),
             this.courseBatchService.getEnrolledBatchDetails(this.batchId),
@@ -129,6 +130,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         return this.courseConsumptionService.getCourseHierarchy(courseId, inputParams)
           .pipe(map(courseHierarchy => ({ courseHierarchy })));
       })).subscribe(({courseHierarchy, enrolledBatchDetails}: any) => {
+        console.log('heir', this.courseHierarchy);
         this.courseHierarchy = courseHierarchy;
         this.contributions = _.join(_.map(this.courseHierarchy.contentCredits, 'name'));
         this.courseInteractObject = {
@@ -161,6 +163,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     this.courseProgressService.courseProgressData.pipe(
       takeUntil(this.unsubscribe))
       .subscribe(courseProgressData => this.courseProgressData = courseProgressData);
+      console.log('heir', this.courseHierarchy);
   }
   private parseChildContent() {
     const model = new TreeModel();
@@ -214,6 +217,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     return this.treeModel.first(node => node.model.identifier === id);
   }
   private OnPlayContent(content: { title: string, id: string }, showExtContentMsg?: boolean) {
+    console.log('called firstr');
     if (content && content.id && ((this.enrolledCourse && !this.flaggedCourse &&
       this.enrolledBatchInfo.status > 0) || this.courseStatus === 'Unlisted'
       || this.permissionService.checkRolesPermissions(this.previewContentRoles)
@@ -232,6 +236,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     this.nextPlaylistItem = this.contentDetails[index + 1];
   }
   private playContent(data: any, showExtContentMsg?: boolean): void {
+    console.log('called second');
     this.enableContentPlayer = false;
     this.loader = true;
     const options: any = { courseId: this.courseId };
@@ -249,7 +254,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         } else {
           this.showExtContentMsg = false;
         }
+        console.log('sub bef', this.enableContentPlayer);
         this.enableContentPlayer = true;
+        console.log('sub aft', this.enableContentPlayer);
         this.contentTitle = data.title;
         this.breadcrumbsService.setBreadcrumbs([{ label: this.contentTitle, url: '' }]);
         this.windowScrollService.smoothScroll('app-player-collection-renderer', 500);
@@ -257,6 +264,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         this.loader = false;
         this.toasterService.error(this.resourceService.messages.stmsg.m0009);
       });
+      console.log('palyer', this.enableContentPlayer);
   }
   public navigateToContent(content: { title: string, id: string }): void {
     const navigationExtras: NavigationExtras = {
@@ -276,7 +284,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     }
   }
   public contentProgressEvent(event) {
-    if (!this.batchId && _.get(this.enrolledBatchInfo, 'status') !== 1) {
+    if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
       return;
     }
     const eid = event.detail.telemetryData.eid;
@@ -299,7 +307,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     const contentMimeType = _.get(this.findContentById(this.contentId), 'model.mimeType');
     const validSummary = (summaryList: Array<any>) => (percentage: number) => _.find(summaryList, (requiredProgress =>
       summary => summary && summary.progress >= requiredProgress)(percentage));
-    if (validSummary(playerSummary)(20) && ['video/x-youtube', 'video/mp4'].includes(contentMimeType)) {
+    if (validSummary(playerSummary)(20) && ['video/x-youtube', 'video/mp4', 'video/webm'].includes(contentMimeType)) {
         return true;
     } else if (validSummary(playerSummary)(0) &&
         ['application/vnd.ekstep.h5p-archive', 'application/vnd.ekstep.html-archive'].includes(contentMimeType)) {
@@ -310,8 +318,11 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     return false;
   }
   public closeContentPlayer() {
+    console.log('bef if', this.enableContentPlayer);
     this.cdr.detectChanges();
     if (this.enableContentPlayer === true) {
+      console.log('aft if', this.enableContentPlayer);
+
       const navigationExtras: NavigationExtras = {
         relativeTo: this.activatedRoute
       };
@@ -323,8 +334,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     this.createNoteData = data;
   }
   ngOnDestroy() {
+    console.log('at last');
     this.unsubscribe.next();
     this.unsubscribe.complete();
+    this.closeContentPlayer();
   }
   private setTelemetryStartEndData() {
     const deviceInfo = this.deviceDetectorService.getDeviceInfo();

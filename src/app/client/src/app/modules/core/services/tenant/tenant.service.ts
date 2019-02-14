@@ -54,11 +54,11 @@ export class TenantService extends DataService {
    * @param slug Organization details passed from main-header component.
    */
   public getTenantInfo(slug?: string) {
-
     const url = `${this.config.urlConFig.URLS.TENANT.INFO + '/'}` + (slug ? slug : '');
     this.get({ url }).subscribe(
       (apiResponse: ServerResponse) => {
         this.tenantData = apiResponse.result;
+        console.log('respon', this.tenantData);
         this._tenantData$.next({ err: null, tenantData: apiResponse.result });
       },
       (err: ServerResponse) => {

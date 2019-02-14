@@ -13,6 +13,4 @@ version=$(e "${m}" "version")
 
 artifactLabel=${ARTIFACT_LABEL:-bronze}
 
-docker login -u "${hubuser}" -p$(cat /home/ops/vault_pass)
-docker push ${org}/${name}:${version}-${artifactLabel}
-docker logout
+#remove docker login and pushing code that is manually added in jenkins

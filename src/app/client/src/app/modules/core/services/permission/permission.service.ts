@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { RolesAndPermissions, Roles } from './../../interfaces';
+import { IfStmt } from '@angular/compiler';
 
 /**
  * Service to fetch permission and validate user permission
@@ -34,6 +35,7 @@ export class PermissionService {
    * flag to store permission availability
    */
   permissionAvailable = false;
+  admin = false;
   /**
    * BehaviorSubject with permission status.
    * 1.Undefined if the role not fetched from the server.
@@ -41,6 +43,7 @@ export class PermissionService {
    * 3.error if server error while fetching roles.
    */
   public permissionAvailable$ = new BehaviorSubject<string>(undefined);
+  public admin$ = new BehaviorSubject<string>(undefined);
   /**
    * reference of ResourceService service.
    */
@@ -117,12 +120,25 @@ export class PermissionService {
     this.userService.userData$.subscribe((user: IUserData) => {
       if (user && !user.err) {
         this.userRoles = user.userProfile.userRoles;
+        console.log(user.userProfile.userRoles);
+
+        if (_.includes(this.userRoles, 'ORG_ADMIN')) {
+          this.admin$.next('success');
+          this.admin =  true ;
+          console.log(this.admin);
+        } else if (user && user.err) {
+          this.toasterService.error(this.resourceService.messages.emsg.m0005 || 'Something went wrong, please try again later...');
+          this.admin$.next('error');
+        }
+
+
         _.forEach(this.userRoles, (role) => {
           const roleActions = _.filter(this.rolesAndPermissions, { role: role });
           if (_.isArray(roleActions) && roleActions.length > 0) {
             this.userRoleActions = _.concat(this.userRoleActions, _.map(roleActions[0].actions, 'id'));
           }
         });
+
         this.permissionAvailable$.next('success');
         this.permissionAvailable = true;
       } else if (user && user.err) {
@@ -147,6 +163,7 @@ export class PermissionService {
   }
   getWorkspaceAuthRoles() {
     const authRoles = _.find(this.config.rolesConfig.WORKSPACEAUTHGARDROLES, (role, key) => {
+      console.log(role);
       if (this.checkRolesPermissions(role.roles)) {
         return role;
       }

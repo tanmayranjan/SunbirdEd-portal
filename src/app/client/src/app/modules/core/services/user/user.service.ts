@@ -3,6 +3,7 @@ import { LearnerService } from './../learner/learner.service';
 import { ContentService } from './../content/content.service';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
 import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
@@ -252,6 +253,7 @@ export class UserService {
     };
     this.publicDataService.post(option).subscribe
       ((data: ServerResponse) => {
+        console.log(data);
         this.orgnisationsDetails = _.get(data, 'result.response.content');
         _.forEach(this.orgnisationsDetails, (orgData) => {
           this.orgNames.push(orgData.orgName);
@@ -263,6 +265,21 @@ export class UserService {
         this._userProfile.organisationNames = this.orgNames;
       }
       );
+  }
+
+  /**
+   * This method invokes learner service to update tnc accept
+   */
+  public acceptTermsAndConditions(requestBody) {
+    const options = {
+      url: this.config.urlConFig.URLS.USER.TNC_ACCEPT,
+      data: requestBody
+    };
+    return this.learnerService.post(options).pipe(map(
+      (res: ServerResponse) => {
+        this._userProfile.promptTnC = false;
+      }
+    ));
   }
 
   get orgIdNameMap() {

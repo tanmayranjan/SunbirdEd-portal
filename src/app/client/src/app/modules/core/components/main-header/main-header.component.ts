@@ -7,13 +7,14 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
+declare var jQuery: any;
 /**
  * Main header component
  */
 @Component({
   selector: 'app-header',
   templateUrl: './main-header.component.html',
-  styleUrls: ['./main-header.component.css']
+  styleUrls: ['./main-header.component.scss']
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   /**
@@ -100,11 +101,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public telemetryInteractObject: IInteractEventObject;
   tenantDataSubscription: Subscription;
   userDataSubscription: Subscription;
-
-  /**
-  * value to enable and disable signUp button
-  */
-  enableSignup = true;
   exploreRoutingUrl: string;
   pageId: string;
   /*
@@ -159,6 +155,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
+        console.log('data img', data.tenantData.logo);
         if (data && !data.err) {
           this.logo = data.tenantData.logo;
           this.tenantName = data.tenantData.titleName;
@@ -172,13 +169,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         }
       });
     this.setInteractEventData();
-    try {
-      const enableSignupButton: string = (<HTMLInputElement>document.getElementById('enableSignup')) ?
-        (<HTMLInputElement>document.getElementById('enableSignup')).value : 'true';
-      this.enableSignup = (enableSignupButton.toLowerCase() === 'true');
-    } catch {
-      console.log('error while fetching enableSignup');
-    }
   }
 
   getCacheLanguage() {
@@ -190,7 +180,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
   navigateToHome() {
     if (this.userService.loggedIn) {
-      this.router.navigate(['home']);
+      this.router.navigate(['resources']);
     } else {
       this.router.navigate(['']);
     }
@@ -266,5 +256,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     if (this.userDataSubscription) {
       this.userDataSubscription.unsubscribe();
     }
+  }
+  showSideBar() {
+    jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
 }

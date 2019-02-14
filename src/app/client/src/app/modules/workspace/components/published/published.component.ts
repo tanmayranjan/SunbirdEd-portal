@@ -80,11 +80,6 @@ export class PublishedComponent extends WorkSpace implements OnInit {
   private paginationService: PaginationService;
 
   /**
-    * Refrence of UserService
-  */
-  private userService: UserService;
-
-  /**
      * Contains page limit of inbox list
   */
   pageLimit = 9;
@@ -145,11 +140,10 @@ export class PublishedComponent extends WorkSpace implements OnInit {
     route: Router, userService: UserService,
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService) {
-    super(searchService, workSpaceService);
+    super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
     this.activatedRoute = activatedRoute;
-    this.userService = userService;
     this.toasterService = toasterService;
     this.resourceService = resourceService;
     this.config = config;
@@ -197,6 +191,7 @@ export class PublishedComponent extends WorkSpace implements OnInit {
     };
     this.search(searchParams).subscribe(
       (data: ServerResponse) => {
+        console.log('data id', data);
         if (data.result.count && data.result.content.length > 0) {
           this.publishedContent = data.result.content;
           this.totalCount = data.result.count;

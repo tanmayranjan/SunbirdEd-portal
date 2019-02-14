@@ -1,4 +1,4 @@
-<h4 class="workspaceicon ui header sectionHeading mt-10"><i class="database icon"></i>
+<h4 class="workspaceicon ui header sectionHeading mt-20"><i class="database icon"></i>
   <span>
       {{resourceService?.frmelmnts?.scttl?.myworkspace}}
     </span>
@@ -7,7 +7,7 @@
   <a *ngIf='permissionService.permissionAvailable' appPermission [permission]='createRole' class="item" [routerLink]="['create']" routerLinkActive="active">
       {{resourceService?.frmelmnts?.snav?.start}}
     </a>
-  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') " 
+  <a *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') "
   appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]">
        {{resourceService?.frmelmnts?.snav?.allmycontents}}
   </a>
@@ -48,8 +48,28 @@
     [class.active]="router.isActive('/workspace/content/limited-publish')">
    {{resourceService?.frmelmnts?.snav?.limitedPublishing}}
   </a>
-  <!-- <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]"
+  <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]"
   [class.active]="router.isActive('/workspace/content/collaborating-on')">
  {{resourceService?.frmelmnts?.snav?.Collaboratingon}}
-</a> -->
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['adduser', 1]"
+[class.active]="router.isActive('/workspace/content/adduser')">
+Add User
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['viewuser', 1]"
+[class.active]="router.isActive('/workspace/content/viewuser')">
+View Users
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addOrganisation', 1]"
+[class.active]="router.isActive('/workspace/content/addOrganisation')">
+Add Organisations
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['addMultipleUsers', 1]"
+[class.active]="router.isActive('/workspace/content/addMultipleUsers')">
+Add Multiple Users
+</a>
+<a class="item" *ngIf='permissionService.admin' [routerLink]= "['checkUploadStatus', 1]"
+[class.active]="router.isActive('/workspace/content/checkUploadStatus')">
+Check Upload Status
+</a>
 </div>

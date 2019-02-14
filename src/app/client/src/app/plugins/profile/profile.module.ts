@@ -31,7 +31,7 @@ import { AvatarModule } from 'ngx-avatar';
     TelemetryModule,
     SlickModule,
     AvatarModule,
-    SharedFeatureModule
+    SharedFeatureModule,
   ],
   declarations: [ProfilePageComponent, ProfileBadgeComponent],
   providers: [ProfileService],

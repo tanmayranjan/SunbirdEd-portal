@@ -47,6 +47,7 @@ export class PageApiService {
    *  api call for get page data.
    */
   getPageData(requestParam: IPageSection) {
+    console.log(requestParam);
    const pageData: any = this.cacheService.get('pageApi' + requestParam.name);
     if (pageData && _.isEmpty(requestParam.filters) && !(_.has(requestParam.sort_by, 'lastUpdatedOn') ||
      _.has(requestParam.sort_by, 'createdOn'))) {
@@ -61,7 +62,7 @@ export class PageApiService {
             name: requestParam.name,
             filters: requestParam.filters,
             sort_by: requestParam.sort_by,
-            softConstraints: requestParam.softConstraints || { badgeAssertions: 1 },
+            softConstraints: requestParam.softConstraints,
             mode: requestParam.mode
           }
         }
@@ -70,6 +71,7 @@ export class PageApiService {
         option.data['exists'] = requestParam.exists;
       }
       return this.publicDataService.post(option).pipe(map((data) => {
+        console.log('page service', data.result.response.sections );
         this.setData(data, requestParam);
         return { sections : data.result.response.sections };
       }));
