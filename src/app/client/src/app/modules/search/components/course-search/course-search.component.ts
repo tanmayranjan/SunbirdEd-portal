@@ -13,8 +13,7 @@ import { takeUntil, map, mergeMap, first, filter, debounceTime, catchError } fro
 import { CacheService } from 'ng2-cache-service';
 
 @Component({
-  templateUrl: './course-search.component.html',
-  styleUrls: ['./course-search.component.css']
+  templateUrl: './course-search.component.html'
 })
 export class CourseSearchComponent implements OnInit, OnDestroy {
 
@@ -62,7 +61,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
         this.enrolledSection = data[0];
         if (data[1]) {
           this.initFilters = true;
-          this.frameWorkName = data[1];
+          this.frameWorkName = 'sunbirdbangladesh';
           // return this.dataDrivenFilterEvent;
           return of({});
         } else {
@@ -107,6 +106,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
     }
     this.searchService.courseSearch(option)
     .subscribe(data => {
+      console.log('cousearch' , data);
         this.showLoader = false;
         this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
         this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
@@ -118,6 +118,8 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
           return enrolledContent ||
             this.utilService.processContent(content, constantData, dynamicFields, metaData);
         });
+        console.log('contentlist', this.contentList);
+
     }, err => {
         this.showLoader = false;
         this.contentList = [];

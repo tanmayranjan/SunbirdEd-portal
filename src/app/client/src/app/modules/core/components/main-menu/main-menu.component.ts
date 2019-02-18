@@ -80,6 +80,7 @@ export class MainMenuComponent implements OnInit {
           this.userProfile = user.userProfile;
         }
       });
+    console.log('re', this.resourceService);
   }
   setInteractData() {
     this.homeMenuIntractEdata = {

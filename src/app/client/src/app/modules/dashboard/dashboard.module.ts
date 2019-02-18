@@ -15,6 +15,7 @@ import { OrganisationComponent, CourseConsumptionComponent, CourseProgressCompon
 import { SearchService } from '@sunbird/core';
 import { SharedModule } from '@sunbird/shared';
 import { OrderModule } from 'ngx-order-pipe';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { OrderModule } from 'ngx-order-pipe';
     OrderModule,
     TelemetryModule
   ],
-  declarations: [CourseConsumptionComponent, OrganisationComponent, CourseProgressComponent],
+  declarations: [CourseConsumptionComponent, OrganisationComponent, CourseProgressComponent, UserDashboardComponent],
   exports: [CourseProgressComponent],
   providers: [
     RendererService,

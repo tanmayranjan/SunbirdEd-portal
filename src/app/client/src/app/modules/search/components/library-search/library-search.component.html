@@ -3,6 +3,7 @@
     <div class="twelve wide column">
         <div class=" ui grid">
             <div class="ten wide column">
+                {{facetsList}}&nbsp;
                 <app-data-driven-filter [enrichFilters]="facetsList" (dataDrivenFilter)="getFilters($event)" [pageId]="'library-search'" [ignoreQuery]="['key']" *ngIf="initFilters" [filterEnv]="filterType"
                 [accordionDefaultOpen]=false [isShowFilterLabel]=true></app-data-driven-filter>
             </div>

@@ -60,7 +60,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
                 this.hashTagId = data[0].hashTagId;
                 if (data[1]) {
                     this.initFilters = true;
-                    this.frameWorkName = data[1];
+                    this.frameWorkName = 'sunbirdbangladesh';
                     return of({});
                     // return this.dataDrivenFilterEvent;
                 } else {
@@ -145,6 +145,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
                 this.configService.appConfig.SEARCH.PAGE_LIMIT);
             const { constantData, metaData, dynamicFields } = this.configService.appConfig.CoursePage;
             this.contentList = this.utilService.getDataForCard(data.result.course, constantData, dynamicFields, metaData);
+            console.log('conds', this.contentList);
         }, err => {
             this.showLoader = false;
             this.contentList = [];
