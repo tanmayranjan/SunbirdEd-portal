@@ -8,6 +8,7 @@ import {
   PublicCollectionPlayerComponent
 } from './components';
 import { LandingpageGuard } from './services';
+import { PreviewPageComponent } from './components/preview-page/preview-page.component';
 
 const routes: Routes = [
   {
@@ -41,13 +42,13 @@ const routes: Routes = [
       }
     }
   },
-  {
-    path: 'play/collection/:collectionId', component: PublicCollectionPlayerComponent, data: {
-      telemetry: {
-        env: 'public', pageid: 'play-collection', type: 'view', subtype: 'paginate'
-      }
-    }
-  },
+  // {
+  //   path: 'play/collection/:collectionId', component: PublicCollectionPlayerComponent, data: {
+  //     telemetry: {
+  //       env: 'public', pageid: 'play-collection', type: 'view', subtype: 'paginate'
+  //     }
+  //   }
+  // },
   {
     path: 'explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
@@ -65,7 +66,14 @@ const routes: Routes = [
   },
   {
     path: 'signup', loadChildren: './module/signup/signup.module#SignupModule'
-  }
+  },
+  {
+    path: 'play/collection/:collectionId', component: PreviewPageComponent, data: {
+      telemetry: {
+        env: 'public', pageid: 'play-colection', type: 'view', subtype: 'paginate'
+      }
+    }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

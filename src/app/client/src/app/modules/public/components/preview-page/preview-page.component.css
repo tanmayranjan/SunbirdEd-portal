@@ -1,0 +1,59 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+.course-player {
+  background: lightblue;
+}
+.session-details {
+  border: 1px solid darkgray;
+}
+
+.nav-tabs .nav-item {
+  left: -1.1rem;
+  background: darkblue;
+  width: 14vw;
+  text-align: center;
+}
+.nav-tabs .nav-item:hover{
+  border: none;
+}
+
+.nav-tabs .nav-link {
+  color: white;
+  font-size: 18px;
+}
+
+.nav-tabs {
+  width: 70vw;
+  border: none;
+}
+.polling-width {
+  width: 10vw !important;
+  margin-left: -0.3rem;
+}
+.batch-details {
+  left: 3rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 1px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: darkblue;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: darkblue;
+}
+.btn-primary {
+  color: #fff;
+  background-color: darkblue;
+  border-color: black;
+  margin-left: -1rem;
+}

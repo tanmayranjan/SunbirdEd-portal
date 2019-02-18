@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@sunbird/core';
 import {
   LandingPageComponent, PublicContentPlayerComponent,
-  PublicCollectionPlayerComponent
+  PublicCollectionPlayerComponent, PreviewPageComponent
 } from './components';
 import { SuiModule } from 'ng2-semantic-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ import { CourseDetailPageComponent } from './components/course-detail-page/cours
     BadgingModule,
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
-    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent],
+    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent, PreviewPageComponent],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
 
 })
