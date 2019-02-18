@@ -180,6 +180,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
     this.router.navigate(['search/Courses', page], { queryParams: this.queryParams });
   }
   public playContent(event) {
+    console.log('play content', event);
     if (event.data.metaData.batchId) {
       event.data.metaData.mimeType = 'application/vnd.ekstep.content-collection';
       event.data.metaData.contentType = 'Course';

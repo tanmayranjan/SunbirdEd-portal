@@ -9,6 +9,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { takeUntil, map, mergeMap, first, filter, catchError } from 'rxjs/operators';
+import {TelemetryService} from '../../../telemetry/services/telemetry/telemetry.service';
+import {OrgDetailsService} from '@sunbird/core';
+import { IUserProfile, IUserData } from '@sunbird/shared';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../../core/services';
 @Component({
   selector: 'app-home-page',
   templateUrl: './landing-page.component.html',
@@ -65,6 +70,8 @@ export class LandingPageComponent implements OnInit  {
      name: 'Professional'
    }
   ];
+  userDataSubscription: Subscription;
+  public userService: UserService;
   public showLoader = true;
   public noResultMessage: INoResultMessage;
   public carouselData: Array<ICaraouselData> = [];
@@ -90,25 +97,38 @@ export class LandingPageComponent implements OnInit  {
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
-    private playerService: PlayerService, private cacheService: CacheService,
+     private orgDetailsService: OrgDetailsService, userService: UserService ,
+    private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService ,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
+    this.userService = userService;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
+    // if (!this.userService.loggedIn) {
+    //   console.log('logged in', this.userService.loggedIn);    }
+  //  this.userService.userData$.subscribe(
+  //     (user: IUserData) => {
+  //       console.log('user', user);
+  //       if (user && !user.err) {
+  //         console.log('inside if true');
+  //         // this.userProfile = user.userProfile;
+  //       }
+  //     });
     this.fetchPageData();
   }
   private fetchPageData() {
     const filters = {
-      contentType : ['TextBook']
+      contentType : ['TextBook' , 'Resources'],
     };
     const option: any = {
       source: 'web',
-      name: 'explore_Popular_OnDemand_Courses',
+      name: 'home-popularCourses',
       filters: filters,
       params : this.configService.appConfig.CoursePageSection.contentApiQueryParams
     };
+    console.log('params', this.configService.appConfig.CoursePageSection.contentApiQueryParams);
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
         console.log('pagedata', data);
@@ -131,9 +151,9 @@ export class LandingPageComponent implements OnInit  {
   public prepareVisits(event) {
     console.log('inside orepare visits');
     _.forEach(event, (inView, index) => {
-      if (inView.metaData.identifier) {
+      if (inView.identifier) {
         this.inViewLogs.push({
-          objid: inView.metaData.identifier,
+          objid: inView.identifier,
           objtype: 'course',
           index: index,
           section: inView.section,
@@ -147,9 +167,9 @@ export class LandingPageComponent implements OnInit  {
         });
       }
     });
-    this.telemetryImpression.edata.visits = this.inViewLogs;
-    this.telemetryImpression.edata.subtype = 'pageexit';
-    this.telemetryImpression = Object.assign({}, this.telemetryImpression);
+    // this.telemetryImpression.edata.visits = this.inViewLogs;
+    // this.telemetryImpression.edata.subtype = 'pageexit';
+    // this.telemetryImpression = Object.assign({}, this.telemetryImpression);
   }
   public playContent(event) {
     if (event.data.metaData.batchId) {
@@ -190,8 +210,17 @@ export class LandingPageComponent implements OnInit  {
       delete this.queryParam['key'];
     }
     this.search = this.configService.dropDownConfig.FILTER.SEARCH.search;
+    console.log('serach', this.search);
+    if (this.userService.loggedIn) {
+      console.log('non-log');
     this.router.navigate([this.search['Courses'], 1], {
       queryParams: this.queryParam
     });
+  } else {
+    console.log('log');
+    this.router.navigate(['/search/explore-course', 1], {
+      queryParams: this.queryParam
+    });
+  }
   }
 }

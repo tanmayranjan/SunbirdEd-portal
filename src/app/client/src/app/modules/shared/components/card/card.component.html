@@ -1,7 +1,7 @@
 <div
   class="sbCard mt-20 mr-30 mb-5"
   *ngIf="data"
-  (click)="onAction()"
+  (click)="onAction(data,data.action.onImage)"
   appTelemetryInteract
   [telemetryInteractObject]="{id:data.identifier,type:data.telemetryObjectType}"
   [telemetryInteractEdata]="data.telemetryInteractEdata"

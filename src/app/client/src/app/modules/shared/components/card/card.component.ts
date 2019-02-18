@@ -19,9 +19,8 @@ export class CardComponent {
     this.resourceService = resourceService;
   }
 
-  public onAction(data) {
-    console.log('inside onaction');
-    // this.clickEvent.emit({ 'action': action, 'data': data });
-
+  public onAction(data, action) {
+    console.log('On data', data , 'action', action);
+    this.clickEvent.emit({ 'action': action, 'data': data });
   }
 }
