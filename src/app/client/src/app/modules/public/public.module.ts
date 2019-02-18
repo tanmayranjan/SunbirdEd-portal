@@ -35,7 +35,8 @@ import { CourseDetailPageComponent } from './components/course-detail-page/cours
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent],
-  providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
+  providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard],
+
 
 })
 export class PublicModule { }

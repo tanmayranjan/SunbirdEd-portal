@@ -118,6 +118,7 @@ export class SearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
+    console.log('key', key);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -126,6 +127,7 @@ export class SearchComponent implements OnInit {
     } else {
       delete this.queryParam['key'];
     }
+    console.log('this.search', this.search , 'this.selectedOption', this.selectedOption);
     this.route.navigate([this.search[this.selectedOption], 1], {
       queryParams: this.queryParam
     });

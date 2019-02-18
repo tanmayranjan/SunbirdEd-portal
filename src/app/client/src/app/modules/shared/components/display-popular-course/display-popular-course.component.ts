@@ -6,15 +6,13 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 
-/**
- * This display a a section
- */
+
 @Component({
-  selector: 'app-page-section',
-  templateUrl: './page-section.component.html',
-  styleUrls: ['./page-section.component.scss']
+  selector: 'app-display-popular-course',
+  templateUrl: './display-popular-course.component.html',
+  styleUrls: ['./display-popular-course.component.scss']
 })
-export class PageSectionComponent implements OnInit {
+export class DisplayPopularCourseComponent implements OnInit {
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
   /**
@@ -144,10 +142,12 @@ export class PageSectionComponent implements OnInit {
     const visits = [];
     _.forEach(event.inview, (inview, key) => {
       const content = _.find(this.inviewLogs, (eachContent) => {
-        if (inview.data.metaData.courseId) {
-          return eachContent.metaData.courseId === inview.data.metaData.courseId;
-        } else if (inview.data.metaData.identifier) {
-          return eachContent.metaData.identifier === inview.data.metaData.identifier;
+        // if (inview.data.metaData.courseId) {
+        //   return eachContent.metaData.courseId === inview.data.metaData.courseId;
+        // } else
+        console.log('inview', inview , 'each content' , eachContent);
+         if (inview.data.identifier) {
+          return eachContent.identifier === inview.data.identifier;
         }
       });
       if (content === undefined) {
@@ -168,10 +168,12 @@ export class PageSectionComponent implements OnInit {
     const slideData = contentList;
     _.forEach(slideData, (slide, key) => {
       const content = _.find(this.inviewLogs, (eachContent) => {
-        if (slide.metaData.courseId) {
-          return eachContent.metaData.courseId === slide.metaData.courseId;
-        } else if (slide.metaData.identifier) {
-          return eachContent.metaData.identifier === slide.metaData.identifier;
+        // if (slide.metaData.courseId) {
+        //   return eachContent.metaData.courseId === slide.metaData.courseId;
+        // } else
+        console.log('slide', slide , 'each content', eachContent);
+         if (slide.identifier) {
+          return eachContent.identifier === slide.identifier;
         }
       });
       if (content === undefined) {

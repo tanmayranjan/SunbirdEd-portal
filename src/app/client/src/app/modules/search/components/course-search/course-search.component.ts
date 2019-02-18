@@ -62,7 +62,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
         this.enrolledSection = data[0];
         if (data[1]) {
           this.initFilters = true;
-          this.frameWorkName = data[1];
+          this.frameWorkName = 'sunbirdbangladesh';
           // return this.dataDrivenFilterEvent;
           return of({});
         } else {
