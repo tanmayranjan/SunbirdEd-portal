@@ -17,6 +17,7 @@ import { NotesModule } from '@sunbird/notes';
 import { DashboardModule } from '@sunbird/dashboard';
 import { CourseBatchModule } from '@sunbird/course-batch';
 import {SharedFeatureModule} from '@sunbird/shared-feature';
+import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,6 +38,6 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
   providers: [CourseConsumptionService, CourseBatchService, CourseProgressService],
   declarations: [LearnPageComponent, CoursePlayerComponent, CourseConsumptionHeaderComponent,
     CourseConsumptionPageComponent, BatchDetailsComponent, EnrollBatchComponent, CreateBatchComponent,
-    UpdateCourseBatchComponent, CurriculumCardComponent, UnEnrollBatchComponent],
+    UpdateCourseBatchComponent, CurriculumCardComponent, UnEnrollBatchComponent, BatchCardComponent],
    })
 export class LearnModule { }

@@ -1,0 +1,89 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+
+.session-details {
+  border: 1px solid darkgray;
+}
+
+.nav-tabs .nav-item {
+  left: -1.1rem;
+  background: darkblue;
+  width: 14vw;
+  text-align: center;
+}
+.nav-tabs .nav-item:hover{
+  border: none;
+}
+
+.nav-tabs .nav-link {
+  color: white;
+  font-size: 17px;
+}
+
+.nav-tabs {
+  width: 70vw;
+  border: none;
+}
+.polling-width {
+  width: 10vw !important;
+  margin-left: -0.3rem;
+}
+.batch-details {
+  left: 3rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 1px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
+  background: darkblue;
+}
+.btn-primary{
+  color: #fff;
+  background-color: darkblue;
+  border-color: black;
+  margin-left: -1rem;
+}
+.btn-primary:hover {
+  background-color: darkblue !important;
+  outline: black;
+}
+hr {
+  width: 0rem;
+  height: 1rem;
+  border: 1px solid black;
+  margin: -1rem 2rem;
+}
+.play-icon {
+  box-shadow: 0px 3px 5px black;
+  border-radius: 18px;
+  border-color: aliceblue;
+  background: darkgray;
+}
+.play-icon:focus {
+outline: none;
+}
+table tbody tr:nth-child(even) {
+  background-color: lightgray !important;
+}
+.download:hover {
+  cursor: pointer;
+}
+.polling-width:hover {
+  cursor: not-allowed;
+}
+textarea {
+  /* height: 30vh; */
+  resize: none;
+}
+.nav-tabs .nav-link:hover {
+  outline: none;
+}

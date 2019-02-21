@@ -1,0 +1,14 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+.batch-card {
+  box-shadow: 0px 3px 5px black;
+}
+.btn-primary{
+  color: #fff;
+  background-color: darkblue;
+  border-color: black;
+  margin-left: -1rem;
+}
+.btn-primary:hover {
+  background-color: darkblue !important;
+  outline: black;
+}

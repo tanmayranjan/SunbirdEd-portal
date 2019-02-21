@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@sunbird/core';
 import {
   LandingPageComponent, PublicContentPlayerComponent,
-  PublicCollectionPlayerComponent, PreviewPageComponent
+  PublicCollectionPlayerComponent,
 } from './components';
 import { SuiModule } from 'ng2-semantic-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BadgingModule } from '@sunbird/badge';
 import { CourseDetailPageComponent } from './components/course-detail-page/course-detail-page.component';
+import { PublicPreviewPageComponent } from './components/public-preview-page/public-preview-page.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -34,7 +35,8 @@ import { CourseDetailPageComponent } from './components/course-detail-page/cours
     BadgingModule,
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
-    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, CourseDetailPageComponent, PreviewPageComponent],
+    PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent,
+    CourseDetailPageComponent, PublicPreviewPageComponent],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
 
 })

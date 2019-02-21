@@ -8,7 +8,7 @@ import {
   PublicCollectionPlayerComponent
 } from './components';
 import { LandingpageGuard } from './services';
-import { PreviewPageComponent } from './components/preview-page/preview-page.component';
+import { PublicPreviewPageComponent } from './components/public-preview-page/public-preview-page.component';
 
 const routes: Routes = [
   {
@@ -68,7 +68,7 @@ const routes: Routes = [
     path: 'signup', loadChildren: './module/signup/signup.module#SignupModule'
   },
   {
-    path: 'play/collection/:collectionId', component: PreviewPageComponent, data: {
+    path: 'play/collection/:collectionId', component: PublicPreviewPageComponent, data: {
       telemetry: {
         env: 'public', pageid: 'play-colection', type: 'view', subtype: 'paginate'
       }

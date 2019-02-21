@@ -1,7 +1,7 @@
 import { ResourceRoutingModule } from './resource-routing.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent } from './components';
+import { ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent, PreviewPageComponent } from './components';
 import { SharedModule } from '@sunbird/shared';
 import { SuiModule } from 'ng2-semantic-ui/dist';
 import { SlickModule } from 'ngx-slick';
@@ -27,9 +27,9 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
     BadgingModule,
     TelemetryModule,
     NgInviewModule,
-    SharedFeatureModule
+    SharedFeatureModule,
   ],
-  declarations: [ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent]
+  declarations: [ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent, PreviewPageComponent]
 })
 export class ResourceModule {
   }

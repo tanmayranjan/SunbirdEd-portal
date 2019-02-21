@@ -27,7 +27,8 @@ const routes: Routes = [
           env: 'explore', pageid: 'explore-course-search', type: 'view', subtype: 'paginate'
         }
       }
-    }
+    },
+
   ];
   @NgModule({
     imports: [RouterModule.forChild(routes)],

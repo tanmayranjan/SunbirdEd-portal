@@ -1,4 +1,4 @@
-import { ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent } from './components';
+import { ResourceComponent, CollectionPlayerComponent, ContentPlayerComponent, PreviewPageComponent } from './components';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
@@ -27,7 +27,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'play/collection/:collectionId', component: CollectionPlayerComponent,
+    path: 'play/collection/:collectionId', component: PreviewPageComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '' }],
       telemetry: { env: telemetryEnv, pageid: 'collection-player', type: 'play' }
@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: 'flag', component: FlagContentComponent }
     ]
   }, {
-    path: 'play/collection/:collectionId/:collectionStatus', component: CollectionPlayerComponent,
+    path: 'play/collection/:collectionId/:collectionStatus', component: PreviewPageComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '' }],
       telemetry: { env: telemetryEnv, pageid: 'collection-player-unlisted', type: 'play' }

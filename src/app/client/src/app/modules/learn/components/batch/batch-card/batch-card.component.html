@@ -1,0 +1,14 @@
+             <div class="card batch-card" style="width: 21rem;">
+                <div class="card-body">
+                    <h5>Batch Details</h5>
+                    <hr>
+                    <h5>{{batchDetails.name}}</h5>
+
+                  <h6>{{batchDetails.startDate}} -  {{batchDetails.endDate}}</h6>
+                  {{batchDetails.mentors.length}} Instructors
+                  <div class="text-right">
+                      <button class="btn btn-primary" (click)="enrollToCourse(batchDetails)"  *ngIf="!unEnroll && (batchDetails.identifier !== enrolledBatch)">Enroll</button>
+                      <button class="btn btn-primary" *ngIf="unEnroll && (batchDetails.identifier === enrolledBatch)">UnEnroll</button>
+                  </div>
+                </div>
+              </div>
