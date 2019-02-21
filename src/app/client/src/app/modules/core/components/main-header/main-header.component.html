@@ -47,9 +47,9 @@
                     tabindex="0" routerLink="/explore">
                     {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
                 </button>
-                <button routerLink="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                <!-- <button routerLink="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
                   {{resourceService.frmelmnts?.btn?.signup}}
-                </button>
+                </button> -->
                 <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
                     {{resourceService?.frmelmnts?.tab?.resources}}
                 </a>

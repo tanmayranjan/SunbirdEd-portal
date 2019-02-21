@@ -24,7 +24,8 @@ import { SignupModule } from '../signup';
     SuiModule,
     SignupModule
   ],
-  declarations: [ ExploreContentComponent, ExploreComponent, CatalogComponent, CatalogFiltersComponent],
+  declarations: [ ExploreContentComponent, ExploreComponent, CatalogComponent, CatalogFiltersComponent,
+],
   exports: [CatalogComponent, CatalogFiltersComponent]
 })
 export class ExploreModule { }

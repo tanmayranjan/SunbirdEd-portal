@@ -29,7 +29,8 @@ const routes: Routes = [
         },
         softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 }
       }
-    }
+    },
+
   ];
   @NgModule({
     imports: [RouterModule.forChild(routes)],

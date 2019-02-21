@@ -13,7 +13,7 @@ let envVariables = {
   PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'http://sunbird-ilimi.stackroute.com/auth',
   PORTAL_AUTH_SERVER_CLIENT: env.sunbird_portal_auth_server_client || 'portal',
   APPID: process.env.sunbird_environment + '.' + process.env.sunbird_instance + '.portal',
-  DEFAULT_CHANNEL: 'Intl-Brazil-Channel',
+  DEFAULT_CHANNEL: 'ilimi-Bangladesh-channel',
   EKSTEP_ENV: env.ekstep_env || 'qa',
   PORTAL_PORT: env.sunbird_port || 3000,
   PORTAL_API_AUTH_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxNDYzZmM2ZTA2NWY0M2E5OTUyMmFiOTY2MzI2ZDEyNiJ9.4D_O4HQiPn6ETLEh3bQKgmJHHBCTsEyHpbsrvrUQBZU',
@@ -65,3 +65,7 @@ let envVariables = {
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
 module.exports = envVariables
+Collapse
+
+
+

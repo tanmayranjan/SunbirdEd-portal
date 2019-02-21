@@ -198,4 +198,5 @@ export class ExploreComponent implements OnInit, OnDestroy {
       'messageText': _.get(this.resourceService, 'messages.stmsg.m0006') || 'Please search for something else.'
     };
   }
+
 }
