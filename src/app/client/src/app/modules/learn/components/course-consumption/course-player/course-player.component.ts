@@ -36,6 +36,7 @@ export class CoursePlayerComponent implements OnInit {
   courseDescription;
   unEnroll = false;
   showPromo = true;
+  userRoles = false;
   courseTitle;
   public unsubscribe = new Subject<void>();
   constructor(
@@ -58,7 +59,13 @@ export class CoursePlayerComponent implements OnInit {
     this.batchId = this.activatedRoute.snapshot.params.batchId;
     console.log(this.activatedRoute.snapshot.params);
     this.getCourseDetails();
-    this.getBatchDetails(this.courseId);
+    console.log(this.userService.userProfile);
+    _.forOwn(this.userService.userProfile.organisations, (value) => {
+      console.log(value['roles']);
+      this.userRoles = _.includes(value['roles'], 'COURSE_MENTOR') || _.includes(value['roles'], 'CONTENT_CREATOR') ;
+      console.log(this.userRoles);
+
+    });
   }
   getCourseDetails() {
     const req = {
@@ -72,6 +79,7 @@ export class CoursePlayerComponent implements OnInit {
         const childrenIds = data.result.content.children;
         console.log(data.result.content.createdBy);
         console.log(data.result);
+
         this.courseTitle = data.result.content.name;
         this.creator = data.result.content.creator;
         this.courseDescription = data.result.content.description;
@@ -136,11 +144,11 @@ export class CoursePlayerComponent implements OnInit {
 
   }
 
-getBatchDetails(courseId) {
-  console.log(courseId);
+getBatchDetails() {
+  console.log(this.courseId);
 const batches = {
   filters: {
-    courseId: courseId
+    courseId: this.courseId
   }
 };
 this.courseBatchService.getAllBatchDetails(batches).subscribe(data => {

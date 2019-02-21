@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '@sunbird/shared';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PublicDataService, LearnerService } from '@sunbird/core';
+import { PublicDataService, LearnerService, UserService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { SignupService } from '../../module/signup';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -16,8 +16,11 @@ export class PublicPreviewPageComponent implements OnInit {
   safeUrl;
   resources = [];
   creator;
+  public baseUrl: string;
   courseDescription;
   showPromo = true;
+  resourceType;
+  showLoginModal = false;
   constructor(
     public activatedRoute: ActivatedRoute,
     public configService: ConfigService,
@@ -25,7 +28,8 @@ export class PublicPreviewPageComponent implements OnInit {
     public learnerService: LearnerService,
     public signupService: SignupService,
     public sanitizer: DomSanitizer,
-    public route: Router
+    public route: Router,
+    public userService: UserService
   ) {}
 
   ngOnInit() {
@@ -44,6 +48,7 @@ export class PublicPreviewPageComponent implements OnInit {
         console.log(data.result.content.createdBy);
         console.log(data.result);
         this.creator = data.result.content.creator;
+        this.resourceType = data.result.content.resourceType;
         this.courseDescription = data.result.content.description;
         _.forOwn(childrenIds, childrenvalue => {
           this.getChildren(childrenvalue);
@@ -84,7 +89,6 @@ export class PublicPreviewPageComponent implements OnInit {
   }
   public fetchUrl(session) {
     this.showPromo = false;
-    console.log('EVENT', session);
     console.log(session.artifactUrl);
     let previewUrl;
     const url = session.artifactUrl.slice(17);
@@ -104,4 +108,13 @@ export class PublicPreviewPageComponent implements OnInit {
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
 
   }
+
+  getBatchDetails() {
+    if (!this.userService.loggedIn && this.resourceType === 'Course') {
+      this.showLoginModal = true;
+      this.baseUrl = '/' + 'learn' + '/' + 'course' + '/' + this.contentId;
+    }
+  }
+
+
 }

@@ -199,41 +199,30 @@
       </div>
     </div>
     <div class="col-md-3 batch-details">
-      <!-- <a
-        class="btn btn-primary "
-        data-toggle="collapse"
-        href="#collapseExample"
-        role="button"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-      >
-        View Batches
-      </a> -->
-
-      <div class="collapse mt-2" id="collapseExample">
-        <div class="row">
-          <div class="card" style="width: 21rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <h5>Start Date: 15-feb-2019</h5>
-              <h5>End Date: 15-feb-2019</h5>
-              <button class="btn btn-primary">Enroll</button>
+        <a
+          class="btn btn-primary "
+          data-toggle="collapse"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          (click)="getBatchDetails()"
+        >
+          View Batches
+        </a>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="card" style="width: 21rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <h5>Start Date: 15-feb-2019</h5>
-              <h5>End Date: 15-feb-2019</h5>
-              <button class="btn btn-primary">Enroll</button>
-            </div>
+  </div>
+</section>
+<sui-modal [isClosable]="true" size="tiny" (dismissed)="showLoginModal = false" #modal *ngIf="showLoginModal">
+    <div class="content">
+      <div class="card"  style="width: 35rem;">
+        <div class="card-body text-center">
+          <h5 class="card-title">  SignIn to View Batches</h5>
+          <div class="text-center pt-3">
+              <a href={{baseUrl}} class="btn btn-primary ">
+                  SignIn
+              </a>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </sui-modal>

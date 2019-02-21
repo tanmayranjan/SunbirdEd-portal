@@ -35,7 +35,8 @@ export class BatchCardComponent implements OnInit {
     public userService: UserService,
     public coursesService: CoursesService,
     public toasterService: ToasterService,
-    public resourceService: ResourceService
+    public resourceService: ResourceService,
+    public activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -90,5 +91,38 @@ export class BatchCardComponent implements OnInit {
           console.log(err);
           this.route.navigate(['/learn']);
         });
+    }
+
+    unEnrollToBatch(batch) {
+      this.courseBatchService.setEnrollToBatchDetails(batch);
+      this.route.navigate(['unenroll/batch', batch.identifier], {
+        relativeTo: this.activatedRoute
+      });
+      this.unEnrollToCourse(batch);
+    }
+    unEnrollToCourse(batch) {
+      const request = {
+        request: {
+          courseId: batch.courseId,
+          batchId: batch.id,
+          userId: this.userService.userid
+        }
+      };
+      this.courseBatchService
+        .unenrollFromCourse(request)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(
+          data => {
+            if (data.result.response === 'SUCCESS') {
+              this.unEnroll = false;
+            }
+            this.toasterService.success(
+              'Successfully un-enrolled from this batch'
+            );
+          },
+          err => {
+            this.toasterService.error('Unsuccesful, try again later');
+          }
+        );
     }
 }

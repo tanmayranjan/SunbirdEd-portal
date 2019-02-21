@@ -8,7 +8,7 @@
                   {{batchDetails.mentors.length}} Instructors
                   <div class="text-right">
                       <button class="btn btn-primary" (click)="enrollToCourse(batchDetails)"  *ngIf="!unEnroll && (batchDetails.identifier !== enrolledBatch)">Enroll</button>
-                      <button class="btn btn-primary" *ngIf="unEnroll && (batchDetails.identifier === enrolledBatch)">UnEnroll</button>
+                      <button class="btn btn-primary"(click)="unEnrollToBatch(batchDetails)" *ngIf="unEnroll && (batchDetails.identifier === enrolledBatch)">UnEnroll</button>
                   </div>
                 </div>
               </div>

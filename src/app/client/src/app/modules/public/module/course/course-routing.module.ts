@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CourseComponent, ExploreCourseComponent  } from './components';
 import {ViewAllComponent} from '@sunbird/shared-feature';
-import { PublicPreviewPageComponent } from '../../components';
 const routes: Routes = [
   {
     path: '', component: CourseComponent, data: {

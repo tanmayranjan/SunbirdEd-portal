@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { takeUntil, mergeMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterNavigationService, ResourceService, ToasterService, ServerResponse } from '@sunbird/shared';
@@ -23,8 +23,8 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
   showCreateModal = false;
 
   disableSubmitBtn = true;
-
-  private courseId: string;
+  @Input() courseId;
+// private courseId: string;
   /**
   * courseCreator
   */
@@ -114,8 +114,9 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
    * Initialize form fields and getuserlist
   */
   ngOnInit() {
+    console.log(this.courseId);
     this.activatedRoute.parent.params.pipe(mergeMap((params) => {
-      this.courseId = params.courseId;
+      // this.courseId = params.courseId;
       this.setTelemetryImpressionData();
       this.initializeFormFields();
       this.showCreateModal = true;
@@ -154,7 +155,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     this.createBatchForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      enrollmentType: new FormControl('invite-only', [Validators.required]),
+      enrollmentType: new FormControl('open', [Validators.required]),
       startDate: new FormControl(null, [Validators.required]),
       endDate: new FormControl(),
       mentors: new FormControl(),

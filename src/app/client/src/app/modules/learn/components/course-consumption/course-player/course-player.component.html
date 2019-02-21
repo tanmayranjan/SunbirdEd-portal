@@ -307,224 +307,228 @@
     </div>
     </div>
     <router-outlet></router-outlet> -->
-    <section class="course-player jumbotron" id="preview">
-      <div class="row">
-        <h3>{{courseTitle}}</h3>
-      </div>
-      <div class="row">
-        <div class="col-md-8 pt-3 pl-5">
-            <iframe
-            width="720"
-            height="450"
-            src=" https://www.youtube.com/embed/_JVzkvYRHiE"
-            frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            *ngIf="showPromo"
-          ></iframe>
-
+<div class="background">
+  <section class="course-player jumbotron" id="preview">
+    <div class="row">
+    <div class="col-md-8 text-center">
+      <h3>{{courseTitle}}</h3>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8 pt-3 pl-5">
           <iframe
-            width="720"
-            height="450"
-            [src]="safeUrl"
-            frameborder="0"
-            *ngIf="!showPromo"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
+          width="720"
+          height="450"
+          src=" https://www.youtube.com/embed/_JVzkvYRHiE"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          *ngIf="showPromo"
+        ></iframe>
+        <iframe
+          width="720"
+          height="450"
+          [src]="safeUrl"
+          frameborder="0"
+          *ngIf="!showPromo"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
-    </section>
-    <section class="session-list container">
-      <div class="row">
-        <div class="col-md-9 session-details">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="home-tab"
-                data-toggle="tab"
-                href="#home"
-                role="tab"
-                aria-controls="home"
-                aria-selected="false"
-                >About the Course</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="session-tab"
-                data-toggle="tab"
-                href="#session"
-                role="tab"
-                aria-controls="session"
-                aria-selected="true"
-                >Session Plan</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="resource-tab"
-                role="tab"
-                data-toggle="tab"
-                href="#resource"
-                role="tab"
-                aria-controls="resource"
-                aria-selected="false"
-                >Resources</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="comments-tab"
-                data-toggle="tab"
-                href="#comments"
-                role="tab"
-                aria-controls="comments"
-                aria-selected="false"
-                >Comments</a
-              >
-            </li>
-
-            <li class="nav-item polling-width">
-              <a class="nav-link" id="polling-tab" role="tab" aria-selected="false"
-                >Polling</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content pt-5" id="myTabContent">
-            <div
-              class="tab-pane fade py-5"
-              id="home"
-              role="tabpanel"
-              aria-labelledby="home-tab"
+    </div>
+  </section>
+  <section class="session-list container">
+    <div class="row">
+      <div class="col-md-9 session-details">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="home-tab"
+              data-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-controls="home"
+              aria-selected="false"
+              >About the Course</a
             >
-
-            <h3>Course Description</h3>
-
-            {{courseDescription}}
-
-            </div>
-            <div
-              class="tab-pane fade show active"
-              id="session"
-              role="tabpanel"
-              aria-labelledby="session-tab"
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="session-tab"
+              data-toggle="tab"
+              href="#session"
+              role="tab"
+              aria-controls="session"
+              aria-selected="true"
+              >Session Plan</a
             >
-              <table class="table table-striped">
-                <tbody *ngFor="let session of courseDetails">
-                  <tr>
-                    <th scope="row"><i class="fas fa-angle-right"></i></th>
-                    <td>
-                      <div class="row">
-                        <div class="col-md-10">
-                          <h5>{{ session.name }}</h5>
-                          <div class="row">
-                            <div class="col-md-1 pl-4">
-                              <i class="fas fa-book"></i>
-                              <hr />
-                            </div>
-                            <div class="col-md-4 pl-0">
-                              Instructor {{ creator }}
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-2  pl-5">
-                          <div class="row pl-4" (click)="fetchUrl(session)">
-                            <button
-                              class="play-icon mb-2"
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="resource-tab"
+              role="tab"
+              data-toggle="tab"
+              href="#resource"
+              role="tab"
+              aria-controls="resource"
+              aria-selected="false"
+              >Resources</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="comments-tab"
+              data-toggle="tab"
+              href="#comments"
+              role="tab"
+              aria-controls="comments"
+              aria-selected="false"
+              >Comments</a
+            >
+          </li>
 
-                            >
-                              <i class="fas fa-2x fa-play-circle "></i>
-                            </button>
-                            <a> preview</a>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div
-              class="tab-pane fade"
-              id="resource"
-              role="tabpanel"
-              aria-labelledby="resource-tab"
+          <li class="nav-item polling-width">
+            <a class="nav-link" id="polling-tab" role="tab" aria-selected="false"
+              >Polling</a
             >
-              <table class="table table-striped">
-                <tbody *ngFor="let resource of resources">
-                  <tr>
-                    <th scope="row"><i class="fas fa-angle-right"></i></th>
-                    <td>
-                      <div class="row">
-                        <div class="col-md-10">
-                          <h5>{{ resource.name }}</h5>
-                          <div class="row">
-                            <div class="col-md-1 pl-4">
-                              <i class="fas fa-book"></i>
-                              <hr class="hr-line"/>
-                            </div>
-                            <div class="col-md-4 pl-0">
-                              Instructor {{ creator }}
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-2 pt-2 pl-5">
-                          <div class="row pl-4">
-                            <i
-                              (click)="fetchUrl(resource)"
-                              class="fas fa-2x fa-download download "
-                            ></i>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div
-              class="tab-pane fade"
-              id="comments"
-              role="tabpanel"
-              aria-labelledby="comments-tab"
-            >
-              <div class="comments  text-right px-5">
-                <h4 class="text-left">Comment</h4>
-                <div class="card">
-                  <textarea
-                    rows="6"
-                    placeholder="Please share your feedback about this course or session here "
-                  >
-                  </textarea>
-                </div>
-                <button class="btn btn-primary my-2">Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 batch-details">
-          <a
-            class="btn btn-primary "
-            data-toggle="collapse"
-            href="#collapseExample"
-            role="button"
-            aria-expanded="false"
-            aria-controls="collapseExample"
+          </li>
+        </ul>
+        <div class="tab-content pt-5" id="myTabContent">
+          <div
+            class="tab-pane fade py-5"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
           >
-            View Batches
-          </a>
 
-          <div class="collapse mt-2" id="collapseExample">
-            <div class="row" *ngFor="let batch of batchDetails">
-              <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2"></app-batch-card>
+          <h3>Course Description</h3>
 
+          {{courseDescription}}
+
+          </div>
+          <div
+            class="tab-pane fade show active"
+            id="session"
+            role="tabpanel"
+            aria-labelledby="session-tab"
+          >
+            <table class="table table-striped">
+              <tbody *ngFor="let session of courseDetails">
+                <tr>
+                  <th scope="row"><i class="fas fa-angle-right"></i></th>
+                  <td>
+                    <div class="row">
+                      <div class="col-md-10">
+                        <h5>{{ session.name }}</h5>
+                        <div class="row">
+                          <div class="col-md-1 pl-4">
+                            <i class="fas fa-book"></i>
+                            <hr />
+                          </div>
+                          <div class="col-md-4 pl-0">
+                            Instructor {{ creator }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2  pl-5">
+                        <div class="row pl-4" (click)="fetchUrl(session)">
+                          <button
+                            class="play-icon mb-2"
+
+                          >
+                            <i class="fas fa-2x fa-play-circle "></i>
+                          </button>
+                          <a> preview</a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="resource"
+            role="tabpanel"
+            aria-labelledby="resource-tab"
+          >
+            <table class="table table-striped">
+              <tbody *ngFor="let resource of resources">
+                <tr>
+                  <th scope="row"><i class="fas fa-angle-right"></i></th>
+                  <td>
+                    <div class="row">
+                      <div class="col-md-10">
+                        <h5>{{ resource.name }}</h5>
+                        <div class="row">
+                          <div class="col-md-1 pl-4">
+                            <i class="fas fa-book"></i>
+                            <hr class="hr-line"/>
+                          </div>
+                          <div class="col-md-4 pl-0">
+                            Instructor {{ creator }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 pt-2 pl-5">
+                        <div class="row pl-4">
+                          <i
+                            (click)="fetchUrl(resource)"
+                            class="fas fa-2x fa-download download "
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="comments"
+            role="tabpanel"
+            aria-labelledby="comments-tab"
+          >
+            <div class="comments  text-right px-5">
+              <h4 class="text-left">Comment</h4>
+              <div class="card">
+                <textarea
+                  rows="6"
+                  placeholder="Please share your feedback about this course or session here "
+                >
+                </textarea>
+              </div>
+              <button class="btn btn-primary my-2">Submit</button>
             </div>
           </div>
         </div>
       </div>
-    </section>
+      <div class="col-md-3 batch-details">
+        <a
+          class="btn btn-primary "
+          data-toggle="collapse"
+          href="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          (click)="getBatchDetails()"
+        >
+          View Batches
+        </a>
+
+        <div class="collapse mt-2" id="collapseExample">
+          <div class="row" *ngFor="let batch of batchDetails">
+            <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" *ngIf="!userRoles"></app-batch-card>
+            <app-create-batch [courseId]="courseId" *ngIf="userRoles"></app-create-batch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
