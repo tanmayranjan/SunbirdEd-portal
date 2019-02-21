@@ -13,8 +13,7 @@ import { takeUntil, map, mergeMap, first, filter, debounceTime, catchError } fro
 import { CacheService } from 'ng2-cache-service';
 
 @Component({
-  templateUrl: './course-search.component.html',
-  styleUrls: ['./course-search.component.css']
+  templateUrl: './course-search.component.html'
 })
 export class CourseSearchComponent implements OnInit, OnDestroy {
 
@@ -62,7 +61,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
         this.enrolledSection = data[0];
         if (data[1]) {
           this.initFilters = true;
-          this.frameWorkName = 'sunbirdbangladesh';
+          this.frameWorkName = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
           // return this.dataDrivenFilterEvent;
           return of({});
         } else {
@@ -180,7 +179,6 @@ export class CourseSearchComponent implements OnInit, OnDestroy {
     this.router.navigate(['search/Courses', page], { queryParams: this.queryParams });
   }
   public playContent(event) {
-    console.log('play content', event);
     if (event.data.metaData.batchId) {
       event.data.metaData.mimeType = 'application/vnd.ekstep.content-collection';
       event.data.metaData.contentType = 'Course';

@@ -38,7 +38,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
     public contentList: Array<ICard> = [];
     public cardIntractEdata: IInteractEventEdata;
     public loaderMessage: ILoaderMessage;
-
+    public framework: string;
     public frameWorkName: string;
 
     constructor(public searchService: SearchService, public router: Router,
@@ -52,6 +52,10 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
         this.setTelemetryData();
     }
     ngOnInit() {
+      this.activatedRoute.queryParams.subscribe(queryParams => {
+        console.log('params', queryParams);
+        this.framework = queryParams.frameWork;
+      });
         combineLatest(
             this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug),
             this.getFrameWork()
@@ -60,7 +64,9 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
                 this.hashTagId = data[0].hashTagId;
                 if (data[1]) {
                     this.initFilters = true;
-                    this.frameWorkName = data[1];
+                    console.log('1', this.framework);
+                    this.frameWorkName = this.framework;
+                    console.log('2', this.frameWorkName);
                     return of({});
                     // return this.dataDrivenFilterEvent;
                 } else {
@@ -115,7 +121,8 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
         ).subscribe(({params, queryParams}) => {
             this.showLoader = true;
             this.paginationDetails.currentPage = params.pageNumber;
-            this.queryParams = { ...queryParams };
+            this.queryParams = { key: queryParams.key };
+            console.log('query', this.queryParams);
             this.contentList = [];
             this.fetchContents();
         });
@@ -145,6 +152,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
                 this.configService.appConfig.SEARCH.PAGE_LIMIT);
             const { constantData, metaData, dynamicFields } = this.configService.appConfig.CoursePage;
             this.contentList = this.utilService.getDataForCard(data.result.course, constantData, dynamicFields, metaData);
+            console.log('conds', this.contentList);
         }, err => {
             this.showLoader = false;
             this.contentList = [];

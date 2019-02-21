@@ -116,6 +116,8 @@ export class LandingPageComponent implements OnInit  {
   //         // this.userProfile = user.userProfile;
   //       }
   //     });
+  // tslint:disable-next-line:no-unused-expression
+ console.log('path', this.activatedRoute.snapshot.data.orgdata.defaultFramework);
     this.fetchPageData();
   }
   private fetchPageData() {
@@ -131,15 +133,12 @@ export class LandingPageComponent implements OnInit  {
     console.log('params', this.configService.appConfig.CoursePageSection.contentApiQueryParams);
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
-        console.log('pagedata', data);
         _.forOwn(data, value => {
    _.forEach(value , course => {
-     console.log('value' , course);
    this.carouselData.push(course);
 
    });
         });
-        console.log('carousel', this.carouselData);
         this.showLoader = false;
       }, err => {
         this.showLoader = false;
@@ -149,7 +148,7 @@ export class LandingPageComponent implements OnInit  {
   }
 
   public prepareVisits(event) {
-    console.log('inside orepare visits');
+    // console.log('inside orepare visits');
     _.forEach(event, (inView, index) => {
       if (inView.identifier) {
         this.inViewLogs.push({
@@ -167,9 +166,6 @@ export class LandingPageComponent implements OnInit  {
         });
       }
     });
-    // this.telemetryImpression.edata.visits = this.inViewLogs;
-    // this.telemetryImpression.edata.subtype = 'pageexit';
-    // this.telemetryImpression = Object.assign({}, this.telemetryImpression);
   }
   public playContent(event) {
     if (event.data.metaData.batchId) {
@@ -180,8 +176,6 @@ export class LandingPageComponent implements OnInit  {
   }
   public viewAll(event) {
     const searchQuery = JSON.parse(event.searchQuery);
-    // searchQuery.request.filters.channel = this.hashTagId;
-    // searchQuery.request.filters.board = this.prominentFilters.board;
     const searchQueryParams: any = {};
     _.forIn(searchQuery.request.filters, (value, key) => {
       if (_.isPlainObject(value)) {
@@ -203,24 +197,26 @@ export class LandingPageComponent implements OnInit  {
     this.queryParam = {};
     this.queryParam['key'] = this.key;
     if (this.key && this.key.length > 0) {
-      console.log('inside if', this.key);
             this.queryParam['key'] = this.key;
     } else {
-      console.log('inside else', this.key);
       delete this.queryParam['key'];
     }
     this.search = this.configService.dropDownConfig.FILTER.SEARCH.search;
-    console.log('serach', this.search);
     if (this.userService.loggedIn) {
-      console.log('non-log');
     this.router.navigate([this.search['Courses'], 1], {
       queryParams: this.queryParam
-    });
+    },
+    );
   } else {
-    console.log('log');
+    console.log('log', this.queryParam);
     this.router.navigate(['/search/explore-course', 1], {
-      queryParams: this.queryParam
+      queryParams: { key: key , frameWork: this.activatedRoute.snapshot.data.orgdata.defaultFramework }
     });
   }
+  }
+  scroll() {
+    console.log('inside scroll');
+document.getElementById('GoToPopularCourses').click();
+// element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 }

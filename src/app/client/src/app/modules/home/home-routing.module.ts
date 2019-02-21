@@ -13,6 +13,10 @@ const routes: Routes = [
       telemetry: {
         env: telemetryEnv, pageid: 'home', uri: '/home', subtype: 'paginate',
         type: 'view', object: { type: objectType, ver: '1.0' }
+      },
+      orgdata: {
+        rootOrgId: '0126937906368184322',
+        defaultFramework : 'sunbirdbangladesh'
       }
     },
     component: MainHomeComponent,

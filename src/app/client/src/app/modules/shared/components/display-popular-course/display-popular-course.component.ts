@@ -120,10 +120,6 @@ export class DisplayPopularCourseComponent implements OnInit {
     this.playEvent.emit(event);
   }
   ngOnInit() {
-    console.log('section' , this.section);
-    console.log('playevent', this.playEvent);
-    console.log('viewall' , this.viewAll);
-    console.log('visits' , this.visits);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {
@@ -145,7 +141,6 @@ export class DisplayPopularCourseComponent implements OnInit {
         // if (inview.data.metaData.courseId) {
         //   return eachContent.metaData.courseId === inview.data.metaData.courseId;
         // } else
-        console.log('inview', inview , 'each content' , eachContent);
          if (inview.data.identifier) {
           return eachContent.identifier === inview.data.identifier;
         }
@@ -171,7 +166,6 @@ export class DisplayPopularCourseComponent implements OnInit {
         // if (slide.metaData.courseId) {
         //   return eachContent.metaData.courseId === slide.metaData.courseId;
         // } else
-        console.log('slide', slide , 'each content', eachContent);
          if (slide.identifier) {
           return eachContent.identifier === slide.identifier;
         }

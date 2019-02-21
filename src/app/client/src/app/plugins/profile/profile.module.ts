@@ -16,6 +16,8 @@ import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { AvatarModule } from 'ngx-avatar';
+import { UpdateContactDetailsComponent } from './components/update-contact-details/update-contact-details.component';
+import { UpdateUserDetailsComponent } from './components/update-user-details/update-user-details.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +35,7 @@ import { AvatarModule } from 'ngx-avatar';
     AvatarModule,
     SharedFeatureModule,
   ],
-  declarations: [ProfilePageComponent, ProfileBadgeComponent],
+  declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent],
   providers: [ProfileService],
   entryComponents: [ProfileBadgeComponent]
 })

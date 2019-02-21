@@ -930,7 +930,7 @@
   "course": {
     "filterType": "course",
     "inPageredirectUrl": "/learn",
-    "searchPageredirectUrl": "/search/Courses/1"
+    "searchPageredirectUrl": "/search/catalog/1"
   },
   "home": {
     "filterType": "home",
@@ -972,7 +972,7 @@
   "courses": {
     "filterType": "courses",
     "inPageredirectUrl": "/learn",
-    "searchPageredirectUrl": "/search/Courses/1"
+    "searchPageredirectUrl": "/search/catalog/1"
   },
   "formApiTypes": {
     "home": "home",

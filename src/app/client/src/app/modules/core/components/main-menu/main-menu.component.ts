@@ -1,6 +1,6 @@
 import { ConfigService, ResourceService, IUserData, IUserProfile } from '@sunbird/shared';
 import { Component, OnInit } from '@angular/core';
-import { UserService, PermissionService } from '../../services';
+import { UserService, FrameworkService , PermissionService } from '../../services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
@@ -52,12 +52,13 @@ export class MainMenuComponent implements OnInit {
   exploreRoutingUrl: string;
   showExploreHeader = false;
   helpLinkVisibility: string;
-
+  categoryMasterList;
   /*
   * constructor
   */
   constructor(resourceService: ResourceService, userService: UserService, router: Router,
-     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService) {
+     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService ,
+     private frameworkService: FrameworkService) {
     this.resourceService = resourceService;
     this.userService = userService;
     this.permissionService = permissionService;
@@ -80,6 +81,23 @@ export class MainMenuComponent implements OnInit {
           this.userProfile = user.userProfile;
         }
       });
+    console.log('re', this.resourceService);
+
+    this.frameworkService.initialize('');
+    this.frameworkService.frameworkData$.subscribe((frameworkData) => {
+      console.log('main menu frame work', frameworkData);
+      if (frameworkData && !frameworkData.err) {
+        this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata.defaultFramework.categories);
+        console.log('inside if in main menu', this.categoryMasterList);
+      }
+    });
+  }
+
+  filter(node, child) {
+    console.log(node, '-', child);
+    const queryParams = {};
+    queryParams[node] = child;
+    this.router.navigate(['search/catalog/1', {cat: node}], {queryParams: queryParams});
   }
   setInteractData() {
     this.homeMenuIntractEdata = {

@@ -119,14 +119,14 @@ export class CourseComponent implements OnInit, OnDestroy {
       }
       return value.length;
     });
-    // filters.board = _.get(this.queryParams, 'board') || this.dataDrivenFilters.board;
+    filters.board = _.get(this.queryParams, 'board') || this.dataDrivenFilters.board;
     const option = {
       source: 'web',
-      name: 'AnonymousCourse',
-      filters: filters,
-      // softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 },
-      // mode: 'soft',
-      // exists: [],
+      name: 'Explore',
+      filters: filters.board,
+      softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 },
+      mode: 'soft',
+      exists: [],
       params : this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))

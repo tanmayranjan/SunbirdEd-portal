@@ -20,7 +20,6 @@ export class CardComponent {
   }
 
   public onAction(data, action) {
-    console.log('On data', data , 'action', action);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 }

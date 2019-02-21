@@ -17,6 +17,10 @@ const routes: Routes = [
     data: {
       telemetry: {
         env: 'public', pageid: 'landing-page', type: 'edit', subtype: 'paginate'
+      },
+      orgdata: {
+        rootOrgId: '0126937906368184322',
+        defaultFramework : 'sunbirdbangladesh'
       }
     }
   },

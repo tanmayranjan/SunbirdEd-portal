@@ -10,6 +10,7 @@
   top: 1em;
 }
 
+
 .jumbotron .text-bg {
   position:absolute;
   left: 18em;
@@ -434,4 +435,33 @@ label {
   top: 100px;
   left: 50%;
   margin-left: -31px;
+}
+@media only screen and (max-width: 992px){
+.bannerInnerContent {
+    top: 7%;
+    position: absolute;
+    left: 10%;
+}}
+@media only screen and (max-width: 767px){
+.introGlobBoxElement {
+    height: 130px;
+    margin-right: 15px;
+}
+}
+@media only screen and (max-width: 767px){
+.introGlobBoxElement {
+    width: 100%;
+}}
+@media only screen and (max-width: 767px){
+.bckImgLayer {
+    height: 130px;
+}
+}
+@media only screen and (max-width: 767px){
+.SiteBannerSection {
+    background: url(http://niittvimgcdn.azureedge.net/Images/siteBnr.jpg) no-repeat;
+    height: 470px;
+    background-position: center!important;
+    background-size: 450px 470px!important;
+}
 }
