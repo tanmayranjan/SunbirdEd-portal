@@ -14,9 +14,9 @@
 	<a class="item" *ngIf='permissionService.permissionAvailable && helpLinkVisibility.toLowerCase() === "true"' appPermission [permission]='workSpaceRole' href="/help/creator/content-lifecycle/index.html" target="_blank">
 		{{resourceService?.frmelmnts?.tab?.help}}
   </a>
-  <a class="item" mat-button [matMenuTriggerFor]="main_menu">
+  <!-- <a class="item" mat-button [matMenuTriggerFor]="main_menu">
       Catalog
-    </a>
+    </a> -->
 
     <extension-point name="header-menu-item"></extension-point>
 </div>
