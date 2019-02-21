@@ -306,7 +306,7 @@
                 "All": "/search/All",
                 "home": "/search/All",
                 "learn": "/search/Courses",
-                "Courses": "/search/Courses",
+                "Courses": "/search/catalog",
                 "resources": "/search/Library",
                 "Library": "/search/Library",
                 "Users": "/search/Users",
@@ -316,7 +316,8 @@
                 "home": "All",
                 "learn": "Courses",
                 "resources": "Library",
-                "profile": "Users"
+                "profile": "Users",
+                "catalog":"Courses"
             },
             "searchEnabled": [
                 "home",
@@ -324,6 +325,7 @@
                 "resources",
                 "profile",
                 "search"
+
             ],
             "All": {
                 "DROPDOWN": {

@@ -105,6 +105,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
         console.log('pagedata', data);
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+        console.log('checking', this.carouselData);
       }, err => {
         this.showLoader = false;
         this.carouselData = [];

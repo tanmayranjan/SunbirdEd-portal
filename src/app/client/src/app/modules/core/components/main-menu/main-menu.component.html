@@ -6,14 +6,19 @@
 		{{resourceService?.frmelmnts?.tab?.resources}}
 	</a>
 	<a class="item" appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata" [class.active]="router.isActive('/search/Courses') || router.isActive('/learn')" routerLink="/learn">
-		{{resourceService?.frmelmnts?.tab?.courses}}
+		My Courses
 	</a>
 	<a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole' (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata" [class.active]="router.isActive('/workspace')">
 		{{resourceService?.frmelmnts?.tab?.workspace}}
 	</a>
 	<a class="item" *ngIf='permissionService.permissionAvailable && helpLinkVisibility.toLowerCase() === "true"' appPermission [permission]='workSpaceRole' href="/help/creator/content-lifecycle/index.html" target="_blank">
 		{{resourceService?.frmelmnts?.tab?.help}}
-	</a>
+  </a>
+  <!-- <a class="item" mat-button [matMenuTriggerFor]="main_menu">
+      Catalog
+    </a> -->
+
+    <extension-point name="header-menu-item"></extension-point>
 </div>
 <div class="mobile only">
 	<div class="ui sidebar right vertical menu" *ngIf="userService.loggedIn">
@@ -57,3 +62,17 @@
 		<!-- Site content !-->
 	</div>
 </div>
+<!-- <mat-menu #main_menu="matMenu">
+    <button mat-menu-item routerLink="/search/catalog/1">View All Courses</button>
+    <button mat-menu-item [matMenuTriggerFor]="sub_main_menu">Browse With</button>
+  </mat-menu>
+
+  <mat-menu #sub_main_menu="matMenu">
+    <ng-container *ngFor="let category of categoryMasterList">
+      <button mat-menu-item [matMenuTriggerFor]="sub_menu">{{ category?.code}}</button>
+      <mat-menu #sub_menu="matMenu">
+        <button *ngFor="let subItem of category?.terms" mat-menu-item (click)="filter(category?.code , subItem?.name)">{{
+          subItem?.name }}</button>
+      </mat-menu>
+    </ng-container>
+  </mat-menu> -->

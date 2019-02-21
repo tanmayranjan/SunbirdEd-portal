@@ -32,7 +32,7 @@ import { PublicPreviewPageComponent } from './components/public-preview-page/pub
     TelemetryModule,
     NgInviewModule,
     DeviceDetectorModule,
-    BadgingModule,
+    BadgingModule
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent,

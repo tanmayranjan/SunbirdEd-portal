@@ -65,8 +65,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     backgroundColor: '#ffffff',
     border: '1px solid #fff',
     boxShadow: '0 0 6px 0 rgba(0,0,0,0.38)',
-    borderRadius: '50%',
-    color: '#9017FF',
+    borderRadius: '10%',
+    color: 'white',
     fontWeight: 'bold',
     fontFamily: 'inherit'
   };
@@ -170,6 +170,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       (user: IUserData) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          console.log(user.userProfile);
           this.inputData =  _.get(this.userProfile, 'framework') ? _.cloneDeep(_.get(this.userProfile, 'framework')) : {};
           this.getOrgDetails();
           this.getMyContent();

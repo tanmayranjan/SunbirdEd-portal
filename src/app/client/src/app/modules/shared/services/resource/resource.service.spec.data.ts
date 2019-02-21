@@ -406,7 +406,8 @@ export const mockRes = {
                         'courses': 'Courses',
                         'resources': 'Library',
                         'community': 'Groups',
-                        'profile': 'Profile'
+                        'profile': 'Profile',
+                        'mycourse': 'My Courses'
                     },
                     'drpdn': {
                         'male': 'Male',

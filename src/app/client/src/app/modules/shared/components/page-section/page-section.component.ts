@@ -140,10 +140,8 @@ export class PageSectionComponent implements OnInit {
     const visits = [];
     _.forEach(event.inview, (inview, key) => {
       const content = _.find(this.inviewLogs, (eachContent) => {
-        if (inview.data.metaData.courseId) {
-          return eachContent.metaData.courseId === inview.data.metaData.courseId;
-        } else if (inview.data.metaData.identifier) {
-          return eachContent.metaData.identifier === inview.data.metaData.identifier;
+       if (inview.data.identifier) {
+          return eachContent.identifier === inview.data.identifier;
         }
       });
       if (content === undefined) {

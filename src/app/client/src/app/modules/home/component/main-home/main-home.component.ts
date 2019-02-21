@@ -237,7 +237,9 @@ export class MainHomeComponent implements OnInit, OnDestroy {
         subtype: this.activatedRoute.snapshot.data.telemetry.subtype
       }
     };
+    console.log('route detail', this.activatedRoute.snapshot.data.orgdata);
   }
+
   /**
    *ngOnDestroy unsubscribe the subscription
    */

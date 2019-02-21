@@ -181,6 +181,7 @@ export class AppComponent implements OnInit {
    * set org Details for Anonymous user.
    */
   private setOrgDetails(): Observable<any> {
+    console.log('slug', this.slug);
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data =>  {
         this.orgDetails = data;
