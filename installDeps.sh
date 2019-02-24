@@ -4,3 +4,4 @@
 
 #apk -v --update --no-cache add jq
 sudo apt-get install -y jq
+npm install -g @angular/cli
