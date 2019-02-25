@@ -122,6 +122,7 @@ export class PageSectionComponent implements OnInit {
     this.playEvent.emit(event);
   }
   ngOnInit() {
+    console.log('sec com', this.section);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {
