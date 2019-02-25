@@ -15,8 +15,8 @@ const routes: Routes = [
         type: 'view', object: { type: objectType, ver: '1.0' }
       },
       orgdata: {
-        rootOrgId: '0126937906368184322',
-        defaultFramework : 'sunbirdbangladesh'
+        rootOrgId: '0127053482034872320',
+        defaultFramework : 'niit_tv'
       }
     },
     component: MainHomeComponent,
