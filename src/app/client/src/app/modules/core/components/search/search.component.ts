@@ -118,6 +118,7 @@ export class SearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
+    console.log('key', key);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -126,7 +127,8 @@ export class SearchComponent implements OnInit {
     } else {
       delete this.queryParam['key'];
     }
-    console.log('this.selected', this.selectedOption , 'key', key);
+    console.log('querparam', this.queryParam);
+    // console.log('this.selected', this.selectedOption , 'key', key);
     if (this.selectedOption === 'catalog') {
       this.route.navigate(['/search/catalog/1'], {
         queryParams: this.queryParam
@@ -143,26 +145,27 @@ export class SearchComponent implements OnInit {
     this.searchUrl = this.config.dropDownConfig.FILTER.SEARCH.searchUrl;
     const currUrl = this.route.url.split('?');
     this.value = currUrl[0].split('/', 3);
-    console.log('search', this.search);
-    console.log('searchurl', this.searchUrl);
-    console.log('currurl', currUrl);
-    console.log('value', this.value);
+    // console.log('search', this.search);
+    // console.log('searchurl', this.searchUrl);
+    // console.log('currurl', currUrl);
+    // console.log('value', this.value);
     const searchEnabledStates = this.config.dropDownConfig.FILTER.SEARCH.searchEnabled;
     console.log('search enable state', searchEnabledStates);
     if (this.searchUrl[this.value[1]] && searchEnabledStates.includes(this.value[1])) {
       this.setDropdownSelectedOption(this.searchUrl[this.value[1]]);
-      console.log('1', this.searchUrl[this.value[1]]);
+      // console.log('1', this.searchUrl[this.value[1]]);
     } else if (this.value[1] === 'search' && searchEnabledStates.includes(this.value[1])) {
       this.setDropdownSelectedOption(this.value[2]);
-      console.log('2', this.value[2]);
+      // console.log('2', this.value[2]);
     } else {
       this.selectedOption = 'All';
       this.showInput = false;
-      console.log('3');
+      // console.log('3');
     }
   }
 
   setDropdownSelectedOption (value) {
+    console.log('value', value);
     if ( value === 'Users' ) {
       if ( !this.userProfile.rootOrgAdmin ) {
         console.log('inside org admin');

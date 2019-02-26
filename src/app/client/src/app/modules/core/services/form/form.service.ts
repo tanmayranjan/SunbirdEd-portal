@@ -40,7 +40,7 @@ export class FormService {
     * @param {selectedContent} content selected content type
     */
   getFormConfig(formInputParams, hashTagId?: string): Observable<any> {
-    console.log(formInputParams);
+    console.log('inside form service', formInputParams, 'hash', hashTagId);
     const channelOptions: any = {
       url: this.configService.urlConFig.URLS.dataDrivenForms.READ,
       data: {

@@ -292,25 +292,22 @@ private getContentState() {
 
       });
   }
-  //   public contentProgressEvent(event) {
-  //   if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
-  //     return;
-  //   }
-  //   const eid = event.detail.telemetryData.eid;
-  //   if (eid === 'END' && !this.validEndEvent(event)) {
-  //     return;
-  //   }
-  //   const request: any = {
-  //     userId: this.userService.userid,
-  //     courseId: this.courseId,
-  //     courseId: this.courseId,
-  //     batchId: this.batchId,
-  //     status: eid === 'END' ? 2 : 1
-  //   };
-  //   this.courseConsumptionService.updateContentsState(request).pipe(first())
-  //   .subscribe(updatedRes => this.contentStatus = updatedRes.content,
-  //     err => console.log('updating content status failed', err));
-  // }
+    public contentProgressEvent(event) {
+    if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
+      return;
+    }
+    const eid = event.detail.telemetryData.eid;
+
+    const request: any = {
+      userId: this.userService.userid,
+      courseId: this.courseId,
+      batchId: this.batchId,
+      status: eid === 'END' ? 2 : 1
+    };
+    this.courseConsumptionService.updateContentsState(request).pipe(first())
+    .subscribe(updatedRes => this.contentStatus = updatedRes.content,
+      err => console.log('updating content status failed', err));
+  }
 }
 
   // public courseInteractObject: IInteractEventObject;

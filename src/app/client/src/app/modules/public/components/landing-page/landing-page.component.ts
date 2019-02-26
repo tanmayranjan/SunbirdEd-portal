@@ -44,30 +44,36 @@ export class LandingPageComponent implements OnInit  {
 
    {
      background: 'http://niittvimgcdn.azureedge.net/Images/school_graphic.jpg',
-     name: 'School'
+     name: 'School',
+     frameWork: 'contentType'
    },
    {
   // tslint:disable-next-line: max-line-length
      background: 'http://niittvimgcdn.azureedge.net/Images/collage_graphic.jpg',
-     name: 'College'
+     name: 'College' ,
+     frameWork: 'board'
    },
    {
   // tslint:disable-next-line: max-line-length
      background: 'http://niittvimgcdn.azureedge.net/Images/managemnt_graphic.jpg',
-     name: 'Management'
+     name: 'Management',
+     frameWork: 'medium'
    },
    {
   // tslint:disable-next-line: max-line-length
      background: 'http://niittvimgcdn.azureedge.net/Images/IT_graphic.jpg',
-     name: 'IT'
+     name: 'IT' ,
+     frameWork: 'gradeLevel'
    },
    {
      background: 'http://niittvimgcdn.azureedge.net/Images/banking_graphic.jpg',
-     name: 'Banking'
+     name: 'Banking' ,
+     frameWork: 'subject'
    },
    {
      background: 'http://niittvimgcdn.azureedge.net/Images/wrkPro_graphic.jpg',
-     name: 'Professional'
+     name: 'Professional' ,
+     frameWork: 'topic'
    }
   ];
   userDataSubscription: Subscription;
@@ -210,7 +216,11 @@ export class LandingPageComponent implements OnInit  {
   } else {
     console.log('log', this.queryParam);
     this.router.navigate(['/search/explore-course', 1], {
-      queryParams: { key: key , frameWork: this.activatedRoute.snapshot.data.orgdata.defaultFramework }
+      queryParams: this.queryParam
+      // queryParams: {
+      //   key: key ,
+      //   frameWork: this.activatedRoute.snapshot.data.orgdata.defaultFramework ,
+      //   rootOrg: this.activatedRoute.snapshot.data.orgdata.rootOrgId}
     });
   }
   }
@@ -218,5 +228,12 @@ export class LandingPageComponent implements OnInit  {
     console.log('inside scroll');
 document.getElementById('GoToPopularCourses').click();
 // element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+  getFramework(framework) {
+console.log('framework', framework);
+const key = { key : framework};
+this.router.navigate(['/search/explore-course', 1], {
+  queryParams: key
+});
   }
 }
