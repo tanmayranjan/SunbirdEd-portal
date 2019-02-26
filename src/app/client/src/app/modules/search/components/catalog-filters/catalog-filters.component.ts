@@ -181,26 +181,27 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   fetchFilterMetaData() {
     this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
     console.log('fetch filter meta data', this.isCachedDataExists);
-    if (!this.isCachedDataExists) {
-      const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
-      this.formFieldProperties = data;
-      console.log('form field', data);
-      this.dataDrivenFilter.emit(this.formFieldProperties);
-      this.createFacets();
-    } else {
+    // if (!this.isCachedDataExists) {
+    //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
+    //   this.formFieldProperties = data;
+    //   console.log('form field', data);
+    //   this.dataDrivenFilter.emit(this.formFieldProperties);
+    //   this.createFacets();
+    // } else {
       this.frameworkDataSubscription = this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
         console.log('data', frameworkData);
         if (frameworkData && !frameworkData.err) {
           console.log('data', frameworkData);
-          this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata);
-          console.log('categorym list in data', this.categoryMasterList);
-          this.framework = 'sunbirdbangladesh';
+          this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata.defaultFramework.categories);
+          console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].name);
+          this.framework = frameworkData.frameworkdata.defaultFramework.name;
           const formServiceInputParams = {
             formType: this.formType,
             formAction: this.formAction,
             contentType: this.filterEnv,
-            framework: 'sunbirdbangladesh'
+            framework: frameworkData.frameworkdata.defaultFramework.name
           };
+          console.log('hasg id' , this.hashTagId);
           this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
             (data: ServerResponse) => {
               console.log('res in formserveice', data);
@@ -230,7 +231,7 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
     }
-  }
+  // }
 
   updateFormFields(formFieldCategory) {
     if (formFieldCategory && formFieldCategory.code === 'contentType') {

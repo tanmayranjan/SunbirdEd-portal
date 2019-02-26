@@ -84,13 +84,13 @@ export class MainMenuComponent implements OnInit {
     console.log('re', this.resourceService);
 
     this.frameworkService.initialize('');
-    this.frameworkService.frameworkData$.subscribe((frameworkData) => {
-      console.log('main menu frame work', frameworkData);
-      if (frameworkData && !frameworkData.err) {
-        this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata.defaultFramework.categories);
-        console.log('inside if in main menu', this.categoryMasterList);
-      }
-    });
+    // this.frameworkService.frameworkData$.subscribe((frameworkData) => {
+    //   console.log('main menu frame work', frameworkData);
+    //   if (frameworkData && !frameworkData.err) {
+    //     this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata.defaultFramework.categories);
+    //     console.log('inside if in main menu', this.categoryMasterList);
+    //   }
+    // });
   }
 
   filter(node, child) {

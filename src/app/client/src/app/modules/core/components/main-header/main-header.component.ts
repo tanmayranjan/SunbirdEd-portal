@@ -186,6 +186,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     }
   }
   onEnter(key) {
+    console.log('key', key);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -194,7 +195,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     } else {
       delete this.queryParam['key'];
     }
-    this.router.navigate([this.exploreRoutingUrl, 1], {
+    this.router.navigate(['/search/explore-course', 1], {
       queryParams: this.queryParam
     });
   }

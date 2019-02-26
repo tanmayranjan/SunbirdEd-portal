@@ -6,7 +6,7 @@ import { CoreModule } from '@sunbird/core';
 import { SharedModule } from '@sunbird/shared';
 import { NgInviewModule } from 'angular-inport';
 import {SharedFeatureModule} from '@sunbird/shared-feature';
-import { CourseComponent, ExploreCourseComponent  } from './components';
+import { CourseComponent, ExploreCourseComponent, CatalogComponent, CatalogFiltersComponent  } from './components';
 import { SuiModule } from 'ng2-semantic-ui';
 @NgModule({
   imports: [
@@ -19,6 +19,6 @@ import { SuiModule } from 'ng2-semantic-ui';
     SharedFeatureModule,
     SuiModule
   ],
-  declarations: [ CourseComponent, ExploreCourseComponent]
+  declarations: [ CourseComponent, ExploreCourseComponent, CatalogComponent, CatalogFiltersComponent]
 })
 export class CourseModule { }

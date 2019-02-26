@@ -9,8 +9,7 @@ import { NgInviewModule } from 'angular-inport';
 import { ExploreComponent } from './components/explore/explore.component';
 import {SharedFeatureModule} from '@sunbird/shared-feature';
 import { SuiModule } from 'ng2-semantic-ui';
-import { CatalogComponent } from './components/catalog/catalog.component';
-import { CatalogFiltersComponent } from './components/catalog-filters/catalog-filters.component';
+
 import { SignupModule } from '../signup';
 @NgModule({
   imports: [
@@ -24,7 +23,6 @@ import { SignupModule } from '../signup';
     SuiModule,
     SignupModule
   ],
-  declarations: [ ExploreContentComponent, ExploreComponent, CatalogComponent, CatalogFiltersComponent],
-  exports: [CatalogComponent, CatalogFiltersComponent]
+  declarations: [ ExploreContentComponent, ExploreComponent ],
 })
 export class ExploreModule { }

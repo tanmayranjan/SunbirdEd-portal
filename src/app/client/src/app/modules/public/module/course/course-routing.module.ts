@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CourseComponent, ExploreCourseComponent  } from './components';
+import { CourseComponent, ExploreCourseComponent , CatalogComponent } from './components';
 import {ViewAllComponent} from '@sunbird/shared-feature';
+// import { CatalogComponent } from 'src/app/modules/search/components/catalog/catalog.component';
 const routes: Routes = [
   {
     path: '', component: CourseComponent, data: {
@@ -21,8 +22,15 @@ const routes: Routes = [
       formAction: 'filter'
     }
   },
+    // {
+    //   path: ':pageNumber', component: ExploreCourseComponent, data: {
+    //     telemetry: {
+    //       env: 'explore', pageid: 'explore-course-search', type: 'view', subtype: 'paginate'
+    //     }
+    //   }
+    // }
     {
-      path: ':pageNumber', component: ExploreCourseComponent, data: {
+      path: ':pageNumber', component: CatalogComponent , data: {
         telemetry: {
           env: 'explore', pageid: 'explore-course-search', type: 'view', subtype: 'paginate'
         }

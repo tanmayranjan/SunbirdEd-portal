@@ -18,7 +18,7 @@
                 #slickModal="slick-modal"
                 [config]="slideConfig">
                 <div in-view-item [id]="i" [data]="content" ngxSlickItem *ngFor="let content of section.contents;let i = index; let last = last" class="slide">
-                    <app-card
+                    <app-landingpage-card
                         appTelemetryInteract
                         [telemetryInteractEdata]="cardIntractEdata"
                         [telemetryInteractObject]="{id:content.identifier,type:content.contentType || 'Course',ver:'1.0'}"
@@ -26,7 +26,7 @@
                         [data]="content"
                         [customClass]="'mr-20'"
                         class="pr-20 d-block" [class.last-card]="pr-0">
-                    </app-card>
+                    </app-landingpage-card>
                 </div>
             </ngx-slick>
         </div>
