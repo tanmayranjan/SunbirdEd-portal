@@ -61,6 +61,7 @@ export class PlayerComponent implements OnInit, OnChanges {
     }
   }
   generateContentReadEvent(event: any) {
+    console.log(event);
     if (event.detail.telemetryData.eid && (event.detail.telemetryData.eid === 'START' ||
     event.detail.telemetryData.eid === 'END')) {
       this.contentProgressEvent.emit(event);

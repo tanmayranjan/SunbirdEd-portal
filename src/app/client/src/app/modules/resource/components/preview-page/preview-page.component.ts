@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from '@sunbird/shared';
+import { ConfigService, ToasterService } from '@sunbird/shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PublicDataService, LearnerService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CourseBatchService } from '@sunbird/learn';
 @Component({
   selector: 'app-preview-page',
   templateUrl: './preview-page.component.html',
@@ -17,16 +18,26 @@ export class PreviewPageComponent implements OnInit {
   creator;
   showPromo = true;
   courseDescription;
+  courseTitle;
+  userRoles = false;
+  resourceType;
+  courseId;
+  batchDetails = [];
   constructor(
     public activatedRoute: ActivatedRoute,
     public configService: ConfigService,
     public publicDataService: PublicDataService,
     public learnerService: LearnerService,
     public sanitizer: DomSanitizer,
-    public route: Router
+    public route: Router,
+    public courseBatchService: CourseBatchService,
+    public toasterService: ToasterService
   ) {}
 
   ngOnInit() {
+ if (_.includes(this.activatedRoute.snapshot.params, 'courseId')) {
+  this.courseId = this.activatedRoute.snapshot.params.courseId;
+ }
     this.contentId = this.activatedRoute.snapshot.params.collectionId;
     this.getCourseDetails();
   }
@@ -41,6 +52,9 @@ export class PreviewPageComponent implements OnInit {
         const childrenIds = data.result.content.children;
         console.log(data.result.content.createdBy);
         console.log(data.result);
+        this.courseTitle = data.result.content.name;
+        this.resourceType = data.result.content.resourceType;
+
         this.creator = data.result.content.creator;
         this.courseDescription = data.result.content.description;
         _.forOwn(childrenIds, childrenvalue => {
@@ -102,4 +116,27 @@ export class PreviewPageComponent implements OnInit {
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
 
   }
+  // getBatchDetails() {
+  //   if (this.resourceType === 'Course') {
+  //     if (_.includes(this.activatedRoute.snapshot.params, 'courseId')) {
+  //   this.userRoles = false;
+  //   const batches = {
+  //     filters: {
+  //       courseId: this.courseId
+  //     }
+  //   };
+  //   this.courseBatchService.getAllBatchDetails(batches).subscribe(batchData => {
+  //     console.log(batchData.result.response);
+  //     _.forOwn(batchData.result.response.content, batchdetails => {
+  //       this.batchDetails.push(batchdetails);
+  //       if (batchData.result.response.content.length < 0) {
+  //         this.toasterService.error('sorry no batches for this course');
+  //       }
+  //     });
+  //   });
+  //  }
+  // } else {
+  //   this.toasterService.error('Sorry No batches available for this' + this.resourceType);
+  //  }
+  // }
 }

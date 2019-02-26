@@ -1,43 +1,63 @@
-<section class="course-player jumbotron" id="preview">
-  <div class="row">
-    <div class="col-md-8 pt-3 pl-5">
+<div class="jumbotron jumbotron-fluid bg-dark">
+  <div class="jumbotron-background">
+  </div>
+  <div class="container text-white">
+    <div class="card-heading pl-3">
+      <div class="text-left"> <h1 style="font-family: fantasy; text-shadow: 0px 1px darkblue;color:darkblue">{{courseTitle}}</h1></div>
+      <div class="text-left">
+         <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue;color:darkblue;"> Instructor {{creator}}</h5>
+      </div>
+     </div>
+    <div class="row">
+      <div class="col-md-8 course-description">
+       <div class="row pl-3">
+          <p >
+              {{courseDescription}}
+              The University uses leading-edge technology in all its functions and activities,
+              such as content development, teaching-learning pedagogies, testing & evaluation, self-learning, and university management.
+              Technology is leveraged to improve teaching-learning process by innovating new pedagogies that match the requirements of individual learners
+          </p>
+       </div>
+       <div class="row">
+         <div class="col"><i class="fas fa-clock"></i> 24 Hours</div>
+         <div class="col">
+            <i class="fas fa-graduation-cap"></i>
+            Organisation
+          </div>
+         <div class="col"><i class="fas fa-globe"></i>English</div>
+         <div class="col"></div>
+       </div>
+      </div>
+      <div class="col-md-4" style="margin-top: -5rem" id="#preview">
+          <iframe
+          width="350"
+          height="300"
+          src=" https://www.youtube.com/embed/_JVzkvYRHiE"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          *ngIf="showPromo"
+        ></iframe>
         <iframe
-        width="720"
-        height="450"
-        src=" https://www.youtube.com/embed/_JVzkvYRHiE"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        *ngIf="showPromo"
-      ></iframe>
-      <iframe
-        width="720"
-        height="450"
-        [src]="safeUrl"
-        frameborder="0"
-        *ngIf="!showPromo"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+          width="350"
+          height="300"
+          [src]="safeUrl"
+          frameborder="0"
+          *ngIf="!showPromo"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
   </div>
-</section>
+</div>
+
 <section class="session-list container">
   <div class="row">
-    <div class="col-md-9 session-details">
+    <div class="col-md-8 session-details">
+    <div class="tab-bg">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            id="home-tab"
-            data-toggle="tab"
-            href="#home"
-            role="tab"
-            aria-controls="home"
-            aria-selected="false"
-            >About the Course</a
-          >
-        </li>
+
         <li class="nav-item">
           <a
             class="nav-link active"
@@ -75,13 +95,19 @@
             >Comments</a
           >
         </li>
-
-        <li class="nav-item polling-width">
-          <a class="nav-link" id="polling-tab" role="tab" aria-selected="false"
-            >Polling</a
+      <li class="nav-item">
+          <a
+            class="nav-link polling-width"
+            id="home-tab"
+            role="tab"
+            aria-selected="false"
+            (click)="getBatchDetails()"
+            style="padding-right: 0rem;"
+            >Batch Details</a
           >
         </li>
       </ul>
+    </div>
       <div class="tab-content pt-5" id="myTabContent">
         <div
           class="tab-pane fade py-5"
@@ -89,11 +115,17 @@
           role="tabpanel"
           aria-labelledby="home-tab"
         >
-
-        <h3>Course Description</h3>
-
-        {{courseDescription}}
-
+        <div
+        class="tab-pane fade py-5"
+        id="batches"
+        role="tabpanel"
+        aria-labelledby="batch-tab"
+      >
+      <div class="row" *ngFor="let batch of batchDetails">
+        <!-- <app-create-batch [courseId]="courseId" *ngIf="userRoles"></app-create-batch> -->
+            <!-- <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" ></app-batch-card> -->
+          </div>
+      </div>
         </div>
         <div
           class="tab-pane fade show active"
@@ -101,6 +133,7 @@
           role="tabpanel"
           aria-labelledby="session-tab"
         >
+
           <table class="table table-striped">
             <tbody *ngFor="let session of courseDetails">
               <tr>
@@ -114,7 +147,7 @@
                           <i class="fas fa-book"></i>
                           <hr />
                         </div>
-                        <div class="col-md-4 pl-0">
+                        <div class="col-md-8 pl-3">
                           Instructor {{ creator }}
                         </div>
                       </div>
@@ -124,7 +157,7 @@
                         <button
                           class="play-icon mb-2"
                           [routerLink]="[
-                            '/resources/play/collection',
+                            '/play/collection',
                             session.identifier
                           ]"
                           fragment="preview"
@@ -139,6 +172,7 @@
               </tr>
             </tbody>
           </table>
+
         </div>
         <div
           class="tab-pane fade"
@@ -159,7 +193,7 @@
                           <i class="fas fa-book"></i>
                           <hr />
                         </div>
-                        <div class="col-md-4 pl-0">
+                        <div class="col-md-8 pl-3">
                           Instructor {{ creator }}
                         </div>
                       </div>
@@ -177,6 +211,7 @@
               </tr>
             </tbody>
           </table>
+
         </div>
         <div
           class="tab-pane fade"
@@ -198,42 +233,6 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 batch-details">
-      <!-- <a
-        class="btn btn-primary "
-        data-toggle="collapse"
-        href="#collapseExample"
-        role="button"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-      >
-        View Batches
-      </a> -->
-
-      <div class="collapse mt-2" id="collapseExample">
-        <div class="row">
-          <div class="card" style="width: 21rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <h5>Start Date: 15-feb-2019</h5>
-              <h5>End Date: 15-feb-2019</h5>
-              <button class="btn btn-primary">Enroll</button>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="card" style="width: 21rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <h5>Start Date: 15-feb-2019</h5>
-              <h5>End Date: 15-feb-2019</h5>
-              <button class="btn btn-primary">Enroll</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
+

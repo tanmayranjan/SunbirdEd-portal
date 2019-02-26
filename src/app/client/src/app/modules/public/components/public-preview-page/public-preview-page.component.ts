@@ -21,6 +21,7 @@ export class PublicPreviewPageComponent implements OnInit {
   showPromo = true;
   resourceType;
   showLoginModal = false;
+  courseTitle;
   constructor(
     public activatedRoute: ActivatedRoute,
     public configService: ConfigService,
@@ -48,6 +49,7 @@ export class PublicPreviewPageComponent implements OnInit {
         console.log(data.result.content.createdBy);
         console.log(data.result);
         this.creator = data.result.content.creator;
+        this.courseTitle = data.result.content.name;
         this.resourceType = data.result.content.resourceType;
         this.courseDescription = data.result.content.description;
         _.forOwn(childrenIds, childrenvalue => {

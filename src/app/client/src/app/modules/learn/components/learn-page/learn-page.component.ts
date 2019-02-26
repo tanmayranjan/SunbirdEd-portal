@@ -171,6 +171,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       }
       const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.CoursePageSection.enrolledCourses;
       enrolledSection.contents = this.utilService.getDataForCard(enrolledCourses, constantData, dynamicFields, metaData);
+      console.log('enrolled section' , enrolledSection);
       return enrolledSection;
     }));
   }

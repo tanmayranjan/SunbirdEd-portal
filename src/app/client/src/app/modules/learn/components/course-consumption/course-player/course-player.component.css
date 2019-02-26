@@ -1,102 +1,18 @@
-/* @import "~bootstrap/dist/css/bootstrap.css";
 
-.vid {
-  position: relative;
-  padding-bottom: 5rem;
-  width: 55rem; */
-  /* padding-top: 30px; */
-  /* height: 0; */
-  /* overflow: hidden;
-}
-
-.vid iframe,
-.vid object,
-.vid embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 60%;
-  height: 60%;
-} */
-/* jumbotron */
-/* #jum { */
-  /* height: 30rem; */
-/* } */
-/* rating css */
-/* .rating {
-  float: left;
-} */
-
-/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
-  follow these rules. Every browser that supports :checked also supports :not(), so
-  it doesn’t make the test unnecessarily selective */
-/* .rating:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-  clip: rect(0, 0, 0, 0);
-}
-
-.rating:not(:checked) > label {
-  float: right;
-  width: 1em; */
-  /* padding:0 .1em; */
-  /* overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 1.5rem; */
-  /* line-height:1.2; */
-  /* color: darkgrey;
-}
-
-.rating:not(:checked) > label:before {
-  content: "★ ";
-}
-
-.rating > input:checked ~ label {
-  color: orange;
-}
-
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-  color: orange;
-}
-
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-  color: dodgerblue;
-}
-
-.rating > label:active {
-  position: relative;
-  top: 2px;
-  left: 2px;
-}
-
-.click-notify-xurl {
-    position: absolute; z-index: 999; top: 25%; left: 34%;;
-}
-.ui.button.right.floated{
-    text-align: right;
-}
-.ui.button.left.floated{
-    text-align: left;
-} */
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+.course-consumption {
+  box-shadow: inset 0rem 0rem 30rem -1rem lightslategrey;
+padding: 3rem;
+
+}
 .session-details {
-  border: 1px solid darkgray;
+  box-shadow: 0px 3px 5px;
+
 }
 
-.nav-tabs .nav-item {
-  left: -1.1rem;
-  background: darkblue;
-  width: 14vw;
-  text-align: center;
-}
+
 .nav-tabs .nav-item:hover{
   border: none;
 }
@@ -107,17 +23,21 @@
 }
 
 .nav-tabs {
-  width: 70vw;
+  width: 56vw;
   border: none;
 }
 .polling-width {
   width: 10vw !important;
-  margin-left: -0.3rem;
+  /* margin-left: -0.3rem; */
 }
 .batch-details {
   left: 3rem;
 }
-
+.preview-head {
+  height: 63vh;
+  box-shadow: 0px 3px 5px darkblue;
+  background: url('https://upload.wikimedia.org/wikipedia/en/b/bb/Graduated_Blue_Background.png');
+}
 /* width */
 ::-webkit-scrollbar {
   width: 1px !important;
@@ -142,11 +62,11 @@
   background-color: darkblue !important;
   outline: black;
 }
-.hr-line {
+hr {
   width: 0rem;
   height: 1rem;
   border: 1px solid black;
-  margin: -1rem 2rem;
+  margin: -1rem 1.5rem;
 }
 .play-icon {
   box-shadow: 0px 3px 5px black;
@@ -173,9 +93,74 @@ textarea {
 .nav-tabs .nav-link:hover {
   outline: none;
 }
-.batch-card {
-  box-shadow: 0px 3px 5px black;
+
+.course-description {
+  font-size: 17px;
+  font-family: sans-serif;
+  margin-top: 2em;
 }
-.background {
-  background: aliceblue;
+/* .jumbotron {
+  background: darkblue;
 }
+.jumbotron .bg {
+  background: #f1f1f1;
+} */
+.jumbotron {
+  position:relative;
+  overflow:hidden;
+}
+
+.jumbotron .container {
+  position: relative;
+  z-index: 2;
+  background: white;
+  border-radius: 3px;
+  padding: 2rem 0rem 0rem;
+}
+
+.jumbotron-background {
+  object-fit:cover;
+  font-family: 'object-fit: cover;';
+  position:absolute;
+  top:0;
+  z-index:1;
+  width:100%;
+  height:100%;
+  opacity:0.9;
+  background: darkblue;
+}
+
+img.blur {
+	-webkit-filter: blur(4px);
+	filter: blur(4px);
+  filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='4');
+}
+.tab-bg{
+  background: darkblue;
+  box-shadow: 0rem 1rem 0rem 1rem darkblue;
+  height: 2vh;
+}
+.nav-tabs .nav-item {
+  background: darkblue;
+  width: 14vw;
+  text-align: center;
+  height: 6vh;
+}
+
+
+.nav-tabs .nav-link.active {
+  border-top: 2px solid darkblue;
+}
+p{
+  height: 16vh;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+
+
+
+
+
+

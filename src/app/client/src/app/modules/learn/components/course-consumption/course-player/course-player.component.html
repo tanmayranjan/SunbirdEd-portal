@@ -1,358 +1,155 @@
-<!-- <div
-  class="ui container"
-  [appTelemetryStart]="telemetryCourseStart"
-  [appTelemetryEnd]="telemetryCourseEndEvent"
+<div *ngIf="userEnrolledBatch">
+    <div class="card course-consumption">
+        <div class="text-center"> <h2 style="font-family: fantasy; text-shadow: 0px 1px darkblue">{{courseTitle}}</h2></div>
+        <div class="text-center">
+           <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue"> Instructor {{creator}}</h5>
+        </div>
+
+
+<div class="row my-5">
+
+<div class="col-md-4" style="box-shadow: 0px 3px 5px black">
+
+  <section class="container">
+    <a
+    class="btn btn-primary "
+    data-toggle="collapse"
+    href="#collapseExample"
+    role="button"
+    aria-expanded="true"
+    aria-controls="collapseExample"
+    style="box-shadow: 0px 3px 5px 3px darkblue;"
+  >
+  <i class="fas fa-2x fa-bars"></i>
+  </a>
+
+  <div class="collapse show mt-3" id="collapseExample">
+<div class="card" style="width: 27vw;
+  left: -1rem;
+  padding: 0rem 1rem 0rem 1rem;
+  box-shadow:
+  0px 3px 20px 1px lightslategrey;
+">
+<div class="row" *ngFor="let session of courseDetails">
+        <div class="card" style="width: 28vw;box-shadow: inset 0rem 1rem 62rem 2rem #f1f1f1;padding: 0.5rem">
+          <div class="card-body">
+
+        <i class="fas fa-angle-right"></i>
+
+      {{session.name}}
+
+<div class="text-right" style="margin-top: -1rem">
+  <button
+  class="play-icon"
+  (click)="fetchUrl(session)"
 >
-  <div class="ui stackable grid mt-20">
-    <div class="twelve wide column">
-      <div *ngIf="enableContentPlayer && !loader">
-        <div class="ui stackable grid">
-          <div class="twelve wide column">
-            <div class="ui grid">
-              <div class="container">
-                <div class="row">
-                  <div class="rating">
-                    <input
-                      type="radio"
-                      id="star5"
-                      name="rating"
-                      value="5"
-                    /><label for="star5" title="Rocks!"></label>
-                    <input
-                      type="radio"
-                      id="star4"
-                      name="rating"
-                      value="4"
-                    /><label for="star4" title="Rocks!"></label>
-                    <input
-                      type="radio"
-                      id="star3"
-                      name="rating"
-                      value="3"
-                    /><label for="star3" title="Pretty good"></label>
-                    <input
-                      type="radio"
-                      id="star2"
-                      name="rating"
-                      value="2"
-                    /><label for="star2" title="Pretty good"></label>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="twelve wide column">
-                    <div
-                      class="ui warning message click-notify-xurl"
-                      *ngIf="showExtContentMsg"
-                    >
-                      <div class="column twelve wide">
-                        <p>{{ resourceService.messages.imsg.m0036 }}</p>
-                      </div>
-                    </div>
-                    <div
-                      class="vid"
-                      [appTelemetryImpression]="telemetryContentImpression"
-                    >
-                      <app-player
-                        width="560"
-                        height="315"
-                        (contentProgressEvent)="contentProgressEvent($event)"
-                        class="content-player"
-                        [playerConfig]="playerConfig"
-                      ></app-player>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="enableContentPlayer && !loader">
-        <div
-          class="content"
-          [appTelemetryImpression]="telemetryCourseImpression"
-        >
-          <div class="ui stackable grid">
-            <div class="row">
-              <div class="nine wide column">
-                <div class="ui header">
-                  <span class="content courseStructureHeading">
-                    {{ resourceService.frmelmnts.lbl.aboutthecourse }}
-                  </span>
-                  <div *ngIf="courseHierarchy.description" class="mt-10">
-                    <p *ngIf="!readMore" class="courseStructureDesc">
-                      {{ courseHierarchy.description | slice: 0:200 }}&nbsp;
-                      <span
-                        class="ui cardsKnowMore mouse-pointer"
-                        *ngIf="
-                          courseHierarchy.description &&
-                          courseHierarchy.description.length > 200 &&
-                          readMore === false
-                        "
-                        (click)="readMore = !readMore"
-                        >{{ resourceService.frmelmnts.lbl.readmore }}</span
-                      >
-                    </p>
-                    <p *ngIf="readMore" class="courseStructureDesc">
-                      {{ courseHierarchy.description }}&nbsp;
-                      <span
-                        class="ui cardsKnowMore mouse-pointer"
-                        (click)="readMore = false"
-                        >{{ resourceService.frmelmnts.lbl.readless }}</span
-                      >
-                    </p>
-                  </div>
-                </div>
-                <div class="ui header">
-                  <b class="content courseStructureHeading">
-                    {{ resourceService.frmelmnts.lbl.coursestructure }}
-                  </b>
-                </div>
-                <app-collection-tree
-                  *ngIf="
-                    collectionTreeNodes.data &&
-                      collectionTreeNodes.data.children &&
-                      collectionTreeNodes.data.children.length > 0;
-                    else dataCommingSoon
-                  "
-                  (contentSelect)="navigateToContent($event)"
-                  [nodes]="collectionTreeNodes"
-                  [options]="collectionTreeOptions"
-                  [contentStatus]="contentStatus"
-                ></app-collection-tree>
-                <ng-template #dataCommingSoon>
-                  <div class="placeholder mt-40">
-                    <img
-                      src="{{
-                        'assets/images/datacomingsoon.png' | cdnprefixurl
-                      }}"
-                    />
-                    <h5 class="header placeholder-heading mb-5">
-                      {{ resourceService?.messages?.stmsg?.m0121 }}
-                    </h5>
-                    <p class="placeholder-content">
-                      {{ resourceService?.messages?.stmsg?.m0122 }}
-                    </p>
-                  </div>
-                </ng-template>
-                <div class="ui fitted divider mb-20 mt-30"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="loader">
-        <app-loader [data]="loaderMessage"></app-loader>
-      </div>
-      <div *ngIf="showError"></div>
-    </div>
-  </div>
+  <i class="fas fa-play-circle "></i>
+</button>
 </div>
 
-<router-outlet></router-outlet>
-<!-- <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
-    <div class="ui stackable grid mt-20">
-        <div class="twelve wide column">
-            <div *ngIf="!enableContentPlayer && !loader">
-                <div class="content" [appTelemetryImpression]="telemetryCourseImpression">
-                    <div class="ui stackable grid">
-                        <div class="row">
-                            <div class='nine wide column'>
-                                <div class="ui header">
-                                    <span class="content courseStructureHeading">
-                                        {{resourceService.frmelmnts.lbl.aboutthecourse}}
-                                    </span>
-                                    <div *ngIf="courseHierarchy.description" class="mt-10">
-                                        <p *ngIf="!readMore" class="courseStructureDesc"> {{ courseHierarchy.description | slice:0:200 }}&nbsp;
-                                            <span class="ui cardsKnowMore mouse-pointer" *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
-                                                (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
-                                        </p>
-                                        <p *ngIf="readMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
-                                            <span class="ui cardsKnowMore mouse-pointer" (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="ui header">
-                                    <b class="content courseStructureHeading">
-                                        {{resourceService.frmelmnts.lbl.coursestructure}}
-                                    </b>
-                                </div>
-                                <app-collection-tree *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon" (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions"
-                                        [contentStatus]="contentStatus"></app-collection-tree>
-                                <ng-template #dataCommingSoon>
-                                    <div class="placeholder mt-40">
-                                        <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}"/>
-                                        <h5 class="header placeholder-heading mb-5">{{resourceService?.messages?.stmsg?.m0121}}</h5>
-                                        <p class="placeholder-content">{{resourceService?.messages?.stmsg?.m0122}}</p>
-                                    </div>
-                                </ng-template>
-                                <div class="ui fitted divider mb-20 mt-30"></div>
-                            </div>
-                            <div class='three wide column'>
-                                <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId" [batchId]="batchId" [enrolledCourse]="enrolledCourse"
-                                    [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData"></app-batch-details>
-                                <div *ngIf="enrolledCourse" class="my-15">
-                                    <div>
-                                        <br>
-                                        <span (click)="showNoteEditor=!showNoteEditor" class="cursor-pointer">
-                                            <i class="circular icon mr-10 plus"></i>&nbsp;{{resourceService.frmelmnts.lbl.addnote}}
-                                            <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'" [ids]="{contentId:contentId, courseId:courseId}" (exitModal)="showNoteEditor=false"
-                                                (createEventEmitter)="createEventEmitter($event)"></app-popup-editor>
-                                        </span>
-                                        <br>
-                                        <br>
-                                        <app-note-card [ids]="{contentId:contentId, courseId:courseId}" [createNoteData]="createNoteData"></app-note-card>
-                                    </div>
-                                </div>
-                                <br>
-                                <app-curriculum-card *ngIf="curriculum && curriculum.length > 0" [curriculum]="curriculum"></app-curriculum-card>
-                                <br>
-                                <div class="courseupdate">
-                                    <p class="mb-5" *ngIf="courseHierarchy.creator">{{resourceService.frmelmnts.lbl.courseCreatedBy}}: {{courseHierarchy.creator}}</p>
-                                    <p class="mb-5" *ngIf="courseHierarchy.orgDetails?.orgName">{{courseHierarchy.orgDetails.orgName}}</p>
-                                    <p class="mb-5"*ngIf="courseHierarchy.orgDetails?.email">
-                                        <a href="mailto:{{courseHierarchy.orgDetails?.email}}?subject={{courseHierarchy.name}}">{{courseHierarchy.orgDetails?.email}}</a>
-                                    </p>
-                                    <div class="ui divider"></div>
-                                    <p class="mb-5">{{resourceService.frmelmnts.lbl.coursecreatedon}}: {{courseHierarchy.createdOn | dateFormat}}</p>
-                                    <p class="mb-5">{{resourceService.frmelmnts.lbl.updatedon}}: {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="enableContentPlayer && !loader">
-                <div class="ui stackable grid">
-                    <div class="twelve wide column">
-                        <div class="ui grid">
-                            <div class="row">
-                                <div class="twelve wide column">
-                                    <div class="ui grid" id="app-player-collection-renderer">
-                                        <div class="twelve wide column">
-                                            <span class="ui HomeAccordianHeading left floated header">{{contentTitle}}</span>
-                                            <h5 appTelemetryInteract [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject"
-                                                class="ui right floated basic icon circular button mouse-pointer" (click)="closeContentPlayer()">
-                                                <i class="ui remove icon"></i>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="ui warning message click-notify-xurl" *ngIf="showExtContentMsg">
-                                        <div class="column twelve wide">
-                                            <p>{{resourceService.messages.imsg.m0036}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="ui grid">
-                                        <div class="twelve wide column" [appTelemetryImpression]="telemetryContentImpression">
-                                            <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player" [playerConfig]="playerConfig"></app-player>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui row pt-0">
-                                <div class="ui twelve column grid pr-0">
-                                    <div class="five wide mobile only three wide tablet only three wide computer only column">
-                                        <button class="ui blue button left floated fluid tocbutton toc-left-nav-btn-content" (click)="navigateToContent(prevPlaylistItem)"
-                                            [disabled]="prevPlaylistItem === undefined">
-                                            <span class="header">{{resourceService.frmelmnts.btn.previous}}</span>
-                                            <br />
-                                            <span class="font-white description text-ellipsis" title="{{prevPlaylistItem?.title || noContentToPlay}}">{{prevPlaylistItem?.title || noContentToPlay}}</span>
-                                        </button>
-                                    </div>
-                                    <div class="two wide tablet only two wide computer only column"></div>
-                                    <div class="two wide column center aligned" ng-if="toc.showNoteInLecture">
-                                        <h2 class="ui center aligned icon tiny header toc-note">
-                                            <a class="ui take-note-card cursor-pointer" (click)="showNoteEditor=!showNoteEditor">
-                                                <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'" [ids]="{contentId:contentId, courseId:courseId}" (exitModal)="showNoteEditor=false"
-                                                    (createEventEmitter)="createEventEmitter($event)"></app-popup-editor>
-                                                <img src="{{'assets/images/takenote.png' |  cdnprefixurl}}">
-                                                <span>{{resourceService?.frmelmnts?.lbl?.takenote}}</span>
-                                            </a>
-                                        </h2>
-                                    </div>
-                                    <div class="two wide tablet only two wide computer only column"></div>
-                                    <div class="five wide mobile only three wide tablet only three wide computer only column pr-0">
-                                        <button class="ui blue button right floated fluid toc-right-nav-btn-content" (click)="navigateToContent(nextPlaylistItem)"
-                                            [disabled]="nextPlaylistItem === undefined">
-                                            <span class="header">{{resourceService.frmelmnts.btn.next}}</span>
-                                            <br />
-                                            <span class="font-white description text-ellipsis" title="{{nextPlaylistItem?.title || noContentToPlay}}">{{nextPlaylistItem?.title || noContentToPlay}}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui section divider"></div>
-                <div class="two wide column"></div>
-                <div class="ui grid">
-                    <div class="row">
-                        <div class="eight wide column">
-                        </div>
-                        <div class="four wide column toc-note-content">
-                            <app-note-card [ids]="{contentId:contentId, courseId:courseId}" [createNoteData]="createNoteData"></app-note-card>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="loader">
-                <app-loader [data]="loaderMessage"></app-loader>
-            </div>
-            <div *ngIf="showError">
-            </div>
+</div>
+</div>
+    </div>
+  </div>
+  </div>
+  </section>
+</div>
+<div class="col-md-8">
+  <section class="course-player" id="preview">
+    <iframe
+      width="780"
+      height="450"
+      src=" https://www.youtube.com/embed/_JVzkvYRHiE"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      *ngIf="showPromo"
+
+    ></iframe>
+    <iframe
+      width="780"
+      height="450"
+      [src]="safeUrl"
+      frameborder="0"
+      *ngIf="!showPromo"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+
+    ></iframe>
+    <!-- <app-player
+    (playerOnDestroyEvent)="playerOnDestroy($event)"
+    (contentProgressEvent)="contentProgressEvent($event)"
+    class="content-player"
+    [playerConfig]="safeUrl"
+  ></app-player> -->
+  </section>
+</div>
+</div>
+</div>
+</div>
+
+<div *ngIf="!userEnrolledBatch">
+
+  <div class="jumbotron jumbotron-fluid bg-dark">
+    <div class="jumbotron-background">
+    </div>
+    <div class="container text-white">
+      <div class="card-heading pl-3">
+        <div class="text-left"> <h1 style="font-family: fantasy; text-shadow: 0px 1px darkblue;color:darkblue">{{courseTitle}}</h1></div>
+        <div class="text-left">
+           <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue;color:darkblue;"> Instructor {{creator}}</h5>
         </div>
-    </div>
-    </div>
-    <router-outlet></router-outlet> -->
-<div class="background">
-  <section class="course-player jumbotron" id="preview">
-    <div class="row">
-    <div class="col-md-8 text-center">
-      <h3>{{courseTitle}}</h3>
-    </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8 pt-3 pl-5">
+       </div>
+      <div class="row">
+        <div class="col-md-8 course-description"style="color: darkblue;">
+         <div class="row pl-5">
+            <p >
+                {{courseDescription}}
+                The University uses leading-edge technology in all its functions and activities,
+                such as content development, teaching-learning pedagogies, testing & evaluation, self-learning, and university management.
+                Technology is leveraged to improve teaching-learning process by innovating new pedagogies that match the requirements of individual learners
+            </p>
+
+         </div>
+         <div class="row pl-4 py-3">
+           <div class="col"><i class="fas fa-clock"></i> 24 Hours</div>
+           <div class="col">
+              <i class="fas fa-graduation-cap"></i>
+              Organisation
+            </div>
+           <div class="col"><i class="fas fa-globe"></i>English</div>
+           <div class="col"></div>
+         </div>
+        </div>
+        <div class="col-md-4" style="margin-top: -5rem" id="#preview">
+            <iframe
+            width="350"
+            height="300"
+            src=" https://www.youtube.com/embed/_JVzkvYRHiE"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            *ngIf="showPromo"
+          ></iframe>
           <iframe
-          width="720"
-          height="450"
-          src=" https://www.youtube.com/embed/_JVzkvYRHiE"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          *ngIf="showPromo"
-        ></iframe>
-        <iframe
-          width="720"
-          height="450"
-          [src]="safeUrl"
-          frameborder="0"
-          *ngIf="!showPromo"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+            width="350"
+            height="300"
+            [src]="safeUrl"
+            frameborder="0"
+            *ngIf="!showPromo"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
   <section class="session-list container">
     <div class="row">
-      <div class="col-md-9 session-details">
+      <div class="col-md-8 session-details">
+      <div class="tab-bg">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="home-tab"
-              data-toggle="tab"
-              href="#home"
-              role="tab"
-              aria-controls="home"
-              aria-selected="false"
-              >About the Course</a
-            >
-          </li>
+
           <li class="nav-item">
             <a
               class="nav-link active"
@@ -381,6 +178,20 @@
           <li class="nav-item">
             <a
               class="nav-link"
+              id="batch-tab"
+              role="tab"
+              data-toggle="tab"
+              href="#batches"
+              aria-selected="false"
+              (click)="getBatchDetails()"
+              aria-controls="batches"
+              style="padding-right: 0rem;"
+              >Batch Details</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
               id="comments-tab"
               data-toggle="tab"
               href="#comments"
@@ -390,32 +201,17 @@
               >Comments</a
             >
           </li>
-
-          <li class="nav-item polling-width">
-            <a class="nav-link" id="polling-tab" role="tab" aria-selected="false"
-              >Polling</a
-            >
-          </li>
         </ul>
+      </div>
         <div class="tab-content pt-5" id="myTabContent">
-          <div
-            class="tab-pane fade py-5"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
 
-          <h3>Course Description</h3>
-
-          {{courseDescription}}
-
-          </div>
           <div
             class="tab-pane fade show active"
             id="session"
             role="tabpanel"
             aria-labelledby="session-tab"
           >
+
             <table class="table table-striped">
               <tbody *ngFor="let session of courseDetails">
                 <tr>
@@ -429,7 +225,7 @@
                             <i class="fas fa-book"></i>
                             <hr />
                           </div>
-                          <div class="col-md-4 pl-0">
+                          <div class="col-md-8 pl-3">
                             Instructor {{ creator }}
                           </div>
                         </div>
@@ -438,7 +234,11 @@
                         <div class="row pl-4" (click)="fetchUrl(session)">
                           <button
                             class="play-icon mb-2"
-
+                            [routerLink]="[
+                              '/play/collection',
+                              session.identifier
+                            ]"
+                            fragment="preview"
                           >
                             <i class="fas fa-2x fa-play-circle "></i>
                           </button>
@@ -450,6 +250,7 @@
                 </tr>
               </tbody>
             </table>
+
           </div>
           <div
             class="tab-pane fade"
@@ -468,9 +269,9 @@
                         <div class="row">
                           <div class="col-md-1 pl-4">
                             <i class="fas fa-book"></i>
-                            <hr class="hr-line"/>
+                            <hr />
                           </div>
-                          <div class="col-md-4 pl-0">
+                          <div class="col-md-8 pl-3">
                             Instructor {{ creator }}
                           </div>
                         </div>
@@ -488,45 +289,38 @@
                 </tr>
               </tbody>
             </table>
+
           </div>
           <div
-            class="tab-pane fade"
-            id="comments"
-            role="tabpanel"
-            aria-labelledby="comments-tab"
-          >
-            <div class="comments  text-right px-5">
-              <h4 class="text-left">Comment</h4>
-              <div class="card">
-                <textarea
-                  rows="6"
-                  placeholder="Please share your feedback about this course or session here "
-                >
-                </textarea>
-              </div>
-              <button class="btn btn-primary my-2">Submit</button>
+          class="tab-pane fade"
+          id="comments"
+          role="tabpanel"
+          aria-labelledby="comments-tab"
+        >
+          <div class="comments  text-right px-5">
+            <h4 class="text-left">Comment</h4>
+            <div class="card">
+              <textarea
+                rows="6"
+                placeholder="Please share your feedback about this course or session here "
+              >
+              </textarea>
             </div>
+            <button class="btn btn-primary my-2">Submit</button>
           </div>
         </div>
-      </div>
-      <div class="col-md-3 batch-details">
-        <a
-          class="btn btn-primary "
-          data-toggle="collapse"
-          href="#collapseExample"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-          (click)="getBatchDetails()"
+          <div
+          class="tab-pane fade py-5"
+          id="batches"
+          role="tabpanel"
+          aria-labelledby="batch-tab"
         >
-          View Batches
-        </a>
-
-        <div class="collapse mt-2" id="collapseExample">
-          <div class="row" *ngFor="let batch of batchDetails">
-            <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" *ngIf="!userRoles"></app-batch-card>
-            <app-create-batch [courseId]="courseId" *ngIf="userRoles"></app-create-batch>
-          </div>
+        <div class="row">
+        <div class="col-md-6 px-5 pb-4" *ngFor="let batch of batchDetails">
+            <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" ></app-batch-card>
+        </div>
+      </div>
+        </div>
         </div>
       </div>
     </div>

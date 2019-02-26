@@ -5,7 +5,7 @@
                     <h5>{{batchDetails.name}}</h5>
 
                   <h6>{{batchDetails.startDate}} -  {{batchDetails.endDate}}</h6>
-                  {{batchDetails.mentors.length}} Instructors
+                  <!-- {{batchDetails.mentors.length}} Instructors -->
                   <div class="text-right">
                       <button class="btn btn-primary" (click)="enrollToCourse(batchDetails)"  *ngIf="!unEnroll && (batchDetails.identifier !== enrolledBatch)">Enroll</button>
                       <button class="btn btn-primary"(click)="unEnrollToBatch(batchDetails)" *ngIf="unEnroll && (batchDetails.identifier === enrolledBatch)">UnEnroll</button>

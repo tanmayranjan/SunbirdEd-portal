@@ -1,16 +1,37 @@
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil, first, mergeMap, map } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { UserService, BreadcrumbsService, PermissionService, CoursesService } from '@sunbird/core';
+import {
+  UserService,
+  BreadcrumbsService,
+  PermissionService,
+  CoursesService
+} from '@sunbird/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as _ from 'lodash';
 import {
-  WindowScrollService, ILoaderMessage, ConfigService, ICollectionTreeOptions, NavigationHelperService,
-  ToasterService, ResourceService, ExternalUrlPreviewService
+  WindowScrollService,
+  ILoaderMessage,
+  ConfigService,
+  ICollectionTreeOptions,
+  NavigationHelperService,
+  ToasterService,
+  ResourceService,
+  ExternalUrlPreviewService
 } from '@sunbird/shared';
-import { CourseConsumptionService, CourseBatchService, CourseProgressService } from './../../../services';
+import {
+  CourseConsumptionService,
+  CourseBatchService,
+  CourseProgressService
+} from './../../../services';
 import { INoteData } from '@sunbird/notes';
-import { IImpressionEventInput, IEndEventInput, IStartEventInput, IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
+import {
+  IImpressionEventInput,
+  IEndEventInput,
+  IStartEventInput,
+  IInteractEventObject,
+  IInteractEventEdata
+} from '@sunbird/telemetry';
 import { DeviceDetectorService } from 'ngx-device-detector';
 // import { Component, OnInit } from '@angular/core';
 // import { ConfigService } from '@sunbird/shared';
@@ -38,7 +59,91 @@ export class CoursePlayerComponent implements OnInit {
   showPromo = true;
   userRoles = false;
   courseTitle;
+  userEnrolledBatch = false;
+  creatorFor = [];
+  courseIds = [];
+
+
+
+
+  public courseInteractObject: IInteractEventObject;
+
+  public contentInteractObject: IInteractEventObject;
+
+  public closeContentIntractEdata: IInteractEventEdata;
+
+
+
+  public enrolledCourse = false;
+
+
+  public courseStatus: string;
+
+  public flaggedCourse = false;
+
+  public collectionTreeNodes: any;
+
+  public contentTitle: string;
+
+  public playerConfig: any;
+
+  public loader = true;
+
+  public showError = false;
+
+  public enableContentPlayer = false;
+
+  public courseHierarchy: any;
+
+  public readMore = false;
+
+  public createNoteData: INoteData;
+
+  public curriculum = [];
+
+  public istrustedClickXurl = false;
+
+  public showNoteEditor = false;
+
+  public telemetryCourseImpression: IImpressionEventInput;
+
+  public telemetryContentImpression: IImpressionEventInput;
+
+  public telemetryCourseEndEvent: IEndEventInput;
+
+  public telemetryCourseStart: IStartEventInput;
+
+
   public unsubscribe = new Subject<void>();
+  public courseProgressData: any;
+
+  public contentStatus: any;
+
+  public contentDetails = [];
+
+  public enrolledBatchInfo: any;
+
+  public treeModel: any;
+
+  public nextPlaylistItem: any;
+
+  public prevPlaylistItem: any;
+
+  public contributions: any;
+
+  public noContentToPlay = 'No content to play';
+
+  public showExtContentMsg = false;
+
+  public loaderMessage: ILoaderMessage = {
+    headerMessage: 'Please wait...',
+    loaderMessage: 'Fetching content details!'
+  };
+
+  public previewContentRoles = ['COURSE_MENTOR', 'CONTENT_REVIEWER', 'CONTENT_CREATOR', 'CONTENT_CREATION'];
+
+  public collectionTreeOptions: ICollectionTreeOptions;
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public configService: ConfigService,
@@ -50,23 +155,25 @@ export class CoursePlayerComponent implements OnInit {
     public userService: UserService,
     public coursesService: CoursesService,
     public toasterService: ToasterService,
-    public resourceService: ResourceService
-  ) {}
+    public resourceService: ResourceService,
+    private courseConsumptionService: CourseConsumptionService,
+ public windowScrollService: WindowScrollService,
+    public router: Router, public navigationHelperService: NavigationHelperService,
+ public breadcrumbsService: BreadcrumbsService,
+    private cdr: ChangeDetectorRef,  public permissionService: PermissionService,
+    public externalUrlPreviewService: ExternalUrlPreviewService,
+    private courseProgressService: CourseProgressService, private deviceDetectorService: DeviceDetectorService
+  ) {
+    this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
+  }
 
   ngOnInit() {
     this.courseId = this.activatedRoute.snapshot.params.courseId;
-    console.log(this.courseId);
     this.batchId = this.activatedRoute.snapshot.params.batchId;
-    console.log(this.activatedRoute.snapshot.params);
     this.getCourseDetails();
-    console.log(this.userService.userProfile);
-    _.forOwn(this.userService.userProfile.organisations, (value) => {
-      console.log(value['roles']);
-      this.userRoles = _.includes(value['roles'], 'COURSE_MENTOR') || _.includes(value['roles'], 'CONTENT_CREATOR') ;
-      console.log(this.userRoles);
-
-    });
+    this.userEnrolledBatch = _.includes(this.activatedRoute.snapshot.params, this.batchId);
   }
+
   getCourseDetails() {
     const req = {
       url: `${this.configService.urlConFig.URLS.COURSE.HIERARCHY}/${
@@ -77,20 +184,22 @@ export class CoursePlayerComponent implements OnInit {
       console.log(data);
       if (data.result.content.hasOwnProperty('children')) {
         const childrenIds = data.result.content.children;
-        console.log(data.result.content.createdBy);
-        console.log(data.result);
-
+        console.log(data.result.content);
+        // this.courseIds = childrenIds;
         this.courseTitle = data.result.content.name;
         this.creator = data.result.content.creator;
+        this.creatorFor = data.result.content.createdFor;
+        console.log(this.creatorFor);
         this.courseDescription = data.result.content.description;
         _.forOwn(childrenIds, childrenvalue => {
+          console.log(childrenvalue.identifier);
+          this.courseIds.push(childrenvalue.identifier);
           this.getChildren(childrenvalue);
         });
       }
     });
   }
   getChildren(sessiondetails) {
-    // console.log(sessiondetails);
     _.forOwn(sessiondetails, (children, key) => {
       if (key === 'children') {
         _.forOwn(children, value => {
@@ -98,22 +207,33 @@ export class CoursePlayerComponent implements OnInit {
             this.getChildren(value);
             if (value.hasOwnProperty('children')) {
               if (value.children.length === 0) {
-                if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
-                this.courseDetails.push(value);
-                // console.log(this.courseDetails);
+                if (
+                  value.mimeType === 'video/x-youtube' ||
+                  value.mimeType === 'video/mp4' ||
+                  value.mimeType === 'application/pdf'
+                ) {
+                  console.log(value.identifier);
+                  // this.courseIds.push(value.identifier);
+                  this.courseDetails.push(value);
                 } else {
                   this.resources.push(value);
-                  // console.log(this.resources);
+                  // this.courseIds.push(value.identifier);
                 }
               }
             } else if (value.hasOwnProperty('artifactUrl')) {
-              if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
+              if (
+                value.mimeType === 'video/x-youtube' ||
+                value.mimeType === 'video/mp4' ||
+                value.mimeType === 'application/pdf'
+              ) {
+                // console.log(value.identifier);
+                // this.courseIds.push(value.identifier);
                 this.courseDetails.push(value);
-                // console.log(this.courseDetails);
-                } else {
-                  this.resources.push(value);
-                  // console.log(this.resources);
-                }
+              } else {
+                this.resources.push(value);
+                // this.courseIds.push(value.identifier);
+
+              }
             }
           }
         });
@@ -121,47 +241,77 @@ export class CoursePlayerComponent implements OnInit {
     });
   }
   public fetchUrl(session) {
-    this.showPromo =  false;
-    console.log('EVENT', session);
-    console.log(session.artifactUrl);
+    console.log(session);
+    this.getContentState();
+    this.showPromo = false;
     let previewUrl;
     const url = session.artifactUrl.slice(17);
     if (session.mimeType === 'video/x-youtube') {
-      console.log(_.includes(session.artifactUrl, 'watch'));
       if (_.includes(session.artifactUrl, 'watch')) {
         previewUrl = session.artifactUrl.replace('watch?v=', 'embed/');
-        console.log(previewUrl);
       } else {
         previewUrl = 'https://www.youtube.com/embed/' + url;
-        console.log(previewUrl);
       }
     } else {
       previewUrl = session.artifactUrl;
-      console.log(previewUrl);
     }
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
-
-
   }
 
-getBatchDetails() {
-  console.log(this.courseId);
-const batches = {
-  filters: {
-    courseId: this.courseId
-  }
-};
-this.courseBatchService.getAllBatchDetails(batches).subscribe(data => {
-  console.log(data.result.response);
-  _.forOwn(data.result.response.content, value => {
-    console.log(value);
-    this.batchDetails.push(value);
-  });
-  console.log(this.batchDetails);
-});
+  getBatchDetails() {
 
+    this.userRoles = false;
+    const batches = {
+      filters: {
+        courseId: this.courseId
+      }
+    };
+    this.courseBatchService.getAllBatchDetails(batches).subscribe(batchData => {
+      console.log(batchData.result.response);
+      _.forOwn(batchData.result.response.content, batchdetails => {
+        this.batchDetails.push(batchdetails);
+        if (batchData.result.response.content.length < 0) {
+          this.toasterService.error('sorry no batches for this course');
+        }
+      });
+    });
+   }
+private getContentState() {
+    const req = {
+      userId: this.userService.userid,
+      courseId: this.courseId,
+      courseIds: this.courseIds,
+      batchId: this.batchId
+    };
+    console.log(req);
+    this.courseProgressService.courseProgressData
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(courseProgressData => {
+        console.log(courseProgressData);
+        this.courseProgressData = courseProgressData;
+
+      });
+  }
+  //   public contentProgressEvent(event) {
+  //   if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
+  //     return;
+  //   }
+  //   const eid = event.detail.telemetryData.eid;
+  //   if (eid === 'END' && !this.validEndEvent(event)) {
+  //     return;
+  //   }
+  //   const request: any = {
+  //     userId: this.userService.userid,
+  //     courseId: this.courseId,
+  //     courseId: this.courseId,
+  //     batchId: this.batchId,
+  //     status: eid === 'END' ? 2 : 1
+  //   };
+  //   this.courseConsumptionService.updateContentsState(request).pipe(first())
+  //   .subscribe(updatedRes => this.contentStatus = updatedRes.content,
+  //     err => console.log('updating content status failed', err));
+  // }
 }
-
 
   // public courseInteractObject: IInteractEventObject;
 
@@ -574,4 +724,4 @@ this.courseBatchService.getAllBatchDetails(batches).subscribe(data => {
   //     pageid: 'course-consumption'
   //   };
   // }
-}
+// }
