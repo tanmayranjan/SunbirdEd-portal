@@ -123,8 +123,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     // this.hashTagId = '0126937906368184322';
     this.activatedRoute.queryParams.subscribe((params) => {
       console.log('getquerparam',  params);
-      if ( params.key === 'contentType' || params.key === 'board' || params.key === 'medium'
-       || params.key === 'gradeLevel' || params.key === 'subject') {
+      if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
+       || params.key === 'gradeLevel' || params.key === 'subject'  || params.key === 'topic') {
         this.tempKey = params;
       } else {
         this.tempKey = 'undefined';
@@ -137,6 +137,7 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       console.log('activate param', paramMap);
       if (paramMap.params.cat) {
        this.browsingCategory = paramMap.params.cat;
+       console.log('browsing ' , this.browsingCategory);
       }
     });
     this.getQueryParams();

@@ -1,3 +1,80 @@
-<p>
-  update-contact-details works!
-</p>
+<sui-modal 
+  [mustScroll]="true" 
+  [isClosable]="true"
+  [transitionDuration]="0"
+  [size]="'normal'"
+  appBodyScroll 
+  (dismissed)="closeModal();" 
+  #contactTypeModal
+  >
+  <!-- <sui-modal [isClosable]="false" [size]="'normal'" #modal [mustScroll]="'true'" appBodyScroll *ngIf="initDropDown"> -->
+
+  <div class="scrollable content p-20" *ngIf="showForm">
+
+    <!--Header-->
+    <!-- <div class="sb-modal-header" [ngSwitch]="contactType">
+      <span *ngSwitchCase="'email'" class="fs-1-286">Update Email ID</span>
+      <span *ngSwitchCase="'phone'" class="fs-1-286">Update Phone No</span>
+    </div> -->
+    <div class="ui grid" [ngSwitch]="contactType">
+      <div class="ten wide column mb-30">
+        <span class="ui header" *ngSwitchCase="'email'">Update Email ID</span>
+        <span *ngSwitchCase="'phone'" class="fs-1-286">Update Phone No</span>
+
+      </div>
+    </div>
+    <!--/Header-->
+
+    <!--Content-->
+    <!-- <div class="sb-modal-content"> -->
+      <form class="ui form" [formGroup]="contactTypeForm">
+        <div [ngSwitch]="contactType">
+          <div class="field" *ngSwitchCase="'email'">
+            <label class="fs-1">Enter your Email Id</label>
+            <div class="field">
+              <input formControlName="email" type="text" name="email">
+            </div>
+            <label class="ui basic blue error label pt-0" *ngIf="contactTypeForm.controls.email.touched && contactTypeForm.controls['email'].errors">Enter a valid Email ID.</label>
+            <label class="ui basic blue error label pt-0" *ngIf="showUniqueError && !(contactTypeForm.controls.email.touched && contactTypeForm.controls['email'].errors)">{{showUniqueError}}</label>
+          </div>
+          <div class="field" *ngSwitchCase="'phone'">
+            <label class="fs-1">{{resourceService?.frmelmnts?.prmpt?.enterphoneno}}</label>
+            <div class="field">
+              <div class="ui left icon input">
+                <input formControlName="phone" type="number" name="phone">
+                <i class=" icon">{{resourceService?.frmelmnts?.lbl?.indPhoneCode}}-</i>
+              </div>
+            </div>
+            <label class="ui basic blue error label pt-0" *ngIf="contactTypeForm.controls.phone.touched && contactTypeForm.controls['phone'].errors">{{resourceService?.frmelmnts?.lbl?.validPhone}}</label>
+            <label class="ui basic blue error label pt-0" *ngIf="showUniqueError && !(contactTypeForm.controls.phone.touched && contactTypeForm.controls['phone'].errors)">{{showUniqueError}}</label>
+          </div>
+        </div>
+      </form>
+    <!-- </div> -->
+    <!--/Content-->
+
+    <!--Actions-->
+    <div class="actions">
+      <button 
+        [ngClass]="{'disabled':!enableSubmitBtn}" 
+        (click)="onSubmitForm()" 
+        class="ui primary button right floated m-20">
+          submit
+        </button>
+    </div>
+    <!-- <div class="actions text-ac">
+      <button class="ui primary button" [disabled]="!showButton" (click)="onSubmitForm()">{{buttonLabel}}</button>
+    </div> -->
+  
+    <!--/Actions-->
+  </div>
+
+  <app-otp-popup 
+    *ngIf="!showForm" 
+    [otpData]="otpData" 
+    (verificationSuccess)="updateProfile($event)" 
+    (redirectToParent)="showParentForm($event)">
+  </app-otp-popup>
+</sui-modal>
+
+<router-outlet></router-outlet>
