@@ -45,7 +45,7 @@ export class LandingPageComponent implements OnInit  {
    {
      background: 'http://niittvimgcdn.azureedge.net/Images/school_graphic.jpg',
      name: 'School',
-     frameWork: 'contentType'
+     frameWork: 'rating'
    },
    {
   // tslint:disable-next-line: max-line-length

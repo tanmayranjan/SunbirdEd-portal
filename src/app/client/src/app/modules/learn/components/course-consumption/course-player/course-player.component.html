@@ -1,5 +1,5 @@
-<div *ngIf="userEnrolledBatch">
-    <div class="card course-consumption">
+<!--   <div *ngIf="userEnrolledBatch">
+   <div class="card course-consumption">
         <div class="text-center"> <h2 style="font-family: fantasy; text-shadow: 0px 1px darkblue">{{courseTitle}}</h2></div>
         <div class="text-center">
            <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue"> Instructor {{creator}}</h5>
@@ -8,7 +8,7 @@
 
 <div class="row my-5">
 
-<div class="col-md-4" style="box-shadow: 0px 3px 5px black">
+<div class="col-md-4 py-3" style="box-shadow: 0px 3px 5px black">
 
   <section class="container">
     <a
@@ -76,19 +76,15 @@
       allowfullscreen
 
     ></iframe>
-    <!-- <app-player
-    (playerOnDestroyEvent)="playerOnDestroy($event)"
-    (contentProgressEvent)="contentProgressEvent($event)"
-    class="content-player"
-    [playerConfig]="safeUrl"
-  ></app-player> -->
+
   </section>
 </div>
 </div>
 </div>
-</div>
+</div>-->
 
-<div *ngIf="!userEnrolledBatch">
+
+<!-- <div *ngIf="!userEnrolledBatch">
 
   <div class="jumbotron jumbotron-fluid bg-dark">
     <div class="jumbotron-background">
@@ -121,7 +117,8 @@
            <div class="col"></div>
          </div>
         </div>
-        <div class="col-md-4" style="margin-top: -5rem" id="#preview">
+        <div class="col-md-4" style="margin-top: -5rem" id="#preview"
+        [appTelemetryImpression]="telemetryContentImpression">
             <iframe
             width="350"
             height="300"
@@ -131,7 +128,16 @@
             allowfullscreen
             *ngIf="showPromo"
           ></iframe>
-          <iframe
+
+          <app-player
+            width="560"
+            height="315"
+            (contentProgressEvent)="contentProgressEvent($event)"
+            class="content-player"
+            [playerConfig]="playerConfig"
+          ></app-player>
+
+           <iframe
             width="350"
             height="300"
             [src]="safeUrl"
@@ -325,4 +331,312 @@
       </div>
     </div>
   </section>
+</div> -->
+
+<div class="card course-consumption">
+  <div class="row">
+          <div class="text-center"> <h2 style="font-family: fantasy; text-shadow: 0px 1px darkblue">{{courseTitle}}</h2></div>
+          <div class="text-center">
+             <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue"> Instructor {{creator}}</h5>
+          </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+        <div *ngIf="enableContentPlayer && !loader">
+            <div
+              class="content"
+              [appTelemetryImpression]="telemetryCourseImpression"
+            >
+              <div class="ui stackable grid">
+                <div class="row">
+                  <div class="nine wide column">
+                    <div class="ui header">
+                      <span class="content courseStructureHeading">
+                        {{ resourceService.frmelmnts.lbl.aboutthecourse }}
+                      </span>
+                      <div *ngIf="courseHierarchy.description" class="mt-10">
+                        <p *ngIf="!readMore" class="courseStructureDesc">
+                          {{ courseHierarchy.description | slice: 0:200 }}&nbsp;
+                          <span
+                            class="ui cardsKnowMore mouse-pointer"
+                            *ngIf="
+                              courseHierarchy.description &&
+                              courseHierarchy.description.length > 200 &&
+                              readMore === false
+                            "
+                            (click)="readMore = !readMore"
+                            >{{ resourceService.frmelmnts.lbl.readmore }}</span
+                          >
+                        </p>
+                        <p *ngIf="readMore" class="courseStructureDesc">
+                          {{ courseHierarchy.description }}&nbsp;
+                          <span
+                            class="ui cardsKnowMore mouse-pointer"
+                            (click)="readMore = false"
+                            >{{ resourceService.frmelmnts.lbl.readless }}</span
+                          >
+                        </p>
+                      </div>
+                    </div>
+                    <div class="ui header">
+                      <b class="content courseStructureHeading">
+                        {{ resourceService.frmelmnts.lbl.coursestructure }}
+                      </b>
+                    </div>
+                    <app-collection-tree
+                      *ngIf="
+                        collectionTreeNodes.data &&
+                          collectionTreeNodes.data.children &&
+                          collectionTreeNodes.data.children.length > 0;
+                        else dataCommingSoon
+                      "
+                      (contentSelect)="navigateToContent($event)"
+                      [nodes]="collectionTreeNodes"
+                      [options]="collectionTreeOptions"
+                      [contentStatus]="contentStatus"
+                    ></app-collection-tree>
+                    <ng-template #dataCommingSoon>
+                      <div class="placeholder mt-40">
+                        <img
+                          src="{{
+                            'assets/images/datacomingsoon.png' | cdnprefixurl
+                          }}"
+                        />
+                        <h5 class="header placeholder-heading mb-5">
+                          {{ resourceService?.messages?.stmsg?.m0121 }}
+                        </h5>
+                        <p class="placeholder-content">
+                          {{ resourceService?.messages?.stmsg?.m0122 }}
+                        </p>
+                      </div>
+                    </ng-template>
+                    <div class="ui fitted divider mb-20 mt-30"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-8"   [appTelemetryStart]="telemetryCourseStart"
+    [appTelemetryEnd]="telemetryCourseEndEvent">
+    <div *ngIf="enableContentPlayer && !loader">
+        <div class="ui stackable grid">
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <div class="container">
+                <div class="row">
+                  <div class="rating">
+                    <input
+                      type="radio"
+                      id="star5"
+                      name="rating"
+                      value="5"
+                    /><label for="star5" title="Rocks!"></label>
+                    <input
+                      type="radio"
+                      id="star4"
+                      name="rating"
+                      value="4"
+                    /><label for="star4" title="Rocks!"></label>
+                    <input
+                      type="radio"
+                      id="star3"
+                      name="rating"
+                      value="3"
+                    /><label for="star3" title="Pretty good"></label>
+                    <input
+                      type="radio"
+                      id="star2"
+                      name="rating"
+                      value="2"
+                    /><label for="star2" title="Pretty good"></label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="twelve wide column">
+                    <div
+                      class="ui warning message click-notify-xurl"
+                      *ngIf="showExtContentMsg"
+                    >
+                      <div class="column twelve wide">
+                        <p>{{ resourceService.messages.imsg.m0036 }}</p>
+                      </div>
+                    </div>
+                    <div
+                      class="vid"
+                      [appTelemetryImpression]="telemetryContentImpression"
+                    >
+                      <app-player
+                        width="560"
+                        height="315"
+                        (contentProgressEvent)="contentProgressEvent($event)"
+                        class="content-player"
+                        [playerConfig]="playerConfig"
+                      ></app-player>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
 </div>
+
+<!-- <div
+  class="ui container"
+  [appTelemetryStart]="telemetryCourseStart"
+  [appTelemetryEnd]="telemetryCourseEndEvent"
+>
+  <div class="ui stackable grid mt-20">
+    <div class="twelve wide column">
+      <div *ngIf="enableContentPlayer && !loader">
+        <div class="ui stackable grid">
+          <div class="twelve wide column">
+            <div class="ui grid">
+              <div class="container">
+                <div class="row">
+                  <div class="rating">
+                    <input
+                      type="radio"
+                      id="star5"
+                      name="rating"
+                      value="5"
+                    /><label for="star5" title="Rocks!"></label>
+                    <input
+                      type="radio"
+                      id="star4"
+                      name="rating"
+                      value="4"
+                    /><label for="star4" title="Rocks!"></label>
+                    <input
+                      type="radio"
+                      id="star3"
+                      name="rating"
+                      value="3"
+                    /><label for="star3" title="Pretty good"></label>
+                    <input
+                      type="radio"
+                      id="star2"
+                      name="rating"
+                      value="2"
+                    /><label for="star2" title="Pretty good"></label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="twelve wide column">
+                    <div
+                      class="ui warning message click-notify-xurl"
+                      *ngIf="showExtContentMsg"
+                    >
+                      <div class="column twelve wide">
+                        <p>{{ resourceService.messages.imsg.m0036 }}</p>
+                      </div>
+                    </div>
+                    <div
+                      class="vid"
+                      [appTelemetryImpression]="telemetryContentImpression"
+                    >
+                      <app-player
+                        width="560"
+                        height="315"
+                        (contentProgressEvent)="contentProgressEvent($event)"
+                        class="content-player"
+                        [playerConfig]="playerConfig"
+                      ></app-player>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="enableContentPlayer && !loader">
+        <div
+          class="content"
+          [appTelemetryImpression]="telemetryCourseImpression"
+        >
+          <div class="ui stackable grid">
+            <div class="row">
+              <div class="nine wide column">
+                <div class="ui header">
+                  <span class="content courseStructureHeading">
+                    {{ resourceService.frmelmnts.lbl.aboutthecourse }}
+                  </span>
+                  <div *ngIf="courseHierarchy.description" class="mt-10">
+                    <p *ngIf="!readMore" class="courseStructureDesc">
+                      {{ courseHierarchy.description | slice: 0:200 }}&nbsp;
+                      <span
+                        class="ui cardsKnowMore mouse-pointer"
+                        *ngIf="
+                          courseHierarchy.description &&
+                          courseHierarchy.description.length > 200 &&
+                          readMore === false
+                        "
+                        (click)="readMore = !readMore"
+                        >{{ resourceService.frmelmnts.lbl.readmore }}</span
+                      >
+                    </p>
+                    <p *ngIf="readMore" class="courseStructureDesc">
+                      {{ courseHierarchy.description }}&nbsp;
+                      <span
+                        class="ui cardsKnowMore mouse-pointer"
+                        (click)="readMore = false"
+                        >{{ resourceService.frmelmnts.lbl.readless }}</span
+                      >
+                    </p>
+                  </div>
+                </div>
+                <div class="ui header">
+                  <b class="content courseStructureHeading">
+                    {{ resourceService.frmelmnts.lbl.coursestructure }}
+                  </b>
+                </div>
+                <app-collection-tree
+                  *ngIf="
+                    collectionTreeNodes.data &&
+                      collectionTreeNodes.data.children &&
+                      collectionTreeNodes.data.children.length > 0;
+                    else dataCommingSoon
+                  "
+                  (contentSelect)="navigateToContent($event)"
+                  [nodes]="collectionTreeNodes"
+                  [options]="collectionTreeOptions"
+                  [contentStatus]="contentStatus"
+                ></app-collection-tree>
+                <ng-template #dataCommingSoon>
+                  <div class="placeholder mt-40">
+                    <img
+                      src="{{
+                        'assets/images/datacomingsoon.png' | cdnprefixurl
+                      }}"
+                    />
+                    <h5 class="header placeholder-heading mb-5">
+                      {{ resourceService?.messages?.stmsg?.m0121 }}
+                    </h5>
+                    <p class="placeholder-content">
+                      {{ resourceService?.messages?.stmsg?.m0122 }}
+                    </p>
+                  </div>
+                </ng-template>
+                <div class="ui fitted divider mb-20 mt-30"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="loader">
+        <app-loader [data]="loaderMessage"></app-loader>
+      </div>
+      <div *ngIf="showError"></div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet> -->

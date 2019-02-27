@@ -1,3 +1,31 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 .bgc {
-  background: aliceblue;
+  /* background: aliceblue; */
+}
+.nav-tabs {
+  border-bottom: 0px;
+}
+.nav-tabs .nav-link {
+border-color: darkgray;
+border: 1px solid darkgray;
+background: #8080801f;
+}
+ul li {
+  padding-right: 1rem;
+  font-size: 1rem;
+}
+.nav-tabs .nav-link.active {
+  background: #0b85c7!important;
+  color: white;
+}
+a {
+  color:  #312f2f
+}
+.tab-content{
+  max-height: 250px;
+  height: -webkit-fill-available;
+}
+.tab-content[_ngcontent-c11] > .active[_ngcontent-c11] {
+  display: -webkit-inline-box !important;
 }

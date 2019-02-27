@@ -1,10 +1,45 @@
 <div [appTelemetryImpression]="telemetryImpression" class="bgc">
-<app-prominent-filter [formAction]="'filter'" [frameworkName]="frameWorkName" [pageId]="'course-page'" *ngIf="initFilters" [filterEnv]="filterType"  [ignoreQuery]="['key']"
-  [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
+  <app-prominent-filter [formAction]="'filter'" [frameworkName]="frameWorkName" [pageId]="'course-page'" *ngIf="initFilters"
+    [filterEnv]="filterType" [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true
+    [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
+  <div class="container mt-30">
+      <div class="alert alert-dark" role="alert">
+          My dashboard
+        </div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="current-courses-tab" data-toggle="tab" href="#current-courses" role="tab" aria-controls="current-courses" aria-selected="true">Current Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="completed-courses-tab" data-toggle="tab" href="#completed-courses" role="tab" aria-controls="completed-courses" aria-selected="false">Completed Courses</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="current-courses" role="tabpanel" aria-labelledby="current-courses-tab">
+            <div class="twelve wide column" *ngIf="enrolledSection?.contents?.length">
+                <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection"
+                  (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
+              </div>
+        </div>
+        <div class="tab-pane fade" id="completed-courses" role="tabpanel" aria-labelledby="completed-courses-tab">
+            <div class="pt-30" *ngIf="completedSection?.contents?.length === 0; else elseBlock"> You do not have any completed courses.</div>
 
-  <div class="ui container">
-  <div class="ui grid stackable my-0">
-    <!-- <div class="twelve wide column">
+          <div class="twelve wide column" #elseBlock *ngIf="completedSection?.contents?.length >= 1">
+            <app-page-section *ngIf="completedSection?.contents?.length >=1" (visits)="prepareVisits($event)" [section]="completedSection"  (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
+          </div>
+        </div>
+        
+      </div>
+      <div class="ui twelve wide column my-5 pageSection-Divider">
+          <div class="ui divider m-0"></div>
+      </div>
+     
+
+
+  </div>
+  <div class="container">
+    <div class="ui grid stackable my-0">
+      <!-- <div class="twelve wide column">
       <div class="ui grid top aligned">
         <div class="twelve wide column">
          <app-data-driven-filter [pageId]="'course-page'" *ngIf="initFilters" [filterEnv]="filterType"
@@ -15,18 +50,17 @@
         </div>
       </div>
     </div> -->
-    <div class="twelve wide column" *ngIf="enrolledSection?.contents?.length">
-      <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
-    </div>
-    <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
-      <app-page-section (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
-    </div>
-    <div class="twelve wide column" *ngIf="showLoader">
-      <app-loader [data]='loaderMessage'></app-loader>
-    </div>
-    <div class="twelve wide column" *ngIf="carouselData.length === 0 && !showLoader" >
-      <app-no-result [data]="noResultMessage"></app-no-result>
+
+      <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
+        <app-page-section (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)"
+          (viewAll)="viewAll($event)"></app-page-section>
+      </div>
+      <div class="twelve wide column" *ngIf="showLoader">
+        <app-loader [data]='loaderMessage'></app-loader>
+      </div>
+      <div class="twelve wide column" *ngIf="carouselData.length === 0 && !showLoader">
+        <app-no-result [data]="noResultMessage"></app-no-result>
+      </div>
     </div>
   </div>
-</div>
 </div>
