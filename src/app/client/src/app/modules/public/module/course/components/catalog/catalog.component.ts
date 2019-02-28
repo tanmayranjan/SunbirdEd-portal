@@ -322,6 +322,8 @@ export class CatalogComponent implements OnInit {
     }
     this.changeDetectorRef.detectChanges();
     this.playerService.playContent(event.data.metaData);
+    this.route.navigate(['/play/collection', event.data.metaData.identifier]);
+
   }
   inview(event) {
     _.forEach(event.inview, (inview, key) => {
