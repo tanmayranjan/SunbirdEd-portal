@@ -332,7 +332,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './course-player.component.html',
   styleUrls: ['./course-player.component.css']
 })
-export class CoursePlayerComponent implements OnInit, OnDestroy {
+export class CoursePlayerComponent implements OnInit {
 
   courseDetails = [];
   safeUrl;
@@ -781,12 +781,12 @@ courseInfo;
   public createEventEmitter(data) {
     this.createNoteData = data;
   }
-  ngOnDestroy() {
-    console.log('at last');
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-    this.closeContentPlayer();
-  }
+  // ngOnDestroy() {
+  //   console.log('at last');
+  //   this.unsubscribe.next();
+  //   this.unsubscribe.complete();
+  //   this.closeContentPlayer();
+  // }
   private setTelemetryStartEndData() {
     const deviceInfo = this.deviceDetectorService.getDeviceInfo();
     this.telemetryCourseStart = {

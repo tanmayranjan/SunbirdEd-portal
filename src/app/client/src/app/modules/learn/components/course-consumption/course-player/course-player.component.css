@@ -3,14 +3,14 @@
  @import url('https://fonts.googleapis.com/css?family=Open+Sans|PT+Sans');
 
  .course-consumption {
-   box-shadow: inset 0rem 0rem 30rem -1rem lightslategrey;
+   box-shadow: inset 0rem 0rem 0rem -4rem lightslategrey;
   padding: 3rem !important;
 
  }
  .session-details {
    box-shadow: 0px 3px 5px;
-
- }
+  }
+  /*
  ::-webkit-scrollbar {
    width: 1px !important;
  }
@@ -21,7 +21,7 @@
 
  ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
    background:none;
- }
+ } */
  .btn-primary{
    color: #fff;
    background-color: black;
@@ -69,29 +69,6 @@
    margin-top: 2em;
  }
 
- /* .jumbotron {
-   position:relative;
-   overflow:hidden;
- } */
-
- /* .jumbotron .container {
-   position: relative;
-   z-index: 2;
-   border-radius: 3px;
-   padding: 2rem 0rem 0rem;
- } */
-
- /* .jumbotron-background {
-   object-fit:cover;
-   font-family: 'object-fit: cover;';
-   position:absolute;
-   top:0;
-   z-index:1;
-   width:100%;
-   height:100%;
-   opacity:0.9;
-   background: black;
- } */
 
  img.blur {
  	-webkit-filter: blur(4px);
@@ -115,7 +92,7 @@
    border-top: 2px solid black;
  }
  p{
-   height: 16vh;
+   max-height: 12vh;
    text-overflow: ellipsis;
    overflow: hidden;
  }
@@ -183,7 +160,16 @@
    width: 56vw;
    border: none;
  }
-
+ .btn-primary{
+   color: #fff;
+   background-color: black;
+   border-color: white;
+   margin-left: -1rem;
+ }
+ .btn-primary:hover {
+   background-color: black !important;
+   outline: white;
+ }
  @media screen and (min-width: 320px) {
      .j-description{
          color: black;
@@ -416,14 +402,8 @@
    height: 75vh;
    scroll-behavior: smooth;
  }
- ::-webkit-scrollbar {
+ /* ::-webkit-scrollbar {
    width: 0px;
- }
+ } */
  
  
-
-
-
-
-
-

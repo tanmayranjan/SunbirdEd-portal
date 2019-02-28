@@ -1,11 +1,11 @@
    <div *ngIf="userEnrolledBatch else previewCourse">
-   <div class="jumbotron course-consumption">
+   <div class="card course-consumption" style="width: 100%">
   <div>
       <div class="text-center"> <h2 style="font-family: fantasy; text-shadow: 0px 1px darkblue">{{courseTitle}}</h2></div>
       <div class="text-center">
          <h5  style="font-family: fantasy; text-shadow: 0px 1px darkblue"> Instructor {{creator}}</h5>
       </div>
-      <div class="ui fitted divider"></div>
+      <div class="ui fitted divider" style="    background: black;"></div>
   </div>
 
 
@@ -35,7 +35,7 @@
   background:black;
 ">
 <div class="row" *ngFor="let session of courseDetails">
-        <div class="card" style="width: 28vw;background: black;border-radius: 1rem; box-shadow: inset 0rem 1rem 62rem 2rem lightgrey;padding: 0.5rem"
+        <div class="card" style="width: 28vw;background: black;border-radius: 1rem; box-shadow: inset 0rem 1rem 62rem 2rem white;padding: 0.5rem"
         >
           <div class="card-body">
 
@@ -64,19 +64,9 @@
     <iframe
       width="780"
       height="450"
-      src=" https://www.youtube.com/embed/_JVzkvYRHiE"
-      frameborder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      *ngIf="showPromo"
-
-    ></iframe>
-    <iframe
-      width="780"
-      height="450"
       [src]="safeUrl"
       frameborder="0"
-      *ngIf="!showPromo"
+      *ngIf="showPreview"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
 
@@ -340,8 +330,7 @@
 
 
 <ng-template #previewCourse>
-  !-- Section #1
-      This showcases the course details  -->
+
       <header class="showcase-header">
         <div class="jumbotron jumbotron-fluid">
           <div class="container">
@@ -381,9 +370,9 @@
                 </div>
 
                 <div class="row">
-                    <a href="/home" class="sunblogin">
-                      <button  class="btn btn-outline-warning ml-3 mt-3">ENROLL</button>
-                    </a>
+                    <a class="btn btn-outline-warning ml-3 mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        View Batches
+                      </a>
                 </div>
               </div>
               <div class="col-sm-4 text-left mt-4">
@@ -393,6 +382,12 @@
           </div>
         </div>
       </header>
+      <div class="collapse" id="collapseExample">
+<div class="row"  *ngFor="let batch of batchDetails">
+  <div class="col-md-4">
+  <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" ></app-batch-card>
+  </div>
+</div>        </div>
       <!-- Section #2
             This section is for detailed description
             Has Two subsections 1. Prerequisites 2. Contents  -->
