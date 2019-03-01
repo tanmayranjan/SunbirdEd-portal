@@ -22,6 +22,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { CdnprefixPipe } from './pipes/cdnprefix.pipe';
+import { LandingpageCardComponent } from './components/landingpage-card/landingpage-card.component';
+
 import { DisplayPopularCourseComponent } from './components/display-popular-course/display-popular-course.component';
 // import {
 //   MatAutocompleteModule,
@@ -108,7 +110,8 @@ import { DisplayPopularCourseComponent } from './components/display-popular-cour
     DateFormatPipe, PageSectionComponent, NoResultComponent, DateFilterXtimeAgoPipe, DisplayPopularCourseComponent ,
     CollectionTreeComponent, FancyTreeComponent, PlayerComponent, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
     ShareLinkComponent, CollectionPlayerMetadataComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe,
-    RedirectComponent, CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, DisplayPopularCourseComponent],
+    RedirectComponent, CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, DisplayPopularCourseComponent,
+    LandingpageCardComponent],
   exports: [AppLoaderComponent, ContentCreditsComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,
     PageSectionComponent, DisplayPopularCourseComponent , NoResultComponent, CollectionTreeComponent, FancyTreeComponent,
     PlayerComponent, CardComponent, CardCreationComponent, FilterPipe, ShareLinkComponent, CollectionPlayerMetadataComponent,

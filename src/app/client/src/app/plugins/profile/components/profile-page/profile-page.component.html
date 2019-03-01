@@ -19,6 +19,10 @@ id="var2" *ngIf="userProfile"
         {{ userProfile.firstName | titlecase }}
         {{ userProfile.lastName | titlecase }}
       </div>
+      <div class="mb-10 d-flex mb-5">
+        <div class="fs-1-16">User ID :</div>
+        <div class="fs-1-16 ml-5">{{userProfile.userName}}</div>
+      </div>
 
       <section *ngIf="userProfile.email || userProfile.phone">
         <p class="fs-1" *ngIf="userProfile.phone">
@@ -38,7 +42,7 @@ id="var2" *ngIf="userProfile"
           </span>
         </p>
 
-        <div
+        <!-- <div
           (click)="showContactPopup = true; contactType = 'phone'"
           class="ui update mb-15 cursor-pointer font-weight-normal"
           *ngIf="!userProfile.phone"
@@ -48,8 +52,18 @@ id="var2" *ngIf="userProfile"
         >
           <i class="phone icon mr-5 pr-30"></i>
           {{ resourceService?.frmelmnts?.lbl?.addPhoneNo }}
-        </div>
-
+        </div> -->
+        <!-- <div (click)="showContactPopup=true;contactType='email'"
+        class="ui semi-circular dodger-blue basic label cursor-pointer" *ngIf="userProfile.email" appTelemetryInteract
+        [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="editEmailInteractEdata">
+        <i class="mail icon mr-5"></i> {{userProfile.email}}
+      </div>
+      <div (click)="showContactPopup=true;contactType='email'"
+        class="ui semi-circular update basic label mb-15 cursor-pointer font-weight-normal" *ngIf="!userProfile.email"
+        appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
+        [telemetryInteractEdata]="editEmailInteractEdata">
+        <i class="mail icon mr-5 pr-30"></i> {{resourceService?.frmelmnts?.lbl?.addEmailID}}
+      </div> -->
         <p *ngIf="userProfile.email">
           <i class="mail icon mr-5"></i> {{ userProfile.email }}
           <span class="pl-20 fs-1-5">
@@ -237,12 +251,13 @@ id="var2" *ngIf="userProfile"
 (close)="showEdit = !showEdit"
 ></app-popup>
 
-<!-- <app-update-contact-details
+<app-update-contact-details
 *ngIf="showContactPopup"
 (close)="showContactPopup = !showContactPopup"
 [contactType]="contactType"
 ></app-update-contact-details>
-<app-update-user-details
+
+<!-- <app-update-user-details
 (close)="showEditUserDetailsPopup = !showEditUserDetailsPopup"
 *ngIf="showEditUserDetailsPopup"
 [userProfile]="userProfile"

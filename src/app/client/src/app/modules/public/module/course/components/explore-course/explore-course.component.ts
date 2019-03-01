@@ -182,9 +182,6 @@ export class ExploreCourseComponent implements OnInit, OnDestroy {
     }
     public playContent(event) {
         if (!this.userService.loggedIn && event.data.contentType === 'Course') {
-            // this.showLoginModal = true;
-// tslint:disable-next-line: no-debugger
-            debugger;
             this.router.navigate(['/play/collection', event.data.metaData.identifier]);
             // this.baseUrl = '/' + 'learn' + '/' + 'course' + '/' + event.data.metaData.identifier;
         } else {

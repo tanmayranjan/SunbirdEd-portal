@@ -23,6 +23,7 @@ import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CourseSearchFilterComponent } from './components/course-search-filter/course-search-filter.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,11 +39,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
     BodyScrollDirective, ConceptPickerComponent, DataDrivenFilterComponent, BreadcrumbsComponent, SortByComponent,
     ErrorPageComponent, FlagContentComponent, ContentPlayerMetadataComponent, LanguageDropdownComponent,
-    ProminentFilterComponent, TopicPickerComponent, NavbarComponent],
+    ProminentFilterComponent, TopicPickerComponent, NavbarComponent, CourseSearchFilterComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent,
     DataDrivenFilterComponent, SortByComponent, BreadcrumbsComponent, FlagContentComponent,
     ContentPlayerMetadataComponent, TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent,
-    TopicPickerComponent, NavbarComponent]
+    TopicPickerComponent, NavbarComponent, CourseSearchFilterComponent]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {

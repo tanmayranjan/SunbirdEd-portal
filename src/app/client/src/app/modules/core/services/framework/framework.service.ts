@@ -36,6 +36,7 @@ export class FrameworkService {
       const frameWorkName = framework ? framework : 'defaultFramework';
       this._frameworkData[frameWorkName] = data;
       this._frameworkData$.next({ err: null, frameworkdata: this._frameworkData });
+      console.log('farme' , this._frameworkData );
       this._channelData$.next({ err: null, channelData: channelData });
     } else {
       if (framework && !_.get(this._frameworkData, framework)) {

@@ -99,7 +99,7 @@ export class ResourceComponent implements OnInit, OnDestroy {
     softConstraintData, this.frameworkData );
     const option: any = {
       source: 'web',
-      name: 'Library-Resources',
+      name: 'Resource',
       filters: _.get(this.queryParams, 'appliedFilters') ?  filters : _.get(manipulatedData, 'filters'),
       mode: _.get(manipulatedData, 'mode'),
       exists: [],

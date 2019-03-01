@@ -11,6 +11,16 @@ const routes: Routes = [
       softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 }
     }
   },
+// {
+//   path: 'exploreCatalog/:pageNumber', component: CatalogComponent,
+//   data: {
+//     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Catalog', url: '' }],
+//     telemetry: {
+//       env: 'catalog', pageid: 'course-catalog', type: 'view', subtype: 'paginate'
+//     }
+//   }
+
+// },
   {
     path: 'view-all/:section/:pageNumber', component: ViewAllComponent,
     data: {

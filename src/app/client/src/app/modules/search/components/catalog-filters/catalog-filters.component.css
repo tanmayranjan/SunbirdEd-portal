@@ -3,3 +3,10 @@
     max-height: 200px;
     overflow-y: scroll;
 }
+#textcolor{
+  color: black;
+  font-size: larger;
+}
+.color{
+  background-color: navy;
+}

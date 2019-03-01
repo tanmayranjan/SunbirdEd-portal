@@ -57,6 +57,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
+console.log(this.rootNode.children);
       this.addNodeMeta();
     }
   }
@@ -72,6 +73,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode.walk((node) => {
       node.fileType = MimeTypeTofileType[node.model.mimeType];
       node.id = node.model.identifier;
+      console.log(node);
       if (node.children && node.children.length) {
         if (this.options.folderIcon) {
           node.icon = this.options.folderIcon;

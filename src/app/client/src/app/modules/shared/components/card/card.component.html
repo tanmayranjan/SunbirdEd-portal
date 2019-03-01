@@ -3,24 +3,24 @@
   *ngIf="data"
   (click)="onAction(data,data.action.onImage)"
   appTelemetryInteract
-  [telemetryInteractObject]="{id:data.identifier,type:data.telemetryObjectType}"
+  [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
   [telemetryInteractEdata]="data.telemetryInteractEdata"
   tabindex="0"
   >
     <div class="header p-15 pb-0">
       <div class="image m-0 mr-15 br-4">
-        <img *ngIf="data.showImage? false : true" src="{{data.posterImage || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
+        <img *ngIf="data.showImage? false : true" src="{{data.image || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
       </div>
 
       <!--Course-->
       <div class="meta course" *ngIf="data.contentType && data.contentType.toLowerCase() === 'course'">
         <div class="topic mb-15" *ngIf="data.topic" title="{{data.topic}}">
           {{data.topic | slice:0:40}}
-          <span *ngIf="data.topic && data.topic.length > 40">...</span>
+          <span *ngIf="data.topic && data.topic.length >= 30">...</span>
         </div>
         <div class="subtopic" *ngIf="data.subTopic" title="{{data.subTopic}}">
           {{data.subTopic | slice:0:40}}
-          <span *ngIf="data.subTopic && data.subTopic.length > 40">...</span>
+          <span *ngIf="data.subTopic && data.subTopic.length >= 30">...</span>
         </div>
       </div>
       <!--/Course-->
@@ -40,17 +40,14 @@
     </div>
     <div class="sub-header">
         <h4 class="title">
-          {{data.name | slice:0:60 }}
-          <span *ngIf="data.name && data.name.length > 60">...</span>
+          {{data.name | slice:0:40 }}
+          <span *ngIf="data.name && data.name.length >= 40">...</span>
         </h4>
         <div class="creator ellipsis">
           {{data.orgDetails?.orgName}}
         </div>
     </div>
-    <div *ngIf="data.maxCount && data.progress > 0 else blank">
-      <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
-    </div>
-    <ng-template #blank>
-      <div class="py-2"></div>
-    </ng-template>
+    <div *ngIf="data.maxCount && data.progress > 0">
+    <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
+  </div>
 </div>

@@ -930,8 +930,10 @@
   "course": {
     "filterType": "course",
     "inPageredirectUrl": "/learn",
-    "searchPageredirectUrl": "/search/catalog/1"
+    "searchPageredirectUrl": "/search/catalog/1",
+    "inPageredirectUrlHome":""
   },
+
   "home": {
     "filterType": "home",
     "inPageredirectUrl": "/home",

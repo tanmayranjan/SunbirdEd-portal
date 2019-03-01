@@ -8,3 +8,4 @@ export * from './batch/enroll-batch/enroll-batch.component';
 export * from './batch/unenroll-batch/unenroll-batch.component';
 export * from './batch/update-course-batch/update-course-batch.component';
 export * from './course-consumption/curriculum-card/curriculum-card.component';
+export * from './batch/batch-card/batch-card.component';

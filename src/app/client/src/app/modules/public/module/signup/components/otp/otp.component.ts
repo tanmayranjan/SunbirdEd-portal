@@ -119,7 +119,6 @@ export class OtpComponent implements OnInit {
 
     this.signupService.createUser(createRequest).subscribe(
       (resp: ServerResponse) => {
-        console.log(createRequest);
         const reqQuery = this.activatedRoute.snapshot.queryParams;
         const queryObj = _.pick(reqQuery,
           ['client_id', 'redirect_uri', 'scope', 'state', 'response_type', 'version']);

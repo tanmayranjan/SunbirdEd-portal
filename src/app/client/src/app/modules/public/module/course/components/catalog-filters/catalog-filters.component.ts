@@ -1,23 +1,21 @@
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import {
   ConfigService, ResourceService, Framework, ToasterService, ServerResponse,
   BrowserCacheTtlService, IUserData
 } from '@sunbird/shared';
 import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FrameworkService, FormService, ConceptPickerService, PermissionService, OrgDetailsService, UserService } from '@sunbird/core';
+import { FrameworkService, FormService, ConceptPickerService, PermissionService, UserService } from '../../../../../core/services';
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
 import { FormControl } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-catalog-filters',
   templateUrl: './catalog-filters.component.html',
   styleUrls: ['./catalog-filters.component.css']
 })
 export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
-
   @Input() filterEnv: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
@@ -29,20 +27,20 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   @Output() filters = new EventEmitter();
   @Output() dataDrivenFilter = new EventEmitter();
   /**
-  * To get url, app configs
-  */
+ * To get url, app configs
+ */
   public configService: ConfigService;
 
   public resourceService: ResourceService;
 
   public filterType: string;
   /**
-  * To navigate to other pages
-  */
+ * To navigate to other pages
+ */
   public router: Router;
   /**
-  * To show toaster(error, success etc) after any API calls
-  */
+* To show toaster(error, success etc) after any API calls
+*/
   public toasterService: ToasterService;
 
   public frameworkService: FrameworkService;
@@ -63,15 +61,16 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   public formAction = 'search';
 
   public queryParams: any;
+  checkCategory = 'undefined';
   /**
-  * formInputData is to take input data's from form
-  */
+ * formInputData is to take input data's from form
+ */
   public formInputData: any;
 
   userRoles = [];
 
   public permissionService: PermissionService;
-  // public userService: UserService;
+  public userService: UserService;
   public loggedInUserRoles = [];
 
   selectedConcepts: Array<object>;
@@ -83,7 +82,7 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   filterIntractEdata: IInteractEventEdata;
   submitIntractEdata: IInteractEventEdata;
   browsingCategory: any;
-
+  tempKey: any;
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -100,14 +99,12 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     frameworkService: FrameworkService,
     formService: FormService,
     toasterService: ToasterService,
-    public userService: UserService,
+    userService: UserService,
     public conceptPickerService: ConceptPickerService,
     permissionService: PermissionService,
-    private browserCacheTtlService: BrowserCacheTtlService,
-    public orgDetailsService: OrgDetailsService
+    private browserCacheTtlService: BrowserCacheTtlService
 
   ) {
-    this.orgDetailsService = orgDetailsService;
     this.userService = userService;
     this.configService = configService;
     this.resourceService = resourceService;
@@ -121,18 +118,38 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-   this.getOrgDetails();
+    console.log('inside catalog filters');
+    this.hashTagId = '0127015689401876480';
+    // this.hashTagId = '0126937906368184322';
+    this.activatedRoute.queryParams.subscribe((params) => {
+      console.log('getquerparam',  params);
+      if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
+       || params.key === 'gradeLevel' || params.key === 'subject'  || params.key === 'topic') {
+        this.tempKey = params;
+      } else {
+        this.tempKey = 'undefined';
+      }
+      console.log('tempkey', this.tempKey);
+    });
     this.frameworkService.initialize(this.hashTagId);
     this.formInputData = {};
     this.activatedRoute.paramMap.subscribe((paramMap: any) => {
+      console.log('activate param', paramMap);
       if (paramMap.params.cat) {
-        this.browsingCategory = paramMap.params.cat;
+       this.browsingCategory = paramMap.params.cat;
+       console.log('browsing ' , this.browsingCategory);
       }
     });
     this.getQueryParams();
     this.fetchFilterMetaData();
     this.contentTypes = this.configService.dropDownConfig.FILTER.RESOURCES.contentTypes;
-
+    this.userService.userData$.subscribe(
+      (user: IUserData) => {
+        console.log('user', user);
+        if (user && !user.err) {
+          this.loggedInUserRoles = user.userProfile.userRoles;
+        }
+      });
     this.filterIntractEdata = {
       id: 'filter',
       type: 'click',
@@ -144,14 +161,17 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       pageid: this.pageId,
       extra: { filter: this.formInputData }
     };
+    console.log('filterintracy data', this.filterIntractEdata , 'summit' , this.submitIntractEdata);
   }
-getOrgDetails() {
 
-  const orgInfo = this.orgDetailsService.orgInfo;
-  console.log(orgInfo);
-}
   getQueryParams() {
     this.activatedRoute.queryParams.subscribe((params) => {
+      console.log('getquerparam',  params);
+      if ( params.key === 'contentType' || params.key === 'board' || params.key === 'medium'
+       || params.key === 'gradeLevel' || params.key === 'subject') {
+        this.tempKey = params;
+      }
+      console.log('tempkey', this.tempKey);
       this.queryParams = { ...params };
       _.forIn(params, (value, key) => {
         if (typeof value === 'string' && key !== 'key' && key !== 'language') {
@@ -163,6 +183,7 @@ getOrgDetails() {
       this.cdr.detectChanges();
       this.refresh = true;
       this.conceptPickerService.conceptData$.subscribe(conceptData => {
+        console.log('conceptpicer', conceptData);
         if (conceptData && !conceptData.err) {
           this.selectedConcepts = conceptData.data;
           if (this.formInputData && this.formInputData.concepts) {
@@ -175,102 +196,81 @@ getOrgDetails() {
     });
   }
   /**
-  * fetchFilterMetaData is gives form config data
-  */
+* fetchFilterMetaData is gives form config data
+*/
   fetchFilterMetaData() {
     this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
-    if (this.isCachedDataExists) {
-      const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
-      this.formFieldProperties = data;
-      this.dataDrivenFilter.emit(this.formFieldProperties);
-      this.createFacets();
-    } else {
-      const frameworkName = 'niit-framework';
-      let categories;
-      console.log('hashtagid', this.hashTagId);
-      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories(frameworkName).subscribe( (frameworkData: any ) => {
-       categories = frameworkData.result.framework;
-       console.log(categories);
-       this.categoryMasterList = _.cloneDeep(categories.categories);
-       console.log(this.categoryMasterList);
-       this.framework = categories.code;
-      const formServiceInputParams = {
-        formType: this.formType,
-        formAction: this.formAction,
-        contentType: this.filterEnv,
-        framework: this.framework
-      };
-      this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
-        (data: ServerResponse) => {
-          this.formFieldProperties = data;
-          console.log('catalog filter', data);
-          _.forEach(this.formFieldProperties, (formFieldCategory) => {
-            if (formFieldCategory && formFieldCategory.allowedRoles) {
-              const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
-              if (!this.showField(formFieldCategory.allowedRoles)) {
-                this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
-              }
-              if (formServiceInputParams.contentType === 'upforreview') {
-                // this.updateFormFields(formFieldCategory);
-              }
+    console.log('fetch filter meta data', this.isCachedDataExists);
+    // if (!this.isCachedDataExists) {
+    //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
+    //   this.formFieldProperties = data;
+    //   console.log('form field', data);
+    //   this.dataDrivenFilter.emit(this.formFieldProperties);
+    //   this.createFacets();
+    // } else {
+      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('niit_tv')
+      .subscribe((frameworkData: any) => {
+        console.log('data', frameworkData);
+        if (frameworkData && !frameworkData.err) {
+          console.log('data', frameworkData);
+          this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
+          console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
+          this.framework = 'niit_tv';
+          const formServiceInputParams = {
+            formType: this.formType,
+            formAction: this.formAction,
+            contentType: this.filterEnv,
+            framework: this.framework
+          };
+          console.log('hasg id' , this.hashTagId);
+          this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
+            (data: ServerResponse) => {
+              console.log('res in formserveice', data);
+              this.formFieldProperties = data;
+              _.forEach(this.formFieldProperties, (formFieldCategory) => {
+                if (formFieldCategory && formFieldCategory.allowedRoles) {
+                  const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
+                  if (!this.showField(formFieldCategory.allowedRoles)) {
+                    this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
+                  }
+                  if (formServiceInputParams.contentType === 'upforreview') {
+                    this.updateFormFields(formFieldCategory);
+                  }
+                }
+              });
+              this.getFormConfig();
+              this.dataDrivenFilter.emit(this.formFieldProperties);
+            },
+            (err: ServerResponse) => {
+              this.dataDrivenFilter.emit([]);
+              // this.toasterService.error(this.resourceService.messages.emsg.m0005);
             }
-          });
-          this.getFormConfig();
-          this.dataDrivenFilter.emit(this.formFieldProperties);
-        },
-        (err: ServerResponse) => {
+          );
+        } else if (frameworkData && frameworkData.err) {
           this.dataDrivenFilter.emit([]);
           // this.toasterService.error(this.resourceService.messages.emsg.m0005);
         }
-      );
       });
-      // this.frameworkDataSubscription = this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
-      //   if (frameworkData && !frameworkData.err) {
-      //     this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata);
-      //     console.log('categorylisrty', this.categoryMasterList);
-      //     this.framework = frameworkData.framework;
-      //     const formServiceInputParams = {
-      //       formType: this.formType,
-      //       formAction: this.formAction,
-      //       contentType: this.filterEnv,
-      //       framework: frameworkData.framework
-      //     };
-      //     this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
-      //       (data: ServerResponse) => {
-      //         this.formFieldProperties = data;
-      //         console.log('catalog filter', data);
-      //         _.forEach(this.formFieldProperties, (formFieldCategory) => {
-      //           if (formFieldCategory && formFieldCategory.allowedRoles) {
-      //             const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
-      //             if (!this.showField(formFieldCategory.allowedRoles)) {
-      //               this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
-      //             }
-      //             if (formServiceInputParams.contentType === 'upforreview') {
-      //               this.updateFormFields(formFieldCategory);
-      //             }
-      //           }
-      //         });
-      //         this.getFormConfig();
-      //         this.dataDrivenFilter.emit(this.formFieldProperties);
-      //       },
-      //       (err: ServerResponse) => {
-      //         this.dataDrivenFilter.emit([]);
-      //         // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-      //       }
-      //     );
-      //   } else if (frameworkData && frameworkData.err) {
-      //     this.dataDrivenFilter.emit([]);
-      //     // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-      //   }
-      // });
+    }
+  // }
+
+  updateFormFields(formFieldCategory) {
+    if (formFieldCategory && formFieldCategory.code === 'contentType') {
+      if (_.indexOf(this.loggedInUserRoles, 'CONTENT_REVIEWER') !== -1 &&
+        _.indexOf(this.loggedInUserRoles, 'BOOK_REVIEWER') !== -1) {
+        const contentTypeIndex = _.findIndex(this.formFieldProperties, { code: 'contentType' });
+        const rangeTextBookIndex = _.findIndex(this.formFieldProperties[contentTypeIndex].range, { name: 'TextBook' });
+        if (rangeTextBookIndex === -1) {
+          this.formFieldProperties[contentTypeIndex].range.push({ name: 'TextBook' });
+        }
+      }
     }
   }
 
-
   /**
-  * @description - Which is used to config the form field vlaues
-  * @param {formFieldProperties} formFieldProperties  - Field information
-  */
+ * @description - Which is used to config the form field vlaues
+ * @param {formFieldProperties} formFieldProperties  - Field information
+ */
   getFormConfig() {
     _.forEach(this.categoryMasterList, (category) => {
       _.forEach(this.formFieldProperties, (formFieldCategory) => {
@@ -281,7 +281,6 @@ getOrgDetails() {
       });
     });
     this.formFieldProperties = _.sortBy(_.uniqBy(this.formFieldProperties, 'code'), 'index');
-    console.log('form properties', this.formFieldProperties);
     this._cacheService.set(this.filterEnv + this.formAction, this.formFieldProperties,
       {
         maxAge: this.browserCacheTtlService.browserCacheTtl
@@ -290,6 +289,7 @@ getOrgDetails() {
   }
   createFacets() {
     this.filtersDetails = _.cloneDeep(this.formFieldProperties);
+    console.log('create facet filter', this.filtersDetails);
     const filterArray = [];
     _.forEach(this.filtersDetails, (value) => {
       filterArray.push(value.code);
@@ -307,12 +307,6 @@ getOrgDetails() {
     this.refresh = false;
     this.cdr.detectChanges();
     this.refresh = true;
-    const allInputs = document.getElementsByTagName('input');
-    for (let i = 0, max = allInputs.length; i < max; i++) {
-      if (allInputs[i].type === 'checkbox') {
-        allInputs[i].checked = false;
-      }
-    }
   }
 
   resetFilters2(name) {
@@ -324,21 +318,20 @@ getOrgDetails() {
 
     if ((name in this.formInputData)) {
       delete this.formInputData[name];
-      this.toasterService.info(`All ${name} filters removed`);
     }
 
     this.applyFilters();
   }
 
   /**
-  * to get selected concepts from concept picker.
-  */
+ * to get selected concepts from concept picker.
+ */
   concepts(events) {
     this.formInputData['concepts'] = events;
   }
   /**
-  * To check filterType.
-  */
+ * To check filterType.
+ */
   isObject(val) { return typeof val === 'object'; }
 
   applyFilters() {
@@ -402,6 +395,7 @@ getOrgDetails() {
       });
     }
     this.filtersDetails = enrichedArray;
+    console.log('2 filter facet', this.filtersDetails);
   }
   generateRange(enrichedRange) {
     const rangeArray = [];
@@ -422,30 +416,22 @@ getOrgDetails() {
 
   onFilterChange(event) {
     const { name, value } = event.target;
-    console.log('name', name, 'value', value);
+    console.log('name' , name , 'value' , value);
     if (event.target.checked) {
       if (!(name in this.formInputData)) {
         this.formInputData[name] = [];
       }
       if (!this.formInputData[name].includes(value)) {
         this.formInputData[name].push(value);
-        this.toasterService.info(`${name} - ${value} filter added`);
       }
     } else {
       const index = this.formInputData[name].indexOf(value);
       if (index > -1) {
         this.formInputData[name].splice(index, 1);
-        this.toasterService.info(`${name} - ${value} filter removed`);
       }
     }
+
     this.applyFilters();
   }
 }
-
-
-
-
-
-
-
 

@@ -6,18 +6,18 @@
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
               <div class="card text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                <div class="card-header bg-primary">
+                <div class="card-header color">
                    <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
                    <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i>
                 </div>
                 <div class="card-body filtersBody">
-                  <div class="form-group" >
-                    <fieldset class="form-group" >
+                  <div class="form-group" *ngIf="field.inputType==='select'">
+                    <fieldset class="form-group" *ngIf="field.inputType==='select'">
                       <div class="form-check" *ngFor="let option of field.range">
-                        <label class="form-check-label">
+                        <label class="form-check-label" id="textcolor">
                           <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox"
                             [value]="option.name">
-                         &nbsp; hi{{option.name}} </label>
+                         &nbsp; {{option.name}} </label>
                       </div>
                       <!-- <div class="custom-control custom-checkbox"  *ngFor="let option of field.range">
                         <input (change)="onFilterChange($event)" name={{field.code}} type="checkbox" class="custom-control-input form-check-input" id={{option.name}} [value]="option.name">

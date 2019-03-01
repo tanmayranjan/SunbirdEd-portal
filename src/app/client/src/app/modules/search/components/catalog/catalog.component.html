@@ -11,7 +11,7 @@
           <h5> {{totalCount }} Matching Result(s)
             <div class="float-right">
               <button routerLink="/learn" type="button" class="btn btn-danger">View Enrolled Courses</button> &nbsp;
-              <button (click)="clearFilters()" type="button" class="btn btn-danger" *ngIf="!checkForEmptyObject(filters)">Clear Filters <i class="fas fa-filter"></i></button>
+              <!-- <button (click)="clearFilters()" type="button" class="btn btn-danger" *ngIf="!checkForEmptyObject(filters)">Clear Filters <i class="fas fa-filter"></i></button> -->
             </div>
           </h5>
         </div>
@@ -22,14 +22,14 @@
           <app-loader [data]='loaderMessage'></app-loader>
         </div>
         <div class="jumbotron" *ngIf="!showLoader && !noResult">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">
               <h6 class="float-right">
                 <app-sort-by appTelemetryInteract [telemetryInteractEdata]="sortIntractEdata" [sortingOptions]="sortingOptions"
                   [url]="redirectUrl"></app-sort-by>
               </h6>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div in-view-item [id]="i" [data]="content" class="col-md-4" *ngFor="let content of searchList;let i = index;">
               <app-card appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"

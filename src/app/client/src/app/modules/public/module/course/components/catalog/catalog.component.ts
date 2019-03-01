@@ -1,17 +1,16 @@
 
-import { combineLatest as observableCombineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
 import {
   ServerResponse, PaginationService, ResourceService, ConfigService, ToasterService, INoResultMessage,
   ILoaderMessage, UtilService, ICard
 } from '@sunbird/shared';
-import { SearchService, CoursesService, ICourses, SearchParam, ISort, PlayerService, OrgDetailsService } from '@sunbird/core';
+import { SearchService, CoursesService, ICourses, SearchParam, ISort, PlayerService } from '@sunbird/core';
 import { Component, OnInit, NgZone, ChangeDetectorRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPagination } from '@sunbird/announcement';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CatalogFiltersComponent } from '../catalog-filters/catalog-filters.component';
-import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -119,11 +118,8 @@ export class CatalogComponent implements OnInit {
   public filterType: string;
   public redirectUrl: string;
   sortingOptions: Array<ISort>;
-  slug = '';
-  public unsubscribe$ = new Subject<void>();
-  public orgDetailsService: OrgDetailsService;
   @ViewChild(CatalogFiltersComponent) catalogFiltersComponent: CatalogFiltersComponent;
-  hashTagId: any;
+  tempKey: any;
 
   /**
      * Constructor to create injected service(s) object
@@ -138,7 +134,7 @@ export class CatalogComponent implements OnInit {
      * @param {ToasterService} toasterService Reference of ToasterService
    */
   constructor(searchService: SearchService, route: Router, private playerService: PlayerService,
-    activatedRoute: ActivatedRoute, paginationService: PaginationService, orgDetailsService: OrgDetailsService,
+    activatedRoute: ActivatedRoute, paginationService: PaginationService,
     resourceService: ResourceService, toasterService: ToasterService, private changeDetectorRef: ChangeDetectorRef,
     config: ConfigService, coursesService: CoursesService, public utilService: UtilService) {
     this.searchService = searchService;
@@ -151,24 +147,12 @@ export class CatalogComponent implements OnInit {
     this.config = config;
     this.route.onSameUrlNavigation = 'reload';
     this.sortingOptions = this.config.dropDownConfig.FILTER.RESOURCES.sortingOptions;
-
   }
   /**
     * This method calls the enrolled courses API.
     */
   populateEnrolledCourse() {
-    this.showLoader = true;
-    this.coursesService.enrolledCourseData$.subscribe(
-      data => {
-        if (data && !data.err) {
-          if (data.enrolledCourses.length > 0) {
-            this.enrolledCourses = data.enrolledCourses;
-          }
           this.populateCourseSearch();
-        } else if (data && data.err) {
-          this.populateCourseSearch();
-        }
-      });
   }
 
   populateCourseSearch() {
@@ -183,6 +167,7 @@ export class CatalogComponent implements OnInit {
 
     this.searchService.courseSearch(requestParams).subscribe(
       (apiResponse: ServerResponse) => {
+        console.log('course', apiResponse);
         if (apiResponse.result.count && apiResponse.result.course) {
           this.showLoader = false;
           this.noResult = false;
@@ -262,7 +247,7 @@ export class CatalogComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log('onin it', this.activatedRoute.queryParams);
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;
     this.filters = {
@@ -273,30 +258,34 @@ export class CatalogComponent implements OnInit {
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
       (params: any, queryParams: any) => {
+        console.log('p', params , 'qp', queryParams);
+        this.tempKey = queryParams;
         return {
           params: params,
           queryParams: queryParams
         };
       })
       .subscribe(bothParams => {
+        console.log('both param', bothParams);
         if (bothParams.params.pageNumber) {
           this.pageNumber = Number(bothParams.params.pageNumber);
         }
         this.queryParams = { ...bothParams.queryParams };
+        console.log('check catalog', this.queryParams);
         // load search filters from queryparams if any
         this.filters = {};
         _.forOwn(this.queryParams, (queryValue, queryParam) => {
           if (queryParam !== 'key' && queryParam !== 'sort_by' && queryParam !== 'sortType') {
             this.filters[queryParam] = queryValue;
+            console.log('sub', this.queryParams[queryParam]);
           }
         });
         if (this.queryParams.sort_by && this.queryParams.sortType) {
           this.queryParams.sortType = this.queryParams.sortType.toString();
         }
-        // this.populateEnrolledCourse();
+        this.populateEnrolledCourse();
       });
     this.setInteractEventData();
-
     this.telemetryImpression = {
       context: {
         env: this.activatedRoute.snapshot.data.telemetry.env
@@ -308,8 +297,6 @@ export class CatalogComponent implements OnInit {
         subtype: this.activatedRoute.snapshot.data.telemetry.subtype
       }
     };
-    console.log('telemetry impression', this.telemetryImpression);
-
   }
   setInteractEventData() {
     this.closeIntractEdata = {
@@ -335,6 +322,8 @@ export class CatalogComponent implements OnInit {
     }
     this.changeDetectorRef.detectChanges();
     this.playerService.playContent(event.data.metaData);
+    this.route.navigate(['/play/collection', event.data.metaData.identifier]);
+
   }
   inview(event) {
     _.forEach(event.inview, (inview, key) => {
@@ -357,6 +346,7 @@ export class CatalogComponent implements OnInit {
 
   getFiltersArray() {
     return Object.keys(this.filters).map((filter) => {
+      console.log('filter array', filter);
       return [filter, this.filters[filter]];
     });
   }

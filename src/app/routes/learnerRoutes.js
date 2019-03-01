@@ -67,6 +67,7 @@ module.exports = function (app) {
             }
           },
           userResDecorator: (proxyRes, proxyResData, req, res) => {
+            console.log("proxyres data: ",proxyResData.toString('utf8') )
             const data = JSON.parse(proxyResData.toString('utf8'));
             if(req.method === 'GET' && proxyRes.statusCode === 404 && (typeof data.message === 'string' && data.message.toLowerCase() === 'API not found with these values'.toLowerCase())) res.redirect('/')
             return proxyResData;
