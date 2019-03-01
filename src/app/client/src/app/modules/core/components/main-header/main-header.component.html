@@ -1,11 +1,11 @@
 <div *ngIf="showQrmodal">
     <app-qr-code-modal (closeQrModal)="closeQrModalEvent($event)"></app-qr-code-modal>
 </div>
-<div class="ui fixed main menu bs-0 main-header d-block">
-    <div class="ui container primary-header p-10">
+<div class="ui fixed main menu bs-0 main-header d-block" style="height:26vh">
+    <div class="ui container primary-header">
         <div role="banner" class="ui logo d-flex flex-ai-center">
             <a class="d-flex flex-ai-center" (click)="navigateToHome()">
-                <img class="image centered cursor-pointer" alt={{tenantName}} src="{{logo}}" id="img">
+                <img class="image centered cursor-pointer" style= "width: 6vw" alt={{tenantName}} src="{{logo}}" id="img">
             </a>
         </div>
         <i class="large bars icon link sidebar-hamburger-menu mobile only" (click)="showSideBar()" tabindex="0"></i>
