@@ -22,6 +22,9 @@
  ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
    background:none;
  } */
+ a {
+   color: black;
+ }
  .btn-primary{
    color: #fff;
    background-color: black;
@@ -97,7 +100,10 @@
    overflow: hidden;
  }
 
-
+ .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: black;
+}
 
  .bg-light{
      background: white !important;

@@ -10,80 +10,97 @@
 
 
 <div class="row my-5">
+    <ul class="nav nav-pills mb-3 ml-5" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">course</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Discussion</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent" style="margin-left: -10.5rem">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+     <div class="row mt-5">
+        <div class="col-md-4 py-3" style="box-shadow: 0px 3px 5px black">
 
-<div class="col-md-4 py-3" style="box-shadow: 0px 3px 5px black">
+            <section class="container">
+              <!-- <a
+              class="btn btn-primary "
+              data-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="true"
+              aria-controls="collapseExample"
+              style="box-shadow: 0px 3px 5px 3px darkblue;"
+            >
+            <i class="fas fa-2x fa-bars"></i>
+            </a> -->
+          
+            <!-- <div class="collapse show mt-3" id="collapseExample"> -->
+          <div class="card" style="width: 23vw;
+            left: 1rem;
+            padding: 0rem 1rem 0rem 1rem;
+            box-shadow:
+            0px 3px 20px 1px black;
+            background:black;
+          ">
+          <div class="row" *ngFor="let session of courseDetails">
+                  <div class="card" style="width: 28vw;background: black;border-radius: 1rem; box-shadow: inset 0rem 1rem 62rem 2rem white;padding: 0.5rem"
+                  >
+                    <div class="card-body">
+          
+                  <i class="fas fa-angle-right"></i>
+          
+                {{session.name}}
+          
+          <div class="text-right" style="margin-top: -1rem">
+            <button
+            class="play-icon"
+            (click)="fetchUrl(session)"
+          >
+            <i class="fas fa-play-circle "></i>
+          </button>
+          </div>
+          
+          </div>
+          </div>
+              </div>
+            </div>
+            <!-- </div> -->
+            </section>
+          </div>
+          <div class="col-md-8 pl-5">
+            <section class="course-player" id="preview">
+                <!-- <iframe
+                width="780"
+                height="480"
+                [src]="safeUrl"
+                frameborder="0"
+                *ngIf=
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+          
+              ></iframe> -->
+              <iframe
+                width="780"
+                height="480"
+                [src]="safeUrl"
+                frameborder="0"
+                *ngIf="showPreview"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+          
+              ></iframe>
+          
+            </section>
+          </div>
+     </div>
+          </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div id="disqus_thread"></div>
+          </div>
+        </div>
 
-  <section class="container">
-    <a
-    class="btn btn-primary "
-    data-toggle="collapse"
-    href="#collapseExample"
-    role="button"
-    aria-expanded="true"
-    aria-controls="collapseExample"
-    style="box-shadow: 0px 3px 5px 3px darkblue;"
-  >
-  <i class="fas fa-2x fa-bars"></i>
-  </a>
-
-  <div class="collapse show mt-3" id="collapseExample">
-<div class="card" style="width: 27vw;
-  left: 1rem;
-  padding: 0rem 1rem 0rem 1rem;
-  box-shadow:
-  0px 3px 20px 1px black;
-  background:black;
-">
-<div class="row" *ngFor="let session of courseDetails">
-        <div class="card" style="width: 28vw;background: black;border-radius: 1rem; box-shadow: inset 0rem 1rem 62rem 2rem white;padding: 0.5rem"
-        >
-          <div class="card-body">
-
-        <i class="fas fa-angle-right"></i>
-
-      {{session.name}}
-
-<div class="text-right" style="margin-top: -1rem">
-  <button
-  class="play-icon"
-  (click)="fetchUrl(session)"
->
-  <i class="fas fa-play-circle "></i>
-</button>
-</div>
-
-</div>
-</div>
-    </div>
-  </div>
-  </div>
-  </section>
-</div>
-<div class="col-md-8 pl-5">
-  <section class="course-player" id="preview">
-      <!-- <iframe
-      width="780"
-      height="480"
-      [src]="safeUrl"
-      frameborder="0"
-      *ngIf=
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-
-    ></iframe> -->
-    <iframe
-      width="780"
-      height="480"
-      [src]="safeUrl"
-      frameborder="0"
-      *ngIf="showPreview"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-
-    ></iframe>
-
-  </section>
-</div>
 </div>
 </div>
 </div>
@@ -393,11 +410,12 @@
         </div>
       </header>
       <div class="collapse" id="collapseExample">
-<div class="row"  *ngFor="let batch of batchDetails">
-  <div class="col-md-4">
+        <div class="row">
+<div class="col-md-4"  *ngFor="let batch of batchDetails">
   <app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" ></app-batch-card>
-  </div>
-</div>        </div>
+</div>        
+</div>
+</div>
       <!-- Section #2
             This section is for detailed description
             Has Two subsections 1. Prerequisites 2. Contents  -->
