@@ -36,7 +36,7 @@ resourceType;
   courseInfo ;
   resources = [];
   showPreview: boolean;
-
+firstPreviewUrl;
   constructor(
     // public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -130,6 +130,12 @@ console.log(this.courseInfo);
               if (value.children.length === 0) {
                 if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
                 this.courseDetails.push(value);
+                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
+                if (this.firstPreviewUrl) {
+                  this.showPreview = true;
+                  this.safeUrl = this.firstPreviewUrl;
+
+                }
                 // console.log(this.courseDetails);
                 } else {
                   console.log(value);
@@ -142,6 +148,12 @@ console.log(this.courseInfo);
             } else if (value.hasOwnProperty('artifactUrl')) {
               if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
                 this.courseDetails.push(value);
+                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
+                if (this.firstPreviewUrl) {
+                  this.showPreview = true;
+                  this.safeUrl = this.firstPreviewUrl;
+
+                }
                 // console.log(this.courseDetails);
                 } else if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);

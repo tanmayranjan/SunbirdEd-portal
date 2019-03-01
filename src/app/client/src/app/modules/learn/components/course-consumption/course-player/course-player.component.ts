@@ -348,7 +348,7 @@ export class CoursePlayerComponent implements OnInit {
   userEnrolledBatch = false;
   creatorFor = [];
   courseIds = [];
-
+firstPreviewUrl;
   public courseInteractObject: IInteractEventObject;
 
   public contentInteractObject: IInteractEventObject;
@@ -547,7 +547,13 @@ courseInfo;
             if (value.hasOwnProperty('children')) {
               if (value.children.length === 0) {
                 if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
-                this.courseDetails.push(value);
+                  this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
+                  if (this.firstPreviewUrl) {
+                    this.showPreview = true;
+                    this.safeUrl = this.firstPreviewUrl;
+
+                  }
+                  this.courseDetails.push(value);
                 // console.log(this.courseDetails);
                 } else {
                   console.log(value);
@@ -559,6 +565,12 @@ courseInfo;
               }
             } else if (value.hasOwnProperty('artifactUrl')) {
               if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
+                // this.firstPreviewUrl = value.artifactUrl;
+                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
+                if (this.firstPreviewUrl) {
+                  this.showPreview = true;
+                  this.safeUrl = this.firstPreviewUrl;
+                }
                 this.courseDetails.push(value);
                 // console.log(this.courseDetails);
                 } else if (value.hasOwnProperty('artifactUrl')) {

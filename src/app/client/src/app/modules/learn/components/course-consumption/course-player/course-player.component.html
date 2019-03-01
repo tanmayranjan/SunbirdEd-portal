@@ -59,11 +59,21 @@
   </div>
   </section>
 </div>
-<div class="col-md-8">
+<div class="col-md-8 pl-5">
   <section class="course-player" id="preview">
+      <!-- <iframe
+      width="780"
+      height="480"
+      [src]="safeUrl"
+      frameborder="0"
+      *ngIf=
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+
+    ></iframe> -->
     <iframe
       width="780"
-      height="450"
+      height="480"
       [src]="safeUrl"
       frameborder="0"
       *ngIf="showPreview"
