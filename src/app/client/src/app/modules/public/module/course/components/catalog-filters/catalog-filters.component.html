@@ -6,13 +6,17 @@
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
               <div *ngIf="tempKey !== checkCategory">
-              <div class="card text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code === tempKey.key">
-                <div class="card-header bg-primary">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code === tempKey.key">
+                <div style="color: black;
+                font-size: 19px;
+                padding: 1rem;">
                    <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
-                   <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i>
+                   <!-- <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i> -->
                 </div>
-                <div class="card-body filtersBody">
-                  <div class="form-group" *ngIf="field.inputType==='select'">
+                <div class="filtersBody">
+                  <div class="form-group" *ngIf="field.inputType==='select'" style="margin-bottom: 1rem;
+                  line-height: 2rem;
+                  padding: 0rem 0rem 0rem 3.5rem;">
                     <fieldset class="form-group" *ngIf="field.inputType==='select'">
                       <div class="form-check" *ngFor="let option of field.range">
                         <label class="form-check-label" id="textcolor">
@@ -30,13 +34,17 @@
               </div>
             </div>
             <div *ngIf="tempKey === checkCategory">
-                <div class="card text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                  <div class="card-header bg-primary">
+                <div class="text-white mb-3 filter-category" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                  <div  style="color: black;
+    font-size: 19px;
+    padding: 1rem;">
                      <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
-                     <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i>
+                     <!-- <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i> -->
                   </div>
-                  <div class="card-body filtersBody">
-                    <div class="form-group" *ngIf="field.inputType==='select'">
+                  <div class="filtersBody">
+                    <div class="form-group" *ngIf="field.inputType==='select'" style="    margin-bottom: 1rem;
+                    line-height: 2rem;
+                    padding: 0rem 0rem 0rem 3.5rem;">
                       <fieldset class="form-group" *ngIf="field.inputType==='select'">
                         <div class="form-check" *ngFor="let option of field.range">
                           <label class="form-check-label" id="textcolor">

@@ -197,6 +197,7 @@ export class CatalogComponent implements OnInit {
   * This method process the action object.
   */
   processActionObject(course) {
+    console.log(course);
     const enrolledCoursesId = [];
     _.forEach(this.enrolledCourses, (value, index) => {
       enrolledCoursesId[index] = _.get(this.enrolledCourses[index], 'courseId');

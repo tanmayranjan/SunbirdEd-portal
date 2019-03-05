@@ -27,7 +27,6 @@ export class FancyTreeComponent implements AfterViewInit {
       },
       click: (event, data): boolean => {
         const node = data.node;
-        console.log(node);
         this.itemSelect.emit(node);
         return true;
       },

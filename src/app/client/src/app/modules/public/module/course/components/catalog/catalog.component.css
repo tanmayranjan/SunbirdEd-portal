@@ -1,4 +1,21 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 .jumbotron {
-  background-color: lightgray;
+  background:none;
+}
+.alert-primary {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+.ui.vertical.divider {
+  position: absolute;
+  left: 25%;
+  padding: 0;
+  width: auto;
+  height: 93.5%;
+  top: 0;
+}
+.btn-danger, .btn-danger:hover {
+  background-color: #f5f5f5;
+  color: black;
+  border-color: black;
 }

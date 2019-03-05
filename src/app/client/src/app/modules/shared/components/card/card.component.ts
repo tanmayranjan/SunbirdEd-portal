@@ -5,7 +5,7 @@ import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry'
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.css']
 })
 export class CardComponent {
   /**
@@ -20,6 +20,8 @@ export class CardComponent {
   }
 
   public onAction(data, action) {
+    console.log(this.resourceService);
+    console.log(data, action);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 }

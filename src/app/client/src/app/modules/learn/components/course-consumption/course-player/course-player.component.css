@@ -94,11 +94,11 @@
  .nav-tabs .nav-link.active {
    border-top: 2px solid black;
  }
- p{
+ /* p{
    max-height: 12vh;
    text-overflow: ellipsis;
    overflow: hidden;
- }
+ } */
 
  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;

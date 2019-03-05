@@ -1,4 +1,4 @@
-<div
+<!-- <div
   class="sbCard mt-20 mr-30 mb-5"
   *ngIf="data"
   (click)="onAction(data,data.action.onImage)"
@@ -11,8 +11,6 @@
       <div class="image m-0 mr-15 br-4">
         <img *ngIf="data.showImage? false : true" src="{{data.image || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
       </div>
-
-      <!--Course-->
       <div class="meta course" *ngIf="data.contentType && data.contentType.toLowerCase() === 'course'">
         <div class="topic mb-15" *ngIf="data.topic" title="{{data.topic}}">
           {{data.topic | slice:0:40}}
@@ -23,9 +21,7 @@
           <span *ngIf="data.subTopic && data.subTopic.length >= 30">...</span>
         </div>
       </div>
-      <!--/Course-->
 
-      <!--Non-Course-->
       <div class="meta non-course" *ngIf="!data.contentType || data.contentType.toLowerCase() !== 'course'">
         <div class="mb-auto d-flex">
           <div class="ui label tiny right" *ngIf="data.ribbon && data.ribbon.right && data.ribbon.right.name">{{data.ribbon.right.name}}</div>
@@ -35,7 +31,6 @@
         <div class="class ellipsis mt-3" *ngIf="data.gradeLevel" title="{{data.gradeLevel}}">{{resourceService.frmelmnts.lbl.class}} : {{data.gradeLevel}}</div>
         <div class="medium ellipsis mt-3" *ngIf="data.medium" title="{{data.medium}}">{{resourceService.frmelmnts.lbl.medium}} : {{data.medium}}</div>
       </div>
-      <!--/Non-Course-->
 
     </div>
     <div class="sub-header">
@@ -50,4 +45,81 @@
     <div *ngIf="data.maxCount && data.progress > 0">
     <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
   </div>
-</div>
+</div> -->
+
+
+
+<div class="container">
+    <div class="row" >
+      <div class="col">
+          <div class="card rectangle"
+          *ngIf="data"
+          (click)="onAction(data,data.action.onImage)"
+          appTelemetryInteract
+          [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
+          [telemetryInteractEdata]="data.telemetryInteractEdata"
+          tabindex="0"
+          >
+              <div class="circle text-center">
+                  <!-- <i class="fas fa-2x fa-book mt-4"></i> -->
+                  <!-- <i class="fab fa-creative-commons-share"></i> -->
+                  <i class="fab fa-2x fa-discourse mt-4"></i>
+              </div>
+              <div class="card-header">
+                <img *ngIf="data.showImage? false : true" src="{{data.image || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
+              </div>
+              <div class="card-body">
+                  <div class="meta course" *ngIf="data.contentType && data.contentType.toLowerCase() === 'course'">
+                      <div class="topic mb-15" *ngIf="data.topic" title="{{data.topic}}">
+                        {{data.topic | slice:0:40}}
+                        
+                        <span *ngIf="data.topic && data.topic.length >= 30">...</span>
+                      </div>
+                      <div class="subtopic" *ngIf="data.subTopic" title="{{data.subTopic}}">
+                        {{data.subTopic | slice:0:40}}
+                        <span *ngIf="data.subTopic && data.subTopic.length >= 30">...</span>
+                      </div>
+                    </div>
+                    <div class="meta non-course" *ngIf="!data.contentType || data.contentType.toLowerCase() !== 'course'">
+                        <div class="mb-auto d-flex">
+                          <div class="ui label tiny right" *ngIf="data.ribbon && data.ribbon.right && data.ribbon.right.name">{{data.ribbon.right.name}}</div>
+                          <img src="{{data.ribbon.left.image}}" class="avatar ml-auto" *ngIf="data.ribbon && data.ribbon.left && data.ribbon.left.image" alt="{{data.ribbon.left.name}}">
+                        </div>
+                        <div class="subject ellipsis mt-3" *ngIf="data.subject" title="{{data.subject}}">{{resourceService.frmelmnts.lbl.subject}} : {{data.subject}}</div>
+                        <div class="class ellipsis mt-3" *ngIf="data.gradeLevel" title="{{data.gradeLevel}}">{{resourceService.frmelmnts.lbl.class}} : {{data.gradeLevel}}</div>
+                        <div class="medium ellipsis mt-3" *ngIf="data.medium" title="{{data.medium}}">{{resourceService.frmelmnts.lbl.medium}} : {{data.medium}}</div>
+                      </div>
+                      <h4 class="title" style="height:7vh; max-height:7vh">
+                          {{data.name | slice:0:40 }}
+                     
+                          <span *ngIf="data.name && data.name.length >= 40">...</span>
+                          <div style="color: #FFCC4C;font-size: 12px">
+                          <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>
+                              <i class="fas fa-star"></i>       
+                              <i class="fas fa-star-half-alt"></i>
+                              <i class="far fa-star"></i>
+                           </div>
+                        </h4>
+                    <h6 class="course-description">
+                      {{data.description}}
+                    </h6>
+                        <div class="creator ellipsis">
+                          {{data.orgDetails?.orgName}}
+                        </div>
+                  <hr>
+                  <div class="row">
+                     <div class="col text-right">
+                       <div class="text">
+                          Free
+                       </div>
+                     </div>
+                   </div>
+                   <div *ngIf="data.maxCount && data.progress > 0">
+                      <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
+                    </div>
+                  </div>
+            </div>
+      </div>
+    </div>
+  </div>

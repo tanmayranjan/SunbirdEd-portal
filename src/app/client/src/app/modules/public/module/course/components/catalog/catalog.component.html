@@ -5,6 +5,8 @@
         <app-catalog-filters (appliedFilters)="appliedFilters($event)"  [pageId]="'course-search'" *ngIf="filterType"
           [ignoreQuery]="['key']" [filterEnv]="filterType" [isShowFilterLabel]=true></app-catalog-filters>
       </div>
+      <div class="ui vertical divider">
+      </div>
       <div class="col-md-9">
         <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
