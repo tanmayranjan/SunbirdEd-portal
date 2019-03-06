@@ -12,6 +12,12 @@ section{
     padding: 3vh 0;
     overflow-x:hidden;
 }
+
+.main-content-section {
+    margin : 0;
+    padding : 0;
+}
+
 textarea {
   resize: none;
   border-radius: 2em;
@@ -43,9 +49,8 @@ outline: none;
 }
 .nav-tabs .nav-item {
   background: black;
-  width: 12.5vw;
+  width: 25%;
   text-align: center;
-  height: 6vh;
 }
 .nav-tabs .nav-item:hover{
   border: none;
@@ -55,12 +60,13 @@ outline: none;
   border-top: 2px solid black;;
 }
 .nav-tabs .nav-link {
+  width : 100%;
   color: white;
   font-size: 17px;
 }
 
 .nav-tabs {
-  width: 56vw;
+  width: 100%;
   border: none;
 }
 .btn-primary{

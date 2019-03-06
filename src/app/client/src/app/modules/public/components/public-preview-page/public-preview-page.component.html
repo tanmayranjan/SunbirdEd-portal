@@ -1,60 +1,77 @@
-
 <!-- Section #1
       This showcases the course details  -->
-      <header class="showcase-header">
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-8 j-description text-left mt-3">
-                <section class="j-description text-white">
-                  <h5 class="tagline text-left text-warning">"Write Once, Debug anywhere"</h5>
-                  <h3 class="text-left j-heading text-white">{{courseInfo?.name}}</h3>
-                  <i class="text-warning fas fa-star fa-lg"></i>
-                  <i class="text-warning fas fa-star fa-lg"></i>
-                  <i class="text-warning fas fa-star fa-lg"></i>
-                  <i class="text-warning fas fa-star fa-lg"></i>
-                  <i class="text-warning fas fa-star-half-alt fa-lg"> 2038 Reviews</i>
-                  <br />
-                  <br />
-                  <p>
-                    {{courseInfo?.description}}
-                  </p>
-                </section>
-                <div class="row icon-section mt-3" style="color:white !important;">
-                  <div class="col-sm-6 col-md-3">
-                    <h4>22</h4>
-                    <p> Hours</p>
-                  </div>
-                  <div class="col-sm-6 col-md-3">
-                    <i class="fas fa-graduation-cap"></i>
-                    <p> {{courseInfo?.organisation}}</p>
-                  </div>
-                  <!-- <div class="col-sm-6 col-md-3"> -->
-                    <!-- <mat-icon style="font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Users">person</mat-icon> -->
-                    <!-- <p> {{totalParticipants}}</p> -->
-                  <!-- </div> -->
-                  <div class="col-sm-6 col-md-3">
-                    <i class="fas fa-globe"></i>                    
-                    <p> {{courseInfo?.language[0]}}</p>
-                  </div>
-                </div>
-
-                <div class="row">
-                    <a href="/home" class="sunblogin">
-                      <button  class="btn btn-outline-warning ml-3 mt-3">ENROLL</button>
-                    </a>
-                </div>
-              </div>
-              <div class="col-sm-4 text-left mt-4">
-                <img class="j-image" [src]='courseInfo?.appIcon' alt="Course-Image">
-              </div>
+<header class="showcase-header">
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 j-description text-left mt-3">
+          <section class="j-description text-white">
+            <h5 class="tagline text-left text-warning">"Write Once, Debug anywhere"</h5>
+            <h3 class="text-left j-heading text-white">{{courseInfo?.name}}</h3>
+            <i class="text-warning fas fa-star fa-lg"></i>
+            <i class="text-warning fas fa-star fa-lg"></i>
+            <i class="text-warning fas fa-star fa-lg"></i>
+            <i class="text-warning fas fa-star fa-lg"></i>
+            <i class="text-warning fas fa-star-half-alt fa-lg"> 2038 Reviews</i>
+            <br />
+            <br />
+            <p>
+              {{courseInfo?.description}}
+            </p>
+          </section>
+          <div class="row icon-section mt-3" style="color:white !important;">
+            <div class="col-sm-6 col-md-3">
+              <h4>22</h4>
+              <p> Hours</p>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <i class="fas fa-graduation-cap"></i>
+              <p> {{courseInfo?.organisation}}</p>
+            </div>
+            <!-- <div class="col-sm-6 col-md-3"> -->
+            <!-- <mat-icon style="font-size: 30px;" data-toggle="tooltip" data-placement="top" title="Users">person</mat-icon> -->
+            <!-- <p> {{totalParticipants}}</p> -->
+            <!-- </div> -->
+            <div class="col-sm-6 col-md-3">
+              <i class="fas fa-globe"></i>
+              <p> {{courseInfo?.language[0]}}</p>
             </div>
           </div>
+
+          <div class="row">
+            <a href="/home" class="sunblogin">
+              <button class="btn btn-outline-warning ml-3 mt-3">ENROLL</button>
+            </a>
+          </div>
         </div>
-      </header>
-      <!-- Section #2
-            This section is for detailed description
-            Has Two subsections 1. Prerequisites 2. Contents  -->
+        <div class="col-sm-4 text-left mt-4">
+          <img class="j-image" [src]='courseInfo?.appIcon' alt="Course-Image">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!--content-page tab-layout-->
+<div class="container">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#highlight" role="tab" data-toggle="tab">HIGHLIGHTS</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#roadmap" role="tab" data-toggle="tab">ROADMAP</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#media-content" role="tab" data-toggle="tab">CONTENT</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#pre-requisite" role="tab" data-toggle="tab">PRE-REQUISITE</a>
+      </li>
+  </ul>
+</div>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!--highlights page-->
+    <div role="tabpanel" class="tab-pane fade in active" id="highlight">
       <section data-aos="fade-right" class="course-highlights-section container-fluid bg-light">
         <div class="container">
           <br />
@@ -89,8 +106,8 @@
                 <i class="fas fa-users-cog fa-4x text-danger text-center mt-1" aria-hidden="true"></i>
                 <div class="card-body text-center">
                   <h4 class="card-title" style="font-size: 2em;     font-size: 2em;
-                  width: 28vw;
-                  margin-left: -3em;">GLOBAL COMMUNITY </h4>
+                                width: 28vw;
+                                margin-left: -3em;">GLOBAL COMMUNITY </h4>
                   <hr />
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                     card's
@@ -101,324 +118,140 @@
           </div>
         </div>
       </section>
-      <!-- Section #4
-            This section is for Preview/Sample video  -->
+    </div>
+    <!--roadmap page-->
+    <div role="tabpanel" class="tab-pane fade" id="roadmap">
       <section class="container-fluid bg-secondary">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
               <div class="row">
-              <div class="col-md-6 ">
+                <div class="col-md-6 ">
                   <h6 class="text-secondary text-left mb-0 font-weight-bold">ROADMAP</h6>
-                    <h3 class="text-left section-headers mb-4">YOUR JOURNEY</h3>
-                    <div>
-                      <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                          <a
-                            class="nav-link active"
-                            id="session-tab"
-                            data-toggle="tab"
-                            href="#session"
-                            role="tab"
-                            aria-controls="session"
-                            aria-selected="true"
-                            >Session Plan</a
-                          >
-                        </li>
-                        <li class="nav-item">
-                          <a
-                            class="nav-link"
-                            id="resource-tab"
-                            role="tab"
-                            data-toggle="tab"
-                            href="#resource"
-                            role="tab"
-                            aria-controls="resource"
-                            aria-selected="false"
-                            >Resources</a
-                          >
-                        </li>
-                        <li class="nav-item">
-                          <a
-                            class="nav-link"
-                            id="comments-tab"
-                            data-toggle="tab"
-                            href="#comments"
-                            role="tab"
-                            aria-controls="comments"
-                            aria-selected="false"
-                            >Comments</a
-                          >
-                        </li>
-                        </ul>
-                        </div>
-                        <div class="tab-content pt-3" id="myTabContent" style="height: 51vh;overflow-x: hidden;">
-                          <div
-                          class="tab-pane fade show active"
-                          id="session"
-                          role="tabpanel"
-                          aria-labelledby="session-tab"
-                        >
-                        <table class="table table-striped">
-                          <tbody *ngFor="let session of courseDetails">
-                            <tr>
-                              <th scope="row"><i class="fas fa-angle-right"></i></th>
-                              <td>
-                                <div class="row">
-                                  <div class="col-md-8">
-                                    <h5>{{ session.name }}</h5>
-                                    <div class="row">
-                                      <div class="col-md-1 pl-4">
-                                        <i class="fas fa-book"></i>
-                                        <hr />
-                                      </div>
-                                      <div class="col-md-8 pl-3">
-                                        Instructor {{ courseInfo?.creator }}
-                                      </div>
+                  <h3 class="text-left section-headers mb-4">YOUR JOURNEY</h3>
+                  <div>
+                  </div>
+                  <div class="tab-content pt-3" id="myTabContent" style="height: 51vh;overflow-x: hidden;">
+                    <div class="tab-pane fade show active" id="session" role="tabpanel" aria-labelledby="session-tab">
+                      <table class="table table-striped">
+                        <tbody *ngFor="let session of courseDetails">
+                          <tr>
+                            <th scope="row"><i class="fas fa-angle-right"></i></th>
+                            <td>
+                              <div class="row">
+                                <div class="col-md-8">
+                                  <h5>{{ session.name }}</h5>
+                                  <div class="row">
+                                    <div class="col-md-1 pl-4">
+                                      <i class="fas fa-book"></i>
+                                      <hr />
                                     </div>
-                                  </div>
-                                  <div class="col-md-2  pl-5">
-                                    <div class="row pl-4" (click)="fetchUrl(session)">
-                                      <button
-                                        class="play-icon mb-2"    
-                                      >
-                                        <i class="fas fa-2x fa-play-circle "></i>
-                                      </button>
-                                      <a> preview</a>
+                                    <div class="col-md-8 pl-3">
+                                      Instructor {{ courseInfo?.creator }}
                                     </div>
                                   </div>
                                 </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-              
-                        </div>
-              
-                        <div
-                          class="tab-pane fade"
-                          id="resource"
-                          role="tabpanel"
-                          aria-labelledby="resource-tab"
-                        >
-              
-                        <table class="table table-striped">
-                          <tbody *ngFor="let resource of resources">
-                            <tr>
-                              <th scope="row"><i class="fas fa-angle-right"></i></th>
-                              <td>
-                                <div class="row">
-                                  <div class="col-md-8">
-                                    <h5>{{ resource.name }}</h5>
-                                    <div class="row">
-                                      <div class="col-md-1 pl-4">
-                                        <i class="fas fa-book"></i>
-                                        <hr />
-                                      </div>
-                                      <div class="col-md-8 pl-3">
-                                        Instructor {{ courseInfo?.creator }}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-2  pl-5">
-                                    <div class="row pl-4">
-                                      <button
-                                        class="play-icon mb-2 ml-2"    
-                                      >
-                                      <i
-                                      (click)="fetchUrl(resource)"
-                                      class="fas fa-2x fa-download download "
-                                    ></i>                                      </button>
-                                      <a> Download</a>
-                                    </div>
+                                <div class="col-md-2  pl-5">
+                                  <div class="row pl-4" (click)="fetchUrl(session)">
+                                    <button class="play-icon mb-2">
+                                      <i class="fas fa-2x fa-play-circle "></i>
+                                    </button>
+                                    <a> preview</a>
                                   </div>
                                 </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        </div>
-                        <div
-                          class="tab-pane fade"
-                          id="comments"
-                          role="tabpanel"
-                          aria-labelledby="comments-tab"
-                        >
-                          <div class="comments  text-right px-5">
-                            <h4 class="text-left">Comment</h4>
-                            <div>
-                              <textarea
-                                rows="6"
-                                placeholder="Please share your feedback about this course or session here "
-                              >
-                              </textarea>
-                            </div>
-                            <button class="btn btn-primary my-2">Submit</button>
-                          </div>
-                        </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
+
+                  </div>
                 </div>
                 <div class="col-md-6" style="margin-top:5rem;" *ngIf="showPreview">
-                  <iframe width="600" height="380" [src]='safeUrl' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-                  </div>
+                  <iframe width="600" height="380" [src]='safeUrl' frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                </div>
               </div>
 
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--media-content page-->
+    <div role="tabpanel" class="tab-pane fade" id="media-content">
+        <div class="row">
+            <section class="contents-section container-fluid" data-aos="fade-right">
+              <h6 class="text-secondary text-left mb-0 font-weight-bold">FILES</h6>
+              <h3 class="text-left section-headers">MEDIA CONTENTS</h3>
               <div class="row">
-                <section class="contents-section container-fluid" data-aos="fade-right">
-                  <h6 class="text-secondary text-left mb-0 font-weight-bold">FILES</h6>
-                  <h3 class="text-left section-headers">MEDIA CONTENTS</h3>
-                  <div class="row">
-                    <div class="col-sm-2">
-                      <i class="fa fa-play-circle fa-lg text-primary" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">5</h4>
-                    </div>
-                    <div class="col-sm-2">
-                      <i class="fa fa-file-pdf-o fa-lg text-success" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">10</h4>
-                    </div>
-                    <div class="col-sm-2">
-                      <i class="fa fa-code fa-lg text-danger" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">100</h4>
-                    </div>
-                    <div class="col-sm-2">
-                      <i class="fa fa-clock-o fa-lg text-primary" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">36</h4>
-                    </div>
-                    <div class="col-sm-2">
-                      <i class="fa fa-desktop fa-lg text-success" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">15</h4>
-                    </div>
-                    <div class="col-sm-2">
-                      <i class="fa  fa-file-text fa-lg text-danger" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">28</h4>
-                    </div>
-                  </div>
-                  <br />
-                  <br />
-                </section>
-                <section class="pre-requisites-section container-fluid" data-aos="fade-right">
-                  <h6 class="text-secondary text-left mb-0 font-weight-bold">NEED TO KNOW</h6>
-                  <h3 class="text-left section-headers">PRE-REQUISITES</h3>
-                  <div class="row">
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p>Sound knowledge about C and C++</p>
-                    </div>
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p></p>Good Logic thinker
-                    </div>
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p>Should be willing to have sleepless nights</p>
-                    </div>
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p>Must embrace frustration</p>
-                    </div>
-
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p>Loads of Coffee and Caffeine Tolerance</p>
-                    </div>
-                    <div class="col-sm-4 mt-2 mb-2">
-                      <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      <p>Objects are everything</p>
-                    </div>
-                  </div>
-                </section>
+                <div class="col-sm-2">
+                  <i class="fa fa-play-circle fa-lg text-primary" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">5</h4>
+                </div>
+                <div class="col-sm-2">
+                  <i class="fa fa-file-pdf-o fa-lg text-success" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">10</h4>
+                </div>
+                <div class="col-sm-2">
+                  <i class="fa fa-code fa-lg text-danger" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">100</h4>
+                </div>
+                <div class="col-sm-2">
+                  <i class="fa fa-clock-o fa-lg text-primary" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">36</h4>
+                </div>
+                <div class="col-sm-2">
+                  <i class="fa fa-desktop fa-lg text-success" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">15</h4>
+                </div>
+                <div class="col-sm-2">
+                  <i class="fa  fa-file-text fa-lg text-danger" aria-hidden="true"></i>
+                  <h4 style="color:black !important;">28</h4>
+                </div>
               </div>
-            </div>
-
+              <br />
+              <br />
+            </section>
           </div>
-        </div>
-      </section>
-
-      <!-- <section class="container-fluid">
-        <div class="container">
-            <h6 class="text-secondary text-left mb-0 font-weight-bold">COURSE STRUCTURE</h6>
-            <h3 class="text-left section-headers">WHAT YOU'LL LEARN</h3>
+      </div>
+      <!--pre-requisite page-->
+    <div role="tabpanel" class="tab-pane fade" id="pre-requisite">
+        <section class="pre-requisites-section container-fluid" data-aos="fade-right">
+            <h6 class="text-secondary text-left mb-0 font-weight-bold">NEED TO KNOW</h6>
+            <h3 class="text-left section-headers">PRE-REQUISITES</h3>
             <div class="row">
-                <div class="bg-secondary col-sm-4" style="height: 80vh; overflow-y: overlay;">
-                    <app-collection-tree
-                    [showPreviewAccordian] = "true"
-                    *ngIf="collectionTreeNodes; else: dataCommingSoon"
-                    [nodes]="collectionTreeNodes"
-                    [options]="collectionTreeOptions"
-                    (previewSelect)="fetchUrl($event)"
-                  ></app-collection-tree>
-                </div>
-                <div class="col-sm-6">
-                    <div class="pt-5">
-                        <iframe width="720" height="450" [src]='safeUrl' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                    </div>
-                </div>
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p>Sound knowledge about C and C++</p>
               </div>
-        </div>
-      </section> -->
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p></p>Good Logic thinker
+              </div>
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p>Should be willing to have sleepless nights</p>
+              </div>
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p>Must embrace frustration</p>
+              </div>
 
-      <section data-aos="fade-right" class="Batches" *ngIf="userId!=anonymous">
-        <div class="container">
-          <h6 class="text-secondary mb-0 font-weight-bold">BATCHES</h6>
-          <div class="row">
-            <div class="col-sm-6">
-              <h3 class="text-left section-headers">ENROLL NOW</h3>
-            </div>
-            <div class="col-sm-6">
-              <div data-aos="fade-left" class="container text-right">
-                <!-- <mat-form-field>
-                  <mat-select placeholder="Batch Type" [formControl]="batchControl" (selectionChange)="fetchBatches($event.value)"
-                    required>
-                    <mat-option *ngFor="let bat of batch" [value]="bat">
-                      {{bat.name}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="batchControl.hasError('required')">Batch type</mat-error>
-                </mat-form-field> -->
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p>Loads of Coffee and Caffeine Tolerance</p>
+              </div>
+              <div class="col-sm-4 mt-2 mb-2">
+                <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
+                <p>Objects are everything</p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- Section #6
-            This section is for Instructors/Mentors -->
-      <!-- <section class="container-fluid">
-        <div class="container">
-          <div class="row">
-              <div class="col-sm-8 bg-secondary" *ngIf="userId!=anonymous">
-                  <section data-aos="fade-left" class="mentors-section">
-                    <h6 class="text-secondary text-right mb-0 font-weight-bold">MENTORS</h6>
-                    <h3 class="text-right section-headers">WE'RE HERE TO HELP</h3>
-                    <div class="row mt-3" data-aos="fade-left">
-                      <div class="col-lg-6 col-sm-12" *ngFor="let mentor of mentorsDetails">
-                        <div class="card mentor-card">
-                          <div class="box">
-                            <div class="img">
-                              <img src='{{mentor?.avatar}}'>
-                            </div>
-                            <h2>{{mentor?.firstName}} {{mentor?.lastName}}<br><span>{{mentor?.jobProfile[0]}}Web Graphic Designer</span></h2>
-                            <p>
-                              {{mentor?.profileSummary | slice: 0 : 40}}
-                            </p>
-                            <span>
-                              <ul>
-                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                              </ul>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-          </div>
+          </section>
+    </div>
 
-        </div>
-      </section> -->
-      <router-outlet></router-outlet>
+  </div>
+
+<router-outlet></router-outlet>
