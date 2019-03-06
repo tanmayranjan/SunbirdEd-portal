@@ -13,10 +13,18 @@ section{
     overflow-x:hidden;
 }
 
+
+.white-bg {
+    background-color: white !important;
+    padding-left : 20%;
+    padding-right: 15%;
+    margin : auto;
+}
 .main-content-section {
     margin : 0;
     padding : 0;
 }
+
 
 textarea {
   resize: none;
@@ -32,6 +40,7 @@ ul{
 .container-fluid{
     width: 100vw;
 }
+
 .play-icon {
   box-shadow: 0px 3px 5px black;
   border-radius: 18px;
@@ -43,25 +52,33 @@ ul{
 outline: none;
 }
 .tab-bg{
-  background: black;
+  background: white;
   box-shadow: 0rem 1rem 0rem 1rem black;
   height: 2vh;
 }
+
+.white-bg .nav {
+    width : 80%;
+    margin : auto;
+    text-align: center;
+}
+
 .nav-tabs .nav-item {
-  background: black;
-  width: 25%;
+  background: white;
+  width: 20%;
   text-align: center;
+  color : black;
 }
 .nav-tabs .nav-item:hover{
   border: none;
 }
 
-.nav-tabs .nav-link.active {
-  border-top: 2px solid black;;
+.nav-tabs .nav-link.active, nav-link:hover {
+  border-bottom: 2px solid black;;
 }
 .nav-tabs .nav-link {
   width : 100%;
-  color: white;
+  color: black;
   font-size: 17px;
 }
 
@@ -69,6 +86,12 @@ outline: none;
   width: 100%;
   border: none;
 }
+
+.white-bg > .nav {
+    width : 100%;
+    margin : 0;
+}
+
 .btn-primary{
   color: #fff;
   background-color: black;
