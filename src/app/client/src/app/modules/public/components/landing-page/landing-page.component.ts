@@ -28,17 +28,7 @@ export class LandingPageComponent implements OnInit  {
   categors;
   categoryNames = [];
   categories = [1, 2, 3, 4, 5, 6];
-  popularcourses = [
-   {
-     background : 'http://niittvimgcdn.azureedge.net/Images/anytime_graphic.jpg',
-     name: 'Anytime Courses'
-   },
-   {
-   background : 'http://niittvimgcdn.azureedge.net/Images/testpreparation.jpg',
-   name: 'Test Preparation',
-  }
 
-  ];
   images = [
   // tslint:disable-next-line: max-line-length
 

@@ -3,14 +3,48 @@
 .jumbotron {
   background: url('http://niittvimgcdn.azureedge.net/Images/siteBnr.jpg') no-repeat;
   background-size: cover;
-  height: 90vh;
+  height: 78vh;
   position: relative;
   opacity: 1;
-  box-shadow: 0px 10px 20px 9px black;
-  top: 1em;
+  /* box-shadow: 0px 10px 20px 9px black; */
+
+}
+.headings {
+  width: 100%;
+  margin: 10px auto;
+  text-align: center;
+}
+.headingbar {
+  position: relative;
+  padding-bottom: 1em;
+}
+.headingbar h1 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font: 400 32px OpenSans;
 }
 
-
+.headingbar h1:before {
+  margin-right: 10px;
+}
+.headingbar h1:after, .headingbar h1:before {
+  content: "";
+  position: relative;
+  width: 145px;
+  height: 1px;
+  top: -10px;
+  display: inline-block;
+  background: #9A9A9A;
+  overflow: hidden;
+  left: 0.5rem;
+}
+.entrance-test {
+  background: #448a3c;
+  border-radius: 8em;
+  height: 4vh;
+  max-width: 21vw;
+}
 .jumbotron .text-bg {
   position:absolute;
   left: 18em;
@@ -318,13 +352,47 @@ a {
   background: url(http://niittvimgcdn.azureedge.net/Images/anytime_graphic.jpg) no-repeat;
   background-size: cover;
 }
+.school .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/school_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+.school .scheduledBoxOverlay, .management .scheduledBoxOverlay , .banking .scheduledBoxOverlay {
+  background: url(http://niittvimgcdn.azureedge.net/Images/anytime_overlay.png);
+}
+.college .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/collage_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+.college .scheduledBoxOverlay, .it .scheduledBoxOverlay, .working_professional .scheduledBoxOverlay {
+  background: url(http://niittvimgcdn.azureedge.net/Images/upcoming_overlay.png);
+}
+.management .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/managemnt_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+
+.it .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/IT_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+.banking .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/banking_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+.working_professional .bckImgLayer {
+  background: url(http://niittvimgcdn.azureedge.net/Images/wrkPro_graphic.jpg) no-repeat;
+  background-size: cover;
+}
+
 .bckImgLayer {
   height: 181px;
   position: relative;
 }
+
 .AnyTimeintroBox .scheduledBoxOverlay {
   background: url(http://niittvimgcdn.azureedge.net/Images/anytime_overlay.png);
 }
+
 .scheduledBoxOverlay {
   position: absolute;
   top: 0;
@@ -373,9 +441,7 @@ label {
   text-align: center;
   width: 100%;
 }
-.AnyTimeintroBox .scheduled_icon {
-  background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -646px 0 no-repeat;
-}
+
 .introGlobBoxElement .scheduled_icon {
   background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -302px 0 no-repeat;
   display: block;
@@ -422,10 +488,8 @@ label {
   height: 100%;
   background-color: #118f9c;
 }
-.UpcomingintroBox .scheduled_icon {
-  background: url(http://niittvimgcdn.azureedge.net/Images/testPrepration_logo.png) 15px 0 no-repeat;
-  width: 58px;
-}
+
+
 .introGlobBoxElement .scheduled_icon {
   background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -302px 0 no-repeat;
   display: block;

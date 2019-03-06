@@ -118,9 +118,29 @@
   <div class="container">
 
       <div class="bannerInnerContent">
-          <h1 class="wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.2s"> India’s largest <span> FREE </span> Online Learning Platform
+          <h1 class="wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.2s" style="margin-top: -4rem;"> India’s largest <span> FREE </span> Online Learning Platform
            <a id="imgJoinNow" href="javascript:void(0);"> <span class="joinBtn">Join Now</span></a>
           </h1>
+          <div class="row mt-3" style="margin-left: 8rem;">
+     <div class="col entrance-test" >
+ <div class="row mt-2 ml-3" >
+  <i class="fas fa-2x fa-file-alt mr-2" style="font-size: 15px;"></i>
+  <a href="#" class="exam-link" style="color: white; font-size: 15px"
+  >
+ Prepare for Competitive Exams
+</a>
+ </div>
+     </div>
+  <div class="col entrance-test ml-3">
+ <div class="row mt-2 mx-5">
+  <i
+  class="fas fa-2x fa-graduation-cap mr-2" style="font-size:15px"></i>
+<a href="#" class="scholarship-link" style="color: white; font-size: 15px">
+ Find a Scholarship</a>
+ </div>
+  </div>
+
+          </div>
           <div class="TVFeatureLst">
           <ul>
           <li><span class="comnIcons 24Access"></span> 24X 7 Access </li>
@@ -146,60 +166,115 @@
           </div>
   </div>
 </div>
-<section id="services">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading">Compete to get Scholarship</h2>
-        <hr class="my-4" />
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-md-6">
-        <div class="service-box text-center">
-          <i class="fas fa-4x fa-file-alt text-warning mb-3 sr-icon-1"></i>
-          <!-- <i class="fas fa-4x fa-file-alt text-warning"></i> -->
-          <a href="#" class="exam-link"
-            ><h3>Prepare for competitive Exams</h3>
-          </a>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="service-box text-center">
-          <i
-            class="fas fa-4x fa-graduation-cap text-warning mb-3 sr-icon-1"
-          ></i>
-          <a href="#" class="scholarship-link"><h3>Find a Scholarship</h3></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 <br />
 <section>
+    <div class="headings">
+      <div class="row headingbar marginh1" style=" display: block;;color: black">
+      <h1 style="color: black"> Our Courses</h1>
+      </div>
+      </div>
+
   <div class="container my-5">
     <div class="row">
-      <div class="col-md-4 pb-3" *ngFor="let category of images">
-        <div class="card course-image">
-          <img [src]="category.background" (click)="getFramework(category.frameWork)" class="card-img-top" alt="..." />
-
-          <div class="text" >{{ category.name }}</div>
+        <div class="col-md-4 col-sm-4 spacer col-md-offset-2">
+            <div class="introGlobBoxElement school">
+                <div class="bckImgLayer">
+                    <div class="scheduledBoxOverlay">
+                        <span class="introleftbar"></span>
+                        <label>School</label>
+                        <span class="coursetxt">Courses</span>         
+                        <span style="color: white;">
+                            <i class="fas fa-4x fa-child mt-2" style="margin-left:12rem"></i>
+                        </span>
+                      </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="col-md-4 col-sm-4 spacer col-md-offset-2">
+            <div class="introGlobBoxElement college">
+                <div class="bckImgLayer">
+                    <div class="scheduledBoxOverlay">
+                        <span class="introleftbar"></span>
+                        <label>College</label>
+                        <span class="coursetxt">Courses</span> 
+                        <span style="color: white;" >
+                            <i class="fas fa-4x fa-graduation-cap mt-2" style="margin-left:11rem"></i>
+                        </span>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="col-md-4 col-sm-4 spacer col-md-offset-2">
+              <div class="introGlobBoxElement management">
+                  <div class="bckImgLayer">
+                      <div class="scheduledBoxOverlay">
+                          <span class="introleftbar"></span>
+                  <label>Management</label>
+                          <span class="coursetxt">Courses</span> 
+                          <span style="color: white;">
+                              <i class="fas fa-4x fa-user-tie mt-2" style="margin-left:12rem"></i>                          
+                            </span>
+                        </div>
+                  </div>
+              </div>
+          </div>
+ 
+            <div class="col-md-4 col-sm-4 spacer col-md-offset-2">
+                <div class="introGlobBoxElement it">
+                    <div class="bckImgLayer">
+                        <div class="scheduledBoxOverlay">
+                            <span class="introleftbar"></span>
+                            <label>IT</label>
+                            <span class="coursetxt">Courses</span> 
+                            <span style="color: white;">
+                                <i class="fas fa-4x fa-laptop mt-2" style="margin-left:11rem"></i>
+                            </span>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+              <div class="col-md-4 col-sm-4 spacer col-md-offset-2" >
+                  <div class="introGlobBoxElement banking">
+                      <div class="bckImgLayer">
+                          <div class="scheduledBoxOverlay">
+                              <span class="introleftbar"></span>
+                    <label>Banking</label>
+                              <span class="coursetxt">Courses</span> 
+                              <span style="color: white;">
+                                  <i class="fas fa-4x fa-piggy-bank mt-2" style="margin-left:11rem"></i>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+                <div class="col-md-4 col-sm-4 spacer col-md-offset-2" >
+                    <div class="introGlobBoxElement working_professional">
+                        <div class="bckImgLayer">
+                            <div class="scheduledBoxOverlay">
+                                <span class="introleftbar"></span>
+                                <label>Working Professional</label>
+                          <span class="coursetxt">Courses</span>
+                          <span style="color: white;">
+                              <i class="fas fa-4x fa-briefcase mt-2" style="margin-left:11rem"></i>
+                          </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
     </div>
   </div>
 </section>
 <section>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading">Our Offerings</h2>
-        <hr class="my-4" />
-      </div>
-    </div>
-  </div>
+    <div class="headings">
+        <div class="row headingbar marginh1" style="display: block;">
+        <h1 style="color: black"> Our Offerings</h1>
+        </div>
+        </div>
   <div class="container my-5 mx-5">
     <div class="row popular-courses">
         <div class="col-2 spacer "></div>
@@ -209,7 +284,10 @@
                     <div class="scheduledBoxOverlay">
                         <span class="introleftbar"></span>
                         <label>Anytime</label>
-                        <span class="coursetxt">Courses</span> <span class="scheduled_icon"></span>
+                        <span class="coursetxt">Courses</span>
+                        <span style="color: white;">
+                            <i class="fas fa-4x fa-chalkboard-teacher mt-2" style="margin-left:9rem"></i>
+                        </span> 
                     </div>
                 </div>
             </div>
@@ -220,7 +298,10 @@
                      <div class="scheduledBoxOverlay">
                          <span class="introleftbar"></span>
                          <label>Test</label>
-                         <span class="coursetxt"> Preparation</span> <span class="scheduled_icon"></span>
+                         <span class="coursetxt"> Preparation</span>
+                         <span style="color: white;">
+                            <i class="fas fa-4x fa-file-signature mt-2" style="margin-left:10rem"></i>
+                        </span> 
                      </div>
                  </div>
              </div>
@@ -230,83 +311,20 @@
   </div>
 </section>
 <section>
-    <div class="container" id="GoToPopularCourses">
-        <div class="row">
-          <div class="col-lg-12 text-center">
-            <h2 class="section-heading">Popular Anytime On-demand Courses</h2>
-            <hr class="my-4" />
-          </div>
-        </div>
-      </div>
+
+
+        <div class="headings" id="GoToPopularCourses">
+            <div class="row headingbar marginh1" style="display: block">
+            <h1 style="color: black"> Popular Anytime On-Demand Courses</h1>
+            <h6>On-Demand Courses for Self-Paced Learners</h6>
+            </div>
+            </div>
+    
      <div class="container">
         <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
               <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-display-popular-course>
             </div>
-     </div>
+  </div>
 </section>
-<!-- <section id="services">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading">At Your Service</h2>
-        <hr class="my-4" />
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-6 text-center">
-        <div class="service-box mt-5 mx-auto">
-          <i class="fas fa-4x fa-paper-plane text-warning mb-3 sr-icon-2"></i>
-          <h3 class="mb-3">Hands On Exercises</h3>
-          <p class="text-muted mb-0">
-            Your training is packed with assignments, assessment tests, quizzes
-            and exercises
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 text-center">
-        <div class="service-box mt-5 mx-auto">
-          <i
-            class="fas fa-4x fa-chalkboard-teacher mb-3 sr-icon-3 text-warning"
-          ></i>
-          <h3 class="mb-3">Expert Instructors</h3>
-          <p class="text-muted mb-0">Take help from our Instructors</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 text-center">
-        <div class="service-box mt-5 mx-auto">
-          <i class="fas fa-4x fa-question text-warning mb-3 sr-icon-4"></i>
-          <h3 class="mb-3">Queries</h3>
-          <p class="text-muted mb-0">Post your Queries</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 text-center">
-        <div class="service-box mt-5 mx-auto">
-          <i class="fas fa-4x fa-ribbon text-warning mb-3 sr-icon-1"></i>
-          <h3 class="mb-3">Global Certificate</h3>
-          <p class="text-muted mb-0">
-            Our templates are updated regularly so they don't break.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-<!-- <div class="container">
-  <div class="row">
-    <div
-      class="twelve wide column"
-      *ngFor="let section of carouselData; let last = last"
-      [ngClass]="{ 'last mb-30': last }"
-    >
-      <app-page-section
-        (visits)="prepareVisits($event)"
-        [section]="section"
-        (playEvent)="playContent($event)"
-        (viewAll)="viewAll($event)"
-      ></app-page-section>
-    </div>
-  </div>
-</div> -->
+
 <router-outlet></router-outlet>
