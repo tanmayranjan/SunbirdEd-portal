@@ -8,6 +8,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+
+import * as $ from 'jquery';
 // import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 export interface Batches {
@@ -66,6 +68,14 @@ firstPreviewUrl;
   }
 
   ngOnInit() {
+
+    // initialize the tooltip effect in the pre-requisites section
+     $(() => {
+     $('[data-toggle="tooltip"]').tooltip();
+      (<any>$('.nav-tabs')).tab('show');
+    });
+
+
     this.search = {
       filters: {
         status: '1',

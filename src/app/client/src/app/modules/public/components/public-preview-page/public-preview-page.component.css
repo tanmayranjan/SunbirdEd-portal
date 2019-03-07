@@ -13,6 +13,25 @@ section{
     overflow-x:hidden;
 }
 
+.icon {
+    float: left;
+}
+
+.h3 {
+    font-size: 4em;
+}
+
+[class^=fa-]{
+    text-align: center;
+}
+
+.show {
+    display: block;
+}
+
+.mb-20 {
+    margin-bottom : 20px;
+}
 
 .white-bg {
     background-color: white !important;
