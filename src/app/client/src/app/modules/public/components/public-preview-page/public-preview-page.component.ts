@@ -48,6 +48,7 @@ resourceType;
   resources = [];
   showPreview: boolean;
 firstPreviewUrl;
+userId;
   constructor(
     // public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -60,12 +61,14 @@ firstPreviewUrl;
     public toaster: ToasterService,
     public configService: ConfigService,
     public publicDataService: PublicDataService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public userService: UserService
   ) {
     this.collectionTreeOptions = this.config.appConfig.collectionTreeOptions;
   }
 
   ngOnInit() {
+    this.userId = this.userService.userid;
     this.search = {
       filters: {
         status: '1',
