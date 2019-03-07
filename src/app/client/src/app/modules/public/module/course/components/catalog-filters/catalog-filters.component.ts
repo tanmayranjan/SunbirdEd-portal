@@ -120,10 +120,10 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log('inside catalog filters');
-    // this.hashTagId = '0127015689401876480';
+    this.hashTagId = '0127015689401876480';
     // this.hashTagId = '0126937906368184322';
 //     this.hashTagId = '0127053482034872320';
-this.hashTagId =  '0125134851644620800';
+// this.hashTagId =  '0125134851644620800';
     this.activatedRoute.queryParams.subscribe((params) => {
       console.log('getquerparam',  params);
       if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
@@ -211,14 +211,14 @@ this.hashTagId =  '0125134851644620800';
     //   this.dataDrivenFilter.emit(this.formFieldProperties);
     //   this.createFacets();
     // } else {
-      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('NCF')
+      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('niit_tv')
       .subscribe((frameworkData: any) => {
         console.log('data', frameworkData);
         if (frameworkData && !frameworkData.err) {
           console.log('data', frameworkData);
           this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
           console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
-          this.framework = 'NCF';
+          this.framework = 'niit_tv';
           const formServiceInputParams = {
             formType: this.formType,
             formAction: this.formAction,
