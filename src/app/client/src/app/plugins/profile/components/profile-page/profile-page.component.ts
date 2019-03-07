@@ -158,6 +158,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   telemetryImpression: IImpressionEventInput;
   myFrameworkEditEdata: IInteractEventEdata;
   telemetryInteractObject: IInteractEventObject;
+  showContactPopup: boolean;
   constructor( private cacheService: CacheService, public resourceService: ResourceService, public coursesService: CoursesService,
     public permissionService: PermissionService, public toasterService: ToasterService, public profileService: ProfileService,
     public userService: UserService, public configService: ConfigService, public router: Router, public utilService: UtilService,
@@ -224,7 +225,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       return _.join(value, ', ');
     }
   }
-
+getUpdateForm() {
+  this.showContactPopup = true;
+}
   getLocationDetails(locations, type) {
     const data = _.find(locations, { type: type });
     if (data) {
