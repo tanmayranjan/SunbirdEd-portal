@@ -238,6 +238,7 @@ export class CatalogComponent implements OnInit {
   * @example navigateToPage(1)
   */
   navigateToPage(page: number): undefined | void {
+    console.log(page);
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
