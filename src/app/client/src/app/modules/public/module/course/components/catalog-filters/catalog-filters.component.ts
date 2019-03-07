@@ -1,3 +1,4 @@
+
 import { Subscription, Observable } from 'rxjs';
 import {
   ConfigService, ResourceService, Framework, ToasterService, ServerResponse,
@@ -121,6 +122,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     console.log('inside catalog filters');
     this.hashTagId = '0127015689401876480';
     // this.hashTagId = '0126937906368184322';
+//     this.hashTagId = '0127053482034872320';
+// this.hashTagId =  '0125134851644620800';
     this.activatedRoute.queryParams.subscribe((params) => {
       console.log('getquerparam',  params);
       if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
@@ -434,4 +437,3 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     this.applyFilters();
   }
 }
-

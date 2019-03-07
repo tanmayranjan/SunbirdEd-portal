@@ -1,14 +1,18 @@
 <div class="container-fluid catalog" style="background: white;">
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3" style="     height: 37rem;
+      overflow-y: scroll;
+      position: fixed;
+      margin: 0rem;">
         <app-catalog-filters (appliedFilters)="appliedFilters($event)"  [pageId]="'course-search'" *ngIf="filterType"
           [ignoreQuery]="['key']" [filterEnv]="filterType" [isShowFilterLabel]=true></app-catalog-filters>
       </div>
-      <div class="ui vertical divider">
-      </div>
-      <div class="col-md-9">
-        <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult">
+      <!-- <div class="ui vertical divider"> -->
+      <!-- </div> -->
+      <div class="col-md-9" style="left:26rem">
+        <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult" style=" width: 67.5vw;
+        left: 2rem;">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <h5> {{totalCount }} Matching Result(s)
             <!-- <div class="float-right">

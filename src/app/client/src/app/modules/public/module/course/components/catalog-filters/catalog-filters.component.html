@@ -5,7 +5,7 @@
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
-              <div *ngIf="tempKey !== checkCategory">
+              <div *ngIf="tempKey!== 'undefined'">
               <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code === tempKey.key">
                 <div style="color: black;
                 font-size: 19px;
