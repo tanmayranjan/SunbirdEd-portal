@@ -92,7 +92,7 @@ outline: none;
   border: none;
 }
 
-.nav-tabs .nav-link.active, nav-link:hover {
+.nav-tabs .nav-link.active {
   border-bottom: 2px solid black;;
 }
 .nav-tabs .nav-link {
@@ -121,6 +121,7 @@ outline: none;
   background-color: black !important;
   outline: white;
 }
+
 @media screen and (min-width: 320px) {
     .j-description{
         color: black;
@@ -357,3 +358,43 @@ outline: none;
   width: 0px;
 }
 
+.content-card {
+    width : 25% !important;
+    height : 40% !important;
+    margin : 0 30px 30px 50px;
+    text-align: center;
+    border-radius: 0;
+    box-shadow: 7px 7px 23px 0px rgba(212,204,212,1);
+}
+
+.content-card i {
+    font-size: 6em;
+}
+
+.card-row {
+    margin : 0;
+}
+
+.card-row:first-child {
+    margin-left : 20px;
+}
+
+.skills-list {
+    list-style-type: none;
+    width : 80%;
+    text-align: center;
+    margin : auto;
+    margin-top : 30px;
+
+}
+
+.skills-list-item {
+    margin : 0;
+    margin : auto;
+    padding : 50px;
+    min-width : 100%;
+    border-radius: none;
+    background-color: white;
+    margin-bottom : 40px;
+    box-shadow: 7px 7px 23px 0px rgba(212,204,212,1);
+}
