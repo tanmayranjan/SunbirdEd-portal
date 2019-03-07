@@ -199,8 +199,8 @@ export class LandingPageComponent implements OnInit  {
     }
     this.search = this.configService.dropDownConfig.FILTER.SEARCH.search;
     if (this.userService.loggedIn) {
-    this.router.navigate([this.search['Courses'], 1], {
-      queryParams: this.queryParam
+      this.router.navigate(['/search/explore-course', 1], {
+        queryParams: this.queryParam
     },
     );
   } else {
@@ -219,7 +219,7 @@ export class LandingPageComponent implements OnInit  {
 document.getElementById('GoToPopularCourses').click();
 // element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
-  getFramework(framework) {
+  getFramework(framework, name) {
 console.log('framework', framework);
 const key = { key : framework};
 this.router.navigate(['/search/explore-course', 1], {

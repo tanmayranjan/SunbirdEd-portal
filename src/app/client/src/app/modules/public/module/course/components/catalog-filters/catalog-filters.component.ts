@@ -1,3 +1,4 @@
+
 import { Subscription, Observable } from 'rxjs';
 import {
   ConfigService, ResourceService, Framework, ToasterService, ServerResponse,
@@ -119,8 +120,10 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log('inside catalog filters');
-    this.hashTagId = '0127015689401876480';
+    // this.hashTagId = '0127015689401876480';
     // this.hashTagId = '0126937906368184322';
+//     this.hashTagId = '0127053482034872320';
+this.hashTagId =  '0125134851644620800';
     this.activatedRoute.queryParams.subscribe((params) => {
       console.log('getquerparam',  params);
       if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
@@ -208,14 +211,14 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     //   this.dataDrivenFilter.emit(this.formFieldProperties);
     //   this.createFacets();
     // } else {
-      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('niit_tv')
+      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('NCF')
       .subscribe((frameworkData: any) => {
         console.log('data', frameworkData);
         if (frameworkData && !frameworkData.err) {
           console.log('data', frameworkData);
           this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
           console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
-          this.framework = 'niit_tv';
+          this.framework = 'NCF';
           const formServiceInputParams = {
             formType: this.formType,
             formAction: this.formAction,
@@ -434,4 +437,3 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     this.applyFilters();
   }
 }
-
