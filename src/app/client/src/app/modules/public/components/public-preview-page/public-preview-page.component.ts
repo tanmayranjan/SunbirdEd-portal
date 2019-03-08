@@ -70,10 +70,10 @@ firstPreviewUrl;
   ngOnInit() {
 
     // initialize the tooltip effect in the pre-requisites section
-     $(() => {
+    /*  $(() => {
      $('[data-toggle="tooltip"]').tooltip();
       (<any>$('.nav-tabs')).tab('show');
-    });
+    }); */
 
 
     this.search = {
