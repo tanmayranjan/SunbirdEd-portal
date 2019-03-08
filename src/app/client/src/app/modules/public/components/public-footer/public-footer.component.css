@@ -1,8 +1,13 @@
-.ui.footer.segment {
-  width: 100%;
-  background-color: #fff;
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.ft-copyright {
+    background-color: #000a1f;
+    border-top: 1px solid #121d6d;
+    display: flex;
 }
-
-.closeBtn-dial-code {
-  color: #333;
-}
+.text-pp-crt,
+	.text-pp-crt-rg {
+		color: #FFFFFF;
+    }
+    .developer {
+		text-align: center;
+	}

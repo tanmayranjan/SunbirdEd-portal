@@ -1,6 +1,6 @@
-<footer class="footer mt-20" *ngIf="showFooter">
+<footer class="footer1 " *ngIf="showFooter">
   <div class="ui container">
-    <div class="ui grid stackable">
+    <!-- <div class="ui grid stackable">
       <div class="four wide column footerMenu">
         <ul class="p-0 m-0">
           <li class="mb-15">
@@ -40,6 +40,50 @@
           <span>| &copy; {{date | date:'yyyy'}}, DIKSHA</span>
         </label>
       </div>
-    </div>
+    </div> -->
+    <section>
+        <div class="row ft-copyright pt-2 pb-2" style="padding-left: 25px;">
+                  <div class="col-sm-4 text-pp-crt mb-3 mt-15 ">
+                    <div class="row">
+                        <div _ngcontent-c3="" class="ui logo d-flex flex-ai-center" role="banner">
+                          <a _ngcontent-c3="" class="d-flex flex-ai-center">
+                            <img _ngcontent-c3="" class="image centered cursor-pointer" alt="sunbird" src="http://localhost:3000/assets/images/sunbird_logo.png">
+                          </a></div>
+                      <div class="col-sm">
+                          <hr>
+                        </div>
+                    </div>
+                   </div>
+                  <div class="col-sm-6 text-pp-crt-rg mb-3 mt-15">
+                    <div class="row font">
+                      <div class="col-lg-auto" (click)="gotoContact('contact')">
+                        Contact Us
+                      </div>
+                      <div class="col-auto" (click)="gotoContact('license')">
+                          Creative Commons License
+                        </div>
+                        <div class="col-xl" (click)="gotoContact('people')">
+                           People Invloved
+                          </div>
+                    </div>
+                    <br>
+                    <div class="row font1">
+                      Copyright2019 Societal Platform SPace.All rights Reserved.
+                    </div>
+                  </div>
+                  <div class="col-sm-2 text-pp mb-3 mt-15">Follow Us On <br>
+<div class="row">
+<div class="col-1">
+<i class="fa fa-twitter"></i>
+</div>
+<div class="col-1">
+<i class="fa fa-facebook"></i>
+</div>
+<div class="col-1">
+<i class="fa fa-google-plus"></i>
+</div>
+</div>                
+</div>  </div>
+  </section>
   </div>
 </footer>

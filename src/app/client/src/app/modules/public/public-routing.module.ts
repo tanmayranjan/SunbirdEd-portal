@@ -8,6 +8,11 @@ import {
   PublicCollectionPlayerComponent
 } from './components';
 import { LandingpageGuard } from './services';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { CommonLicenseComponent } from './components/common-license/common-license.component';
+import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
+import { AboutUSComponent } from './components/about-us/about-us.component';
+import { BlogComponent } from './components/blog/blog.component';
 
 const routes: Routes = [
   {
@@ -65,6 +70,21 @@ const routes: Routes = [
   },
   {
     path: 'signup', loadChildren: './module/signup/signup.module#SignupModule'
+  },
+  {
+    path: 'contactUs', component: ContactUsComponent
+  },
+  {
+    path: 'license', component: CommonLicenseComponent
+  },
+  {
+    path: 'people', component: PeopleInvlovedComponent
+  },
+  {
+    path: 'aboutUs', component: AboutUSComponent
+  },
+  {
+    path: 'blog', component: BlogComponent
   }
 ];
 @NgModule({
