@@ -21,14 +21,23 @@ import { UserService } from '../../../core/services';
 })
 export class LandingPageComponent implements OnInit  {
    /**
-
   /**
    * Contains result object returned from getPageData API.
    */
   categors;
   categoryNames = [];
   categories = [1, 2, 3, 4, 5, 6];
+  popularcourses = [
+   {
+     background : 'http://niittvimgcdn.azureedge.net/Images/anytime_graphic.jpg',
+     name: 'Anytime Courses'
+   },
+   {
+   background : 'http://niittvimgcdn.azureedge.net/Images/testpreparation.jpg',
+   name: 'Test Preparation',
+  }
 
+  ];
   images = [
   // tslint:disable-next-line: max-line-length
 
@@ -132,6 +141,7 @@ export class LandingPageComponent implements OnInit  {
         _.forOwn(data, value => {
    _.forEach(value , course => {
    this.carouselData.push(course);
+   console.log(course, this.carouselData);
 
    });
         });
@@ -187,41 +197,49 @@ export class LandingPageComponent implements OnInit  {
     const sectionUrl = this.router.url.split('?')[0] + '/view-all/' + event.name.replace(/\s/g, '-');
     this.router.navigate([sectionUrl, 1], {queryParams: queryParams});
   }
-  blockAngleChar(key) {
-    console.log('event', key);
-   this.key = key;
-    this.queryParam = {};
-    this.queryParam['key'] = this.key;
-    if (this.key && this.key.length > 0) {
-            this.queryParam['key'] = this.key;
-    } else {
-      delete this.queryParam['key'];
-    }
-    this.search = this.configService.dropDownConfig.FILTER.SEARCH.search;
-    if (this.userService.loggedIn) {
-      this.router.navigate(['/search/explore-course', 1], {
-        queryParams: this.queryParam
-    },
-    );
-  } else {
-    console.log('log', this.queryParam);
-    this.router.navigate(['/search/explore-course', 1], {
-      queryParams: this.queryParam
-      // queryParams: {
-      //   key: key ,
-      //   frameWork: this.activatedRoute.snapshot.data.orgdata.defaultFramework ,
-      //   rootOrg: this.activatedRoute.snapshot.data.orgdata.rootOrgId}
-    });
-  }
-  }
   scroll() {
     console.log('inside scroll');
 document.getElementById('GoToPopularCourses').click();
 // element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
+
+  blockAngleChar(key) {
+    if (key === '' || key === null || key === undefined) {
+      this.toasterService.error('Plese Enter value to Search') ;
+    } else {
+      this.key = key;
+      this.queryParam = {};
+      this.queryParam['key'] = this.key;
+      if (this.key && this.key.length > 0) {
+              this.queryParam['key'] = this.key;
+      } else {
+        delete this.queryParam['key'];
+      }
+      this.search = this.configService.dropDownConfig.FILTER.SEARCH.search;
+      this.router.navigate(['/search/explore-course', 1], {
+        queryParams: this.queryParam
+    });
+    //   if (this.userService.loggedIn) {
+    //     this.router.navigate(['/search/explore-course', 1], {
+    //       queryParams: this.queryParam
+    //   },
+    //   );
+    // } else {
+    //   console.log('log', this.queryParam);
+    //   this.router.navigate(['/search/explore-course', 1], {
+    //     queryParams: this.queryParam
+    //   });
+    // }
+    }
+
+  }
   getFramework(framework, name) {
-console.log('framework', framework);
-const key = { key : framework};
+console.log('framework', framework, name);
+
+const key = {
+  [framework]: name
+};
+console.log(key);
 this.router.navigate(['/search/explore-course', 1], {
   queryParams: key
 });

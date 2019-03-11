@@ -96,6 +96,8 @@ export class AppComponent implements OnInit {
         }
       }))
     .subscribe(data => {
+      // tslint:disable-next-line:no-debugger
+      debugger;
       this.tenantService.getTenantInfo(this.slug);
       this.setPortalTitleLogo();
       this.telemetryService.initialize(this.getTelemetryContext());

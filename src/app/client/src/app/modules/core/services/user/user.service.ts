@@ -149,6 +149,7 @@ export class UserService {
     };
     this.learnerService.get(option).subscribe(
       (data: ServerResponse) => {
+        console.log(data);
         this.setUserProfile(data);
       },
       (err: ServerResponse) => {

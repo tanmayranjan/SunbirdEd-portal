@@ -144,9 +144,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         this.batchId = batchId;
         this.courseStatus = courseStatus;
         this.setTelemetryCourseImpression();
-        console.log(this.courseId);
-        console.log(this.batchId);
-        console.log(this.courseStatus);
+
         if (this.batchId) {
           this.userEnrolledBatch = true;
         }
@@ -204,20 +202,19 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       }`
     };
     this.publicDataService.get(req).subscribe(data => {
-      console.log(data);
+
             this.courseInfo = data.result.content;
 
       if (data.result.content.hasOwnProperty('children')) {
         const childrenIds = data.result.content.children;
-        console.log(data.result.content);
+
         // this.courseIds = childrenIds;
         this.courseTitle = data.result.content.name;
         this.creator = data.result.content.creator;
         this.creatorFor = data.result.content.createdFor;
-        console.log(this.creatorFor);
+
         this.courseDescription = data.result.content.description;
         _.forOwn(childrenIds, childrenvalue => {
-          console.log(childrenvalue.identifier);
           this.courseIds.push(childrenvalue.identifier);
           this.getChildren(childrenvalue);
         });
@@ -243,7 +240,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
                   this.courseDetails.push(value);
                 // console.log(this.courseDetails);
                 } else {
-                  console.log(value);
                   if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
                   // console.log(this.resources);
@@ -296,7 +292,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       }
     };
     this.courseBatchService.getAllBatchDetails(batches).subscribe(batchData => {
-      console.log(batchData.result.response);
+
       _.forOwn(batchData.result.response.content, batchdetails => {
         this.batchDetails.push(batchdetails);
         if (batchData.result.response.content.length < 0) {

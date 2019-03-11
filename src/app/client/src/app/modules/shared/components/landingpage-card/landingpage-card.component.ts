@@ -6,7 +6,7 @@ import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry'
 @Component({
   selector: 'app-landingpage-card',
   templateUrl: './landingpage-card.component.html',
-  styleUrls: ['./landingpage-card.component.scss']
+  styleUrls: ['./landingpage-card.component.css']
 })
 export class LandingpageCardComponent {
   /**
@@ -21,6 +21,9 @@ export class LandingpageCardComponent {
   }
 
   public onAction(data, action) {
+    // tslint:disable-next-line:no-debugger
+    debugger;
+    console.log(data);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 }

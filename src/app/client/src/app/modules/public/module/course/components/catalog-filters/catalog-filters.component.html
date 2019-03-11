@@ -1,17 +1,17 @@
 
-<div class="row">
+<div *ngIf="tempKey !== 'undefined'; else searchResults">
+  <div class="row">
     <div class="col-md-12 mt-30">
       <form>
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
-              <div *ngIf="tempKey!== 'undefined'">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code === tempKey.key">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory"  [class.fieldnotselected]="field.code !== tempKey">
                 <div style="color: black;
                 font-size: 19px;
-                padding: 1rem;">
+                padding: 1rem;"
+                >
                    <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
-                   <!-- <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i> -->
                 </div>
                 <div class="filtersBody">
                   <div class="form-group" *ngIf="field.inputType==='select'" style="margin-bottom: 1rem;
@@ -24,47 +24,50 @@
                             [value]="option.name">
                          &nbsp; {{option.name}} </label>
                       </div>
-                      <!-- <div class="custom-control custom-checkbox"  *ngFor="let option of field.range">
-                        <input (change)="onFilterChange($event)" name={{field.code}} type="checkbox" class="custom-control-input form-check-input" id={{option.name}} [value]="option.name">
-                        <label class="custom-control-label" for="customCheck2">{{option.name}}</label>
-                      </div> -->
                     </fieldset>
                   </div>
                 </div>
               </div>
-            </div>
-            <div *ngIf="tempKey === checkCategory">
-                <div class="text-white mb-3 filter-category" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                  <div  style="color: black;
-    font-size: 19px;
-    padding: 1rem;">
-                     <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
-                     <!-- <i class="far fa-times-circle float-right" (click)="resetFilters2(field.code)"></i> -->
-                  </div>
-                  <div class="filtersBody">
-                    <div class="form-group" *ngIf="field.inputType==='select'" style="    margin-bottom: 1rem;
-                    line-height: 2rem;
-                    padding: 0rem 0rem 0rem 3.5rem;">
-                      <fieldset class="form-group" *ngIf="field.inputType==='select'">
-                        <div class="form-check" *ngFor="let option of field.range">
-                          <label class="form-check-label" id="textcolor">
-                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox"
-                              [value]="option.name">
-                           &nbsp; {{option.name}} </label>
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- <div *ngIf="field.code==='concepts' && showConcepts" class="field">
-                  <form class="conceptSelector ui form">
-                    <app-concept-picker [selectedConcepts]="formInputData[field.code]" (Concepts)="concepts($event)"></app-concept-picker>
-                  </form>
-                </div> -->
             </div>
           </div>
         </fieldset>
       </form>
     </div>
   </div>
+</div>
+<ng-template #searchResults>
+  <div class="row">
+    <div class="col-md-12 mt-30">
+      <form>
+        <fieldset>
+          <div *ngIf="formFieldProperties">
+            <div *ngFor="let field of filtersDetails">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                <div style="color: black;
+                font-size: 19px;
+                padding: 1rem;"
+                >
+                  <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
+                </div>
+                <div class="filtersBody">
+                  <div class="form-group" *ngIf="field.inputType==='select'" style="margin-bottom: 1rem;
+                  line-height: 2rem;
+                  padding: 0rem 0rem 0rem 3.5rem;">
+                    <fieldset class="form-group" *ngIf="field.inputType==='select'">
+                      <div class="form-check" *ngFor="let option of field.range">
+                        <label class="form-check-label" id="textcolor">
+                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox"
+                            [value]="option.name">
+                         &nbsp; {{option.name}} </label>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</ng-template>

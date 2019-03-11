@@ -51,12 +51,10 @@ export class ViewuserComponent implements OnInit {
     this.learnerService.post(option).subscribe(data => {
       const response = data.result;
       let userorgid;
-      console.log('user response', response);
       _.forOwn(response, content => {
         _.forEach(content, value => {
           _.forEach(value, user => {
             _.forEach(user.organisations, (userorg: any) => {
-              console.log(userorg);
               this.existingUserRoles = userorg.roles;
               userorgid = userorg.organisationId;
             });
@@ -82,7 +80,6 @@ export class ViewuserComponent implements OnInit {
         this.userroles.push(key);
       }
     });
-    console.log(this.userroles);
     const option = {
       url: this.configService.urlConFig.URLS.ADMIN.UPDATE_USER_ORG_ROLES,
       data: {
@@ -93,10 +90,8 @@ export class ViewuserComponent implements OnInit {
         }
       }
     };
-    console.log(option);
     this.publicdataService.post(option).subscribe(
       data => {
-        console.log(data);
         this.toasterService.success('user role updated successfully');
 
         this.goBackToCoursePage();

@@ -65,7 +65,6 @@ export class BatchCardComponent implements OnInit {
           },
           err => {
             this.unEnroll = false;
-            console.log(err);
               this.toasterService.error(err.error.params.err);
           }
         );
@@ -88,7 +87,6 @@ export class BatchCardComponent implements OnInit {
             }
           }
         }, (err) => {
-          console.log(err);
           this.route.navigate(['/learn']);
         });
     }

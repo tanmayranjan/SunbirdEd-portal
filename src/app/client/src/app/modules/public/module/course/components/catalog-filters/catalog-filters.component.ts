@@ -11,6 +11,11 @@ import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
 import { FormControl } from '@angular/forms';
+
+export class Filter {
+  code: string;
+  name:  string;
+}
 @Component({
   selector: 'app-catalog-filters',
   templateUrl: './catalog-filters.component.html',
@@ -69,7 +74,7 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   public formInputData: any;
 
   userRoles = [];
-
+  selectedFilter: Filter;
   public permissionService: PermissionService;
   public userService: UserService;
   public loggedInUserRoles = [];
@@ -120,27 +125,27 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log('inside catalog filters');
-    this.hashTagId = '0127015689401876480';
-    // this.hashTagId = '0126937906368184322';
-//     this.hashTagId = '0127053482034872320';
-// this.hashTagId =  '0125134851644620800';
-    this.activatedRoute.queryParams.subscribe((params) => {
-      console.log('getquerparam',  params);
-      if ( params.key === 'rating' || params.key === 'board' || params.key === 'medium'
-       || params.key === 'gradeLevel' || params.key === 'subject'  || params.key === 'topic') {
-        this.tempKey = params;
-      } else {
-        this.tempKey = 'undefined';
-      }
-      console.log('tempkey', this.tempKey);
-    });
+    console.log('path', this.activatedRoute.snapshot.data.orgdata);
+this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
+this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
+this.activatedRoute.queryParams.subscribe((params) => {
+      _.find(Object.keys(params), value => {
+          if (value === 'rating' || value === 'medium' || value === 'board' ||
+          value === 'topic' || value === 'subject' || value === 'gradeLevel') {
+            this.tempKey = value;
+          } else {
+            console.warn('no value');
+            this.tempKey = undefined;
+          }
+      });
+
+});
+
     this.frameworkService.initialize(this.hashTagId);
     this.formInputData = {};
     this.activatedRoute.paramMap.subscribe((paramMap: any) => {
-      console.log('activate param', paramMap);
       if (paramMap.params.cat) {
        this.browsingCategory = paramMap.params.cat;
-       console.log('browsing ' , this.browsingCategory);
       }
     });
     this.getQueryParams();
@@ -148,7 +153,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     this.contentTypes = this.configService.dropDownConfig.FILTER.RESOURCES.contentTypes;
     this.userService.userData$.subscribe(
       (user: IUserData) => {
-        console.log('user', user);
         if (user && !user.err) {
           this.loggedInUserRoles = user.userProfile.userRoles;
         }
@@ -169,13 +173,16 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   getQueryParams() {
     this.activatedRoute.queryParams.subscribe((params) => {
-      console.log('getquerparam',  params);
-      if ( params.key === 'contentType' || params.key === 'board' || params.key === 'medium'
-       || params.key === 'gradeLevel' || params.key === 'subject') {
-        this.tempKey = params;
-      }
-      console.log('tempkey', this.tempKey);
+_.forEach(Object.keys(params), data => {
+if (data === 'rating' || data === 'board' || data === 'medium' || data === 'gradeLevel' || data === 'subject' || data === 'topic') {
+this.tempKey = data;
+} else {
+  this.tempKey = 'undefined';
+}
+console.log(this.tempKey);
+});
       this.queryParams = { ...params };
+      console.log(this.queryParams);
       _.forIn(params, (value, key) => {
         if (typeof value === 'string' && key !== 'key' && key !== 'language') {
           this.queryParams[key] = [value];
@@ -186,7 +193,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       this.cdr.detectChanges();
       this.refresh = true;
       this.conceptPickerService.conceptData$.subscribe(conceptData => {
-        console.log('conceptpicer', conceptData);
         if (conceptData && !conceptData.err) {
           this.selectedConcepts = conceptData.data;
           if (this.formInputData && this.formInputData.concepts) {
@@ -201,62 +207,65 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   /**
 * fetchFilterMetaData is gives form config data
 */
-  fetchFilterMetaData() {
-    this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
-    console.log('fetch filter meta data', this.isCachedDataExists);
-    // if (!this.isCachedDataExists) {
-    //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
-    //   this.formFieldProperties = data;
-    //   console.log('form field', data);
-    //   this.dataDrivenFilter.emit(this.formFieldProperties);
-    //   this.createFacets();
-    // } else {
-      this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories('niit_tv')
-      .subscribe((frameworkData: any) => {
-        console.log('data', frameworkData);
-        if (frameworkData && !frameworkData.err) {
-          console.log('data', frameworkData);
-          this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
-          console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
-          this.framework = 'niit_tv';
-          const formServiceInputParams = {
-            formType: this.formType,
-            formAction: this.formAction,
-            contentType: this.filterEnv,
-            framework: this.framework
-          };
-          console.log('hasg id' , this.hashTagId);
-          this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
-            (data: ServerResponse) => {
-              console.log('res in formserveice', data);
-              this.formFieldProperties = data;
-              _.forEach(this.formFieldProperties, (formFieldCategory) => {
-                if (formFieldCategory && formFieldCategory.allowedRoles) {
-                  const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
-                  if (!this.showField(formFieldCategory.allowedRoles)) {
-                    this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
-                  }
-                  if (formServiceInputParams.contentType === 'upforreview') {
-                    this.updateFormFields(formFieldCategory);
-                  }
+fetchFilterMetaData() {
+  this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
+  console.log('fetch filter meta data', this.isCachedDataExists);
+  // if (!this.isCachedDataExists) {
+  //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
+  //   this.formFieldProperties = data;
+  //   console.log('form field', data);
+  //   this.dataDrivenFilter.emit(this.formFieldProperties);
+  //   this.createFacets();
+  // } else {
+    this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories(this.framework)
+    .subscribe((frameworkData: any) => {
+      console.log('data', frameworkData);
+      if (frameworkData && !frameworkData.err) {
+        this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
+        console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
+        console.log(this.framework);
+        const formServiceInputParams = {
+          formType: this.formType,
+          formAction: this.formAction,
+          contentType: this.filterEnv,
+          framework: this.framework,
+          component: 'portal'
+        };
+        console.log('hasg id' , this.hashTagId);
+        this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
+          (data: ServerResponse) => {
+            console.log('res in formserveice', data);
+            this.formFieldProperties = data;
+            console.log(this.formFieldProperties);
+            _.forEach(this.formFieldProperties, (formFieldCategory) => {
+              if (formFieldCategory && formFieldCategory.allowedRoles) {
+                const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
+                if (!this.showField(formFieldCategory.allowedRoles)) {
+                  this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
                 }
-              });
-              this.getFormConfig();
-              this.dataDrivenFilter.emit(this.formFieldProperties);
-            },
-            (err: ServerResponse) => {
-              this.dataDrivenFilter.emit([]);
-              // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-            }
-          );
-        } else if (frameworkData && frameworkData.err) {
-          this.dataDrivenFilter.emit([]);
-          // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-        }
-      });
-    }
+                if (formServiceInputParams.contentType === 'upforreview') {
+                  this.updateFormFields(formFieldCategory);
+                }
+              }
+            });
+            this.getFormConfig();
+            this.dataDrivenFilter.emit(this.formFieldProperties);
+          },
+          (err: ServerResponse) => {
+            this.dataDrivenFilter.emit([]);
+            // this.toasterService.error(this.resourceService.messages.emsg.m0005);
+          }
+        );
+      } else if (frameworkData && frameworkData.err) {
+        this.dataDrivenFilter.emit([]);
+        // this.toasterService.error(this.resourceService.messages.emsg.m0005);
+      }
+    });
+  }
   // }
-
+onSelect(filter: Filter): void {
+this.selectedFilter = filter;
+}
   updateFormFields(formFieldCategory) {
     if (formFieldCategory && formFieldCategory.code === 'contentType') {
       if (_.indexOf(this.loggedInUserRoles, 'CONTENT_REVIEWER') !== -1 &&
@@ -292,7 +301,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   }
   createFacets() {
     this.filtersDetails = _.cloneDeep(this.formFieldProperties);
-    console.log('create facet filter', this.filtersDetails);
     const filterArray = [];
     _.forEach(this.filtersDetails, (value) => {
       filterArray.push(value.code);
@@ -398,7 +406,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
     this.filtersDetails = enrichedArray;
-    console.log('2 filter facet', this.filtersDetails);
   }
   generateRange(enrichedRange) {
     const rangeArray = [];

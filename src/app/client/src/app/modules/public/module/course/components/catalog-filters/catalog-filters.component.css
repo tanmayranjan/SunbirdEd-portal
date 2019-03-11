@@ -12,3 +12,6 @@
     border:none;
     border-radius: none;
 }
+.fieldnotselected {
+  display: none;
+}

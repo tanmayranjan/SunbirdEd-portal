@@ -71,7 +71,6 @@ export class PageApiService {
         option.data['exists'] = requestParam.exists;
       }
       return this.publicDataService.post(option).pipe(map((data) => {
-        console.log('page service', data.result.response.sections );
         this.setData(data, requestParam);
         return { sections : data.result.response.sections };
       }));

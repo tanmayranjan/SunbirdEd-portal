@@ -20,7 +20,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { BadgingModule } from '@sunbird/badge';
 import { CourseDetailPageComponent } from './components/course-detail-page/course-detail-page.component';
 import { PublicPreviewPageComponent } from './components/public-preview-page/public-preview-page.component';
-
 @NgModule({
   imports: [
     CommonModule,

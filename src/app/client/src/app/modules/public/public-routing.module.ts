@@ -20,8 +20,8 @@ const routes: Routes = [
         env: 'public', pageid: 'landing-page', type: 'edit', subtype: 'paginate'
       },
       orgdata: {
-        rootOrgId: '0126937906368184322',
-        defaultFramework : 'sunbirdbangladesh'
+        rootOrgId: '0127053482034872320',
+        defaultFramework : 'niit_tv'
       }
     }
   },

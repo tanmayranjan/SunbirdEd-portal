@@ -168,17 +168,14 @@ export class SearchComponent implements OnInit {
     console.log('value', value);
     if ( value === 'Users' ) {
       if ( !this.userProfile.rootOrgAdmin ) {
-        console.log('inside org admin');
         this.selectedOption = 'All';
       } else {
-        console.log('inside 1 else' , value);
         this.selectedOption = value;
         this.showSuiSelectDropdown = false;
         this.cdr.detectChanges();
         this.showSuiSelectDropdown = true;
       }
     } else {
-      console.log('inside 2 else', value);
       this.selectedOption = value;
     }
     this.showInput = true;

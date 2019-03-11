@@ -125,7 +125,6 @@ export class PermissionService {
         if (_.includes(this.userRoles, 'ORG_ADMIN')) {
           this.admin$.next('success');
           this.admin =  true ;
-          console.log(this.admin);
         } else if (user && user.err) {
           this.toasterService.error(this.resourceService.messages.emsg.m0005 || 'Something went wrong, please try again later...');
           this.admin$.next('error');
@@ -163,7 +162,6 @@ export class PermissionService {
   }
   getWorkspaceAuthRoles() {
     const authRoles = _.find(this.config.rolesConfig.WORKSPACEAUTHGARDROLES, (role, key) => {
-      console.log(role);
       if (this.checkRolesPermissions(role.roles)) {
         return role;
       }

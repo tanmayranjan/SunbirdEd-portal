@@ -68,7 +68,6 @@ export class CoursesService {
       map((apiResponse: ServerResponse) => {
         this.enrolledCourses = apiResponse.result.courses;
         this._enrolledCourseData$.next({ err: null, enrolledCourses: this.enrolledCourses });
-        console.log('service', apiResponse.result.courses);
         return apiResponse;
       }),
       catchError((err) => {

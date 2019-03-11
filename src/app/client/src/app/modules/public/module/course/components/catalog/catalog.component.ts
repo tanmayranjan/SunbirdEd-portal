@@ -4,7 +4,7 @@ import {
   ServerResponse, PaginationService, ResourceService, ConfigService, ToasterService, INoResultMessage,
   ILoaderMessage, UtilService, ICard
 } from '@sunbird/shared';
-import { SearchService, CoursesService, ICourses, SearchParam, ISort, PlayerService } from '@sunbird/core';
+import { SearchService, CoursesService, ICourses, SearchParam, ISort, PlayerService, UserService } from '@sunbird/core';
 import { Component, OnInit, NgZone, ChangeDetectorRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPagination } from '@sunbird/announcement';
@@ -120,6 +120,7 @@ export class CatalogComponent implements OnInit {
   sortingOptions: Array<ISort>;
   @ViewChild(CatalogFiltersComponent) catalogFiltersComponent: CatalogFiltersComponent;
   tempKey: any;
+  userloggedIn;
 
   /**
      * Constructor to create injected service(s) object
@@ -136,7 +137,8 @@ export class CatalogComponent implements OnInit {
   constructor(searchService: SearchService, route: Router, private playerService: PlayerService,
     activatedRoute: ActivatedRoute, paginationService: PaginationService,
     resourceService: ResourceService, toasterService: ToasterService, private changeDetectorRef: ChangeDetectorRef,
-    config: ConfigService, coursesService: CoursesService, public utilService: UtilService) {
+    config: ConfigService, coursesService: CoursesService, public utilService: UtilService,
+    public userService: UserService) {
     this.searchService = searchService;
     this.route = route;
     this.coursesService = coursesService;
@@ -167,13 +169,13 @@ export class CatalogComponent implements OnInit {
 
     this.searchService.courseSearch(requestParams).subscribe(
       (apiResponse: ServerResponse) => {
-        console.log('course', apiResponse);
         if (apiResponse.result.count && apiResponse.result.course) {
           this.showLoader = false;
           this.noResult = false;
           this.totalCount = apiResponse.result.count;
           this.pager = this.paginationService.getPager(apiResponse.result.count, this.pageNumber, this.pageLimit);
           this.searchList = this.processActionObject(apiResponse.result.course);
+          console.log(apiResponse.result.course);
         } else {
           this.noResult = true;
           this.showLoader = false;
@@ -197,7 +199,6 @@ export class CatalogComponent implements OnInit {
   * This method process the action object.
   */
   processActionObject(course) {
-    console.log(course);
     const enrolledCoursesId = [];
     _.forEach(this.enrolledCourses, (value, index) => {
       enrolledCoursesId[index] = _.get(this.enrolledCourses[index], 'courseId');
@@ -238,18 +239,20 @@ export class CatalogComponent implements OnInit {
   * @example navigateToPage(1)
   */
   navigateToPage(page: number): undefined | void {
-    console.log(page);
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
     this.pageNumber = page;
-    this.route.navigate(['/search/catalog', this.pageNumber], {
+    this.route.navigate(['/search/explore-course', this.pageNumber], {
       queryParams: this.queryParams
     });
+//  window.location.reload();
   }
 
   ngOnInit() {
     console.log('onin it', this.activatedRoute.queryParams);
+  console.log(this.userService.rootOrgId);
+    this.userloggedIn = this.userService.loggedIn;
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;
     this.filters = {
@@ -261,25 +264,30 @@ export class CatalogComponent implements OnInit {
       this.activatedRoute.queryParams,
       (params: any, queryParams: any) => {
         console.log('p', params , 'qp', queryParams);
-        this.tempKey = queryParams;
+      const keys = Object.keys(queryParams);
+      _.find(keys, value => {
+          if (value === 'rating' || value === 'medium' || value === 'board' ||
+          value === 'topic' || value === 'subject' || value === 'gradeLevel') {
+            this.tempKey = value;
+          } else {
+            this.tempKey = 'undefined';
+          }
+      });
         return {
           params: params,
           queryParams: queryParams
         };
       })
       .subscribe(bothParams => {
-        console.log('both param', bothParams);
         if (bothParams.params.pageNumber) {
           this.pageNumber = Number(bothParams.params.pageNumber);
         }
         this.queryParams = { ...bothParams.queryParams };
-        console.log('check catalog', this.queryParams);
         // load search filters from queryparams if any
         this.filters = {};
         _.forOwn(this.queryParams, (queryValue, queryParam) => {
           if (queryParam !== 'key' && queryParam !== 'sort_by' && queryParam !== 'sortType') {
             this.filters[queryParam] = queryValue;
-            console.log('sub', this.queryParams[queryParam]);
           }
         });
         if (this.queryParams.sort_by && this.queryParams.sortType) {

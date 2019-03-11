@@ -16,7 +16,7 @@ const routes: Routes = [
       },
       orgdata: {
         rootOrgId: '0127053482034872320',
-        defaultFramework : 'niit_tv'
+          defaultFramework : 'niit_tv'
       }
     },
     component: MainHomeComponent,

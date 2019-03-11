@@ -130,7 +130,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     this.contentTypes = this.configService.dropDownConfig.FILTER.RESOURCES.contentTypes;
     this.userService.userData$.subscribe(
       (user: IUserData) => {
-        console.log('user', user);
         if (user && !user.err) {
           this.loggedInUserRoles = user.userProfile.userRoles;
         }
@@ -146,7 +145,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       pageid: this.pageId,
       extra: { filter: this.formInputData }
     };
-    console.log('filterintracy data', this.filterIntractEdata , 'summit' , this.submitIntractEdata);
   }
 
   getQueryParams() {
@@ -180,7 +178,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 */
   fetchFilterMetaData() {
     this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
-    console.log('fetch filter meta data', this.isCachedDataExists);
     // if (!this.isCachedDataExists) {
     //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
     //   this.formFieldProperties = data;
@@ -189,11 +186,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
     //   this.createFacets();
     // } else {
       this.frameworkDataSubscription = this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
-        console.log('data', frameworkData);
         if (frameworkData && !frameworkData.err) {
-          console.log('data', frameworkData);
           this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata.defaultFramework.categories);
-          console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].name);
           this.framework = frameworkData.frameworkdata.defaultFramework.name;
           const formServiceInputParams = {
             formType: this.formType,
@@ -201,10 +195,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
             contentType: this.filterEnv,
             framework: frameworkData.frameworkdata.defaultFramework.name
           };
-          console.log('hasg id' , this.hashTagId);
           this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
             (data: ServerResponse) => {
-              console.log('res in formserveice', data);
               this.formFieldProperties = data;
               _.forEach(this.formFieldProperties, (formFieldCategory) => {
                 if (formFieldCategory && formFieldCategory.allowedRoles) {
@@ -268,7 +260,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   }
   createFacets() {
     this.filtersDetails = _.cloneDeep(this.formFieldProperties);
-    console.log('create facet filter', this.filtersDetails);
     const filterArray = [];
     _.forEach(this.filtersDetails, (value) => {
       filterArray.push(value.code);
@@ -374,7 +365,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
     this.filtersDetails = enrichedArray;
-    console.log('2 filter facet', this.filtersDetails);
   }
   generateRange(enrichedRange) {
     const rangeArray = [];
@@ -395,7 +385,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   onFilterChange(event) {
     const { name, value } = event.target;
-    console.log('name' , name , 'value' , value);
     if (event.target.checked) {
       if (!(name in this.formInputData)) {
         this.formInputData[name] = [];

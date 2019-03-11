@@ -158,7 +158,6 @@ export class CreateCourseBatchComponent implements OnInit, OnDestroy {
         if (err.error && err.error.params.errmsg) {
           this.toasterService.error(err.error.params.errmsg);
         } else {
-          console.log(err);
           this.toasterService.error(this.resourceService.messages.fmsg.m0056);
         }
       });

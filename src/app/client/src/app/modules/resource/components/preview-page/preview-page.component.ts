@@ -82,7 +82,6 @@ firstPreviewUrl;
     //   .subscribe(
     //     (response: any) => {
     //       this.courseDetails = response;
-    //       console.log('course', this.courseDetails.createdBy);
     //       this.collectionTreeNodes = { data: this.courseDetails };
     //       this.coursechapters = this.courseDetails.children;
     //       // const mentorIds = _.union(this.courseDetails.createdBy);
@@ -104,11 +103,10 @@ firstPreviewUrl;
     };
     this.publicDataService.get(req).subscribe(data => {
       this.courseInfo = data.result.content;
-        console.log(data.result.content.appIcon);
-console.log(this.courseInfo);
+
       if (data.result.content.hasOwnProperty('children')) {
         const childrenIds = data.result.content.children;
-        console.log(data.result.content);
+
         this.creator = data.result.content.creator;
         this.courseTitle = data.result.content.name;
         this.resourceType = data.result.content.resourceType;
@@ -120,7 +118,7 @@ console.log(this.courseInfo);
     });
   }
   getChildren(sessiondetails) {
-    // console.log(sessiondetails);
+
     _.forOwn(sessiondetails, (children, key) => {
       if (key === 'children') {
         _.forOwn(children, value => {
@@ -136,12 +134,12 @@ console.log(this.courseInfo);
                   this.safeUrl = this.firstPreviewUrl;
 
                 }
-                // console.log(this.courseDetails);
+
                 } else {
-                  console.log(value);
+
                   if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
-                  // console.log(this.resources);
+
                   }
                 }
               }
@@ -154,10 +152,10 @@ console.log(this.courseInfo);
                   this.safeUrl = this.firstPreviewUrl;
 
                 }
-                // console.log(this.courseDetails);
+
                 } else if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
-                  // console.log(this.resources);
+
                 }
             }
           }

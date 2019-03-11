@@ -32,7 +32,11 @@ const routes: Routes = [
     {
       path: ':pageNumber', component: CatalogComponent , data: {
         telemetry: {
-          env: 'explore', pageid: 'explore-course-search', type: 'view', subtype: 'paginate'
+          env: 'explore', pageid: 'explore-course', type: 'view', subtype: 'paginate'
+        },
+        orgdata: {
+          rootOrgId: '0127053482034872320',
+          defaultFramework : 'niit_tv'
         }
       }
     },

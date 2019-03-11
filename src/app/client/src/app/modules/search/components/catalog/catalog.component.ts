@@ -276,7 +276,6 @@ export class CatalogComponent implements OnInit {
           this.pageNumber = Number(bothParams.params.pageNumber);
         }
         this.queryParams = { ...bothParams.queryParams };
-        console.log('check catalog', this.queryParams);
         // load search filters from queryparams if any
         this.filters = {};
         _.forOwn(this.queryParams, (queryValue, queryParam) => {
