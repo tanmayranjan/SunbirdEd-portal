@@ -1,0 +1,43 @@
+@import '../../../../../../node_modules//bootstrap//dist//css/bootstrap.min.css';
+
+.ui.dropdown:not(.button) .default.text {
+    color: white;
+}
+
+.ui.dropdown .text {
+    color: white;
+}
+.ui.selection.dropdown {
+    border: 1px solid #707070;
+   background: #707070;
+}
+
+hr {
+    border-top: 2px solid rgba(0,0,0,.1);
+}
+
+sui-select {
+    background: #707070;
+}
+
+#style {
+    border: 2px solid #707070;
+    color: #707070;
+
+}
+
+.ui.form .field.selection.dropdown {
+    width: 50%  ;
+}
+.ui.form .field>.selection.dropdown {
+    width: 60%;
+}
+#keywords {
+    border: 1px solid #707070;
+    background: #707070;
+}
+
+
+    label 
+        { float: left; width: 10em; margin-right: 1em;
+        display: contents }

@@ -15,6 +15,24 @@
         </div>
       </div>
     </div>-->
+
+    <div class="ui button" tabindex="0"  [routerLink]="['create']">
+      Create assets
+    </div>
+
+    <!-- <div class="three wide column" *ngIf='permissionService.permissionAvailable' appPermission 
+                    [permission]='lessonRole'>
+                    <div class="ui link card workspacecontent" [routerLink]="['create/studymaterial']">
+                        <div class="content">
+                            <div class="textcontent">
+                                <i class='my-icon file text icon'></i>
+                                <span class="my-text">{{resourceService?.frmelmnts?.lbl?.lesson}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="workspaceinstuction">{{resourceService?.frmelmnts?.lbl?.lessondescription}}</p>
+                </div> -->
+                <!-- <app-create-content></app-create-content>     -->
     <div class="twelve wide column" *ngIf="enrolledSection?.contents?.length">
       <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
     </div>

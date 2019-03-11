@@ -997,9 +997,11 @@ i.large.icon.limitedPublishingLinkIcon {
   font-family: Roboto, sans-serif;
 }
 .ui.selection.dropdown {
-  border: 0;
+  /* border: 0;
   border-bottom: 1px solid #333333;
-  border-radius: 0;
+  border-radius: 0; */
+  border: 1px solid #707070;
+   background: #707070;
 }
 .ui.dropdown.genderSelectionDropDown {
   border: 0;
@@ -2004,6 +2006,15 @@ ul.fancytree-container li {
   color: #cdcccc;
   font-family: Roboto;
   font-size: 13px;
+  background: #707070;
+
+}
+.concept.ui.form .treepicker-parent input {
+  color: #cdcccc;
+  font-family: Roboto;
+  font-size: 13px;
+  background: #707070;
+
 }
 .ui.input input.filterLocationInput {
   padding-top: 12px;

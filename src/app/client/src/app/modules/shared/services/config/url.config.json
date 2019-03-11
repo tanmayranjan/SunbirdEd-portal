@@ -57,6 +57,7 @@
       "UNENROLL_USER_COURSE":"course/v1/unenrol"
     },
     "CONTENT": {
+      "UPDATE": "content/v1/update",
       "SEARCH": "content/v1/search",
       "CREATE": "content/v1/create",
       "PUBLISH": "content/v1/publish",

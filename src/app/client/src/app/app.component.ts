@@ -259,6 +259,7 @@ export class AppComponent implements OnInit {
    * updates user framework. After update redirects to library
    */
   public updateFrameWork(event) {
+
     const req = {
       framework: event
     };

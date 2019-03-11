@@ -87,7 +87,7 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
       this.CustodianOrgBoard['code'] = 'board';
       this.label['medium'] = { 'label': 'Medium', 'index': 2 };
       this.label['class'] = { 'label': 'Class', 'index': 3 };
-      this.label['subject'] = { 'label': 'Subject', 'index': 4 };
+      // this.label['subject'] = { 'label': 'Subject', 'index': 4 };
       return this.CustodianOrgBoard;
     }));
   }
@@ -134,13 +134,13 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
     });
     this.formFieldProperties = _.sortBy(_.uniqBy(this.formFieldProperties, 'code'), 'index');
     this.board = _.find(this.formFieldProperties, { code: 'board' });
-    this.label['medium'] =  _.find(this.formFieldProperties, { label: 'Medium' });
-    this.label['class'] =  _.find(this.formFieldProperties, { label: 'Class' });
-    this.label['subject'] =  _.find(this.formFieldProperties, { label: 'Subject' });
+    this.label['medium'] =  _.find(this.formFieldProperties, { label: 'SPFramework' });
+    this.label['class'] =  _.find(this.formFieldProperties, { label: 'Sector' });
+    // this.label['subject'] =  _.find(this.formFieldProperties, { label: 'sectortype' });
     if (this.isEdit) {
       this.medium = _.find(this.formFieldProperties, { code: 'medium' });
       this.gradeLevel = _.find(this.formFieldProperties, { code: 'gradeLevel' });
-      this.subject = _.find(this.formFieldProperties, { code: 'subject' });
+      // this.subject = _.find(this.formFieldProperties, { code: 'subject' });
     }
     this.selectedOption = _.cloneDeep(this.formInput);
     this.selectedOption.board = _.get(this.selectedOption, 'board[0]') ? _.get(this.selectedOption, 'board[0]') : undefined;
@@ -174,13 +174,14 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
     if (nextIndex === 2) {
       this.selectedOption['medium'] = [];
       this.selectedOption['gradeLevel'] = [];
-      this.selectedOption['subject'] = [];
+      // this.selectedOption['subject'] = [];
     } else if (nextIndex === 3) {
       this.selectedOption['gradeLevel'] = [];
-      this.selectedOption['subject'] = [];
-    } else {
-      this.selectedOption['subject'] = [];
+      // this.selectedOption['subject'] = [];
     }
+    //  else {
+    //   this.selectedOption['gradeLevel'] = [];
+    // }
   }
   getAssociations(event, nextIndex, code) {
     if (this.isCustodianOrg && nextIndex === 2) {
