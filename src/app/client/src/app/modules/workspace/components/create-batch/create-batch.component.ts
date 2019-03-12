@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class CreateBatchComponent implements OnInit {
   @ViewChild('modal') modal;
-  today = new Date(new Date().setHours(0, 0, 0, 0));
+  today = new Date();
   endDate = new Date(this.today.getTime() + (24 * 60 * 60 * 1000));
 @Input() courseId;
   constructor(
