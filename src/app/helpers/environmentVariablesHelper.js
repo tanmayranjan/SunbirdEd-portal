@@ -11,6 +11,8 @@ let envVariables = {
   CONTENT_PROXY_URL: env.sunbird_content_proxy_url || 'https://sunbirdintl-qa.stackroute.com/',
   PORTAL_REALM: env.sunbird_portal_realm || 'sunbird',
   PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'https://sunbirdintl-qa.stackroute.com/auth',
+  // PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'http://localhost:8080/auth',
+
   PORTAL_AUTH_SERVER_CLIENT: env.sunbird_portal_auth_server_client || 'portal',
   APPID: process.env.sunbird_environment + '.' + process.env.sunbird_instance + '.portal',
   DEFAULT_CHANNEL:'niit-Channel',
