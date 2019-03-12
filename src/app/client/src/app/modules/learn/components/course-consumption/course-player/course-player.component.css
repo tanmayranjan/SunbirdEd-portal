@@ -412,4 +412,40 @@
    width: 0px;
  } */
  
- 
+ #dashboardBtn {
+   margin : 20px 20px 0 0;
+   position: absolute;
+   top : 0;
+   right : 0;
+   float : right;
+   border-color: rgba(255,255,255,0.5);
+   z-index : 99999;
+ }
+
+ #dashboardBtn:hover, #dashboardBtn:focus {
+  background-color: black;
+  border-color: rgba(0,0,0,1);
+  color : grey;
+ }
+
+ .content-player-container {
+   z-index : 999;
+   position : fixed;
+   margin : 0;
+   top : 0;
+   left : 0;
+   height : 100vh;
+   width : 100vw;
+   background-color:rgba(0,0,0,1);
+   overflow-y: scroll;
+ }
+
+ .video-player-wrapper {
+  width : 100%;
+  margin : 0;
+  padding :0 0 0 5px;
+ }
+
+ .playlist-area {
+   padding-right : 0;
+ }

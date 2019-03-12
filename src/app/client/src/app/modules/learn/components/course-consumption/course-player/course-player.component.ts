@@ -14,6 +14,9 @@ import { IImpressionEventInput, IEndEventInput, IStartEventInput, IInteractEvent
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { PublicDataService, LearnerService } from '@sunbird/core';
 import { DomSanitizer } from '@angular/platform-browser';
+
+declare var $: any;
+
 @Component({
   selector: 'app-course-player',
   templateUrl: './course-player.component.html',
@@ -193,6 +196,13 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     this.courseProgressService.courseProgressData.pipe(
       takeUntil(this.unsubscribe))
       .subscribe(courseProgressData => this.courseProgressData = courseProgressData);
+  // triggering sidebar change
+      $(() => {
+        $('.ui.sidebar').sidebar({
+          context: $('.bottom.segment')
+        })
+        .sidebar('attach events', '.menu .item');
+      });
   }
 
 
@@ -562,5 +572,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       type: 'click',
       pageid: 'course-consumption'
     };
+  }
+
+  toggleSidebar() {
+    $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
 }

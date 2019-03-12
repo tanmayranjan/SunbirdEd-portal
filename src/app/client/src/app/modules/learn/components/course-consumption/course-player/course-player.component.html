@@ -89,7 +89,31 @@
           </div>
         </div>
         <div *ngIf="enableContentPlayer && !loader">
-          <div class="ui stackable grid">
+          <div class=" row content-player-container">
+            <!--playlist section--> 
+            <div class="col-sm-4 col-md-12 col-lg-3 playlist-area d-none d-md-block">
+                <app-collection-tree
+                    *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                    (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                    [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
+            </div>
+            <div class="col-sm-12 col-xs-12 d-md-none playlist-area">
+                <ng-container *ngFor="let nodes of collectionTreeNodes.data">
+                  <li>Present</li><br/>
+                </ng-container>
+            </div>
+            <!--video player section-->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 video-player-wrapper">
+              <button class="btn btn-outline-light btn-lg" id="dashboardBtn" appTelemetryInteract
+                [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject"
+                (click)="closeContentPlayer()">Go To Dashboard</button>
+              <div class="video-player-wrapper" [appTelemetryImpression]="telemetryContentImpression">
+                This is the video wrapper
+                <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size" [playerConfig]="playerConfig"></app-player>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="ui stackable grid">
             <div class="twelve wide column">
               <div class="ui grid">
                 <div class="row">
@@ -167,7 +191,7 @@
                 </app-note-card>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div *ngIf="loader">
           <app-loader [data]="loaderMessage"></app-loader>
