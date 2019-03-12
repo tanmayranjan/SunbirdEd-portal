@@ -6,7 +6,7 @@
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory"  [class.fieldnotselected]="field.code !== tempKey">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
                 <div style="color: black;
                 font-size: 19px;
                 padding: 1rem;"
@@ -42,7 +42,7 @@
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory" [class.fieldselected]="tempKey===undefined">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
                 <div style="color: black;
                 font-size: 19px;
                 padding: 1rem;"
