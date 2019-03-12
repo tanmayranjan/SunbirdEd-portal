@@ -1,15 +1,22 @@
 <div *ngIf="showQrmodal">
     <app-qr-code-modal (closeQrModal)="closeQrModalEvent($event)"></app-qr-code-modal>
 </div>
-<div class="ui fixed main menu bs-0 main-header d-block" style="background: #4C4C4C;">
-    <div class="ui container primary-header p-10">
-        <div role="banner" class="ui logo d-flex flex-ai-center">
-            <a class="d-flex flex-ai-center" (click)="navigateToHome()">
-                <img class="image centered cursor-pointer" alt={{tenantName}} src="{{logo}}">
-            </a>
-        </div>
+<div class="ui fixed menu bs-0 main-header d-block" style="background: #222;">
+    <div class="ui primary-header p-10">
+
+        <div role="banner" class="ui logo d-flex flex-ai-center row">
+            <div class="col-md-7">
+                    <a class="d-flex flex-ai-center" (click)="navigateToHome()">
+                            <img class="image centered cursor-pointer ml-10" alt={{tenantName}} src="{{logo}}">
+                        </a>
+            </div>
+            <div class="col-lg-offset-3">
+                    <app-main-menu class="d-flex computer only ml-auto"></app-main-menu>
+            </div>
+            
+        
         <i class="large bars icon link sidebar-hamburger-menu mobile only" (click)="showSideBar()" tabindex="0"></i>
-        <app-main-menu class="d-flex computer only ml-auto"></app-main-menu>
+        
         <a class="profile-avtar item computer only pr-0" *ngIf="userService.loggedIn; else showLoginBtn">
             <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
                 <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
@@ -40,17 +47,18 @@
                 </div>
             </div>
         </a>
+    </div>
         <ng-template #showLoginBtn>
-            <div class="primary-nav-item d-flex ml-auto computer only">
+            <div class="primary-nav-item d-flex ml-auto computer only pr-30 ">
                 <!-- <button *ngIf="router.isActive('', true) && exploreButtonVisibility==='true'" 
                     class="ui explore blue button flex-as-center mr-20"
                     tabindex="0" routerLink="/explore">
                     {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
                 </button> -->
-                <!-- <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
+                 <!-- <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
                     {{resourceService?.frmelmnts?.tab?.resources}}
-                </a>
-                <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
+                </a> -->
+                <!-- <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
                     {{resourceService?.frmelmnts?.tab?.resources}}
                 </a>
                 <a class="item pr-0" *ngIf="!router.isActive('', true)" routerLink="explore-course" [class.active]="router.isActive('/search/explore-course') || router.isActive('/explore-course')">
@@ -59,10 +67,10 @@
                 <a class="item divider"></a>
                 <a href="/resources" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
                     {{resourceService.frmelmnts?.btn?.signin}}
-                </a> -->
+                </a> --> 
                 <a href="#" class="item" id="a" >Home</a>
                 <a  class="item" id="a" (click)="gotoContact('about')">About Us</a>
-                <a  class="item" id="a" (click)="gotoContact('blog')">Blog</a>
+                <!-- <a  class="item" id="a" (click)="gotoContact('blog')">Blog</a> -->
                 <!-- <button class="ui green1 button" routerLink="[/resources]" id="a">{{resourceService.frmelmnts?.btn?.signin}}</button> -->
                 <a href="/resources" class="sunblogin item font-weight-bold  pl-5 ml-auto pr-0" id="ab">
                     {{resourceService.frmelmnts?.btn?.signin}}
@@ -70,8 +78,8 @@
             </div>
         </ng-template>
     </div>
-    <div class="primary-navbar-bg p-10" *ngIf="showExploreHeader || userService.loggedIn">
-        <div class="ui mobile-view container d-flex flex-ai-center mx-0">
+    <div class="navbar-bg p-10" *ngIf="showExploreHeader || userService.loggedIn" style="background-color:#FFFFFF">
+        <!-- <div class="ui mobile-view container d-flex flex-ai-center mx-0">
             <button class="ui basic button qr-code-btn d-flex computer only mr-0" (click)="showQrmodal = true;">
                 <i class="qrcode icon d-flex flex-ai-center"></i>
                 <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
@@ -88,7 +96,21 @@
                 </div>
             </div>
             <app-language-dropdown class="computer only" *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
-        </div>
+        </div> -->
+        <div class="ui mobile-view container d-flex flex-ai-center mx-0 fz">
+        <a class="item i" href="#" >
+            Home
+		</a>
+		<a class="item i" >
+			Shared Assets
+		</a>
+		<a class="item i" >
+			My Assets
+		</a>
+		<a class="item fixed-logout-btn i" >
+                My Favorites
+        </a>
+    </div>
     </div>
     <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
         <div class="ui mobile-view container d-flex flex-jc-space-between mx-0">

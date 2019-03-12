@@ -50,17 +50,50 @@
     width: 100%;
     color: #FFFFFF;
   }
+  .caption-1{
+    position: absolute;
+    top: 9%;
+    left: 0;
+    width: 100%;
+    color: #FFFFFF;
+  }
   .text {
     width: 54rem;
     margin: auto;
     display: block;
     font-size: 17px;
+    font-family: 'Muli', sans-serif;
   }
   .fa{
     font-size: 31.87px;
+    font-family: 'Muli', sans-serif ,Bold;
 }
 .fax{
     font-size: 44px;
+    font-family: 'Muli', sans-serif , Bold;
+}
+.text-c{
+    width: 54rem;
+    margin: auto;
+    display: block;
+    font-size: 17px;
+    font-family: Arial Regular;
+    margin-bottom: 1rem !important;
+}
+.fa-1{
+font-size: 32px;
+font-weight: bold;
+font-family: Arial Bold;
+margin-bottom: 0 !important
+}
+.text-1{
+    font-size: 24px;
+    font-style: italic;
+    font-family: Arial Italic;
+}
+.text-2{
+    font-size: 25px;    
+    font-family: 'Muli', sans-serif;
 }
 hr{
     border: none !important;
@@ -70,6 +103,10 @@ hr{
 }
 .carousel-indicators{
     padding-left: 8rem !important;
+   
+}
+.carousel-indicators li {
+    background-color:#BDD49C !important;
 }
   @media screen and (max-width:978px ) and (min-width: 312px) {
     .img-fluid{

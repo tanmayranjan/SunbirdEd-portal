@@ -131,95 +131,145 @@
         </div>
 </section> -->
 
-<div class="">
-     
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">
+<div class="" *ngIf="!this.userService.loggedIn">
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
             <li data-target="#myCarousel" data-slide-to="3"></li>
-          </ol>
-      
-          <!-- Wrapper for slides -->
-          <div class="carousel-inner">
-      
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+
             <div class="item active">
-                    <div class="thumbnail text-center">
-                            <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class ="img-fluid" >
-                            <div class="caption">
-                                <div class="container">
+                <div class="thumbnail text-center">
+                    <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                    <div class="caption">
+                        <div class="container">
                             <p class="fa">Welcome to</p>
-                             <p class="fax">Societal Platform Thinking</p>
-                             <p class="text"> Societal platform is a approach to resolve large , complex , systamic challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through open public Infrastructure and Technology </p>
-                           <br> <button  class="ui explore green1 button flex-as-center mr-20"
-                                        tabindex="0" routerLink="/explore">
-                                       Explore Assets
+                            <p class="fax">Societal Platform Thinking</p>
+                            <p class="text"> Societal platform is a approach to resolve large , complex , systamic
+                                challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj
+                                (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through
+                                open public Infrastructure and Technology </p>
+                            <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                routerLink="/explore">
+                                Explore Assets
                             </button>
-                            </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-      
-            <div class="item">
-                    <div class="thumbnail text-center">
-                            <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class ="img-fluid" >
-                            <div class="caption">
-                                <div class="container">
-                            <p class="fa">Welcome to</p>
-                             <p class="fax">Framework</p>
-                             <p class="text"> Societal platform is a approach to resolve large , complex , systamic challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through open public Infrastructure and Technology </p>
-                           <br> <button  class="ui explore green1 button flex-as-center mr-20"
-                                        tabindex="0" routerLink="/explore">
-                                      Framework
-                            </button>
-                            </div>
-                            </div>
-                            </div>
-            </div>
-          
+
             <div class="item">
                 <div class="thumbnail text-center">
-                        <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class ="img-fluid" >
-                        <div class="caption">
-                            <div class="container">
-                        <p class="fa">Welcome to</p>
-                         <p class="fax">Core Value</p>
-                         <p class="text"> Societal platform is a approach to resolve large , complex , systamic challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through open public Infrastructure and Technology </p>
-                       <br> <button  class="ui explore green1 button flex-as-center mr-20"
-                                    tabindex="0" routerLink="/explore">
-                                   Core Value
-                        </button>
+                    <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                    <div class="caption">
+                        <div class="container">
+                            <p class="fa">Welcome to</p>
+                            <p class="fax">Framework</p>
+                            <p class="text"> Societal platform is a approach to resolve large , complex , systamic
+                                challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj
+                                (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through
+                                open public Infrastructure and Technology </p>
+                            <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                routerLink="/explore">
+                                Framework
+                            </button>
                         </div>
-                        </div>
-                        </div>
-          </div>
-          <div class="item">
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
                 <div class="thumbnail text-center">
-                        <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class ="img-fluid" >
-                        <div class="caption">
-                            <div class="container">
-                        <p class="fa">Welcome to</p>
-                         <p class="fax">Explore Thinking</p>
-                         <p class="text"> Societal platform is a approach to resolve large , complex , systamic challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through open public Infrastructure and Technology </p>
-                       <br> <button  class="ui explore green1 button flex-as-center mr-20"
-                                    tabindex="0" routerLink="/explore">
-                                  Explore Thinking
-                        </button>
+                    <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                    <div class="caption">
+                        <div class="container">
+                            <p class="fa">Welcome to</p>
+                            <p class="fax">Core Value</p>
+                            <p class="text"> Societal platform is a approach to resolve large , complex , systamic
+                                challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj
+                                (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through
+                                open public Infrastructure and Technology </p>
+                            <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                routerLink="/explore">
+                                Core Value
+                            </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="thumbnail text-center">
+                    <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                    <div class="caption">
+                        <div class="container">
+                            <p class="fa">Welcome to</p>
+                            <p class="fax">Explore Thinking</p>
+                            <p class="text"> Societal platform is a approach to resolve large , complex , systamic
+                                challenges with speed at scale and sustainably.It catalyses the ecosystem of samaaj
+                                (Society),Sarkar (Goverment) and Bazzar (market) to co-create and innovative through
+                                open public Infrastructure and Technology </p>
+                            <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                routerLink="/explore">
+                                Explore Thinking
+                            </button>
                         </div>
-                        </div>
-          </div>
-      
-          <!-- Left and right controls -->
-          <a class="" href="#myCarousel" data-slide="prev">
-            <span class=""></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="" href="#myCarousel" data-slide="next">
-            <span class=""></span>
-            <span class="sr-only">Next</span>
-          </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="" href="#myCarousel" data-slide="prev">
+                <span class=""></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="" href="#myCarousel" data-slide="next">
+                <span class=""></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-      </div>
+    </div>
+</div>
+<div *ngIf="this.userService.loggedIn">
+    <div class="item active">
+        <div class="thumbnail text-center">
+            <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+            <div class="caption-1">
+                <div class="container">
+                    <p class="fa-1"> Welcome to Societal Platform SPace!</p>
+                    <p class="text-1">
+                        Societal Platform Asset Collaboration Environment
+                    </p><br>
+                    <p class="text-c">
+                        As a User, you can use the SPace to accomplish the following:
+                    </p>
+                    <p class="text-c">
+                        - Search and Discover Assets: You can discover assets - Knowledge, Process, Software, Hardware,
+                        Data - that you would like to leverage for your Mission. Go to &nbsp;&nbsp;<a href="#">Shared
+                            Assets</a>
+                    </p>
+                    <p class="text-c">
+                        - Add an Asset: You can add information about an asset that you'd like to share with others in
+                        the ecosystem. You can also edit, delete and publish your assets. Go to&nbsp;&nbsp;<a
+                            href="#">My Assets</a>
+                    </p>
+                    <p class="text-c">
+                        - Bookmark Favorite Assets: You can bookmark your favorite assets and create various lists of
+                        assets. Go to &nbsp;&nbsp; <a href="#">My Favorites asset</a>
+                    </p>
+                    <p class="text-c">
+                        If you want to give any feedback, then please write to us at info@societalplatform.org
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -36,6 +36,7 @@
 }
 #a {
   color: #FFFFFF !important;
+  font-family: 'Roboto', sans-serif;
 }
 #ab{
   color:#343434 !important;
@@ -48,6 +49,20 @@
 }
 .green1 {
   background-color:lightgreen !important;
+}
+.primary-header .logo img {
+  height: 44px !important;
+}
+.ui.text.menu .item {
+  color: #FFFFFF !important;
+}
+.i{
+  font-family: 'Muli', sans-serif;
+}
+.fz
+{
+  justify-content: center;
+  height: 1rem !important;
 }
 @media only screen and (max-width: 767px) {
   .primary-searchbar-alignment {
