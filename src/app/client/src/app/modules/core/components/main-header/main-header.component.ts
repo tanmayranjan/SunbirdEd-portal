@@ -260,4 +260,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   showSideBar() {
     jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
+  openCatalog() {
+    this.router.navigate(['/explore-course', 1]);
+  }
 }

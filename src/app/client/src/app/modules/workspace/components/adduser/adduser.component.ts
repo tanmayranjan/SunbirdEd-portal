@@ -8,7 +8,7 @@ import {
   OrgDetailsService,
   PublicDataService
 } from '@sunbird/core';
-import { SignupService } from '../../../public/module/signup';
+import { SignupService } from '../../../public/module/signup/services';
 
 @Component({
   selector: 'app-adduser',

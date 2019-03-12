@@ -1,5 +1,5 @@
 
-<div *ngIf="tempKey !== 'undefined'; else searchResults">
+<div *ngIf="(tempKey !== undefined && tempKey !== 'key'); else searchResults">
   <div class="row">
     <div class="col-md-12 mt-30">
       <form>
@@ -42,7 +42,7 @@
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory" [class.fieldselected]="tempKey===undefined">
                 <div style="color: black;
                 font-size: 19px;
                 padding: 1rem;"

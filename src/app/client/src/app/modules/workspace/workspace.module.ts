@@ -16,7 +16,7 @@ import {
   UpforreviewContentplayerComponent, FlagConentplayerComponent, ReviewsubmissionsContentplayerComponent,
   PublishedPopupComponent, RequestChangesPopupComponent, LimitedPublishedComponent,
   AllContentComponent, FlagReviewerComponent, AllMyContentFilterComponent, CollaboratingOnComponent,
-  CollaborationContentFilterComponent
+  CollaborationContentFilterComponent, CreateBatchComponent
 } from './components';
 import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
@@ -61,7 +61,9 @@ import { PublicModule} from '@sunbird/public';
     CollaborationContentFilterComponent,
     AdduserComponent,
     ViewuserComponent,
+    CreateBatchComponent,
   ],
-  providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService]
+  providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService],
+  entryComponents: [CreateBatchComponent]
 })
 export class WorkspaceModule { }

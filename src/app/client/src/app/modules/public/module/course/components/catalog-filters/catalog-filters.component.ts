@@ -125,13 +125,14 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log('inside catalog filters');
-    console.log('path', this.activatedRoute.snapshot.data.orgdata);
+    console.log('path', this.activatedRoute.snapshot.data);
 this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
 this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
 this.activatedRoute.queryParams.subscribe((params) => {
+  console.log(params);
       _.find(Object.keys(params), value => {
           if (value === 'rating' || value === 'medium' || value === 'board' ||
-          value === 'topic' || value === 'subject' || value === 'gradeLevel') {
+          value === 'topic' || value === 'subject' || value === 'gradeLevel' || value === 'key') {
             this.tempKey = value;
           } else {
             console.warn('no value');
@@ -174,10 +175,11 @@ this.activatedRoute.queryParams.subscribe((params) => {
   getQueryParams() {
     this.activatedRoute.queryParams.subscribe((params) => {
 _.forEach(Object.keys(params), data => {
-if (data === 'rating' || data === 'board' || data === 'medium' || data === 'gradeLevel' || data === 'subject' || data === 'topic') {
+if (data === 'rating' || data === 'board' || data === 'medium' || data === 'gradeLevel' ||
+data === 'subject' || data === 'topic' || data === 'key') {
 this.tempKey = data;
 } else {
-  this.tempKey = 'undefined';
+  this.tempKey = undefined;
 }
 console.log(this.tempKey);
 });

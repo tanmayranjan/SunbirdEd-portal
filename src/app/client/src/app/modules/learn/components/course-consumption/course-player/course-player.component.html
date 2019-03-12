@@ -1,7 +1,5 @@
    <div *ngIf="userEnrolledBatch else previewCourse">
-
-
-    <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
+  <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
       <div class="ui stackable grid mt-20">
           <div class="twelve wide column">
               <div *ngIf="!enableContentPlayer && !loader">

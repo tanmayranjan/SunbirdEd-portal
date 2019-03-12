@@ -159,7 +159,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   * To call resource service which helps to use language constant
   */
   public resourceService: ResourceService;
-
+  courseId;
+  display = false;
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -372,6 +373,10 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     return contentList.filter((content) => {
       return requestData.indexOf(content.identifier) === -1;
     });
+  }
+  sendCourseId(courseId) {
+this.courseId = courseId;
+this.display = true;
   }
 }
 

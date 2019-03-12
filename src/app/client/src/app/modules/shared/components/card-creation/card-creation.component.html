@@ -26,6 +26,7 @@
       </div>
     </div>
     <div *ngIf="data.action && (data.action.right || data.action.left || data.rating)" class="extra data">
+
       <div *ngIf=" data.action.right" class="right floated">
         <a [ngSwitch]="data.action.right.displayType">
           <span *ngSwitchCase="'button'">
@@ -40,6 +41,7 @@
           </span>
         </a>
       </div>
+
       <div *ngIf=" data.action.left" class="left floated">
         <a [ngSwitch]="data.action.right.displayType">
           <span *ngSwitchCase="'button'">

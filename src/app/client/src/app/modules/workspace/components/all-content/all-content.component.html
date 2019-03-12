@@ -51,6 +51,13 @@
           </i>
         </td>
         <td>
+          <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    <i class="fas fa-pen-square" [routerLink]="['createbatch/'+content.identifier]"></i>
+  </button>
+
+        </td>
+        <td>
           <span *ngIf="content.lockInfo" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.lockPopupTitle | interpolate:'{collaborator}':content?.lockInfo?.creatorInfo?.name | interpolate:'{contentName}':content?.name}}" [popupPlacement]="'top left'">
             <i class="lock icon large"  ></i>
           </span>
@@ -86,4 +93,4 @@
 
   <app-contentlock-info-popup [content]="lockPopupData" (closeEvent)="onCloseLockInfoPopup($event)" *ngIf="showLockedContentModal"></app-contentlock-info-popup>
 
-  
+  <router-outlet></router-outlet>
