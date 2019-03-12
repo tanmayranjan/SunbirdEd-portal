@@ -447,5 +447,7 @@
  }
 
  .playlist-area {
+   max-height: 100vh;
+   overflow-y: auto;
    padding-right : 0;
  }
