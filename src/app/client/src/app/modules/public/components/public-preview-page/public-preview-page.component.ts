@@ -86,7 +86,9 @@ firstPreviewUrl;
 
     this.getCourseDetails();
     // this.getBatchDetails(this.search);
-  }
+  console.log('this is the complete course details');
+  console.log(this.courseDetails);
+}
   // getCourseDetails() {
   //       const req = {
   //         url: `${this.configService.urlConFig.URLS.COURSE.HIERARCHY}/${
@@ -125,6 +127,9 @@ firstPreviewUrl;
     };
     this.publicDataService.get(req).subscribe(data => {
       this.courseInfo = data.result.content;
+      console.log('course info recieved below---------------------');
+      console.log(this.courseInfo);
+      console.log('------------------------');
         console.log(data.result.content.appIcon);
 console.log(this.courseInfo);
       if (data.result.content.hasOwnProperty('children')) {

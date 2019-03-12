@@ -407,6 +407,7 @@ outline: none;
 
 .iframe-container {
     overflow: hidden !important;
+    border : none;
 }
 
 
@@ -511,4 +512,57 @@ body {
       margin-left : 30px;
     }
   }
-  
+
+  .content-card-title-button {
+      text-align: left;
+      width : 100%;
+      border-radius: 0;
+      cursor: pointer;
+      color : black;
+      background-color: white;
+      border : 1px solid grey;
+      margin : 0;
+      box-shadow: 3px 3px 15px 0px rgba(212,204,212,1);
+  }
+
+  .content-card-title-button[aria-expanded="true"] {
+      margin-bottom : 0;
+  }
+
+  .content-card-title-button[aria-expanded="false"] {
+    margin-bottom : 5px;
+}
+
+.content-card-title-button:hover, .content-card-title-button:focus, .content-card-title-button:active  {
+    color : black;
+    background-color: white !important;
+    outline: none !important;
+}
+
+.content-card-title-button:hover {
+    border-color: none;
+}
+
+.content-card-title-button span {
+    float: right;
+}
+
+  .collapse.show {
+      margin-bottom: 10px;
+  }
+
+  .content-card-body {
+      border-radius: 0;
+      width : 100%;
+      margin : 0;
+      position : relative;
+      left : 0;
+      top : 0;
+  }
+
+  .content-card-body span {
+      display: inline;
+      position : relative;
+      right : 0;
+      top : 0;
+  }
