@@ -105,20 +105,32 @@
 			Shared Assets
 		</a>
 		<a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'  routerLink="/myassests" [class.active]="router.isActive('/myassests')">
-            my assets
+            My Assets
         </a>
 		<a class="item fixed-logout-btn i" >
                 My Favorites
         </a>
     </div>
     </div>
-    <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
+    <!-- <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
         <div class="ui mobile-view container d-flex flex-jc-space-between mx-0">
             <button class="ui basic d-flex button qr-code-btn" (click)="showQrmodal = true;">
                 <i class="qrcode icon d-flex flex-ai-center"></i>
                 <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
             </button>
             <app-language-dropdown *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
+            <a class="item i" href="#" >
+                    Home
+                </a>
+                <a class="item i" >
+                    Shared Assets
+                </a>
+                <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'  routerLink="/myassests" [class.active]="router.isActive('/myassests')">
+                    my assets
+                </a>
+                <a class="item fixed-logout-btn i" >
+                        My Favorites
+                </a>
         </div>
-    </div>
+    </div> -->
 </div>

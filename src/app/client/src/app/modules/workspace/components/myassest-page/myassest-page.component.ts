@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import { ICard } from '../../../shared/interfaces/card';
-
+import {BadgesService} from '../../../core/services/badges/badges.service';
 
 @Component({
   selector: 'app-myassest-page',
@@ -160,8 +160,8 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   /**
   * To call resource service which helps to use language constant
   */
+ badgeService: BadgesService;
   public frameworkService: FrameworkService;
-
   public resourceService: ResourceService;
   public permissionService: PermissionService;
   lessonRole: any;
@@ -179,7 +179,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   */
   constructor(public searchService: SearchService,
     public workSpaceService: WorkSpaceService,
-
+    badgeService: BadgesService,
     paginationService: PaginationService,
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
@@ -194,6 +194,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     this.resourceService = resourceService;
     this.config = config;
     this.permissionService = permissionService;
+    this.badgeService = badgeService 
 
     this.frameworkService = frameworkService;
 
@@ -228,6 +229,26 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         this.query = this.queryParams['query'];
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
       });
+    //  const request = {
+    //   filters: {
+    //     issuerList: [],
+    //     type: 'content',
+    //     subtype: 'award',
+    //     rootOrgId: '0127121193133670400',
+    //     roles: ['TEACHER_BADGE_ISSUER']
+    //  }
+    //   }
+
+    const request= {
+      request: { 
+        filters:{
+          issuerList:[],
+          rootOrgId:"0127121193133670400",
+          roles:["TEACHER_BADGE_ISSUER"],
+          type:"content"}}}
+      this.badgeService.getAllBadgeList(request).subscribe( (data) => {
+console.log('data for badge', data);
+});
   }
   /**
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
