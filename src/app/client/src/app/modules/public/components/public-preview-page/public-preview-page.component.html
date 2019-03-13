@@ -108,7 +108,7 @@
 <!-- Tab panes -->
 <div class="tab-content">
   <!--highlights page-->
-  <div role="tabpanel" class="tab-pane fade in active" id="highlight">
+  <div role="tabpanel" class="tab-pane fade" id="highlight">
     <section data-aos="fade-right" class="course-highlights-section container-fluid bg-light">
       <div class="container">
         <br />
@@ -183,7 +183,7 @@
     </section>
   </div>
   <!--roadmap page-->
-  <div role="tabpanel" class="tab-pane fade" id="roadmap">
+  <div role="tabpanel" class="tab-pane active" id="roadmap">
     <section class="container-fluid bg-secondary">
       <div class="container">
         <div class="row">
@@ -204,7 +204,7 @@
                         </button>
                       <div class="collapse" id="collapse{{i}}">
                         <div class="card card-body content-card-body" (click)="fetchUrl(session)">
-                            Instructor {{ courseInfo?.creator }}
+                            <p class="card-body-text">Instructor {{ courseInfo?.creator }}</p>
                             <span><i class="fas fa-play"></i></span>
                         </div>
                       </div>

@@ -520,7 +520,7 @@ body {
       cursor: pointer;
       color : black;
       background-color: white;
-      border : 1px solid grey;
+      border : none;
       margin : 0;
       box-shadow: 3px 3px 15px 0px rgba(212,204,212,1);
   }
@@ -553,7 +553,7 @@ body {
 
   .content-card-body {
       border-radius: 0;
-      width : 100%;
+      width : 60%;
       margin : 0;
       position : relative;
       left : 0;
@@ -561,8 +561,12 @@ body {
   }
 
   .content-card-body span {
-      display: inline;
+      display: inline-block;
       position : relative;
       right : 0;
       top : 0;
+  }
+
+  .card-body-text {
+      max-width: 70%;
   }
