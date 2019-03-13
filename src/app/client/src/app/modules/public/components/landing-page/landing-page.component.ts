@@ -174,11 +174,13 @@ export class LandingPageComponent implements OnInit  {
     });
   }
   public playContent(event) {
+    console.log(event);
     if (event.data.metaData.batchId) {
       event.data.metaData.mimeType = 'application/vnd.ekstep.content-collection';
       event.data.metaData.contentType = 'Course';
     }
     this.playerService.playContent(event.data.metaData);
+    this.router.navigate(['play/collection'], event.data.identifier);
   }
   public viewAll(event) {
     const searchQuery = JSON.parse(event.searchQuery);

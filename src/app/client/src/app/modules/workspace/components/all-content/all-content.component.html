@@ -52,8 +52,9 @@
         </td>
         <td *ngIf="content.contentType === 'Course' && content.status === 'Live'">
           <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+<button type="button" class="btn btn-primary">
     <i class="fas fa-pen-square" [routerLink]="['createbatch/'+content.identifier]"></i>
+   
   </button>
 
         </td>

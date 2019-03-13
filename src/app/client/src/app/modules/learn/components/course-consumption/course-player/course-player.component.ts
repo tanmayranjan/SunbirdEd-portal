@@ -149,6 +149,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
           this.userEnrolledBatch = true;
         }
         this.getCourseDetails();
+        this.getBatchDetails();
         const inputParams = {params: this.configService.appConfig.CourseConsumption.contentApiQueryParams};
         if (this.batchId) {
           return combineLatest(
@@ -229,24 +230,33 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
           if (key === 'children') {
             this.getChildren(value);
             if (value.hasOwnProperty('children')) {
+              console.log(value);
+
               if (value.children.length === 0) {
                 if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
                   this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
                   if (this.firstPreviewUrl) {
                     this.showPreview = true;
                     this.safeUrl = this.firstPreviewUrl;
-
                   }
                   this.courseDetails.push(value);
                 // console.log(this.courseDetails);
+                } else if (value.mimeType === 'application/vnd.ekstep.ecml-archive') {
+                    this.safeUrl = value.artifactUrl;
+                    this.courseDetails.push(value);
                 } else {
+                  console.log(value);
+
                   if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
+
                   // console.log(this.resources);
                   }
                 }
               }
             } else if (value.hasOwnProperty('artifactUrl')) {
+              console.log(value);
+
               if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
                 // this.firstPreviewUrl = value.artifactUrl;
                 this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
@@ -256,7 +266,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
                 }
                 this.courseDetails.push(value);
                 // console.log(this.courseDetails);
-                } else if (value.hasOwnProperty('artifactUrl')) {
+                } else if (value.mimeType === 'application/vnd.ekstep.ecml-archive') {
+                  this.safeUrl = value.artifactUrl;
+                  this.courseDetails.push(value);
+              } else if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
                   // console.log(this.resources);
                 }
@@ -284,7 +297,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   }
 
   getBatchDetails() {
-
     this.userRoles = false;
     const batches = {
       filters: {
@@ -292,6 +304,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       }
     };
     this.courseBatchService.getAllBatchDetails(batches).subscribe(batchData => {
+      console.log(batchData);
 
       _.forOwn(batchData.result.response.content, batchdetails => {
         this.batchDetails.push(batchdetails);
@@ -303,7 +316,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
    }
 
 
-  private parseChildContent() {
+   private parseChildContent() {
     const model = new TreeModel();
     const mimeTypeCount = {};
     this.treeModel = model.parse(this.courseHierarchy);
@@ -322,7 +335,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       this.curriculum.push({ mimeType: key, count: value });
     });
   }
-
   private getContentState() {
     const req = {
       userId: this.userService.userid,

@@ -11,7 +11,7 @@
       <!-- <div class="ui vertical divider"> -->
       <!-- </div> -->
       <div class="col-md-9" style="left:26rem">
-        <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult" style=" width: 67.5vw;
+        <!-- <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult" style=" width: 67.5vw;
         left: 2rem;">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <h5> {{totalCount }} Matching Result(s)
@@ -20,7 +20,7 @@
               <button (click)="clearFilters()" type="button" class="btn btn-danger" *ngIf="!checkForEmptyObject(filters)">Clear Filters <i class="fas fa-filter"></i></button>
             </div>
           </h5>
-        </div>
+        </div> -->
         <div class="jumbotron" *ngIf="noResult && !showLoader">
           <app-no-result [data]="noResultMessage"></app-no-result>
         </div>
@@ -37,9 +37,9 @@
             </div>
           </div> -->
           <div class="row">
-            <div in-view-item [id]="i" [data]="content" class="col-md-4" *ngFor="let content of searchList ;let i = index;">
+            <div in-view-item [id]="i" [data]="content" class="col-md-4 px-3" *ngFor="let content of searchList ;let i = index;">
               <app-card appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
-                [data]="content" (clickEvent)="playContent($event)"></app-card>
+                [data]="content" (clickEvent)="playContent($event)" class="px-5"></app-card>
             </div>
           </div>
         </div>

@@ -2,6 +2,12 @@
 	<!-- <a class="item" appTelemetryInteract [telemetryInteractEdata]="homeMenuIntractEdata" [class.active]="router.isActive('/search/All') || router.isActive('/home')" routerLink="/home">
 		{{resourceService?.frmelmnts?.tab?.home}}
 	</a> -->
+	<button
+		class="ui explore blue button flex-as-center mr-20"
+		tabindex="0" (click)="openCatalog()">
+		Courses
+		<!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
+</button>
 	<a class="item" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
 		{{resourceService?.frmelmnts?.tab?.resources}}
 	</a>
@@ -27,6 +33,12 @@
 		</div>
 		<i class="close link icon side-bar-close-icon" (click)="showSideBar()"></i>
 		<div *ngIf='userProfile' class="ui divider mt-0"></div>
+		<button
+		class="ui explore blue button flex-as-center mr-20"
+		tabindex="0" (click)="openCatalog()">
+		Courses
+		<!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
+</button>
 		<a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
 			{{resourceService?.frmelmnts?.tab?.resources}}
 		</a>

@@ -5,95 +5,126 @@
                 <div class="card-title text-center mt-5">
                     <h2>Create Batch</h2>
                 </div>
-                <form
-                class="form-width px-5 py-4"
-              >
-                <div class="form-group pb-3">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    class="form-control input"
-                    placeholder="Name"
-                    name="firstName"
-                    [formControl]="name"
-                    required
-                    ngModel
-                  />
-                </div>
-                <div class="form-group pb-3">
-                  <label>Description</label>
-                  <input
-                    type="text"
-                    class="form-control input"
-                    placeholder="Description"
-                    name="username"
-                    [formControl]="description"
-                    required
-                    ngModel
-                  />
-                </div>
-                <div class="row pb-4">
-                  <div class="col-md-2" style="margin-right: -3rem">
-                      <label>Batch-Type:</label>
+<div class="container">
+  <form
+  class="form-width px-5 py-4"
+>
+  <div class="form-group pb-3">
+    <label>Name</label>
+    <input
+      type="text"
+      class="form-control input"
+      placeholder="Name"
+      name="firstName"
+      [formControl]="name"
+      required
+      ngModel
+    />
 
-                  </div>
-                    <div class="col">
-                      
-                      <div class="form-check" >
-                        <input
-                          class="form-check-input input"
-                          type="radio"
-                          name="field-value"
-                          id="email"
-                          value="Open"
-
-                          checked
-                        />
-                        <label class="form-check-label" for="email">
-                         Open
-                        </label>
-                      </div>
-                    </div>
+  </div>
+  <div class="form-group pb-3">
+    <label>Description</label>
+    <input
+      type="text"
+      class="form-control input"
+      placeholder="Description"
+      name="description"
+      [formControl]="description"
+      required
+      ngModel
+    />
  
-                  </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group pb-3">
-                            <label> Start Date</label>
-                            <i class="far fa-calendar-alt pl-3"></i>
-                            <input type="date" id="date" 
-                            class="input"
-                            name="startDate"
-                            [formControl]="startDate"
-                           
-                            required
-                            min="today"
-                        >
-                          </div>
-                    </div>
-                  <div class="col">
-                
-                        <div class="form-group pb-3">
-                          <label>End Date</label>
-                          <i class="far fa-calendar-alt pl-3"></i>
-                          <input type="date" id="start" 
-                          name="endDate"
-                          class="input"
-                          [formControl]="endDate"
-                          required 
+  </div>
+  <div class="row pb-4">
+    <div class="col-md-2" style="margin-right: -3rem">
+        <label>Batch-Type:</label>
+    </div>
+    <div class="col">
+        <div class="form-check" >
+          <input
+            class="form-check-input"
+            type="radio"
+            name="field-value"
+            id="invite"
+            value="invite"
+            (click)="isDisabled($event)"
+            [formControl] = "invite"
+            checked
+          />
+          <label class="form-check-label" for="invite">
+            Invite-Only
+          </label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="field-value"
+            id="open"
+            value="open"
+            (click)="isDisabled($event)"
+            [formControl] = "open"
+          />
+          <label class="form-check-label" for="open">
+          Open
+          </label>
+        </div>
+      </div>
 
+    </div>
+  <div class="row">
+      <div class="col">
+          <div class="form-group pb-3">
+              <label> Start Date</label>
+              <i class="far fa-calendar-alt pl-3"></i>
+              <input type="date" id="startdate" 
+              class="input"
+              name="startDate"
+              [ngModel]="startDate"
+              #startDate="ngModel"
+              required
+             
+          >
+            </div>
+      </div>
+    <div class="col">
+          <div class="form-group pb-3">
+            <label>End Date</label>
+            <i class="far fa-calendar-alt pl-3"></i>
+            <input type="date" id="enddate" 
+            name="endDate"
+            class="input"
+            [ngModel]="endDate"
+              #endDate="ngModel"
+            required 
+          >
+          </div>
+    </div>              
+  </div>
 
-                        >
-                        </div>
-                  </div>
-              
-                </div>
-              </form>
+<div *ngIf="enabled">
+    <div>
+        <label>Select Mentors</label>
+    
+        <sui-multi-select  #multiSelect [ngModel]="mentors" #mentors="ngModel" class="selection filterFieldSearch" style="width:100%">
+            <sui-select-option *ngFor="let mentor of allMentors" [value]="mentor.name" (click)="onSelectMentor(mentor)"></sui-select-option>
+          </sui-multi-select>
+    </div>
+    <div class="pt-3">
+        <label>Select Members</label>
+    
+        <sui-multi-select  #multiSelect [ngModel]="mentors" #mentors="ngModel" class="selection filterFieldSearch" style="width:100%">
+            <sui-select-option *ngFor="let member of allMembers" [value]="member.name" (click)="onSelectMember(member)"></sui-select-option>
+          </sui-multi-select>
+    </div>
+</div>
+</form>
+</div>
             </div>
                 <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary signup-btn " (click)="createBatch()">Create Batch</button>
+                    <button type="submit" class="btn btn-primary signup-btn " (click)="createBatch(startDate.value, endDate.value)">Create Batch</button>
                 </div>
-             
-           
               </div>
 </sui-modal>

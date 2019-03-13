@@ -3,7 +3,7 @@ import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkSpace } from '../../classes/workspace';
-import { SearchService, UserService, ISort } from '@sunbird/core';
+import { SearchService, UserService, ISort, LearnerService } from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents
@@ -161,6 +161,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   public resourceService: ResourceService;
   courseId;
   display = false;
+  allMembers = [];
+  allMentors = [];
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -176,6 +178,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     paginationService: PaginationService,
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
+    public learnerService: LearnerService,
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService) {
     super(searchService, workSpaceService, userService);
@@ -196,6 +199,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     console.log('content' , this.allContent);
     this.filterType = this.config.appConfig.allmycontent.filterType;
     this.redirectUrl = this.config.appConfig.allmycontent.inPageredirectUrl;
+
     observableCombineLatest(
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
@@ -378,5 +382,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
 this.courseId = courseId;
 this.display = true;
   }
+
+
+
 }
 

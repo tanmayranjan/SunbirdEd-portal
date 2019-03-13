@@ -2,6 +2,7 @@ import { ResourceService } from '../../services/index';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ICard } from '../../interfaces';
 import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landingpage-card',
@@ -16,13 +17,13 @@ export class LandingpageCardComponent {
   @Input() customClass: string;
   @Output() clickEvent = new EventEmitter<any>();
 
-  constructor(public resourceService: ResourceService) {
+  constructor(public resourceService: ResourceService,
+    public router: Router
+    ) {
     this.resourceService = resourceService;
   }
 
   public onAction(data, action) {
-    // tslint:disable-next-line:no-debugger
-    debugger;
     console.log(data);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }

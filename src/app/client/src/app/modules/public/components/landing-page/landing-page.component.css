@@ -404,7 +404,7 @@ a {
   width: 100%;
   cursor: pointer;
 }
-.AnyTimeintroBox .introleftbar {
+.AnyTimeintroBox .introleftbar, .school .introleftbar, .management .introleftbar, .banking .introleftbar {
   display: block;
   position: absolute;
   left: 0;

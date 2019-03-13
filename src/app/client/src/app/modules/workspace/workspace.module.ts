@@ -26,6 +26,8 @@ import { AdduserComponent } from './components/adduser/adduser.component';
 import { OrgManagementModule } from '@sunbird/org-management';
 import { ViewuserComponent } from './components/viewuser/viewuser.component';
 import { PublicModule} from '@sunbird/public';
+import { LearnModule } from '@sunbird/learn';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { PublicModule} from '@sunbird/public';
     TelemetryModule,
     OrderModule,
     OrgManagementModule,
-    PublicModule
+    PublicModule,
+    LearnModule,
   ],
   declarations: [WorkspaceComponent, WorkspacesidebarComponent,
     CreateContentComponent, DraftComponent, ReviewSubmissionsComponent,

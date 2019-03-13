@@ -126,6 +126,7 @@ firstPreviewUrl;
             this.getChildren(value);
             if (value.hasOwnProperty('children')) {
               if (value.children.length === 0) {
+                console.log(value);
                 if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
                 this.courseDetails.push(value);
                 this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
@@ -136,7 +137,7 @@ firstPreviewUrl;
                 }
 
                 } else {
-
+                  console.log(value);
                   if (value.hasOwnProperty('artifactUrl')) {
                   this.resources.push(value);
 
@@ -144,6 +145,8 @@ firstPreviewUrl;
                 }
               }
             } else if (value.hasOwnProperty('artifactUrl')) {
+              console.log(value);
+
               if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
                 this.courseDetails.push(value);
                 this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
@@ -154,6 +157,8 @@ firstPreviewUrl;
                 }
 
                 } else if (value.hasOwnProperty('artifactUrl')) {
+                  console.log(value);
+
                   this.resources.push(value);
 
                 }

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
 </head>
 <body>
   <% if (userId) { %>
@@ -66,10 +66,18 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the 
   <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 </noscript>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#example-getting-started').multiselect();
+  });
+</script>
 <script id="dsq-count-scr" src="//http-localhost-3000-fn50lsdyko.disqus.com/count.js" async></script>
   <script id="dsq-count-scr" src="//https-sunbird-intl-stackroute-com.disqus.com/count.js" async></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </body>
 </html>

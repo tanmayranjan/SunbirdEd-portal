@@ -161,4 +161,7 @@ export class MainMenuComponent implements OnInit {
       this.router.navigate([authroles.url]);
     }
   }
+  openCatalog() {
+    this.router.navigate(['/explore-course', 1]);
+  }
 }
