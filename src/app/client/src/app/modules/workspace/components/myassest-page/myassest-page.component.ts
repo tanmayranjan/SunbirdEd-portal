@@ -194,7 +194,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     this.resourceService = resourceService;
     this.config = config;
     this.permissionService = permissionService;
-    this.badgeService = badgeService 
+    this.badgeService = badgeService;
 
     this.frameworkService = frameworkService;
 
@@ -239,13 +239,13 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     //  }
     //   }
 
-    const request= {
-      request: { 
-        filters:{
-          issuerList:[],
-          rootOrgId:"0127121193133670400",
-          roles:["TEACHER_BADGE_ISSUER"],
-          type:"content"}}}
+    const request = {
+      request: {
+        filters: {
+          issuerList: [],
+          rootOrgId: '0127121193133670400',
+          roles: ['TEACHER_BADGE_ISSUER'],
+          type: 'content'}}};
       this.badgeService.getAllBadgeList(request).subscribe( (data) => {
 console.log('data for badge', data);
 });
