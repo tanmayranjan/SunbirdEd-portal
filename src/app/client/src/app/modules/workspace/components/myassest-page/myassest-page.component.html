@@ -2,7 +2,7 @@
 <app-all-my-content-filter ></app-all-my-content-filter>
 
 <div class="container mt-5">
-
+   
   <!-- <div class="row">
     <div class="col">
       <h6>Asset Type: </h6>
@@ -51,6 +51,9 @@
         Asset</button>
     </div>
   </div>
+  <div *ngIf="noResult && !showLoader">
+      <app-no-result [data]="noResultMessage"></app-no-result>
+    </div>
   <div class="row">
     <div in-view-item *ngFor="let content of allContent;let i = index;" [id]="i" [data]="content"
       class="col-md-3 py-3 pl-10">
@@ -139,9 +142,7 @@
 <div class="twelve wide column mt-20" *ngIf="showLoader ">
     <app-loader [data]="loaderMessage"></app-loader>
   </div>
-  <div *ngIf="noResult && !showLoader">
-    <app-no-result [data]="noResultMessage"></app-no-result>
-  </div>
+ 
 <ng-template let-context let-modal="modal" #modalTemplate *ngIf="!deleteAsset">
   <div class="header"> Delete Asset</div>
   <div class="content">

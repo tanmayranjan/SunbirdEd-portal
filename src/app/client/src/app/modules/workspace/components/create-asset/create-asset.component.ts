@@ -263,7 +263,7 @@ console.log('this.activated ', this.activatedRoute.snapshot.params.contentId);
 * Redirects to workspace create section
 */
   goToCreate() {
-    this.router.navigate(['/myasests']);
+    this.router.navigate(['/myassets']);
   }
 
   /**
@@ -360,7 +360,7 @@ console.log('this.activated ', this.activatedRoute.snapshot.params.contentId);
   checkForPreviousRouteForRedirect() {
     const previousUrlObj = this.navigationHelperService.getPreviousUrl();
     console.log('pre', previousUrlObj);
-    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/workspace/content/create')) {
+    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/myassets')) {
       this.redirect();
     }
   }
@@ -373,7 +373,7 @@ console.log('this.activated ', this.activatedRoute.snapshot.params.contentId);
 
   }
   redirect() {
-    // this.router.navigate(['/workspace/content/allcontent/1']);
+    this.router.navigate(['/myassets']);
 
   }
 }

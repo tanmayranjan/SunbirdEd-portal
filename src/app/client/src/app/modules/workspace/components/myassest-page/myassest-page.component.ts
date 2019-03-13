@@ -419,10 +419,10 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
       return;
     }
     this.pageNumber = page;
-    this.route.navigate(['myassests', this.pageNumber], { queryParams: this.queryParams });
+    this.route.navigate(['myassets', this.pageNumber], { queryParams: this.queryParams });
   }
   navigateToDetailsPage(contentId: string) {
-    this.route.navigate(['myassests/detail', contentId]);
+    this.route.navigate(['myassets/detail', contentId]);
   }
 
   contentClick(content) {
