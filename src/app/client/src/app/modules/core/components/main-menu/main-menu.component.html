@@ -8,9 +8,9 @@
 		Courses
 		<!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
 </button>
-	<a class="item" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
+	<!-- <a class="item" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
 		{{resourceService?.frmelmnts?.tab?.resources}}
-	</a>
+	</a> -->
 	<a class="item" appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata" [class.active]="router.isActive('/search/Courses') || router.isActive('/learn')" routerLink="/learn">
 		My Courses
 	</a>
@@ -60,12 +60,12 @@
 			</a>
 		</div>
 		<div class="ui divider mt-0"></div>
-		<div class="item" (click)="showSideBar()" *ngIf="router.isActive('', true)"  routerLink="/explore">
+		<!-- <div class="item" (click)="showSideBar()" *ngIf="router.isActive('', true)"  routerLink="/explore">
 			{{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
 		</div>
 		<a class="item" routerLink="explore" (click)="showSideBar()" *ngIf="!router.isActive('', true)" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
 			{{resourceService?.frmelmnts?.tab?.resources}}
-		</a>
+		</a> -->
 		<a class="item" routerLink="explore-course" (click)="showSideBar()" *ngIf="!router.isActive('', true)" [class.active]="router.isActive('/search/explore-course') || router.isActive('/explore-course')">
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>
