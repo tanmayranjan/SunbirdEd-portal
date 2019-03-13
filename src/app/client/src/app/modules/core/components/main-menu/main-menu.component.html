@@ -39,9 +39,9 @@
 		Courses
 		<!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
 </button>
-		<a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
+		<!-- <a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
 			{{resourceService?.frmelmnts?.tab?.resources}}
-		</a>
+		</a> -->
 		<a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata" [class.active]="router.isActive('/search/Courses') || router.isActive('/learn')" routerLink="/learn">
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>
@@ -55,7 +55,7 @@
 	<div class="ui sidebar right vertical menu" *ngIf="!userService.loggedIn">
 		<i class="close icon side-bar-close-icon link" (click)="showSideBar()"></i>
 		<div>
-			<a href="/resources" class="item sign-in">
+			<a href="/learn" class="item sign-in">
 				{{resourceService.frmelmnts?.btn?.signin}}
 			</a>
 		</div>
