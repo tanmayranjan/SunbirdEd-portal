@@ -69,7 +69,7 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
           identifier: node.id,
           name: node.name
         }));
-        this.placeHolder = this.selectedTopics.length + ' topics selected';
+        this.placeHolder = this.selectedTopics.length + ' SP Framework selected';
         this.topicChange.emit(this.selectedTopics);
       },
       nodeName: 'topicSelector',

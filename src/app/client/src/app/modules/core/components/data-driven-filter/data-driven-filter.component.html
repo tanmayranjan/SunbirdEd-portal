@@ -1,6 +1,6 @@
-<div class="data-driven-filter mt-15" *ngIf="showFilters">
-      <sui-accordion [closeOthers]="false">
-        <sui-accordion-panel [isOpen]="accordionDefaultOpen" [isDisabled]="true">
+<div class="data-driven-filter mt-5" *ngIf="showFilters">
+      <!-- <sui-accordion [closeOthers]="false">
+        <sui-accordion-panel [isOpen]="accordionDefaultOpen" [isDisabled]="true"> -->
           <div *ngIf="isShowFilterLabel" title class="cursor-text filter-title">
             <span (click)="accordionDefaultOpen = !accordionDefaultOpen" class="cursor-pointer">
               <i alt="Filter" class="icon filter"></i>
@@ -35,17 +35,17 @@
             <div *ngIf="refresh">
               <form *ngIf="filtersDetails" class="ui form">
                 <div class="ui grid stackable top aligned">
-                <div class="twelve wide tablet ten wide computer column mobile-p-0">
+                <div class="eight wide tablet ten wide computer column mobile-p-0">
                     <div class="ui grid">
-                        <div *ngFor="let field of filtersDetails" class="six wide mobile three wide tablet three wide computer column">
-                          <div *ngIf="(field.inputType==='select' || field.inputType === 'multi-select') && field.code !== 'channel'" class="field large">
+                        <div *ngFor="let field of filtersDetails" class="four wide mobile three wide tablet three wide computer column">
+                          <div *ngIf="(field.inputType==='select' || field.inputType === 'multi-select') && field.code !== 'channel' && field.code==='board'" class="field large">
                             <sui-multi-select (ngModelChange)="setFilterInteractData()" id={{field.code}} name={{field.code}}
                               defaultSelectionText={{field.label}} zeroSelectionText="Select" class="selection filterFieldSearch"
                               [(ngModel)]="formInputData[field.code]" [options]="options" [hasLabels]="false" #multiSelect>
                               <sui-select-option *ngFor="let option of field.range" [value]="option.name"></sui-select-option>
                             </sui-multi-select>
                           </div>
-                          <div *ngIf="field.code === 'channel'" class="field large">
+                          <!-- <div *ngIf="field.code === 'channel'" class="field large">
                             <sui-multi-select (ngModelChange)="modelChange($event)" id={{field.code}} name={{field.code}}
                               defaultSelectionText={{field.name}} zeroSelectionText="Select" class="selection filterFieldSearch"
                               [(ngModel)]="formInputData[field.code]" [options]="options" [hasLabels]="false" labelField="name" valueField="identifier"
@@ -55,7 +55,14 @@
                           </div>
                           <div *ngIf="field.code==='topic'" class="field">
                             <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
-                          </div>
+                          </div> -->
+                          <div *ngIf="field.code==='topic'" class="field">
+                              <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
+            
+                            </div> 
+                            <!-- <div *ngIf="field.code==='gradeLevel'" class="field">
+                                <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
+                              </div>  -->
                         </div>
                       </div>
                 </div>
@@ -69,6 +76,6 @@
               </form>
             </div>
           </div>
-        </sui-accordion-panel>
-      </sui-accordion>
+        <!-- </sui-accordion-panel>
+      </sui-accordion> -->
 </div>

@@ -254,6 +254,13 @@
   width: 16px !important;
   height: 16px !important;
 }
+.ui.mini.modal {
+  height: fit-content !important;
+}
+.ui.modal>.close {
+ position: initial !important;
+ color: black !important;
+}
 .content-font {
   font-size: 1.1em !important;
 }
@@ -707,7 +714,7 @@ h5.ui.header {
   border-right: none;
   border-top: none;
   border-left: none;
-  border-bottom: 1px solid rgba(51, 51, 51, 0.33);
+  border: 1px solid rgba(51, 51, 51, 0.33);
 }
 .ann-fileupload-list {
   overflow-x: hidden;

@@ -6,21 +6,22 @@ import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { EditorService } from './../../services';
 import { ActivatedRoute, Router } from '@angular/router';
+import { domainToASCII } from 'url';
 
 
 @Component({
   selector: 'app-update-resoure-form',
   templateUrl: './update-resoure-form.component.html',
   styleUrls: ['./update-resoure-form.component.scss'],
-  styles: [`
-  ::ng-deep @media only screen and (min-width: 992px) {
-      .modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal {
-        top: 60px !important;
-        position: relative !important;
-        margin: 0 0 0 -373px !important;
-      }
-     }
-   `]
+  // styles: [`
+  // ::ng-deep @media only screen and (min-width: 992px) {
+  //     .modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal {
+  //       top: 60px !important;
+  //       position: relative !important;
+  //       margin: 0 0 0 -373px !important;
+  //     }
+  //    }
+  //  `]
 })
 export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
 
@@ -91,6 +92,8 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
    * years is used to get years from getYearsForCreateTextBook
    */
   public years: any;
+  domains = [];
+
   /**
  * To make content editor service API calls
  */
@@ -150,16 +153,28 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-  //   $(function(){
-  //     var defaultValue = $("#keywords").val();
-  //     $("#reset").click(function () {
-  //         $("#keywords").val(defaultValue);
-  //     });
-  // });
+    //   $(function(){
+    //     var defaultValue = $("#keywords").val();
+    //     $("#reset").click(function () {
+    //         $("#keywords").val(defaultValue);
+    //     });
+    // });
 
   }
-
-   ngOnInit() {
+  mutateData(seldata) {
+    console.log('sel', seldata);
+    if (_.isArray(seldata)) {
+      let x = 0;
+      _.forEach(seldata, (value) => {
+        const domain = {};
+        domain['id'] = x++;
+        domain['name'] = value;
+        this.domains.push(domain);
+      });
+      return this.domains;
+    }
+  }
+  ngOnInit() {
 
 
 
@@ -172,10 +187,12 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     this.contentService.get(req).subscribe(data => {
       console.log('read content', data);
       this.formInputData = data.result.content;
+      this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel);
       this.keywords = data.result.content.keywords;
-      this.formInputData['versionKey'] = data.result.content.versionKey;
+      // this.formInputData['versionKey'] = data.result.content.versionKey;
+      console.log('read form', this.mutateData(data.result.content.gradeLevel));
     });
-    // console.log('in upadat', this.formSaveData);
+     // console.log('in upadat', this.formSaveData);
     this.setFormConfig();
     this.userService.userData$.subscribe(
       (user: IUserData) => {
@@ -186,37 +203,36 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     this.showLoader = false;
     this.years = this.getYearsForCreateTextBook();
     this.mapMasterCategoryList('');
-    $('#keywords').dropdown();
   }
 
   /**
 * to get selected concepts from concept picker.
 */
-concepts(events) {
-  console.log('events', events);
-  const sector = [];
-  _.forEach(events, (field) => {
- sector.push(field.name);
-  });
-  this.formInputData['gradeLevel'] = sector;
+  concepts(events) {
+    console.log('events', events);
+    const sector = [];
+    _.forEach(events, (field) => {
+      sector.push(field.name);
+    });
+    this.formInputData['gradeLevel'] = sector;
 
-}
+  }
 
-conceptspFramework(events) {
-  console.log('events', events);
-  const spFramework = [];
-  _.forEach(events, (field) => {
- spFramework.push(field.name);
-  });
-  this.formInputData['medium'] = spFramework;
-}
+  conceptspFramework(events) {
+    console.log('events', events);
+    const spFramework = [];
+    _.forEach(events, (field) => {
+      spFramework.push(field.name);
+    });
+    this.formInputData['medium'] = spFramework;
+  }
 
   /**
   * @description            - Which is used to update the form when vlaues is get changes
   * @param {Object} object  - Field information
   */
   updateForm(object) {
-     if (object.field.range) {
+    if (object.field.range) {
       this.getAssociations(object.value, object.field.range, (associations) => {
         this.applyDependencyRules(object.field, associations, true);
       });

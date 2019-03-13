@@ -57,7 +57,7 @@ module.exports = (app, keycloak) => {
 
   app.all(['/home', '/home/*', '/announcement', '/announcement/*', '/search', '/search/*',
     '/orgType', '/orgType/*', '/dashboard', '/dashboard/*', '/orgDashboard', '/orgDashboard/*',
-    '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
+    '/myasssets', '/myassests/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage)
 
   app.all('/:tenantName', (req, res) => {

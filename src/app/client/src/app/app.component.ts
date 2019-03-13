@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
       this.showFrameWorkPopUp = false;
     } else {
       if (this.userService.loggedIn && _.isEmpty(_.get(this.userProfile, 'framework'))) {
-        this.showFrameWorkPopUp = true;
+        this.showFrameWorkPopUp = false;
       }
     }
   }

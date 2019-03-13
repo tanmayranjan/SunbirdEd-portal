@@ -1,9 +1,9 @@
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
     
-        <div class="col-md-8 pt-10" id="showFilterButton">
-          <!-- <span class="browse item cursor-pointer" suiPopup [popupPlacement]="position" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
+         <div class="col-md-8 pt-10" id="showFilterButton">
+           <!-- <span class="browse item cursor-pointer" suiPopup [popupPlacement]="position" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
             {{resourceService?.frmelmnts?.lbl?.showFilters}}
             <i class="dropdown icon"  appTelemetryInteract [telemetryInteractEdata]="filterIntractEdata"></i>
           </span> -->
@@ -16,9 +16,11 @@
                 <div class="searchicon ui icon input ">
                   <input class="upForReviewSearchBox" type="text" name="filter_search" 
                     [(ngModel)]="query" (keyup)="keyup(query)"
-                    placeholder="{{resourceService?.frmelmnts?.prmpt?.searchContent}}"
+                    placeholder="Search by keywords"
                     title="Search" autocomplete="off" spellcheck="false" dir="auto" />
-                  <i class="search link icon"></i>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-secondary" type="submit"><i class="fas fa-search"></i></button>
+                      </div>
                 </div>
               </div>
             </div>
@@ -53,12 +55,12 @@
 </div>
 
   
-  <ng-template let-popup #popupTemplate>
+  <!-- <ng-template let-popup #popupTemplate>
     <div class="popup-content pr-30">
         <app-data-driven-filter [pageId]="'all-my-content-page'"[ignoreQuery]="['key']" *ngIf="filterType" [filterEnv]="filterType"
         [accordionDefaultOpen]=true [isShowFilterLabel]=false [showSearchedParam]=false></app-data-driven-filter>
       </div>
-  </ng-template>
+  </ng-template> -->
   <div class="ui grid">
       <div class="twelve wide column content" *ngIf='queryParams != undefined'>
           <span *ngFor="let value of label">

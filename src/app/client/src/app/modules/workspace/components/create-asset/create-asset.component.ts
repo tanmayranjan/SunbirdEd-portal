@@ -263,7 +263,7 @@ console.log('this.activated ', this.activatedRoute.snapshot.params.contentId);
 * Redirects to workspace create section
 */
   goToCreate() {
-    this.router.navigate(['/workspace/content/allcontent/1']);
+    this.router.navigate(['/myassests']);
   }
 
   /**

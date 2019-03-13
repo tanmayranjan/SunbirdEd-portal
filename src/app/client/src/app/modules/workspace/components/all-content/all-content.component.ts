@@ -3,7 +3,7 @@ import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkSpace } from '../../classes/workspace';
-import { SearchService, UserService, ISort } from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService } from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents
@@ -158,6 +158,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   /**
   * To call resource service which helps to use language constant
   */
+  public frameworkService: FrameworkService;
+
   public resourceService: ResourceService;
 
   /**
@@ -176,7 +178,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
     toasterService: ToasterService, resourceService: ResourceService,
-    config: ConfigService, public modalService: SuiModalService) {
+    config: ConfigService, public modalService: SuiModalService , frameworkService: FrameworkService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -184,6 +186,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     this.toasterService = toasterService;
     this.resourceService = resourceService;
     this.config = config;
+    this.frameworkService = frameworkService;
+
     this.state = 'allcontent';
     this.loaderMessage = {
       'loaderMessage': this.resourceService.messages.stmsg.m0110,
@@ -194,6 +198,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   ngOnInit() {
     this.filterType = this.config.appConfig.allmycontent.filterType;
     this.redirectUrl = this.config.appConfig.allmycontent.inPageredirectUrl;
+    this.frameworkService.initialize();
+
     observableCombineLatest(
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
@@ -228,6 +234,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
   */
   fecthAllContent(limit: number, pageNumber: number, bothParams) {
+
     this.showLoader = true;
     if (bothParams.queryParams.sort_by) {
       const sort_by = bothParams.queryParams.sort_by;
@@ -258,6 +265,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     };
     this.searchContentWithLockStatus(searchParams).subscribe(
       (data: ServerResponse) => {
+        console.log('data', data);
         if (data.result.count && data.result.content.length > 0) {
           this.allContent = data.result.content;
           this.totalCount = data.result.count;

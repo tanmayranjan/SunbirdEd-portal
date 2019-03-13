@@ -99,6 +99,7 @@ export class AllMyContentFilterComponent implements OnInit {
             this.queryParams[key] = [value];
           }
         });
+        console.log('params', params);
       });
       this.modelChanged.pipe(debounceTime(1000),
       distinctUntilChanged(),

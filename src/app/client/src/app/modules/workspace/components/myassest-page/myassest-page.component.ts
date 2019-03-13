@@ -2,10 +2,10 @@ import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkSpace } from '../../classes/workspace';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService } from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService } from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
-  ResourceService, ILoaderMessage, INoResultMessage, IContents
+  ResourceService, ILoaderMessage, INoResultMessage, IContents,
 } from '@sunbird/shared';
 import { Ibatch, IStatusOption } from './../../interfaces/';
 import { WorkSpaceService } from '../../services';
@@ -16,6 +16,7 @@ import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semanti
 import { ICard } from '../../../shared/interfaces/card';
 
 
+
 @Component({
   selector: 'app-myassest-page',
   templateUrl: './myassest-page.component.html',
@@ -23,7 +24,9 @@ import { ICard } from '../../../shared/interfaces/card';
 })
 export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   @ViewChild('modalTemplate')
+  // @ViewChild('modalTemplate2')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
+  // public modalTemplate2: ModalTemplate<{data: string}, string, string>;
   /**
      * state for content editior
     */
@@ -164,8 +167,12 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
 
   public resourceService: ResourceService;
   public permissionService: PermissionService;
+  public contentService: ContentService;
   lessonRole: any;
-
+  userId: string;
+  reasons = [];
+   deleteAsset = false;
+   publishAsset = false;
 
   /**
     * Constructor to create injected service(s) object
@@ -185,7 +192,9 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     route: Router, userService: UserService,
     permissionService: PermissionService,
     toasterService: ToasterService, resourceService: ResourceService,
-    config: ConfigService, public modalService: SuiModalService , frameworkService: FrameworkService) {
+    config: ConfigService, public modalService: SuiModalService,
+    public modalServices: SuiModalService , frameworkService: FrameworkService,
+    contentService: ContentService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -196,6 +205,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     this.permissionService = permissionService;
 
     this.frameworkService = frameworkService;
+    this.contentService = contentService;
 
     this.state = 'allcontent';
     this.loaderMessage = {
@@ -205,6 +215,13 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   }
 
   ngOnInit() {
+  //   this.userService.userData$.subscribe(userdata => {
+  //   if (userdata && !userdata.err) {
+  //     this.userId = userdata.userProfile.userId;
+
+  //   }
+  // });
+  this.userId = this.userService.userid;
     this.lessonRole = this.config.rolesConfig.workSpaceRole.lessonRole;
 
     this.filterType = this.config.appConfig.allmycontent.filterType;
@@ -255,7 +272,8 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         subject: bothParams.queryParams.subject,
         medium: bothParams.queryParams.medium,
         gradeLevel: bothParams.queryParams.gradeLevel,
-        resourceType: bothParams.queryParams.resourceType
+        resourceType: bothParams.queryParams.resourceType,
+        keywords: bothParams.queryParams.keywords
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
@@ -289,12 +307,14 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     );
   }
   public deleteConfirmModal(contentIds) {
+   this.deleteAsset = true;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'mini';
     this.modalService
       .open(config)
       .onApprove(result => {
+        this.deleteAsset = false;
         this.showLoader = true;
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
@@ -317,6 +337,73 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
       .onDeny(result => {
       });
   }
+  public publishConfirmModal(contentIds) {
+    this.deleteAsset = false;
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'mini';
+    this.modalService
+      .open(config)
+      .onApprove(result => {
+        this.showLoader = true;
+        this.loaderMessage = {
+          'loaderMessage': this.resourceService.messages.stmsg.m0034,
+        };
+
+        // this.delete(contentIds).subscribe(
+        //   (data: ServerResponse) => {
+        //     this.showLoader = false;
+        //     this.allContent = this.removeAllMyContent(this.allContent, contentIds);
+        //     if (this.allContent.length === 0) {
+        //       this.ngOnInit();
+        //     }
+        //     this.toasterService.success(this.resourceService.messages.smsg.m0006);
+        //   },
+        //   (err: ServerResponse) => {
+        //     this.showLoader = false;
+        //     this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+        //   }
+        // );
+        this.reasons = ['Content plays correctly',
+        'Can see the content clearly on Desktop and App',
+        'No Hate speech, Abuse, Violence, Profanity',
+        'No Sexual content, Nudity or Vulgarity',
+        'Relevant Keywords',
+        'Appropriate tags such as Resource Type, Concepts',
+        'Correct Board, Grade, Subject, Medium',
+        'Appropriate Title, Description',
+        'No Discrimination or Defamation',
+        'Is suitable for children',
+        'Audio (if any) is clear and easy to understand',
+        'No Spelling mistakes in the text',
+        'Language is simple to understand'];
+          const requestBody = {
+            request: {
+              content: {
+                publishChecklist: this.reasons,
+                lastPublishedBy: this.userId
+              }
+            }
+          };
+          const option = {
+            url: `${this.config.urlConFig.URLS.CONTENT.PUBLISH}/${contentIds}`,
+            data: requestBody
+          };
+          this.contentService.post(option).subscribe(
+            (data: ServerResponse) => {
+              this.showLoader = false;
+
+            this.toasterService.success(this.resourceService.messages.smsg.m0004);
+
+          }, (err) => {
+            this.showLoader = false;
+            this.toasterService.error(this.resourceService.messages.fmsg.m0019);
+          });
+      })
+
+      .onDeny(result => {
+      });
+  }
 
   /**
    * This method helps to navigate to different pages.
@@ -332,7 +419,10 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
       return;
     }
     this.pageNumber = page;
-    this.route.navigate(['workspace/content/allcontent', this.pageNumber], { queryParams: this.queryParams });
+    this.route.navigate(['myassests', this.pageNumber], { queryParams: this.queryParams });
+  }
+  navigateToDetailsPage(contentId: string) {
+    this.route.navigate(['myassests/detail', contentId]);
   }
 
   contentClick(content) {

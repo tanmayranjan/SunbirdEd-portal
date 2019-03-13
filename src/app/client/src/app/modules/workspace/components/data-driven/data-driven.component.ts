@@ -152,7 +152,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
 
   ngOnInit() {
-console.log('this.activated ', this.activatedRoute);
+   console.log('this.activated ', this.activatedRoute);
      this.checkForPreviousRouteForRedirect();
 
     /**
@@ -268,7 +268,7 @@ console.log('this.activated ', this.activatedRoute);
       requestData.createdFor = this.userProfile.organisationIds,
       requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
       requestData.framework = this.framework;
-      requestData.version = Number(requestData.version);
+      requestData.version = parseFloat(requestData.version);
       requestData['artifactUrl'] = data.link;
     if (this.contentType === 'studymaterial') {
       requestData.mimeType = 'text/x-url';
@@ -296,6 +296,7 @@ console.log('this.activated ', this.activatedRoute);
     if (this.contentType === 'studymaterial') {
       this.editorService.create(requestData).subscribe(res => {
         console.log('res', res);
+        this.toasterService.success('Asset created successfully');
         this.createLockAndNavigateToEditor({identifier: res.result.content_id});
       }, err => {
         this.toasterService.error(this.resourceService.messages.fmsg.m0078);

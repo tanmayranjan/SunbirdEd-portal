@@ -11,6 +11,9 @@ import { FlagContentComponent, AuthGuard } from '@sunbird/core';
 import { CourseProgressComponent } from '@sunbird/dashboard';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/shared-feature';
+import { CreateAssetComponent} from '../workspace/components/create-asset/create-asset.component';
+import { DataDrivenComponent} from '../workspace/components/data-driven/data-driven.component';
+import { CreateContentComponent} from '../workspace/components/create-content/create-content.component';
 const telemetryEnv = 'course';
 const objectType = 'course';
 const routes: Routes = [
@@ -20,7 +23,18 @@ const routes: Routes = [
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Courses', url: '' }],
       telemetry: { env: telemetryEnv, pageid: 'learn', type: 'view' },
       baseUrl: 'learn'
-    }
+    },
+    // children: [ {
+    //   // path: 'create/assets', component: DataDrivenComponent,
+    //   // data: {
+    //   //   telemetry: {
+    //   //     env: telemetryEnv, pageid: 'workspace-create-textbook', uri: '/workspace/content/create/textbook',
+    //   //     type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
+    //   //   }, breadcrumbs: [{ label: 'Home', url: '/home' },
+    //   // }
+
+    // }]
+
   },
   {
     path: 'redirect', component: RedirectComponent,
@@ -131,7 +145,30 @@ const routes: Routes = [
         }
       }
     ]
+  },
+  {
+    path: 'create', component: CreateContentComponent, canActivate: [AuthGuard],
+  data: {
+    telemetry: {
+      env: telemetryEnv, pageid: 'workspace-content-create', uri: '/workspace/content/create',
+      type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
+    }, roles: 'createRole',
+    breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+  },
+  children: [
+    {
+    path: 'studymaterial', component: DataDrivenComponent, canActivate: [AuthGuard],
+    data: {
+      roles: 'workspace',
+      telemetry: {
+        env: telemetryEnv, pageid: 'workspace-create-lesson', subtype: 'paginate', uri: '/learn/create/studymaterial',
+        type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
+      }, breadcrumbs: [{ label: 'Home', url: '/home' },
+      { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+    }}
+  ]
   }
+
 ];
 
 @NgModule({

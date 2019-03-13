@@ -56,8 +56,11 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
+    debugger;
+    console.log('this', this.selectedConcepts)
     this.selectedConcepts = this.selectedConcepts || [];
-    this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
+    this.contentConcepts = _.map(this.selectedConcepts, 'name');
+    console.log('thi.cone', this.contentConcepts);
     this.pickerMessage = this.contentConcepts.length + 'selected';
     $('.tree-pickers').val(this.pickerMessage);
     setTimeout(() => {
@@ -66,7 +69,7 @@ export class ConceptPickerComponent implements OnInit {
         name: 'sector',
         picked: this.contentConcepts,
         onSubmit: (nodes) => {
-          $('.tree-pickers').val(nodes.length + ' selected');
+          $('.tree-pickers').val(nodes.length + 'selected');
           const contentConcepts = [];
           _.forEach(nodes, (obj) => {
             contentConcepts.push({
@@ -82,8 +85,8 @@ export class ConceptPickerComponent implements OnInit {
       });
       setTimeout(() => {
         document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
-      }, 1000);
-    }, 1000);
+      }, 9000);
+    }, 9000);
   }
   /**
    * calls conceptPickerService and initConceptBrowser

@@ -1,4 +1,4 @@
-<sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal>
+<!-- <sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal>
   <div class=" ui segment mt-10" [appTelemetryImpression]="telemetryImpression">
       <div class=" mb-15">
           <div class="ui grid">
@@ -14,8 +14,8 @@
               <div *ngIf="formFieldProperties && categoryMasterList">
                   <app-update-resoure-form #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList" >
                   </app-update-resoure-form>
-                  <!-- <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList"></app-content-creation-default-template> -->
-              </div>
+                   <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList"></app-content-creation-default-template> -->
+              <!-- </div>
               <div class="actions mt-10">
                   <p class="text-align-center pt-20">
                       <button class="ui primary text-align-center icon button" (click)="updateContent(); modal.deny()">
@@ -41,4 +41,28 @@
           </div>
       </form>
   </div>
-</sui-modal>
+</sui-modal> --> 
+
+<div class="container mt-5">
+    <h4>Update Asset</h4>
+    <hr>
+    <form class="ui form">
+            <div class="content">
+                <div *ngIf="formFieldProperties && categoryMasterList">
+                    <app-update-resoure-form #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList" >
+                    </app-update-resoure-form>
+                </div>
+                <div class="actions mt-10">
+                    <p class="text-align-center pt-20">
+                        <!-- <button class="ui secondary text-align-center icon button" (click)="createContent();modal.deny()">
+                            Save
+                        </button> -->
+                        <button class="btn btn-default btn-secondary mr-5 btn-lg" (click)="updateContent();modal.deny()" type="submit">Update</button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg" (click)="goToCreate()">Cancel</button>
+
+                    </p>
+
+                </div>
+            </div>
+        </form>
+</div>
