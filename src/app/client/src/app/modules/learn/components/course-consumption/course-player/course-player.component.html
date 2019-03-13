@@ -45,16 +45,10 @@
   </div>
 </header>
 <!--banner section ends-->
-
-
-  <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
-    <div class="row tab-view" *ngIf="!enableContentPlayer && !loader">
+<div class="row tab-view" *ngIf="!enableContentPlayer && !loader">
         <ul class="nav nav-pills justify-content-center">
-            <li cla ss="nav-item">
-              <a class="nav-link active" data-toggle="pill" href="#overview">Overview</a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="pill" href="#course-content">Course Content</a>
+              <a class="nav-link active" data-toggle="pill" href="#course-content">Course Content</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="pill" href="#qa">QA</a>
@@ -71,6 +65,9 @@
         <li><button data-toggle="pill" href="#announcement">Announcements</button></li>
       </ul> -->
     </div>
+
+
+  <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
     <div class="ui stackable grid mt-20">
       <div class="twelve wide column">
         <div *ngIf="!enableContentPlayer && !loader">
@@ -130,7 +127,7 @@
                 <div class='nine wide column container'>
                     <div class="tab-content">
                     <!--overview section-->
-                      <div id="overview" class="tab-pane active">
+                      <div id="overview" class="tab-pane">
                         <div class="ui header container">
                           <span class="content courseStructureHeading">
                             {{resourceService.frmelmnts.lbl.aboutthecourse}}
@@ -150,7 +147,7 @@
                         </div>
                       </div>
                       <!--course content section-->
-                      <div class="tab-pane fade container" id="course-content">
+                      <div class="tab-pane container active" id="course-content">
                         <div class="ui header">
                           <b class="content courseStructureHeading">
                             {{resourceService.frmelmnts.lbl.coursestructure}}
@@ -174,7 +171,7 @@
                       </div>
                       <!--announcements section-->
                       <div class="tab-pane fade container text-align-center" id="announcement">
-                        <p>There haven't been any announcements regarding this course yet.
+                        <p>There aren't any announcements regarding this course yet.
                         </p>
                       </div>
                     </div>
