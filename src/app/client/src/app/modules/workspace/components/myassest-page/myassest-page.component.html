@@ -1,0 +1,150 @@
+<div class="twelve wide column mt-20" *ngIf="showLoader ">
+  <app-loader [data]="loaderMessage"></app-loader>
+</div>
+<div *ngIf="noResult && !showLoader">
+  <app-no-result [data]="noResultMessage"></app-no-result>
+</div>
+<app-all-my-content-filter ></app-all-my-content-filter>
+
+<div class="container mt-5">
+
+  <div class="row">
+    <div class="col">
+      <h6>Asset Type: </h6>
+    </div>
+    <div class="col-sm">
+      <h6>Sector</h6>
+    </div>
+    <div class="col-sm">
+      <h6>Filter</h6>
+    </div>
+    <div class="col-sm">
+      <!-- <form>
+                    <div class="form-group">
+                      <div class="col-12  mb-2 mb-md-0 searchicon ui fluid icon input">
+                        <input  type="text" id="keyword" name="filter_search" class="form-control form-control-lg" title="Search" placeholder="Search for..."
+                        [(ngModel)]="key" value="key" (keyup.enter)="blockAngleChar(key)" />
+                        <div style="
+                            background: blue;
+                            border: 4px solid blue;
+                            height: 5.7vh;
+                            margin-top: 14.93rem;
+                            font-size: 19px;
+                            padding: 0.5rem;
+                            color: white;"
+                        >
+                       <i class="fas fa-search" id="searchIcon" ></i>
+                        </div>
+                      </div>
+                    </div>
+                  </form> -->
+      <form class="navbar-form" role="search">
+        <div class="input-group add-on">
+          <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+          <div class="input-group-btn">
+            <button class="btn btn-default btn-secondary" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col" *ngIf='permissionService.permissionAvailable' appPermission [permission]='lessonRole'>
+      <button type="button" class="btn btn-secondary float-right" routerLink="create"><i class="fas fa-plus"></i> New
+        Asset</button>
+    </div>
+  </div>
+  <div class="row">
+    <div in-view-item *ngFor="let content of allContent;let i = index;" [id]="i" [data]="content"
+      class="col-md-3 py-5 pl-10">
+      <!-- <app-myasset-card [data]="content" (clickEvent)="contentClick($event)"></app-myasset-card> -->
+      <div *ngIf="content">
+        <div class="card mt-5" style="width: 18rem; height: 40vh;">
+          <div class="card-img-top" alt="..."
+></div>
+          <div class="card-img-overlay row">
+
+            <div class="col-sm-3 thick-green-border " *ngIf="content?.board === 'Knowledge'">
+              <img src="/client/src/assets/images/Book_icon.png" class="smaller-image">
+            </div>
+            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'hardware'">
+              <i class="fas fa-memory fa-lg"></i>
+              <!-- <img src="images"> -->
+            </div>
+            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Software'">
+              <!-- <i class="fas fa-bullseye fa-lg"></i> -->
+              <img src="/client/src/assets/images/Sunbird_icon.png" alt="" class="smaller-image">
+            </div>
+            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Process'">
+              <!-- <i class="fas fa-cogs fa-lg"></i> -->
+              <img src="/client/src/assets/images/Programe_icon.png" alt="" class="smaller-image">
+            </div>
+            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Data'">
+              <i class="fas fa-database fa-lg"></i>
+            </div>
+            <div class="col-sm-8 text-light pt-3">
+              <h5 class="card-title">{{content?.name}}</h5>
+              <p class="card-text">version : {{content?.version}}.0</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{content?.description}}</p>
+            <div class="d-flex justify-content-center">
+              <button type="button" class="btn text-secondary" id="style"
+                (click)="deleteConfirmModal(data.identifier); $event.stopPropagation()">
+                <i class="trash large icon"></i>
+              </button>
+
+              <div *ngIf="content?.status==='Draft'">
+                <button type="button" class="btn ml-4 text-light" id="pub"><i class="fas fa-upload"></i>&nbsp; PUBLISH</button>
+              </div>
+              <button type="button" class="btn text-secondary ml-4" id="style"><i
+                  class="fas fa-pencil-alt"></i></button>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="ui grid">
+  <div class="two wide column"></div>
+  <div class="ten wide column">
+    <div class="pb-10"
+      *ngIf="allContent && totalCount > config.appConfig.WORKSPACE.PAGE_LIMIT && !showLoader && !showError && !noResult">
+      <div class="ui pagination menu mt-10 right-floated p-0 " *ngIf="pager.pages.length ">
+        <a [ngClass]="{disabled:pager.currentPage===1 }" class="item " (click)="navigateToPage(1) ">First</a>
+        <a [ngClass]="{disabled:pager.currentPage===1 }" class="item "
+          (click)="navigateToPage(pager.currentPage - 1)">Previous</a>
+        <a *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage===page}" (click)="navigateToPage(page)"
+          class="item">{{page}}</a>
+        <a [ngClass]="{disabled:pager.currentPage=== pager.totalPages}" (click)="navigateToPage(pager.currentPage + 1)"
+          class="item">Next</a>
+        <a [ngClass]="{disabled:pager.currentPage=== pager.totalPages}" (click)="navigateToPage(pager.totalPages)"
+          class="item ">Last</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template let-context let-modal="modal" #modalTemplate>
+  <div class="header"> {{resourceService?.frmelmnts?.lbl?.deletecontent}}</div>
+  <div class="content">
+    <p>{{resourceService?.frmelmnts?.lbl?.deleteconfirm}}</p>
+  </div>
+  <div class="actions">
+    <button class="ui red button" (click)="modal.deny('denied')">No</button>
+    <button class="ui primary button" (click)="modal.approve('approved')" autofocus>Yes</button>
+  </div>
+</ng-template>
+
+<app-contentlock-info-popup [content]="lockPopupData" (closeEvent)="onCloseLockInfoPopup($event)"
+  *ngIf="showLockedContentModal"></app-contentlock-info-popup>
+
+<router-outlet></router-outlet>

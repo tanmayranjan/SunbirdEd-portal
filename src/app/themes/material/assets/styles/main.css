@@ -972,8 +972,8 @@ div:focus {
   border-radius: 0!important;
   padding: 1em 0 !important;
 }
-.ui.modal .ui.selection.dropdown {
-  border: 0!important;
+.ui.selection.dropdown {
+  border: 2px solid  #707070;
   border-bottom: 1px solid #979797!important;
   border-radius: 0!important;
 }
@@ -2585,6 +2585,11 @@ ul.fancytree-container li {
   z-index: 11;
 }
 .conceptSelector.ui.form .treepicker-parent input {
+  color: #908e90;
+  font-family: Roboto;
+  font-size: 13px;
+}
+.concept.ui.form .treepicker-parent input {
   color: #908e90;
   font-family: Roboto;
   font-size: 13px;

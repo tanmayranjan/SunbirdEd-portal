@@ -8,7 +8,7 @@ import * as _ from 'lodash';
   templateUrl: './concept-picker.component.html',
   styleUrls: ['./concept-picker.component.css']
 })
-export class ConceptPickerComponent implements OnInit, OnDestroy {
+export class ConceptPickerComponent implements OnInit {
   private conceptPickerService: ConceptPickerService;
   /**
    * concept Data
@@ -23,6 +23,9 @@ export class ConceptPickerComponent implements OnInit, OnDestroy {
    */
   @Input() conceptPickerClass: string;
 
+  @Input() category: any;
+
+  @Input() categoryName: string;
   /**
    * message about how many concept are selected
    */
@@ -36,6 +39,7 @@ export class ConceptPickerComponent implements OnInit, OnDestroy {
   showLoader = true;
   contentConcepts: any;
   conceptDataSubscription: Subscription;
+  conceptDataSet: any;
   /**
    * emits selected concepts
    */
@@ -54,15 +58,15 @@ export class ConceptPickerComponent implements OnInit, OnDestroy {
   initConceptBrowser() {
     this.selectedConcepts = this.selectedConcepts || [];
     this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
-    this.pickerMessage = this.contentConcepts.length + ' concepts selected';
-    $('.tree-picker-selector').val(this.pickerMessage);
+    this.pickerMessage = this.contentConcepts.length + 'selected';
+    $('.tree-pickers').val(this.pickerMessage);
     setTimeout(() => {
-      $('.tree-picker-selector').treePicker({
+      $('.tree-pickers').treePicker({
         data: this.conceptData,
-        name: 'Concepts',
+        name: 'sector',
         picked: this.contentConcepts,
         onSubmit: (nodes) => {
-          $('.tree-picker-selector').val(nodes.length + ' concepts selected');
+          $('.tree-pickers').val(nodes.length + ' selected');
           const contentConcepts = [];
           _.forEach(nodes, (obj) => {
             contentConcepts.push({
@@ -78,27 +82,60 @@ export class ConceptPickerComponent implements OnInit, OnDestroy {
       });
       setTimeout(() => {
         document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
-      }, 500);
-    }, 500);
+      }, 1000);
+    }, 1000);
   }
   /**
    * calls conceptPickerService and initConceptBrowser
    */
   ngOnInit() {
-    this.conceptDataSubscription = this.conceptPickerService.conceptData$.subscribe(apiData => {
-      if (apiData && !apiData.err) {
-        this.showLoader = false;
-        this.conceptData = apiData.data;
-        this.initConceptBrowser();
-      } else if (apiData && apiData.err) {
-        this.showLoader = false;
-      }
-    });
-  }
+    console.log('concept picker', this.selectedConcepts);
+    this.conceptData = this.loadDomains(this.category);
+    if (this.conceptData) {
+      this.showLoader = false;
+          console.log('our ', this.category);
+          console.log('this.node', this.conceptData);
 
-  ngOnDestroy() {
-    if (this.conceptDataSubscription) {
-      this.conceptDataSubscription.unsubscribe();
+          this.initConceptBrowser();
+        } else {
+          this.showLoader = false;
     }
+
+    }
+
+
+  // ngOnDestroy() {
+  //   if (this.conceptData) {
+  //     this.conceptData = null;
+  //   }
+  // }
+  loadDomains(cat) {
+    const domains = [];
+        if (cat && _.isArray(cat)) {
+          _.forEach(cat, (value) => {
+            const domain = {};
+            domain['id'] = value['identifier'];
+            domain['name'] = value['name'];
+            domain['selectable'] = 'selectable';
+            domain['nodes'] = this.getChild(value.identifier, value.children);
+            domains.push(domain);
+          });
+          console.log('no', domains);
+        }
+        return domains;
+      }
+  /**
+   *  Get child recursively
+   */
+  getChild(id, resp) {
+    const childArray = [];
+    _.forEach(resp, (value) => {
+          const child = {};
+          child['id'] = value['identifier'];
+          child['name'] = value['name'];
+          child['selectable'] = 'selectable';
+          childArray.push(child);
+    });
+    return _.uniqBy(childArray, 'id');
   }
 }

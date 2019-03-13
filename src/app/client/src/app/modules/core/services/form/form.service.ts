@@ -47,8 +47,8 @@ export class FormService {
           type: formInputParams.formType,
           action: formInputParams.formAction,
           subType: this.configService.appConfig.formApiTypes[formInputParams.contentType],
-          rootOrgId: hashTagId ? hashTagId : this.userService.hashTagId
-        }
+          rootOrgId: hashTagId ? hashTagId : this.userService.hashTagId    
+            }
       }
     };
     const formKey = `${channelOptions.data.request.type}${channelOptions.data.request.action}

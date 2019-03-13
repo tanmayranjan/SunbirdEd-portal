@@ -1239,6 +1239,10 @@ ul.fancytree-container li {
   color: #cdcccc;
   font-size: 13px;
 }
+.concept.ui.form .treepicker-parent input {
+  color: #cdcccc;
+  font-size: 13px;
+}
 .ui.input input.filterLocationInput {
   padding-top: 12px;
   border: 0;
@@ -2454,6 +2458,9 @@ sui-multi-select.ui.selection.dropdown{
  .conceptSelector.ui.form .treepicker-parent input{
    background: transparent;
  }
+ .concept.ui.form .treepicker-parent input{
+  background: transparent;
+}
  .modal.mini.fixed-small {
   max-width:320px;
   width:100%;

@@ -1,6 +1,6 @@
 
 import {combineLatest, of, Subject } from 'rxjs';
-import { PageApiService, CoursesService, ISort, PlayerService, FormService } from '@sunbird/core';
+import { PageApiService, CoursesService, ISort, PlayerService, FormService, PermissionService } from '@sunbird/core';
 import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService
@@ -35,8 +35,13 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
+  public permissionService: PermissionService;
 
-  constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
+  createRole: Array<string>;
+  lessonRole: Array<string>;
+
+
+  constructor(private pageApiService: PageApiService, private toasterService: ToasterService,permissionService: PermissionService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
     private playerService: PlayerService, private cacheService: CacheService,
@@ -44,9 +49,15 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
+    this.permissionService = permissionService;
+    console.log('permission', this.permissionService)
+
     this.setTelemetryData();
   }
   ngOnInit() {
+    this.createRole = this.configService.rolesConfig.workSpaceRole.createRole;
+    this.lessonRole = this.configService.rolesConfig.workSpaceRole.lessonRole;
+
     combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];

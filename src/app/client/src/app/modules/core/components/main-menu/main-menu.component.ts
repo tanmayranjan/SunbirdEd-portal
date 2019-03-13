@@ -139,6 +139,7 @@ export class MainMenuComponent implements OnInit {
 
   navigateToWorkspace() {
     const authroles = this.permissionService.getWorkspaceAuthRoles();
+    console.log('authrole', authroles);
     if (authroles) {
       this.router.navigate([authroles.url]);
     }

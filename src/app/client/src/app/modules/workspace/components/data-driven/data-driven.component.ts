@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework,
@@ -13,6 +13,7 @@ import { DefaultTemplateComponent } from '../content-creation-default-template/c
 import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';
 import { WorkSpace } from '../../classes/workspace';
 import { WorkSpaceService } from '../../services';
+import { publish } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-driven',
@@ -22,6 +23,7 @@ import { WorkSpaceService } from '../../services';
 export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy {
   @ViewChild('formData') formData: DefaultTemplateComponent;
   @ViewChild('modal') modal;
+  announcementForm: FormGroup;
 
   /**
 	 * This variable hepls to show and hide page loader.
@@ -103,10 +105,15 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   public isCachedDataExists: boolean;
 
   public framework: string;
+  public showButton = false;
+ public submit = false;
   /**
 	* telemetryImpression
 	*/
   telemetryImpression: IImpressionEventInput;
+
+  percentDone: number;
+  uploadSuccess: boolean;
 
 
   constructor(
@@ -133,9 +140,8 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     this.configService = configService;
     this.frameworkService = frameworkService;
     this.formService = formService;
-    this.activatedRoute.url.subscribe(url => {
-      this.contentType = url[0].path;
-    });
+    this.contentType = 'studymaterial';
+    console.log('content type', this.contentType);
     this.resourceType = this.configService.appConfig.resourceType[this.contentType];
     this.creationFormLable = this.configService.appConfig.contentCreateTypeLable[this.contentType];
     this.name = this.configService.appConfig.contentName[this.contentType] ?
@@ -146,7 +152,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
 
   ngOnInit() {
-
+console.log('this.activated ', this.activatedRoute);
      this.checkForPreviousRouteForRedirect();
 
     /**
@@ -185,13 +191,14 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   fetchFrameworkMetaData() {
 
     this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
+      console.log('frame', frameworkData);
       if (!frameworkData.err) {
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
         this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
   * form api otherwise call form api and get form data
-  */
+  */     console.log('cata', this.categoryMasterList);
         this.isCachedDataExists = this._cacheService.exists(this.contentType + this.formAction);
         if (this.isCachedDataExists) {
           const data: any | null = this._cacheService.get(this.contentType + this.formAction);
@@ -205,6 +212,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
           };
           this.formService.getFormConfig(formServiceInputParams).subscribe(
             (data: ServerResponse) => {
+              console.log('data');
               this.formFieldProperties = data;
               this.getFormConfig();
             },
@@ -243,13 +251,14 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 * Redirects to workspace create section
 */
   goToCreate() {
-    this.router.navigate(['/workspace/content/create']);
+    this.router.navigate(['myassests']);
   }
 
   /**
 * requestBody is returned of type object
 */
   generateData(data) {
+    console.log('dat form', data);
     this.showLoader = true;
     const requestData = _.cloneDeep(data);
     requestData.name = data.name ? data.name : this.name,
@@ -259,8 +268,10 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
       requestData.createdFor = this.userProfile.organisationIds,
       requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
       requestData.framework = this.framework;
+      requestData.version = Number(requestData.version);
+      requestData['artifactUrl'] = data.link;
     if (this.contentType === 'studymaterial') {
-      requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
+      requestData.mimeType = 'text/x-url';
     } else {
       requestData.mimeType = this.configService.urlConFig.URLS.CONTENT_COLLECTION;
     }
@@ -276,11 +287,15 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   }
 
   createContent() {
+    console.log('form data ', this.formData.formInputData);
+    // const data = this.generateData(_.pickBy(this.formData.formInputData))
     const requestData = {
       content: this.generateData(_.pickBy(this.formData.formInputData))
     };
+    console.log('form data', this.formData.formInputData );
     if (this.contentType === 'studymaterial') {
       this.editorService.create(requestData).subscribe(res => {
+        console.log('res', res);
         this.createLockAndNavigateToEditor({identifier: res.result.content_id});
       }, err => {
         this.toasterService.error(this.resourceService.messages.fmsg.m0078);
@@ -292,17 +307,18 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
         this.toasterService.error(this.resourceService.messages.fmsg.m0010);
       });
     }
-  }
+    this.sendForReview();
+   }
 
   createLockAndNavigateToEditor (content) {
     const state = 'draft';
     const framework = this.framework;
-    if (this.contentType === 'studymaterial') {
-      this.router.navigate(['/workspace/content/edit/content/', content.identifier, state, framework, 'Draft']);
-    } else {
-      const type = this.configService.appConfig.contentCreateTypeForEditors[this.contentType];
-      this.router.navigate(['/workspace/content/edit/collection', content.identifier, type, state, framework, 'Draft']);
-    }
+    // if (this.contentType === 'studymaterial') {
+    //   this.router.navigate(['/workspace/content/edit/content/', content.identifier, state, framework, 'Draft']);
+    // } else {
+    //   const type = this.configService.appConfig.contentCreateTypeForEditors[this.contentType];
+    //   this.router.navigate(['/workspace/content/edit/collection', content.identifier, type, state, framework, 'Draft']);
+    // }
   }
 
   /**
@@ -310,12 +326,15 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   */
   checkForPreviousRouteForRedirect() {
     const previousUrlObj = this.navigationHelperService.getPreviousUrl();
-    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/workspace/content/create')) {
+    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/myassests/create')) {
       this.redirect();
     }
   }
 
+  sendForReview () {
+
+  }
   redirect() {
-    this.router.navigate(['/workspace/content/create']);
+    this.router.navigate(['/myassests/create']);
   }
 }

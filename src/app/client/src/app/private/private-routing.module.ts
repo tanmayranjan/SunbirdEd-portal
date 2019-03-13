@@ -15,7 +15,7 @@ const appRoutes: Routes = [
     loadChildren: 'app/modules/search/search.module#SearchModule'
   },
   {
-    path: 'workspace',
+    path: 'myassests',
     loadChildren: 'app/modules/workspace/workspace.module#WorkspaceModule'
   }
 ];
