@@ -1,10 +1,56 @@
 <div *ngIf="userEnrolledBatch else previewCourse">
 
 
+<!--banner section-->
+<header class="showcase-header">
+  <div class="jumbotron jumbotron-fluid course-image">
+      <div class="container-fluid banner">
+          <div class="row banner-main-row">
+            <div class="col-xs-12 col-sm-12 col-md-5 image-section">
+              <img class="float-right" [src]='courseInfo?.appIcon' alt="course-image" width="300px" height="270px">
+              </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 offset-md-1 banner-content-section float-right white-text">
+              <br/>
+              <h3 class="h3 responsive-align-text course-name banner-font">{{courseInfo?.name || 'NA'}}</h3>
+              <h5 class="banner-content-description banner-desc-font" *ngIf="!readMore">{{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                              <span class="ui cardsKnowMore mouse-pointer"
+                                *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
+                                (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}</span></h5>
+                                <h5 *ngIf="readMore" class="banner-content-description banner-desc-font" style="font-size: 14px !important;">{{ courseHierarchy.description}}&nbsp;
+                              <span class="ui cardsKnowMore mouse-pointer"
+                                (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span></h5>
+
+
+
+
+
+              <div class="row icon-section mt-3 font-awesome-white">
+                  <div class="col-sm-6 col-md-3 text-align-center">
+                    <h4 class="h3">{{courseInfo?.totalVideoDuration || '22'}}</h4>
+                    <p> Hours</p>
+                  </div>
+                  <div class="col-sm-6 col-md-3 text-align-center">
+                    <i class="fas fa-graduation-cap fa-3x"></i>
+                    <p style="margin-top: 15px;"> {{courseInfo?.organisation || 'NA'}}</p>
+                  </div>
+                  <div class="col-sm-6 col-md-3 text-align-center">
+                    <i class="fas fa-globe fa-3x"></i>
+                    <p style="margin-top: 15px;"> {{courseInfo?.language[0] || 'English'}}</p>
+                  </div>
+                </div>
+              <button type="button" class="btn btn-success btn-lg enroll-button" href="/home">Enroll</button>
+            </div>
+          </div>
+        </div>
+  </div>
+</header>
+<!--banner section ends-->
+
+
   <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
     <div class="row tab-view" *ngIf="!enableContentPlayer && !loader">
         <ul class="nav nav-pills justify-content-center">
-            <li class="nav-item">
+            <li cla ss="nav-item">
               <a class="nav-link active" data-toggle="pill" href="#overview">Overview</a>
             </li>
             <li class="nav-item">
