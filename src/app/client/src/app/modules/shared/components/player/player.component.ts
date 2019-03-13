@@ -39,8 +39,11 @@ export class PlayerComponent implements OnInit, OnChanges {
    */
   showPlayer () {
     const iFrameSrc = this.configService.appConfig.PLAYER_CONFIG.baseURL + '&build_number=' + this.buildNumber;
+    console.log('ifram src is -------' + iFrameSrc);
     setTimeout(() => {
       this.contentIframe.nativeElement.src = iFrameSrc;
+      console.log(this.contentIframe.nativeElement.src);
+      console.log('this is the above console');
       this.contentIframe.nativeElement.onload = () => {
         this.adjustPlayerHeight();
         this.contentIframe.nativeElement.contentWindow.initializePreview(this.playerConfig);

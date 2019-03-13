@@ -541,18 +541,48 @@
  }
 
  .tab-view {
-   display: flex;
+  color : black;
   background-color: white;
   width : 100%;
+  max-height : 40px;
   border-radius: 0;
   margin : 0;
   margin : auto;
+  text-align: center;
+  overflow-y : hidden;
 }
 
-.tab-view > button {
-  max-height: 50px;
-  max-width: 25%;
+.tab-view  ul {
+  color : black;
+  background-color: white;
+  width : 100%;
 }
+
+.tab-view ul li,.tab-view ul li:hover  {
+  background-color: white;
+  height : 100%;
+  margin-bottom : 3px;
+  width : 15%;
+  border-radius: none;
+  text-decoration : none;
+  color : black;
+}
+
+.tab-view ul li a {
+  text-decoration : none;
+  color : black;
+}
+
+.nav-item .nav-link {
+  border-radius : 0;
+}
+
+.tab-view  .nav-item .nav-link.active.show,.nav-pills .nav-link.active {
+  background-color: white;
+  color : black;
+  border-bottom : 4px solid black;
+}
+
 
 @media screen and (max-width : 768px){
   
@@ -581,4 +611,13 @@
     .enroll-button {
       margin-top : 15% !important;
     }
+  }
+
+  #course-content {
+    width : 75%;
+    margin : auto;
+  }
+
+  .nav-item:hover, .nav-item:focus {
+    color : black !important;
   }
