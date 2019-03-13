@@ -41,7 +41,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   lessonRole: Array<string>;
 
 
-  constructor(private pageApiService: PageApiService, private toasterService: ToasterService,permissionService: PermissionService,
+  constructor(private pageApiService: PageApiService, private toasterService: ToasterService, permissionService: PermissionService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
     private playerService: PlayerService, private cacheService: CacheService,
@@ -50,7 +50,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     this.filterType = this.configService.appConfig.courses.filterType;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     this.permissionService = permissionService;
-    console.log('permission', this.permissionService)
+    console.log('permission', this.permissionService);
 
     this.setTelemetryData();
   }

@@ -59,7 +59,7 @@ import { MyassestPageComponent } from './components/myassest-page/myassest-page.
     CreateAssetComponent,
     UpdateResoureFormComponent,
     MyassestPageComponent,
- 
+
   ],
   providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService],
   exports: [CreateAssetComponent, DataDrivenComponent, DefaultTemplateComponent, CreateContentComponent]
