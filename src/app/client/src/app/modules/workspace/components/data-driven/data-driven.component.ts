@@ -251,7 +251,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 * Redirects to workspace create section
 */
   goToCreate() {
-    this.router.navigate(['myassests']);
+    this.router.navigate(['myassets']);
   }
 
   /**
@@ -327,7 +327,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   */
   checkForPreviousRouteForRedirect() {
     const previousUrlObj = this.navigationHelperService.getPreviousUrl();
-    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/myassests/create')) {
+    if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/myassets/create')) {
       this.redirect();
     }
   }
@@ -336,6 +336,6 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
   }
   redirect() {
-    this.router.navigate(['/myassests/create']);
+    this.router.navigate(['/myassets/create']);
   }
 }
