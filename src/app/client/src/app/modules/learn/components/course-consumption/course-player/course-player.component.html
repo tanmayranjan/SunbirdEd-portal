@@ -2,14 +2,137 @@
 
 
   <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
+    <div class="row tab-view" *ngIf="!enableContentPlayer && !loader">
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="pill" href="#overview">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#course-content">Course Content</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#qa">QA</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
+            </li>
+          </ul>
+      
+      <!-- <ul class="nav nav-pills">
+        <li><button data-toggle="pill" href="#overview">Overview</button></li>
+        <li><button data-toggle="pill" href="#course-content">Course Content</button></li>
+        <li><button data-toggle="pill" href="#qa">QA</button></li>
+        <li><button data-toggle="pill" href="#announcement">Announcements</button></li>
+      </ul> -->
+    </div>
     <div class="ui stackable grid mt-20">
       <div class="twelve wide column">
         <div *ngIf="!enableContentPlayer && !loader">
-          <div class="content" [appTelemetryImpression]="telemetryCourseImpression">
+          <div class="content" [appTelemetryImpression]="telemetryCourseImpression" style="padding-top : 0;">
+            <!-- <div class="tab-content">
+
+              <div id="overview" class="tab-pane active">
+                  <div class="ui header">
+                      <span class="content courseStructureHeading">
+                        {{resourceService.frmelmnts.lbl.aboutthecourse}}
+                      </span>
+                      <div *ngIf="courseHierarchy.description" class="mt-10">
+                        <p *ngIf="!readMore" class="courseStructureDesc">
+                          {{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                          <span class="ui cardsKnowMore mouse-pointer"
+                            *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
+                            (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
+                        </p>
+                        <p *ngIf="readMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
+                          <span class="ui cardsKnowMore mouse-pointer"
+                            (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                        </p>
+                      </div>
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="course-content">
+                  <div class="ui header">
+                      <b class="content courseStructureHeading">
+                        {{resourceService.frmelmnts.lbl.coursestructure}}
+                      </b>
+                    </div>
+                    <app-collection-tree
+                      *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                      (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                      [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
+                    <ng-template #dataCommingSoon>
+                      <div class="placeholder mt-40">
+                        <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
+                        <h5 class="header placeholder-heading mb-5">{{resourceService?.messages?.stmsg?.m0121}}</h5>
+                        <p class="placeholder-content">{{resourceService?.messages?.stmsg?.m0122}}</p>
+                      </div>
+                    </ng-template>
+              </div>
+              <div class="tab-pane fade" id="qa">
+                <h3>QA</h3>
+                <p>No content available for QA at this moment.</p>
+              </div>
+              <div class="tab-pane fade" id="announcement">
+                <h3>ANOUNCEMENT</h3>
+                <p>There haven't been any announcements regarding this course yet.
+                </p>
+              </div>
+            </div> -->
+            <!--tabbed layout end-->
             <div class="ui stackable grid">
               <div class="row">
                 <div class='nine wide column container'>
-                  <div class="ui header">
+                    <div class="tab-content">
+                    <!--overview section-->
+                      <div id="overview" class="tab-pane active">
+                        <div class="ui header container">
+                          <span class="content courseStructureHeading">
+                            {{resourceService.frmelmnts.lbl.aboutthecourse}}
+                          </span>
+                          <div *ngIf="courseHierarchy.description" class="mt-10">
+                            <p *ngIf="!readMore" class="courseStructureDesc">
+                              {{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                              <span class="ui cardsKnowMore mouse-pointer"
+                                *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
+                                (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
+                            </p>
+                            <p *ngIf="readMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
+                              <span class="ui cardsKnowMore mouse-pointer"
+                                (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <!--course content section-->
+                      <div class="tab-pane fade container" id="course-content">
+                        <div class="ui header">
+                          <b class="content courseStructureHeading">
+                            {{resourceService.frmelmnts.lbl.coursestructure}}
+                          </b>
+                        </div>
+                        <app-collection-tree
+                          *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                          (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes" [options]="collectionTreeOptions"
+                          [contentStatus]="contentStatus"></app-collection-tree>
+                        <ng-template #dataCommingSoon>
+                          <div class="placeholder mt-40">
+                            <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
+                            <h5 class="header placeholder-heading mb-5">{{resourceService?.messages?.stmsg?.m0121}}</h5>
+                            <p class="placeholder-content">{{resourceService?.messages?.stmsg?.m0122}}</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <!--QA section-->
+                      <div class="tab-pane fade container text-align-center" id="qa">
+                        <p>No content available for QA at this moment.</p>
+                      </div>
+                      <!--announcements section-->
+                      <div class="tab-pane fade container text-align-center" id="announcement">
+                        <p>There haven't been any announcements regarding this course yet.
+                        </p>
+                      </div>
+                    </div>
+                  <!-- <div class="ui header">
                     <span class="content courseStructureHeading">
                       {{resourceService.frmelmnts.lbl.aboutthecourse}}
                     </span>
@@ -25,8 +148,8 @@
                           (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
                       </p>
                     </div>
-                  </div>
-                  <div class="ui header">
+                  </div> -->
+                  <!-- <div class="ui header">
                     <b class="content courseStructureHeading">
                       {{resourceService.frmelmnts.lbl.coursestructure}}
                     </b>
@@ -41,7 +164,7 @@
                       <h5 class="header placeholder-heading mb-5">{{resourceService?.messages?.stmsg?.m0121}}</h5>
                       <p class="placeholder-content">{{resourceService?.messages?.stmsg?.m0122}}</p>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                   <div class="ui fitted divider mb-20 mt-30"></div>
                 </div>
                 <div class='three wide column'>
@@ -90,18 +213,23 @@
         </div>
         <div *ngIf="enableContentPlayer && !loader">
           <div class=" row content-player-container">
-            <!--playlist section--> 
+            <!--playlist section-->
             <div class="col-sm-4 col-md-12 col-lg-3 playlist-area d-none d-md-block">
-                <app-collection-tree
-                    *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
-                    (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
-                    [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
+              <app-collection-tree
+                *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
             </div>
+            <!--mobile view to represent video playlist, not working-->
+
+            <!--
             <div class="col-sm-12 col-xs-12 d-md-none playlist-area">
-                <ng-container *ngFor="let nodes of collectionTreeNodes.data">
-                  <li>Present</li><br/>
-                </ng-container>
+              <ng-container *ngFor="let nodes of collectionTreeNodes.data">
+                <li>Present</li><br />
+              </ng-container>
             </div>
+          -->
+
             <!--video player section-->
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 video-player-wrapper">
               <button class="btn btn-outline-light btn-lg" id="dashboardBtn" appTelemetryInteract
@@ -109,7 +237,8 @@
                 (click)="closeContentPlayer()">Go To Dashboard</button>
               <div class="video-player-wrapper" [appTelemetryImpression]="telemetryContentImpression">
                 This is the video wrapper
-                <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size" [playerConfig]="playerConfig"></app-player>
+                <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size"
+                  [playerConfig]="playerConfig"></app-player>
               </div>
             </div>
           </div>

@@ -451,3 +451,18 @@
    overflow-y: auto;
    padding-right : 0;
  }
+
+ .tab-view {
+   display: flex;
+  background-color: white;
+  width : 100%;
+  border-radius: 0;
+  height: 70px;
+  margin : 0;
+  margin : auto;
+}
+
+.tab-view > button {
+  max-height: 50px;
+  max-width: 25%;
+}

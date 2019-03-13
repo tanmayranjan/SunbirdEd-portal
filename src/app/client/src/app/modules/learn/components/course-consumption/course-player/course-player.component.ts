@@ -573,8 +573,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       pageid: 'course-consumption'
     };
   }
-
-  toggleSidebar() {
+  /* toggleSidebar() {
     $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
-  }
+  } */
 }
