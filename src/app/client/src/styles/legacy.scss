@@ -257,10 +257,7 @@
 .ui.mini.modal {
   height: fit-content !important;
 }
-.ui.modal>.close {
- position: initial !important;
- color: black !important;
-}
+
 .content-font {
   font-size: 1.1em !important;
 }
@@ -709,12 +706,12 @@ h5.ui.header {
   font-size: 1rem;
 }
 .searchicon.ui.icon.input input.upForReviewSearchBox {
-  width: 450px;
+  width:  -webkit-fill-available !important;
   background: #fdfdfd;
   border-right: none;
   border-top: none;
   border-left: none;
-  border: 1px solid rgba(51, 51, 51, 0.33);
+  border: 2px solid rgba(51, 51, 51, 0.33);
 }
 .ann-fileupload-list {
   overflow-x: hidden;

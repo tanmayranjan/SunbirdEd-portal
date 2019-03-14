@@ -12,15 +12,17 @@ export class AssetDetailPageComponent implements OnInit {
   public activatedRoute: ActivatedRoute;
   public configService: ConfigService;
   public contentService: ContentService;
+  public route: Router;
   public contentId;
   public assetDetail = {};
-  constructor(activated: ActivatedRoute, config: ConfigService, contentServe: ContentService) {
+  constructor(activated: ActivatedRoute, config: ConfigService, contentServe: ContentService, rout: Router) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
     });
     this.configService = config;
     this.contentService = contentServe;
+    this.route = rout;
    }
 
   ngOnInit() {
@@ -34,5 +36,7 @@ export class AssetDetailPageComponent implements OnInit {
     });
     console.log('this', this.assetDetail);
   }
-
+  navigateToDetailsPage() {
+    this.route.navigate(['myassets']);
+  }
 }

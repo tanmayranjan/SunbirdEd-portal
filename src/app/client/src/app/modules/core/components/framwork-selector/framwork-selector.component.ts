@@ -59,7 +59,7 @@ export class FramworkSelectorComponent implements OnInit {
    */
   initConceptBrowser() {
     this.selectedConcept = this.selectedConcept || [];
-    this.contentConcepts = _.map(this.selectedConcept, 'identifier');
+    this.contentConcepts = _.map(this.selectedConcept, 'id');
     this.pickerMessage = this.contentConcepts.length + 'selected';
     $('.tree-picker-selector').val(this.pickerMessage);
     setTimeout(() => {
@@ -94,6 +94,16 @@ export class FramworkSelectorComponent implements OnInit {
     console.log('selected', this.selectedConcept);
     console.log('concept picker', this.selectedConcept);
     this.conceptData = this.loadDomains(this.category);
+    if (this.selectedConcept) {
+      const dom = [];
+      _.forEach(this.selectedConcept, (val) => {
+     const  domai =  _.find(this.conceptData, {'name': val});
+
+      dom.push(domai);
+      });
+      this.selectedConcept = dom;
+      console.log('dom', dom);
+    }
     if (this.conceptData) {
       this.showLoader = false;
           console.log('our ', this.category);

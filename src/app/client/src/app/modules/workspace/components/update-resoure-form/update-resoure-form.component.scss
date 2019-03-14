@@ -25,6 +25,7 @@ sui-select {
 #style {
     border: 2px solid #707070;
     color: #707070;
+    margin-top: 1rem;
 
 }
 
@@ -42,7 +43,7 @@ sui-select {
 
     label 
         { float: left; width: 10em; margin-right: 1em;
-        display: contents }
+        display: contents !important}
         .text span {
             color: #c3c2c2;
         }
@@ -55,3 +56,12 @@ sui-select {
             border: 1px solid #707070;
 
         }
+
+        @media only screen and (min-width: 992px) {
+                .modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal {
+                  top: 60px !important;
+                  position: relative !important;
+                  margin: 0 0 0 -373px !important;
+                  height: fit-content;
+                }
+               }

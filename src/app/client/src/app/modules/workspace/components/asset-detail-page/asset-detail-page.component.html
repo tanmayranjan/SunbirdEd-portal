@@ -1,35 +1,53 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-30">
     <div class="card">
-        <div class="card-header text-center">
+        <div class="card-header text-center text-light">
             <div class="row mt-15">
-                <div class="col-sm-2">
-                        <button type="button" class="btn text-secondary ml-4" id="style"><i class="fas fa-angle-left"></i></button>
+                <div class="col-md-1">
+                    <button type="button" class="btn text-secondary ml-4" id="style" (click)="navigateToDetailsPage()"><i
+                            class="fa fa-angle-left"></i></button>
                 </div>
                 <div class="col-sm-4">
-                        <h5>{{assetDetail?.name}}</h5> 
+                    <h5 *ngIf="assetDetail?.name">{{assetDetail?.name}}</h5>
                 </div>
-                <div class="col-sm-6">
-                        <p class="float-right">
-                                <li *ngFor="let hero of assetDetail?.gradeLevel">
-                                        {{ hero }}
-                                      </li>
-                           </p>
+                <div class="col-sm-7 pr-30">
+                    <p *ngIf="assetDetail?.gradeLevel" class="float-right">Sector :
+                        <span>
+                            <li *ngFor="let hero of assetDetail?.gradeLevel; let first = first;let last = last">
+                                {{ hero }}<span *ngIf="!last && assetDetail?.gradeLevel.length!=1">,</span>
+                            </li>
+                        </span>
+                    </p>
                 </div>
             </div>
-           
 
-           
-           
+
+
+
         </div>
         <div class="card-body">
-            
-            <p class="card-text">AssetType : {{assetDetail?.board}}</p>
-            <p class="card-text">Category: </p>
-            <p class="card-text">Keywords: </p>
-            <p class="card-text">Description: {{assetDetail?.description}}</p>
+            <div>
+                <button type="button" class="btn ml-4 text-secondary float-right" id="stylefav"><i class="far fa-heart"></i></button>
+            </div>
+            <p *ngIf="assetDetail?.board" class="card-text">AssetType : {{assetDetail?.board}}</p>
+            <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
+                    <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
+                        {{ hero }}<span *ngIf="!last">,</span>
+                    </li>
+                </span></p>
+            <p class="card-text" *ngIf="assetDetail?.keywords; let first = first;let last = last">Keywords : <span>
+                    <li *ngFor="let hero of assetDetail?.keywords">
+                        {{ hero }}<span *ngIf="!last && assetDetail?.keywords.length!=1">,</span>
+                    </li>
+                </span>
+            </p>
+            <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
+            <p class="card-text" *ngIf="assetDetail?.link">Link: {{assetDetail?.link}}</p>
         </div>
-        <div class="card-footer text-muted">
-            2 days ago
+        <div class="card-footer text-muted pt-30 pb-0">
+            <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0  |  <span *ngIf="assetDetail?.creators"></span>Created By :
+                {{assetDetail?.creators}}  |  <span *ngIf="assetDetail?.since"></span> Created Year : {{assetDetail?.year}}  |  <span
+                    *ngIf="assetDetail?.region"></span> Where : {{assetDetail?.region}}</p>
+                    <p class="float-right"></p>
         </div>
     </div>
 </div>

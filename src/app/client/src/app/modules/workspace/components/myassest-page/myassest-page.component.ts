@@ -273,7 +273,8 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         medium: bothParams.queryParams.medium,
         gradeLevel: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
-        keywords: bothParams.queryParams.keywords
+        keywords: bothParams.queryParams.keywords,
+        topic: bothParams.queryParams.topic
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),

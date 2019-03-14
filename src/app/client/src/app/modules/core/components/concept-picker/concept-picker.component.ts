@@ -56,14 +56,15 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
-    debugger;
-    console.log('this', this.selectedConcepts)
+
+    console.log('this', this.selectedConcepts);
     this.selectedConcepts = this.selectedConcepts || [];
-    this.contentConcepts = _.map(this.selectedConcepts, 'name');
+    this.contentConcepts = _.map(this.selectedConcepts, 'id');
     console.log('thi.cone', this.contentConcepts);
     this.pickerMessage = this.contentConcepts.length + 'selected';
     $('.tree-pickers').val(this.pickerMessage);
     setTimeout(() => {
+      console.log('selected data : ', this.contentConcepts);
       $('.tree-pickers').treePicker({
         data: this.conceptData,
         name: 'sector',
@@ -85,8 +86,8 @@ export class ConceptPickerComponent implements OnInit {
       });
       setTimeout(() => {
         document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
-      }, 9000);
-    }, 9000);
+      }, 100);
+    }, 100);
   }
   /**
    * calls conceptPickerService and initConceptBrowser
@@ -94,6 +95,17 @@ export class ConceptPickerComponent implements OnInit {
   ngOnInit() {
     console.log('concept picker', this.selectedConcepts);
     this.conceptData = this.loadDomains(this.category);
+    if (this.selectedConcepts) {
+      const dom = [];
+      _.forEach(this.selectedConcepts, (val) => {
+
+     const  domai =  _.find(this.conceptData, {'name': val});
+
+      dom.push(domai);
+      });
+      this.selectedConcepts = dom;
+      console.log('dom', dom);
+    }
     if (this.conceptData) {
       this.showLoader = false;
           console.log('our ', this.category);

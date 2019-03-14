@@ -187,10 +187,9 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     this.contentService.get(req).subscribe(data => {
       console.log('read content', data);
       this.formInputData = data.result.content;
-      this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel);
+      // this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel);
       this.keywords = data.result.content.keywords;
       // this.formInputData['versionKey'] = data.result.content.versionKey;
-      console.log('read form', this.mutateData(data.result.content.gradeLevel));
     });
      // console.log('in upadat', this.formSaveData);
     this.setFormConfig();
