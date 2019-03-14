@@ -297,7 +297,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
       this.createContent();
     } else {
       this.showMessage = true;
-      this.toasterService.error('Asset creation failed plese provide required fields');
+      this.toasterService.error('Asset creation failed please provide required fields');
     }
   }
   createContent() {

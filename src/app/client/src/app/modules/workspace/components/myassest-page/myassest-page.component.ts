@@ -340,7 +340,8 @@ this.badgeList = data.result.content;
             if (this.allContent.length === 0) {
               this.ngOnInit();
             }
-            this.toasterService.success(this.resourceService.messages.smsg.m0006);
+            this.deleteAsset = false;
+            this.toasterService.success('Asset deleted successfully');
           },
           (err: ServerResponse) => {
             this.showLoader = false;
@@ -352,7 +353,7 @@ this.badgeList = data.result.content;
       });
   }
   public publishConfirmModal(contentIds) {
-    this.deleteAsset = false;
+    this.publishAsset = true;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'mini';
@@ -378,6 +379,7 @@ this.badgeList = data.result.content;
         //     this.toasterService.error(this.resourceService.messages.fmsg.m0022);
         //   }
         // );
+        this.publishAsset = false;
         this.reasons = ['Content plays correctly',
         'Can see the content clearly on Desktop and App',
         'No Hate speech, Abuse, Violence, Profanity',

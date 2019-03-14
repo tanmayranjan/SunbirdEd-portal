@@ -17,7 +17,7 @@
       class="col-md-3 py-3 pl-10">
       <!-- <app-myasset-card [data]="content" (clickEvent)="contentClick($event)"></app-myasset-card> -->
       <div *ngIf="content">
-        <div class="card mt-5" style="width: 18rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
+        <div class="card mt-5 mb-5" style="width: 18rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
           <div class="card-img-top" alt="..." ></div>
           <div class="card-img-overlay row">
               
@@ -63,15 +63,15 @@
               <div *ngIf="content?.status==='Draft'">
                 <button type="button" class="btn ml-4 text-light" id="pub" (click)="publishConfirmModal(content.identifier); $event.stopPropagation()"><i class="fas fa-upload"></i>&nbsp; PUBLISH</button>
               </div>
-              <div *ngIf="content?.status==='Live'">
+              <!-- <div *ngIf="content?.status==='Live'">
                   <button type="button" class="btn ml-4 text-light" id="badge">VERIFY</button>
-              </div>
+              </div> -->
               <button type="button" class="btn text-secondary ml-4" id="style" [routerLink]="['update/'+content.identifier]"><i
                   class="fas fa-pencil-alt"></i></button>
 
             </div>
-            <div *ngIf="content?.status==='Live'">
-              <img class="smaller-image" src="/client/src/assets/images/publish_Badge_Ggrey.png">
+            <div *ngIf="content?.status==='Live'" class="badgedisplay ">
+              <!-- <img class="smaller-image" src="/client/src/assets/images/Sprite_image.png"> -->
             </div>
 
           </div>

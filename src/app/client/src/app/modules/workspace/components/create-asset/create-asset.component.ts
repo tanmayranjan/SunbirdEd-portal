@@ -318,7 +318,8 @@ console.log('this.activated ', this.activatedRoute.snapshot.params.contentId);
 
     this.editorService.update(requestData, this.activatedRoute.snapshot.params.contentId).subscribe(res => {
         console.log('res', res);
-
+        this.toasterService.error('Asset updated Successfully');
+        this.goToCreate();
     }, err => {
       this.toasterService.error(this.resourceService.messages.fmsg.m0078);
 
