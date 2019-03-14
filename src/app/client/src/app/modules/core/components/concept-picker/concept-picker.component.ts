@@ -57,7 +57,6 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
-
     console.log('this', this.selectedConcepts);
     this.selectedConcepts = this.selectedConcepts || [];
     this.contentConcepts = _.map(this.selectedConcepts, 'identifier');

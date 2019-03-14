@@ -1,4 +1,4 @@
-@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
 #style {
     border-radius: 50%;
@@ -10,7 +10,13 @@
      float: left;
      margin-bottom: 1rem;
   }
-
+  .img{
+      height: 2rem;
+  }
+  #myModal{
+      position: absolute;
+  }
+    
   .card-header {
     background: #585858
   }

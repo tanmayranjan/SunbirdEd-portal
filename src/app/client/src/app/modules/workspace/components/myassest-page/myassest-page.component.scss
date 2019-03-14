@@ -79,6 +79,24 @@
       border-radius: 4rem;
 
  }
+ .ui.mini.modal {
+   height: fit-content !important;
+ }
+ .ui.modal>.close {
+  position: initial !important;
+  color: black !important;
+ }
+
+ #styletick {
+  border-radius: 50%;
+  background: #B0c88c;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 2px 2px;
+  margin-right: -0.5rem;
+  margin-top: -1rem;
+ }
 
  .badgedisplay {
   width: 62px;

@@ -20,8 +20,8 @@
         <div class="card mt-5 mb-5" style="width: 18rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
           <div class="card-img-top" alt="..." ></div>
           <div class="card-img-overlay row">
-
-            <div class="col-sm-3 thick-green-border " *ngIf="content?.board === 'Knowledge'">
+              
+             <div class="col-sm-3 thick-green-border " *ngIf="content?.board === 'Knowledge'">
               <img src="/client/src/assets/images/Book_icon.png" class="smaller-image">
             </div>
             <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'hardware'">
@@ -40,9 +40,13 @@
               <i class="fas fa-database fa-lg"></i>
             </div>
             <div class="col-sm-8 text-light pt-3">
+                <button *ngIf="content?.badgeAssertions" type="button" class="btn text-light float-right" id="styletick">
+                     <i class="fas fa-check"></i>   
+                           </button> 
               <h5 class="card-title">{{content?.name}}</h5>
               <p class="card-text">version : {{content?.version}}.0</p>
             </div>
+              
           </div>
           <div class="card-body">
              <!-- <div> <i class="far fa-heart float-right"></i></div> -->

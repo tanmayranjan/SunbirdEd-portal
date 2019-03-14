@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import { ICard } from '../../../shared/interfaces/card';
-
+import {BadgesService} from '../../../core/services/badges/badges.service';
 
 
 @Component({
@@ -163,8 +163,8 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   /**
   * To call resource service which helps to use language constant
   */
+ badgeService: BadgesService;
   public frameworkService: FrameworkService;
-
   public resourceService: ResourceService;
   public permissionService: PermissionService;
   public contentService: ContentService;
@@ -173,6 +173,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   reasons = [];
    deleteAsset = false;
    publishAsset = false;
+  badgeList: any;
 
   /**
     * Constructor to create injected service(s) object
@@ -186,7 +187,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
   */
   constructor(public searchService: SearchService,
     public workSpaceService: WorkSpaceService,
-
+    badgeService: BadgesService,
     paginationService: PaginationService,
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
@@ -203,6 +204,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
     this.resourceService = resourceService;
     this.config = config;
     this.permissionService = permissionService;
+    this.badgeService = badgeService;
 
     this.frameworkService = frameworkService;
     this.contentService = contentService;
@@ -245,6 +247,18 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         this.query = this.queryParams['query'];
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
       });
+
+    const request = {
+      request: {
+        filters: {
+          issuerList: [],
+          rootOrgId: '0127121193133670400',
+          roles: ['TEACHER_BADGE_ISSUER'],
+          type: 'content'}}};
+      this.badgeService.getAllBadgeList(request).subscribe( (data) => {
+console.log('data for badge', data);
+this.badgeList = data.result.content;
+});
   }
   /**
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
@@ -273,8 +287,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         medium: bothParams.queryParams.medium,
         gradeLevel: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
-        keywords: bothParams.queryParams.keywords,
-        topic: bothParams.queryParams.topic
+        keywords: bothParams.queryParams.keywords
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
@@ -332,7 +345,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
           },
           (err: ServerResponse) => {
             this.showLoader = false;
-            this.toasterService.error('Deletion failed Please try again later');
+            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
           }
         );
       })
@@ -396,11 +409,11 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
             (data: ServerResponse) => {
               this.showLoader = false;
 
-            this.toasterService.success('Asset published successfully');
+            this.toasterService.success(this.resourceService.messages.smsg.m0004);
 
           }, (err) => {
             this.showLoader = false;
-            this.toasterService.error('Asset publishing failed please try later');
+            this.toasterService.error(this.resourceService.messages.fmsg.m0019);
           });
       })
 

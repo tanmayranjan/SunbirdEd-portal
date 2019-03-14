@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, PermissionService } from '../../../core/services';
-
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -14,6 +13,8 @@ export class LandingPageComponent implements OnInit {
   }
 
   ngOnInit() {
+
    console.log('log in ', this.userService.loggedIn);
   }
+
 }
