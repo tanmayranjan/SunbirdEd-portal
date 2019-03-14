@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
+import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
+import {
+  ToasterService, ServerResponse ,
+  ResourceService
+} from '@sunbird/shared';
 @Component({
   selector: 'app-asset-detail-page',
   templateUrl: './asset-detail-page.component.html',
   styleUrls: ['./asset-detail-page.component.scss']
 })
 export class AssetDetailPageComponent implements OnInit {
+  @ViewChild('modalTemplate')
+  public modalTemplate: ModalTemplate<{ data: string }, string, string>;
   badgeList: any;
+  showLoader = true;
+  add = false;
   success = false;
   public activatedRoute: ActivatedRoute;
   public configService: ConfigService;
@@ -18,8 +27,10 @@ export class AssetDetailPageComponent implements OnInit {
   public contentId;
   public route: Router;
   public assetDetail = {};
-  constructor(activated: ActivatedRoute,
-    badgeService: BadgesService,
+  public resourceService: ResourceService; 
+  private toasterService: ToasterService;
+  constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
+    badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, contentServe: ContentService , rout: Router) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
@@ -29,6 +40,8 @@ export class AssetDetailPageComponent implements OnInit {
     this.contentService = contentServe;
     this.badgeService = badgeService;
     this.route = rout;
+    this.toasterService = toasterService;
+    this.resourceService = resourceService;
    }
 
   ngOnInit() {
@@ -80,4 +93,35 @@ export class AssetDetailPageComponent implements OnInit {
   navigateToDetailsPage() {
     this.route.navigate(['myassets']);
   }
+  public deleteConfirmModal(issuerId, badgeId) {
+    this.add = true;
+     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+     config.isClosable = true;
+     config.size = 'mini';
+     this.modalService
+       .open(config)
+       .onApprove(result => {
+        const req = {
+          request: {
+            recipientId: this.contentId,
+            recipientType: 'content',
+            issuerId: issuerId,
+            badgeId: badgeId
+          }
+    
+        };
+        this.badgeService.createAssertion(req).subscribe((data) => {
+          console.log('aser', data);
+             this.showLoader = false;
+             this.toasterService.success('Asset deleted successfully');
+           },
+           (err: ServerResponse) => {
+             this.showLoader = false;
+             this.toasterService.error('Deletion failed Please try again later');
+           }
+         );
+       })
+       .onDeny(result => {
+       });
+   }
 }

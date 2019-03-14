@@ -247,7 +247,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         this.query = this.queryParams['query'];
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
       });
-
+   
     const request = {
       request: {
         filters: {
@@ -287,8 +287,7 @@ this.badgeList = data.result.content;
         medium: bothParams.queryParams.medium,
         gradeLevel: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
-        keywords: bothParams.queryParams.keywords,
-        topic: bothParams.queryParams.topic
+        keywords: bothParams.queryParams.keywords
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
@@ -341,11 +340,11 @@ this.badgeList = data.result.content;
             if (this.allContent.length === 0) {
               this.ngOnInit();
             }
-            this.toasterService.success('Asset deleted successfully');
+            this.toasterService.success(this.resourceService.messages.smsg.m0006);
           },
           (err: ServerResponse) => {
             this.showLoader = false;
-            this.toasterService.error('Deletion failed Please try again later');
+            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
           }
         );
       })
@@ -408,11 +407,11 @@ this.badgeList = data.result.content;
             (data: ServerResponse) => {
               this.showLoader = false;
 
-            this.toasterService.success('Asset published successfully');
+            this.toasterService.success(this.resourceService.messages.smsg.m0004);
 
           }, (err) => {
             this.showLoader = false;
-            this.toasterService.error('Asset publishing failed please try later');
+            this.toasterService.error(this.resourceService.messages.fmsg.m0019);
           });
       })
 

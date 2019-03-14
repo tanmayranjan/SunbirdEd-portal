@@ -7,12 +7,20 @@
                             (click)="navigateToDetailsPage()"><i class="fa fa-angle-left"></i></button>
                     </div>
                     <div class="col-sm-4">
-                        <h5 *ngIf="assetDetail?.name">{{assetDetail?.name}}</h5>
-                        <div *ngIf="assetDetail?.badgeAssertions ">
-                            <div *ngFor="let badge of badgeAssertions">
-                                <img src="{{badge.badgeClassImage}}" class="img">
+                        <div class="row">
+                            <div class="">
+                                    <div *ngIf=" assetDetail.badgeAssertions">
+                                            <div *ngFor="let badge of assetDetail.badgeAssertions">
+                                                <img src="{{badge.badgeClassImage}}" class="img">
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="col">
+                                    <h5 *ngIf="assetDetail?.name">{{assetDetail?.name}}</h5>
                             </div>
                         </div>
+                        
+                        
                     </div>
                     <div class="col-sm-7 pr-30">
                         <p *ngIf="assetDetail?.gradeLevel" class="float-right">Sector :
@@ -49,28 +57,40 @@
                    <span class="row">
                        <span class="col">
                                <button apptelemetryinteract="" class="ui small basic primary compact button ml-10 mt-10"
-                               data-toggle="modal" data-target="#myModal">
+                               (click)="deleteConfirmModal(badge.issuerId,badge.badgeId); $event.stopPropagation()"
+                              >
                                <img src="{{badge.image}}" class="img"> {{badge.name}}</button>
                        </span>
                     </span>
                 </span>
                 </p>
-               <div class="modal" id="myModal">
+                <ng-template let-context let-modal="modal" #modalTemplate >
+                        <div class="header"> Mark as 'VERIFIED ASSET'</div>
+                        <div class="content">
+                          <p>Are you sure you want to issue the badge to this content?</p>
+                        </div>
+                        <div class="actions">
+                                <button class="ui primary button" (click)="modal.approve('approved')" autofocus>Yes</button>
+                          <button class="ui red button" (click)="modal.deny('denied')">No</button>
+                         
+                        </div>
+                      </ng-template>
+               <!-- <div class="modal" id="myModal">
                    <div class="modal-dialog">
                        <div class="modal-content">
     
-                           <!-- Modal Header -->
+                       
                            <div class="modal-header">
                                <h4 class="modal-title">Mark as 'VERIFIED ASSET'</h4>
                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                            </div>
     
-                           <!-- Modal body -->
+                        
                            <div class="modal-body">
                                    Are you sure you want to issue the badge to this content?
                            </div>
     
-                           <!-- Modal footer -->
+                        
                            <div class="modal-footer">
                                <button type="button" class="btn btn-primary" data-dismiss="modal"
                                    (click)="assignBadge(badge.issuerId,badge.badgeId)" data-toggle="alert" data-target="#alert">YES</button>
@@ -78,7 +98,7 @@
                            </div>
                        </div>
                    </div>
-               </div>
+               </div> -->
             </div>
             <div class="card-footer text-muted pt-30 pb-0">
                 <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 | <span
