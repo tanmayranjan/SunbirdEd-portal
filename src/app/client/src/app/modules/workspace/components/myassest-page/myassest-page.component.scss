@@ -79,3 +79,21 @@
       border-radius: 4rem;
 
  }
+
+ .badgedisplay {
+  width: 40px;
+    position: absolute;
+    height: 40px;
+    /* overflow: hidden; */
+    right: 0;
+    top: 0;
+    background-image: url('/client/src/assets/images/Sprite_image.png');
+    background-position: -41px -1422px;
+    background-size: 100%;
+    /* background-repeat: no-repeat; */
+    border-radius: 50%;
+    zoom: 1;
+}
+.card-title {
+  text-transform: capitalize !important;
+}
