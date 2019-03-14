@@ -14,7 +14,7 @@
     </div>
   <div class="row">
     <div in-view-item *ngFor="let content of allContent;let i = index;" [id]="i" [data]="content"
-      class="col-md-3 py-3 pl-10">
+      class="col-md-3 py-3 pl-10 cardsdist">
       <!-- <app-myasset-card [data]="content" (clickEvent)="contentClick($event)"></app-myasset-card> -->
       <div *ngIf="content">
         <div class="card mt-5 mb-5" style="width: 20rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
