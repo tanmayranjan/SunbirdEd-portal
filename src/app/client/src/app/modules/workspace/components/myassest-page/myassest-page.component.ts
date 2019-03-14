@@ -247,7 +247,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         this.query = this.queryParams['query'];
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
       });
-   
+
     const request = {
       request: {
         filters: {

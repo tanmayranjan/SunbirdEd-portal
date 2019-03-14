@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewChild} from '@angular/core';
+import { Component, OnInit , ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
@@ -27,7 +27,7 @@ export class AssetDetailPageComponent implements OnInit {
   public contentId;
   public route: Router;
   public assetDetail = {};
-  public resourceService: ResourceService; 
+  public resourceService: ResourceService;
   private toasterService: ToasterService;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService,
@@ -108,7 +108,7 @@ export class AssetDetailPageComponent implements OnInit {
             issuerId: issuerId,
             badgeId: badgeId
           }
-    
+
         };
         this.badgeService.createAssertion(req).subscribe((data) => {
           console.log('aser', data);
