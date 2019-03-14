@@ -327,6 +327,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
             if (this.allContent.length === 0) {
               this.ngOnInit();
             }
+            this.deleteAsset = false;
             this.toasterService.success('Asset deleted successfully');
           },
           (err: ServerResponse) => {
@@ -339,7 +340,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
       });
   }
   public publishConfirmModal(contentIds) {
-    this.deleteAsset = false;
+    this.publishAsset = true;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'mini';
@@ -365,6 +366,7 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
         //     this.toasterService.error(this.resourceService.messages.fmsg.m0022);
         //   }
         // );
+        this.publishAsset = false;
         this.reasons = ['Content plays correctly',
         'Can see the content clearly on Desktop and App',
         'No Hate speech, Abuse, Violence, Profanity',

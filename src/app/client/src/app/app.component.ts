@@ -271,12 +271,12 @@ export class AppComponent implements OnInit {
     }, err => {
         this.toasterService.warning(this.resourceService.messages.emsg.m0012);
         this.frameWorkPopUp.modal.deny();
-        this.router.navigate(['/resources']);
+        this.router.navigate(['/home']);
         this.cacheService.set('showFrameWorkPopUp', 'installApp' );
     });
   }
   viewInBrowser() {
-    this.router.navigate(['/resources']);
+    this.router.navigate(['/home']);
   }
   closeIcon() {
     this.showFrameWorkPopUp = false;
