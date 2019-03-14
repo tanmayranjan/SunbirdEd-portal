@@ -84,8 +84,7 @@
   <div *ngIf="field.code==='gradeLevel'" class="field" [ngClass]="{ 'disabled':!field.editable}">
     <form class="conceptSelector ui form">
       <label>{{field.name}}</label>
-
-      <app-concept-picker [selectedConcepts]="formInputData[field.code]" [categoryName]="field.name"
+      <app-concept-picker *ngIf="formInputData[field.code]" [selectedConcepts]="formInputData[field.code]" [categoryName]="field.name"
         [category]="categoryList[field.code]" [conceptPickerClass]="'content-creation-concept-picker'"
         (Concepts)="concepts($event)"></app-concept-picker>
     </form>
@@ -94,8 +93,7 @@
   <div *ngIf="field.code==='topic'" class="field" [ngClass]="{ 'disabled':!field.editable}">
     <form class="concept ui form">
       <label>{{field.name}}</label>
-
-      <app-framwork-selector [selectedConcept]="formInputData[field.code]" [categoryName]="field.name"
+      <app-framwork-selector *ngIf="formInputData[field.code]" [selectedConcept]="formInputData[field.code]" [categoryName]="field.name"
         [category]="categoryList[field.code]" [conceptPicker]="'content-creation-concept-picker'"
         (Framework)="conceptspFramework($event)"></app-framwork-selector>
     </form>

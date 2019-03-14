@@ -366,11 +366,15 @@
             "label": [
                 {
                     "id": "board",
-                    "name": "Board/Syllabus"
+                    "name": "Asset Type"
                 },
                 {
                     "id": "gradeLevel",
-                    "name": "Grades"
+                    "name": "Sector"
+                },
+                {
+                    "id": "topic",
+                    "name": "SP Framework"
                 },
                 {
                     "id": "medium",
@@ -391,6 +395,9 @@
                 {
                     "id": "status",
                     "name": "Status"
+                },
+                {
+
                 }
             ]
         }

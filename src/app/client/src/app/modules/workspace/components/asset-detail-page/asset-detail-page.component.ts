@@ -16,11 +16,11 @@ export class AssetDetailPageComponent implements OnInit {
   public contentService: ContentService;
   badgeService: BadgesService;
   public contentId;
+  public route: Router;
   public assetDetail = {};
-  public assetDetail1 = {};
   constructor(activated: ActivatedRoute,
     badgeService: BadgesService,
-    config: ConfigService, contentServe: ContentService) {
+    config: ConfigService, contentServe: ContentService , rout: Router) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -28,7 +28,8 @@ export class AssetDetailPageComponent implements OnInit {
     this.configService = config;
     this.contentService = contentServe;
     this.badgeService = badgeService;
-  }
+    this.route = rout;
+   }
 
   ngOnInit() {
     console.log('content', this.contentId);
@@ -75,5 +76,8 @@ export class AssetDetailPageComponent implements OnInit {
   }
   callAlert() {
     alert('Badge added Successfully');
+  }
+  navigateToDetailsPage() {
+    this.route.navigate(['myassets']);
   }
 }

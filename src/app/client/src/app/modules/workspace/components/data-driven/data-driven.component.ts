@@ -106,14 +106,17 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
   public framework: string;
   public showButton = false;
- public submit = false;
+  public submit = false;
+
   /**
 	* telemetryImpression
 	*/
   telemetryImpression: IImpressionEventInput;
 
   percentDone: number;
-  uploadSuccess: boolean;
+  uploadSuccess = false;
+  showMessage = false;
+
 
 
   constructor(
@@ -145,15 +148,15 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     this.resourceType = this.configService.appConfig.resourceType[this.contentType];
     this.creationFormLable = this.configService.appConfig.contentCreateTypeLable[this.contentType];
     this.name = this.configService.appConfig.contentName[this.contentType] ?
-                this.configService.appConfig.contentName[this.contentType] : 'Untitled';
-   this.description = this.configService.appConfig.contentDescription[this.contentType] ?
-   this.configService.appConfig.contentDescription[this.contentType] : 'Untitled';
+      this.configService.appConfig.contentName[this.contentType] : 'Untitled';
+    this.description = this.configService.appConfig.contentDescription[this.contentType] ?
+      this.configService.appConfig.contentDescription[this.contentType] : 'Untitled';
   }
 
 
   ngOnInit() {
-   console.log('this.activated ', this.activatedRoute);
-     this.checkForPreviousRouteForRedirect();
+    console.log('this.activated ', this.activatedRoute);
+    this.checkForPreviousRouteForRedirect();
 
     /**
      * fetchFrameworkMetaData is called to config the form data and framework data
@@ -168,6 +171,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
           this.userProfile = user.userProfile;
         }
       });
+    console.log('user profil', this.userProfile);
     this.telemetryImpression = {
       context: {
         env: this.activatedRoute.snapshot.data.telemetry.env
@@ -268,8 +272,8 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
       requestData.createdFor = this.userProfile.organisationIds,
       requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
       requestData.framework = this.framework;
-      requestData.version = parseFloat(requestData.version);
-      requestData['artifactUrl'] = data.link;
+    requestData.version = parseFloat(requestData.version);
+    requestData['artifactUrl'] = data.link;
     if (this.contentType === 'studymaterial') {
       requestData.mimeType = 'text/x-url';
     } else {
@@ -285,33 +289,42 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     }
     return requestData;
   }
-
+  checkFields() {
+  const  data = _.pickBy(this.formData.formInputData);
+    if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators && !!data.version && data.gradeLevel) {
+      console.log('hii');
+      this.uploadSuccess = true;
+      this.createContent();
+    } else {
+      this.showMessage = true;
+      this.toasterService.error('Asset creation failed plese provide required fields');
+    }
+  }
   createContent() {
     console.log('form data ', this.formData.formInputData);
-    // const data = this.generateData(_.pickBy(this.formData.formInputData))
+
     const requestData = {
       content: this.generateData(_.pickBy(this.formData.formInputData))
     };
-    console.log('form data', this.formData.formInputData );
-    if (this.contentType === 'studymaterial') {
+
+    console.log('form data', this.formData.formInputData);
+    if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
       this.editorService.create(requestData).subscribe(res => {
         console.log('res', res);
         this.toasterService.success('Asset created successfully');
-        this.createLockAndNavigateToEditor({identifier: res.result.content_id});
+        this.goToCreate();
+        this.createLockAndNavigateToEditor({ identifier: res.result.content_id });
       }, err => {
-        this.toasterService.error(this.resourceService.messages.fmsg.m0078);
+        this.toasterService.error('asset creation failed');
       });
     } else {
-      this.editorService.create(requestData).subscribe(res => {
-        this.createLockAndNavigateToEditor({identifier: res.result.content_id});
-      }, err => {
-        this.toasterService.error(this.resourceService.messages.fmsg.m0010);
-      });
-    }
-    this.sendForReview();
-   }
 
-  createLockAndNavigateToEditor (content) {
+        this.toasterService.error('asset creation failed');
+      }
+    this.sendForReview();
+  }
+
+  createLockAndNavigateToEditor(content) {
     const state = 'draft';
     const framework = this.framework;
     // if (this.contentType === 'studymaterial') {
@@ -332,7 +345,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     }
   }
 
-  sendForReview () {
+  sendForReview() {
 
   }
   redirect() {

@@ -11,7 +11,8 @@ import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
 @Component({
   selector: 'app-data-driven-filter',
-  templateUrl: './data-driven-filter.component.html'
+  templateUrl: './data-driven-filter.component.html',
+  styleUrls: ['./data-driven-filter.component.scss']
 })
 export class DataDrivenFilterComponent implements OnInit, OnChanges {
   @Input() filterEnv: string;
@@ -19,7 +20,7 @@ export class DataDrivenFilterComponent implements OnInit, OnChanges {
   @Input() isShowFilterLabel: boolean;
   @Input() hashTagId: string;
   @Input() ignoreQuery = [];
-  @Input() showSearchedParam = true;
+  @Input() showSearchedParam;
   @Input() enrichFilters: object;
   @Input() viewAllMode = false;
   @Input() pageId: string;
@@ -220,13 +221,21 @@ export class DataDrivenFilterComponent implements OnInit, OnChanges {
     this.hardRefreshFilter();
   }
   public handleTopicChange(topicsSelected) {
+    console.log('topic', topicsSelected);
     this.formInputData['topic'] = [];
     _.forEach(topicsSelected, (value, index) => {
       this.formInputData['topic'].push(value.name);
     });
     this.cdr.detectChanges();
   }
-
+  public handleGradeLevel(topicsSelected) {
+    console.log('topic', topicsSelected);
+    this.formInputData['gradeLevel'] = [];
+    _.forEach(topicsSelected, (value, index) => {
+      this.formInputData['gradeLevel'].push(value.name);
+    });
+    this.cdr.detectChanges();
+  }
   private modelChange(data) {
     this.channelInputLabel = [];
     const orgDetails = _.find(this.formFieldProperties, ['code', 'channel']);

@@ -94,6 +94,19 @@ export class FramworkSelectorComponent implements OnInit {
     console.log('selected', this.selectedConcept);
     console.log('concept picker', this.selectedConcept);
     this.conceptData = this.loadDomains(this.category);
+      if (this.selectedConcept) {
+        const selectedTopics = _.reduce(this.selectedConcept, (collector, element) => {
+          if (typeof element === 'string') {
+            collector.unformatted.push(element);
+          } else if (_.get(element, 'identifier')) {
+            collector.formated.push(element);
+          }
+          return collector;
+        }, { formated: [], unformatted: [] });
+        this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
+        this.selectedConcept =  selectedTopics.formated;
+        }
+
     if (this.conceptData) {
       this.showLoader = false;
           console.log('our ', this.category);
@@ -105,6 +118,20 @@ export class FramworkSelectorComponent implements OnInit {
     }
 
     }
+    private formatSelectedTopics(topics, unformatted, formated) {
+      _.forEach(topics, (topic) => {
+        if (unformatted.includes(topic.name)) {
+          formated.push({
+            identifier: topic.id,
+            name: topic.name
+          });
+        }
+        if (topic.nodes) {
+          this.formatSelectedTopics(topic.nodes, unformatted, formated);
+        }
+      });
+    }
+
 
   loadDomains(cat) {
     const domains = [];

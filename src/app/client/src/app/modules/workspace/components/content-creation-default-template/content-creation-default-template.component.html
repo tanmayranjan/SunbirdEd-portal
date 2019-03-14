@@ -4,18 +4,31 @@
     <hr *ngIf="i===3">
     <hr *ngIf="i===4">
     <hr *ngIf="i===5">
-    <div *ngIf="field.inputType==='text'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
-      
-      <div class="field">
-          <label>
-              {{field.name}}
-            </label>
-            <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" id="style"
+    <div *ngIf="field.inputType==='text' && field.code!='creators'" class="required field"
+      [ngClass]="{ 'disabled':!field.editable}">
+
+      <div class="field required">
+        <label>
+          {{field.name}}
+        </label>
+        <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" id="style"
           placeholder={{field.placeholder}}>
 
       </div>
     </div>
-    <div *ngIf="field.inputType==='number'" class="field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='text' && field.code==='creators'" class="required field"
+      [ngClass]="{ 'disabled':!field.editable}">
+
+      <div class="field required">
+        <label>
+          {{field.name}}
+        </label>
+        <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" id="style"
+          placeholder={{field.placeholder}}>
+
+      </div>
+    </div>
+    <div *ngIf="field.inputType==='number'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
       <label>
         {{field.name}}
       </label>
@@ -33,7 +46,7 @@
           placeholder={{field.placeholder}} id="style">
       </div>
     </div>
-    <div *ngIf="field.inputType==='keywordsuggestion'" class="field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='keywordsuggestion'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
       <label>
         {{field.name}}
       </label>
@@ -53,9 +66,10 @@
       [ngClass]="{ 'disabled':!field.editable}">
       <!-- <label>{{field.name}}</label> -->
       <div class="required field">
-          <label>
-              {{field.name}}
-            </label><sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
+        <label>
+          {{field.name}}
+        </label>
+        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
         </sui-select>
@@ -79,7 +93,7 @@
         </sui-select>
       </div>
     </div>
-    <div *ngIf="field.code==='gradeLevel'" class="field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.code==='gradeLevel'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
       <form class="conceptSelector ui form">
         <label>{{field.name}}</label>
 
@@ -100,5 +114,3 @@
     </div>
   </div>
 </div>
-
-

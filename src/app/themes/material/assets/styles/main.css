@@ -2537,6 +2537,7 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: white !important;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;

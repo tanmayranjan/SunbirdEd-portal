@@ -7,19 +7,19 @@ interface TopicTreeNode {
   nodes: Array<TopicTreeNode>;
 }
 @Component({
-  selector: 'app-topic-picker',
-  templateUrl: './topic-picker.component.html',
-  styleUrls: ['./topic-picker.component.css']
+  selector: 'app-framework-picker',
+  templateUrl: './framework-picker.component.html',
+  styleUrls: ['./framework-picker.component.scss']
 })
-export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FrameworkPickerComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() formTopic: any;
+  @Input() formTopics: any;
 
   @Input() selectedTopics: any;
 
   @Input() topicPickerClass: string;
 
-  @Output() topicChange = new EventEmitter();
+  @Output() topicChanges = new EventEmitter();
 
   public placeHolder: string;
 
@@ -36,11 +36,11 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       return collector;
     }, { formated: [], unformatted: [] });
-    this.formatSelectedTopics(this.formTopic.range, selectedTopics.unformatted, selectedTopics.formated);
+    this.formatSelectedTopics(this.formTopics.range, selectedTopics.unformatted, selectedTopics.formated);
     this.selectedTopics =  selectedTopics.formated;
     this.selectedNodes = {...selectedTopics.formated};
-    this.topicChange.emit(this.selectedTopics);
-    this.placeHolder = this.selectedTopics.length + ' SPFramework selected';
+    this.topicChanges.emit(this.selectedTopics);
+    this.placeHolder = this.selectedTopics.length + ' sector selected';
   }
   private formatSelectedTopics(topics, unformatted, formated) {
     _.forEach(topics, (topic) => {
@@ -56,12 +56,12 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   ngAfterViewInit() {
-    this.initTopicPicker(this.formatTopics(this.formTopic.range));
+    this.initTopicPicker(this.formatTopics(this.formTopics.range));
   }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    $('.topic-picker-selector').treePicker({
+    $('.topic-picker-selectors').treePicker({
       data: data,
-      name: 'SP Framework',
+      name: 'Sector',
       noDataMessage: 'No Topics/SubTopics found',
       picked: _.map(this.selectedNodes, 'identifier'),
       onSubmit: (selectedNodes) => {
@@ -69,14 +69,14 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
           identifier: node.id,
           name: node.name
         }));
-        this.placeHolder = this.selectedTopics.length + ' SPFramework selected';
-        this.topicChange.emit(this.selectedTopics);
+        this.placeHolder = this.selectedTopics.length + ' sector selected';
+        this.topicChanges.emit(this.selectedTopics);
       },
-      nodeName: 'topicSelector',
+      nodeName: 'topicSelectors',
       minSearchQueryLength: 1
     });
     setTimeout(() =>
-    document.getElementById('topicSelector').classList.add(this.topicPickerClass), 200);
+    document.getElementById('topicSelectors').classList.add(this.topicPickerClass), 200);
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({

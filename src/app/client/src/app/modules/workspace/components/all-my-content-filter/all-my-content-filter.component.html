@@ -2,15 +2,18 @@
 <div class="container mt-5">
     <div class="row">
     
-         <div class="col-md-8 pt-10" id="showFilterButton">
+         <div class="col-md-12 pt-10" id="showFilterButton">
            <!-- <span class="browse item cursor-pointer" suiPopup [popupPlacement]="position" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
             {{resourceService?.frmelmnts?.lbl?.showFilters}}
             <i class="dropdown icon"  appTelemetryInteract [telemetryInteractEdata]="filterIntractEdata"></i>
           </span> -->
           <app-data-driven-filter [pageId]="'all-my-content-page'"[ignoreQuery]="['key']" *ngIf="filterType" [filterEnv]="filterType"
             [accordionDefaultOpen]=true [isShowFilterLabel]=false [showSearchedParam]=false></app-data-driven-filter>
+            <hr>
         </div>
-        <div class="col-md-4 pt-0">
+      </div>
+        <div class="row">
+          <div class="col-md-12 pt-3  text-ac">
             <div class="ui icon input left action" id="search-input-container">
               <div class="searchfilterinput ui search">
                 <div class="searchicon ui icon input ">
@@ -31,6 +34,8 @@
                 </div>
               </div> -->
           </div>
+        </div>
+        
         <!-- <div class="three wide column pt-5">
           <div class="twelve wide column">
             <div class="field">
@@ -51,7 +56,7 @@
             </div>
           </div>
         </div> -->
-      </div>
+      
 </div>
 
   
@@ -61,8 +66,8 @@
         [accordionDefaultOpen]=true [isShowFilterLabel]=false [showSearchedParam]=false></app-data-driven-filter>
       </div>
   </ng-template> -->
-  <div class="ui grid">
-      <div class="twelve wide column content" *ngIf='queryParams != undefined'>
+  <div class="container">
+      <div class="col-md-12 content" *ngIf='queryParams != undefined'>
           <span *ngFor="let value of label">
             <span class="padded chip pr-5" *ngIf='queryParams[value.id] && queryParams[value.id].length > 0'>
               {{value.name}}:

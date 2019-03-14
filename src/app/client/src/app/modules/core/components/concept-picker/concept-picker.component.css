@@ -10,5 +10,6 @@ input {
 #treePicker {
     border: 1px solid #707070;
     background:#707070;
-    width: 60%
+
+    cursor: pointer;
 }

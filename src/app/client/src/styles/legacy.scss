@@ -257,10 +257,7 @@
 .ui.mini.modal {
   height: fit-content !important;
 }
-.ui.modal>.close {
- position: initial !important;
- color: black !important;
-}
+
 .content-font {
   font-size: 1.1em !important;
 }
@@ -709,12 +706,12 @@ h5.ui.header {
   font-size: 1rem;
 }
 .searchicon.ui.icon.input input.upForReviewSearchBox {
-  width: 450px;
+  width:  420px;
   background: #fdfdfd;
   border-right: none;
   border-top: none;
   border-left: none;
-  border: 1px solid rgba(51, 51, 51, 0.33);
+  border: 2px solid rgba(51, 51, 51, 0.33);
 }
 .ann-fileupload-list {
   overflow-x: hidden;
@@ -1200,6 +1197,7 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: white;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;
@@ -2255,7 +2253,7 @@ i.icon.accordion-content-right {
 }
 
 .ui.selection.dropdown.with-border {
-  border: 1px solid #d4d4d5;
+  border: 2px solid #d4d4d5;
   border-radius: 5px;
 }
 

@@ -40,6 +40,7 @@ export class ConceptPickerComponent implements OnInit {
   contentConcepts: any;
   conceptDataSubscription: Subscription;
   conceptDataSet: any;
+
   /**
    * emits selected concepts
    */
@@ -58,11 +59,12 @@ export class ConceptPickerComponent implements OnInit {
   initConceptBrowser() {
     console.log('this', this.selectedConcepts);
     this.selectedConcepts = this.selectedConcepts || [];
-    this.contentConcepts = _.map(this.selectedConcepts, 'name');
+    this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
     console.log('thi.cone', this.contentConcepts);
     this.pickerMessage = this.contentConcepts.length + 'selected';
     $('.tree-pickers').val(this.pickerMessage);
     setTimeout(() => {
+      console.log('selected data : ', this.contentConcepts);
       $('.tree-pickers').treePicker({
         data: this.conceptData,
         name: 'sector',
@@ -84,8 +86,8 @@ export class ConceptPickerComponent implements OnInit {
       });
       setTimeout(() => {
         document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
-      }, 9000);
-    }, 9000);
+      }, 100);
+    }, 100);
   }
   /**
    * calls conceptPickerService and initConceptBrowser
@@ -93,6 +95,20 @@ export class ConceptPickerComponent implements OnInit {
   ngOnInit() {
     console.log('concept picker', this.selectedConcepts);
     this.conceptData = this.loadDomains(this.category);
+    if (this.selectedConcepts) {
+    const selectedTopics = _.reduce(this.selectedConcepts, (collector, element) => {
+      if (typeof element === 'string') {
+        collector.unformatted.push(element);
+      } else if (_.get(element, 'identifier')) {
+        collector.formated.push(element);
+      }
+      return collector;
+    }, { formated: [], unformatted: [] });
+    this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
+    this.selectedConcepts =  selectedTopics.formated;
+    }
+
+
     if (this.conceptData) {
       this.showLoader = false;
           console.log('our ', this.category);
@@ -103,6 +119,19 @@ export class ConceptPickerComponent implements OnInit {
           this.showLoader = false;
     }
 
+    }
+    private formatSelectedTopics(topics, unformatted, formated) {
+      _.forEach(topics, (topic) => {
+        if (unformatted.includes(topic.name)) {
+          formated.push({
+            identifier: topic.id,
+            name: topic.name
+          });
+        }
+        if (topic.nodes) {
+          this.formatSelectedTopics(topic.nodes, unformatted, formated);
+        }
+      });
     }
 
 

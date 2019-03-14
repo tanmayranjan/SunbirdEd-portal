@@ -32,6 +32,7 @@ export class DefaultTemplateComponent implements OnInit, AfterViewInit {
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
   @Input() submited: boolean;
+  @Input() org: string;
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -100,6 +101,7 @@ export class DefaultTemplateComponent implements OnInit, AfterViewInit {
  * To make content editor service API calls
  */
   private editorService: EditorService;
+  orgname: string;
 
 
 
@@ -157,6 +159,8 @@ export class DefaultTemplateComponent implements OnInit, AfterViewInit {
       (user: IUserData) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.orgname = user.userProfile.organisationNames[0];
+          this.formInputData['creators'] = user.userProfile.organisationNames[0];
         }
       });
     this.showLoader = false;
