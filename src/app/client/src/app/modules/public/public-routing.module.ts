@@ -4,10 +4,15 @@ import { GetComponent } from './components/get/get.component';
 import { DialCodeComponent } from './components/dial-code/dial-code.component';
 import { PublicFooterComponent } from './components/public-footer/public-footer.component';
 import {
-  LandingPageComponent, SignupComponent, PublicContentPlayerComponent,
+  LandingPageComponent, PublicContentPlayerComponent,
   PublicCollectionPlayerComponent
 } from './components';
-import { SignupGuard, LandingpageGuard } from './services';
+import { LandingpageGuard } from './services';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { CommonLicenseComponent } from './components/common-license/common-license.component';
+import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
+import { AboutUSComponent } from './components/about-us/about-us.component';
+import { BlogComponent } from './components/blog/blog.component';
 
 const routes: Routes = [
   {
@@ -17,15 +22,6 @@ const routes: Routes = [
     data: {
       telemetry: {
         env: 'public', pageid: 'landing-page', type: 'edit', subtype: 'paginate'
-      }
-    }
-  },
-  {
-    path: 'signup', component: SignupComponent,
-    canActivate: [SignupGuard],
-    data: {
-      telemetry: {
-        env: 'public', pageid: 'signup', type: 'edit', subtype: 'paginate'
       }
     }
   },
@@ -68,6 +64,27 @@ const routes: Routes = [
   },
   {
     path: ':slug/explore-course', loadChildren: './module/course/course.module#CourseModule'
+  },
+  {
+    path: ':slug/signup', loadChildren: './module/signup/signup.module#SignupModule'
+  },
+  {
+    path: 'signup', loadChildren: './module/signup/signup.module#SignupModule'
+  },
+  {
+    path: 'contactUs', component: ContactUsComponent
+  },
+  {
+    path: 'license', component: CommonLicenseComponent
+  },
+  {
+    path: 'people', component: PeopleInvlovedComponent
+  },
+  {
+    path: 'aboutUs', component: AboutUSComponent
+  },
+  {
+    path: 'blog', component: BlogComponent
   }
 ];
 @NgModule({

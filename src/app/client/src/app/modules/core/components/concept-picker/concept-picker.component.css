@@ -1,0 +1,15 @@
+input {
+    border: 1px solid gray;
+    background: grey;
+}
+
+.conceptSelector.ui.form .treepicker-parent input {
+    background: #707070;
+}
+
+#treePicker {
+    border: 1px solid #707070;
+    background:#707070;
+
+    cursor: pointer;
+}

@@ -6,16 +6,18 @@ import {
   GenericEditorComponent, UploadedComponent, DataDrivenComponent, FlaggedComponent, UpForReviewComponent,
   BatchListComponent, UpdateBatchComponent, UpforreviewContentplayerComponent, ReviewsubmissionsContentplayerComponent,
   FlagConentplayerComponent, PublishedPopupComponent, RequestChangesPopupComponent, LimitedPublishedComponent,
-  AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent} from './components';
+  AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent, CreateAssetComponent} from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
+import { MyassestPageComponent } from './components/myassest-page/myassest-page.component';
+import { AssetDetailPageComponent } from './components/asset-detail-page/asset-detail-page.component';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
   {
-    path: 'content', component: WorkspaceComponent, canActivate: [AuthGuard], data: { roles: 'workspace' },
+    path: '', component: MyassestPageComponent, canActivate: [AuthGuard], data: { roles: 'workspace' },
     children: [
       {
-        path: 'create', component: CreateContentComponent, canActivate: [AuthGuard],
+        path: 'created', component: CreateContentComponent, canActivate: [AuthGuard],
         data: {
           telemetry: {
             env: telemetryEnv, pageid: 'workspace-content-create', uri: '/workspace/content/create',
@@ -84,18 +86,34 @@ const routes: Routes = [
               { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
             }
           }
-        ]
+        ],
+
       },
+
       {
-        path: 'edit/collection/:contentId/:type/:state/:framework', component: CollectionEditorComponent, canActivate: [AuthGuard],
+        path: 'edit/collection/:contentId/:type/:state/:framework/:contentStatus',
+          component: CollectionEditorComponent, canActivate: [AuthGuard],
         data: { roles: 'workspace' }
       },
       {
-        path: 'edit/content/:contentId/:state/:framework', component: ContentEditorComponent,
+        path: 'edit/content/:contentId/:state/:framework/:contentStatus', component: ContentEditorComponent,
         canActivate: [AuthGuard], data: { roles: 'workspace' }
       },
       {
         path: 'edit/generic', component: GenericEditorComponent,
+        canActivate: [AuthGuard], data: { roles: 'workspace' }
+      },
+      {
+        path: 'edit/generic/:contentId/:state/:framework/:contentStatus', component: GenericEditorComponent,
+        canActivate: [AuthGuard], data: { roles: 'workspace' }
+      },
+      {
+        path: 'edit/collection/:contentId/:type/:state/:framework',
+          component: CollectionEditorComponent, canActivate: [AuthGuard],
+        data: { roles: 'workspace' }
+      },
+      {
+        path: 'edit/content/:contentId/:state/:framework', component: ContentEditorComponent,
         canActivate: [AuthGuard], data: { roles: 'workspace' }
       },
       {
@@ -200,7 +218,17 @@ const routes: Routes = [
             type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
           }, roles: 'allContentRole',
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-        }
+        },
+        children: [
+          {
+            path: 'studymaterial/update/:contentId', component: CreateAssetComponent,
+            data: {
+
+              breadcrumbs: [{ label: 'Home', url: '/home' },
+              { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+            }
+          }
+        ]
       },
       {
         path: 'flagreviewer/:pageNumber', component: FlagReviewerComponent, canActivate: [AuthGuard],
@@ -212,18 +240,6 @@ const routes: Routes = [
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
         }
       },
-      // {
-      //   path: 'collaborating-on/:pageNumber', component: CollaboratingOnComponent, canActivate: [AuthGuard],
-      //   data: {
-      //     telemetry: {
-      //       env: telemetryEnv, pageid: 'workspace-content-collaborating-on',
-      // subtype:'paginate', uri: 'workspace/content/collaborating-on',
-      //       type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
-      //     }, roles: 'collaboratingRole',
-      //     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-      //   }
-      // },
-      // { path: '**', redirectTo: 'create' }
     ]
   },
   {
@@ -260,6 +276,28 @@ const routes: Routes = [
     data: {
       roles: 'workspace',
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+    }
+  },
+
+  {
+    path: 'create', component: DataDrivenComponent,
+    data: {
+      telemetry: {
+        env: telemetryEnv, pageid: 'workspace-create-lesson', subtype: 'paginate', uri: '/workspace/content/create/studymaterial',
+        type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
+      }, breadcrumbs: [{ label: 'Home', url: '/home' },
+      { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+    }
+  },
+  {
+    path: 'detail/:contentId', component: AssetDetailPageComponent
+  },
+  {
+    path: 'update/:contentId', component: CreateAssetComponent,
+    data: {
+
+      breadcrumbs: [{ label: 'Home', url: '/home' },
+      { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
     }
   }
 ];

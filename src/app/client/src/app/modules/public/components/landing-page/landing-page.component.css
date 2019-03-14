@@ -1,0 +1,121 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+/* @import "variables"; */
+.landing-page-section {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(206, 197, 197, 0.79);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.075);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.075);
+}
+.landing-page-image {
+    margin: 40px 0 40px 0;
+}
+.landing-page-image img {
+    border-radius: 0.65em;
+}
+.landing-page-description {
+    padding-top: 3em;
+}
+.landing-page-description p {
+    margin: 0;
+    font-size: 14px;
+}
+.ui.card>.card-opacity {
+    opacity: 0.2;
+}
+.ui.card .article-header-padding {
+    padding: 0 0 1em 1em;   
+    font-weight: bold;
+    font-size: 1.25em;
+}
+.thumbnail {
+    position: relative;
+    margin-bottom: 0;
+    border: 0;
+    border-color: transparent;
+    padding: 0 !important
+    /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+  }
+  .img-fluid{
+      height: auto !important;
+  }
+  .green1 {
+    background-color:#BDD49C !important;
+    color: #343434 !important;
+    border-radius: 25px !important;
+  }
+  .caption {
+    position: absolute;
+    top: 21%;
+    left: 0;
+    width: 100%;
+    color: #FFFFFF;
+  }
+  .caption-1{
+    position: absolute;
+    top: 9%;
+    left: 0;
+    width: 100%;
+    color: #FFFFFF;
+  }
+  .text {
+    width: 54rem;
+    margin: auto;
+    display: block;
+    font-size: 17px;
+    font-family: 'Muli', sans-serif;
+  }
+  .fa{
+    font-size: 31.87px;
+    font-family: 'Muli', sans-serif ,Bold;
+}
+.fax{
+    font-size: 44px;
+    font-family: 'Muli', sans-serif , Bold;
+}
+.text-c{
+    width: 54rem;
+    margin: auto;
+    display: block;
+    font-size: 17px;
+    font-family: Arial Regular;
+    margin-bottom: 1rem !important;
+}
+.fa-1{
+font-size: 32px;
+font-weight: bold;
+font-family: Arial Bold;
+margin-bottom: 0 !important
+}
+.text-1{
+    font-size: 24px;
+    font-style: italic;
+    font-family: Arial Italic;
+}
+.text-2{
+    font-size: 25px;    
+    font-family: 'Muli', sans-serif;
+}
+hr{
+    border: none !important;
+    border-left: 1px solid hsla(200, 10%, 50%,100) !important;
+    height: 3rem !important;
+    width: 1px !important;
+}
+.carousel-indicators{
+    padding-left: 8rem !important;
+   
+}
+.carousel-indicators li {
+    background-color:#BDD49C !important;
+}
+  @media screen and (max-width:978px ) and (min-width: 312px) {
+    .img-fluid{
+        height: fit-content !important;
+    }
+  }
+  @media screen and (max-width:820px ) and (min-width: 312px) {
+    .text{
+        width: auto;
+    }
+  }

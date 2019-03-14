@@ -1,4 +1,5 @@
 export * from './main-header/main-header.component';
+export * from './main-footer/main-footer.component';
 export * from './main-menu/main-menu.component';
 export * from './search/search.component';
 export * from './breadcrumbs/breadcrumbs.component';
@@ -11,4 +12,6 @@ export * from './content-player-metadata/content-player-metadata.component';
 export * from './language-dropdown/language-dropdown.component';
 export * from './prominent-filter/prominent-filter.component';
 export * from './topic-picker/topic-picker.component';
+export *from './framwork-selector/framwork-selector.component';
+export *from './framework-picker/framework-picker.component';
 

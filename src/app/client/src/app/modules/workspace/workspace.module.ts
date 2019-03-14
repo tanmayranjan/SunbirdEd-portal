@@ -22,6 +22,10 @@ import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { ReviewCommentsComponent } from './components/review-comments/review-comments.component';
 import { OrderModule } from 'ngx-order-pipe';
+import { CreateAssetComponent } from './components/create-asset/create-asset.component';
+import { UpdateResoureFormComponent } from './components/update-resoure-form/update-resoure-form.component';
+import { MyassestPageComponent } from './components/myassest-page/myassest-page.component';
+import { AssetDetailPageComponent } from './components/asset-detail-page/asset-detail-page.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -53,7 +57,12 @@ import { OrderModule } from 'ngx-order-pipe';
     CollaborationContentFilterComponent,
     ReviewCommentsComponent,
     CollaborationContentFilterComponent,
+    CreateAssetComponent,
+    UpdateResoureFormComponent,
+    MyassestPageComponent,
+    AssetDetailPageComponent,
   ],
-  providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService]
+  providers: [WorkSpaceService, EditorService, BatchService, ReviewCommentsService],
+  exports: [CreateAssetComponent, DataDrivenComponent, DefaultTemplateComponent, CreateContentComponent]
 })
 export class WorkspaceModule { }

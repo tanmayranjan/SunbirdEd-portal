@@ -1,0 +1,97 @@
+<footer class="footer1 " *ngIf="showFooter">
+  <div class="ui container">
+    <!-- <div class="ui grid stackable">
+      <div class="four wide column footerMenu">
+        <ul class="p-0 m-0">
+          <li class="mb-15">
+            <a href="/verticals/profile-registry/">
+              {{resourceService.frmelmnts?.lnk?.footerDikshaVerticals}}
+            </a>
+          </li>
+          <li class="mb-15">
+            <a href="/help/getting-started/explore-diksha/index.html">
+              {{resourceService.frmelmnts?.lnk?.footerHelpCenter}}
+            </a>
+          </li>
+          <li class="mb-15">
+            <a href="/partners/">
+              {{resourceService.frmelmnts?.lnk?.footerPartners}}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="four wide column center aligned playStore">
+        <label class="d-block mb-10">{{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}</label>
+        <a class="d-block" href="https://play.google.com/store/apps/details?id=in.gov.diksha.app">
+          <img class="playStore-img" src="/assets/images/google_playstore.png" alt="{{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}">
+        </a>
+      </div>
+      <div class="four wide column contantDetails">
+        <label class="d-block mb-10">
+          {{resourceService.frmelmnts?.lnk?.footerContact}} 
+        </label>
+        <a class="d-block mb-30" href="mailto:diksha-support@ncte-India.org">
+          diksha-support@ncte-india.org
+        </a>
+        <label class="d-block">
+          <a href="/term-of-use.html">
+            {{resourceService.frmelmnts?.lnk?.footerTnC}}
+          </a>
+          <span>| &copy; {{date | date:'yyyy'}}, DIKSHA</span>
+        </label>
+      </div>
+    </div> -->
+   <div class="">
+      <div class="row pt-2 pb-2" style="padding-left: 25px;">
+          <div class="col-5 text-pp-crt  mt-15 ">
+            <div class="row">
+              <div _ngcontent-c3="" class="ui logo d-flex flex-ai-center" role="banner">
+                <a _ngcontent-c3="" class="d-flex flex-ai-center">
+                  <img _ngcontent-c3="" class="image centered cursor-pointer" alt="sunbird"
+                    src="http://localhost:3000/assets/images/sunbird_logo.png">
+                </a></div>
+              <div class="col-sm">
+                <hr class="mt-0">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5 text-pp-crt-rg  mt-15">
+            <div class="row font">
+              <div class="col-lg-auto" (click)="gotoContact('contact')">
+                Contact Us
+              </div>
+              <div class="col-auto" (click)="gotoContact('license')">
+                Creative Commons License
+              </div>
+              <div class="col-xl" (click)="gotoContact('people')">
+                People Invloved
+              </div>
+            </div>
+            <br>
+            <div class="row font1">
+              <div class="col">
+                Copyright2019 Societal Platform SPace.All rights Reserved.
+              </div>
+            </div>
+          </div>
+          <div class=" text-pp mt-15">
+            <div class="row r">
+                Follow Us On 
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-1">
+                <i class="fa fa-twitter"></i>
+              </div>
+              <div class="col-1">
+                <i class="fa fa-facebook"></i>
+              </div>
+              <div class="col-1">
+                <i class="fa fa-google-plus"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+   </div>
+  </div>
+</footer>

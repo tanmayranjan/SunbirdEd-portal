@@ -7,13 +7,14 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
+declare var jQuery: any;
 /**
  * Main header component
  */
 @Component({
   selector: 'app-header',
   templateUrl: './main-header.component.html',
-  styleUrls: ['./main-header.component.css']
+  styleUrls: ['./main-header.component.scss']
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   /**
@@ -23,6 +24,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   /**
    * organization log
    */
+  workSpaceRole: Array<string>;
   exploreButtonVisibility: string;
   logo: string;
   key: string;
@@ -100,11 +102,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public telemetryInteractObject: IInteractEventObject;
   tenantDataSubscription: Subscription;
   userDataSubscription: Subscription;
-
-  /**
-  * value to enable and disable signUp button
-  */
-  enableSignup = true;
   exploreRoutingUrl: string;
   pageId: string;
   /*
@@ -118,6 +115,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.permissionService = permissionService;
     this.userService = userService;
     this.tenantService = tenantService;
+    this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
    }
 
   ngOnInit() {
@@ -172,13 +170,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         }
       });
     this.setInteractEventData();
-    try {
-      const enableSignupButton: string = (<HTMLInputElement>document.getElementById('enableSignup')) ?
-        (<HTMLInputElement>document.getElementById('enableSignup')).value : 'true';
-      this.enableSignup = (enableSignupButton.toLowerCase() === 'true');
-    } catch {
-      console.log('error while fetching enableSignup');
-    }
   }
 
   getCacheLanguage() {
@@ -190,7 +181,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
   navigateToHome() {
     if (this.userService.loggedIn) {
-      this.router.navigate(['home']);
+      this.router.navigate(['resources']);
     } else {
       this.router.navigate(['']);
     }
@@ -267,4 +258,16 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       this.userDataSubscription.unsubscribe();
     }
   }
+  showSideBar() {
+    jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+  }
+  gotoContact(value) {
+    console.log('inside function', value);
+    if ( value === 'about') {
+    this.router.navigate(['aboutUs']);
+    }
+    if ( value === 'blog') {
+    this.router.navigate(['blog']);
+    }
+}
 }

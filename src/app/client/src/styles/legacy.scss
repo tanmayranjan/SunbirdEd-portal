@@ -254,6 +254,10 @@
   width: 16px !important;
   height: 16px !important;
 }
+.ui.mini.modal {
+  height: fit-content !important;
+}
+
 .content-font {
   font-size: 1.1em !important;
 }
@@ -489,7 +493,8 @@ i.large.icon.limitedPublishingLinkIcon {
   border-color: #333;
 }
 .centered.grid.no-result-container {
-  margin-top: 12%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .no-result-container .column img {
   display: block;
@@ -634,12 +639,7 @@ i.file.pdf.ann-details-icon {
   font-size: 1.2em ;
   padding-top: 15px ;
 }
-.ui.grey.label.annType {
-  padding-top: 4px;
-  padding-bottom: 4px;
-  background-color: #9a9a9a !important;
-  border-color: #9a9a9a !important;
-}
+
 .ui.items > .item > .content p.ann-attachment-detail-meta {
   margin-left: 10px;
   margin-top: -5px;
@@ -706,12 +706,12 @@ h5.ui.header {
   font-size: 1rem;
 }
 .searchicon.ui.icon.input input.upForReviewSearchBox {
-  width: 450px;
+  width:  420px;
   background: #fdfdfd;
   border-right: none;
   border-top: none;
   border-left: none;
-  border-bottom: 1px solid rgba(51, 51, 51, 0.33);
+  border: 2px solid rgba(51, 51, 51, 0.33);
 }
 .ann-fileupload-list {
   overflow-x: hidden;
@@ -826,7 +826,7 @@ ul.subList-padding {
   padding-left: 8% !important;
 }
 .courseStructureHeader {
-  border-bottom: 2px solid rgba(34, 36, 38, 0.15) !important;
+  border-bottom: 0 solid rgba(34, 36, 38, 0.15) !important;
 }
 .courseStructureHeaderText {
   padding-top: 2% !important;
@@ -1197,16 +1197,13 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: white;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;
 }
 .filtercolmntext.ui.grid > .column:not(.row) {
   padding-left: 1.39em;
-}
-.searchfilterbutton.ui.tiny.button {
-  font-size: 1rem;
-  padding: .75em 1em;
 }
 .searchdropdown.ui.basic.button {
   box-shadow: 0 0 0 1px rgba(51, 51, 51, 0.33) inset;
@@ -1244,6 +1241,10 @@ ul.fancytree-container li {
   z-index: 11;
 }
 .conceptSelector.ui.form .treepicker-parent input {
+  color: #cdcccc;
+  font-size: 13px;
+}
+.concept.ui.form .treepicker-parent input {
   color: #cdcccc;
   font-size: 13px;
 }
@@ -2166,6 +2167,8 @@ i.icon.accordion-content-right {
   width: 100% !important;
   height: 100%;
   margin: 0 !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ui.modal .ui.header.content-header {
@@ -2250,7 +2253,7 @@ i.icon.accordion-content-right {
 }
 
 .ui.selection.dropdown.with-border {
-  border: 1px solid #d4d4d5;
+  border: 2px solid #d4d4d5;
   border-radius: 5px;
 }
 
@@ -2397,15 +2400,6 @@ angular2-multiselect .list-area{
 .min-height-0 {
   height: 0 !important;
 }
-.mc-nonuser,
-.mc-user{
-  padding-top:76px !important;
-}
-@media screen and (max-width:768px){
-  .mc-user{
-    padding-top: 190px !important;
-  }
-}
 .selected-list .countplaceholder {
   visibility: hidden;
 }
@@ -2469,6 +2463,9 @@ sui-multi-select.ui.selection.dropdown{
  .conceptSelector.ui.form .treepicker-parent input{
    background: transparent;
  }
+ .concept.ui.form .treepicker-parent input{
+  background: transparent;
+}
  .modal.mini.fixed-small {
   max-width:320px;
   width:100%;
@@ -2501,4 +2498,12 @@ i.blue.icon{
     margin: 0 !important;
     max-width: 100vw;
   }
+}
+
+.click-notify-xurl {
+  position: absolute;
+  z-index: 12 !important;
+  top: 100px !important;
+  left: 50% !important;
+  transform: translate(-50%,-50%) !important;
 }

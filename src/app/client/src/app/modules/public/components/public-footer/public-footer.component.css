@@ -1,7 +1,13 @@
-.ui.footer.segment {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    z-index: 989898;
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.ft-copyright {
+    background-color: #000a1f;
+    border-top: 1px solid #121d6d;
+    display: flex;
 }
+.text-pp-crt,
+	.text-pp-crt-rg {
+		color: #FFFFFF;
+    }
+    .developer {
+		text-align: center;
+	}

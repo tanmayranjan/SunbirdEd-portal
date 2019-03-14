@@ -10,17 +10,20 @@ import {
   LearnerService, AnnouncementService, ConceptPickerService,
   BadgesService, ContentService, CoursesService, PageApiService,
   TenantService, FrameworkService, FormService, PlayerService, SearchService,
-  CopyContentService, BreadcrumbsService, OrgDetailsService
+  CopyContentService, BreadcrumbsService, OrgDetailsService, ChannelService
 } from './services';
 import {
-  MainHeaderComponent, MainMenuComponent, SearchComponent, ConceptPickerComponent, DataDrivenFilterComponent,
-  ErrorPageComponent, SortByComponent, FlagContentComponent, ContentPlayerMetadataComponent,
-  BreadcrumbsComponent, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent
+  MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, ConceptPickerComponent,
+  DataDrivenFilterComponent, ErrorPageComponent, SortByComponent, FlagContentComponent,
+  ContentPlayerMetadataComponent, BreadcrumbsComponent, LanguageDropdownComponent, ProminentFilterComponent,
+  TopicPickerComponent
 } from './components';
 import { AuthGuard } from './guard/auth-gard.service';
 import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
+import { FramworkSelectorComponent } from './components/framwork-selector/framwork-selector.component';
+import { FrameworkPickerComponent } from './components/framework-picker/framework-picker.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,12 +36,14 @@ import { TelemetryModule } from '@sunbird/telemetry';
     TelemetryModule,
     AvatarModule
   ],
-  declarations: [MainHeaderComponent, MainMenuComponent, SearchComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent,
-    DataDrivenFilterComponent, BreadcrumbsComponent, SortByComponent, ErrorPageComponent, FlagContentComponent,
-    ContentPlayerMetadataComponent, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],
-  exports: [MainHeaderComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent, DataDrivenFilterComponent,
-    SortByComponent, BreadcrumbsComponent, FlagContentComponent, ContentPlayerMetadataComponent,
-    TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent]
+  declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
+    BodyScrollDirective, ConceptPickerComponent, DataDrivenFilterComponent, BreadcrumbsComponent, SortByComponent,
+    ErrorPageComponent, FlagContentComponent, ContentPlayerMetadataComponent, LanguageDropdownComponent,
+    ProminentFilterComponent, TopicPickerComponent, FramworkSelectorComponent, FrameworkPickerComponent],
+  exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent,
+    DataDrivenFilterComponent, SortByComponent, BreadcrumbsComponent, FlagContentComponent,
+    ContentPlayerMetadataComponent, TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent,
+    TopicPickerComponent, FramworkSelectorComponent]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders {
@@ -47,7 +52,8 @@ export class CoreModule {
       providers: [LearnerService, TenantService, SearchService, CopyContentService,
         AnnouncementService, BadgesService, ContentService, CoursesService, PageApiService,
         AuthGuard, FrameworkService, FormService, CacheService,
-        ConceptPickerService, BreadcrumbsService, PlayerService, OrgDetailsService]
+        ConceptPickerService, BreadcrumbsService, PlayerService, OrgDetailsService,
+        ChannelService]
     };
   }
 }

@@ -812,6 +812,11 @@ th {
   font-size: 0.78571429em;
   padding-top: 12px;
 }
+
+.ui.mini.modal {
+  height: fit-content !important;
+}
+
 /*for the text on image in card */
 .cardImageText {
   position: absolute;
@@ -997,9 +1002,11 @@ i.large.icon.limitedPublishingLinkIcon {
   font-family: Roboto, sans-serif;
 }
 .ui.selection.dropdown {
-  border: 0;
+  /* border: 0;
   border-bottom: 1px solid #333333;
-  border-radius: 0;
+  border-radius: 0; */
+  border: 1px solid #707070;
+   background: #707070;
 }
 .ui.dropdown.genderSelectionDropDown {
   border: 0;
@@ -1012,6 +1019,7 @@ i.large.icon.limitedPublishingLinkIcon {
 .ui.modal.ui.multiple.dropdown > .text {
   margin: 0 ;
   line-height: 0 ;
+  color: white
 }
 .field > label {
   color: #fdfdfd;
@@ -1955,6 +1963,7 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: wheat !important;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;
@@ -2004,17 +2013,29 @@ ul.fancytree-container li {
   color: #cdcccc;
   font-family: Roboto;
   font-size: 13px;
+  background: #707070;
+
+}
+.concept.ui.form .treepicker-parent input {
+  color: #cdcccc;
+  font-family: Roboto;
+  font-size: 13px;
+  background: #707070;
+
 }
 .ui.input input.filterLocationInput {
   padding-top: 12px;
-  border: 0;
-  border-bottom: 1px solid #333333;
+  /* border: 0; */
+  border: 2px solid #333333;
   border-radius: 0;
   color: #7c7b7b;
   font-size: 13px;
 }
 .filterFieldSearch.ui.selection.dropdown {
   min-width: 100%;
+  border: 2px solid #333333;
+  color: white;
+  background: #585858
 }
 .resource-padding.ui.grid > .column:not(.row) {
   padding-top: 0;
@@ -2750,11 +2771,22 @@ span.dashBoardMenuItem.active {
 ol.ui.list ol li:before {
   margin-left: -2.5em !important;
 }
+.modals.dimmer .ui.tree-picker.scrolling.modal {
+  height: fit-content !important;
+}
+.modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal{
+  height: fit-content !important;
+}
+
+  .modals.dimmer .ui.scrolling.modal {
+height: fit-content !important;
+  }
 @media only screen and (max-width: 1290px) and (min-width: 992px) {
   .modals.dimmer .ui.tree-picker.scrolling.modal {
     top: -580px !important;
     position: relative !important;
     margin: 0 0 0 -350px !important;
+    height: fit-content !important;
   }
 }
 @media only screen and (min-width: 1300px) {
@@ -2762,6 +2794,7 @@ ol.ui.list ol li:before {
     top: 60px !important;
     position: relative !important;
     margin: 0 0 0 -373px !important;
+    height: fit-content !important;
   }
 }
 @media only screen and (max-width: 1290px) and (min-width: 992px) {
@@ -2769,6 +2802,7 @@ ol.ui.list ol li:before {
     top: 60px !important;
     position: relative !important;
     margin: 0 0 0 -400px !important;
+    height: auto;
   }
 }
 @media only screen and (min-width: 1300px) {
@@ -2776,6 +2810,9 @@ ol.ui.list ol li:before {
     margin-top: -300px !important;
     position: relative !important;
   }
+}
+#conceptSelector {
+  height: auto !important;
 }
 .createAnnHeaderDesc {
   font-size: small;

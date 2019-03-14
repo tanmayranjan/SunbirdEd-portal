@@ -6,28 +6,33 @@ import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { Router } from '@angular/router';
 import { EditorService } from './../../services';
+import { BlobsOptions } from 'fine-uploader/lib/core';
 
 @Component({
   selector: 'app-content-creation-default-template',
   templateUrl: './content-creation-default-template.component.html',
+  styleUrls: ['./content-creation-default-template.component.scss'],
   /**
     * It is recommended to use ng-deep for dynamically added classes update
     * ng-deep as angular upgrades the property
     */
-   styles: [`
-   ::ng-deep @media only screen and (min-width: 992px) {
-       .modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal {
-         top: 60px !important;
-         position: relative !important;
-         margin: 0 0 0 -373px !important;
-       }
-      }
-    `]
+
+  //  styles: [`
+  //  ::ng-deep @media only screen and (min-width: 992px) {
+  //      .modals.dimmer .ui.tree-picker.content-creation-concept-picker.scrolling.modal {
+  //        top: 60px !important;
+  //        position: relative !important;
+  //        margin: 0 0 0 -373px !important;
+  //      }
+  //     }
+  //   `
+  // ]
 })
-export class DefaultTemplateComponent implements OnInit {
+export class DefaultTemplateComponent implements OnInit, AfterViewInit {
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
-
+  @Input() submited: boolean;
+  @Input() org: string;
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -96,6 +101,7 @@ export class DefaultTemplateComponent implements OnInit {
  * To make content editor service API calls
  */
   private editorService: EditorService;
+  orgname: string;
 
 
 
@@ -134,15 +140,27 @@ export class DefaultTemplateComponent implements OnInit {
       }
     });
   }
+  ngAfterViewInit() {
+    $('#keywords').dropdown({
+      allowAdditions: true,
+      keys: {
+        delimiter: 13
+      }
+    });
+  }
   ngOnInit() {
     /***
  * Call User service to get user data
  */
+
+
     this.setFormConfig();
     this.userService.userData$.subscribe(
       (user: IUserData) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.orgname = user.userProfile.organisationNames[0];
+          this.formInputData['creators'] = user.userProfile.organisationNames[0];
         }
       });
     this.showLoader = false;
@@ -154,7 +172,25 @@ export class DefaultTemplateComponent implements OnInit {
 * to get selected concepts from concept picker.
 */
   concepts(events) {
-    this.formInputData['concepts'] = events;
+    // this.formInputData['concepts'] = events;
+    console.log('events', events);
+    const sector = [];
+    _.forEach(events, (field) => {
+      sector.push(field.name);
+    });
+    this.formInputData['gradeLevel'] = sector;
+
+  }
+
+  conceptspFramework(events) {
+    // this.formInputData['topic'] = events;
+    console.log('events', events);
+    const spFramework = [];
+
+    _.forEach(events, (field) => {
+      spFramework.push(field.name);
+    });
+    this.formInputData['topic'] = spFramework;
   }
 
   /**

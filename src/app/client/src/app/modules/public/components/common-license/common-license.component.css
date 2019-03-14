@@ -1,0 +1,17 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.thumbnail {
+    position: relative;
+    margin-bottom: 0;
+    border: 0;
+    border-color: transparent;
+    padding: 0 !important;
+    /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+  }
+
+  .caption {
+    position: absolute;
+    top: 21%;
+    left: 0;
+    width: 100%;
+    color: #FFFFFF;
+  }

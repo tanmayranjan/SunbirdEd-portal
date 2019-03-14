@@ -3,7 +3,7 @@ import {combineLatest as observableCombineLatest,  Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkSpace } from '../../classes/workspace';
-import { SearchService, UserService, ISort } from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService } from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents
@@ -14,6 +14,7 @@ import { IPagination } from '@sunbird/announcement';
 import * as _ from 'lodash';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
+
 @Component({
   selector: 'app-all-content',
   templateUrl: './all-content.component.html',
@@ -63,6 +64,16 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   noResult = false;
 
   /**
+   * lock popup data for locked contents
+  */
+  lockPopupData: object;
+
+  /**
+   * To show content locked modal
+  */
+  showLockedContentModal = false;
+
+  /**
    * To show / hide error
   */
   showError = false;
@@ -76,11 +87,6 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     * For showing pagination on draft list
   */
   private paginationService: PaginationService;
-
-  /**
-    * Refrence of UserService
-  */
-  private userService: UserService;
 
   /**
   * To get url, app configs
@@ -152,6 +158,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   /**
   * To call resource service which helps to use language constant
   */
+  public frameworkService: FrameworkService;
+
   public resourceService: ResourceService;
 
   /**
@@ -170,15 +178,16 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
     toasterService: ToasterService, resourceService: ResourceService,
-    config: ConfigService, public modalService: SuiModalService) {
-    super(searchService, workSpaceService);
+    config: ConfigService, public modalService: SuiModalService , frameworkService: FrameworkService) {
+    super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
     this.activatedRoute = activatedRoute;
-    this.userService = userService;
     this.toasterService = toasterService;
     this.resourceService = resourceService;
     this.config = config;
+    this.frameworkService = frameworkService;
+
     this.state = 'allcontent';
     this.loaderMessage = {
       'loaderMessage': this.resourceService.messages.stmsg.m0110,
@@ -189,6 +198,8 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   ngOnInit() {
     this.filterType = this.config.appConfig.allmycontent.filterType;
     this.redirectUrl = this.config.appConfig.allmycontent.inPageredirectUrl;
+    this.frameworkService.initialize();
+
     observableCombineLatest(
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
@@ -223,6 +234,7 @@ export class AllContentComponent extends WorkSpace implements OnInit {
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
   */
   fecthAllContent(limit: number, pageNumber: number, bothParams) {
+
     this.showLoader = true;
     if (bothParams.queryParams.sort_by) {
       const sort_by = bothParams.queryParams.sort_by;
@@ -251,8 +263,9 @@ export class AllContentComponent extends WorkSpace implements OnInit {
       query: _.toString(bothParams.queryParams.query),
       sort_by: this.sort
     };
-    this.search(searchParams).subscribe(
+    this.searchContentWithLockStatus(searchParams).subscribe(
       (data: ServerResponse) => {
+        console.log('data', data);
         if (data.result.count && data.result.content.length > 0) {
           this.allContent = data.result.content;
           this.totalCount = data.result.count;
@@ -322,10 +335,26 @@ export class AllContentComponent extends WorkSpace implements OnInit {
     this.pageNumber = page;
     this.route.navigate(['workspace/content/allcontent', this.pageNumber], { queryParams: this.queryParams });
   }
+
   contentClick(content) {
-    if (content.status.toLowerCase() !== 'processing') {
-      this.workSpaceService.navigateToContent(content, this.state);
+    if (_.size(content.lockInfo)) {
+        this.lockPopupData = content;
+        this.showLockedContentModal = true;
+    } else {
+      const status = content.status.toLowerCase();
+      if (status === 'processing') {
+        return;
+      }
+      if (status === 'draft') { // only draft state contents need to be locked
+        this.workSpaceService.navigateToContent(content, this.state);
+      } else {
+        this.workSpaceService.navigateToContent(content, this.state);
+      }
     }
+  }
+
+  public onCloseLockInfoPopup () {
+    this.showLockedContentModal = false;
   }
 
   inview(event) {

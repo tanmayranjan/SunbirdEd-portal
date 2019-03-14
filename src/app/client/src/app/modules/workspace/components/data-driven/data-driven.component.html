@@ -1,10 +1,10 @@
-<sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal>
-    <div class=" ui segment mt-10" [appTelemetryImpression]="telemetryImpression">
+<!-- <sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal> -->
+    <!-- <div class=" ui segment mt-10" [appTelemetryImpression]="telemetryImpression">
         <div class=" mb-15">
             <div class="ui grid">
                 <div class="eleven wide column">
                     <span class="ui header">
-                        {{resourceService?.frmelmnts?.lbl[creationFormLable]}}
+                        Add a New Asset
                     </span>
                 </div>
             </div>
@@ -15,10 +15,15 @@
                     <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList">
                     </app-content-creation-default-template>
                 </div>
+                <div class="mt-30"> 
+                    <button class="ui primary text-align-center icon button">
+                        Upload file
+                    </button>
+                </div>
                 <div class="actions mt-10">
                     <p class="text-align-center pt-20">
                         <button class="ui primary text-align-center icon button" (click)="createContent();modal.deny()">
-                            {{resourceService?.frmelmnts?.btn?.startcreating}}
+                            Save
                         </button>
                     </p>
                     <div [ngSwitch]="creationFormLable">
@@ -39,5 +44,37 @@
                 </div>
             </div>
         </form>
-    </div>
-</sui-modal>
+    </div> -->
+<!-- </sui-modal> -->
+
+
+<div class="container mt-5">
+    <h4>Add a New Asset</h4>
+    <div *ngIf="showMessage===true" class="ui warning message transition hidden">
+        <i class="close icon"></i>
+        <div class="header">
+          You must register before you can do that!
+        </div>
+        Visit our registration page, then try again
+      </div>
+    <hr>
+    <form class="ui form">
+            <div class="content">
+                <div *ngIf="formFieldProperties && categoryMasterList">
+                    <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList" >
+                    </app-content-creation-default-template>
+                </div>
+                <div class="actions mt-10">
+                    <p class="text-align-center pt-20">
+                        <!-- <button class="ui secondary text-align-center icon button" (click)="createContent();modal.deny()">
+                            Save
+                        </button> -->
+                        <button class="btn btn-default btn-secondary mr-5 btn-lg" (click)="checkFields()" type="submit">Save</button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg" (click)="goToCreate()">Cancel</button>
+
+                    </p>
+
+                </div>
+            </div>
+        </form>
+</div>

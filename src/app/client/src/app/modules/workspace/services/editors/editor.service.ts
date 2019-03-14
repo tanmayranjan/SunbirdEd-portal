@@ -52,6 +52,19 @@ export class EditorService {
         };
         return this.contentService.post(option);
     }
+
+
+   update(req, contentId: string): Observable<ServerResponse> {
+       const option = {
+        url: `${this.configService.urlConFig.URLS.CONTENT.UPDATE}/${contentId}`,
+        data: {
+            'request': req
+        }
+       };
+       return this.contentService.patch(option);
+   }
+
+
     /**
      * get content details by id and query param
      */

@@ -9,18 +9,7 @@ import { IInteractEventEdata } from '@sunbird/telemetry';
 @Component({
   selector: 'app-all-my-content-filter',
   templateUrl: './all-my-content-filter.component.html',
-  styles: [`
-     >>> .ui.dropdown:not(.button)>.default.text {
-      display: none;
-       }
-      .ui.inline.dropdown.search-dropdown {
-       margin-left: 5px;
-       box-sizing: border-box;
-       }
-      .popup-content{
-        width: 850px !important;
-       }
-   `]
+  styleUrls: ['./all-my-content-filter.component.scss']
 })
 export class AllMyContentFilterComponent implements OnInit {
   modelChanged: Subject<string> = new Subject<string>();
@@ -110,6 +99,7 @@ export class AllMyContentFilterComponent implements OnInit {
             this.queryParams[key] = [value];
           }
         });
+        console.log('params', params);
       });
       this.modelChanged.pipe(debounceTime(1000),
       distinctUntilChanged(),
@@ -122,7 +112,7 @@ export class AllMyContentFilterComponent implements OnInit {
       this.filterIntractEdata = {
         id: 'filter',
         type: 'click',
-        pageid: 'all-my-content-page'
+        pageid: 'my-asset-page'
       };
   }
   public handleSearch() {
@@ -131,7 +121,7 @@ export class AllMyContentFilterComponent implements OnInit {
     } else {
       delete this.queryParams['query'];
     }
-    this.route.navigate(['workspace/content/allcontent', 1], { queryParams: this.queryParams});
+    this.route.navigate(['myassets'], { queryParams: this.queryParams});
   }
   keyup(event) {
     this.query = event;
@@ -142,13 +132,13 @@ export class AllMyContentFilterComponent implements OnInit {
     this.sortIcon = !this.sortIcon;
     this.queryParams['sortType'] = this.sortIcon ? 'desc' : 'asc';
      this.queryParams['sort_by'] = sortByOption;
-    this.route.navigate(['workspace/content/allcontent', 1], { queryParams: this.queryParams });
+    this.route.navigate(['myassets'], { queryParams: this.queryParams });
   }
   removeFilterSelection(filterType, value) {
     const itemIndex = this.queryParams[filterType].indexOf(value);
     if (itemIndex !== -1) {
       this.queryParams[filterType].splice(itemIndex, 1);
     }
-    this.route.navigate(['workspace/content/allcontent', 1], { queryParams: this.queryParams  });
+    this.route.navigate(['myassets'], { queryParams: this.queryParams  });
   }
 }
