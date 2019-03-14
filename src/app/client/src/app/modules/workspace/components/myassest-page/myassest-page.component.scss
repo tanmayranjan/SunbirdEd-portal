@@ -97,14 +97,18 @@
   margin-right: -0.5rem;
   margin-top: -1rem;
  }
-
+ i.fas.fa-database.fa-lg {
+  padding: 1em 0.1em;
+  text-align: center;
+  font-size: 1.6em;
+}
  .badgedisplay {
-  width: 62px;
+  width: 58px;
   position: absolute;
   height: 49px;
   right: 0;
   bottom: 0;
-  background-image: url('/client/src/assets/images/Sprite_image.png');
+  background-image: url('../../../../../assets/images/Sprite_image.png');
   background-position: -18px -739px;
   /* background-size: 100%; */
   /* border-radius: 50%; */

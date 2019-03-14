@@ -17,7 +17,7 @@
       class="col-md-3 py-3 pl-10">
       <!-- <app-myasset-card [data]="content" (clickEvent)="contentClick($event)"></app-myasset-card> -->
       <div *ngIf="content">
-        <div class="card mt-5 mb-5" style="width: 18rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
+        <div class="card mt-5 mb-5" style="width: 20rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
           <div class="card-img-top" alt="..." ></div>
           <div class="card-img-overlay row">
               
@@ -70,7 +70,7 @@
                   class="fas fa-pencil-alt"></i></button>
 
             </div>
-            <div *ngIf="content?.status==='Live'" class="badgedisplay ">
+            <div *ngIf="content?.status==='Live'" class="badgedisplay">
               <!-- <img class="smaller-image" src="/client/src/assets/images/Sprite_image.png"> -->
             </div>
 
