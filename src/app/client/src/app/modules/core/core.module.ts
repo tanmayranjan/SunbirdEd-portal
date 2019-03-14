@@ -23,6 +23,7 @@ import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { FramworkSelectorComponent } from './components/framwork-selector/framwork-selector.component';
+import { FrameworkPickerComponent } from './components/framework-picker/framework-picker.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,7 @@ import { FramworkSelectorComponent } from './components/framwork-selector/framwo
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
     BodyScrollDirective, ConceptPickerComponent, DataDrivenFilterComponent, BreadcrumbsComponent, SortByComponent,
     ErrorPageComponent, FlagContentComponent, ContentPlayerMetadataComponent, LanguageDropdownComponent,
-    ProminentFilterComponent, TopicPickerComponent, FramworkSelectorComponent],
+    ProminentFilterComponent, TopicPickerComponent, FramworkSelectorComponent, FrameworkPickerComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, ConceptPickerComponent,
     DataDrivenFilterComponent, SortByComponent, BreadcrumbsComponent, FlagContentComponent,
     ContentPlayerMetadataComponent, TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent,

@@ -327,11 +327,11 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
             if (this.allContent.length === 0) {
               this.ngOnInit();
             }
-            this.toasterService.success(this.resourceService.messages.smsg.m0006);
+            this.toasterService.success('Asset deleted successfully');
           },
           (err: ServerResponse) => {
             this.showLoader = false;
-            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+            this.toasterService.error('Deletion failed Please try again later');
           }
         );
       })
@@ -394,11 +394,11 @@ export class MyassestPageComponent  extends WorkSpace implements OnInit  {
             (data: ServerResponse) => {
               this.showLoader = false;
 
-            this.toasterService.success(this.resourceService.messages.smsg.m0004);
+            this.toasterService.success('Asset published successfully');
 
           }, (err) => {
             this.showLoader = false;
-            this.toasterService.error(this.resourceService.messages.fmsg.m0019);
+            this.toasterService.error('Asset publishing failed please try later');
           });
       })
 

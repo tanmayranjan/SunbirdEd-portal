@@ -228,7 +228,14 @@ export class DataDrivenFilterComponent implements OnInit, OnChanges {
     });
     this.cdr.detectChanges();
   }
-
+  public handleGradeLevel(topicsSelected) {
+    console.log('topic', topicsSelected);
+    this.formInputData['gradeLevel'] = [];
+    _.forEach(topicsSelected, (value, index) => {
+      this.formInputData['gradeLevel'].push(value.name);
+    });
+    this.cdr.detectChanges();
+  }
   private modelChange(data) {
     this.channelInputLabel = [];
     const orgDetails = _.find(this.formFieldProperties, ['code', 'channel']);

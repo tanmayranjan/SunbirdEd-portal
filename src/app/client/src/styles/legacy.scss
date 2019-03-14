@@ -706,7 +706,7 @@ h5.ui.header {
   font-size: 1rem;
 }
 .searchicon.ui.icon.input input.upForReviewSearchBox {
-  width:  -webkit-fill-available !important;
+  width:  420px;
   background: #fdfdfd;
   border-right: none;
   border-top: none;
@@ -1197,6 +1197,7 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: white;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;
@@ -2252,7 +2253,7 @@ i.icon.accordion-content-right {
 }
 
 .ui.selection.dropdown.with-border {
-  border: 1px solid #d4d4d5;
+  border: 2px solid #d4d4d5;
   border-radius: 5px;
 }
 

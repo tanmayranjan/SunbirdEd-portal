@@ -1019,6 +1019,7 @@ i.large.icon.limitedPublishingLinkIcon {
 .ui.modal.ui.multiple.dropdown > .text {
   margin: 0 ;
   line-height: 0 ;
+  color: white
 }
 .field > label {
   color: #fdfdfd;
@@ -1962,6 +1963,7 @@ ul.fancytree-container li {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+  color: wheat !important;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;
@@ -2023,14 +2025,17 @@ ul.fancytree-container li {
 }
 .ui.input input.filterLocationInput {
   padding-top: 12px;
-  border: 0;
-  border-bottom: 1px solid #333333;
+  /* border: 0; */
+  border: 2px solid #333333;
   border-radius: 0;
   color: #7c7b7b;
   font-size: 13px;
 }
 .filterFieldSearch.ui.selection.dropdown {
   min-width: 100%;
+  border: 2px solid #333333;
+  color: white;
+  background: #585858
 }
 .resource-padding.ui.grid > .column:not(.row) {
   padding-top: 0;
