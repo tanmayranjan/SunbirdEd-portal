@@ -51,6 +51,10 @@
           </i>
         </td>
         <td>
+          <i class="edit large icon" [routerLink]="['studymaterial/update/'+content.identifier]">
+          </i>
+        </td>
+        <td>
           <span *ngIf="content.lockInfo" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.lockPopupTitle | interpolate:'{collaborator}':content?.lockInfo?.creatorInfo?.name | interpolate:'{contentName}':content?.name}}" [popupPlacement]="'top left'">
             <i class="lock icon large"  ></i>
           </span>
@@ -86,4 +90,4 @@
 
   <app-contentlock-info-popup [content]="lockPopupData" (closeEvent)="onCloseLockInfoPopup($event)" *ngIf="showLockedContentModal"></app-contentlock-info-popup>
 
-  
+  <router-outlet></router-outlet>

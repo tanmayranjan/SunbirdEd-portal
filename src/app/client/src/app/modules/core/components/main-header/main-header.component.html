@@ -5,19 +5,19 @@
     <div class="ui primary-header p-10">
 
         <div role="banner" class="ui logo d-flex flex-ai-center row">
-            <div class="col-md-7">
+            <div class="col-lg-12">
                     <a class="d-flex flex-ai-center" (click)="navigateToHome()">
                             <img class="image centered cursor-pointer ml-10" alt={{tenantName}} src="{{logo}}">
                         </a>
             </div>
-            <div class="col-lg-offset-3">
+            <div class="">
                     <app-main-menu class="d-flex computer only ml-auto"></app-main-menu>
             </div>
             
         
         <i class="large bars icon link sidebar-hamburger-menu mobile only" (click)="showSideBar()" tabindex="0"></i>
         
-        <a class="profile-avtar item computer only pr-0" *ngIf="userService.loggedIn; else showLoginBtn">
+        <a class="profile-avtar item computer only pr-0 mr-100" *ngIf="userService.loggedIn; else showLoginBtn">
             <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
                 <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
                 </ngx-avatar>
@@ -104,7 +104,7 @@
 		<a class="item i" >
 			Shared Assets
 		</a>
-		<a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'  routerLink="/myassests" [class.active]="router.isActive('/myassests')">
+		<a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'  routerLink="/myassets" [class.active]="router.isActive('/myassets')">
             My Assets
         </a>
 		<a class="item fixed-logout-btn i" >

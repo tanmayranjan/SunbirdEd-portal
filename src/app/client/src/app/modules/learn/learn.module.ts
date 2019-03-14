@@ -17,6 +17,8 @@ import { NotesModule } from '@sunbird/notes';
 import { DashboardModule } from '@sunbird/dashboard';
 import { CourseBatchModule } from '@sunbird/course-batch';
 import {SharedFeatureModule} from '@sunbird/shared-feature';
+import { WorkspaceModule} from '../workspace';
+import { WorkspaceRoutingModule} from '../workspace/workspace-routing.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +34,9 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
     TelemetryModule,
     CourseBatchModule,
     NgInviewModule,
-    SharedFeatureModule
+    SharedFeatureModule,
+    WorkspaceModule,
+    WorkspaceRoutingModule
   ],
   providers: [CourseConsumptionService, CourseBatchService, CourseProgressService],
   declarations: [LearnPageComponent, CoursePlayerComponent, CourseConsumptionHeaderComponent,

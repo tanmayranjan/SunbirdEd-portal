@@ -1,0 +1,14 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+
+
+.popup-content{
+    width: 850px !important;
+   }
+   .ui.dropdown:not(.button)>.default.text {
+    display: none;
+     }
+    .ui.inline.dropdown.search-dropdown {
+     margin-left: 5px;
+     box-sizing: border-box;
+     }

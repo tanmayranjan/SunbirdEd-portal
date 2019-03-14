@@ -59,45 +59,6 @@
     {
         "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
         "roleName":"createRole","url":"myassets/create","tab":"CREATE"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-        "roleName":"draftRole","url":"workspace/myassets/draft/1","tab":"DRAFTS"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-        "roleName":"inreviewRole","url":"/workspace/myassets/review/1","tab":"Review Submissions"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-        "roleName":"publishedRole","url":"workspace/myassets/published/1","tab":"PUBLISHED"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW"],
-        "roleName":"alluploadsRole","url":"workspace/myassets/uploaded/1","tab":"All UPLOADS"
-    },
-    {
-        "roles":["CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_REVIEWER"],
-        "roleName":"upForReviewRole","url":"workspace/myassets/upForReview/1","tab":"Up FOR REVIEW"
-    },
-    {
-        "roles":["COURSE_MENTOR"],"roleName":"coursebacthesRole","url":"/workspace/myassets/batches/1","tab":"Course Batches"
-    },
-    {
-        "roles":["FLAG_REVIEWER"],
-        "roleName":"flagReviewerRole","url":"workspace/myassets/flagreviewer/1","tab":"FLAG REVIEWER"
-    },
-    {
-        "roles":["FLAG_REVIEWER"],
-        "roleName":"flaggedRole","url":"workspace/myassets/flagged/1","tab":"Flagged"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-        "roleName":"limitedPublishingRole","url":"workspace/myassets/upForReview/1","tab":"Limited Publishing"
-    },
-    {
-        "roles":["CONTENT_CREATOR","CONTENT_CREATION","CONTENT_REVIEWER","CONTENT_REVIEW","BOOK_CREATOR"],
-        "roleName":"collaboratingRole","url":"workspace/myassetscollaborating-on","tab":"Collaborating On"
     }
    ]
    

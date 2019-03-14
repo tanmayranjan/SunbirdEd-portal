@@ -31,7 +31,7 @@ import { BlobsOptions } from 'fine-uploader/lib/core';
 export class DefaultTemplateComponent implements OnInit, AfterViewInit {
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
-@Input() submited: boolean;
+  @Input() submited: boolean;
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -168,22 +168,25 @@ export class DefaultTemplateComponent implements OnInit, AfterViewInit {
 * to get selected concepts from concept picker.
 */
   concepts(events) {
+    // this.formInputData['concepts'] = events;
     console.log('events', events);
     const sector = [];
     _.forEach(events, (field) => {
-   sector.push(field.name);
+      sector.push(field.name);
     });
     this.formInputData['gradeLevel'] = sector;
 
   }
 
   conceptspFramework(events) {
+    // this.formInputData['topic'] = events;
     console.log('events', events);
     const spFramework = [];
+
     _.forEach(events, (field) => {
-   spFramework.push(field.name);
+      spFramework.push(field.name);
     });
-    this.formInputData['medium'] = spFramework;
+    this.formInputData['topic'] = spFramework;
   }
 
   /**

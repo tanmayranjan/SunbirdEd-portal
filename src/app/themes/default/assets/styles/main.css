@@ -812,6 +812,14 @@ th {
   font-size: 0.78571429em;
   padding-top: 12px;
 }
+
+.ui.mini.modal {
+  height: fit-content !important;
+}
+.ui.modal>.close {
+ position: initial !important;
+ color: black !important;
+}
 /*for the text on image in card */
 .cardImageText {
   position: absolute;

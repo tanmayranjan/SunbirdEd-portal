@@ -68,6 +68,7 @@ export class AuthGuard implements CanActivate, CanLoad {
                     permissionAvailable => {
                         if (permissionAvailable && permissionAvailable === 'success') {
                             if (roles && this.config.rolesConfig.ROLES[roles]) {
+                                console.log('auth', this.config.rolesConfig.ROLES[roles], roles);
                                 if (this.permissionService.checkRolesPermissions(this.config.rolesConfig.ROLES[roles])) {
                                     observer.next(true);
                                 } else {

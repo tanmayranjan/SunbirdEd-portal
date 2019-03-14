@@ -50,7 +50,13 @@ export class BadgesService {
     };
     return this.learner.post(option);
   }
-
+public createAssertion(req) {
+  const option = {
+    url: this.config.urlConFig.URLS.BADGE.CREATE,
+    data: req
+  };
+  return this.learner.post(option);
+}
   public getDetailedBadgeAssertions(req, assertions) {
     return Observable.create(observer => {
       const option = {

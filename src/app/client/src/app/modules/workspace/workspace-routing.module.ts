@@ -9,6 +9,7 @@ import {
   AllContentComponent, FlagReviewerComponent, CollaboratingOnComponent, CreateAssetComponent} from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { MyassestPageComponent } from './components/myassest-page/myassest-page.component';
+import { AssetDetailPageComponent } from './components/asset-detail-page/asset-detail-page.component';
 const telemetryEnv = 'workspace';
 const objectType = 'workspace';
 const routes: Routes = [
@@ -86,6 +87,7 @@ const routes: Routes = [
             }
           }
         ],
+
       },
 
       {
@@ -221,10 +223,7 @@ const routes: Routes = [
           {
             path: 'studymaterial/update/:contentId', component: CreateAssetComponent,
             data: {
-              // telemetry: {
-              //   env: telemetryEnv, pageid: 'workspace-create-textbook', uri: 'workspace/content/allcontent/1/studymaterial/update',
-              //   type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
-              // },
+
               breadcrumbs: [{ label: 'Home', url: '/home' },
               { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
             }
@@ -241,17 +240,6 @@ const routes: Routes = [
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
         }
       },
-      // , {
-      //   path: 'collaborating-on/:pageNumber', component: CollaboratingOnComponent, canActivate: [AuthGuard],
-      //   data: {
-      //     telemetry: {
-      //       env: telemetryEnv, pageid: 'workspace-content-collaborating-on',
-      // subtype: 'paginate', uri: 'workspace/content/collaborating-on',
-      //       type: 'list', mode: 'create', object: { type: objectType, ver: '1.0' }
-      //     }, roles: 'collaboratingRole',
-      //     breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
-      //   }
-      // }
     ]
   },
   {
@@ -298,6 +286,17 @@ const routes: Routes = [
         env: telemetryEnv, pageid: 'workspace-create-lesson', subtype: 'paginate', uri: '/workspace/content/create/studymaterial',
         type: 'view', mode: 'create', object: { type: objectType, ver: '1.0' }
       }, breadcrumbs: [{ label: 'Home', url: '/home' },
+      { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
+    }
+  },
+  {
+    path: 'detail/:contentId', component: AssetDetailPageComponent
+  },
+  {
+    path: 'update/:contentId', component: CreateAssetComponent,
+    data: {
+
+      breadcrumbs: [{ label: 'Home', url: '/home' },
       { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }]
     }
   }
