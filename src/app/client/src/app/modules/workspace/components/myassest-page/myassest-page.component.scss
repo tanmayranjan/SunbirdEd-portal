@@ -81,18 +81,16 @@
  }
 
  .badgedisplay {
-  width: 40px;
-    position: absolute;
-    height: 40px;
-    /* overflow: hidden; */
-    right: 0;
-    top: 0;
-    background-image: url('/client/src/assets/images/Sprite_image.png');
-    background-position: -41px -1422px;
-    background-size: 100%;
-    /* background-repeat: no-repeat; */
-    border-radius: 50%;
-    zoom: 1;
+  width: 62px;
+  position: absolute;
+  height: 49px;
+  right: 0;
+  bottom: 0;
+  background-image: url('/client/src/assets/images/Sprite_image.png');
+  background-position: -18px -739px;
+  /* background-size: 100%; */
+  /* border-radius: 50%; */
+  background-origin: 0;
 }
 .card-title {
   text-transform: capitalize !important;
