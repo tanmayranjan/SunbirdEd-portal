@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ResourceService } from '@sunbird/shared';
+import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-footer',
   templateUrl: './main-footer.component.html',
@@ -18,12 +20,23 @@ export class MainFooterComponent implements OnInit {
   Hide or show footer
   */
   showFooter = true;
-
-  constructor(resourceService: ResourceService) {
+  applyCss;
+  constructor(resourceService: ResourceService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute) {
     this.resourceService = resourceService;
   }
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+    if (event instanceof NavigationStart) {
+      const url = event.url;
+      if (url.includes('explore-course')) {
+        this.applyCss = true;
+      }
+     }
+    });
+    // console.log(this.activatedRoute.url);
   }
 
 }

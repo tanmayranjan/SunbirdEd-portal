@@ -442,7 +442,6 @@ this.selectedFilter = filter;
         this.formInputData[name].splice(index, 1);
       }
     }
-
     this.applyFilters();
   }
 }

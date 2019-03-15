@@ -1,6 +1,6 @@
-<footer class="footer mt-20" id="footer" *ngIf="showFooter">
+<footer class="footer" id="footer" *ngIf="showFooter" [class.applyCss]= "applyCss === true">
   <div class="ui container">
-    <div class="ui grid stackable">
+    <div class="ui grid stackable" [class.padding]= "applyCss === true">
       <div class="four wide column footerMenu">
         <ul class="p-0 m-0">
           <li class="mb-15">

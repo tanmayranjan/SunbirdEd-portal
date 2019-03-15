@@ -12,3 +12,6 @@
   background-color: darkblue !important;
   outline: black;
 }
+.card {
+  width: 21rem;
+}

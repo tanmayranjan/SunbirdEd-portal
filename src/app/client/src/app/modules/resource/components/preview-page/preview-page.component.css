@@ -12,6 +12,25 @@ section{
     padding: 3vh 0;
     overflow-x:hidden;
 }
+.para {
+    margin-left: -5rem !important;
+}
+.heading {
+    margin: 2rem 0rem auto;
+    margin-left: -0.6rem !important;
+    color:black !important;
+}
+.icon {
+    margin-left: 12rem;
+}
+.media-pre {
+    box-shadow: 0px 3px 5px #eee; 
+    border: 1px solid #f2f2f2;
+  }
+  .media {
+    box-shadow: 0px 3px 5px #eee;
+    background:aliceblue;
+  }
 textarea {
   resize: none;
   border-radius: 2em;
@@ -26,16 +45,26 @@ ul{
 .container-fluid{
     width: 100vw;
 }
+h5 {
+    text-transform: capitalize;
+}
+.bottom-height {
+    margin-bottom: 0rem !important;
+}
 .play-icon {
-  box-shadow: 0px 3px 5px black;
-  border-radius: 18px;
-  border-color: white;
-  background:black;
-  color: white;
-}
-.play-icon:focus {
-outline: none;
-}
+    box-shadow: 0px 3px 5px black;
+     background: black;
+     color: white;
+     border-radius: 100%;
+     width: 2vw;
+     height: 4vh;
+     padding: 0;
+     border: 2px solid black;
+ 
+  }
+  .play-icon:focus {
+  outline: none;
+  }
 .tab-bg{
   background: black;
   box-shadow: 0rem 1rem 0rem 1rem black;

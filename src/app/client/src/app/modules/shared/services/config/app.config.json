@@ -807,7 +807,7 @@
     "CREATE_LESSON": "application/vnd.ekstep.ecml-archive"
   },
   "SEARCH": {
-    "PAGE_LIMIT": 20,
+    "PAGE_LIMIT": 19,
     "USER": {
       "DOWNLOAD_BUTTON_VISIBILITY": "FALSE"
     },

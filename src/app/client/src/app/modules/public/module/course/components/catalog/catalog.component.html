@@ -1,26 +1,19 @@
 <div class="container-fluid catalog" style="background: white;">
 
     <div class="row">
-      <div class="col-md-3" style="     height: 37rem;
+      <div class="col-md-3" style="height: 44rem;
       overflow-y: scroll;
       position: fixed;
-      margin: 0rem;">
+      margin: 0rem;
+      z-index: 10"
+    
+      id = 'scroll'>
         <app-catalog-filters (appliedFilters)="appliedFilters($event)"  [pageId]="'course-search'" *ngIf="filterType"
           [ignoreQuery]="['key']" [filterEnv]="filterType" [isShowFilterLabel]=true></app-catalog-filters>
       </div>
-      <!-- <div class="ui vertical divider"> -->
-      <!-- </div> -->
-      <div class="col-md-9" style="left:26rem">
-        <!-- <div class="alert alert-dismissible alert-primary mt-30" *ngIf="!showLoader && !noResult" style=" width: 67.5vw;
-        left: 2rem;">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h5> {{totalCount }} Matching Result(s)
-            <div class="float-right" *ngIf="userloggedIn">
-              <button routerLink="/learn" type="button" class="btn btn-danger">View Enrolled Courses</button> &nbsp;
-              <button (click)="clearFilters()" type="button" class="btn btn-danger" *ngIf="!checkForEmptyObject(filters)">Clear Filters <i class="fas fa-filter"></i></button>
-            </div>
-          </h5>
-        </div> -->
+
+      <div class="col-md-9 courses" >
+
         <div class="jumbotron" *ngIf="noResult && !showLoader">
           <app-no-result [data]="noResultMessage"></app-no-result>
         </div>
@@ -28,14 +21,7 @@
           <app-loader [data]='loaderMessage'></app-loader>
         </div>
         <div class="jumbotron" *ngIf="!showLoader && !noResult" style=" margin-top: -6rem !important;">
-          <!-- <div class="row">
-            <div class="col-md-12">
-              <h6 class="float-right">
-                <app-sort-by appTelemetryInteract [telemetryInteractEdata]="sortIntractEdata" [sortingOptions]="sortingOptions"
-                  [url]="redirectUrl"></app-sort-by>
-              </h6>
-            </div>
-          </div> -->
+ 
           <div class="row">
             <div in-view-item [id]="i" [data]="content" class="col-md-4 px-3" *ngFor="let content of searchList ;let i = index;">
               <app-card appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"

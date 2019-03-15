@@ -121,6 +121,8 @@ export class CatalogComponent implements OnInit {
   @ViewChild(CatalogFiltersComponent) catalogFiltersComponent: CatalogFiltersComponent;
   tempKey: any;
   userloggedIn;
+  public framework: string;
+public hashTagId: string;
 
   /**
      * Constructor to create injected service(s) object
@@ -158,7 +160,11 @@ export class CatalogComponent implements OnInit {
   }
 
   populateCourseSearch() {
+    console.log(this.filters);
+    this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
+    this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.pageLimit = this.config.appConfig.SEARCH.PAGE_LIMIT;
+    this.filters.channel = this.hashTagId;
     const requestParams = {
       filters: _.pickBy(this.filters, value => value.length > 0),
       limit: this.pageLimit,
@@ -166,7 +172,6 @@ export class CatalogComponent implements OnInit {
       query: this.queryParams.key,
       sort_by: { [this.queryParams.sort_by]: this.queryParams.sortType }
     };
-
     this.searchService.courseSearch(requestParams).subscribe(
       (apiResponse: ServerResponse) => {
         if (apiResponse.result.count && apiResponse.result.course) {
@@ -259,7 +264,7 @@ export class CatalogComponent implements OnInit {
       objectType: ['Content']
     };
     const __self = this;
-    observableCombineLatest(
+    observableCombineLatest (
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
       (params: any, queryParams: any) => {
@@ -307,6 +312,12 @@ export class CatalogComponent implements OnInit {
         subtype: this.activatedRoute.snapshot.data.telemetry.subtype
       }
     };
+    const scrol = document.getElementById('scroll');
+    scrol.addEventListener('scroll', () => {
+      if (scrol.scrollHeight - scrol.scrollTop - scrol.clientHeight < 0) {
+        console.log('Bottom');
+      }
+    });
   }
   setInteractEventData() {
     this.closeIntractEdata = {

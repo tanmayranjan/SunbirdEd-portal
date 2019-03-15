@@ -30,7 +30,9 @@
 .primary-header .logo img {
     height: 33px;
     max-height: 56px;
-
+}
+.d-block {
+height: 9vh !important;
 }
 @media only screen and (max-width: 767px) {
   .primary-searchbar-alignment {

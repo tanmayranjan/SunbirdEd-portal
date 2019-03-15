@@ -6,16 +6,17 @@
           [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
           [telemetryInteractEdata]="data.telemetryInteractEdata"
           tabindex="0"
+          style="cursor: pointer"
           >
              
           <div *ngIf="data.contentType==='Course'">
-              <div class="circle text-center" style="background:#f0f9f5">
-                  <i class="fab fa-2x fa-discourse mt-4" style="color: green"></i>
+              <div class="circle text-center" style="background:#a4a3de ">
+                  <i class="fab fa-2x fa-discourse mt-4" style="color: white !important"></i>
                   </div>
           </div>
                 <div *ngIf="data.contentType ==='TextBook'">
-                    <div class="circle text-center" style="background:#e3e3e3">
-                    <i class="fas fa-2x fa-book mt-4" style="color:lightcoral"></i>
+                    <div class="circle text-center" style="background:#a4a3de ">
+                    <i class="fas fa-2x fa-book mt-4" style="color:white !important"></i>
                     </div>
                 </div>
               <div class="card-header">
@@ -72,7 +73,7 @@
                         </div>
                      </div>
                    </div>
-                   <div *ngIf="data.maxCount && data.progress > 0" class="mt-5">
+                   <div *ngIf="data.maxCount && data.progress > 0">
                       <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
                     </div>
                   </div>

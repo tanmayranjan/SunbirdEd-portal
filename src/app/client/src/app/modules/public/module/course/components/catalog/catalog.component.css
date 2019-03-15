@@ -26,3 +26,7 @@
   background-color: black;
   border-color: white;
 }
+.courses {
+  left:26rem;
+  transition: 0.3s;
+}
