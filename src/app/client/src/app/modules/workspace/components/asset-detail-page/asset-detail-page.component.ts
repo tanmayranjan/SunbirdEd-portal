@@ -113,11 +113,11 @@ export class AssetDetailPageComponent implements OnInit {
         this.badgeService.createAssertion(req).subscribe((data) => {
           console.log('aser', data);
              this.showLoader = false;
-             this.toasterService.success('Asset deleted successfully');
+             this.toasterService.success('Badge Added successfully');
            },
            (err: ServerResponse) => {
              this.showLoader = false;
-             this.toasterService.error('Deletion failed Please try again later');
+             this.toasterService.error('Adding Badge failed Please try again later');
            }
          );
        })
