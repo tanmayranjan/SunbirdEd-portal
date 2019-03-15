@@ -8,11 +8,26 @@ import {
   ToasterService, ServerResponse ,
   ResourceService
 } from '@sunbird/shared';
+export interface IassessDetail {
+  name: string;
+  link: string;
+  since: string;
+  year: string;
+  region: string;
+  board: string;
+  gradeLevel: Array<any>;
+  topic: Array<any>;
+  keywords: Array<any>;
+  description: string;
+  version: string;
+  creators: string;
+}
 @Component({
   selector: 'app-asset-detail-page',
   templateUrl: './asset-detail-page.component.html',
   styleUrls: ['./asset-detail-page.component.scss']
 })
+
 export class AssetDetailPageComponent implements OnInit {
   @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
@@ -26,7 +41,20 @@ export class AssetDetailPageComponent implements OnInit {
   badgeService: BadgesService;
   public contentId;
   public route: Router;
-  public assetDetail = {};
+  public assetDetail: IassessDetail = {
+    name: '',
+  link: '',
+  since: '',
+  year: '',
+  region: '',
+    board: '',
+  gradeLevel: [],
+  topic: [],
+  keywords: [],
+  description: '',
+  version: '',
+  creators: ''
+  };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
