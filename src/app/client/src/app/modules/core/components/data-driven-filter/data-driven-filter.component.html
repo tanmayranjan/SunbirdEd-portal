@@ -34,10 +34,10 @@
             </div>
             <div *ngIf="refresh">
               <form *ngIf="filtersDetails" class="ui form">
-                <div class="ui grid">
-                <div class="nine wide column">
+                <div class="ui four column grid">
+                <div class="two column row">
                     <div class="ui grid">
-                        <div *ngFor="let field of filtersDetails" class="three wide column">
+                        <div *ngFor="let field of filtersDetails" class="four wide column">
                           <div *ngIf="(field.inputType==='select' || field.inputType === 'multi-select') && field.code !== 'channel' && field.code==='board'" class="field large">
                             <sui-multi-select (ngModelChange)="setFilterInteractData()" id={{field.code}} name={{field.code}}
                               defaultSelectionText={{field.label}} zeroSelectionText="Select" class="selection filterFieldSearch"
@@ -69,10 +69,12 @@
                         </div>
                       </div>
                 </div>
-                <div class="three wide tablet two wide computer right aligned top aligned column filter-button">
-                  <a class="searchfilterbutton ui tiny  button" (click)="applyFilters()" appTelemetryInteract
-                    [telemetryInteractEdata]="submitIntractEdata">{{resourceService.frmelmnts?.btn?.apply}}</a>
-                  <a class="searchfilterbutton ui secondary tiny basic button ml-5" (click)="resetFilters()">{{resourceService.frmelmnts?.btn?.reset}}</a>
+                <div class="row d-flex justify-content-center">
+                    <div class="tablet four wide computer text-align-right top aligned column filter-button">
+                        <a class="searchfilterbutton ui tiny  button" (click)="applyFilters()" appTelemetryInteract
+                          [telemetryInteractEdata]="submitIntractEdata">{{resourceService.frmelmnts?.btn?.apply}}</a>
+                        <a class="searchfilterbutton ui secondary tiny basic button ml-10" (click)="resetFilters()">{{resourceService.frmelmnts?.btn?.reset}}</a>
+                      </div>
                 </div>
                 
                

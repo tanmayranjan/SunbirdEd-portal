@@ -8,13 +8,13 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="row">
-                            <div class="">
-                                    <div *ngIf="assetDetail.badgeAssertions">
+                            <!-- <div class="">
+                                    <div *ngIf=" assetDetail.badgeAssertions">
                                             <div *ngFor="let badge of assetDetail.badgeAssertions">
                                                 <img src="{{badge.badgeClassImage}}" class="img">
                                             </div>
                                         </div>
-                            </div>
+                            </div> -->
                             <div class="col">
                                     <h5 *ngIf="assetDetail?.name">{{assetDetail?.name}}</h5>
                             </div>
@@ -51,19 +51,24 @@
                     </span>
                 </p>
                 <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
-                <p class="card-text" *ngIf="assetDetail?.link">Link: {{assetDetail?.link}}</p>
-                <p class="card-text"> Assign Badges: 
-                       <span *ngFor="let badge of badgeList">
-                   <span class="row">
-                       <span class="col">
-                               <button apptelemetryinteract="" class="ui small basic primary compact button ml-10 mt-10"
-                               (click)="deleteConfirmModal(badge.issuerId,badge.badgeId); $event.stopPropagation()"
-                              >
-                               <img src="{{badge.image}}" class="img"> {{badge.name}}</button>
-                       </span>
-                    </span>
-                </span>
-                </p>
+                <p class="card-text" *ngIf="assetDetail?.link">Link: <a href="assetDetail?.link">{{assetDetail?.link}}</a></p>
+                <div *ngFor="let role of user">
+                        <div *ngIf="role === 'TEACHER_BADGE_ISSUER'">
+                                <p class="card-text" *ngIf="assetDetail?.status === 'Live'"> Assign Badges: 
+                                        <span *ngFor="let badge of badgeList">
+                                    <span class="row">
+                                        <span class="col">
+                                                <button apptelemetryinteract="" class="ui small basic primary compact button ml-10 mt-10"
+                                                (click)="deleteConfirmModal(badge.issuerId,badge.badgeId); $event.stopPropagation()"
+                                               >
+                                                <img src="{{badge.image}}" class="img"> {{badge.name}}</button>
+                                        </span>
+                                     </span>
+                                 </span>
+                                 </p>
+                        </div>
+                   </div>
+
                 <ng-template let-context let-modal="modal" #modalTemplate >
                         <div class="header"> Mark as 'VERIFIED ASSET'</div>
                         <div class="content">
@@ -99,6 +104,7 @@
                        </div>
                    </div>
                </div> -->
+               
             </div>
             <div class="card-footer text-muted pt-30 pb-0">
                 <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 | <span

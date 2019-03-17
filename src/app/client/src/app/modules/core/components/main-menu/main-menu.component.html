@@ -2,7 +2,8 @@
 	<!-- <a class="item" appTelemetryInteract [telemetryInteractEdata]="homeMenuIntractEdata" [class.active]="router.isActive('/search/All') || router.isActive('/home')" routerLink="/home">
 		{{resourceService?.frmelmnts?.tab?.home}}
 	</a> -->
-	<a class="item" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
+	<a class="item" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/aboutUs" 
+	>
 			<!-- {{resourceService?.frmelmnts?.tab?.resources}} -->
 			About Us
 	</a>
@@ -45,7 +46,7 @@
 	<div class="ui sidebar right vertical menu" *ngIf="!userService.loggedIn">
 		<i class="close icon side-bar-close-icon link" (click)="showSideBar()"></i>
 		<div>
-			<a href="/resources" class="item sign-in">
+			<a href="/myassets" class="item sign-in">
 				{{resourceService.frmelmnts?.btn?.signin}}
 			</a>
 		</div>

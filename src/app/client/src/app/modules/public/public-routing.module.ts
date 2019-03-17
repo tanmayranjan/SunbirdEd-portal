@@ -13,6 +13,10 @@ import { CommonLicenseComponent } from './components/common-license/common-licen
 import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
 import { AboutUSComponent } from './components/about-us/about-us.component';
 import { BlogComponent } from './components/blog/blog.component';
+import { ExploreAssetComponent } from './components/explore-asset/explore-asset.component';
+import { CoreComponent } from './components/core/core.component';
+import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
+import { FrameworkComponent } from './components/framework/framework.component';
 
 const routes: Routes = [
   {
@@ -85,6 +89,18 @@ const routes: Routes = [
   },
   {
     path: 'blog', component: BlogComponent
+  },
+  {
+    path: 'exploreAsset', component: ExploreAssetComponent
+  },
+  {
+    path: 'core', component: CoreComponent
+  },
+  {
+    path: 'exploreThinking', component: ExploreThinkingComponent
+  }
+  , {
+    path: 'framework', component: FrameworkComponent
   }
 ];
 @NgModule({

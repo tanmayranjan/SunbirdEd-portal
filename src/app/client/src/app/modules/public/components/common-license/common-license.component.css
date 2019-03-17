@@ -15,3 +15,15 @@
     width: 100%;
     color: #FFFFFF;
   }
+  .text {
+    width: 54rem;
+    margin: auto;
+    display: block;
+    font-size: 17px;
+    font-family: 'Muli', sans-serif;
+  }
+  @media screen and (max-width:820px ) and (min-width: 312px) {
+    .text{
+        width: auto;
+    }
+  }

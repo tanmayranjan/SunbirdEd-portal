@@ -264,6 +264,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   gotoContact(value) {
     console.log('inside function', value);
     if ( value === 'about') {
+      console.log('inside about', value);
     this.router.navigate(['aboutUs']);
     }
     if ( value === 'blog') {
