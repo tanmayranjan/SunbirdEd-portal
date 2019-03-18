@@ -43,7 +43,7 @@ import { ExploreThinkingComponent } from './components/explore-thinking/explore-
     NgInviewModule,
     DeviceDetectorModule,
     BadgingModule,
-   
+
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, ContactUsComponent,
