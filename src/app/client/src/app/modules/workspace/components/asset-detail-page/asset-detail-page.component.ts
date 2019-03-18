@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
@@ -46,17 +46,17 @@ export class AssetDetailPageComponent implements OnInit {
   public route: Router;
   public assetDetail: IassessDetail = {
     name: '',
-  link: '',
-  since: '',
-  year: '',
-  region: '',
+    link: '',
+    since: '',
+    year: '',
+    region: '',
     board: '',
-  gradeLevel: [],
-  topic: [],
-  keywords: [],
-  description: '',
-  version: '',
-  creators: ''
+    gradeLevel: [],
+    topic: [],
+    keywords: [],
+    description: '',
+    version: '',
+    creators: ''
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
@@ -109,7 +109,7 @@ export class AssetDetailPageComponent implements OnInit {
   }
   assignBadge(issuerId, badgeId) {
     console.log('ids', issuerId, badgeId);
-    this.success = true ;
+    this.success = true;
     const req = {
       request: {
         recipientId: this.contentId,
@@ -122,7 +122,7 @@ export class AssetDetailPageComponent implements OnInit {
     this.badgeService.createAssertion(req).subscribe((data) => {
       console.log('aser', data);
     });
-   this.callAlert();
+    this.callAlert();
   }
   callAlert() {
     alert('Badge added Successfully');
@@ -132,12 +132,12 @@ export class AssetDetailPageComponent implements OnInit {
   }
   public deleteConfirmModal(issuerId, badgeId) {
     this.add = true;
-     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
-     config.isClosable = true;
-     config.size = 'mini';
-     this.modalService
-       .open(config)
-       .onApprove(result => {
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'mini';
+    this.modalService
+      .open(config)
+      .onApprove(result => {
         const req = {
           request: {
             recipientId: this.contentId,
