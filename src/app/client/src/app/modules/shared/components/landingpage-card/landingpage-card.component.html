@@ -1,6 +1,6 @@
 <div class="card rectangle"
 *ngIf="data"
-(click)="onAction(data,data.action.onImage)"
+(click)="onAction(data,data.action)"
 appTelemetryInteract
 [telemetryInteractObject]="{id:data.identifier,type:data.telemetryObjectType,ver:data.pkgVersion ? data.pkgVersion.toString():'1.0'}"
 [telemetryInteractEdata]="data.telemetryInteractEdata"
