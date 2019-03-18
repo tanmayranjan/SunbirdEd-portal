@@ -39,7 +39,7 @@ import { ExploreThinkingComponent } from './components/explore-thinking/explore-
     TelemetryModule,
     NgInviewModule,
     DeviceDetectorModule,
-    BadgingModule
+    BadgingModule,
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, ContactUsComponent,
