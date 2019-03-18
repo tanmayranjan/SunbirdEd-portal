@@ -5,9 +5,10 @@ import { ConfigService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
-  ToasterService, ServerResponse,
-  ResourceService
+  ToasterService, ServerResponse ,
+  ResourceService, IUserData
 } from '@sunbird/shared';
+import { UserService } from '@sunbird/core';
 export interface IassessDetail {
   name: string;
   link: string;
@@ -35,6 +36,8 @@ export class AssetDetailPageComponent implements OnInit {
   showLoader = true;
   add = false;
   success = false;
+  user: any;
+  public userService: UserService;
   public activatedRoute: ActivatedRoute;
   public configService: ConfigService;
   public contentService: ContentService;
@@ -57,9 +60,9 @@ export class AssetDetailPageComponent implements OnInit {
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
-  constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
-    badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService,
-    config: ConfigService, contentServe: ContentService, rout: Router) {
+  constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
+    badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
+    config: ConfigService, contentServe: ContentService , rout: Router) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -70,7 +73,8 @@ export class AssetDetailPageComponent implements OnInit {
     this.route = rout;
     this.toasterService = toasterService;
     this.resourceService = resourceService;
-  }
+    this.userService = userService;
+   }
 
   ngOnInit() {
     console.log('content', this.contentId);
@@ -96,6 +100,11 @@ export class AssetDetailPageComponent implements OnInit {
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
       console.log('data for badge', data);
       this.badgeList = data.result.badges;
+    });
+    this.userService.userData$.subscribe(
+      (user: IUserData) => {
+        this.user = user.userProfile.userRoles;
+      console.log('user info', this.user);
     });
   }
   assignBadge(issuerId, badgeId) {
@@ -140,16 +149,16 @@ export class AssetDetailPageComponent implements OnInit {
         };
         this.badgeService.createAssertion(req).subscribe((data) => {
           console.log('aser', data);
-          this.showLoader = false;
-          this.toasterService.success('Asset deleted successfully');
-        },
-          (err: ServerResponse) => {
-            this.showLoader = false;
-            this.toasterService.error('Deletion failed Please try again later');
-          }
-        );
-      })
-      .onDeny(result => {
-      });
-  }
+             this.showLoader = false;
+             this.toasterService.success('Badge Added successfully');
+           },
+           (err: ServerResponse) => {
+             this.showLoader = false;
+             this.toasterService.error('Adding Badge failed Please try again later');
+           }
+         );
+       })
+       .onDeny(result => {
+       });
+   }
 }

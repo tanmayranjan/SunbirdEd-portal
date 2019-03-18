@@ -2,18 +2,18 @@
 <div class="container mt-5">
     <div class="row">
     
-         <div class="col-md-12 pt-10" id="showFilterButton">
+         <div class="col " id="showFilterButton">
            <!-- <span class="browse item cursor-pointer" suiPopup [popupPlacement]="position" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
             {{resourceService?.frmelmnts?.lbl?.showFilters}}
             <i class="dropdown icon"  appTelemetryInteract [telemetryInteractEdata]="filterIntractEdata"></i>
           </span> -->
           <app-data-driven-filter [pageId]="'all-my-content-page'"[ignoreQuery]="['key']" *ngIf="filterType" [filterEnv]="filterType"
             [accordionDefaultOpen]=true [isShowFilterLabel]=false [showSearchedParam]=false></app-data-driven-filter>
-            <hr>
+            <!-- <hr> -->
         </div>
-      </div>
-        <div class="row">
-          <div class="col-md-12 pt-3  text-ac">
+    
+        <div class="col">
+          <div class="col-md-12 pt-lg-5   text-ac">
             <div class="ui icon input left action" id="search-input-container">
               <div class="searchfilterinput ui search">
                 <div class="searchicon ui icon input ">
@@ -35,7 +35,7 @@
               </div> -->
           </div>
         </div>
-        
+      </div>
         <!-- <div class="three wide column pt-5">
           <div class="twelve wide column">
             <div class="field">

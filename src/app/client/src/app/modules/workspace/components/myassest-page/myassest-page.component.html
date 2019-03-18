@@ -22,7 +22,7 @@
           <div class="card-img-overlay row">
               
              <div class="col-sm-3 thick-green-border " *ngIf="content?.board === 'Knowledge'">
-              <img src="/client/src/assets/images/Book_icon.png" class="smaller-image">
+              <img src="../../../../../assets/images/Book_icon.png" class="smaller-image">
             </div>
             <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'hardware'">
               <i class="fas fa-memory fa-lg"></i>
@@ -30,11 +30,11 @@
             </div>
             <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Software'">
               <!-- <i class="fas fa-bullseye fa-lg"></i> -->
-              <img src="/client/src/assets/images/Sunbird_icon.png" alt="" class="smaller-image">
+              <img src="../../../../../assets/images/Sunbird_icon.png" alt="" class="smaller-image">
             </div>
             <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Process'">
               <!-- <i class="fas fa-cogs fa-lg"></i> -->
-              <img src="/client/src/assets/images/Programe_icon.png" alt="" class="smaller-image">
+              <img src="../../../../../assets/images/Programe_icon.png" alt="" class="smaller-image">
             </div>
             <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Data'">
               <i class="fas fa-database fa-lg"></i>
@@ -43,7 +43,7 @@
                 <button *ngIf="content?.badgeAssertions" type="button" class="btn text-light float-right" id="styletick">
                      <i class="fas fa-check"></i>   
                            </button> 
-              <h5 class="card-title">{{content?.name}}</h5>
+              <h5 class="card-title">{{content?.name | uppercase}}</h5>
               <p class="card-text">version : {{content?.version}}.0</p>
             </div>
               

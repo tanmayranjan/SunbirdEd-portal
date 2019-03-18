@@ -23,6 +23,10 @@ import { CommonLicenseComponent } from './components/common-license/common-licen
 import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
 import { AboutUSComponent } from './components/about-us/about-us.component';
 import { BlogComponent } from './components/blog/blog.component';
+import { ExploreAssetComponent } from './components/explore-asset/explore-asset.component';
+import { FrameworkComponent } from './components/framework/framework.component';
+import { CoreComponent } from './components/core/core.component';
+import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +43,8 @@ import { BlogComponent } from './components/blog/blog.component';
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, ContactUsComponent,
-     CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent],
+    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
+     ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
 })
 export class PublicModule { }
