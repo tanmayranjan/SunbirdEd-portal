@@ -1,11 +1,11 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
-  ToasterService, ServerResponse ,
+  ToasterService, ServerResponse,
   ResourceService
 } from '@sunbird/shared';
 export interface IassessDetail {
@@ -43,23 +43,23 @@ export class AssetDetailPageComponent implements OnInit {
   public route: Router;
   public assetDetail: IassessDetail = {
     name: '',
-  link: '',
-  since: '',
-  year: '',
-  region: '',
+    link: '',
+    since: '',
+    year: '',
+    region: '',
     board: '',
-  gradeLevel: [],
-  topic: [],
-  keywords: [],
-  description: '',
-  version: '',
-  creators: ''
+    gradeLevel: [],
+    topic: [],
+    keywords: [],
+    description: '',
+    version: '',
+    creators: ''
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
-  constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
-    badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService,
-    config: ConfigService, contentServe: ContentService , rout: Router) {
+  constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
+    badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService,
+    config: ConfigService, contentServe: ContentService, rout: Router) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -70,7 +70,7 @@ export class AssetDetailPageComponent implements OnInit {
     this.route = rout;
     this.toasterService = toasterService;
     this.resourceService = resourceService;
-   }
+  }
 
   ngOnInit() {
     console.log('content', this.contentId);
@@ -100,7 +100,7 @@ export class AssetDetailPageComponent implements OnInit {
   }
   assignBadge(issuerId, badgeId) {
     console.log('ids', issuerId, badgeId);
-    this.success = true ;
+    this.success = true;
     const req = {
       request: {
         recipientId: this.contentId,
@@ -113,7 +113,7 @@ export class AssetDetailPageComponent implements OnInit {
     this.badgeService.createAssertion(req).subscribe((data) => {
       console.log('aser', data);
     });
-   this.callAlert();
+    this.callAlert();
   }
   callAlert() {
     alert('Badge added Successfully');
@@ -123,12 +123,12 @@ export class AssetDetailPageComponent implements OnInit {
   }
   public deleteConfirmModal(issuerId, badgeId) {
     this.add = true;
-     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
-     config.isClosable = true;
-     config.size = 'mini';
-     this.modalService
-       .open(config)
-       .onApprove(result => {
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'mini';
+    this.modalService
+      .open(config)
+      .onApprove(result => {
         const req = {
           request: {
             recipientId: this.contentId,
@@ -140,16 +140,16 @@ export class AssetDetailPageComponent implements OnInit {
         };
         this.badgeService.createAssertion(req).subscribe((data) => {
           console.log('aser', data);
-             this.showLoader = false;
-             this.toasterService.success('Asset deleted successfully');
-           },
-           (err: ServerResponse) => {
-             this.showLoader = false;
-             this.toasterService.error('Deletion failed Please try again later');
-           }
-         );
-       })
-       .onDeny(result => {
-       });
-   }
+          this.showLoader = false;
+          this.toasterService.success('Asset deleted successfully');
+        },
+          (err: ServerResponse) => {
+            this.showLoader = false;
+            this.toasterService.error('Deletion failed Please try again later');
+          }
+        );
+      })
+      .onDeny(result => {
+      });
+  }
 }
