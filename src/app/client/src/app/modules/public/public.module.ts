@@ -6,6 +6,7 @@ import {
   PublicCollectionPlayerComponent
 } from './components';
 import { SuiModule } from 'ng2-semantic-ui';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetComponent } from './components/get/get.component';
 import { DialCodeComponent } from './components/dial-code/dial-code.component';
@@ -27,12 +28,14 @@ import { ExploreAssetComponent } from './components/explore-asset/explore-asset.
 import { FrameworkComponent } from './components/framework/framework.component';
 import { CoreComponent } from './components/core/core.component';
 import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
+
 @NgModule({
   imports: [
     CommonModule,
     CoreModule,
     SharedModule,
     SuiModule,
+    NgbCarouselModule,
     FormsModule,
     ReactiveFormsModule,
     PublicRoutingModule,
@@ -40,6 +43,7 @@ import { ExploreThinkingComponent } from './components/explore-thinking/explore-
     NgInviewModule,
     DeviceDetectorModule,
     BadgingModule,
+   
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent, ContactUsComponent,

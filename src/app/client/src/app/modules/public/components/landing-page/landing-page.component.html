@@ -132,10 +132,10 @@
 </section> -->
 
 
-
+<!-- 
 <div class="" *ngIf="!this.userService.loggedIn">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
+
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -143,7 +143,7 @@
             <li data-target="#myCarousel" data-slide-to="3"></li>
         </ol>
 
-        <!-- Wrapper for slides -->
+
         <div class="carousel-inner">
 
             <div class="item active">
@@ -225,7 +225,7 @@
                 </div>
             </div>
 
-            <!-- Left and right controls -->
+
             <a class="" href="#myCarousel" data-slide="prev">
                 <span class=""></span>
                 <span class="sr-only">Previous</span>
@@ -236,7 +236,97 @@
             </a>
         </div>
     </div>
+</div> -->
+<!-- <ngb-carousel  [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
+        <ng-template ngbSlide >
+          <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="Random slide">
+          <div class="carousel-caption">
+            <h3>No mouse navigation</h3>
+            <p>This carousel hides navigation arrows and indicators.</p>
+          </div>
+        </ng-template>
+        <ng-template ngbSlide >
+                <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="Random slide">
+                <div class="carousel-caption">
+                  <h3>navigation</h3>
+                  <p>This carousel hides navigation arrows and indicators.</p>
+                </div>
+              </ng-template>
+      </ngb-carousel> -->
+<div class="" *ngIf="!this.userService.loggedIn">
+        <ngb-carousel >
+                <ng-template ngbSlide>
+                        <div class="thumbnail text-center">
+                                <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                                <div class="caption">
+                                    <div class="container">
+                                        <!-- <p class="fa">Welcome to 
+                                            </p> -->
+                                        <p class="fax"> Welcome to Societal Platform Assets Collaboration Environment</p>
+                                        <p class="text"> It is an open and collaborative place to search, discover and share assets. An asset can be a piece of knowledge, a process or workflow, a software, a hardware and a set of data. 
+                                            </p>
+                                        <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                            routerLink="/exploreAsset">
+                                            Explore the Assets
+                                        </button>
+                                    </div>
+                                </div> 
+                            </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                        <div class="thumbnail text-center">
+                                <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                                <div class="caption">
+                                    <div class="container">
+                                        <!-- <p class="fa">Welcome to</p> -->
+                                        <p class="fax">Framework</p>
+                                        <p class="text"> How can we practice Societal Platform Thinking to resolve large scale societal challenges? What is the next step forward in this journey? The Societal Platform Framework acts as a guide in the journey of Societal Platform by asking important questions and ushering towards the next steps.
+                                            </p>
+                                        <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                            routerLink="/framework">
+                                            Explore the Framework
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                        <div class="thumbnail text-center">
+                                <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                                <div class="caption">
+                                    <div class="container">
+                                        <!-- <p class="fa">Welcome to</p> -->
+                                        <p class="fax2">Core Value</p>
+                                        <p class="text"> The foundation of Societal Platform Thinking rests on the underlying core values. The ten core values act as the North Star of the Thinking.</p>
+                                        <br> <button class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                            routerLink="/core">
+                                            Explore the Core Values
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                        <div class="thumbnail text-center">
+                                <img src="../../.../../../../../assets/images/banner_bg.jpg" alt="" class="img-fluid">
+                                <div class="caption">
+                                    <div class="container">
+                                        <!-- <p class="fa">Welcome to</p> -->
+                                        <p class="fax2">Explore Thinking</p>
+                                        <p class="text"> Societal Platform Thinking is a new way to resolve large scale, complex societal challenges at scale, with speed and sustainably. It brings Samaaj, Sarkaar and Bazaar together to collaborate and innovate leveraging the technology.
+                                            </p>
+                                        <br> <a class="ui explore green1 button flex-as-center mr-20" tabindex="0"
+                                            href="https://societalplatform.org/">
+                                            Explore the Thinking
+                                        </a>
+                                    </div>
+                                </div> 
+                            </div>
+                </ng-template>
+              </ngb-carousel>
 </div>
+
+
 <div *ngIf="this.userService.loggedIn">
     <div class="item active">
         <div class="thumbnail text-center">

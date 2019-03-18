@@ -14,45 +14,36 @@
     </div>
   <div class="row">
     <div in-view-item *ngFor="let content of allContent;let i = index;" [id]="i" [data]="content"
-      class="col-md-3 py-3 pl-10 cardsdist">
+      class="col-md-4 py-3 pl-10">
       <!-- <app-myasset-card [data]="content" (clickEvent)="contentClick($event)"></app-myasset-card> -->
       <div *ngIf="content">
-        <div class="card mt-5 mb-5" style="width: 20rem; height: 40vh;" (click)="navigateToDetailsPage(content?.identifier)">
+        <div class="card mt-5 mb-5"  (click)="navigateToDetailsPage(content?.identifier)">
           <div class="card-img-top" alt="..." ></div>
           <div class="card-img-overlay row">
               
-             <div class="col-sm-3 thick-green-border " *ngIf="content?.board === 'Knowledge'">
-              <img src="../../../../../assets/images/Book_icon.png" class="smaller-image">
+             <div class="col-sm-3 thick-green-border sprite knowledgeimg" *ngIf="content?.board === 'Knowledge'">
             </div>
-            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'hardware'">
-              <i class="fas fa-memory fa-lg"></i>
+            <div class="col-sm-3 thick-green-border sprite hardwareimg" *ngIf="content?.board === 'hardware'">
               <!-- <img src="images"> -->
             </div>
-            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Software'">
-              <!-- <i class="fas fa-bullseye fa-lg"></i> -->
-              <img src="../../../../../assets/images/Sunbird_icon.png" alt="" class="smaller-image">
+            <div class="col-sm-3 thick-green-border sprite softwareimg" *ngIf="content?.board === 'Software'">
             </div>
-            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Process'">
-              <!-- <i class="fas fa-cogs fa-lg"></i> -->
-              <img src="../../../../../assets/images/Programe_icon.png" alt="" class="smaller-image">
+            <div class="col-sm-3 thick-green-border sprite processimg" *ngIf="content?.board === 'Process'">
             </div>
-            <div class="col-sm-3 thick-green-border" *ngIf="content?.board === 'Data'">
-              <i class="fas fa-database fa-lg"></i>
+            <div class="col-sm-3 thick-green-border sprite dataimg" *ngIf="content?.board === 'Data'">
             </div>
             <div class="col-sm-8 text-light pt-3">
-                <button *ngIf="content?.badgeAssertions" type="button" class="btn text-light float-right" id="styletick">
-                     <i class="fas fa-check"></i>   
+                <button *ngIf="content?.badgeAssertions" type="button" class="btn text-light float-right sprite badgeimg " id="styletick">
+                      
                            </button> 
-              <h5 class="card-title">{{content?.name | uppercase}}</h5>
+              <h5 class="card-title">{{content?.name | titlecase}}</h5>
               <p class="card-text">version : {{content?.version}}.0</p>
             </div>
               
           </div>
           <div class="card-body">
              <!-- <div> <i class="far fa-heart float-right"></i></div> -->
-             <div>
-                <button type="button" class="btn ml-4 text-secondary float-right" id="stylefav"><i class="far fa-heart"></i></button>
-            </div>
+             
             <p class="card-text">{{content?.description}}</p>
             <div class="d-flex justify-content-center">
               <button type="button" class="btn text-secondary" id="style"

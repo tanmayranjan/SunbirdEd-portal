@@ -40,6 +40,9 @@
   color: #FFFFFF !important;
   font-family: 'Roboto', sans-serif;
 }
+.nav-item{
+  color: #343434 !important;
+}
 #ab{
   color:#343434 !important;
   background-color: #BDD49C !important;
@@ -66,6 +69,38 @@
   justify-content: center;
   height: 1rem !important;
 }
+/* Tabs*/
+section {
+  padding: 60px 0;
+}
+
+section .section-title {
+  text-align: center;
+  color: #007b5e;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+}
+#tabs{
+background: #007b5e;
+  color: #eee;
+}
+#tabs h6.section-title{
+  color: #eee;
+}
+
+#tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color:#343434;
+  background-color: transparent;
+  border-color: transparent transparent #f3f3f3;
+  border-bottom: 4px solid !important;
+  font-size: 13px !important;
+  font-weight: bold;
+}
+.nav-tabs[_ngcontent-c2] .nav-link.active[_ngcontent-c2] {
+  font-size: 13px !important;
+  color:#343434;
+}
+
 @media only screen and (max-width: 767px) {
   .primary-searchbar-alignment {
     width: 100%;  
@@ -79,6 +114,7 @@
     margin-right: 0 !important;
   }
 }
+
 
 @media only screen and (min-width: 768px) {
   .primary-searchbar-alignment {

@@ -1,18 +1,5 @@
 @import "../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-// .add-on .input-group-btn > .btn {
-//     border-left-width:0;left:-2px;
-//     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-//     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-//   }
-//   /* stop the glowing blue shadow */
-//   .add-on .form-control:focus {
-//    box-shadow:none;
-//    -webkit-box-shadow:none; 
-//    border-color:#cccccc; 
-//   }
-//   .form-control{width:20%}
-
 i.fas.fa-database.fa-lg {
   padding: 0.6em 0em;
   font-size: 2em;
@@ -40,8 +27,8 @@ i.fas.fa-database.fa-lg {
     overflow: hidden;
 }
  .card-img-top{
-   background-image: url('./images/card_header_img.png');
-   background-repeat: no-repeat;
+background-color: #585858;
+  background-repeat: no-repeat;
    width: 100%; height: 20vh;
    background-position: 11% 75%;
  }
@@ -66,7 +53,7 @@ i.fas.fa-database.fa-lg {
   margin-top: -32px;
  }
  #pub {
-   background-color: #B0c88c;
+   background-color:#585858;
    border-radius: 4rem;
 
  }
@@ -91,14 +78,12 @@ i.fas.fa-database.fa-lg {
  }
 
  #styletick {
-  border-radius: 50%;
-  background: #B0c88c;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 2px 2px;
-  margin-right: -0.5rem;
-  margin-top: -1rem;
+  border-radius: 50%; 
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 0;
+    right: 2px;
  }
  i.fas.fa-database.fa-lg {
   padding: 1em 0.1em;
@@ -108,14 +93,42 @@ i.fas.fa-database.fa-lg {
  .badgedisplay {
   width: 58px;
   position: absolute;
-  height: 49px;
+  height: 59px;
   right: 0;
   bottom: 0;
-  background-image: url('../../../../../assets/images/Sprite_image.png');
+  background-image: url('../../../../../assets/images/Sprite-image.png');
   background-position: -18px -739px;
   /* background-size: 100%; */
   /* border-radius: 50%; */
   background-origin: 0;
+}
+.sprite {
+  width: 58px;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  /* background-size: 100%; */
+  /* border-radius: 50%; */
+  background-origin: 0;
+}
+.knowledgeimg {
+  background-position: -12px -491px !important;
+}
+.hardwareimg {
+  background-position: -12px -610px;
+}
+.processimg {
+  background-position: -12px -430px;
+}
+.dataimg {
+  background-position: -12px -610px;
+}
+.softwareimg {
+  background-position: -12px -368px;
+}
+.badgeimg{
+  background-position: -12px 900px;
 }
 .card-title {
   text-transform: capitalize !important;

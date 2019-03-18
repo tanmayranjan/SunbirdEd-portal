@@ -67,7 +67,7 @@
                 <a href="/resources" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
                     {{resourceService.frmelmnts?.btn?.signin}}
                 </a> --> 
-                <a href="#" class="item" id="a" >Home</a>
+                <a (click)="navigateToHome()" class="item" id="a" >Home</a>
                 <a  class="item" id="a" (click)="gotoContact('about')">About Us</a>
                 <!-- <a  class="item" id="a" (click)="gotoContact('blog')">Blog</a> -->
                 <!-- <button class="ui green1 button" routerLink="[/resources]" id="a">{{resourceService.frmelmnts?.btn?.signin}}</button> -->
@@ -77,27 +77,27 @@
             </div>
         </ng-template>
     </div>
-    <div class="navbar-bg p-10" *ngIf="showExploreHeader || userService.loggedIn" style="background-color:#FFFFFF">
-        <!-- <div class="ui mobile-view container d-flex flex-ai-center mx-0">
-            <button class="ui basic button qr-code-btn d-flex computer only mr-0" (click)="showQrmodal = true;">
-                <i class="qrcode icon d-flex flex-ai-center"></i>
-                <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
-            </button>
-            <span class="item divider computer only pl-0 search-qrcode-divider"></span>
-            <app-search class="primary-searchbar-alignment " *ngIf="!showExploreHeader"></app-search>
-            <div *ngIf="showExploreHeader" class="primary-searchbar-alignment">
-                <div class="ui fluid small ui action input primary-search-input">
-                    <input type="text" id="keyword" name="filter_search" title="Search" placeholder="{{resourceService?.frmelmnts?.prmpt?.search}}"
-                        class="" [(ngModel)]="key" (keyup.enter)="onEnter(key)" />
-                    <button class="ui icon button">
-                        <i class="search large blue icon primary-search-icon" (click)="onEnter(key)"></i>
-                    </button>
-                </div>
-            </div>
-            <app-language-dropdown class="computer only" *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
-        </div> -->
+    <div class="navbar-bg p-10" *ngIf="userService.loggedIn" style="background-color:#FFFFFF">
         <div class="ui mobile-view container d-flex flex-ai-center mx-0 fz">
-        <a class="item i active" href="#" >
+              
+                            <div class="row">
+                                <div class="col-xs-12 ">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#" *ngIf='permissionService.permissionAvailable' appPermission
+                                            [permission]='workSpaceRole'  role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#" *ngIf='permissionService.permissionAvailable' appPermission
+                                            [permission]='workSpaceRole'  role="tab" aria-controls="nav-profile" aria-selected="false">Shared Assets</a>
+                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" *ngIf='permissionService.permissionAvailable' appPermission
+                                             [permission]='workSpaceRole'  routerLink="/myassets" [class.active]="router.isActive('/myassets')" role="tab" aria-controls="nav-contact" aria-selected="false"> My Assets</a>
+                                            <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#" *ngIf='permissionService.permissionAvailable' appPermission
+                                            [permission]='workSpaceRole' role="tab" aria-controls="nav-about" aria-selected="false">My Favorites</a>
+                                        </div>
+                                    </nav>
+                                    </div>
+                                </div>
+                           
+        <!-- <a class="item i active" href="#" >
             Home
 		</a>
 		<a class="item i" >
@@ -108,7 +108,7 @@
         </a>
 		<a class="item fixed-logout-btn i" >
                 My Favorites
-        </a>
+        </a> -->
     </div>
     </div>
     <!-- <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
