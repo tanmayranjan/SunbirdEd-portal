@@ -13,7 +13,7 @@ RUN npm install  --unsafe-perm
 RUN npm run deploy
 WORKDIR /opt/player/app/app_dist
 RUN npm i -g npm@3.10.10
-RUN npm install --production  --unsafe-perm  
+RUN npm install --production  --unsafe-perm -g node-sass 
 WORKDIR /opt/player/app
 # passing commit hash as build arg
 ARG commit_hash=0
