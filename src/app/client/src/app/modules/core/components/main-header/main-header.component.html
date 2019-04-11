@@ -1,10 +1,11 @@
+<!--
 <div *ngIf="showQrmodal">
     <app-qr-code-modal (closeQrModal)="closeQrModalEvent($event)"></app-qr-code-modal>
 </div>
-<div class="ui fixed main menu bs-0 main-header d-block">
+<div class="ui fixed main menu bs-0 main-header d-block" style="height:12vh">
     <div class="ui container primary-header">
         <div role="banner" class="ui logo d-flex flex-ai-center">
-            <a class="d-flex flex-ai-center" (click)="navigateToHome()">
+            <a class="d-flex flex-ai-center" (click)="navigateToHome()" style="margin-top: 1rem;">
                 <img class="image centered cursor-pointer" alt={{tenantName}} src="{{logo}}" id="img">
             </a>
         </div>
@@ -42,32 +43,24 @@
         </a>
         <ng-template #showLoginBtn>
             <div class="primary-nav-item d-flex ml-auto computer only">
-               <button
+                <!-- <button *ngIf="router.isActive('', true) && exploreButtonVisibility==='true'"
                     class="ui explore blue button flex-as-center mr-20"
-                    tabindex="0" (click)="openCatalog()">
-                    Courses
-                    <!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
+                    tabindex="0" routerLink="/explore">
+                    {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
                 </button>
-                 <!--  <button routerLink="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                 <button routerLink="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
                   {{resourceService.frmelmnts?.btn?.signup}}
-                </button> -->
-<!--              
+                </button>
                 <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
                     {{resourceService?.frmelmnts?.tab?.resources}}
                 </a>
                 <a class="item pr-0" *ngIf="!router.isActive('', true)" routerLink="explore-course" [class.active]="router.isActive('/search/explore-course') || router.isActive('/explore-course')">
                     {{resourceService?.frmelmnts?.tab?.courses}}
-                </a> -->
-                       <a href="/learn" class="sunblogin item font-weight-bold primary-color">
-                    {{resourceService.frmelmnts?.btn?.signin}}
                 </a>
                 <a class="item divider"></a>
-
-                <a href="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
-                    Sign up
+                <a href="/resources" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                    {{resourceService.frmelmnts?.btn?.signin}}
                 </a>
-         
-           
             </div>
         </ng-template>
     </div>
@@ -120,15 +113,127 @@
             </div>
             <app-language-dropdown class="computer only" *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
         </div>
-    </div> -->
-    
+    </div>
     <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
         <div class="ui mobile-view container d-flex flex-jc-space-between mx-0">
             <!-- <button class="ui basic d-flex button qr-code-btn" (click)="showQrmodal = true;">
                 <i class="qrcode icon d-flex flex-ai-center"></i>
                 <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
-            </button> -->
+            </button>
             <app-language-dropdown *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
         </div>
     </div>
 </div>
+-->
+
+<!-- HEADER SECTION
+    css of this section is in header.css -->
+    <div class="container-fluid">
+        <div class="row align-items-center header">
+            <div class="col-xs-12 col-sm-12 col-md-2">
+                <div class="logo" (click)="navigateToHome()">
+                    <img src="./assets/niit.png" alt={{tenantName}}>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-2 category">
+                    <div class="ui dropdown">
+                            <i class="fa fas fa-th"></i>
+                            &nbsp;<div class="text">Category</div>
+                            <div class="menu">
+                                <ng-container *ngFor="let term of terms">
+                                        <div (click)="getFramework(term)" class="item">{{term}}</div>
+                                </ng-container>
+                            </div>
+                          </div>    
+                
+                
+                
+                <!-- <div class="ui buttons">
+            
+                            <div class="ui floating dropdown icon categories button" style="background-color:transparent">
+                                <i class="fa fas fa-th"></i>
+                                <div class="menu">
+                                    
+                                    <div class="item"><a href=#>Account settings</a></div>
+                                    <div class="item"><a (click)="logout()">Logout</a></div>
+                                </div>
+                            </div>
+                        </div>
+                <span class="align-self-center">&nbsp; Category</span> -->
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5">
+                <div class="container-fluid search-container">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" [(ngModel)]="key" (keyup.enter)="onEnter(key)" placeholder="Search for anything...."
+                                name="header-search">
+                            <div class="search">
+                                <button class="btn btn-default" type="submit" (click)="onEnter(key)">
+                                    <i class="fa fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1 col-md-3">
+                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-around button-container">
+                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                        <a routerLink="/signup" class="signup">Sign Up</a>
+                    </div>
+                    <div class="col d-none d-md-block d-lg-block">
+                        <button type="button" class="btn btn-outline-primary btn-md signin">
+                            <a href="/resources" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                                {{resourceService.frmelmnts?.btn?.signin}}
+                            </a>
+                        </button>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 d-xs-block d-sm-block d-md-none d-lg-none mobile-menu">
+                        <div class="hamburger">
+                            <a (click)="showSideBar()" id="mobile_item" class="item"><i class="fa fas fa-bars"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--display if the user is logged in -->
+                <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
+                    <div class="col-md-2 d-none d-md-block d-lg-block p-0 text-center text-white">
+                        <a href="#" class="mycourses">My Courses</a>
+                    </div>
+                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                        <button type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace">Workspace</button>
+                    </div>
+                    <div class="col-1 text-center">
+                        <i class="fa fa-bell"></i>
+                    </div>
+                    <div class="col p-0 text-center">
+                        <div class="ui buttons">
+            
+                            <div class="ui floating dropdown icon button" style="background-color:transparent">
+                                <i class="fa fa-user-circle-o" style="font-size:20px"></i>
+                                <div class="menu">
+                                    <div *ngIf='userProfile' class="item"><a routerLink="profile">Profile</a></div>
+                                    <div class="item"><a href=#>Account settings</a></div>
+                                    <div class="item"><a (click)="logout()">Logout</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 d-xs-block d-sm-block d-md-none d-lg-none mobile-menu">
+                            <div class="hamburger">
+                                <a (click)="showSideBar()" id="mobile_item" class="item"><i class="fa fas fa-bars"></i></a>
+                            </div>
+                        </div>
+                </div>
+                <!--logged in section end-->
+            </div>
+        </div>
+    </div>
+    <!--sidebar ui-->
+    <div class="ui sidebar vertical menu align right">
+            <a *ngIf="userService.loggedIn" class="item" routerLink="/learn">Sign In</a>
+            <a *ngIf="userService.loggedIn" class="item" [routerLink]="['/signup']">Sign Up</a>
+            <a *ngIf="userService.loggedIn && userProfile" class="item" routerLink="profile">{{resourceService.frmelmnts?.lnk?.profile}}</a>
+            <a *ngIf="userService.loggedIn" class="item" [routerLink]="workspace">Workspace</a>
+            <a *ngIf="userService.loggedIn" class="item" (click)="logout()">{{resourceService.frmelmnts?.lnk?.logout}}</a>
+        </div>
+        <div class="pusher"></div>
