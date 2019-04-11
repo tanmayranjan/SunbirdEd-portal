@@ -7,6 +7,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
+import { FrameworkService } from './../../../core/services/framework/framework.service';
+import { forEach } from '@angular/router/src/utils/collection';
 declare var jQuery: any;
 /**
  * Main header component
@@ -69,6 +71,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   /**
    * reference of resourceService service.
    */
+  categoryNames = [];
+  frameWorkName = '';
+  termNames = [];
+  terms = [];
+
   public resourceService: ResourceService;
   avtarMobileStyle = {
     backgroundColor: 'transparent',
@@ -108,7 +115,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   */
   constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
-    public activatedRoute: ActivatedRoute, private cacheService: CacheService) {
+    public activatedRoute: ActivatedRoute, private cacheService: CacheService,
+    private frameworkService : FrameworkService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -117,6 +125,20 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+jQuery(function() {
+  jQuery('.carousel').carousel();
+  jQuery('.ui.dropdown').dropdown();
+  jQuery('.ui.dropdown.c').dropdown();
+   /*  jQuery(window).on("scroll", function() {
+      if(jQuery(window).scrollTop() > 150) {
+        jQuery(".header").addClass("active");
+      } else {
+          //remove the background property so it comes transparent again (defined in your css)
+         jQuery(".header").removeClass("active");
+      }
+  }); */
+
+});
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         let currentRoute = this.activatedRoute.root;
@@ -125,6 +147,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
             const child: ActivatedRoute[] = currentRoute.children;
             child.forEach(route => {
               currentRoute = route;
+              console.log('here is  the  current route', currentRoute.data['value']['orgdata']['defaultFramework']);
+              this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
+              //call framework category api
+              this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
                 if (route.snapshot.data.telemetry.pageid) {
                   this.pageId = route.snapshot.data.telemetry.pageid;
@@ -155,6 +181,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
+        console.log('data img', data.tenantData.logo);
         if (data && !data.err) {
           this.logo = data.tenantData.logo;
           this.tenantName = data.tenantData.titleName;
@@ -260,7 +287,35 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   showSideBar() {
     jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
-  openCatalog() {
-    this.router.navigate(['/explore-course', 1]);
+
+  signIn(){
+    alert('clicked');
+    this.router.navigate(['resources'])
   }
+
+  getFrameworkCategoryandterms(framework) {
+    this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
+      console.log('recieved category data in header ', categoryData.result.framework.categories);
+      //pull out terms from all the categories and keep them in one arry
+      this.termNames = categoryData.result.framework.categories;
+      //pull out terms from all the categories
+      this.termNames.forEach((category)=>{
+        if(category.hasOwnProperty('terms') && category.terms.length > 0){
+          let capturedTermArray = category.terms;
+          capturedTermArray.forEach(term => {
+            this.terms.push(term.name);
+          });
+        }
+      });
+    });
+
+  }
+
+  getFramework(framework) {
+    console.log('framework', framework);
+    const key = { key : framework};
+    this.router.navigate(['/search/explore-course', 1], {
+      queryParams: key
+    });
+      }
 }
