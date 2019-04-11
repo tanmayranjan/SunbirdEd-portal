@@ -1,53 +1,16 @@
-@import '../../../../../../node_modules/bootstrap//dist/css/bootstrap.min.css';
+/* @import '../../../../../../node_modules/bootstrap//dist/css/bootstrap.min.css';
 
 .jumbotron {
   background: url('http://niittvimgcdn.azureedge.net/Images/siteBnr.jpg') no-repeat;
   background-size: cover;
-  height: 78vh;
+  height: 90vh;
   position: relative;
   opacity: 1;
-  /* box-shadow: 0px 10px 20px 9px black; */
-
-}
-.searchicon.ui.icon.input input {
-  border-radius: 0px !important;
-}
-.headings {
-  width: 100%;
-  margin: 10px auto;
-  text-align: center;
-}
-.headingbar {
-  position: relative;
-  padding-bottom: 1em;
-}
-.headingbar h1 {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  font: 400 32px OpenSans;
+  box-shadow: 0px 10px 20px 9px black;
+  top: 1em;
 }
 
-.headingbar h1:before {
-  margin-right: 10px;
-}
-.headingbar h1:after, .headingbar h1:before {
-  content: "";
-  position: relative;
-  width: 145px;
-  height: 1px;
-  top: -10px;
-  display: inline-block;
-  background: #9A9A9A;
-  overflow: hidden;
-  left: 0.5rem;
-}
-.entrance-test {
-  background: #448a3c;
-  border-radius: 8em;
-  height: 4vh;
-  max-width: 21vw;
-}
+
 .jumbotron .text-bg {
   position:absolute;
   left: 18em;
@@ -355,47 +318,13 @@ a {
   background: url(http://niittvimgcdn.azureedge.net/Images/anytime_graphic.jpg) no-repeat;
   background-size: cover;
 }
-.school .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/school_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-.school .scheduledBoxOverlay, .management .scheduledBoxOverlay , .banking .scheduledBoxOverlay {
-  background: url(http://niittvimgcdn.azureedge.net/Images/anytime_overlay.png);
-}
-.college .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/collage_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-.college .scheduledBoxOverlay, .it .scheduledBoxOverlay, .working_professional .scheduledBoxOverlay {
-  background: url(http://niittvimgcdn.azureedge.net/Images/upcoming_overlay.png);
-}
-.management .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/managemnt_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-
-.it .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/IT_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-.banking .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/banking_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-.working_professional .bckImgLayer {
-  background: url(http://niittvimgcdn.azureedge.net/Images/wrkPro_graphic.jpg) no-repeat;
-  background-size: cover;
-}
-
 .bckImgLayer {
   height: 181px;
   position: relative;
 }
-
 .AnyTimeintroBox .scheduledBoxOverlay {
   background: url(http://niittvimgcdn.azureedge.net/Images/anytime_overlay.png);
 }
-
 .scheduledBoxOverlay {
   position: absolute;
   top: 0;
@@ -404,7 +333,7 @@ a {
   width: 100%;
   cursor: pointer;
 }
-.AnyTimeintroBox .introleftbar, .school .introleftbar, .management .introleftbar, .banking .introleftbar {
+.AnyTimeintroBox .introleftbar {
   display: block;
   position: absolute;
   left: 0;
@@ -444,7 +373,9 @@ label {
   text-align: center;
   width: 100%;
 }
-
+.AnyTimeintroBox .scheduled_icon {
+  background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -646px 0 no-repeat;
+}
 .introGlobBoxElement .scheduled_icon {
   background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -302px 0 no-repeat;
   display: block;
@@ -477,7 +408,7 @@ label {
 .scheduledBoxOverlay {
   background: url(http://niittvimgcdn.azureedge.net/Images/scheduled_overlay.png);
   position: absolute;
-  /* top: 0; */
+  /* top: 0;
   bottom: 0;
   height: 100%;
   width: 100%;
@@ -491,8 +422,10 @@ label {
   height: 100%;
   background-color: #118f9c;
 }
-
-
+.UpcomingintroBox .scheduled_icon {
+  background: url(http://niittvimgcdn.azureedge.net/Images/testPrepration_logo.png) 15px 0 no-repeat;
+  width: 58px;
+}
 .introGlobBoxElement .scheduled_icon {
   background: url(http://niittvimgcdn.azureedge.net/Images/course-catalog-img.png) -302px 0 no-repeat;
   display: block;
@@ -532,3 +465,269 @@ label {
     background-size: 450px 470px!important;
 }
 }
+ */
+
+
+ .text-center {
+  text-align: center;
+}
+.bubble:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100px;
+  z-index: -1;
+}
+.image-banner {
+  padding: 0 !important;
+  width: 100%;
+}
+.font-awesome, .font-awesome:hover {
+  text-decoration: none;
+  color: black;
+}
+.banner-overlay {
+  color: white;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+}
+.banner-overlay h1 {
+  font-size: 3.12em;
+  line-height: 1.8em;
+}
+.banner-overlay h6 {
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+.image-sub {
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+/* .image-search-container {
+  max-width : 500px;
+  height : 40px;
+  background: white;
+  border: 1px solid gray;
+  border-radius: 20px;
+  input, .input:focus, .input:active {
+    width : 90%;
+    max-width : 450px;
+    border-radius: 59px;
+    color : black;
+    border: none;
+    padding-left: 5px;
+    height : 100%;
+    outline: none;
+ }
+  input::-webkit-input-placeholder {
+    padding-left : 10px;
+ }
+}
+*/
+.image-search-container {
+  margin: 0;
+  height: 35px;
+  max-width: 95%;
+  background: white;
+  border: 1px solid gray;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 0;
+}
+.image-search-container form div input {
+  padding-left: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  max-width: 90%;
+  height: 32px;
+  outline: none;
+  border: none;
+}
+.image-search-container form div input::-webkit-input-placeholder {
+  line-height: 20px;
+}
+.image-search-container .search {
+  float: right;
+  vertical-align: middle;
+}
+.features-section {
+  max-width: 100%;
+  margin: 0;
+}
+.list {
+  list-style-type: none;
+  display: flex;
+  align-items: stretch;
+ /* Default */
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 0;
+}
+.list-item {
+  padding: 20px;
+  display: block;
+  flex: 0 1 auto;
+  align-items: center;
+}
+.list-item .fas {
+  float: left;
+  margin-right: 10px;
+  font-size: 2.5em;
+  height: 50px;
+}
+.list-item span {
+  display: inline;
+}
+.list-item span .list-title {
+  font-size: 1.123em;
+}
+.list-item span .list-sub {
+  color: #6d6d6d;
+  font-size: 0.936em;
+}
+/*course carousel section css*/
+.course-carousel {
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 30px;
+  margin: auto;
+  background-color: white;
+  height: 450px;
+}
+.explore {
+  background-color: white;
+  padding-top: 30px;
+}
+.explore .container {
+  margin-top: 50px;
+}
+.explore .container .row div {
+  padding: 0;
+  height: 250px;
+}
+.explore .container .row div:hover {
+  cursor: pointer;
+  color: white;
+  background: #7f60e5;
+  transition: 0.5s;
+}
+/* .explore .container .row:first-child {
+  border-bottom: 1px solid lightgray;
+} */
+.left-border {
+  border-left: 1px solid lightgray;
+}
+.right-border {
+  border-right: 1px solid lightgray;
+}
+.bottom-border {
+  border-bottom: 1px solid lightgray;
+}
+.stack {
+  position: relative;
+  top: 25%;
+  bottom: 25%;
+}
+.inverted-comma {
+  position: absolute;
+  top: 50%;
+}
+.explore-btn {
+  height: 45px;
+  margin: 20px auto;
+  margin-bottom: 40px;
+  border: none;
+  border-radius: 37px;
+  width: 130px;
+  color: white;
+  font-weight: 400;
+  background-color: #7f60e5;
+}
+.subheading {
+  background-color: #fff3d2;
+  height: 340px;
+  font-size: 1.747em;
+  color: #707070;
+}
+.subheading .container {
+  text-align: center;
+  font-size: 1.123em;
+  font-style: normal;
+}
+.subheading .container .content {
+  display: inline-block;
+  padding-top: auto;
+  padding-bottom: auto;
+}
+.customer-feedback {
+  background-color: white;
+  padding: 30px 0 0 0;
+}
+.carousel {
+  margin-top: 70px;
+  min-height: 500px;
+}
+.carousel .carousel-indicators {
+  cursor: pointer;
+}
+.carousel .carousel-item img {
+  margin-left: auto;
+  margin-right: auto;
+  height: 160px;
+  width: 160px;
+  border: none;
+  border-radius: 50%;
+}
+.carousel .carousel-item .feedback-content {
+  margin-top: 50px;
+  font-size: 1.248em;
+  color: #707070;
+}
+.ratings {
+  margin: 30px auto;
+}
+.checked {
+  color: #ec931e;
+}
+.clients {
+  padding: 20px 0;
+  height: 150px;
+}
+@media only screen and (max-width: 889px) {
+  .banner-overlay {
+    top: 4%;
+    left: 7%;
+ }
+  .banner-overlay h1 {
+    font-size: 2.8em;
+    line-height: 1.4em;
+ }
+  .banner-overlay h6 {
+    font-size: 1.1em;
+ }
+  .banner-overlay .image-search-container input {
+    min-width: 150px;
+ }
+}
+@media only screen and (max-width: 769px) {
+  .banner-overlay {
+    top: 3% !important;
+    left: 3% !important;
+ }
+  .banner-overlay h1 {
+    font-size: 2em;
+    line-height: 0.8em;
+ }
+  .banner-overlay h6 {
+    font-size: 0.8em;
+ }
+  .explore .container .row:first-child {
+    border: none;
+ }
+}
+
+
+ 
