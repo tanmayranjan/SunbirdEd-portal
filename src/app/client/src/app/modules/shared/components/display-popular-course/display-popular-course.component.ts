@@ -32,6 +32,7 @@ export class DisplayPopularCourseComponent implements OnInit {
   /**
   * This is slider setting
   */
+
  slideConfig = {
   'slidesToShow': 4,
   'slidesToScroll': 4,
@@ -108,7 +109,7 @@ export class DisplayPopularCourseComponent implements OnInit {
     }
   ],
   infinite: false
-};
+ };
   /**The previous or next value of the button clicked
    * to generate interact telemetry data */
   btnArrow: string;
