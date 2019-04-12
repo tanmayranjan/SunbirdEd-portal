@@ -14,6 +14,7 @@ import {OrgDetailsService} from '@sunbird/core';
 import { IUserProfile, IUserData } from '@sunbird/shared';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services';
+import { FrameworkService } from './../../../core/services/framework/framework.service';
 @Component({
   selector: 'app-home-page',
   templateUrl: './landing-page.component.html',
@@ -104,7 +105,8 @@ export class LandingPageComponent implements OnInit  {
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
      private orgDetailsService: OrgDetailsService, userService: UserService ,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService ,
-    private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService) {
+    private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
+    private frameworkService: FrameworkService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
@@ -123,6 +125,7 @@ export class LandingPageComponent implements OnInit  {
   //     });
   // tslint:disable-next-line:no-unused-expression
  console.log('path', this.activatedRoute.snapshot.data.orgdata.defaultFramework);
+ this.frameWorkName = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.fetchPageData();
   }
   private fetchPageData() {
@@ -151,6 +154,18 @@ export class LandingPageComponent implements OnInit  {
         this.carouselData = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0002);
     });
+    //get the framework categories		
+	    this.frameworkService.getFrameworkCategories(this.frameWorkName)		
+	    .subscribe(frameworkData => {		
+	      console.log('framework categories', frameworkData.result.framework.categories);		
+	      this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code == 'board').map(category => {		
+	        return category.terms;		
+	      }).slice(0,7);		
+	      console.log('category names filled as ', this.categoryNames);		
+			
+	    }, err => {		
+	      console.log('error occured while getting framework categories', err);		
+	    });
   }
 
   public prepareVisits(event) {
