@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './landingpage-card.component.html',
   styleUrls: ['./landingpage-card.component.css']
 })
-export class LandingpageCardComponent {
+export class LandingpageCardComponent implements OnInit {
   /**
 * content is used to render IContents value on the view
 */
@@ -17,10 +17,16 @@ export class LandingpageCardComponent {
   @Input() customClass: string;
   @Output() clickEvent = new EventEmitter<any>();
 
+  Userrating = 3;
+
   constructor(public resourceService: ResourceService,
     public router: Router
     ) {
     this.resourceService = resourceService;
+  }
+
+  ngOnInit(): void {
+    console.log('recieved data in the card is ', this.data);
   }
 
   public onAction(data, action) {
