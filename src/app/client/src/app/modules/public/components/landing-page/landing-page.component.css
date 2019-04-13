@@ -648,6 +648,10 @@ label {
   background-color: #7f60e5;
 }
 
+.nav_item_selector.active {
+  border-bottom : 2px solid #7E5FE4;
+}
+
 .heading-text {
   position: relative;
   width : 300px;
@@ -797,8 +801,16 @@ label {
  }
   .banner-overlay .image-search-container input {
     min-width: 150px;
+    outline-color: white;
+    outline : none;
+    outline-width: 0;
  }
 }
+
+input:focus {
+  outline : none;
+}
+
 @media only screen and (max-width: 769px) {
   .banner-overlay {
     top: 3% !important;

@@ -10,7 +10,7 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { takeUntil, map, mergeMap, first, filter, catchError } from 'rxjs/operators';
 import {TelemetryService} from '../../../telemetry/services/telemetry/telemetry.service';
-import {OrgDetailsService} from '@sunbird/core';
+import {OrgDetailsService, SearchService} from '@sunbird/core';
 import { IUserProfile, IUserData } from '@sunbird/shared';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services';
@@ -106,13 +106,17 @@ export class LandingPageComponent implements OnInit  {
      private orgDetailsService: OrgDetailsService, userService: UserService ,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService ,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private frameworkService: FrameworkService) {
+    private frameworkService: FrameworkService, private searchservice: SearchService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
+    //set the active class behaviour in  the navtabs of popular section
+    jQuery(document).ready(function(){
+      console.log('jQuery loaded');
+    });
     // if (!this.userService.loggedIn) {
     //   console.log('logged in', this.userService.loggedIn);    }
   //  this.userService.userData$.subscribe(
@@ -144,6 +148,7 @@ export class LandingPageComponent implements OnInit  {
         _.forOwn(data, value => {
    _.forEach(value , course => {
    this.carouselData.push(course);
+   console.log('prepared carousel data from getPAgedata api');
    console.log(course, this.carouselData);
 
    });
@@ -160,7 +165,7 @@ export class LandingPageComponent implements OnInit  {
 	      console.log('framework categories', frameworkData.result.framework.categories);		
 	      this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code == 'board').map(category => {		
 	        return category.terms;		
-	      }).slice(0,7);		
+	      }).slice(0,8);		
 	      console.log('category names filled as ', this.categoryNames);		
 			
 	    }, err => {		
@@ -263,6 +268,30 @@ this.router.navigate(['/search/explore-course', 1], {
   }
 
   update_carousel(keyword){
-    console.log('updating the carousel with ', keyword);
+    let request = {}
+    request['filters'] = {
+      "board" : [keyword],
+      "contentType": ["Course"]
+    }
+    this.searchservice.contentSearch(request,false).subscribe(response => {
+      if(response.result.count <= 0){
+        console.log("no results found");
+        this.carouselData['0']['contents'] = []
+      }
+      else {
+        //empty the data and refill with new content
+        /**
+         * this is a temporary fix because name is mandatory to pass in popular couse interface.
+         * to improve the reusability, name is set same as keyword enterd for search
+         */
+        this.carouselData = [];
+        this.carouselData['0'] = [];
+        this.carouselData['0']['name'] = keyword;
+        this.carouselData['0']['contents'] = response.result.content;
+      }
+    }, err => {
+      console.log('an error occured while getting the selected content');
+      console.error(err);
+    });
   }
 }
