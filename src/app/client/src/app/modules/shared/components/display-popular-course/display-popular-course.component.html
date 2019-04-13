@@ -1,4 +1,4 @@
-<div class="ui grid" *ngIf="section.contents && section.contents.length > 0">
+<div class="ui grid" *ngIf="section.contents && section.contents.length > 0; else noresults">
     <div class="ui twelve wide column">
         <div class="d-flex flex-ai-center">
             <!-- <h4 class="ui header m-0 mr-5 pageSection-heading">{{section.name}}</h4> -->
@@ -35,4 +35,10 @@
         <div class="ui divider m-0"></div>
     </div>
 </div>
+
+<ng-template #noresults>
+    <div class="twelve wide columnn align-content-center">
+            <app-no-result [data]="{message : 'No results found !'}"></app-no-result>
+    </div>
+</ng-template>
 

@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from '../../services/index';
-import { Component,  Input, EventEmitter, Output } from '@angular/core';
+import { Component,  Input, EventEmitter, Output} from '@angular/core';
 import {ICaraouselData} from '../../interfaces/caraouselData';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash';
