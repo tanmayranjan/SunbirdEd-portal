@@ -261,4 +261,8 @@ this.router.navigate(['/search/explore-course', 1], {
   queryParams: key
 });
   }
+
+  update_carousel(keyword){
+    console.log('updating the carousel with ', keyword);
+  }
 }

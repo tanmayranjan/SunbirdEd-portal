@@ -596,9 +596,87 @@ label {
   margin: auto;
   background-color: white;
 }
+
+.carousel-nav-tab {
+  margin-top : 30px;
+  max-width : 90%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav {
+  flex-wrap: nowrap;
+}
+
+.carousel-nav-tab::-webkit-scrollbar {
+  width: 0;
+}
+
+.carousel-nav-tab::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.carousel-nav-tab::-webkit-scrollbar-thumb {
+  background: transparent; 
+}
+
+.carousel-nav-tab::-webkit-scrollbar-thumb:hover {
+  background: transparent; 
+}
+
+.nav-item {
+  min-width : 200px;
+  max-width: 200px;
+  border : none;
+  height : 30px;
+  font-size : 1.3em;
+}
+.nav-item:active, .nav-item:hover {
+  border-bottom : 2px solid #7E5FE4;
+  cursor: pointer;
+}
+
+.viewAllBtn {
+  height: 45px;
+  margin: 0;
+  margin-top: 23px;
+  border: none;
+  border-radius: 37px;
+  width: 130px;
+  color: white;
+  font-weight: 400;
+  background-color: #7f60e5;
+}
+
+.heading-text {
+  position: relative;
+  width : 300px;
+  margin : auto;
+}
+
+.heading-text::before {
+  content:url('./../../../../../assets/fa/bubbles.png');
+  position:absolute; /*or absolute*/
+  z-index: 100000; 
+  left: -84px;
+  top: -60px;
+}
+
 .explore {
   background-color: white;
   padding-top: 30px;
+}
+
+.explore .heading-text {
+  position: relative;
+  width: 400px;
+  margin: auto;
+}
+.explore .heading-text::before {
+  content:url('./../../../../../assets/fa/bubbles.png');
+  top: -62px;
+  left: -98;
+  z-index: 1;
 }
 .explore .container {
   margin-top: 50px;
@@ -660,6 +738,16 @@ label {
   display: inline-block;
   padding-top: auto;
   padding-bottom: auto;
+}
+
+.enrol-section .enrol-text {
+  position: relative;
+}
+.enrol-section .enrol-text::before {
+  content: url("./../../../../../assets/fa/bubbles.png");
+  top: -62px;
+  left: -98;
+  z-index: 1;
 }
 .customer-feedback {
   background-color: white;
