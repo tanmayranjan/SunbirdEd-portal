@@ -677,6 +677,7 @@ label {
 .explore {
   background-color: white;
   padding-top: 30px;
+  margin-top: 55px;
 }
 
 .explore .heading-text {
@@ -750,10 +751,12 @@ label {
   display: inline-block;
   padding-top: auto;
   padding-bottom: auto;
+  margin-top : 5%;
 }
 
 .enrol-section .enrol-text {
   position: relative;
+  line-height: 40px;
 }
 .enrol-section .enrol-text::before {
   content: url("./../../../../../assets/fa/bubbles.png");
