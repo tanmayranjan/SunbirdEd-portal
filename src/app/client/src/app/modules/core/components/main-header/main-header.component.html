@@ -230,8 +230,8 @@
     </div>
     <!--sidebar ui-->
     <div class="ui sidebar vertical menu align right">
-            <a *ngIf="userService.loggedIn" class="item" routerLink="/learn">Sign In</a>
-            <a *ngIf="userService.loggedIn" class="item" [routerLink]="['/signup']">Sign Up</a>
+            <a *ngIf="!userService.loggedIn" class="item" routerLink="/learn">Sign In</a>
+            <a *ngIf="!userService.loggedIn" class="item" [routerLink]="['/signup']">Sign Up</a>
             <a *ngIf="userService.loggedIn && userProfile" class="item" routerLink="profile">{{resourceService.frmelmnts?.lnk?.profile}}</a>
             <a *ngIf="userService.loggedIn" class="item" [routerLink]="workspace">Workspace</a>
             <a *ngIf="userService.loggedIn" class="item" (click)="logout()">{{resourceService.frmelmnts?.lnk?.logout}}</a>
