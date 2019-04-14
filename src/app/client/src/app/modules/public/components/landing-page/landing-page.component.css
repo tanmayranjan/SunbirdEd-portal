@@ -648,6 +648,14 @@ label {
   background-color: #7f60e5;
 }
 
+.positioning {  
+  margin: -70px 0 0 0;
+}
+
+.lh-2 {
+  line-height: 45px;
+}
+
 .nav_item_selector.active {
   border-bottom : 2px solid #7E5FE4;
 }

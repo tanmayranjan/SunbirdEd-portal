@@ -371,12 +371,10 @@
             <button type="button" class="btn btn-md btn-default float-right viewAllBtn" routerLink="search/explore-course/1">VIEW ALL</button>
           </div>
       </div>
+      <div *ngFor="let section of carouselData;let last = last" class="">
+          <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-display-popular-course>
       </div>
-
-      
-    <div class="container" *ngFor="let section of carouselData;let last = last">
-        <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-display-popular-course>
-    </div>
+      </div>
   <!-- <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
     <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-display-popular-course>
   </div> --> 
@@ -385,7 +383,7 @@
 
 <div class="explore text-center">
       <h1 class="heading-text">Explore top Categories</h1>
-      <h6>Sunbird is an approach to resolve large, complex, systematic challenges with speed.</h6>
+      <h6 class="lh-2">Sunbird is an approach to resolve large, complex, systematic challenges with speed.</h6>
       <div class="container">
           <div class="row">
               <ng-container *ngFor="let content of categoryNames[0]">
@@ -409,8 +407,8 @@
       <div class="subheading">
           <div class="container mx-auto">
               <div class="content align-middle">
-                      <img src="./../../../../../assets/fa/inverted2small.png">
                       <span class="enrol-section">
+                          <img src="./../../../../../assets/fa/inverted2small.png">
                           <h2 class="enrol-text">Enroll, Learn, Grow, Repeat! Get ready to achieve your learning goals with Sunbird</h2>
                       </span>
               </div>

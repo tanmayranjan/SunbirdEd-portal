@@ -113,9 +113,13 @@ export class LandingPageComponent implements OnInit  {
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
+    let $ : JQuery ;
     //set the active class behaviour in  the navtabs of popular section
     jQuery(document).ready(function(){
       console.log('jQuery loaded');
+      (<any>jQuery(".carousel")).carousel({
+        interval: 5000
+      })
     });
     // if (!this.userService.loggedIn) {
     //   console.log('logged in', this.userService.loggedIn);    }
