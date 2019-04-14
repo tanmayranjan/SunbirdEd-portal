@@ -1,0 +1,74 @@
+.social {
+    width : 100%;
+    margin : 0;
+    background-color: #7f60e5;
+    height : 100px;
+    p {
+        margin : 0;
+        text-align : right;
+        padding-top : 2.5%;
+        color : white;
+        font-size : 1.123em;
+    }
+  
+  }
+  
+  .social-icons {
+    font-size : 1.8em;
+    color : white;
+    padding-top : 2%;
+    i:after {
+        content : '';
+        margin-right: 20px;
+    }
+  }
+  .clients {
+    padding : 20px 0;
+    height : 150px;
+  }
+
+  .image-section {
+      text-align: left;
+      img {
+          margin-left : 0;
+          margin-bottom : 30px;
+      }
+  }
+
+  .footer {
+    background-color: #535353;
+      .container {
+          .row {
+              div:first-child {
+                  margin-bottom : 10px;
+              }
+          }
+      }
+  }
+
+  .sub-footer-3 {
+      background-color: #3b3b3b;
+      color : white;
+  }
+
+  .title {
+      display: inline-block;
+      border-bottom : 2px solid white;
+      margin-bottom : 10px;
+      line-height : 2em;
+  }
+
+
+  //responsive css
+  @media only screen and (max-width: 769px) {
+      .social {
+          p {
+              text-align : center;
+          }
+  }
+  .image-section {
+      img {
+        margin : auto;
+      }
+}
+}
