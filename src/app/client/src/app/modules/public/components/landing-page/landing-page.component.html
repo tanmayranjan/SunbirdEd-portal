@@ -389,7 +389,7 @@
               <ng-container *ngFor="let content of categoryNames[0]">
                     <div class="col-xs-1 col-sm-6 col-md-3" (click)="getFramework('board',content.name)">
                             <section class="stack">
-                                <img src="./../../../../../assets/fa/development.png" alt="development">
+                                <img src="{{content?.imageUrl}}" alt="{{content.name}}" height="75px" width="75px">
                                 <p>{{content.name}}</p>
                             </section>
                         </div>

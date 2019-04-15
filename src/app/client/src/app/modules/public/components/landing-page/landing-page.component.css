@@ -625,10 +625,11 @@ label {
 }
 
 .nav-item {
-  min-width : 200px;
+  display : inline;
+  min-width : 120px;
   max-width: 200px;
   border : none;
-  height : 30px;
+  max-height : 30px;
   font-size : 1.3em;
 }
 .nav-item:active, .nav-item:hover {
