@@ -80,10 +80,6 @@
             </div> -->
             <div 
             class="sbCard mt-15 mb-5"
-             
-            appTelemetryInteract 
-            [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}" 
-            [telemetryInteractEdata]="data.telemetryInteractEdata"
             tabindex="0"
             >
               <div class="img-header">
@@ -129,7 +125,7 @@
                     {{data.name | slice:0:60 }}
                     <span *ngIf="data.name && data.name.length > 60">...</span>
                   </h4>
-                  <p style="font-size:9px;margin:10px">{{data?.createdBy || 'Author Name'}}</p>  
+                  <p style="font-size:9px;margin:10px">{{'Author Name'}}</p>  
                   <sui-rating class="star customstar" [(ngModel)]="rating" [maximum]="5"></sui-rating><p style="font-size:8px;float:left;">{{rating}} (138,560)</p><br>
               
           
