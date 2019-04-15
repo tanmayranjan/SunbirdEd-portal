@@ -98,7 +98,7 @@ ngAfterViewInit() {
             const status = (content && content.status) ? content.status.toString() : 0;
             node.iconColor = this.iconColor[status];
           } else {
-            node.iconColor = this.iconColor['1'];
+            node.iconColor = this.iconColor['0'];
           }
           node.folder = false;
         }
