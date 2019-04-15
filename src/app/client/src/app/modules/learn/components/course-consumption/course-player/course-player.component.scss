@@ -11,15 +11,32 @@
     background-color: rgba(0,0,0,1);
     overflow-y: scroll;
 }
-#dashboardBtn {
-    margin: 20px 20px 0 0;
+
+#logoHeader {
+    background: #451771; height: 78px;
+   }
+
+   #dashboardBtn {
+    margin : 13px 20px 0 0;
     position: absolute;
-    top: 0;
-    right: 0;
-    float: right;
-    border-color: rgba(255,255,255,.5);
-    z-index: 99999;
-}
+    top : 0;
+    right : 0;
+    float : right;
+    /* border-color: rgba(255,255,255,0.5); */
+    z-index : 99999;
+    border-radius: 50%;
+    background: #CE1F99;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 2px 2px;
+    float: left;
+    margin-bottom: 1rem;
+  }
+
+  #sidebar {
+    background: #242446 !important
+   }
 
 .playlist-area {
     max-height: 100vh;

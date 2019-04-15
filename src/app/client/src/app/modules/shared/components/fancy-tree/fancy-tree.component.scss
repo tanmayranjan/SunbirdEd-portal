@@ -2,10 +2,13 @@
 ::ng-deep .fancytree-plain span.fancytree-node span.fancytree-title {
     margin-left: 5px;
     vertical-align: middle;
+    color: white;
 }
 ::ng-deep span.fancytree-active span.fancytree-title {
     background-color: #007Aff;
-    color: #fff;
+    color:  white !important;
+    font-weight: bolder;
+
 }
 ::ng-deep span.fancytree-icon {
   vertical-align: middle;
@@ -16,3 +19,7 @@
 ::ng-deep span.fancytree-title{
   margin: 0;
 }
+.ul.fancytree-container {
+  background-color: #242446 !important;
+}
+
