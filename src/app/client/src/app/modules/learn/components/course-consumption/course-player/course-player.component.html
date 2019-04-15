@@ -1,10 +1,10 @@
 <div *ngIf="userEnrolledBatch else previewCourse">
     <header class="showcase-header">
-        <div class="jumbotron jumbotron-fluid course-image">
+        <div class="jumbotron jumbotron-fluid course-image mb-0">
             <div class="container-fluid banner">
                 <div class="row banner-main-row">
                   <div class="col-xs-12 col-sm-12 col-md-5 image-section">
-                    <img class="float-right" [src]='courseInfo?.appIcon' alt="course-image" width="300px" height="270px">
+                    <img class="float-right" [src]='courseHierarchy.appIcon' alt="course-image" width="300px" height="270px">
                     </div>
                   <div class="col-xs-12 col-sm-12 col-md-5 offset-md-1 banner-content-section float-right white-text">
                     <br/>
@@ -185,343 +185,327 @@
             </div>
           </div>
         </div>
-        <router-outlet></router-outlet>  
 </div>
 <ng-template #previewCourse>
 
-    <header class="showcase-header">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 j-description text-left mt-3">
-              <section class="j-description text-white">
-                <h5 class="tagline text-left text-warning">"Write Once, Debug anywhere"</h5>
-                <h3 class="text-left j-heading text-white">{{courseInfo?.name}}</h3>
-                <i class="text-warning fas fa-star fa-lg"></i>
-                <i class="text-warning fas fa-star fa-lg"></i>
-                <i class="text-warning fas fa-star fa-lg"></i>
-                <i class="text-warning fas fa-star fa-lg"></i>
-                <i class="text-warning fas fa-star-half-alt fa-lg"> 2038 Reviews</i>
-                <br />
-                <br />
-                <p>
-                  {{courseInfo?.description}}
-                </p>
-              </section>
-              <div class="row icon-section mt-3" style="color:white !important;">
-                <div class="col-sm-6 col-md-3">
-                  <h4>22</h4>
-                  <p> Hours</p>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                  <i class="fas fa-graduation-cap"></i>
-                  <p> {{courseInfo?.organisation}}</p>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                  <i class="fas fa-globe"></i>                    
-                  <p> {{courseInfo?.language[0]}}</p>
-                </div>
-              </div>
-
-              <div class="row">
-                  <a class="btn btn-outline-warning ml-3 mt-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                      View Batches
-                    </a>
-              </div>
-            </div>
-            <div class="col-sm-4 text-left mt-4">
-              <img class="j-image" [src]='courseInfo?.appIcon' alt="Course-Image">
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-    <div class="collapse" id="collapseExample">
-      <div class="row">
-<div class="col-md-4"  *ngFor="let batch of batchDetails">
-<app-batch-card [batchDetails]="batch" [courseId]="courseId" class="py-2" ></app-batch-card>
-</div>        
-</div>
-</div>
-    <!-- Section #2
-          This section is for detailed description
-          Has Two subsections 1. Prerequisites 2. Contents  -->
-    <section data-aos="fade-right" class="course-highlights-section container-fluid bg-light">
-      <div class="container">
-        <br />
-        <h6 class="text-secondary mb-0 font-weight-bold">HIGHLIGHTS</h6>
-        <h3 class="text-left section-headers">WHY ENROLL?</h3>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card highlight-card" data-aos="fade-right">
-              <i class="fas fa-laptop fa-4x text-info text-center mt-1" aria-hidden="true"></i>
-              <div class="card-body text-center">
-                <h4 class="card-title " style="font-size: 2em;">CAREER-READY</h4>
-                <hr />
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card highlight-card" data-aos="fade-right">
-              <i class="fas fa-award fa-4x text-success text-center mt-1" aria-hidden="true"></i>
-              <div class="card-body text-center">
-                <h4 class="card-title" style="font-size: 2em;">TRENDING #3</h4>
-                <hr />
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card highlight-card" data-aos="fade-right">
-              <i class="fas fa-users-cog fa-4x text-danger text-center mt-1" aria-hidden="true"></i>
-              <div class="card-body text-center">
-                <h4 class="card-title" style="font-size: 2em;     font-size: 2em;
-                width: 28vw;
-                margin-left: -3em;">GLOBAL COMMUNITY </h4>
-                <hr />
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's
-                  content.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Section #4
-          This section is for Preview/Sample video  -->
-    <section class="container-fluid bg-secondary">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="row">
-            <div class="col-md-6 ">
-                <h6 class="text-secondary text-left mb-0 font-weight-bold">ROADMAP</h6>
-                  <h3 class="text-left section-headers mb-4">YOUR JOURNEY</h3>
-                  <div>
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-             
-                      </ul>
-                      </div>
-                      <div class="tab-content" id="myTabContent" style="height: 60vh;overflow-x: hidden;">
-                        <div
-                        class="tab-pane fade show active"
-                        id="session"
-                        role="tabpanel"
-                        aria-labelledby="session-tab"
-                      >
-                      <table class="table table-striped">
-                        <tbody *ngFor="let session of courseDetails">
-                          <tr>
-                            <th scope="row"><i class="fas fa-angle-right"></i></th>
-                            <td>
-                              <div class="row">
-                                <div class="col-md-8">
-                                  <h5>{{ session.name }}</h5>
-                                  <div class="row bottom-height">
-                                    <div class="col-md-1 pl-4">
-                                      <i class="fas fa-book"></i>
-                                      <hr />
-                                    </div>
-                                    <div class="col-md-8 pl-3">
-                                      Instructor {{ courseInfo?.creator }}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2  pl-5">
-                                  <div class="row pl-4" (click)="fetchUrl(session)">
-                                    <button
-                                      class="play-icon mb-2"    
-                                    >
-                                      <i class="fas fa-2x fa-play-circle "></i>
-                                    </button>
-                                    <a> preview</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-            
-                      </div>
-            
-                      <!-- <div
-                        class="tab-pane fade"
-                        id="resource"
-                        role="tabpanel"
-                        aria-labelledby="resource-tab"
-                      >
-            
-                      <table class="table table-striped">
-                        <tbody *ngFor="let resource of resources">
-                          <tr>
-                            <th scope="row"><i class="fas fa-angle-right"></i></th>
-                            <td>
-                              <div class="row">
-                                <div class="col-md-8">
-                                  <h5>{{ resource.name }}</h5>
-                                  <div class="row">
-                                    <div class="col-md-1 pl-4">
-                                      <i class="fas fa-book"></i>
-                                      <hr />
-                                    </div>
-                                    <div class="col-md-8 pl-3">
-                                      Instructor {{ courseInfo?.creator }}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-md-2  pl-5">
-                                  <div class="row pl-4">
-                                    <button
-                                      class="play-icon mb-2 ml-2"    
-                                    >
-                                    <i
-                                    (click)="fetchUrl(resource)"
-                                    class="fas fa-2x fa-download download "
-                                  ></i>                                      </button>
-                                    <a> Download</a>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      </div>
-                      <div
-                        class="tab-pane fade"
-                        id="comments"
-                        role="tabpanel"
-                        aria-labelledby="comments-tab"
-                      >
-                        <div class="comments  text-right px-5">
-                          <h4 class="text-left">Comment</h4>
-                          <div>
-                            <textarea
-                              rows="6"
-                              placeholder="Please share your feedback about this course or session here "
-                            >
-                            </textarea>
-                          </div>
-                          <button class="btn btn-primary my-2">Submit</button>
-                        </div>
-                      </div> -->
-                  </div>
-              </div>
-              <div class="col-md-6" style="margin-top:5rem;" *ngIf="showPreview">
-                <iframe width="600" height="380" [src]='safeUrl' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-                </div>
-            </div>
-
-       
-            <div class="row">
-                <section class="contents-section container-fluid" data-aos="fade-right">
-                  <h6 class="text-secondary text-left mb-0 font-weight-bold">FILES</h6>
-                  <h3 class="text-left section-headers">MEDIA CONTENTS</h3>
-                  <div class="row" style="font-size:17px">
-                    <div class="col-sm-4 text-center pt-3 media-pre" >
-                      <i class="fa fa-play-circle fa-lg text-primary" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">5</h4>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media"  >
-                   <div class="row icon">
-                    <i class="fa fa-file-pdf-o fa-lg text-success" aria-hidden="true"></i>
-                   </div>
-                   <div class="row heading">
-                    <h4>10</h4>
-                   </div>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media-pre" >
-                      <i class="fa fa-code fa-lg text-danger" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">100</h4>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media" >
-                  <div class="row icon">
-                    <i class="fa fa-clock-o fa-lg text-primary" aria-hidden="true"></i>
-                  </div>
-                  <div class="row heading">
-                    <h4 >36</h4>
-                  </div>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media-pre" >
-                      <i class="fa fa-desktop fa-lg text-success" aria-hidden="true"></i>
-                      <h4 style="color:black !important;">15</h4>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media" >
-                     <div class="row icon">
-                      <i class="fa  fa-file-text fa-lg text-danger" aria-hidden="true"></i>
-                     </div>
-                     <div class="row heading">
-                      <h4 >28</h4>
-                     </div>
-                    </div>
-                  </div>
-                  <br />
-                  <br />
-                </section>
-                <section class="pre-requisites-section container-fluid" data-aos="fade-right">
-                  <h6 class="text-secondary text-left mb-0 font-weight-bold">NEED TO KNOW</h6>
-                  <h3 class="text-left section-headers">PRE-REQUISITES</h3>
-                  <div class="row" style="font-size: 17px">
-                    <div class="col-sm-4 text-center pt-3 media"  >
-                      <i class="fas fa-thumb-tack fa-lg text-primary pt-2 pr-2" aria-hidden="true"></i>
-                      <p>Sound knowledge about C and C++</p>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media-pre" >
-                      <div class="row">
-                        <div class="col-md-1">
-                          <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                        </div>
-                        <div class="col para">
-                          <p>Good Logic thinker</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media" >
-                      <i class="fas fa-thumb-tack fa-lg text-primary pr-2 pt-2" aria-hidden="true"></i>
-                      <p>Should be willing to have sleepless nights</p>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media-pre" >
+  <div [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
+    <div *ngIf="!loader">
+        <div [appTelemetryImpression]="telemetryCourseImpression">
+            <section class="jumbotron jumbotron-fluid">
+                <div class="container">
                     <div class="row">
-                      <div class="col-md-1"> 
-                        <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                      </div>
-                      <div class="col para">
-                        <p >Must embrace frustration</p>
-                      </div>
+                        <div class="col-md-3">
+                            <img [src]="courseHierarchy.appIcon" class="card-img-top image" alt="...">
+                        </div>
+                        <div class="col-md-5">
+                            <div>
+                                <h2 class="mobile only"> {{courseHierarchy.name | slice:0:25}}
+                                    <span *ngIf="courseHierarchy.name.length>25">...</span>
+                                </h2>
+                                <h2 class="tablet computer only"> {{courseHierarchy.name | slice:0:50}}
+                                    <span *ngIf="courseHierarchy.name.length>50">...</span>
+                                </h2>
+                                <div >
+                                    <span>
+                                        <img class="profile"
+                                            src="https://akm-img-a-in.tosshub.com/indiatoday/anirudh---exlarge_121917022608.jpg?6S3c11U_KaSLS3L7kcFsVrVx1d5BO_Wi">
+                                    </span>
+                                    <span class="mb-0 ml-0"> Anirudh Ravichander</span>
+                                    <p class="pl-5 ml-4 pb-4">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                            class="fas fa-star"></i>
+                                        <i class="far fa-star"></i><i class="far fa-star"></i>
+                                    </p>
+                                    <p>
+                                        Last Updated : Mar 25, 2019
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- <div class="tablet computer only button">
+                                <button type="button" class="btn btn-primary">ENROLL</button>
+                            </div>
+                            <div class="mobile only">
+                                <button type="button" class="btn btn-primary">ENROLL</button>
+
+                            </div> -->
+                        </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="container">
+                <div class="course-details">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="row tablet computer only">
+                                <div class="col-md-3">
+                                    <div class="card course-card">
+                                        <div class="card-body">
+                                            <div class="circle icon1">
+                                                <i class="fas fa-2x fa-book-reader"></i>
+                                            </div>
+                                            <div class="text-center">
+                                                <h4 class="card-title pt-3" data-toggle="tooltip" data-placement="top" title="{{mimeType}}">{{mimeTypeCount}}</h4>
+                                                <h6 class="card-subtitle mb-2 text-muted pt-3"> CURRICULUM</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card course-card">
+                                        <div class="card-body">
+                                            <div class="circle icon2">
+                                                <i class="far fa-2x fa-clock "></i>
+                                            </div>
+                                            <div class="text-center">
+                                                <h4 class="card-title pt-3">24:10:28</h4>
+                                                <h6 class="card-subtitle mb-2 pt-3 text-muted">DURATION</h6>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card course-card">
+                                        <div class="card-body">
+                                            <div class="circle icon3">
+                                                <i class="fas fa-2x fa-language "></i>
+                                            </div>
+                                            <div class="text-center">
+                                                <h6 class="card-title pt-3">{{courseHierarchy.language}}, Hindi</h6>
+                                                <h6 class="card-subtitle mb-2 pt-4 text-muted">LANGUAGE</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card course-card">
+                                        <div class="card-body">
+                                            <div class="circle  icon4">
+                                                <i class="fas fa-2x fa-users"></i>
+                                            </div>
+                                            <div class="text-center">
+                                                <h4 class="card-title pt-3">537,713</h4>
+                                                <h6 class="card-subtitle mb-2 text-muted pt-3">LEARNERS</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card preview-video"  (click)="showPreviewVideo()">
+                                <img src="{{courseHierarchy.appIcon}}"
+                                    class="card-img-top video" alt="..." >
+                                <div class="overlay mt-4" >
+                                    <div class="play" >
+                                         
+                              <i class="fas fa-3x fa-play" ></i>
+
+                                          
+                                    </div>
+                                </div>
+                                <div class="text-center preview">
+                                    <p>Preview this course</p>
+                                </div>
+                                <div class=" d-flex justify-content-end remove">
+                                    <div class="circle1 "></div>
+                                    <div class="circle2 "></div>
+                                    <div class="circle3 "></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-  
-                    <div class="col-sm-4 text-center pt-3 media" >
-                      <i class="fas fa-thumb-tack fa-lg text-primary pr-2 pt-2" aria-hidden="true"></i>
-                      <p>Loads of Coffee and Caffeine Tolerance</p>
-                    </div>
-                    <div class="col-sm-4 text-center pt-3 media-pre">
-                   <div class="row">
-                     <div class="col-md-1">
-                        <i class="fas fa-thumb-tack fa-lg text-primary" aria-hidden="true"></i>
-                     </div>
-                     <div class="col para">
-                        <p>Objects are everything</p>
-                     </div>
-                   </div>
-                    </div>
-                  </div>
-                </section>
+                </div>
+            </section>
+<sui-modal *ngIf="preview" >
+<div class="basicpreview">
+        <div class="ui right-float py-2 basic icon circular  mouse-pointer" (click)="showPreviewVideo()">
+                <i class="ui remove icon"></i>
               </div>
-          </div>
+            <div class="embed-responsive embed-responsive-16by9">
+                    <iframe [src]='safeUrl' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>    </div>
+</div>
+</sui-modal>
+            <section class="container">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="card course-content">
+                                <ul class="nav nav-tabs py-3" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="content-tab" data-toggle="tab" href="#content"
+                                            role="tab" aria-controls="content" aria-selected="true">Table of content</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="scroll(target)">Description</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="content" role="tabpanel"
+                                        aria-labelledby="content-tab">
+                                        <app-collection-tree
+                                            *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                                            (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                                            [options]="collectionTreeOptions" [contentStatus]="contentStatus">
+                                        </app-collection-tree>
+
+                                        <div #target *ngIf="courseHierarchy.description" class="mt-10"
+                                            id="course-description">
+                                            <h3>Description</h3>
+                                            <p *ngIf="!readMore" class="courseStructureDesc">
+                                                {{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                                                <span class="ui cardsKnowMore mouse-pointer readmore"
+                                                    *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
+                                                    (click)="readMore = !readMore;"><span>{{resourceService.frmelmnts.lbl.readmore}}</span></span>
+                                            </p>
+                                            <p *ngIf="readMore" class="courseStructureDesc ">
+                                                {{ courseHierarchy.description}}&nbsp;
+                                                <span class="ui cardsKnowMore mouse-pointer readless"
+                                                    (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 computer only ">
+                            <div class="py-5 pl-4">
+                                <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
+                                    [batchId]="batchId" [enrolledCourse]="enrolledCourse"
+                                    [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
+                                </app-batch-details>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="mobile only container py-5">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="batch">
+                            <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
+                                [batchId]="batchId" [enrolledCourse]="enrolledCourse"
+                                [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
+                            </app-batch-details>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="container mobile only ">
+                <div class="">
+                    <div class="mobile-view">
+                        <div class="px-5 py-5">
+                            <div class="card course-card">
+                                <div class="card-body">
+                                    <div class="circle icon1">
+                                        <i class="fas fa-2x fa-book-reader"></i>
+                                    </div>
+                                    <div class="text-center">
+                                        <h4 class="card-title pt-3">186</h4>
+                                        <h6 class="card-subtitle mb-2 text-muted pt-3"> CURRICULUM</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-5 py-5">
+                            <div class="card course-card">
+                                <div class="card-body">
+                                    <div class="circle icon2">
+                                        <i class="far fa-2x fa-clock "></i>
+                                    </div>
+                                    <div class="text-center">
+                                        <h4 class="card-title pt-3">24:10:28</h4>
+                                        <h6 class="card-subtitle mb-2 pt-3 text-muted">DURATION</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-5 py-5">
+                            <div class="card course-card">
+                                <div class="card-body">
+                                    <div class="circle icon3">
+                                        <i class="fas fa-2x fa-language "></i>
+                                    </div>
+                                    <div class="text-center">
+                                        <h6 class="card-title pt-3">English, Hindi</h6>
+                                        <h6 class="card-subtitle mb-2 pt-4 text-muted">LANGUAGE</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-5 py-5">
+                            <div class="card course-card">
+                                <div class="card-body">
+                                    <div class="circle  icon4">
+                                        <i class="fas fa-2x fa-users"></i>
+                                    </div>
+                                    <div class="text-center">
+                                        <h4 class="card-title pt-3">537,713</h4>
+                                        <h6 class="card-subtitle mb-2 text-muted pt-3">LEARNERS</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
         </div>
-      </div>
-    </section>
+    </div>
 
-   
-  
-    <router-outlet></router-outlet>
+    <sui-modal *ngIf="enableContentPlayer && !loader">
+        <div class="modal-height">
+
+            <div class="row">
+                <div class="col">
+                    <div class="pt-2 pb-3" id="app-player-collection-renderer">
+                        <div>
+                            <span class="ui HomeAccordianHeading left floated ">{{contentTitle}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                    <div class="right-float">
+                        <h5 appTelemetryInteract [telemetryInteractEdata]="closeContentIntractEdata"
+                            [telemetryInteractObject]="contentInteractObject"
+                            class="ui right floated basic icon circular  mouse-pointer" (click)="closeContentPlayer()">
+                            <i class="ui remove icon"></i>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui warning message click-notify-xurl" *ngIf="showExtContentMsg">
+                <div class="column twelve wide">
+                    <p>{{resourceService.messages.imsg.m0036}}</p>
+                </div>
+            </div>
+            <div class="">
+                <div class="" [appTelemetryImpression]="telemetryContentImpression">
+                    <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player"
+                        [playerConfig]="playerConfig"></app-player>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </sui-modal>
+
+    <div *ngIf="loader">
+        <app-loader [data]="loaderMessage"></app-loader>
+    </div>
+    <div *ngIf="showError">
+    </div>
+</div>
 </ng-template>
+<router-outlet></router-outlet>  

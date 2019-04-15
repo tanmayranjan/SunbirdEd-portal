@@ -16,7 +16,7 @@ import { CatalogFiltersComponent } from '../catalog-filters/catalog-filters.comp
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.css']
+  styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
   inviewLogs: any = [];
@@ -123,7 +123,7 @@ export class CatalogComponent implements OnInit {
   userloggedIn;
   public framework: string;
 public hashTagId: string;
-
+expand = false;
   /**
      * Constructor to create injected service(s) object
      * Default method of Draft Component class
@@ -180,6 +180,7 @@ public hashTagId: string;
           this.totalCount = apiResponse.result.count;
           this.pager = this.paginationService.getPager(apiResponse.result.count, this.pageNumber, this.pageLimit);
           this.searchList = this.processActionObject(apiResponse.result.course);
+          console.log(this.searchList);
           console.log(apiResponse.result.course);
         } else {
           this.noResult = true;
@@ -380,5 +381,7 @@ public hashTagId: string;
     this.filters = {};
     this.catalogFiltersComponent.resetFilters();
   }
-
+expandFilters() {
+  this.expand = !this.expand;
+}
 }

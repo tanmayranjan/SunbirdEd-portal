@@ -1,86 +1,359 @@
-@import "~bootstrap/dist/css/bootstrap.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
-.vid {
-  position: relative;
-  padding-bottom: 5rem;
-  width: 55rem;
-  /* padding-top: 30px; */
-  /* height: 0; */
-  overflow: hidden;
+.content-player-container {
+    z-index: 999;
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,1);
+    overflow-y: scroll;
 }
-
-.vid iframe,
-.vid object,
-.vid embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 60%;
-  height: 60%;
-}
-/* jumbotron */
-#jum {
-  /* height: 30rem; */
-}
-/* rating css */
-.rating {
-  float: left;
+#dashboardBtn {
+    margin: 20px 20px 0 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    border-color: rgba(255,255,255,.5);
+    z-index: 99999;
 }
 
-/* :not(:checked) is a filter, so that browsers that don't support :checked don't
-  follow these rules. Every browser that supports :checked also supports :not(), so
-  it doesn't make the test unnecessarily selective */
-.rating:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-  clip: rect(0, 0, 0, 0);
+.playlist-area {
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-right: 0;
 }
 
-.rating:not(:checked) > label {
-  float: right;
-  width: 1em;
-  /* padding:0 .1em; */
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 1.5rem;
-  /* line-height:1.2; */
-  color: darkgrey;
+.video-player-wrapper{
+    width: 100%;
+    margin: 0;
+    padding: 0 0 0 5px;
 }
 
-.rating:not(:checked) > label:before {
-  content: "★ ";
+.tab-view {
+    color: #000;
+    background-color: #fff;
+    width: 100%;
+    max-height: 40px;
+    border-radius: 0;
+    margin: auto;
+    text-align: center;
+    overflow-y: hidden;
 }
 
-.rating > input:checked ~ label {
-  color: orange;
+.tab-view ul li, .tab-view ul li:hover {
+    background-color: #fff;
+    height: 100%;
+    margin-bottom: 3px;
+    width: 10%;
+    border-radius: none;
+    text-decoration: none;
+    color: #000;
+}
+.tab-view ul {
+    color: #000;
+    background-color: #fff;
+    width: 100%;
+}
+.tab-view ul li a {
+    text-decoration: none;
+    color: #000;
+}
+.nav-pills .nav-link.active, .tab-view .nav-item .nav-link.active.show {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 4px solid #7f60e5;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 4px solid #7f60e5;
 }
 
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-  color: orange;
+#course-content {
+    width: 75%;
+    margin: auto;
 }
 
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
-  color: dodgerblue;
-}
 
-.rating > label:active {
-  position: relative;
-  top: 2px;
-  left: 2px;
-}
 
+
+// product details css//
+
+.modal-height {
+    margin-top: -19em;
+    color: white;
+    background: black;
+}
+#app-player-collection-renderer {
+    color: white;
+    font-size: 18px;
+}
 .click-notify-xurl {
-    position: absolute; z-index: 999; top: 25%; left: 34%;;
+    position: absolute;
+    z-index: 999; 
+    top: 25%; 
+    left: 34%;
 }
 .ui.button.right.floated{
     text-align: right;
 }
 .ui.button.left.floated{
     text-align: left;
+}
+.jumbotron {
+    height: 30em;
+    background: #7D5CE7;
+    color: white;
+    position: relative;
+}
+.btn-primary {
+    color: black;
+    background-color: #FFFDCB;
+    padding: 0.5em 2.3em;
+    border-radius: 21px;
+    box-shadow: 0px 3px 5px black;
+    border-color: #FFFDCB;
+}
+.btn-primary:hover {
+    color: black;
+    background-color: #FFFDCB;
+    box-shadow: 0px 3px 5px black;
+    padding: 0.5em 2.3em;
+    border-color: #FFFDCB;
+}
+.button, .button:hover {
+    margin: 7em 0em 0em -5em;
+    border-color: #FFFDCB;
+
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+    color: black;
+    background-color: #FFFDCB;  
+    box-shadow: 0px 3px 5px black !important;
+    padding: 0.5em 2.3em;
+    border-color: #FFFDCB;
+}
+.image {
+    border-radius: 0px;
+    width: 16em;
+    height: 14em;
+ }
+.basicpreview {
+    background: black;
+    color: white;
+}
+.profile {
+    height: 4em;
+    border-radius: 100%;
+    width: 4em;
+}
+.icon1 {
+    background: #D2FCBF;
+    color: white;
+}
+.icon2 {
+    background: #FFFDCB;
+    color: red;
+}
+.icon3 {
+    background: #FFCE9E;
+    color: blue;
+}
+.icon4 {
+    background: #E9E9E9;
+}
+.circle {
+    position: absolute;
+    height: 4.3em;
+    width: 4.3em;
+    border-radius: 50%;
+    left: 46%;
+    margin-left: -21px;
+    top: -29px;
+    padding: 1.05em;
+}
+.play {
+
+    position: absolute;
+    transform: translate(-30%, -50%);
+    color: white;
+    align-self: center;
+    cursor: pointer;
+ }
+ .preview-video {
+
+    height: 28em;
+    width: 19.9em;
+    top: -14em;
+    cursor: pointer;
+ }
+.preview-video .overlay {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 3.22em;
+    border-radius: 50%;
+    align-self: center;
+ 
+}
+.course-card {
+    width: 12em;
+    height: 11em;
+    box-shadow: 0px 3px 12px -5px #a09b9b;
+    background: white;
+    border-radius: 5px;
+}
+.video {
+    height: 49%;
+}
+.preview {
+    position: absolute;
+    top: 1.5em;
+    color: white;
+    font-size: 18px;
+    box-shadow: inset 1em -8em 4em -4em black;
+    left: 0em;
+    right: 0em;
+    padding-top: 6em;
+}
+.course-details {
+    position: absolute;
+    top: 29em;
+}
+.circle1 {
+    background: #D0F8BD;
+    width: 19%;
+    height: 4em;
+    border-radius: 50%;
+    opacity: 0.7;
+    position: absolute;
+    top: 18.5em;
+    left: 13em;
+}
+.circle2 {
+    background: #A8AAE5;
+    width: 16%;
+    height: 3.6em;
+    border-radius: 50%;
+    opacity: 0.6;
+    position: absolute;
+    top: 21em;
+    left: 12em;
+}
+.circle3 {
+    background: #93C8E8;
+    width: 7%;
+    height: 1.5em;
+    border-radius: 50%;
+    opacity: 0.7;
+    position: absolute;
+    top: 19em;
+    left: 16em;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: black;
+    font-size: 18px;
+    border-bottom: 5px solid blue;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    border-bottom: 5px solid blue;
+}
+.nav-tabs .nav-link {
+    color: black;
+    font-size: 18px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;   
+}
+.nav-tabs {
+    border-bottom: none;
+}
+.courseStructureDesc {
+    font-size: 18px
+}
+.readmore {
+    position: absolute;
+    background: rgba(255, 252, 252, 0.5);
+    color: #805FE5;
+    padding: 1em;
+    text-align: center;
+    left: 0em;
+    top: auto;
+    right: 0em;
+    font-size: 1em;
+}
+.readless {
+    position: absolute;
+    background: rgba(255, 252, 252, 0.5);
+    padding: 1em;
+    text-align: center;
+    left: 0em;
+    top: auto;
+    right: 0em;
+    font-size: 1em;
+}
+.course-content {
+top: auto;
+padding:2em;
+border-radius: 4px; 
+margin-bottom: 2em;
+}
+/* .content {
+    margin-top: 9em;
+} */
+
+.mobile-view {
+    display: flex;
+    width: auto;
+    overflow-x: scroll;
+   
+}
+.mobile-view::-webkit-scrollbar-thumb {
+    background: #7D5CE7;
+    width: 3rem !important;
+ }
+ .mobile-view::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+}
+
+   .card-title {
+    text-shadow: 1px 0px black;
+    font-size: 18px;
+}
+
+@media  (min-width:320px) and(max-width:980px) {
+
+.preview-video {
+    height: 9.9em;
+    top: 8em;
+    width: auto;
+    left: 10em;
+}
+.remove {
+    display: none !important;
+}
+.preview{
+    font-size: 16px;
+    padding-top: 6em;
+}
+.image {
+    width: 13em;
+    height: 10em;
+}
+.jumbotron {
+    height: 35em;
+}
+.modal-height {
+margin-top:-7em; 
+}
+.video {
+    height: unset;
+}
 }

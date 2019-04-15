@@ -1,28 +1,83 @@
-
 <div *ngIf="(tempKey !== undefined && tempKey !== 'key'); else searchResults">
-  <div class="row">
-    <div class="col-md-12 mt-30">
+  <div class="filter-reset-text-div p-3 computer only">
+    <span class="filter-text"><i class="mr-2 ml-2 fas fa-filter"></i>Filters</span>
+    <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">Reset All</span>
+  </div>
+  <div class="filter-reset-text-div p-3 mt-5 mobile only">
+      <span class="filter-text" (click)="expandFilters()"><i class="mr-2 ml-2 fas fa-filter" ></i>Filters</span>
+      <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">Reset All</span>
+    </div>
+  <div class="row computer only">
+    <div class="col-md-12">
       <form>
         <fieldset>
           <div *ngIf="formFieldProperties">
-            <div *ngFor="let field of filtersDetails">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                <div style="color: black;
-                font-size: 19px;
-                padding: 1rem;"
-                >
-                   <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
+            <div *ngFor="let field of filtersDetails;let i=index;">
+              <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                <div>
+                  <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
+                    <i class="minus mr-3"
+                      [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+                    </i>
+                    
+                  </h6>
                 </div>
-                <div class="filtersBody">
-                  <div class="form-group" *ngIf="field.inputType==='select'" style="margin-bottom: 1rem;
-                  line-height: 2rem;
-                  padding: 0rem 0rem 0rem 3.5rem;">
+                <div class="filtersBody" *ngIf="flagArray[i] === false">
+                  <div class="form-group" *ngIf="field.inputType==='select'">
                     <fieldset class="form-group" *ngIf="field.inputType==='select'">
                       <div class="form-check" *ngFor="let option of field.range">
-                        <label class="form-check-label" id="textcolor">
-                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox"
-                            [value]="option.name">
-                         &nbsp; {{option.name}} </label>
+
+                        <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                            type="checkbox" [value]="option.name">
+                          &nbsp; {{option.name}} </label>
+                        <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                            type="checkbox" [value]="option.name">
+
+                            <span *ngIf="option.name=== '5'">
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star yellow-star"></i>
+                                        &above
+                                      </span> 
+                          
+                              <span *ngIf="option.name=== '4'"><i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                                    </span>
+                   
+                             <span *ngIf="option.name === '3'">
+                                <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                             </span> 
+                           
+                             <span *ngIf="option.name==='2'"> <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                                  </span> 
+                        
+                             <span *ngIf="option.name==='1'">
+                                <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star gray-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                             </span>
+                        </label>
                       </div>
                     </fieldset>
                   </div>
@@ -34,31 +89,173 @@
       </form>
     </div>
   </div>
+  <div class="row mobile only" *ngIf="expand">
+      <div class="col-md-12">
+        <form>
+          <fieldset>
+            <div *ngIf="formFieldProperties">
+              <div *ngFor="let field of filtersDetails;let i=index;">
+                <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                  <div>
+                    <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
+                      <i class="minus mr-3"
+                        [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+                      </i>
+                      
+                    </h6>
+                  </div>
+                  <div class="filtersBody" *ngIf="flagArray[i] === false">
+                    <div class="form-group" *ngIf="field.inputType==='select'">
+                      <fieldset class="form-group" *ngIf="field.inputType==='select'">
+                        <div class="form-check" *ngFor="let option of field.range">
+  
+                          <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                              type="checkbox" [value]="option.name">
+                            &nbsp; {{option.name}} </label>
+                          <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                              type="checkbox" [value]="option.name">
+  
+                              <span *ngIf="option.name=== '5'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star yellow-star"></i>
+                                          <i class="fas fa-star yellow-star"></i>
+                                          &above
+                                        </span> 
+                            
+                                <span *ngIf="option.name=== '4'"><i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star gray-star"></i>
+                                        &above
+                                      </span>
+                     
+                               <span *ngIf="option.name === '3'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                               </span> 
+                             
+                               <span *ngIf="option.name==='2'"> <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                                    </span> 
+                          
+                               <span *ngIf="option.name==='1'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                               </span>
+                          </label>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
 </div>
 <ng-template #searchResults>
-  <div class="row">
-    <div class="col-md-12 mt-30">
+  <div>
+    <div class="filter-reset-text-div p-3 computer only">
+      <span class="filter-text"><i class="mr-2 ml-2 fas fa-filter"></i>Filters</span>
+      <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">Reset All</span>
+    </div>
+    <div class="filter-reset-text-div p-3 mt-3 mobile only">
+        <span class="filter-text" (click)="expandFilters()"><i class="mr-2 ml-2 fas fa-filter"></i>Filters</span>
+        <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">Reset All</span>
+      </div>
+  </div>
+  <div class="row computer only">
+    <div class="col-md-12">
       <form>
         <fieldset>
           <div *ngIf="formFieldProperties">
-            <div *ngFor="let field of filtersDetails">
-              <div class="text-white mb-3" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
-                <div style="color: black;
-                font-size: 19px;
-                padding: 1rem;"
-                >
-                  <i alt="Filter" class="icon filter"></i>  &nbsp;{{field.name}}
+            <div *ngFor="let field of filtersDetails;let i=index;">
+              <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                <div>
+                  <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
+                    <i class="minus mr-3"
+                      [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+                    </i>
+                    <!-- <span class="minus mr-3"> <i class="fas fa-minus"(click)="shrinkFilters(field.code, i)"></i></span>
+                      <span class="minus mr-3"><i class="fas fa-plus" (click)="expandFilters(field.code, i)"></i></span> -->
+                  </h6>
                 </div>
-                <div class="filtersBody">
-                  <div class="form-group" *ngIf="field.inputType==='select'" style="margin-bottom: 1rem;
-                  line-height: 2rem;
-                  padding: 0rem 0rem 0rem 3.5rem;">
+                <div class="filtersBody" *ngIf="flagArray[i] === false">
+                  <div class="form-group" *ngIf="field.inputType==='select'">
                     <fieldset class="form-group" *ngIf="field.inputType==='select'">
                       <div class="form-check" *ngFor="let option of field.range">
-                        <label class="form-check-label" id="textcolor">
-                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input" type="checkbox"
-                            [value]="option.name">
-                         &nbsp; {{option.name}} </label>
+
+                        <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                            type="checkbox" [value]="option.name">
+                          &nbsp; {{option.name}} </label>
+                        <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                          <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                            type="checkbox" [value]="option.name">
+                    
+                            <span *ngIf="option.name=== '5'">
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star yellow-star"></i>
+                                        &above
+                                      </span> 
+                          
+                              <span *ngIf="option.name=== '4'"><i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                                    </span>
+                   
+                             <span *ngIf="option.name === '3'">
+                                <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                             </span> 
+                           
+                             <span *ngIf="option.name==='2'"> <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                                  </span> 
+                        
+                             <span *ngIf="option.name==='1'">
+                                <i class="fas fa-star yellow-star"></i>
+                              <i class="fas fa-star gray-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                    &above
+                             </span>
+                     
+                        </label>
                       </div>
                     </fieldset>
                   </div>
@@ -70,4 +267,88 @@
       </form>
     </div>
   </div>
+  <div class="row mobile only" *ngIf="expand">
+      <div class="col-md-12">
+        <form>
+          <fieldset>
+            <div *ngIf="formFieldProperties">
+              <div *ngFor="let field of filtersDetails;let i=index;">
+                <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
+                  <div>
+                    <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
+                      <i class="minus mr-3"
+                        [ngClass]="{'fas':true , 'fa-plus': flagArray[i] === true, 'fa-minus': flagArray[i] === false}">
+                      </i>
+                      <!-- <span class="minus mr-3"> <i class="fas fa-minus"(click)="shrinkFilters(field.code, i)"></i></span>
+                        <span class="minus mr-3"><i class="fas fa-plus" (click)="expandFilters(field.code, i)"></i></span> -->
+                    </h6>
+                  </div>
+                  <div class="filtersBody" *ngIf="flagArray[i] === false">
+                    <div class="form-group" *ngIf="field.inputType==='select'">
+                      <fieldset class="form-group" *ngIf="field.inputType==='select'">
+                        <div class="form-check" *ngFor="let option of field.range">
+  
+                          <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
+                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                              type="checkbox" [value]="option.name">
+                            &nbsp; {{option.name}} </label>
+                          <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                            <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                              type="checkbox" [value]="option.name">
+                      
+                              <span *ngIf="option.name=== '5'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star yellow-star"></i>
+                                          <i class="fas fa-star yellow-star"></i>
+                                          &above
+                                        </span> 
+                            
+                                <span *ngIf="option.name=== '4'"><i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star yellow-star"></i>
+                                      <i class="fas fa-star yellow-star"></i>
+                                        <i class="fas fa-star gray-star"></i>
+                                        &above
+                                      </span>
+                     
+                               <span *ngIf="option.name === '3'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star yellow-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                               </span> 
+                             
+                               <span *ngIf="option.name==='2'"> <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star yellow-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                                    </span> 
+                          
+                               <span *ngIf="option.name==='1'">
+                                  <i class="fas fa-star yellow-star"></i>
+                                <i class="fas fa-star gray-star"></i>
+                                  <i class="fas fa-star gray-star"></i>
+                                    <i class="fas fa-star gray-star"></i>
+                                      <i class="fas fa-star gray-star"></i>
+                                      &above
+                               </span>
+                       
+                          </label>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
 </ng-template>

@@ -1,6 +1,6 @@
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil, first, mergeMap, map } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { UserService, BreadcrumbsService, PermissionService, CoursesService } from '@sunbird/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as _ from 'lodash';
@@ -20,7 +20,7 @@ declare var $: any;
 @Component({
   selector: 'app-course-player',
   templateUrl: './course-player.component.html',
-  styleUrls: ['./course-player.component.css']
+  styleUrls: ['./course-player.component.scss']
 })
 
 
@@ -99,7 +99,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
 
   public showExtContentMsg = false;
   courseDetails = [];
-  safeUrl;
   resources = [];
   creator;
   batchDetails = [];
@@ -125,6 +124,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   public collectionTreeOptions: ICollectionTreeOptions;
 
   public unsubscribe = new Subject<void>();
+  previewUrl;
+  safeUrl;
+  preview = false;
+  mimeTypeCount = 0;
+  mimeType = '';
+  @ViewChild('target') targetEl: ElementRef;
+  scroll(el: ElementRef) {
+    console.log(el);
+    this.targetEl.nativeElement.scrollIntoView();
+  }
 
   constructor(public activatedRoute: ActivatedRoute, private configService: ConfigService,
     private courseConsumptionService: CourseConsumptionService, public windowScrollService: WindowScrollService,
@@ -151,8 +160,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         if (this.batchId) {
           this.userEnrolledBatch = true;
         }
-        this.getCourseDetails();
-        this.getBatchDetails();
+
         const inputParams = {params: this.configService.appConfig.CourseConsumption.contentApiQueryParams};
         if (this.batchId) {
           return combineLatest(
@@ -164,6 +172,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
           .pipe(map(courseHierarchy => ({ courseHierarchy })));
       })).subscribe(({courseHierarchy, enrolledBatchDetails}: any) => {
         this.courseHierarchy = courseHierarchy;
+        console.log(this.courseHierarchy);
         this.contributions = _.join(_.map(this.courseHierarchy.contentCredits, 'name'));
         this.courseInteractObject = {
           id: this.courseHierarchy.identifier,
@@ -204,128 +213,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
-  getCourseDetails() {
-    const req = {
-      url: `${this.configService.urlConFig.URLS.COURSE.HIERARCHY}/${
-        this.courseId
-      }`
-    };
-    this.publicDataService.get(req).subscribe(data => {
-
-            this.courseInfo = data.result.content;
-
-      if (data.result.content.hasOwnProperty('children')) {
-        const childrenIds = data.result.content.children;
-
-        // this.courseIds = childrenIds;
-        this.courseTitle = data.result.content.name;
-        this.creator = data.result.content.creator;
-        this.creatorFor = data.result.content.createdFor;
-
-        this.courseDescription = data.result.content.description;
-        _.forOwn(childrenIds, childrenvalue => {
-          this.courseIds.push(childrenvalue.identifier);
-          this.getChildren(childrenvalue);
-        });
-      }
-    });
-  }
-  getChildren(sessiondetails) {
-    // console.log(sessiondetails);
-    _.forOwn(sessiondetails, (children, key) => {
-      if (key === 'children') {
-        _.forOwn(children, value => {
-          if (key === 'children') {
-            this.getChildren(value);
-            if (value.hasOwnProperty('children')) {
-              console.log(value);
-
-              if (value.children.length === 0) {
-                if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
-                  this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
-                  if (this.firstPreviewUrl) {
-                    this.showPreview = true;
-                    this.safeUrl = this.firstPreviewUrl;
-                  }
-                  this.courseDetails.push(value);
-                // console.log(this.courseDetails);
-                } else if (value.mimeType === 'application/vnd.ekstep.ecml-archive') {
-                    this.safeUrl = value.artifactUrl;
-                    this.courseDetails.push(value);
-                } else {
-                  console.log(value);
-
-                  if (value.hasOwnProperty('artifactUrl')) {
-                  this.resources.push(value);
-
-                  // console.log(this.resources);
-                  }
-                }
-              }
-            } else if (value.hasOwnProperty('artifactUrl')) {
-              console.log(value);
-
-              if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
-                // this.firstPreviewUrl = value.artifactUrl;
-                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
-                if (this.firstPreviewUrl) {
-                  this.showPreview = true;
-                  this.safeUrl = this.firstPreviewUrl;
-                }
-                this.courseDetails.push(value);
-                // console.log(this.courseDetails);
-                } else if (value.mimeType === 'application/vnd.ekstep.ecml-archive') {
-                  this.safeUrl = value.artifactUrl;
-                  this.courseDetails.push(value);
-              } else if (value.hasOwnProperty('artifactUrl')) {
-                  this.resources.push(value);
-                  // console.log(this.resources);
-                }
-            }
-          }
-        });
-      }
-    });
-  }
-  public fetchUrl(session) {
-    console.log(session);
-    this.showPreview = true;
-    let previewUrl;
-    const url = session.artifactUrl.slice(17);
-    if (session.mimeType === 'video/x-youtube') {
-      if (_.includes(session.artifactUrl, 'watch')) {
-        previewUrl = session.artifactUrl.replace('watch?v=', 'embed/');
-      } else {
-        previewUrl = 'https://www.youtube.com/embed/' + url;
-      }
-    } else {
-      previewUrl = session.artifactUrl;
-    }
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
-  }
-
-  getBatchDetails() {
-    this.userRoles = false;
-    const batches = {
-      filters: {
-        courseId: this.courseId
-      }
-    };
-    this.courseBatchService.getAllBatchDetails(batches).subscribe(batchData => {
-      console.log(batchData);
-
-      _.forOwn(batchData.result.response.content, batchdetails => {
-        this.batchDetails.push(batchdetails);
-        if (batchData.result.response.content.length < 0) {
-          this.toasterService.error('sorry no batches for this course');
-        }
-      });
-    });
-   }
-
-
    private parseChildContent() {
     const model = new TreeModel();
     const mimeTypeCount = {};
@@ -334,7 +221,13 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
         if (mimeTypeCount[node.model.mimeType]) {
           mimeTypeCount[node.model.mimeType] += 1;
+          this.mimeTypeCount++;
         } else {
+          console.log(node.model.mimeType);
+         if (!_.includes(node.model.mimeType, 'archive')) {
+          this.previewUrl = node.model;
+         }
+         this.mimeTypeCount++;
           mimeTypeCount[node.model.mimeType] = 1;
         }
         this.contentDetails.push({ id: node.model.identifier, title: node.model.name });
@@ -342,7 +235,14 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       }
     });
     _.forEach(mimeTypeCount, (value, key) => {
+      let mime;
       this.curriculum.push({ mimeType: key, count: value });
+     if (key === 'video/mp4' || 'video/x-youtube' ||  'video/mp4' || 'video/webm') {
+       mime = 'video';
+     }
+     this.mimeType = this.mimeType + ' ' + mime + ' ' + value;
+      console.log(this.mimeType);
+
     });
   }
   private getContentState() {
@@ -584,4 +484,27 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   /* toggleSidebar() {
     $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   } */
+  showPreviewVideo() {
+    console.log(this.previewUrl);
+    console.log(this.courseHierarchy);
+    this.preview = !this.preview;
+    let showUrl;
+    const url = this.previewUrl.artifactUrl.slice(17);
+    if (this.previewUrl.mimeType === 'video/x-youtube') {
+      console.log(_.includes(this.previewUrl.artifactUrl, 'watch'));
+      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
+        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
+        console.log(showUrl);
+      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
+        showUrl = this.previewUrl.artifactUrl;
+      } else {
+        showUrl = 'https://www.youtube.com/embed/' + url;
+        console.log(showUrl);
+      }
+    } else {
+      showUrl = this.previewUrl.artifactUrl;
+      console.log(showUrl);
+    }
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(showUrl);
+  }
 }

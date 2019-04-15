@@ -30,7 +30,14 @@ export class LandingpageCardComponent implements OnInit {
   }
 
   public onAction(data, action) {
+
+    action = {
+      eventName: 'onImage'
+    };
+    console.log(action);
+    data.action = action;
     console.log(data);
     this.clickEvent.emit({ 'action': action, 'data': data });
+    this.router.navigate(['/play/collection', data.identifier]);
   }
 }
