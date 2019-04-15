@@ -1,4 +1,4 @@
-<div class="card rectangle"
+<div class="card content-card mt-5 mb-0"
 *ngIf="data"
 (click)="onAction(data,data.action)"
 appTelemetryInteract
@@ -8,55 +8,43 @@ tabindex="0"
 style= "cursor: pointer"
 >
    
-<div *ngIf="data.contentType==='Course'">
-    <div class="circle text-center" style="background:#f0f9f5">
-        <i class="fab fa-2x fa-discourse mt-4" style="color: green"></i>
-        </div>
-</div>
-      <div *ngIf="data.contentType ==='TextBook'">
-          <div class="circle text-center" style="background:#e3e3e3">
-          <i class="fas fa-2x fa-book mt-4" style="color:lightcoral"></i>
-          </div>
-      </div>
-      <div *ngIf="data.contentType !=='Course' && data.contentType!=='TextBook'">
 
-      </div>
-    <div class="card-header">
-      <img *ngIf="data.showImage? false : true" src="{{data.appIcon || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
+    <div class="image">
+      <img class="card-image" *ngIf="data.showImage? false : true" src="{{data.appIcon || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
     </div>
     <div class="card-body">
-            <h5 class="title my-3" style="height: 7vh;
-            max-height: 7vh;">
-                {{data.name | slice:0:40 }}
+      
+
+        
+              <h5 class="content-name">
+                  {{data.name | slice:0:40 }}
                 <span *ngIf="data.name && data.name.length >= 40">...</span>
-                <div style="color: #FFCC4C;font-size: 12px">
-                <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>       
-                    <i class="fas fa-star-half-alt"></i>
-                    <i class="far fa-star"></i>
-                 </div>
               </h5>
-          <h6 class="course-description">
-            {{data.description}}
-          </h6>
-              <div class="creator ellipsis">
-                {{data.orgDetails?.orgName}}
-              </div>
-        <div class="row">
-           <div class="col text-right">
-       
-             <div>
-                <hr>
-                <div class="text">
-                    Free
-                 </div>
-              </div>
-           </div>
-         </div>
-         <div *ngIf="data.maxCount && data.progress > 0" class="mt-5">
-            <sui-progress class="ui progress" [value]="data.progress" [maximum]="data.maxCount" ></sui-progress>
-          </div>
+                <h6 class="content-author">
+                    {{data.orgDetails?.orgName}}
+                </h6>
+                  
+                  <div class="rating-and-views mt-3">
+                      <i class="fas fa-star yellow-star"></i>
+                      <i class="fas fa-star yellow-star"></i>
+                      <i class="fas fa-star yellow-star"></i>
+                      <i class="fas fa-star yellow-star"></i>
+                      <i class="fas fa-star-half-alt yellow-star"></i>
+                      <span class="rating"> 4.5</span>
+                      <span class="views text-color-gray"> (138,560)</span>
+                  </div>
+                
+
+                  <div class="lectures-and-duration mt-3">
+                      <i class="fas fa-play-circle"></i>
+                      <span class="lectures text-color-gray">&nbsp; 150 lectures &nbsp; | &nbsp;</span>
+                      <span class="duration text-color-gray"><i class="far fa-clock"></i> 2 Weeks</span>
+                  </div>
+                  <div class="price mt-3">
+                    <span class="price">₹ 35000/-</span>
+                    <span class="content-type">{{data.contentType}}</span>
+                  </div>
+        
         </div>
   </div>
 

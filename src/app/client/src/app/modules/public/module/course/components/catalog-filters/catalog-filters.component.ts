@@ -32,6 +32,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageId: string;
   @Output() filters = new EventEmitter();
   @Output() dataDrivenFilter = new EventEmitter();
+  public expand = false;
+
   /**
  * To get url, app configs
  */
@@ -72,6 +74,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
  * formInputData is to take input data's from form
  */
   public formInputData: any;
+  @Input() viewAllMode = false;
+
 
   userRoles = [];
   selectedFilter: Filter;
@@ -89,6 +93,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   submitIntractEdata: IInteractEventEdata;
   browsingCategory: any;
   tempKey: any;
+
+  flagArray = [];
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -303,25 +309,36 @@ this.selectedFilter = filter;
   }
   createFacets() {
     this.filtersDetails = _.cloneDeep(this.formFieldProperties);
+
     const filterArray = [];
     _.forEach(this.filtersDetails, (value) => {
       filterArray.push(value.code);
+      this.flagArray.push(false);
+
     });
     this.filters.emit(filterArray);
   }
 
-  resetFilters() {
-    if (!_.isEmpty(this.ignoreQuery)) {
-      this.formInputData = _.pick(this.formInputData, this.ignoreQuery);
-    } else {
-      this.formInputData = {};
-    }
-    this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
-    this.refresh = false;
-    this.cdr.detectChanges();
-    this.refresh = true;
+  iconChange(i: number) {
+    this.flagArray[i] = !this.flagArray[i];
   }
 
+    public resetFilters() {
+      console.log('resetFilters', this.formInputData);
+      this.formInputData = _.pick(this.formInputData, this.ignoreQuery);
+      if (this.viewAllMode) {
+        const data = this._cacheService.get('viewAllQuery');
+        _.forIn(data, (value, key ) => this.formInputData[key] = value);
+      }
+      this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
+      this.hardRefreshFilter();
+    }
+
+    private hardRefreshFilter() {
+      this.refresh = false;
+      this.cdr.detectChanges();
+      this.refresh = true;
+    }
   resetFilters2(name) {
 
     const checkboxes: any = document.getElementsByName(name);
@@ -336,6 +353,11 @@ this.selectedFilter = filter;
     this.applyFilters();
   }
 
+  expandFilters() {
+    this.expand = !this.expand;
+    console.log(this.expand);
+
+  }
   /**
  * to get selected concepts from concept picker.
  */

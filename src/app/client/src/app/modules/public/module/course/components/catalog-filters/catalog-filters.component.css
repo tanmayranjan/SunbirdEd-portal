@@ -18,3 +18,53 @@
 .fieldselected {
   display: block
 }
+.form-group {
+  margin-bottom: 1rem;
+  padding: 0em 0em 0em 0.8em;
+  line-height: 2.2em;
+
+}
+h6 {
+  text-shadow: 0.5px 0px black;
+}
+  .filter-reset-text-div{
+    background: #F3F3F3;
+  }
+
+  .filter-reset-text-div .filter-text{
+    font-size: 1.5em;
+  }
+
+  .filter-reset-text-div .reset-blue-text{
+    color:#006FF9;
+    font-size: 1.3em;
+  }
+
+  .filter-reset-text-div .fa-filter{
+    color:#B6B6B6;
+  }
+
+  .unstyled{
+    list-style-type: none;
+  }
+  
+  .minus{
+    float: right;
+    color: #D3D3D3;
+  }
+
+  .styled-checkbox{
+    margin: 5px;
+    zoom: 1.3;
+  }
+
+  .categories-list,.rating li{
+    margin-left: -1.4em;
+  }
+ 
+  .yellow-star{
+    color:rgb(239, 217, 21);
+  }
+  .gray-star {
+    color: #D3D3D3;
+  }

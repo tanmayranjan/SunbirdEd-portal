@@ -1,0 +1,86 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.jumbotron {
+  background:none;
+}
+.alert-primary {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+.ui.vertical.divider {
+  position: absolute;
+  left: 25%;
+  padding: 0;
+  width: auto;
+  height: 96.5%;
+  top: 0;
+}
+.btn-danger, .btn-danger:hover {
+  background-color: #f5f5f5;
+  color: black;
+  border-color: black;
+}
+.page-link {
+  color: black;
+}
+.pagination-lg .page-link {
+  background: lightblue;
+  border-color: lightblue;
+
+}
+.page-item.active .page-link {
+  border-color: lightblue;
+  background: white;
+  color: black;
+}
+.courses {
+  left:26rem;
+  transition: 0.3s;
+  margin-top: -2em;
+}
+
+.filters {
+  height: 47rem;
+  overflow-y: scroll;
+  position: fixed;
+  margin: 0rem;
+  z-index: 10;
+  background: #F7F8FB;
+  width: 25%;
+
+}
+#scroll {
+  background: #F7F8FB;
+}
+.card-width {
+  width: 43.33%;
+}
+.filters::-webkit-scrollbar-thumb {
+  // background: #7D5CE7;
+  width: 0rem !important;
+}
+.filters::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.mobile-view-filters::-webkit-scrollbar-thumb {
+  // background: #7D5CE7;
+  width: 0rem !important;
+}
+.mobile-view-filters::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+@media (min-width:320px) and (max-width:780px) {
+  .card-width {
+    width: auto;
+  }
+
+  .mobile-view-filters {
+    height: auto;
+    overflow-y: scroll;
+    margin: 0rem;
+    z-index: 10;
+    background: #F7F8FB;
+  }
+
+}
