@@ -224,7 +224,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
           this.mimeTypeCount++;
         } else {
           console.log(node.model.mimeType);
-         if (!_.includes(node.model.mimeType, 'archive') {
+         if (!_.includes(node.model.mimeType, 'archive')) {
           this.previewUrl = node.model;
          }
          this.mimeTypeCount++;

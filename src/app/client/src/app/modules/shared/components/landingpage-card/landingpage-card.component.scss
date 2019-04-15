@@ -6,10 +6,10 @@
   box-shadow: 0 3px 10px 0 rgba(115, 143, 147, 0.3);
   background-color: #ffffff;
   cursor: pointer;
-  border: .5px solid #dedede;
+  border: 0.5px solid #dedede;
   border-bottom: 0;
   &:hover {
-    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.16);;
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.16);
     transform: translateY(-2px);
   }
   &:focus {
@@ -112,5 +112,10 @@
     padding: 8px 1rem;
     overflow: hidden;
     word-break: break-word;
+  }
+
+  .author {
+    font-size: 1.2em;
+    color: lightgray;
   }
 }

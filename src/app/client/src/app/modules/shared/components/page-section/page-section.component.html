@@ -1,4 +1,4 @@
-<div class="ui grid" *ngIf="section.contents && section.contents.length > 0">
+<!-- <div class="ui grid" *ngIf="section.contents && section.contents.length > 0">
     <div class="ui twelve wide column">
         <div class="d-flex flex-ai-center">
             <h4 class="ui header m-0 mr-5 pageSection-heading" *ngIf="!section.noName">{{section.name}}</h4>
@@ -36,3 +36,42 @@
     </div>
 </div>
 
+ -->
+
+ <div class="ui grid" *ngIf="section.contents && section.contents.length > 0">
+        <div class="ui twelve wide column">
+            <div class="d-flex flex-ai-center">
+               <!-- <h4 class="ui header m-0 mr-5 pageSection-heading">{{section.name}}</h4> -->
+                <!--<span class="ui primary label pageSection-count">{{section.contents.length}}</span>-->
+                <!--<button class="ui button small bs-1 py-5 m-0 ml-auto" *ngIf="section.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">{{ resourceService.frmelmnts.lnk.viewall}}</button>-->
+            </div>
+            <div class="pageSection-Slider">
+                <ngx-slick 
+                    in-view-container (inview)="inview($event)" 
+                    [throttle]="[1000]" 
+                    [trigger]="section.contents" 
+                    (afterChange)="inviewChange(section.contents,$event)" 
+                    (beforeChange)="checkSlide($event)" 
+                    appTelemetryInteract  
+                    [telemetryInteractEdata]="{id: btnArrow === undefined ? 'prev-button' : btnArrow , type: 'click', pageid: pageid, extra: { section: section.name}}" 
+                    class="carousel" 
+                    #slickModal="slick-modal" 
+                    [config]="slideConfig">
+                    <div in-view-item [id]="i" [data]="content" ngxSlickItem *ngFor="let content of section.contents;let i = index; let last = last" class="slide">    
+                        <app-card  appContentDirection [data]="content"
+                            appTelemetryInteract
+                            [telemetryInteractEdata]="cardIntractEdata" 
+                            [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
+                            (clickEvent)="playContent($event)"
+                            [data]="content" 
+                            [customClass]="'mr-20'"
+                            class="d-block" [class.last-card]="pr-0">
+                        </app-card>
+                    </div>
+                </ngx-slick>
+            </div>
+        </div>
+      
+    </div>
+    
+    

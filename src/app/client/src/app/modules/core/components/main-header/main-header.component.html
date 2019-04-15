@@ -1,134 +1,117 @@
-<div *ngIf="showQrmodal">
-    <app-qr-code-modal (closeQrModal)="closeQrModalEvent($event)"></app-qr-code-modal>
-</div>
-<div class="ui fixed main menu bs-0 main-header d-block">
-    <div class="ui container primary-header">
-        <div role="banner" class="ui logo d-flex flex-ai-center">
-            <a class="d-flex flex-ai-center" (click)="navigateToHome()">
-                <img class="image centered cursor-pointer" alt={{tenantName}} src="{{logo}}" id="img">
-            </a>
-        </div>
-        <i class="large bars icon link sidebar-hamburger-menu mobile only" (click)="showSideBar()" tabindex="0"></i>
-        <app-main-menu class="d-flex computer only ml-auto"></app-main-menu>
-        <a class="profile-avtar item computer only pr-0" *ngIf="userService.loggedIn; else showLoginBtn">
-            <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
-                <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
-                </ngx-avatar>
-                <div class="menu" suiDropdownMenu>
-                    <div *ngIf='userProfile' class="item headerDropdownProfile">
-                        {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
-                    </div>
-                    <div *ngIf='userProfile' class="ui divider"></div>
-                    <a class="item" routerLink="profile">
-                        {{resourceService.frmelmnts?.lnk?.profile}}
-                    </a>
-                    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard">
-                        {{resourceService.frmelmnts?.lnk?.dashboard}}
-                    </a>
-                    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='announcementRole' routerLink="announcement/outbox/1">
-                        {{resourceService.frmelmnts?.lnk?.announcement}}
-                    </a>
-                    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='myActivityRole' routerLink="myActivity">
-                        {{resourceService.frmelmnts?.lnk?.myactivity}}
-                    </a>
-                    <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='orgSetupRole' routerLink="orgType">
-                        {{resourceService.frmelmnts?.lbl?.orgtypes}}
-                    </a>
-                    <a class="item" (click)="logout()">
-                        {{resourceService.frmelmnts?.lnk?.logout}}
-                    </a>
-                </div>
-            </div>
-        </a>
-        <ng-template #showLoginBtn>
-            <div class="primary-nav-item d-flex ml-auto computer only">
-               <button
-                    class="ui explore blue button flex-as-center mr-20"
-                    tabindex="0" (click)="openCatalog()">
-                    Courses
-                    <!-- {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}} -->
-                </button>
-                 <!--  <button routerLink="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
-                  {{resourceService.frmelmnts?.btn?.signup}}
-                </button> -->
-<!--              
-                <a class="item" *ngIf="!router.isActive('', true)" routerLink="explore" [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
-                    {{resourceService?.frmelmnts?.tab?.resources}}
-                </a>
-                <a class="item pr-0" *ngIf="!router.isActive('', true)" routerLink="explore-course" [class.active]="router.isActive('/search/explore-course') || router.isActive('/explore-course')">
-                    {{resourceService?.frmelmnts?.tab?.courses}}
-                </a> -->
-                       <a href="/learn" class="sunblogin item font-weight-bold primary-color">
-                    {{resourceService.frmelmnts?.btn?.signin}}
-                </a>
-                <a class="item divider"></a>
 
-                <a href="/signup" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
-                    Sign up
-                </a>
-         
-           
+
+<!-- HEADER SECTION
+    css of this section is in header.css -->
+    <div class="container-fluid">
+        <div class="row align-items-center header">
+            <div class="col-xs-12 col-sm-12 col-md-2">
+                <div class="logo" (click)="navigateToHome()">
+                    <img src="./assets/niit.png" alt={{tenantName}}>
+                </div>x
             </div>
-        </ng-template>
-    </div>
-    <!-- <div class="primary-navbar-bg p-10" *ngIf="showExploreHeader || userService.loggedIn">
-        <div class="ui mobile-view container d-flex flex-ai-center mx-0">
-             <button class="ui basic button qr-code-btn d-flex computer only mr-0" (click)="showQrmodal = true;">
-                <i class="qrcode icon d-flex flex-ai-center"></i>
-                <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
-            </button>
-            <span class="item divider computer only pl-0 search-qrcode-divider"></span>
-             <div class="">
-              <i class="list alternate icon">catogories</i>
-                   <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Catogories
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="http://google.com">Google</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Submenu</a></li>
-              <li><a class="dropdown-item" href="#">Submenu0</a></li>
-              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Submenu 1</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
-                  <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
-                </ul>
-              </li>
-              <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Submenu 2</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
-                  <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-               </div>
-            <app-search class="primary-searchbar-alignment " *ngIf="!showExploreHeader"></app-search>
-            <div *ngIf="showExploreHeader" class="primary-searchbar-alignment">
-                <div class="ui fluid small ui action input primary-search-input">
-                    <input type="text" id="keyword" name="filter_search" title="Search" placeholder="{{resourceService?.frmelmnts?.prmpt?.search}}"
-                        class="" [(ngModel)]="key" (keyup.enter)="onEnter(key)" />
-                    <button class="ui icon button">
-                        <i class="search large blue icon primary-search-icon" (click)="onEnter(key)"></i>
-                    </button>
+            <div class="col-xs-3 col-sm-3 col-md-2 category">
+                    <div class="ui dropdown">
+                            <i class="fa fas fa-th"></i>
+                            &nbsp;<div class="text">Category</div>
+                            <div class="menu">
+                                <ng-container *ngFor="let term of terms">
+                                        <div (click)="getFramework(term)" class="item">{{term}}</div>
+                                </ng-container>
+                            </div>
+                          </div>    
+                
+                
+                
+                <!-- <div class="ui buttons">
+            
+                            <div class="ui floating dropdown icon categories button" style="background-color:transparent">
+                                <i class="fa fas fa-th"></i>
+                                <div class="menu">
+                                    
+                                    <div class="item"><a href=#>Account settings</a></div>
+                                    <div class="item"><a (click)="logout()">Logout</a></div>
+                                </div>
+                            </div>
+                        </div>
+                <span class="align-self-center">&nbsp; Category</span> -->
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5">
+                <div class="container-fluid search-container">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" [(ngModel)]="key" (keyup.enter)="onEnter(key)" placeholder="Search for anything...."
+                                name="header-search">
+                            <div class="search">
+                                <button class="btn btn-default" type="submit" (click)="onEnter(key)">
+                                    <i class="fa fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <app-language-dropdown class="computer only" *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
-        </div>
-    </div> -->
-    
-    <div class="p-10 mobile only" *ngIf="showExploreHeader || userService.loggedIn">
-        <div class="ui mobile-view container d-flex flex-jc-space-between mx-0">
-            <!-- <button class="ui basic d-flex button qr-code-btn" (click)="showQrmodal = true;">
-                <i class="qrcode icon d-flex flex-ai-center"></i>
-                <span class="d-flex flex-ai-center">{{resourceService.frmelmnts?.lbl?.enterQrCode}}</span>
-            </button> -->
-            <app-language-dropdown *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
+            <div class="col-xs-1 col-sm-1 col-md-3">
+                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-around button-container">
+                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                        <a routerLink="/signup" class="signup">Sign Up</a>
+                    </div>
+                    <div class="col d-none d-md-block d-lg-block">
+                        <button type="button" class="btn btn-outline-default btn-md signin">
+                            <a href="/learn" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                                {{resourceService.frmelmnts?.btn?.signin}}
+                            </a>
+                        </button>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 d-xs-block d-sm-block d-md-none d-lg-none mobile-menu">
+                        <div class="hamburger">
+                            <a (click)="showSideBar()" id="mobile_item" class="item"><i class="fa fas fa-bars"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--display if the user is logged in -->
+                <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
+                    <div class="col-2 d-none d-md-block d-lg-block p-0 text-center text-white">
+                        <a routerLink="/learn" class="mycourses">My Courses</a>
+                    </div>
+                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                        <button *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole' (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
+                        type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
+                    </div>
+                    <div class="col-1 text-center">
+                        <i class="fa fa-bell"></i>
+                    </div>
+                    <div class="col p-0 text-center">
+                        <div class="ui buttons">
+            
+                            <div class="ui floating dropdown icon button" style="background-color:transparent">
+                                <i class="fa fa-user-circle-o" style="font-size:20px"></i>
+                                <div class="menu">
+                                    <div *ngIf='userProfile' class="item" routerLink="profile"><a>Profile</a></div>
+                                    <div *ngIf=' userService.loggedIn && permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard" class="item">
+                                    <a>{{resourceService.frmelmnts?.lnk?.dashboard}}</a>
+                                </div>
+                                    <div class="item"><a>Account settings</a></div>
+                                    <div class="item"><a (click)="logout()">Logout</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 d-xs-block d-sm-block d-md-none d-lg-none mobile-menu">
+                            <div class="hamburger">
+                                <a (click)="showSideBar()" id="mobile_item" class="item"><i class="fa fas fa-bars"></i></a>
+                            </div>
+                        </div>
+                </div>
+                <!--logged in section end-->
+            </div>
         </div>
     </div>
-</div>
+    <!--sidebar ui-->
+    <div class="ui sidebar vertical menu align right">
+            <a *ngIf="!userService.loggedIn" class="item" routerLink="/learn">Sign In</a>
+            <a *ngIf="!userService.loggedIn" class="item" [routerLink]="['/signup']">Sign Up</a>
+            <a *ngIf="userService.loggedIn && userProfile" class="item" routerLink="profile">{{resourceService.frmelmnts?.lnk?.profile}}</a>
+            <a *ngIf="userService.loggedIn" class="item" [routerLink]="['/workspace/content/create']">Workspace</a>
+            <a *ngIf="userService.loggedIn" class="item" (click)="logout()">{{resourceService.frmelmnts?.lnk?.logout}}</a>
+        </div>
+        <div class="pusher"></div>

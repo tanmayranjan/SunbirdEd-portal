@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-footer',
   templateUrl: './main-footer.component.html',
-  styleUrls: ['./main-footer.component.css']
+  styleUrls: ['./main-footer.component.scss']
 })
 export class MainFooterComponent implements OnInit {
   /**
@@ -20,7 +20,7 @@ export class MainFooterComponent implements OnInit {
   Hide or show footer
   */
   showFooter = true;
-  applyCss;
+  applyCss = true;
   constructor(resourceService: ResourceService,
     public router: Router,
     public activatedRoute: ActivatedRoute) {
@@ -32,6 +32,7 @@ export class MainFooterComponent implements OnInit {
     if (event instanceof NavigationStart) {
       const url = event.url;
       if (url.includes('explore-course')) {
+        console.log('footerrrrrrr');
         this.applyCss = true;
       }
      }

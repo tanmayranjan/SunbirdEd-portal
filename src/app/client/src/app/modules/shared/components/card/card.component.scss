@@ -1,4 +1,4 @@
-@import "variables";
+/* @import "variables";
 .sbCard {
   width: 100%;
   border-radius: 4px;
@@ -113,4 +113,167 @@
     overflow: hidden;
     word-break: break-word;
   }
+}
+ */
+ @import "variables";
+.sbCard {
+  width: 70%;
+  position: relative;
+  height: 325px;
+  border-radius: 5px;
+  border: 0;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  cursor: pointer;
+  border: .5px solid #dedede;
+  border-bottom: 0;
+  &:hover {
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.16);;
+    transform: translateY(-2px);
+  }
+  &:focus {
+    outline: $primary-color auto 1px;
+  }
+  .image {
+    width: 100%;
+    height: 108px;
+    border: $primary-border;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-width: 70px;
+    max-width: 100%;
+    object-fit: cover;
+    background-color: $primary-background;
+    img {
+      width: 100%;
+      height: -webkit-fill-available;
+
+      max-width: 100%;
+    }
+  }
+  .img-header {
+    position: relative;
+    align-items: flex-end;
+  }
+  .meta {
+    font-size: 0.8571rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 92px;
+    overflow: hidden;
+    width: calc(100% - 70px);
+  }
+
+  &.course {
+    justify-content: flex-start;
+  }
+
+  &.non-course {
+    justify-content: flex-end;
+  }
+
+  .topic,
+  .subtopic {
+    line-height: 1.417em;
+    max-height: 2.84em;
+    overflow: hidden;
+  }
+
+  .avatar {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+  }
+
+  .ui.label {
+    font-size: 0.7857rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 0.5px solid $card-label-border-color;
+    color: $primary-color;
+    font-weight: 500;
+    width: auto;
+    align-self: flex-start;
+    background: transparent;
+  }
+
+  .sub-header {
+    padding: 0px 0px;
+  }
+
+  .title {
+    font-size: 1rem;
+    line-height: 1.429em;
+    height: 2.857em;
+    margin-top: 9px;
+    margin-left: 7px;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    font-weight: bold;
+  }
+
+  .creator {
+    font-size: 1rem;
+    height: 2.1em;
+    padding: 5px;
+   bottom: 0;
+    position: absolute;
+    text-align: center;
+    color: white;
+    width: -webkit-fill-available;
+    background-color: #7f60e5;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.25em;
+    height: 6em;
+    color: $text-lightDark;
+    padding: 8px 1rem;
+    overflow: hidden;
+    word-break: break-word;
+  }
+}
+
+*[lang="hi"] .sbCard .meta {
+  line-height: 1.6em;
+}
+
+
+.bottomright {
+  
+  
+  border:1px;
+}
+.ridge {
+  position: absolute;
+  top:98px;
+  font-size: 11px;
+  left: 77%;
+background-color:#7f60e5;
+border-radius:5px;
+color: white;
+
+}
+
+.customstar
+{
+  margin-left: 7px;
+  float: left;
+}
+.progress
+{
+  margin: 9px;
+  height: 0.3rem;
+}
+.progress-bar
+{
+  background-color: #7D5CE7;
+}
+
+#menu1 {
+  padding-right : 50px;
 }

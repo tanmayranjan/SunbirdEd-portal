@@ -8,6 +8,7 @@ import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry'
   styleUrls: ['./card.component.css']
 })
 export class CardComponent {
+  rating = 3;
   /**
 * content is used to render IContents value on the view
 */
