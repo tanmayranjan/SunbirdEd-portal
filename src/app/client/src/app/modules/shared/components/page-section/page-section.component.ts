@@ -35,81 +35,81 @@ export class PageSectionComponent implements OnInit {
   * This is slider setting
   */
  slideConfig = {
-  'slidesToShow': 4,
-  'slidesToScroll': 4,
+   'slidesToShow': 4,
+   'slidesToScroll': 4,
   'responsive': [
-    {
-      'breakpoint': 2800,
-      'settings': {
-        'slidesToShow': 6,
-        'slidesToScroll': 6
-      }
-    },
-    {
-      'breakpoint': 2200,
-      'settings': {
-        'slidesToShow': 5,
-        'slidesToScroll': 5
-      }
-    },
-    {
-      'breakpoint': 2000,
-      'settings': {
-        'slidesToShow': 4,
-        'slidesToScroll': 4
-      }
-    },
-    {
-      'breakpoint': 1600,
-      'settings': {
-        'slidesToShow': 3.5,
-        'slidesToScroll': 3
-      }
-    },
-    {
-      'breakpoint': 1200,
-      'settings': {
-        'slidesToShow': 3,
-        'slidesToScroll': 3
-      }
-    },
-    {
-      'breakpoint': 900,
-      'settings': {
-        'slidesToShow': 2.5,
-        'slidesToScroll': 2
-      }
-    },
-    {
-      'breakpoint': 750,
-      'settings': {
-        'slidesToShow': 2,
-        'slidesToScroll': 2
-      }
-    },
-    {
-      'breakpoint': 660,
-      'settings': {
-        'slidesToShow': 1.75,
-        'slidesToScroll': 1
-      }
-    },
-    {
-      'breakpoint': 530,
-      'settings': {
-        'slidesToShow': 1.25,
-        'slidesToScroll': 1
-      }
-    },
-    {
-      'breakpoint': 450,
-      'settings': {
-        'slidesToShow': 1,
-        'slidesToScroll': 1
-      }
-    }
-  ],
-  infinite: false
+   {
+     'breakpoint': 2800,
+     'settings': {
+       'slidesToShow': 6,
+       'slidesToScroll': 6
+     }
+   },
+   {
+     'breakpoint': 2200,
+     'settings': {
+       'slidesToShow': 5,
+       'slidesToScroll': 5
+     }
+   },
+   {
+     'breakpoint': 2000,
+     'settings': {
+       'slidesToShow': 4,
+       'slidesToScroll': 4
+     }
+   },
+   {
+     'breakpoint': 1600,
+     'settings': {
+       'slidesToShow': 3.5,
+       'slidesToScroll': 3
+     }
+   },
+   {
+     'breakpoint': 1200,
+     'settings': {
+       'slidesToShow': 3,
+       'slidesToScroll': 3
+     }
+   },
+   {
+     'breakpoint': 900,
+     'settings': {
+       'slidesToShow': 2.5,
+       'slidesToScroll': 2
+     }
+   },
+   {
+     'breakpoint': 750,
+     'settings': {
+       'slidesToShow': 2,
+       'slidesToScroll': 2
+     }
+   },
+   {
+     'breakpoint': 660,
+     'settings': {
+       'slidesToShow': 1.75,
+       'slidesToScroll': 1
+     }
+   },
+   {
+     'breakpoint': 530,
+     'settings': {
+       'slidesToShow': 1.25,
+       'slidesToScroll': 1
+     }
+   },
+   {
+     'breakpoint': 450,
+     'settings': {
+       'slidesToShow': 1,
+       'slidesToScroll': 1
+     }
+   }
+ ],
+ infinite: false
 };
   /**The previous or next value of the button clicked
    * to generate interact telemetry data */

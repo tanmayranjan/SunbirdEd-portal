@@ -1,7 +1,6 @@
-
 import {combineLatest, of, Subject } from 'rxjs';
 import { PageApiService, CoursesService, ISort, PlayerService, FormService } from '@sunbird/core';
-import { Component, OnInit, OnDestroy, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService
 } from '@sunbird/shared';
@@ -10,17 +9,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { takeUntil, map, mergeMap, first, filter, catchError } from 'rxjs/operators';
-import { forEach } from '@angular/router/src/utils/collection';
-import { ICourses } from '@sunbird/core';
-
-
 @Component({
   templateUrl: './learn-page.component.html',
-  styleUrls: ['./learn-page.component.css']
+  styleUrls : ['./learn-page.component.scss']
 })
-
 export class LearnPageComponent implements OnInit, OnDestroy {
-
   public showLoader = true;
   public noResultMessage: INoResultMessage;
   public carouselData: Array<ICaraouselData> = [];
@@ -39,9 +32,6 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
-  public completedSection: any;
-
-
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
@@ -53,22 +43,18 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     this.setTelemetryData();
   }
   ngOnInit() {
-    combineLatest(this.fetchEnrolledCoursesSection(), this.fetchCompletedCoursesSection(), this.getFrameWork()).pipe(first(),
+    combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
-        console.log('dat', data);
         this.enrolledSection = data[0];
-        this.completedSection = data[1];
-        console.log('en and cp', this.enrolledSection, this.completedSection );
-        if (data[2]) {
+        if (data[1]) {
           this.initFilters = true;
-          this.frameWorkName = data[2];
+          this.frameWorkName = data[1];
           // return this.dataDrivenFilterEvent;
           return of({});
         } else {
           return of({});
         }
     })).subscribe((filters: any) => {
-      console.log('fil', filters);
         this.dataDrivenFilters = filters;
         this.fetchContentOnParamChange();
         this.setNoResultMessage();
@@ -76,7 +62,6 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       error => {
         this.toasterService.error(this.resourceService.messages.fmsg.m0002);
     });
-
   }
   private fetchContentOnParamChange() {
     combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
@@ -113,10 +98,10 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     }
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
-        console.log('pagedata', data);
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
-        console.log('checking', this.carouselData);
+        console.log(this.carouselData);
+        this.carouselData = this.carouselData.filter( carouseldata => carouseldata.name === 'Latest Courses');
       }, err => {
         this.showLoader = false;
         this.carouselData = [];
@@ -171,62 +156,21 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   }
   private fetchEnrolledCoursesSection() {
     return this.coursesService.enrolledCourseData$.pipe(map(({enrolledCourses, err}) => {
-      console.log('eri', enrolledCourses);
-      const enrole: Array<ICourses> = [];
       const enrolledSection = {
         name: 'My Courses',
         length: 0,
-        contents: [],
-        noName: true
+        contents: []
       };
       if (err) {
         // show toaster message this.resourceService.messages.fmsg.m0001
         return enrolledSection;
       }
       const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.CoursePageSection.enrolledCourses;
-      for (const courses of enrolledCourses) {
-        if ( courses.progress === 0 ) {
-          enrole.push(courses);
-        } else if ( courses.progress > 0 && courses.progress < courses.leafNodesCount) {
-          enrole.push(courses);
-        }
-      }
-      enrolledSection.contents = this.utilService.getDataForCard(enrole, constantData, dynamicFields, metaData);
+      enrolledSection.contents = this.utilService.getDataForCard(enrolledCourses, constantData, dynamicFields, metaData);
       return enrolledSection;
     }));
   }
-  private fetchCompletedCoursesSection() {
-    console.log('hii');
-    return this.coursesService.enrolledCourseData$.pipe(map(({enrolledCourses, err}
-      ) => {
-      console.log('erie', enrolledCourses);
-      const complete: Array<ICourses> = [];
-      const completedSection = {
-        name: 'Completed Course',
-        length: 0,
-        contents: [],
-        noName: true
-
-      };
-      if (err) {
-        // show toaster message this.resourceService.messages.fmsg.m0001
-        return completedSection;
-      }
-      const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.CoursePageSection.enrolledCourses;
-      for (const courses of enrolledCourses) {
-        if ( courses.progress ===   courses.leafNodesCount) {
-          complete.push(courses);
-        }
-      }
-      completedSection.contents = this.utilService.getDataForCard(complete, constantData, dynamicFields, metaData);
-      console.log(completedSection, 'dnfdshj');
-      return completedSection;
-   }));
-   }
-
-
   public prepareVisits(event) {
-    console.log('inside orepare visits');
     _.forEach(event, (inView, index) => {
       if (inView.metaData.identifier) {
         this.inViewLogs.push({
@@ -302,5 +246,4 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       'messageText': _.get(this.resourceService, 'messages.stmsg.m0006') || 'Please search for something else.'
     };
   }
-
 }

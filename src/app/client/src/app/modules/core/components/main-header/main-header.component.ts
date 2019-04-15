@@ -242,9 +242,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
-      //reset the dropdrown of categories on route change
+      // reset the dropdrown of categories on route change
       jQuery('.ui.dropdown').dropdown('restore defaults');
-      
       if (_.includes(urlAfterRedirects.url, '/explore')) {
         this.showExploreHeader = true;
         const url = urlAfterRedirects.url.split('?')[0].split('/');
@@ -311,7 +310,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   getFrameworkCategoryandterms(framework) {
-    console.log('called get category terms')
+    console.log('called get category terms');
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
       // pull out terms from all the categories and keep them in one arry
