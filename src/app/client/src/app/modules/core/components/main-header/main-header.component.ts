@@ -32,6 +32,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   queryParam: any = {};
   showExploreHeader = false;
   showQrmodal = false;
+  /*
+  *to handle the workspace permissions
+  */
+  workSpaceRole: Array<string>;
   /**
    * tenant name
    */
@@ -122,6 +126,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.permissionService = permissionService;
     this.userService = userService;
     this.tenantService = tenantService;
+    this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
   }
 
   ngOnInit() {
@@ -149,6 +154,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
               currentRoute = route;
               console.log('here is  the  current route', currentRoute.data['value']['orgdata']['defaultFramework']);
               this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
+              console.log('framework name from main header router event', this.frameWorkName);
               // call framework category api
               this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
@@ -211,6 +217,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }
   }
+
+  navigateToWorkspace() {
+    const authroles = this.permissionService.getWorkspaceAuthRoles();
+    if (authroles) {
+      console.log('authroles determination is done via ', authroles);
+      this.router.navigate([authroles.url]);
+    }
+  }
   onEnter(key) {
     console.log('key', key);
     this.key = key;
@@ -228,6 +242,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
+      //reset the dropdrown of categories on route change
+      jQuery('.ui.dropdown').dropdown('restore defaults');
+      
       if (_.includes(urlAfterRedirects.url, '/explore')) {
         this.showExploreHeader = true;
         const url = urlAfterRedirects.url.split('?')[0].split('/');
@@ -294,6 +311,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   getFrameworkCategoryandterms(framework) {
+    console.log('called get category terms')
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
       // pull out terms from all the categories and keep them in one arry
@@ -307,6 +325,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
           });
         }
       });
+      console.log('list of categories picked are ', this.termNames);
+      console.log('list of terms created as ', this.terms);
     });
 
   }

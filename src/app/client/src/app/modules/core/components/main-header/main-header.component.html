@@ -182,7 +182,7 @@
                         <a routerLink="/signup" class="signup">Sign Up</a>
                     </div>
                     <div class="col d-none d-md-block d-lg-block">
-                        <button type="button" class="btn btn-outline-primary btn-md signin">
+                        <button type="button" class="btn btn-outline-default btn-md signin">
                             <a href="/resources" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
                                 {{resourceService.frmelmnts?.btn?.signin}}
                             </a>
@@ -196,11 +196,12 @@
                 </div>
                 <!--display if the user is logged in -->
                 <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
-                    <div class="col-md-2 d-none d-md-block d-lg-block p-0 text-center text-white">
+                    <div class="col-2 d-none d-md-block d-lg-block p-0 text-center text-white">
                         <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
                     <div class="col d-none d-md-block d-lg-block p-0 text-center">
-                        <button type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace/content/create">Workspace</button>
+                        <button *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole' (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
+                        type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
                     </div>
                     <div class="col-1 text-center">
                         <i class="fa fa-bell"></i>
@@ -211,8 +212,11 @@
                             <div class="ui floating dropdown icon button" style="background-color:transparent">
                                 <i class="fa fa-user-circle-o" style="font-size:20px"></i>
                                 <div class="menu">
-                                    <div *ngIf='userProfile' class="item"><a routerLink="profile">Profile</a></div>
-                                    <div class="item"><a href=#>Account settings</a></div>
+                                    <div *ngIf='userProfile' class="item" routerLink="profile"><a>Profile</a></div>
+                                    <div *ngIf=' userService.loggedIn && permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard" class="item">
+                                    <a>{{resourceService.frmelmnts?.lnk?.dashboard}}</a>
+                                </div>
+                                    <div class="item"><a>Account settings</a></div>
                                     <div class="item"><a (click)="logout()">Logout</a></div>
                                 </div>
                             </div>
