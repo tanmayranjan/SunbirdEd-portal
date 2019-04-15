@@ -317,7 +317,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       this.termNames = categoryData.result.framework.categories;
       // pull out terms from all the categories
       this.termNames.forEach((category) => {
-        if (category.hasOwnProperty('terms') && category.terms.length > 0) {
+        if ((category['name'] === 'Course Category' || category['name'] === 'Target Group')
+        && category.hasOwnProperty('terms')
+        && category.terms.length > 0) {
           const capturedTermArray = category.terms;
           capturedTermArray.forEach(term => {
             this.terms.push(term.name);
