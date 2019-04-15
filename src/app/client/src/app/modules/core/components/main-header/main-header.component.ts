@@ -116,29 +116,29 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
-    private frameworkService : FrameworkService) {
+    private frameworkService: FrameworkService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
     this.userService = userService;
     this.tenantService = tenantService;
-   }
+  }
 
   ngOnInit() {
-jQuery(function() {
-  jQuery('.carousel').carousel();
-  jQuery('.ui.dropdown').dropdown();
-  jQuery('.ui.dropdown.c').dropdown();
-   /*  jQuery(window).on("scroll", function() {
-      if(jQuery(window).scrollTop() > 150) {
-        jQuery(".header").addClass("active");
-      } else {
-          //remove the background property so it comes transparent again (defined in your css)
-         jQuery(".header").removeClass("active");
-      }
-  }); */
+    jQuery(() => {
+      jQuery('.carousel').carousel();
+      jQuery('.ui.dropdown').dropdown();
+      jQuery('.ui.dropdown.c').dropdown();
+      /*  jQuery(window).on("scroll", function() {
+         if(jQuery(window).scrollTop() > 150) {
+           jQuery(".header").addClass("active");
+         } else {
+             //remove the background property so it comes transparent again (defined in your css)
+            jQuery(".header").removeClass("active");
+         }
+     }); */
 
-});
+    });
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         let currentRoute = this.activatedRoute.root;
@@ -149,7 +149,7 @@ jQuery(function() {
               currentRoute = route;
               console.log('here is  the  current route', currentRoute.data['value']['orgdata']['defaultFramework']);
               this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
-              //call framework category api
+              // call framework category api
               this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
                 if (route.snapshot.data.telemetry.pageid) {
@@ -230,7 +230,7 @@ jQuery(function() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
       if (_.includes(urlAfterRedirects.url, '/explore')) {
         this.showExploreHeader = true;
-        const url  = urlAfterRedirects.url.split('?')[0].split('/');
+        const url = urlAfterRedirects.url.split('?')[0].split('/');
         if (url.indexOf('explore') === 2) {
           this.exploreRoutingUrl = url[1] + '/' + url[2];
         } else {
@@ -238,7 +238,7 @@ jQuery(function() {
         }
       } else if (_.includes(urlAfterRedirects.url, '/explore-course')) {
         this.showExploreHeader = true;
-        const url  = urlAfterRedirects.url.split('?')[0].split('/');
+        const url = urlAfterRedirects.url.split('?')[0].split('/');
         if (url.indexOf('explore-course') === 2) {
           this.exploreRoutingUrl = url[1] + '/' + url[2];
         } else {
@@ -288,20 +288,20 @@ jQuery(function() {
     jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
 
-  signIn(){
+  signIn() {
     alert('clicked');
-    this.router.navigate(['resources'])
+    this.router.navigate(['resources']);
   }
 
   getFrameworkCategoryandterms(framework) {
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
-      //pull out terms from all the categories and keep them in one arry
+      // pull out terms from all the categories and keep them in one arry
       this.termNames = categoryData.result.framework.categories;
-      //pull out terms from all the categories
-      this.termNames.forEach((category)=>{
-        if(category.hasOwnProperty('terms') && category.terms.length > 0){
-          let capturedTermArray = category.terms;
+      // pull out terms from all the categories
+      this.termNames.forEach((category) => {
+        if (category.hasOwnProperty('terms') && category.terms.length > 0) {
+          const capturedTermArray = category.terms;
           capturedTermArray.forEach(term => {
             this.terms.push(term.name);
           });
@@ -313,9 +313,9 @@ jQuery(function() {
 
   getFramework(framework) {
     console.log('framework', framework);
-    const key = { key : framework};
+    const key = { key: framework };
     this.router.navigate(['/search/explore-course', 1], {
       queryParams: key
     });
-      }
+  }
 }

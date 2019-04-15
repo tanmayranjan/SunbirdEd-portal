@@ -197,10 +197,10 @@
                 <!--display if the user is logged in -->
                 <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
                     <div class="col-md-2 d-none d-md-block d-lg-block p-0 text-center text-white">
-                        <a href="#" class="mycourses">My Courses</a>
+                        <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
                     <div class="col d-none d-md-block d-lg-block p-0 text-center">
-                        <button type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace">Workspace</button>
+                        <button type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace/content/create">Workspace</button>
                     </div>
                     <div class="col-1 text-center">
                         <i class="fa fa-bell"></i>
@@ -233,7 +233,7 @@
             <a *ngIf="!userService.loggedIn" class="item" routerLink="/learn">Sign In</a>
             <a *ngIf="!userService.loggedIn" class="item" [routerLink]="['/signup']">Sign Up</a>
             <a *ngIf="userService.loggedIn && userProfile" class="item" routerLink="profile">{{resourceService.frmelmnts?.lnk?.profile}}</a>
-            <a *ngIf="userService.loggedIn" class="item" [routerLink]="workspace">Workspace</a>
+            <a *ngIf="userService.loggedIn" class="item" [routerLink]="['/workspace/content/create']">Workspace</a>
             <a *ngIf="userService.loggedIn" class="item" (click)="logout()">{{resourceService.frmelmnts?.lnk?.logout}}</a>
         </div>
         <div class="pusher"></div>

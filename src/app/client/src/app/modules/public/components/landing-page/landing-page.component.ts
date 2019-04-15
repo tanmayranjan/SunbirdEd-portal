@@ -113,13 +113,12 @@ export class LandingPageComponent implements OnInit  {
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
-    let $ : JQuery ;
-    //set the active class behaviour in  the navtabs of popular section
-    jQuery(document).ready(function(){
+    // set the active class behaviour in  the navtabs of popular section
+    jQuery(document).ready(() => {
       console.log('jQuery loaded');
-      (<any>jQuery(".carousel")).carousel({
+      (<any>jQuery('.carousel')).carousel({
         interval: 5000
-      })
+      });
     });
     // if (!this.userService.loggedIn) {
     //   console.log('logged in', this.userService.loggedIn);    }
@@ -163,19 +162,18 @@ export class LandingPageComponent implements OnInit  {
         this.carouselData = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0002);
     });
-    //get the framework categories		
-	    this.frameworkService.getFrameworkCategories(this.frameWorkName)		
-	    .subscribe(frameworkData => {		
+    // get the framework categories
+	      this.frameworkService.getFrameworkCategories(this.frameWorkName)
+	      .subscribe(frameworkData => {
 	      console.log('framework categories', frameworkData.result.framework.categories);		
-	      this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code == 'board').map(category => {		
-	        return category.terms;		
-	      }).slice(0,8);		
-	      console.log('category names filled as ', this.categoryNames);		
-			
+	        this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'board').map(category => {		
+	          return category.terms;
+	      }).slice(0 , 8);
+	      console.log('category names filled as ', this.categoryNames);
 	    }, err => {		
-	      console.log('error occured while getting framework categories', err);		
+  	      console.log('error occured while getting framework categories', err);
 	    });
-  }
+    }
 
   public prepareVisits(event) {
     // console.log('inside orepare visits');
