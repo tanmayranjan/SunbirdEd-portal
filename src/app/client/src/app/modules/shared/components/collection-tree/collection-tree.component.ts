@@ -17,7 +17,7 @@ import { ResourceService } from '../../services/index';
   templateUrl: './collection-tree.component.html',
   styleUrls: ['./collection-tree.component.css']
 })
-export class CollectionTreeComponent implements OnInit, OnChanges {
+export class CollectionTreeComponent implements OnInit, OnChanges , AfterViewInit {
 
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
@@ -25,6 +25,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
+  open = true;
   private iconColor = {
     '0': 'fancy-tree-black',
     '1': 'fancy-tree-blue',
@@ -35,12 +36,20 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     this.initialize();
+
   }
 
   ngOnChanges() {
     this.initialize();
   }
-
+ngAfterViewInit() {
+//   $('.accordion').click(function() {
+//     $('.accordion .ui-accordion-header:not(.ui-state-active)').next().slideToggle();
+//     $(this).text($(this).text() == 'Expand all' ? 'Collapse all' : 'Expand all');
+//     $(this).toggleClass('collapse');
+//     return false;
+// });
+}
   public onNodeClick(node: any) {
     if (!node.folder) {
       this.contentSelect.emit({ id: node.id, title: node.title });
@@ -57,6 +66,8 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
+      console.log('rootChildrens', this.rootChildrens);
+
       this.addNodeMeta();
     }
   }
@@ -87,7 +98,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
             const status = (content && content.status) ? content.status.toString() : 0;
             node.iconColor = this.iconColor[status];
           } else {
-            node.iconColor = this.iconColor['0'];
+            node.iconColor = this.iconColor['1'];
           }
           node.folder = false;
         }

@@ -82,9 +82,8 @@
                             <!--course content section-->
                             <div class="tab-pane container active" id="course-content">
                               <div class="ui header">
-                                <!-- <b class="content courseStructureHeading">
-                                  {{resourceService.frmelmnts.lbl.coursestructure}}
-                                </b> -->
+                               <!-- <img src="src/app/dist/assets/images/sunbird_logo.png"> -->
+                               <!-- <img src="../../../../../../../../dist/assets/images/sunbird_logo.png"> -->
                               </div>
                               <app-collection-tree
                                 *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
@@ -155,9 +154,18 @@
                 </div>
               </div>
               <div *ngIf="enableContentPlayer && !loader">
+
                 <div class=" row content-player-container">
                   <!--playlist section-->
-                  <div class="col-sm-4 col-md-12 col-lg-3 playlist-area d-none d-md-block">
+                  
+                  <div class="col-sm-4 col-md-12 col-lg-4 playlist-area d-none d-md-block pl-0" id="sidebar">
+                      <div class="ui header p-20" id="logoHeader">
+                          <img src="../../../../../../assets/niit.png">
+                          <button class="btn btn-secondary" id="dashboardBtn" appTelemetryInteract
+                      [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject"
+                      (click)="closeContentPlayer()"><i class="fas fa-chevron-left fs-1-3"></i></button>
+                         </div>
+                         <div></div>
                     <app-collection-tree
                       *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                       (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
@@ -165,10 +173,8 @@
                   </div>
                   <!--mobile view to represent video playlist, not working-->
                   <!--video player section-->
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 video-player-wrapper">
-                    <button class="btn btn-outline-light btn-lg" id="dashboardBtn" appTelemetryInteract
-                      [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject"
-                      (click)="closeContentPlayer()">Go To Dashboard</button>
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 video-player-wrapper">
+                    
                     <div class="video-player-wrapper" [appTelemetryImpression]="telemetryContentImpression">
                       This is the video wrapper
                       <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size"

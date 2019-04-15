@@ -1,0 +1,6 @@
+.ui.styled.accordion, .ui.styled.accordion .accordion {
+    background: #242446 !important;
+}
+.ui.styled.accordion .active.title {
+    color: white !important;
+}

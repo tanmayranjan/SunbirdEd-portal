@@ -61,7 +61,6 @@ ul.fancytree-container {
   white-space: nowrap;
   padding: 3px;
   margin: 0;
-  background-color: white;
   border: 1px dotted gray;
   min-height: 0%;
   position: relative;
@@ -89,6 +88,7 @@ ul.fancytree-container li {
 }
 ul.fancytree-container li.fancytree-lastsib {
   background-image: none;
+  color: white;
 }
 .ui-fancytree-disabled ul.fancytree-container {
   opacity: 0.5;
@@ -527,5 +527,5 @@ table.fancytree-ext-columnview span.fancytree-node.fancytree-active {
 }
 span.fancytree-active span.fancytree-title{
   background: transparent !important;
-  color: #000 !important;
+  color: #000;
 }
