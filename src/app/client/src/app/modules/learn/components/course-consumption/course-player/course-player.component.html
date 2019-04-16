@@ -8,7 +8,7 @@
                     </div>
                   <div class="col-xs-12 col-sm-12 col-md-5 offset-md-1 banner-content-section float-right white-text">
                     <br/>
-                    <h3 class="h3 responsive-align-text course-name banner-font">{{courseInfo?.name || 'NA'}}</h3>
+                    <h3 class="h3 responsive-align-text course-name banner-font">{{courseHierarchy?.name || 'NA'}}</h3>
                     <h5 class="banner-content-description banner-desc-font" *ngIf="!readMore">{{ courseHierarchy.description | slice:0:200 }}&nbsp;
                       <span class="ui cardsKnowMore mouse-pointer" *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
                                       (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}
@@ -18,16 +18,16 @@
                     </h5>
                     <div class="row icon-section mt-3 font-awesome-white">
                         <div class="col-sm-6 col-md-3 text-align-center">
-                          <h4 class="h3">{{courseInfo?.totalVideoDuration || '22'}}</h4>
+                          <h4 class="h3">{{courseHierarchy?.totalVideoDuration || '22'}}</h4>
                           <p> Hours</p>
                         </div>
                         <div class="col-sm-6 col-md-3 text-align-center">
                           <i class="fas fa-graduation-cap fa-3x"></i>
-                          <p class ="jumbo-p"> {{courseInfo?.organisation || 'NA'}}</p>
+                          <p class ="jumbo-p"> {{courseHierarchy?.organisation || 'NA'}}</p>
                         </div>
                         <div class="col-sm-6 col-md-3 text-align-center">
                           <i class="fas fa-globe fa-3x"></i>
-                          <p class ="jumbo-p"> {{courseInfo?.language[0] || 'English'}}</p>
+                          <p class ="jumbo-p"> {{courseHierarchy?.language[0] || 'English'}}</p>
                         </div>
                       </div>
                     <!-- <button type="button" class="btn btn-success btn-lg enroll-button" href="/home">Enroll</button> -->
@@ -37,19 +37,27 @@
         </div>
       </header>
       <!--banner section ends-->
-      <div class="row tab-view" *ngIf="!enableContentPlayer && !loader">
-              <ul class="nav nav-pills justify-content-center">
+      <div class="container custom-margin">
+          <div class="tab-view" *ngIf="!enableContentPlayer && !loader">
+              <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#overview">Overview</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="pill" href="#course-content">Course Content</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#qa">Q&A</a>
+                    <a class="nav-link" data-toggle="pill" href="#qa">QA</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
-                  </li>
+                      <a class="nav-link" data-toggle="pill" href="#bookmarks">Bookmarks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
+                      </li>
                 </ul>
           </div>
+      </div>
         <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
           <div class="ui stackable grid mt-20">
             <div class="twelve wide column">
@@ -60,24 +68,22 @@
                       <div class='nine wide column container'>
                           <div class="tab-content">
                           <!--overview section-->
-                            <div id="overview" class="tab-pane">
-                              <div class="ui header container">
+                            <div id="overview" class="tab-pane container">
                                 <span class="content courseStructureHeading">
                                   {{resourceService.frmelmnts.lbl.aboutthecourse}}
                                 </span>
                                 <div *ngIf="courseHierarchy.description" class="mt-10">
-                                  <p *ngIf="!readMore" class="courseStructureDesc text-justify">
+                                  <p *ngIf="!contentreadMore" class="courseStructureDesc text-justify">
                                     {{ courseHierarchy.description | slice:0:200 }}&nbsp;
                                     <span class="ui cardsKnowMore mouse-pointer"
-                                      *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
-                                      (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
+                                      *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && contentreadMore === false"
+                                      (click)="contentreadMore = !contentreadMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
                                   </p>
-                                  <p *ngIf="readMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
+                                  <p *ngIf="contentreadMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
                                     <span class="ui cardsKnowMore mouse-pointer"
-                                      (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                                      (click)="contentreadMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
                                   </p>
                                 </div>
-                              </div>
                             </div>
                             <!--course content section-->
                             <div class="tab-pane container active" id="course-content">
@@ -101,6 +107,9 @@
                             <div class="tab-pane fade container text-align-center" id="qa">
                               <p>No content available for QA at this moment.</p>
                             </div>
+                            <div class="tab-pane fade container text-align-center" id="bookmarks">
+                                <p>No Bookmarks available at the moment</p>
+                              </div>
                             <!--announcements section-->
                             <div class="tab-pane fade container text-align-center" id="announcement">
                               <p>There aren't any announcements regarding this course yet.
@@ -514,4 +523,4 @@
     </div>
 </div>
 </ng-template>
-<router-outlet></router-outlet>  
+<router-outlet></router-outlet>

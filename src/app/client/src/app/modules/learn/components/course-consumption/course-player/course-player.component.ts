@@ -60,6 +60,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   public courseHierarchy: any;
 
   public readMore = false;
+  public contentreadMore = false;
 
   public createNoteData: INoteData;
 
