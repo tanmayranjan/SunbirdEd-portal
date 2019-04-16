@@ -15,6 +15,7 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
   @Output() public itemSelect: EventEmitter<Fancytree.FancytreeNode> = new EventEmitter();
 
   ngOnInit() {
+
     _.forEach(this.nodes, (topic) => {
       topic['expanded'] = true;
   });
@@ -38,7 +39,6 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
       },
     };
     options = { ...options, ...this.options };
-    console.log('options', options);
     $(this.tree.nativeElement).fancytree(options);
     if (this.options.showConnectors) {
       $('.fancytree-container').addClass('fancytree-connectors');
