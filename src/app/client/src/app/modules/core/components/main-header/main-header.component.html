@@ -84,7 +84,7 @@
                         <div class="ui buttons">
             
                             <div class="ui floating dropdown icon button" style="background-color:transparent">
-                                <i class="fa fa-user-circle-o" style="font-size:20px"></i>
+                                <i class="fa fa-user-circle-o" style="font-size:20px; color: #fff;"></i>
                                 <div class="menu">
                                     <div *ngIf='userProfile' class="item" routerLink="profile"><a>Profile</a></div>
                                     <div *ngIf=' userService.loggedIn && permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard" class="item">

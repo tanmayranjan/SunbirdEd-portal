@@ -88,7 +88,7 @@ ul.fancytree-container li {
 }
 ul.fancytree-container li.fancytree-lastsib {
   background-image: none;
-  color: white;
+  color: inherit;
 }
 .ui-fancytree-disabled ul.fancytree-container {
   opacity: 0.5;

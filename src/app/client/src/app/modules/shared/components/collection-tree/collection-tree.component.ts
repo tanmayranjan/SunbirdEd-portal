@@ -11,14 +11,15 @@ import {
 import * as _ from 'lodash';
 import { ICollectionTreeNodes, ICollectionTreeOptions, MimeTypeTofileType } from '../../interfaces';
 import { ResourceService } from '../../services/index';
+import { b } from '@angular/core/src/render3';
+import { constructor } from 'lodash';
 
 @Component({
   selector: 'app-collection-tree',
   templateUrl: './collection-tree.component.html',
   styleUrls: ['./collection-tree.component.css']
 })
-export class CollectionTreeComponent implements OnInit, OnChanges , AfterViewInit {
-
+export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
   @Output() public contentSelect: EventEmitter<{id: string, title: string}> = new EventEmitter();
@@ -42,14 +43,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges , AfterViewIni
   ngOnChanges() {
     this.initialize();
   }
-ngAfterViewInit() {
-//   $('.accordion').click(function() {
-//     $('.accordion .ui-accordion-header:not(.ui-state-active)').next().slideToggle();
-//     $(this).text($(this).text() == 'Expand all' ? 'Collapse all' : 'Expand all');
-//     $(this).toggleClass('collapse');
-//     return false;
-// });
-}
+
   public onNodeClick(node: any) {
     if (!node.folder) {
       this.contentSelect.emit({ id: node.id, title: node.title });

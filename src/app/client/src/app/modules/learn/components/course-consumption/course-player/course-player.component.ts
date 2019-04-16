@@ -120,7 +120,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     loaderMessage: 'Fetching content details!'
   };
 
-  public previewContentRoles = ['COURSE_MENTOR', 'CONTENT_REVIEWER', 'CONTENT_CREATOR', 'CONTENT_CREATION'];
+  public previewContentRoles = ['COURSE_MENTOR', 'CONTENT_REVIEWER', 'CONTENT_CREATOR', 'CONTENT_CREATION', 'PUBLIC'];
 
   public collectionTreeOptions: ICollectionTreeOptions;
 

@@ -3,28 +3,23 @@ import 'jquery.fancytree';
 import { IFancytreeOptions } from '../../interfaces';
 import * as _ from 'lodash';
 
-
 @Component({
   selector: 'app-fancy-tree',
   templateUrl: './fancy-tree.component.html',
   styleUrls: ['./fancy-tree.component.scss']
 })
-export class FancyTreeComponent implements AfterViewInit ,  OnInit {
+export class FancyTreeComponent implements AfterViewInit, OnInit {
   @ViewChild('fancyTree') public tree: ElementRef;
   @Input() public nodes: any;
   @Input() public options: IFancytreeOptions;
   @Output() public itemSelect: EventEmitter<Fancytree.FancytreeNode> = new EventEmitter();
 
   ngOnInit() {
-    console.log(this.nodes, ' this.nodes');
     _.forEach(this.nodes, (topic) => {
       topic['expanded'] = true;
   });
-  console.log(this.nodes, ' this.nodes');
-
-}
+  }
   ngAfterViewInit() {
-
     let options: IFancytreeOptions = {
       extensions: ['glyph'],
       clickFolderMode: 3,
@@ -50,4 +45,5 @@ export class FancyTreeComponent implements AfterViewInit ,  OnInit {
     }
 
   }
+
 }

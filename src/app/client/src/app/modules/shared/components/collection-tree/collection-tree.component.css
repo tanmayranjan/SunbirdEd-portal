@@ -1,6 +1,9 @@
 .ui.styled.accordion, .ui.styled.accordion .accordion {
-    background: #242446 !important;
+    background: inherit ;
 }
 .ui.styled.accordion .active.title {
-    color: white !important;
+    color: inherit ;
+}
+#course-content .ui.styled.accordion .active.title {
+    background: #F0F0F0;
 }
