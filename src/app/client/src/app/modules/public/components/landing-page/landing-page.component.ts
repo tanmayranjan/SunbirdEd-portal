@@ -43,36 +43,41 @@ export class LandingPageComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
 
     {
-      background: 'http://niittvimgcdn.azureedge.net/Images/school_graphic.jpg',
+      background: '../../../../../assets/fa/development.png',
       name: 'School',
       frameWork: 'rating'
     },
     {
       // tslint:disable-next-line: max-line-length
-      background: 'http://niittvimgcdn.azureedge.net/Images/collage_graphic.jpg',
+      background: '../../../../../assets/fa/Design.png',
       name: 'College',
       frameWork: 'board'
     },
     {
       // tslint:disable-next-line: max-line-length
-      background: 'http://niittvimgcdn.azureedge.net/Images/managemnt_graphic.jpg',
+      background: '../../../../../assets/fa/personal-dev.png',
       name: 'Management',
       frameWork: 'medium'
     },
     {
       // tslint:disable-next-line: max-line-length
-      background: 'http://niittvimgcdn.azureedge.net/Images/IT_graphic.jpg',
+      background: '../../../../../assets/fa/ITandSoft.png',
       name: 'IT',
       frameWork: 'gradeLevel'
     },
     {
-      background: 'http://niittvimgcdn.azureedge.net/Images/banking_graphic.jpg',
+      background: '../../../../../assets/fa/marketing.png',
       name: 'Banking',
       frameWork: 'subject'
     },
     {
-      background: 'http://niittvimgcdn.azureedge.net/Images/wrkPro_graphic.jpg',
-      name: 'Professional',
+      background: '../../../../../assets/fa/business.png',
+      name: 'Working Professionals',
+      frameWork: 'topic'
+    },
+    {
+      background: '../../../../../assets/fa/data-science.png',
+      name: 'Anytime Courses',
       frameWork: 'topic'
     }
   ];
@@ -170,6 +175,16 @@ export class LandingPageComponent implements OnInit {
           return category.terms;
         }).slice(0, 8);
         console.log('category names filled as ', this.categoryNames);
+
+        // add images to the specified ategories
+        this.categoryNames[0].forEach(category => {
+          this.images.filter(imageData => {
+            if (imageData['name'] === category['name']) {
+              category['imageUrl'] = imageData.background;
+              return imageData.background;
+            }
+          });
+        });
       }, err => {
         console.log('error occured while getting framework categories', err);
       });

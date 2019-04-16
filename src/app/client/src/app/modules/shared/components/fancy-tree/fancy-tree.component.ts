@@ -14,6 +14,11 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
   @Input() public options: IFancytreeOptions;
   @Output() public itemSelect: EventEmitter<Fancytree.FancytreeNode> = new EventEmitter();
 
+  ngOnInit() {
+    _.forEach(this.nodes, (topic) => {
+      topic['expanded'] = true;
+  });
+  }
   ngAfterViewInit() {
     let options: IFancytreeOptions = {
       extensions: ['glyph'],
@@ -24,7 +29,7 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
         map: {
           folder: 'fa fa-folder-o fa-lg',
           folderOpen: 'fa fa-folder-open-o fa-lg'
-        }
+        },
       },
       click: (event, data): boolean => {
         const node = data.node;
@@ -33,14 +38,12 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
       },
     };
     options = { ...options, ...this.options };
+    console.log('options', options);
     $(this.tree.nativeElement).fancytree(options);
     if (this.options.showConnectors) {
       $('.fancytree-container').addClass('fancytree-connectors');
     }
+
   }
-  ngOnInit() {
-    _.forEach(this.nodes, topic => {
-      topic['expanded'] = true;
-    });
-  }
+
 }

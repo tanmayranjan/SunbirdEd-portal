@@ -11,6 +11,8 @@ import {
 import * as _ from 'lodash';
 import { ICollectionTreeNodes, ICollectionTreeOptions, MimeTypeTofileType } from '../../interfaces';
 import { ResourceService } from '../../services/index';
+import { b } from '@angular/core/src/render3';
+import { constructor } from 'lodash';
 
 @Component({
   selector: 'app-collection-tree',
@@ -18,14 +20,13 @@ import { ResourceService } from '../../services/index';
   styleUrls: ['./collection-tree.component.css']
 })
 export class CollectionTreeComponent implements OnInit, OnChanges {
-
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
   @Output() public contentSelect: EventEmitter<{id: string, title: string}> = new EventEmitter();
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
-  public open = true;
+  open = true;
   private iconColor = {
     '0': 'fancy-tree-black',
     '1': 'fancy-tree-blue',
@@ -59,10 +60,8 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
-      console.log(this.rootChildrens);
-      _.forEach(this.rootChildrens, topic => {
-        topic['expanded'] = true;
-      });
+      console.log('rootChildrens', this.rootChildrens);
+
       this.addNodeMeta();
     }
   }

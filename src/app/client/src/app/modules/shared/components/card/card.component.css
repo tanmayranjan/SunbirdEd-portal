@@ -1,141 +1,134 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
 /* Header CSS*/
 
-
-
 /* Card/ContentCard CSS*/
-.content-card{
+.content-card {
   width: 271px;
-  height: 342px;
+  height: 365px;
   float: left;
   margin: 1.5%;
   box-shadow: 0px 6px 6px 2px #eee;
 }
 
-.content-card .image{
+.content-card .image {
   width: 270px;
-  height:150px;
+  height: 150px;
   background: gray;
 }
 
-.content-author{
-  font-size: .875em;
-  color:grey;
+.content-author {
+  font-size: 0.875em;
+  color: grey;
 }
 
-.yellow-star{
-  color:rgb(239, 217, 21);
+.yellow-star {
+  color: rgb(239, 217, 21);
 }
 
-.gray-star{
-  color: #D3D3D3;
+.gray-star {
+  color: #d3d3d3;
 }
 
-.rating{
-font-weight: 450;
+.rating {
+  font-weight: 450;
 }
 
-.rating span{
+.rating span {
   font-size: 1.063em;
   font-weight: 400;
   margin-left: 5px;
 }
 
-.views{
-  color:gray;
+.views {
+  color: gray;
 }
 
-.lectures{
+.lectures {
   color: gray;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 450;
 }
 
-.duration{
+.duration {
   color: gray;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 450;
 }
 
-.price{
+.price {
   font-size: 1.2em;
   font-weight: 500;
 }
 
-.content-type{
+.content-type {
   float: right;
   padding: 3px 6px 3px 6px;
-  font-size: .7em;
+  font-size: 0.7em;
   color: aliceblue;
-  background:#7C65C7;
+  background: #451771;
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px;
   border-bottom-right-radius: 30px;
   border-top-right-radius: 30px;
 }
 
-.navigate{
+.navigate {
   clear: both;
   background: lightblue;
-  width:max-content;
+  width: max-content;
   margin: auto;
 }
 
-.navigate a{
+.navigate a {
   text-decoration: none;
 }
 
-.social-network{
-  background: #805FE5;
-  height:max-content;
+.social-network {
+  background: #805fe5;
+  height: max-content;
 }
 
-.social-network .fa-linkedin-in{
+.social-network .fa-linkedin-in {
   border-radius: 50%;
-  border:1px solid white;
-  height:34px;
-  width:34px;
-  padding:9px;
+  border: 1px solid white;
+  height: 34px;
+  width: 34px;
+  padding: 9px;
 }
 
-.social-network .fa-instagram{
+.social-network .fa-instagram {
   border-radius: 50%;
-  border:1px solid white;
-  height:34px;
-  width:34px;
-  padding:9px;
+  border: 1px solid white;
+  height: 34px;
+  width: 34px;
+  padding: 9px;
 }
-
 
 /*CSS to be used in multiple elements*/
 
-.text-color-gray{
+.text-color-gray {
   color: gray;
 }
 
-.text-color-white{
-  color:#FFF;
+.text-color-white {
+  color: #fff;
 }
 
-.background-color-white{
-  background: #FFF;
+.background-color-white {
+  background: #fff;
 }
 
 .card-image {
   width: 270px;
-  height:150px;
+  height: 150px;
 }
 
-
-@media only screen and (max-width: 600px){
-
-.content-card{
-  margin:auto;
-  margin-top:10%;
-  margin-bottom: 10%;
-  float: none; 
-  box-shadow: 0px 6px 6px 2px #eee;
-
-}
-
+@media only screen and (max-width: 600px) {
+  .content-card {
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    float: none;
+    box-shadow: 0px 6px 6px 2px #eee;
+  }
 }

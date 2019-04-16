@@ -20,7 +20,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { BadgingModule } from '@sunbird/badge';
 import { CourseDetailPageComponent } from './components/course-detail-page/course-detail-page.component';
 import { PublicPreviewPageComponent } from './components/public-preview-page/public-preview-page.component';
-import { SidebarDirective } from './Directives/sidebar/sidebar.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +37,7 @@ import { SidebarDirective } from './Directives/sidebar/sidebar.directive';
   ],
   declarations: [LandingPageComponent, GetComponent, DialCodeComponent,
     PublicFooterComponent, PublicContentPlayerComponent, PublicCollectionPlayerComponent,
-    CourseDetailPageComponent, PublicPreviewPageComponent, SidebarDirective],
+    CourseDetailPageComponent, PublicPreviewPageComponent],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard]
 
 })

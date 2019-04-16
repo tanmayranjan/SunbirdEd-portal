@@ -139,18 +139,18 @@
   color : white;
 }
 .bg-blue {
-  background-color: #7f60e5;
+  background-color: #451771;
 }
 .header {
   position: relative;
   top: 0;
-  background-color: #7f60e5;
+  background-color: #451771;
   height: 12vh;
   z-index: 100;
   transition: all ease-out 0.5s;
 }
 .header.active {
-  background-color: #7f60e5;
+  background-color: #451771;
 }
 
 .menu.transition.visible {
@@ -176,7 +176,7 @@
   font-weight: bold;
   width: 90px;
   border-radius: 37px;
-  color: #7f60e5;
+  color: #451771;
 }
 
 .category {
@@ -239,8 +239,7 @@
   font-weight: bold;
   width: 90px;
   border-radius: 37px;
-  color: #7f60e5;
-  box-shadow: -5px 2px 18px -4px rgba(0, 0, 0, 0.75);
+  color: #451771;
 }
 .button-container .hamburger {
   display: inline;

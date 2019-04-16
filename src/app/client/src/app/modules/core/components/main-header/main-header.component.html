@@ -70,17 +70,17 @@
                 </div>
                 <!--display if the user is logged in -->
                 <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
-                    <div class="col-2 d-none d-md-block d-lg-block p-0 text-center text-white">
+                    <div class="col-3 d-none d-md-block d-lg-block p-0 text-center text-white">
                         <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
                     <div class="col d-none d-md-block d-lg-block p-0 text-center">
                         <button *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole' (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
                         type="button" class="btn btn-outline-primary btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
                     </div>
-                    <div class="col-1 text-center">
+                    <div class="col-1 text-right">
                         <i class="fa fa-bell"></i>
                     </div>
-                    <div class="col p-0 text-center">
+                    <div class="col p-0 text-center mr-5">
                         <div class="ui buttons">
             
                             <div class="ui floating dropdown icon button" style="background-color:transparent">
