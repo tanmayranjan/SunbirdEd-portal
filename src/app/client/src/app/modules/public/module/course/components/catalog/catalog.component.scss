@@ -22,15 +22,19 @@
 .page-link {
   color: black;
 }
-.pagination-lg .page-link {
-  background: lightblue;
-  border-color: lightblue;
-
+.pagination-lg .page-link, .pagination-lg .page-link:focus {
+  border: none;
+}
+.pagination-lg .page-link:hover {
+  border: none;
+  box-shadow: 0px 3px 5px black;
+  border-radius: 50%;
 }
 .page-item.active .page-link {
-  border-color: lightblue;
-  background: white;
-  color: black;
+  border-radius: 50%;
+  border-color: darkviolet;
+  background: blueviolet;
+  box-shadow: 0px 3px 5px black;
 }
 .courses {
   left:26rem;
@@ -48,9 +52,9 @@
   // width: 25%;
 
 }
-// #scroll {
-//   background: #F7F8FB;
-// }
+#scroll {
+  background: #F7F8FB;
+}
 .card-width {
   width: 43.33%;
 }

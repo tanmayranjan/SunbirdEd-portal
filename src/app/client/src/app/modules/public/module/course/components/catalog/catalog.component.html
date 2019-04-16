@@ -2,7 +2,7 @@
 
   <div class="row ">
     <div class="col-md-3" id='scroll'>
-      <div class="filters computer only">
+      <div class="filters computer only affix">
         <app-catalog-filters (appliedFilters)="appliedFilters($event)" [pageId]="'course-search'" *ngIf="filterType"
           [ignoreQuery]="['key']" [filterEnv]="filterType" [isShowFilterLabel]=true></app-catalog-filters>
       </div>
@@ -40,21 +40,21 @@
         <div *ngIf="searchList && totalCount > config.appConfig.SEARCH.PAGE_LIMIT && !showLoader && !noResult">
           <ul class="pagination pagination-lg justify-content-center" *ngIf="pager.pages.length">
             <li class="page-item">
-              <a class="page-link" tabindex="-1" (click)="navigateToPage(1)">First</a>
+              <a class="page-link px-3 mx-2" tabindex="-1" (click)="navigateToPage(1)">First</a>
             </li>
             <li class="page-item">
-              <a class="page-link" tabindex="-1" (click)="navigateToPage(pager.currentPage - 1)">&laquo;</a>
+              <a class="page-link px-3 mx-2" tabindex="-1" (click)="navigateToPage(pager.currentPage - 1)">&laquo;</a>
             </li>
             <li *ngFor="let page of pager.pages ; let index" class="page-item"
               [ngClass]="{active:pager.currentPage===page}">
-              <a class="page-link" tabindex="index" (click)="navigateToPage(page)">
+              <a class="page-link px-3 mx-2" tabindex="index" (click)="navigateToPage(page)">
                 {{page}}</a>
             </li>
             <li class="page-item">
-              <a class="page-link" tabindex="-1" (click)="navigateToPage(pager.currentPage + 1)">&raquo;</a>
+              <a class="page-link px-3 mx-2" tabindex="-1" (click)="navigateToPage(pager.currentPage + 1)">&raquo;</a>
             </li>
             <li class="page-item">
-              <a class="page-link" tabindex="-1" (click)="navigateToPage(pager.totalPages)">Last</a>
+              <a class="page-link px-3 mx-2" tabindex="-1" (click)="navigateToPage(pager.totalPages)">Last</a>
             </li>
           </ul>
         </div>
@@ -62,3 +62,4 @@
     </div>
   </div>
 </div>
+

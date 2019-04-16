@@ -25,6 +25,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
+  public open = true;
   private iconColor = {
     '0': 'fancy-tree-black',
     '1': 'fancy-tree-blue',
@@ -35,6 +36,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
   ngOnInit() {
     this.initialize();
+
   }
 
   ngOnChanges() {
@@ -57,6 +59,10 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
+      console.log(this.rootChildrens);
+      _.forEach(this.rootChildrens, topic => {
+        topic['expanded'] = true;
+      });
       this.addNodeMeta();
     }
   }

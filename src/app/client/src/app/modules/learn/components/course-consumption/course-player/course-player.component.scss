@@ -84,7 +84,7 @@
 // product details css//
 
 .modal-height {
-    margin-top: -19em;
+    //  margin-top: -19em;
     color: white;
     background: black;
 }
@@ -327,7 +327,9 @@ margin-bottom: 2em;
     text-shadow: 1px 0px black;
     font-size: 18px;
 }
-
+.ui.active.modal {
+    height: auto !important;
+}
 @media  (min-width:320px) and(max-width:980px) {
 
 .preview-video {

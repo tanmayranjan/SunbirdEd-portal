@@ -1,13 +1,14 @@
-import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
 import 'jquery.fancytree';
 import { IFancytreeOptions } from '../../interfaces';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-fancy-tree',
   templateUrl: './fancy-tree.component.html',
   styleUrls: ['./fancy-tree.component.scss']
 })
-export class FancyTreeComponent implements AfterViewInit {
+export class FancyTreeComponent implements AfterViewInit, OnInit {
   @ViewChild('fancyTree') public tree: ElementRef;
   @Input() public nodes: any;
   @Input() public options: IFancytreeOptions;
@@ -36,5 +37,10 @@ export class FancyTreeComponent implements AfterViewInit {
     if (this.options.showConnectors) {
       $('.fancytree-container').addClass('fancytree-connectors');
     }
+  }
+  ngOnInit() {
+    _.forEach(this.nodes, topic => {
+      topic['expanded'] = true;
+    });
   }
 }
