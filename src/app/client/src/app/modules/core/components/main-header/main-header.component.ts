@@ -1,7 +1,7 @@
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { UserService, PermissionService, TenantService } from './../../services';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
@@ -311,6 +311,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   getFrameworkCategoryandterms(framework) {
     console.log('called get category terms');
+    this.terms = [];
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
       // pull out terms from all the categories and keep them in one arry
