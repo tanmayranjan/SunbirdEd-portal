@@ -130,6 +130,36 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.terms = [];
+    this.getFrameworkCategoryandterms('niit_tv');
+    //save framework name to the local storage
+    /* if (this.userService.loggedIn) {
+      if(window.localStorage.getItem('default_framework') !== undefined){
+        alert('logged in with framework');
+        this.frameWorkName = window.localStorage.getItem('default_framework');
+      this.getFrameworkCategoryandterms(this.frameWorkName);  
+      }
+      else {
+        alert('logged in with no default_framework')
+        //get framework details from the framework service and store it in localstorage
+        this.frameworkService.frameworkData$.subscribe((frameworkData) => {
+          if (frameworkData && !frameworkData.err) {
+            this.frameWorkName = frameworkData.frameworkdata.defaultFramework.code;
+            if(this.frameWorkName == null){
+              this.frameWorkName = 'niit_tv';
+            }
+            window.localStorage.setItem('default_framework', this.frameWorkName);
+            this.getFrameworkCategoryandterms(this.frameWorkName);
+          }
+        });
+      }
+    }else {
+      //when user is not logged in
+      this.frameWorkName = window.localStorage.getItem('default_framework');
+      alert('found framework '+ this.frameWorkName);
+      this.getFrameworkCategoryandterms(this.frameWorkName);
+    } */
+
     jQuery(() => {
       jQuery('.carousel').carousel();
       jQuery('.ui.dropdown').dropdown();
@@ -146,6 +176,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     });
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
+        this.terms = [];
+        this.getFrameworkCategoryandterms('niit_tv');
         let currentRoute = this.activatedRoute.root;
         if (currentRoute.children) {
           while (currentRoute.children.length > 0) {
@@ -153,10 +185,20 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
             child.forEach(route => {
               currentRoute = route;
               console.log('here is  the  current route', currentRoute.data['value']['orgdata']['defaultFramework']);
-              this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
-              console.log('framework name from main header router event', this.frameWorkName);
-              // call framework category api
-              this.getFrameworkCategoryandterms(this.frameWorkName);
+              /* if(!this.userService.loggedIn){
+                alert('updating the categories based');
+                this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
+                if(this.frameWorkName !== undefined ){
+                  this.getFrameworkCategoryandterms(this.frameWorkName);
+                }else {
+                  this.frameWorkName = window.localStorage.getItem('default_framework');
+                  this.getFrameworkCategoryandterms(this.frameWorkName);
+                }
+              } */
+              
+              //this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
+              //console.log('framework name from main header router event', this.frameWorkName);
+              //this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
                 if (route.snapshot.data.telemetry.pageid) {
                   this.pageId = route.snapshot.data.telemetry.pageid;
@@ -211,11 +253,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     }
   }
   navigateToHome() {
-    if (this.userService.loggedIn) {
+    this.router.navigate(['']);
+    /* if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
       this.router.navigate(['']);
-    }
+    } */
   }
 
   navigateToWorkspace() {
@@ -305,28 +348,29 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    alert('clicked');
     this.router.navigate(['resources']);
   }
 
   getFrameworkCategoryandterms(framework) {
-    console.log('called get category terms');
+    //alert('called get category terms');
     this.terms = [];
+    const temp = [];
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
       // pull out terms from all the categories and keep them in one arry
       this.termNames = categoryData.result.framework.categories;
-      // pull out terms from all the categories
+      // pull out terms from all the categories 
       this.termNames.forEach((category) => {
         if ((category['name'] === 'Course Category' || category['name'] === 'Target Group')
         && category.hasOwnProperty('terms')
         && category.terms.length > 0) {
           const capturedTermArray = category.terms;
           capturedTermArray.forEach(term => {
-            this.terms.push(term.name);
+            temp.push(term.name);
           });
         }
       });
+      this.terms = temp;
       console.log('list of categories picked are ', this.termNames);
       console.log('list of terms created as ', this.terms);
     });
