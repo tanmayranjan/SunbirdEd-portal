@@ -46,6 +46,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];
+        console.log('enrolled section is ', this.enrolledSection);
         if (data[1]) {
           this.initFilters = true;
           this.frameWorkName = data[1];

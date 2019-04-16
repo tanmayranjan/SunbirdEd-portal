@@ -58,7 +58,7 @@
                     #slickModal="slick-modal" 
                     [config]="slideConfig">
                     <div in-view-item [id]="i" [data]="content" ngxSlickItem *ngFor="let content of section.contents;let i = index; let last = last" class="slide">    
-                        <app-card  appContentDirection [data]="content"
+                        <app-card  *ngIf="section.name !== 'My Courses'" appContentDirection [data]="content"
                             appTelemetryInteract
                             [telemetryInteractEdata]="cardIntractEdata" 
                             [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
@@ -67,6 +67,15 @@
                             [customClass]="'mr-20'"
                             class="d-block" [class.last-card]="pr-0">
                         </app-card>
+                        <app-enrolled-card *ngIf="section.name === 'My Courses'"
+                        appContentDirection [data]="content"
+                            appTelemetryInteract
+                            [telemetryInteractEdata]="cardIntractEdata" 
+                            [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
+                            (clickEvent)="playContent($event)"
+                            [data]="content" 
+                            [customClass]="'mr-20'"
+                            class="d-block" [class.last-card]="pr-0"></app-enrolled-card>
                     </div>
                 </ngx-slick>
             </div>

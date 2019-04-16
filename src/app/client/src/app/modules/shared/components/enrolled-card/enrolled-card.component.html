@@ -1,0 +1,66 @@
+
+          <div class="card content-card mt-5 mb-0"
+          *ngIf="data"
+          appTelemetryInteract
+          [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
+          [telemetryInteractEdata]="data.telemetryInteractEdata"
+          tabindex="0"
+          style="cursor: pointer"
+          >
+             
+
+              <div class="image" (click)="onAction(data,data.action.onImage)">
+                <img class="card-image" *ngIf="data.showImage? false : true" src="{{data.image || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
+              </div>
+              <div class="card-body">
+                  <div class="meta course" *ngIf="data.contentType && data.contentType.toLowerCase() === 'course'">
+                      <div class="topic mb-15" *ngIf="data.topic" title="{{data.topic}}">
+                        {{data.topic | slice:0:40}}
+                        
+                        <span *ngIf="data.topic && data.topic.length >= 30">...</span>
+                      </div>
+                      <div class="subtopic" *ngIf="data.subTopic" title="{{data.subTopic}}">
+                        {{data.subTopic | slice:0:40}}
+                        <span *ngIf="data.subTopic && data.subTopic.length >= 30">...</span>
+                      </div>
+                    </div>
+                    <div class="meta non-course" *ngIf="!data.contentType || data.contentType.toLowerCase() !== 'course'">
+                        <div class="mb-auto d-flex">
+                          <div class="ui label tiny right" *ngIf="data.ribbon && data.ribbon.right && data.ribbon.right.name">{{data.ribbon.right.name}}</div>
+                          <img src="{{data.ribbon.left.image}}" class="avatar ml-auto" *ngIf="data.ribbon && data.ribbon.left && data.ribbon.left.image" alt="{{data.ribbon.left.name}}">
+                        </div>
+                        <div class="subject ellipsis mt-3" *ngIf="data.subject" title="{{data.subject}}">{{resourceService.frmelmnts.lbl.subject}} : {{data.subject}}</div>
+                        <div class="class ellipsis mt-3" *ngIf="data.gradeLevel" title="{{data.gradeLevel}}">{{resourceService.frmelmnts.lbl.class}} : {{data.gradeLevel}}</div>
+                        <div class="medium ellipsis mt-3" *ngIf="data.medium" title="{{data.medium}}">{{resourceService.frmelmnts.lbl.medium}} : {{data.medium}}</div>
+                      </div>
+                      <h5 class="content-name">
+                          {{data.name | slice:0:40 }}
+                        <span *ngIf="data.name && data.name.length >= 40">...</span>
+                      </h5>
+                        <h6 class="content-author">
+                            {{data.orgDetails?.orgName}}
+                        </h6>
+                          
+                          <div class="rating-and-views mt-3">
+                              <sui-rating class="star customstar" [(ngModel)]="data.rating" [maximum]="5"></sui-rating>
+                              <span class="rating"> {{data.rating}}</span>
+                              <span class="views text-color-gray"> (138,560)</span>
+                          </div>
+        
+                          <div class="lectures-and-duration mt-3">
+                              <i class="fas fa-play-circle"></i>
+                              <span class="lectures text-color-gray">&nbsp; 150 lectures &nbsp; | &nbsp;</span>
+                              <span class="duration text-color-gray"><i class="far fa-clock"></i> 2 Weeks</span>
+                          </div>
+                          <div class="progress" *ngIf="data.progress && data.maxCount">
+                              <div class="progress-bar barcolor" role="progressbar" [style.width]="(data.progress/data.maxCount)*100 + '%'" [attr.aria-valuenow]="data.progress" [attr.aria-valuemin]="0" [attr.aria-valuemax]="data.maxCount"></div>
+                          </div>
+                          <h6 class="text-left"> {{(data.progress / data.maxCount) | percent}} complete</h6>
+                          <div class="price mt-3">
+                            <span class="content-type">{{data.contentType}}</span>
+                          </div>
+              </div>
+                   <!-- <div>
+                      <sui-progress class="ui progress" [value]="3" [maximum]="10" ></sui-progress>
+                    </div> -->
+            </div>
