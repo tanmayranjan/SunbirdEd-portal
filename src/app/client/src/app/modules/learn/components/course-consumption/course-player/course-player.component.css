@@ -327,7 +327,7 @@
 }
 .jumbotron {
     height: 30em;
-    background: #7D5CE7;
+    background: #451771;
     color: white;
     position: relative;
 }
@@ -477,13 +477,13 @@
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: black;
     font-size: 18px;
-    border-bottom: 5px solid blue;
+    border-bottom: 5px solid #451771;
     border-top: 0;
     border-left: 0;
     border-right: 0;
 }
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
-    border-bottom: 5px solid blue;
+    border-bottom: 5px solid #451771;
 }
 .nav-tabs .nav-link {
     color: black;
@@ -536,7 +536,7 @@ margin-bottom: 2em;
    
 }
 .mobile-view::-webkit-scrollbar-thumb {
-    background: #7D5CE7;
+    background: #451771;
     width: 3rem !important;
  }
  .mobile-view::-webkit-scrollbar {
