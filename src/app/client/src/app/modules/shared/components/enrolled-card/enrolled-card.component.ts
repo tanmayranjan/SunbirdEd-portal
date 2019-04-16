@@ -26,9 +26,9 @@ export class EnrolledCardComponent implements OnInit {
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     console.log('recieved data ', this.data);
   }
-  
+
 
 }
