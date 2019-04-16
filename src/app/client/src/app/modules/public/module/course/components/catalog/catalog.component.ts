@@ -165,7 +165,7 @@ expand = false;
     this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
     this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.pageLimit = this.config.appConfig.SEARCH.PAGE_LIMIT;
-    // this.filters.channel = this.hashTagId;
+    this.filters.channel = this.hashTagId;
     const requestParams = {
       filters: _.pickBy(this.filters, value => value.length > 0),
       limit: this.pageLimit,

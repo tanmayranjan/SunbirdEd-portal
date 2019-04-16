@@ -287,7 +287,9 @@
   text-shadow: 1px 0px black;
   font-size: 18px;
 }
-
+::ng-deep .ui.active.modal {
+  height: auto;
+}
 @media (min-width:320px) and(max-width:980px) {
 
   .preview-video {

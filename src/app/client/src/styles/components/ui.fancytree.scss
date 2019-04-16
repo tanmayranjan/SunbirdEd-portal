@@ -97,6 +97,7 @@ ul.fancytree-container li.fancytree-lastsib {
 ul.fancytree-connectors.fancytree-container li {
   background-image: url("../../node_modules/jquery.fancytree/dist/skin-awesome/vline.gif");
   background-position: 0 0;
+  width: fit-content;
 }
 ul.fancytree-container li.fancytree-lastsib,
 ul.fancytree-no-connector > li {

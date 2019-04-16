@@ -36,6 +36,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.resourceService = resourceService;
   }
   ngOnInit() {
+
     this.initialize();
 
   }
