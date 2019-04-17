@@ -44,41 +44,46 @@ export class LandingPageComponent implements OnInit {
 
     {
       background: '../../../../../assets/fa/development.png',
-      name: 'School',
+      name: 'Web Development',
       frameWork: 'rating'
     },
     {
       // tslint:disable-next-line: max-line-length
       background: '../../../../../assets/fa/Design.png',
-      name: 'College',
+      name: 'Financial Management',
       frameWork: 'board'
     },
     {
       // tslint:disable-next-line: max-line-length
       background: '../../../../../assets/fa/personal-dev.png',
-      name: 'Management',
+      name: 'Marketing',
       frameWork: 'medium'
     },
     {
       // tslint:disable-next-line: max-line-length
       background: '../../../../../assets/fa/ITandSoft.png',
-      name: 'IT',
+      name: 'It',
       frameWork: 'gradeLevel'
     },
     {
       background: '../../../../../assets/fa/marketing.png',
-      name: 'Banking',
+      name: 'Personal Developement',
       frameWork: 'subject'
     },
     {
       background: '../../../../../assets/fa/business.png',
-      name: 'Working Professionals',
+      name: 'Management',
       frameWork: 'topic'
     },
     {
       background: '../../../../../assets/fa/data-science.png',
-      name: 'Anytime Courses',
+      name: 'Business',
       frameWork: 'topic'
+    },
+    {
+      background: '../../../../../assets/fa/personal-dev.png',
+      name: 'Data Science',
+      frameWork: 'medium'
     }
   ];
   userDataSubscription: Subscription;
@@ -143,6 +148,7 @@ export class LandingPageComponent implements OnInit {
   private fetchPageData() {
     const filters = {
       contentType: ['TextBook', 'Resources'],
+
     };
     const option: any = {
       source: 'web',
@@ -171,10 +177,14 @@ export class LandingPageComponent implements OnInit {
     this.frameworkService.getFrameworkCategories(this.frameWorkName)
       .subscribe(frameworkData => {
         console.log('framework categories', frameworkData.result.framework.categories);
-        this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'board').map(category => {
-          return category.terms;
-        }).slice(0, 8);
-        console.log('category names filled as ', this.categoryNames);
+        this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'gradeLevel');
+        console.log('grade level categories created as ', this.categoryNames);
+        this.categoryNames = this.categoryNames.map(category => {
+          return category.terms.splice(0,8);
+        });
+        console.log('mapped category names are ', this.categoryNames);
+        //this.categoryNames[0] = this.categoryNames.splice(0, 8);
+        //console.log('category names filled as ', this.categoryNames);
 
         // add images to the specified ategories
         this.categoryNames[0].forEach(category => {
@@ -284,12 +294,12 @@ export class LandingPageComponent implements OnInit {
     });
   }
 
-  update_carousel(keyword) {
+  update_carousel(keyword, frameworkCategory, clickEvent) {
     const request = {};
     request['filters'] = {
-      'board': [keyword],
       'contentType': ['Course']
     };
+    request['filters'][frameworkCategory] = [keyword];
     this.searchservice.contentSearch(request, false).subscribe(response => {
       if (response.result.count <= 0) {
         console.log('no results found');
@@ -309,5 +319,18 @@ export class LandingPageComponent implements OnInit {
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
+    this.activate(clickEvent);
+  }
+
+  activate(event) {
+    const currentEl = jQuery(event.target);
+    const parent = jQuery(event.target).parent().children();
+    jQuery.each(parent,function(key,child) {
+      jQuery(child).removeClass('active');
+    });
+    if(!currentEl.hasClass('active')) {
+      currentEl.addClass('active');
+    }
+    console.log('parent clicked is ', parent);
   }
 }

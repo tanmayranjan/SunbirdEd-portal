@@ -625,9 +625,9 @@ label {
 }
 
 .nav-item {
+  white-space: nowrap;
   display: inline;
   min-width: 120px;
-  max-width: 200px;
   border: none;
   max-height: 30px;
   font-size: 1.3em;

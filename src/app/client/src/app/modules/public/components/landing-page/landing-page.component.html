@@ -364,9 +364,9 @@
   <div class="container mb-0">
     <div class="row">
       <div class="col-10 nav nav-fill carousel-nav-tab">
-        <ng-container *ngFor="let content of categoryNames[0]">
-          <a *ngIf="content?.name" class="nav-item nav_item_selector"
-            (click)="update_carousel(content.name)">{{content?.name}}</a>
+        <ng-container *ngFor="let content of categoryNames[0] | slice:0:5 ; let i = index">
+          <a *ngIf="content?.name" class="nav-item nav_item_selector" [ngClass]="{'active': i == 0}"
+            (click)="update_carousel(content.name, content.category, $event)">{{content?.name}}</a>
         </ng-container>
       </div>
       <div class="col-2">
@@ -391,7 +391,7 @@
   <div class="container">
     <div class="row">
       <ng-container *ngFor="let content of categoryNames[0]">
-        <div class="col-xs-1 col-sm-6 col-md-3" (click)="getFramework('board',content.name)">
+        <div class="col-xs-1 col-sm-6 col-md-3" (click)="getFramework(content.category,content.name)">
           <section class="stack">
             <img src="{{content?.imageUrl}}" alt="{{content.name}}" height="75px" width="75px">
             <p>{{content.name}}</p>
