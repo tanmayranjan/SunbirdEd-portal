@@ -132,12 +132,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.terms = [];
     this.getFrameworkCategoryandterms('niit_tv');
-    //save framework name to the local storage
+    // save framework name to the local storage
     /* if (this.userService.loggedIn) {
       if(window.localStorage.getItem('default_framework') !== undefined){
         alert('logged in with framework');
         this.frameWorkName = window.localStorage.getItem('default_framework');
-      this.getFrameworkCategoryandterms(this.frameWorkName);  
+      this.getFrameworkCategoryandterms(this.frameWorkName);
       }
       else {
         alert('logged in with no default_framework')
@@ -195,10 +195,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
                   this.getFrameworkCategoryandterms(this.frameWorkName);
                 }
               } */
-              
-              //this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
-              //console.log('framework name from main header router event', this.frameWorkName);
-              //this.getFrameworkCategoryandterms(this.frameWorkName);
+              // this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
+              // console.log('framework name from main header router event', this.frameWorkName);
+              // this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
                 if (route.snapshot.data.telemetry.pageid) {
                   this.pageId = route.snapshot.data.telemetry.pageid;
@@ -352,14 +351,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   getFrameworkCategoryandterms(framework) {
-    //alert('called get category terms');
+    // alert('called get category terms');
     this.terms = [];
     const temp = [];
     this.frameworkService.getFrameworkCategories(framework).subscribe(categoryData => {
       console.log('recieved category data in header ', categoryData.result.framework.categories);
       // pull out terms from all the categories and keep them in one arry
       this.termNames = categoryData.result.framework.categories;
-      // pull out terms from all the categories 
+      // pull out terms from all the categories
       this.termNames.forEach((category) => {
         if ((category['name'] === 'Course Category' || category['name'] === 'Target Group')
         && category.hasOwnProperty('terms')
@@ -374,7 +373,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       console.log('list of categories picked are ', this.termNames);
       console.log('list of terms created as ', this.terms);
     });
-
   }
 
   getFramework(framework) {

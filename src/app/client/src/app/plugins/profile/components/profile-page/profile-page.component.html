@@ -166,8 +166,9 @@ id="var2" *ngIf="userProfile"
         >
           <span
             class="ui dodger-blue basic label mr-15 mt-5"
-            *ngFor="let role of (roles | slice: 0:showMoreRolesLimit)"
-            >{{ role }}</span
+            *ngFor="let role of roles"
+            >{{ role }}
+            </span
           >
         </div>
       </div>

@@ -41,7 +41,16 @@
 .profile-label-container {
   max-width: 600px !important;
 }
-
+::ng-deep .slick-slide {
+  width:auto!important;
+}
+::ng-deep .slick-list {
+  height: 30em;
+  overflow-y: scroll;
+}
+::ng-deep .slick-prev, ::ng-deep .slick-next::before , ::ng-deep .slick-next {
+  display: none ;
+}
 @media only screen and (max-width: 767px) {
   .profile-label-container {
     max-width: 200px !important;

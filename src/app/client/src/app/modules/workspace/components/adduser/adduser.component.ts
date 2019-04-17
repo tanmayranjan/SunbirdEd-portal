@@ -6,7 +6,8 @@ import { ConfigService, ToasterService } from '@sunbird/shared';
 import {
   UserService,
   OrgDetailsService,
-  PublicDataService
+  PublicDataService,
+  LearnerService
 } from '@sunbird/core';
 import { SignupService } from '../../../public/module/signup/services';
 
@@ -35,6 +36,7 @@ export class AdduserComponent implements OnInit {
     public orgDetailsService: OrgDetailsService,
     public signupService: SignupService,
     public publicdataservice: PublicDataService,
+    public learnerService: LearnerService,
     public toasterService: ToasterService,
     route: Router
   ) {
@@ -69,7 +71,7 @@ export class AdduserComponent implements OnInit {
           }
         }
       };
-      this.publicdataservice.post(option).subscribe(
+      this.learnerService.post(option).subscribe(
         data => {
           const channel = data.result.response.channel;
           const option1 = {
