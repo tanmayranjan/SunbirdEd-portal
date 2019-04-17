@@ -90,7 +90,7 @@ export class ViewuserComponent implements OnInit {
         }
       }
     };
-    this.publicdataService.post(option).subscribe(
+    this.learnerService.post(option).subscribe(
       data => {
         this.toasterService.success('user role updated successfully');
 
@@ -115,7 +115,7 @@ export class ViewuserComponent implements OnInit {
         }
       }
     };
-    this.publicdataService.post(option).subscribe(
+    this.learnerService.post(option).subscribe(
       data => {
         console.log(data);
         this.toasterService.success('user deleted successfully');

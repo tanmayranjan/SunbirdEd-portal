@@ -35,7 +35,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   */
   telemetryLogs = [];
   roles: Array<string>;
-  showMoreRoles = true;
+  showMoreRoles = false;
   showMoreTrainings = true;
   /**
    * Contains default limit to show awards
@@ -61,6 +61,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   this.resourceService.frmelmnts.lbl.chkuploadsts];
   courseDataSubscription: Subscription;
   orgDetails = [];
+  readMore = false;
   customStyle = {
     backgroundColor: '#ffffff',
     border: '1px solid #fff',
@@ -167,6 +168,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // tslint:disable-next-line:no-debugger
+    debugger;
     this.userSubscription = this.userService.userData$.subscribe(
       (user: IUserData) => {
         if (user && !user.err) {
