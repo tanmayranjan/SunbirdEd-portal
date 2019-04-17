@@ -75,7 +75,15 @@
                                                   <div class="header">{{resourceService.frmelmnts.lbl.aboutthecourse}}</div>
                                                 </div>
                                                 <div class="content">
-                                                        <p>{{ courseHierarchy.description}}</p>
+                                                    <p>{{ courseHierarchy.description}}</p>
+                                                    <div class="meta">
+                                                        <p>Created By : {{courseHierarchy.creator}}</p>
+                                                        <p>Organisation : {{courseHierarchy.orgDetails.orgName}}</p> 
+                                                    </div>
+                                                    <div class="extra content">
+                                                        <p>Created On : {{courseHierarchy.createdOn | dateFormat}}</p>
+                                                        <p>Last Updated On : {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
+                                                          </div>
                                                 </div>
                                               </div>
                                 </div>
