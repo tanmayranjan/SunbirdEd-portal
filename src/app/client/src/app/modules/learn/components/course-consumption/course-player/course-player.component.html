@@ -69,21 +69,34 @@
                           <div class="tab-content">
                           <!--overview section-->
                             <div id="overview" class="tab-pane container">
-                                <span class="content courseStructureHeading">
-                                  {{resourceService.frmelmnts.lbl.aboutthecourse}}
-                                </span>
-                                <div *ngIf="courseHierarchy.description" class="mt-10">
-                                  <p *ngIf="!contentreadMore" class="courseStructureDesc text-justify">
-                                    {{ courseHierarchy.description | slice:0:200 }}&nbsp;
-                                    <span class="ui cardsKnowMore mouse-pointer"
-                                      *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && contentreadMore === false"
-                                      (click)="contentreadMore = !contentreadMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
-                                  </p>
-                                  <p *ngIf="contentreadMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
-                                    <span class="ui cardsKnowMore mouse-pointer"
-                                      (click)="contentreadMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
-                                  </p>
+                                <div class="container card-wrapper">
+                                        <div class="ui card">
+                                                <div class="content">
+                                                  <div class="header">{{resourceService.frmelmnts.lbl.aboutthecourse}}</div>
+                                                </div>
+                                                <div class="content">
+                                                        <p>{{ courseHierarchy.description}}</p>
+                                                </div>
+                                              </div>
                                 </div>
+                                
+                                <!-- <div class="container">
+                                    <h4 class="content courseStructureHeading">
+                                        {{resourceService.frmelmnts.lbl.aboutthecourse}}
+                                    </h4>
+                                      <div *ngIf="courseHierarchy.description" class="mt-10">
+                                        <p *ngIf="!contentreadMore" class="courseStructureDesc text-justify">
+                                          {{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                                          <span class="ui cardsKnowMore mouse-pointer"
+                                            *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && contentreadMore === false"
+                                            (click)="contentreadMore = !contentreadMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
+                                        </p>
+                                        <p *ngIf="contentreadMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
+                                          <span class="ui cardsKnowMore mouse-pointer"
+                                            (click)="contentreadMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                                        </p>
+                                      </div>
+                                </div> -->
                             </div>
                             <!--course content section-->
                             <div class="tab-pane container active" id="course-content">
