@@ -35,7 +35,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   */
   telemetryLogs = [];
   roles: Array<string>;
-  showMoreRoles = true;
+  showMoreRoles = false;
   showMoreTrainings = true;
   /**
    * Contains default limit to show awards

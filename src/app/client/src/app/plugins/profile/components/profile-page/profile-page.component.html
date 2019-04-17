@@ -164,12 +164,19 @@ id="var2" *ngIf="userProfile"
           class="mb-15 text-ac profile-label-container"
           *ngIf="roles && roles.length > 0"
         >
-          <span
+          <span 
             class="ui dodger-blue basic label mr-15 mt-5"
-            *ngFor="let role of roles"
-            >{{ role }}
-            </span
+            *ngFor="let role of (roles | slice: 0:3)"
+            >{{ role }}</span
           >
+         <div class="text-ac mt-10">
+                <button class="text-capitalize"(click)="toggle(showMoreRoles)">showMore</button>
+         </div>
+    
+              <span *ngFor="let role of (roles | slice: 3: roles.length)"
+              >    <span *ngIf="showMoreRoles" class="ui dodger-blue basic label mr-15 mt-5">{{role}}</span>
+            </span>
+              
         </div>
       </div>
       <div
