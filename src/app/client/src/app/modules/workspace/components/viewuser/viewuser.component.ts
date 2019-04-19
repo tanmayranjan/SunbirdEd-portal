@@ -111,7 +111,6 @@ export class ViewuserComponent implements OnInit {
           organisationId: user.organisationId,
           userName: user.firstName,
           provider: user.provider,
-
         }
       }
     };

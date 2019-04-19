@@ -101,6 +101,7 @@ export class LandingPageComponent implements OnInit {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
+  selectedSection;
   queryParam: any = {};
   key: string;
   search: object;
@@ -155,9 +156,10 @@ export class LandingPageComponent implements OnInit {
       .subscribe(data => {
         _.forOwn(data, value => {
           _.forEach(value, course => {
-            this.carouselData.push(course);
-            console.log('prepared carousel data from getPAgedata api');
-            console.log(course, this.carouselData);
+            console.log(course.name);
+            this.update_carousel('School');
+            // this.carouselData.push(course);
+            // console.log(course, this.carouselData);
 
           });
         });
@@ -285,15 +287,19 @@ export class LandingPageComponent implements OnInit {
   }
 
   update_carousel(keyword) {
+this.selectedSection = keyword;
+console.log(this.selectedSection);
     const request = {};
     request['filters'] = {
       'board': [keyword],
       'contentType': ['Course']
     };
     this.searchservice.contentSearch(request, false).subscribe(response => {
+      console.log(response);
       if (response.result.count <= 0) {
         console.log('no results found');
         this.carouselData['0']['contents'] = [];
+        console.log(this.carouselData);
       } else {
         // empty the data and refill with new content
         /**
@@ -304,6 +310,8 @@ export class LandingPageComponent implements OnInit {
         this.carouselData['0'] = [];
         this.carouselData['0']['name'] = keyword;
         this.carouselData['0']['contents'] = response.result.content;
+        console.log(this.carouselData);
+
       }
     }, err => {
       console.log('an error occured while getting the selected content');

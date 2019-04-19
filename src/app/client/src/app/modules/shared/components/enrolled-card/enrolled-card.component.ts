@@ -15,7 +15,7 @@ export class EnrolledCardComponent implements OnInit {
   @Input() data: ICard;
   @Input() customClass: string;
   @Output() clickEvent = new EventEmitter<any>();
-
+  progress;
   constructor(public resourceService: ResourceService) {
     this.resourceService = resourceService;
   }
@@ -27,6 +27,7 @@ export class EnrolledCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data.progress);
     console.log('recieved data ', this.data);
   }
 

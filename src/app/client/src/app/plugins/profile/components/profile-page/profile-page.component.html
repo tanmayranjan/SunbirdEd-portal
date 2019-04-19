@@ -161,21 +161,15 @@ id="var2" *ngIf="userProfile"
       <div class="ui raised  container segment" id="shadow" *ngIf="roles && roles.length > 0">
         <h3 class="fs-1-7 font-weight-bold text-ac">Roles &nbsp;<span class="ui violet circular label align center fs-1 font-weight-bold"> {{roles.length}}</span></h3>
         <div
-          class="mb-15 text-ac profile-label-container"
+          class="mb-15 mx-10 profile-label-container"
           *ngIf="roles && roles.length > 0"
         >
           <span 
-            class="ui dodger-blue basic label mr-15 mt-5"
-            *ngFor="let role of (roles | slice: 0:3)"
+            class="ui dodger-blue basic label mt-5"
+            *ngFor="let role of roles"
             >{{ role }}</span
           >
-         <div class="text-ac mt-10">
-                <button class="text-capitalize"(click)="toggle(showMoreRoles)">showMore</button>
-         </div>
-    
-              <span *ngFor="let role of (roles | slice: 3: roles.length)"
-              >    <span *ngIf="showMoreRoles" class="ui dodger-blue basic label mr-15 mt-5">{{role}}</span>
-            </span>
+
               
         </div>
       </div>

@@ -84,7 +84,6 @@ export class AdduserComponent implements OnInit {
               emailVerified: true
             }
           };
-          console.log(option1, 'in submit');
           this.signupService.createUser1(option1).subscribe();
           this.toasterService.success('user created successfully');
           this.goBackToCoursePage();

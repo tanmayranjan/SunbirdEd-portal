@@ -133,8 +133,14 @@ font-weight: 450;
   width: 270px;
   height:150px;
 }
-
-
+.btn-primary,.btn-primary.focus, .btn-primary:focus, .btn-primary:hover, .btn-primary:active {
+  background-color: #ce1f99;
+  border-color: #ce1f99
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  background-color: #ce1f99;
+  border-color: #ce1f99
+}
 @media only screen and (max-width: 600px){
 
 .content-card{
