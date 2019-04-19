@@ -69,21 +69,42 @@
                           <div class="tab-content">
                           <!--overview section-->
                             <div id="overview" class="tab-pane container">
-                                <span class="content courseStructureHeading">
-                                  {{resourceService.frmelmnts.lbl.aboutthecourse}}
-                                </span>
-                                <div *ngIf="courseHierarchy.description" class="mt-10">
-                                  <p *ngIf="!contentreadMore" class="courseStructureDesc text-justify">
-                                    {{ courseHierarchy.description | slice:0:200 }}&nbsp;
-                                    <span class="ui cardsKnowMore mouse-pointer"
-                                      *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && contentreadMore === false"
-                                      (click)="contentreadMore = !contentreadMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
-                                  </p>
-                                  <p *ngIf="contentreadMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
-                                    <span class="ui cardsKnowMore mouse-pointer"
-                                      (click)="contentreadMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
-                                  </p>
+                                <div class="container card-wrapper">
+                                        <div class="ui card">
+                                                <div class="content">
+                                                  <div class="header">{{resourceService.frmelmnts.lbl.aboutthecourse}}</div>
+                                                </div>
+                                                <div class="content">
+                                                    <p>{{ courseHierarchy.description}}</p>
+                                                    <div class="meta">
+                                                        <p>Created By : {{courseHierarchy.creator}}</p>
+                                                        <p>Organisation : {{courseHierarchy.orgDetails.orgName}}</p> 
+                                                    </div>
+                                                    <div class="extra content">
+                                                        <p>Created On : {{courseHierarchy.createdOn | dateFormat}}</p>
+                                                        <p>Last Updated On : {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
+                                                          </div>
+                                                </div>
+                                              </div>
                                 </div>
+                                
+                                <!-- <div class="container">
+                                    <h4 class="content courseStructureHeading">
+                                        {{resourceService.frmelmnts.lbl.aboutthecourse}}
+                                    </h4>
+                                      <div *ngIf="courseHierarchy.description" class="mt-10">
+                                        <p *ngIf="!contentreadMore" class="courseStructureDesc text-justify">
+                                          {{ courseHierarchy.description | slice:0:200 }}&nbsp;
+                                          <span class="ui cardsKnowMore mouse-pointer"
+                                            *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && contentreadMore === false"
+                                            (click)="contentreadMore = !contentreadMore;">{{resourceService.frmelmnts.lbl.readmore}}</span>
+                                        </p>
+                                        <p *ngIf="contentreadMore" class="courseStructureDesc"> {{ courseHierarchy.description}}&nbsp;
+                                          <span class="ui cardsKnowMore mouse-pointer"
+                                            (click)="contentreadMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
+                                        </p>
+                                      </div>
+                                </div> -->
                             </div>
                             <!--course content section-->
                             <div class="tab-pane container active" id="course-content">
@@ -104,16 +125,33 @@
                               </ng-template>
                             </div>
                             <!--QA section-->
-                            <div class="tab-pane fade container text-align-center" id="qa">
-                              <p>No content available for QA at this moment.</p>
+                            <div class="tab-pane fade container" id="qa">
+                                    <div class="container card-wrapper">
+                                            <div class="ui card">
+                                                    <div class="content">
+                                                      <div class="header text-align-center">No content available to display </div>
+                                                    </div>
+                                                  </div>
+                                    </div>
                             </div>
-                            <div class="tab-pane fade container text-align-center" id="bookmarks">
-                                <p>No Bookmarks available at the moment</p>
+                            <div class="tab-pane fade container" id="bookmarks">
+                                    <div class="container card-wrapper">
+                                            <div class="ui card">
+                                                    <div class="content">
+                                                      <div class="header text-align-center">No content available to display </div>
+                                                    </div>
+                                                  </div>
+                                    </div>
                               </div>
                             <!--announcements section-->
-                            <div class="tab-pane fade container text-align-center" id="announcement">
-                              <p>There aren't any announcements regarding this course yet.
-                              </p>
+                            <div class="tab-pane fade container" id="announcement">
+                                    <div class="container card-wrapper">
+                                            <div class="ui card">
+                                                    <div class="content">
+                                                      <div class="header text-align-center">No content available to display </div>
+                                                    </div>
+                                                  </div>
+                                    </div>
                             </div>
                           </div>
                         <div class="ui fitted divider mb-20 mt-30"></div>
