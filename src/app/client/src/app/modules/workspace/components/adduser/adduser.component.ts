@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm, FormControl, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import { ConfigService, ToasterService } from '@sunbird/shared';
+import { ConfigService, ToasterService, IUserData } from '@sunbird/shared';
 import {
   UserService,
   OrgDetailsService,
@@ -10,7 +10,6 @@ import {
   LearnerService
 } from '@sunbird/core';
 import { SignupService } from '../../../public/module/signup/services';
-import { IUserData } from 'src/app/modules/shared';
 
 @Component({
   selector: 'app-adduser',
