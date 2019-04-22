@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm, FormControl, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import { ConfigService, ToasterService } from '@sunbird/shared';
+import { ConfigService, ToasterService, IUserData } from '@sunbird/shared';
 import {
   UserService,
   OrgDetailsService,
@@ -61,19 +61,14 @@ export class AdduserComponent implements OnInit {
     this.singleUser = !this.singleUser;
   }
   submit() {
-    const valid = this.validate();
-    if (valid) {
-      const option = {
-        url: this.configService.urlConFig.URLS.ADMIN.GET_ORG,
-        data: {
-          request: {
-            organisationId: this.userService.rootOrgId
-          }
-        }
-      };
-      this.learnerService.post(option).subscribe(
-        data => {
-          const channel = data.result.response.channel;
+  let channel;
+    this.userService.userData$.subscribe((user: IUserData) => {
+     _.forEach(user.userProfile, (value, key) => {
+       if (key === 'channel') {
+        channel = value;
+       }
+     });
+          });
           const option1 = {
             request: {
               firstName: this.name.value,
@@ -84,75 +79,20 @@ export class AdduserComponent implements OnInit {
               emailVerified: true
             }
           };
-          this.signupService.createUser1(option1).subscribe();
-          this.toasterService.success('user created successfully');
-          this.goBackToCoursePage();
-        }, (err) => {
-          this.toasterService.error(err);
-          this.goBackToCoursePage();
-        }
-      );
+          this.signupService.createUser1(option1).subscribe(data => {
+            this.toasterService.success('User Created Successfully');
+            this.goBackToCoursePage();
+          }, (err) => {
+            console.log(err);
+            this.toasterService.error(err.error.params.err);
+          });
+
     }
-  }
+
   isDisabled(event) {
     this.enabled = !this.enabled;
   }
-  validate(): boolean {
-    if (this.name.status === 'VALID') {
-      this.validdetails = true;
-    } else {
-      this.validdetails = false;
-      this.toasterService.error('Name Required');
-      return this.validdetails;
-    }
-    if (this.username.status === 'VALID') {
-      this.validdetails = true;
-    } else {
-      this.validdetails = false;
-      this.toasterService.error(' UserName Required');
-      return this.validdetails;
-    }
-    if (this.password.status === 'VALID') {
-      this.validdetails = true;
-    } else {
-      this.validdetails = false;
-      this.toasterService.error(' Password Required');
-      return this.validdetails;
-    }
-    if (this.enabled) {
-      if (this.email.status === 'VALID') {
-        this.validdetails = true;
-      } else {
-        this.validdetails = false;
-        this.toasterService.error('Invalid email');
-        return this.validdetails;
-      }
-    } else {
-      if (this.phonenumber.status === 'VALID') {
-        this.validdetails = true;
-      } else {
-        this.validdetails = false;
-        this.toasterService.error(' Phone Number or email Required');
-        return this.validdetails;
-      }
-    }
-    if (this.cpassword.status === 'VALID') {
-      if (this.password.value === this.cpassword.value) {
-        this.validdetails = true;
-      } else {
-        this.validdetails = false;
-        this.toasterService.error(
-          'password should be same as above passoword '
-        );
-        return this.validdetails;
-      }
-    } else {
-      this.validdetails = false;
-      this.toasterService.error(' Confirm your password');
-      return this.validdetails;
-    }
-    return this.validdetails;
-  }
+
   goBackToCoursePage() {
     setTimeout(() => {
       window.location.reload();
