@@ -182,12 +182,11 @@ export class LandingPageComponent implements OnInit {
         this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'gradeLevel');
         console.log('grade level categories created as ', this.categoryNames);
         this.categoryNames = this.categoryNames.map(category => {
-          return category.terms.splice(0,8);
+          return category.terms.splice(0, 8);
         });
         console.log('mapped category names are ', this.categoryNames);
-        //this.categoryNames[0] = this.categoryNames.splice(0, 8);
-        //console.log('category names filled as ', this.categoryNames);
-
+        // this.categoryNames[0] = this.categoryNames.splice(0, 8);
+        // console.log('category names filled as ', this.categoryNames);
         // add images to the specified ategories
         this.categoryNames[0].forEach(category => {
           this.images.filter(imageData => {
@@ -332,10 +331,11 @@ export class LandingPageComponent implements OnInit {
   activate(event) {
     const currentEl = jQuery(event.target);
     const parent = jQuery(event.target).parent().children();
-    jQuery.each(parent,function(key,child) {
+    // tslint:disable-next-line:only-arrow-functions
+    jQuery.each(parent, function(key, child) {
       jQuery(child).removeClass('active');
     });
-    if(!currentEl.hasClass('active')) {
+    if (!currentEl.hasClass('active')) {
       currentEl.addClass('active');
     }
     console.log('parent clicked is ', parent);

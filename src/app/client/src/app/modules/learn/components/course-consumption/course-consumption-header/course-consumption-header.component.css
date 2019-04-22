@@ -1,7 +1,25 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
 ::ng-deep .ui.tiny.progress .bar{
     min-width: 0
 }
 ::ng-deep .ui.progress {
-    height: 0.3em;
-    bottom: -1.1em;
+    /* height: 0.3em; */
+    /* bottom: -1.1em;
+    top: 30em; */
+    background: #E2E2E2;
 }
+::ng-deep .ui.progress.blue .bar {
+    background-color: #3cbbb0 !important;
+}
+::ng-deep .ui.progress .bar {
+    height: 14px !important; 
+}
+/* .container {
+    margin-top: -3em;
+}
+.progress-data {
+    top: 30em;
+}
+.percent {
+    top: 30em;
+} */

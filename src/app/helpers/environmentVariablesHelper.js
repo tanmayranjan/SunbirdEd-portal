@@ -3,16 +3,14 @@ const env = process.env
 const fs = require('fs')
 const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 let envVariables = {
-  LEARNER_URL: env.sunbird_learner_player_url || 'https://sunbirdintl-qa.stackroute.com/api/',
-  CONTENT_URL: env.sunbird_content_player_url || 'https://sunbirdintl-qa.stackroute.com/api/',
-  CONFIG_URL: env.sunbird_config_service_url || 'https://sunbirdintl-qa.stackroute.com/api/config/',
+  LEARNER_URL: env.sunbird_learner_player_url || 'https://camino.stackroute.com/api/',
+  CONTENT_URL: env.sunbird_content_player_url || 'https://camino.stackroute.com/api/',
+  CONFIG_URL: env.sunbird_config_service_url || 'https://camino.stackroute.com/api/config/',
   CONFIG_REFRESH_INTERVAL: env.config_refresh_interval || 10,
   CONFIG_SERVICE_ENABLED: env.config_service_enabled || false,
-  CONTENT_PROXY_URL: env.sunbird_content_proxy_url || 'https://sunbirdintl-qa.stackroute.com/',
+  CONTENT_PROXY_URL: env.sunbird_content_proxy_url || 'https://camino.stackroute.com/',
   PORTAL_REALM: env.sunbird_portal_realm || 'sunbird',
-  PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'https://sunbirdintl-qa.stackroute.com/auth',
-  // PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'http://localhost:8080/auth',
-
+  PORTAL_AUTH_SERVER_URL: env.sunbird_portal_auth_server_url || 'https://camino.stackroute.com/auth',
   PORTAL_AUTH_SERVER_CLIENT: env.sunbird_portal_auth_server_client || 'portal',
   APPID: process.env.sunbird_environment + '.' + process.env.sunbird_instance + '.portal',
   DEFAULT_CHANNEL:'niit-Channel',
@@ -20,7 +18,7 @@ let envVariables = {
   PORTAL_PORT: env.sunbird_port || 3000,
   PORTAL_API_AUTH_TOKEN: env.sunbird_api_auth_token  || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmMzU5MzdlOWZmY2U0OWVjOTFhMWM2ZjNiMGRkODNjZSJ9.-TFevs_hwibGVswDBJhhgcJ3I4jEi1_dWuiNHsqMOoc',
   PORTAL_TELEMETRY_PACKET_SIZE: env.sunbird_telemetry_packet_size || 1000,
-  PORTAL_ECHO_API_URL: env.sunbird_echo_api_url || 'https://sunbirdintl-qa.stackroute.com/api/echo/',
+  PORTAL_ECHO_API_URL: env.sunbird_echo_api_url || 'https://camino.stackroute.com/api/echo/',
   PORTAL_AUTOCREATE_TRAMPOLINE_USER: env.sunbird_autocreate_trampoline_user || 'true',
   PORTAL_TRAMPOLINE_CLIENT_ID: env.sunbird_trampoline_client_id || 'trampoline',
   PORTAL_TRAMPOLINE_SECRET: env.sunbird_trampoline_secret,
@@ -29,8 +27,8 @@ let envVariables = {
   PORTAL_CDN_URL: env.sunbird_portal_cdn_url || '',
   CONTENT_SERVICE_UPSTREAM_URL: env.sunbird_content_service_upstream_url || 'http://localhost:5000/',
   LEARNER_SERVICE_UPSTREAM_URL: env.sunbird_learner_service_upstream_url || 'http://localhost:9000/',
-  DATASERVICE_URL: env.sunbird_dataservice_url || 'https://sunbirdintl-qa.stackroute.com/api/',
-  KEY_CLOAK_PUBLIC: env.sunbird_keycloak_public || 'https://sunbirdintl-qa.stackroute.com/auth',
+  DATASERVICE_URL: env.sunbird_dataservice_url || 'https://camino.stackroute.com/api/',
+  KEY_CLOAK_PUBLIC: env.sunbird_keycloak_public || 'https://camino.stackroute.com/auth',
   KEY_CLOAK_REALM: env.sunbird_keycloak_realm || 'sunbird',
   CACHE_STORE: env.sunbird_cache_store || 'memory',
   CACHE_TTL: env.sunbird_cache_ttl || 1800,
@@ -62,7 +60,7 @@ let envVariables = {
     clientId: env.sunbird_google_keycloak_client_id,
     secret: env.sunbird_google_keycloak_secret
   },
-  sunbird_google_captcha_site_key: env.sunbird_google_captcha_site_key
+  sunbird_google_captcha_site_key: env.sunbird_google_captcha_site_key || '6Ldcf4EUAAAAAMrKQSviNtEzMretoDgeAUxqJv7d'
 }
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')
   ? env.sunbird_cassandra_urls.split(',') : ['localhost']
