@@ -4,7 +4,7 @@
   <img src="./../../../../../assets/banner1.jpg" class="img-fluid">
   <div class="banner-overlay">
     <h1>LET'S BOOST YOUR SKILLS</h1>
-    <h6 class="image-sub">Learn something new everyday and get inspired by the diversity of online learning</h6>
+    <h6 class="image-sub">Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.</h6>
     <!-- <div class="container-fluid image-search-container d-none d-md-block d-lg-block">
       <form>
         <div class="input-group">
@@ -57,7 +57,7 @@
       <div class="col-10 nav nav-fill carousel-nav-tab">
         <ng-container *ngFor="let content of categoryNames[0] | slice:0:5 ; let i = index">
           <a *ngIf="content?.name" class="nav-item nav_item_selector" [class.selected]="content.name === selectedSection"
-            (click)="update_carousel(content.name, content.category, $event)">{{content?.name}}</a>
+            (click)="update_carousel(content.name, content.category)">{{content?.name}}</a>
         </ng-container>
       </div>
       <div class="col-2">

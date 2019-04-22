@@ -69,18 +69,18 @@
                     </div>
                 </div>
                 <!--display if the user is logged in -->
-                <div *ngIf="userService.loggedIn" class="row align-items-center justify-content-around button-container loggedInIcons">
-                    <div class="col-3 d-none d-md-block d-lg-block p-0 text-center text-white">
+                <div *ngIf="userService.loggedIn" class="row align-items-center button-container loggedInIcons justify-content-end">
+                    <div class="d-none d-md-block d-lg-block text-white menu-padding">
                         <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
-                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
-                        <button *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole' (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
+                    <div class="d-none d-md-block d-lg-block menu-padding" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'>
+                        <button (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
                         type="button" class="btn-light btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
                     </div>
-                    <div class="col-1 text-right">
+                    <div class="text-right menu-padding">
                         <i class="fa fa-bell"></i>
                     </div>
-                    <div class="col p-0 text-center mr-5">
+                    <div class="text-center mr-5 menu-padding">
                         <div class="ui buttons">
             
                             <div class="ui floating dropdown icon button" style="background-color:transparent">

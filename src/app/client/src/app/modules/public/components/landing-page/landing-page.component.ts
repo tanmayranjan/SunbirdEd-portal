@@ -163,13 +163,14 @@ export class LandingPageComponent implements OnInit {
         _.forOwn(data, value => {
           _.forEach(value, course => {
             console.log(course.name);
-            // this.update_carousel('School');
+            //this.update_carousel('Data Science', 'gradeLevel');
             this.carouselData.push(course);
             console.log(course, this.carouselData);
 
           });
         });
         this.showLoader = false;
+        debugger;
       }, err => {
         this.showLoader = false;
         this.carouselData = [];
@@ -296,7 +297,7 @@ export class LandingPageComponent implements OnInit {
     });
   }
 
-  update_carousel(keyword, frameworkCategory, clickEvent) {
+  update_carousel(keyword, frameworkCategory) {
     this.selectedSection = keyword;
     const request = {};
     request['filters'] = {
@@ -326,7 +327,7 @@ export class LandingPageComponent implements OnInit {
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
-    this.activate(clickEvent);
+    //this.activate(clickEvent);
   }
 
   activate(event) {
