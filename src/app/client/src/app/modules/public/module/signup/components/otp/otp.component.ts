@@ -42,6 +42,7 @@ export class OtpComponent implements OnInit {
     public deviceDetectorService: DeviceDetectorService) { }
 
   ngOnInit() {
+
     this.mode = this.signUpdata.controls.contactType.value;
     this.otpForm = new FormGroup({
       otp: new FormControl('', [Validators.required])

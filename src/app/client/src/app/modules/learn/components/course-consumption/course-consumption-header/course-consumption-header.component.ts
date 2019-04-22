@@ -45,6 +45,8 @@ export class CourseConsumptionHeaderComponent implements OnInit, AfterViewInit, 
   lastPlayedContentId: string;
   showResumeCourse = true;
   contentId: string;
+  completedCount;
+  totalCount;
   progress = 0;
   courseStatus: string;
   public unsubscribe = new Subject<void>();
@@ -87,8 +89,11 @@ export class CourseConsumptionHeaderComponent implements OnInit, AfterViewInit, 
     this.courseProgressService.courseProgressData.pipe(
       takeUntil(this.unsubscribe))
       .subscribe((courseProgressData) => {
+        console.log(courseProgressData);
         this.enrolledCourse = true;
         this.progress = courseProgressData.progress ? Math.round(courseProgressData.progress) : 0;
+        this.completedCount = courseProgressData.completedCount;
+        this.totalCount = courseProgressData.totalCount;
         this.lastPlayedContentId = courseProgressData.lastPlayedContentId;
         if (!this.flaggedCourse && this.onPageLoadResume &&
           !this.contentId && this.enrolledBatchInfo.status > 0 && this.lastPlayedContentId) {

@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 import { IStartEventInput, IImpressionEventInput, IInteractEventEdata } from '@sunbird/telemetry';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ActivatedRoute } from '@angular/router';
-import { ConfigService } from '@sunbird/shared';
 
 @Component({
   selector: 'app-signup',
@@ -39,12 +38,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(formBuilder: FormBuilder, public resourceService: ResourceService,
     public signupService: SignupService, public toasterService: ToasterService,
     public tenantService: TenantService, public deviceDetectorService: DeviceDetectorService,
-    public activatedRoute: ActivatedRoute, public telemetryService: TelemetryService,
-    public configService: ConfigService) {
+    public activatedRoute: ActivatedRoute, public telemetryService: TelemetryService) {
     this.sbFormBuilder = formBuilder;
   }
 
   ngOnInit() {
+    // tslint:disable-next-line:no-debugger
+    debugger;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
         if (data && !data.err) {
@@ -162,9 +162,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.signUpForm.valueChanges.subscribe(val => {
       if (this.signUpForm.status === 'VALID') {
         this.disableSubmitBtn = false;
-        console.log(val);
       } else {
-        console.log(val , 'else');
         this.disableSubmitBtn = true;
       }
     });
@@ -255,7 +253,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         const failedgenerateOTPMessage = (err.error.params.status === 'PHONE_ALREADY_IN_USE') ||
           (err.error.params.status === 'EMAIL_IN_USE') ? err.error.params.errmsg : this.resourceService.messages.fmsg.m0085;
         this.toasterService.error(failedgenerateOTPMessage);
-        // this.resetGoogleCaptcha();
+        this.resetGoogleCaptcha();
         this.disableSubmitBtn = false;
       }
     );
@@ -292,9 +290,5 @@ export class SignupComponent implements OnInit, OnDestroy {
     };
 
     this.telemetryCdata = [{ 'type': 'signup', 'id': this.activatedRoute.snapshot.data.telemetry.uuid }];
-  }
-  createUser() {
-    console.log('signup compo');
-// this.signupService.createUser1()
   }
 }
