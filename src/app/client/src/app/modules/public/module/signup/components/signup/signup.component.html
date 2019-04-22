@@ -63,7 +63,7 @@
           </form>
           <!-- <button appTelemetryInteract [telemetryInteractEdata]="submitInteractEdata"  [telemetryInteractCdata]="telemetryCdata" [ngClass]="{'grey':disableSubmitBtn, 'light-sea-green':!disableSubmitBtn}" class="ui button width-300 mt-10" tabindex="0"
           (click)="createUser(); disableSubmitBtn = true;">{{resourceService.frmelmnts.lbl.signUp}}</button> -->
-          <button appTelemetryInteract [telemetryInteractEdata]="submitInteractEdata"  [telemetryInteractCdata]="telemetryCdata" [ngClass]="{'grey':disableSubmitBtn, 'light-sea-green':!disableSubmitBtn}" class="ui button width-300 mt-10" tabindex="0"
+          <button appTelemetryInteract [telemetryInteractEdata]="submitInteractEdata"  [telemetryInteractCdata]="telemetryCdata" [ngClass]="{'grey':disableSubmitBtn, 'primary-purple':!disableSubmitBtn}" class="ui button width-300 mt-10" tabindex="0"
             (click)="captchaRef.execute(); disableSubmitBtn = true;">{{resourceService.frmelmnts.lbl.signUp}}</button>
           <a (click)="captchaRef.reset()" id="resetGoogleCaptcha"></a>
         </div>
