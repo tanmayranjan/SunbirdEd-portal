@@ -62,7 +62,7 @@ export class LandingPageComponent implements OnInit {
     {
       // tslint:disable-next-line: max-line-length
       background: '../../../../../assets/fa/ITandSoft.png',
-      name: 'It',
+      name: 'IT',
       frameWork: 'gradeLevel'
     },
     {
