@@ -115,7 +115,6 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
   */
   ngOnInit() {
     // tslint:disable-next-line:no-debugger
-    debugger;
     console.log(this.courseId);
     this.activatedRoute.parent.params.pipe(mergeMap((params) => {
       this.courseId = params.courseId;

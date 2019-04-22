@@ -170,7 +170,6 @@ export class LandingPageComponent implements OnInit {
           });
         });
         this.showLoader = false;
-        debugger;
       }, err => {
         this.showLoader = false;
         this.carouselData = [];
