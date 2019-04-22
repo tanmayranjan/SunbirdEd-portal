@@ -61,6 +61,9 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
+     _.forEach(this.rootChildrens, child => {
+       child["togglePanelIcon"] = true;
+     });
       console.log('rootChildrens', this.rootChildrens);
 
       this.addNodeMeta();
