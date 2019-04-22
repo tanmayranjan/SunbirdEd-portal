@@ -16,6 +16,8 @@ export class ViewuserComponent implements OnInit {
   show = false;
   userroles = [];
   existingUserRoles;
+  openModal = false;
+  userToUpdate;
   roles = [
     { name: 'COURSE_MENTOR' },
     { name: 'CONTENT_CREATOR ' },
@@ -51,6 +53,7 @@ export class ViewuserComponent implements OnInit {
     this.learnerService.post(option).subscribe(data => {
       const response = data.result;
       let userorgid;
+      console.log(data.result);
       _.forOwn(response, content => {
         _.forEach(content, value => {
           _.forEach(value, user => {
@@ -62,7 +65,7 @@ export class ViewuserComponent implements OnInit {
               const userid = {
                 id: user.id,
                 organisationId: userorgid,
-                firstName: user.firstName,
+                userName: user.userName,
                 provider: this.userService.rootOrgId,
                 roles: this.existingUserRoles
               };
@@ -73,8 +76,8 @@ export class ViewuserComponent implements OnInit {
       });
     });
   }
-
   updateUser(user, role) {
+    console.log(user);
     _.forEach(role.value, (value, key) => {
       if (value) {
         this.userroles.push(key);
@@ -92,12 +95,14 @@ export class ViewuserComponent implements OnInit {
     };
     this.learnerService.post(option).subscribe(
       data => {
+        console.log(data);
+        console.log(option);
         this.toasterService.success('user role updated successfully');
-
         this.goBackToCoursePage();
       },
       err => {
         this.toasterService.error(err);
+        this.goBackToCoursePage();
       }
     );
   }
@@ -129,6 +134,11 @@ export class ViewuserComponent implements OnInit {
   goBackToCoursePage() {
     setTimeout(() => {
       window.location.reload();
-    }, 500);
+    }, 1000);
   }
+showModal(user) {
+  this.userToUpdate = user;
+  console.log(user);
+  this.openModal = !this.openModal;
+}
 }

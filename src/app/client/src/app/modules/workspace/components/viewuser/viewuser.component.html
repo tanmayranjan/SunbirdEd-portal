@@ -1,98 +1,99 @@
 <table class="table table-hover">
-  <thead>
-    <tr>
-      <th>S.NO</th>
-      <th>UserName</th>
-      <th>User Roles</th>
-      <th>Assign role to user</th>
-      <th>Delete User</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of userIds; let i = index">
-      <th scope="row">{{ i + 1 }}</th>
-      <td>{{ user.firstName }}</td>
-      <td class="roles">
-        {{ user.roles }}
-      </td>
-      <td>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#updateuserrole"
-        >
-          <i class="fas fa-pencil-alt "></i>
-        </button>
-        <div
-          class="modal fade"
-          id="updateuserrole"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="roleheading"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="roleheading">
-                  Assign Roles to User
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form
-                  #checkboxForm="ngForm"
-                  (submit)="updateUser(user, checkboxForm)"
-                >
-                  <div *ngFor="let item of roles">
-                    <label>
-                      <input
-                        type="checkbox"
-                        value="{{ item.name }}"
-                        [name]="item.name"
-                        ngModel
-                      />
-                      <span innerHTML="{{ item.name }}"></span>
-                    </label>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <input
-                        type="submit"
-                        value="Submit"
-                        class="btn btn-primary"
-                      />
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>UserName</th>
+        <th>User Roles</th>
+        <th>Assign role to user</th>
+        <th>Delete User</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userIds; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.userName }}</td>
+        <td class="roles">
+          {{ user.roles }}
+        </td>
+        <td> 
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#updateuserrole"
+            (click)="showModal(user)"
+          >
+            <i class="fas fa-pencil-alt "></i>
+          </button>
+          <div
+            class="modal fade"
+            id="updateuserrole"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="roleheading"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="roleheading">
+                    Assign Roles to User 
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form
+                    #checkboxForm="ngForm"
+                    (submit)="updateUser(userToUpdate, checkboxForm)"
+                  >
+                    <div *ngFor="let item of roles">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="{{ item.name }}"
+                          [name]="item.name"
+                          ngModel
+                        />
+                        <span innerHTML="{{ item.name }}"></span>
+                      </label>
                     </div>
-
-                    <div class="col">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-dismiss="modal"
-                      >
-                        Close
-                      </button>
+                    <div class="row">
+                      <div class="col">
+                        <input
+                          type="submit"
+                          value="Submit"
+                          class="btn btn-primary"
+                        />
+                      </div>
+  
+                      <div class="col">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </td>
-      <td>
-        <button (click)="deleteUser(user)" class="btn btn-primary">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        </td>
+        <td>
+          <button (click)="deleteUser(user)" class="btn btn-primary">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
