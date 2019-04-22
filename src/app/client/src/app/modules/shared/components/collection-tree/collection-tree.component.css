@@ -4,6 +4,7 @@
 .ui.styled.accordion .active.title {
     color: inherit ;
 }
-#course-content ng::deep .active.title {
-    background: #F0F0F0;
+#course-content .ui.styled.accordion .active.title {
+    background: #f0f0f0;
+    color: black;
 }

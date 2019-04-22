@@ -121,6 +121,7 @@ export class DisplayPopularCourseComponent implements OnInit {
     this.playEvent.emit(event);
   }
   ngOnInit() {
+    console.log(this.section);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {
