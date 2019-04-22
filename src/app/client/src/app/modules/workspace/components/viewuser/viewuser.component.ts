@@ -101,7 +101,7 @@ export class ViewuserComponent implements OnInit {
         this.goBackToCoursePage();
       },
       err => {
-        this.toasterService.error(err);
+        this.toasterService.error(err.error.params.err);
         this.goBackToCoursePage();
       }
     );
@@ -127,7 +127,7 @@ export class ViewuserComponent implements OnInit {
         this.goBackToCoursePage();
       },
       err => {
-        this.toasterService.error(err);
+        this.toasterService.error(err.error.params.err);
       }
     );
   }
