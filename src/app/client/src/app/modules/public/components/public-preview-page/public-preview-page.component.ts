@@ -68,7 +68,7 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
     headerMessage: 'Please wait...',
     loaderMessage: 'Fetching content details!'
   };
-
+  public defaultImageSrc = './../../../../../assets/images/book.png';
   previewUrl;
   safeUrl;
   preview = false;

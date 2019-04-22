@@ -98,6 +98,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
 
   public noContentToPlay = 'No content to play';
 
+  public defaultImageSrc = './../../../../../../assets/images/book.png';
+
   public showExtContentMsg = false;
   courseDetails = [];
   resources = [];
