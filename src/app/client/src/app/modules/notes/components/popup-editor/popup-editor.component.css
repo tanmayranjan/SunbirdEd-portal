@@ -12,8 +12,16 @@
 	background-color: Silver; 
 }
 
+.ui.primary.button {
+	background-color: #ce1f99 !important;
+}
+
+.secondary-color {
+	background-color: #222240 !important;
+}
+
 .wmd-input 
-{ 
+{
 	height: 300px;
 	background-color: Gainsboro;
   border: 1px solid DarkGray;
