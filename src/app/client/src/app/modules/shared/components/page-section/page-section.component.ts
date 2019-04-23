@@ -62,8 +62,8 @@ export class PageSectionComponent implements OnInit {
    {
      'breakpoint': 1600,
      'settings': {
-       'slidesToShow': 3.5,
-       'slidesToScroll': 3
+       'slidesToShow': 4,
+       'slidesToScroll': 4
      }
    },
    {
@@ -119,6 +119,7 @@ export class PageSectionComponent implements OnInit {
     this.resourceService = resourceService;
   }
   playContent(event) {
+    console.log("recieved play CONTENT EVENT AS ", event);
     this.playEvent.emit(event);
   }
   ngOnInit() {
