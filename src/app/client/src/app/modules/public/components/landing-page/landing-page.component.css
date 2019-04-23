@@ -625,6 +625,7 @@ label {
 }
 
 .nav-item {
+  margin-right : 10px;
   white-space: nowrap;
   display: inline;
   min-width: 120px;
@@ -639,6 +640,7 @@ label {
 }
 
 .viewAllBtn {
+  display: block;
   height: 45px;
   margin: 0;
   margin-top: 23px;
