@@ -186,7 +186,7 @@
                                             <br>
                                             <span (click)="showNoteEditor=!showNoteEditor" class="cursor-pointer">
                                                     <button class="btn btn-md btn-default m-0 notesBtn">
-                                                      <i class="circular icon plus"></i>&nbsp;{{resourceService.frmelmnts.lbl.addnote}}
+                                                      <i class="circular icon plus"></i>{{resourceService.frmelmnts.lbl.addnote}}
                                                     </button>
                                                 <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'"
                                                     [ids]="{contentId:contentId, courseId:courseId}"
