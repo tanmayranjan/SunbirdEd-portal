@@ -245,9 +245,14 @@
   font-size: 1em;
   font-weight: bold;
   width: 90px;
+  display: block;
   border-radius: 37px;
   color: #451771;
 }
+.ui.floating.dropdown .custom-menu {
+  left : -60px !important;
+}
+
 .button-container .hamburger {
   display: inline;
   border: none;
