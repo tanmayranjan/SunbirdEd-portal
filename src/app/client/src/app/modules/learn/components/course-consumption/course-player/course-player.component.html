@@ -5,23 +5,24 @@
             <div class="container-fluid banner">
                 <div class="row banner-main-row">
                   <div class="col-xs-12 col-sm-12 col-md-5 image-section">
-                    <img class="float-right" [src]='courseHierarchy.appIcon || defaultImageSrc' alt="course-image" width="300px" height="270px">
+                    <img class="float-right" [src]='courseHierarchy?.appIcon || defaultImageSrc' alt="course-image" width="300px" height="270px">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-5 offset-md-1 banner-content-section float-right white-text">
                         <br />
                         <h3 class="h3 responsive-align-text course-name banner-font">{{courseHierarchy?.name || 'NA'}}
                         </h3>
-                        <h5 class="banner-content-description banner-desc-font" *ngIf="!readMore">
-                            {{ courseHierarchy.description | slice:0:200 }}&nbsp;
-                            <span class="ui cardsKnowMore mouse-pointer"
+                        <h5 class="banner-content-description banner-desc-font">
+                            {{ courseHierarchy?.description | slice:0:200 }}...&nbsp;
+                            <!-- <span class="ui cardsKnowMore mouse-pointer"
                                 *ngIf="courseHierarchy.description && courseHierarchy.description.length > 200 && readMore === false"
                                 (click)="readMore = !readMore;">{{resourceService.frmelmnts.lbl.readmore}}
-                            </span></h5>
-                        <h5 *ngIf="readMore" class="banner-content-description banner-desc-font"
-                            style="font-size: 14px !important;">{{ courseHierarchy.description}}&nbsp;
+                            </span> -->
+                        </h5>
+                        <!-- <h5 *ngIf="readMore" class="banner-content-description banner-desc-font"
+                            style="font-size: 14px !important;">{{ courseHierarchy?.description}}&nbsp;
                             <span class="ui cardsKnowMore mouse-pointer"
                                 (click)="readMore = false;">{{resourceService.frmelmnts.lbl.readless}}</span>
-                        </h5>
+                        </h5> -->
                         <div class="row icon-section mt-3 font-awesome-white">
                             <div class="col-sm-6 col-md-3 text-align-center">
                                 <h4 class="h3">{{courseHierarchy?.totalVideoDuration || '22'}}</h4>
@@ -145,7 +146,7 @@
                                             <div class="container card-wrapper">
                                                 <div class="ui card">
                                                     <div class="content">
-                                                        <div class="header text-align-center">No content available to
+                                                        <div class="header text-align-center no-content">No content available to
                                                             display </div>
                                                     </div>
                                                 </div>
@@ -155,7 +156,7 @@
                                             <div class="container card-wrapper">
                                                 <div class="ui card">
                                                     <div class="content">
-                                                        <div class="header text-align-center">No content available to
+                                                        <div class="header text-align-center no-content">No content available to
                                                             display </div>
                                                     </div>
                                                 </div>
@@ -166,7 +167,7 @@
                                             <div class="container card-wrapper">
                                                 <div class="ui card">
                                                     <div class="content">
-                                                        <div class="header text-align-center">No content available to
+                                                        <div class="header text-align-center no-content">No content available to
                                                             display </div>
                                                     </div>
                                                 </div>
@@ -184,8 +185,9 @@
                                         <div>
                                             <br>
                                             <span (click)="showNoteEditor=!showNoteEditor" class="cursor-pointer">
-                                                <i
-                                                    class="circular icon mr-10 plus"></i>&nbsp;{{resourceService.frmelmnts.lbl.addnote}}
+                                                    <button class="btn btn-md btn-default m-0 notesBtn">
+                                                      <i class="circular icon plus"></i>&nbsp;{{resourceService.frmelmnts.lbl.addnote}}
+                                                    </button>
                                                 <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'"
                                                     [ids]="{contentId:contentId, courseId:courseId}"
                                                     (exitModal)="showNoteEditor=false"
