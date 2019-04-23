@@ -489,7 +489,7 @@ label {
 .banner-overlay {
   color: white;
   position: absolute;
-  top: 5%;
+  top: 6%;
   left: 10%;
 }
 .banner-overlay h1 {
@@ -497,11 +497,11 @@ label {
   line-height: 1.8em;
 }
 .banner-overlay h6 {
-  font-size: 1.2em;
-  line-height: 1.6em;
+  font-size: 1.5em;
+  line-height: 2em;
 }
 .image-sub {
-  max-width: 400px;
+  max-width: 470px;
   margin-bottom: 20px;
 }
 /* .image-search-container {

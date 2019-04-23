@@ -44,7 +44,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // tslint:disable-next-line:no-debugger
-    debugger;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
         if (data && !data.err) {

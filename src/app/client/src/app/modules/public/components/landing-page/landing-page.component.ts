@@ -62,7 +62,7 @@ export class LandingPageComponent implements OnInit {
     {
       // tslint:disable-next-line: max-line-length
       background: '../../../../../assets/fa/ITandSoft.png',
-      name: 'It',
+      name: 'IT',
       frameWork: 'gradeLevel'
     },
     {
@@ -163,7 +163,7 @@ export class LandingPageComponent implements OnInit {
         _.forOwn(data, value => {
           _.forEach(value, course => {
             console.log(course.name);
-            // this.update_carousel('School');
+            //this.update_carousel('Data Science', 'gradeLevel');
             this.carouselData.push(course);
             console.log(course, this.carouselData);
 
@@ -297,7 +297,7 @@ if (this.userService.loggedIn) {
     });
   }
 
-  update_carousel(keyword, frameworkCategory, clickEvent) {
+  update_carousel(keyword, frameworkCategory) {
     this.selectedSection = keyword;
     const request = {};
     request['filters'] = {
@@ -327,7 +327,7 @@ if (this.userService.loggedIn) {
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
-    this.activate(clickEvent);
+    //this.activate(clickEvent);
   }
 
   activate(event) {
