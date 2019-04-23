@@ -230,9 +230,12 @@
 }
 
 .courseStructureDesc {
-  font-size: 18px
+  font-size: 15px
 }
-
+::ng-deep .ui.modal > .close {
+  text-shadow: 1px 1px black;
+  cursor: unset;
+}
 .readmore {
   position: absolute;
   background: rgba(255, 252, 252, 0.5);

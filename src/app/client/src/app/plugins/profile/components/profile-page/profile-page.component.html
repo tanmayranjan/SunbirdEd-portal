@@ -199,8 +199,8 @@ id="var2" *ngIf="userProfile"
             </div>
           </div>
 
-          <div class="regular slider pt-10">
-            <ngx-slick
+          <div class="regular slider pt-10 pb-30">
+            <!-- <ngx-slick
               in-view-container
               [throttle]="[1000]"
               [trigger]="item"
@@ -209,12 +209,11 @@ id="var2" *ngIf="userProfile"
               class="carousel"
               #slickModal="slick-modal"
               [config]="slideConfig"
-            >
+            > -->
               <div
-                in-view-item
-                [id]="i"
-                [data]="content"
-                ngxSlickItem
+                
+        
+                
                 *ngFor="let item of contributions; let i = index"
                 class="slide"
               >
@@ -227,7 +226,7 @@ id="var2" *ngIf="userProfile"
                   ></app-card>
                 </div>
               </div>
-            </ngx-slick>
+            <!-- </ngx-slick> -->
           </div>
         </div>
       </div>
