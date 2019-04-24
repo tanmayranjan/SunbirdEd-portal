@@ -32,6 +32,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
+  enrolledIDs : any;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
@@ -47,6 +48,13 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];
         console.log('enrolled section is ', this.enrolledSection);
+        // pull out all the course IDs for filteration in the courseRecommendation section
+        this.enrolledIDs = [];
+        this.enrolledIDs = this.enrolledSection.contents.map(content => {
+          console.log('returning ', content.metaData.courseId);
+          return content.metaData.courseId;
+        });
+        console.log('ENROLLED IDS ARE ', this.enrolledIDs);
         if (data[1]) {
           this.initFilters = true;
           this.frameWorkName = data[1];
@@ -101,8 +109,19 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
-        console.log(this.carouselData);
+        // console.log("PREPARED CAROUEL DATA ", this.carouselData);
         this.carouselData = this.carouselData.filter( carouseldata => carouseldata.name === 'Latest Courses');
+        // console.log("FILTERED CAROUSLE DATA ", this.carouselData);
+        // filter all the courses which are not enrolled
+        if(this.enrolledIDs.length > 0){
+          this.carouselData['0']['contents'] = this.carouselData['0']['contents'].filter(content => {
+            if(!content.metaData.hasOwnProperty('batchId')){
+              // console.log('filtered ', content.name);
+              return content; 
+            }
+          });
+          console.log('updated carouselData is ', this.carouselData);
+        }
       }, err => {
         this.showLoader = false;
         this.carouselData = [];
