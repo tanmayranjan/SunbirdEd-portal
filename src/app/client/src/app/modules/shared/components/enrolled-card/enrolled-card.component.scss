@@ -11,7 +11,9 @@
   margin: 1.5%;
   box-shadow: 0px 6px 6px 2px #eee;
 }
-
+.rating-and-views {
+  z-index: 100;
+}
 .content-card .image{
   width: 270px;
   height:150px;

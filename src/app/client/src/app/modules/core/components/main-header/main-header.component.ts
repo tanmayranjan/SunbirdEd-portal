@@ -379,7 +379,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    alert('clicked');
     window.location.replace('/learn');
   }
 }

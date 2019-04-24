@@ -70,7 +70,9 @@ export class PageApiService {
       if (!_.isEmpty(requestParam.exists)) {
         option.data['exists'] = requestParam.exists;
       }
+      console.log('FINAL API REQUEST IS ', option);
       return this.publicDataService.post(option).pipe(map((data) => {
+        console.log('DATA RECIEVED UPON PAGE API IS ', data);
         this.setData(data, requestParam);
         return { sections : data.result.response.sections };
       }));

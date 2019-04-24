@@ -107,6 +107,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     }
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
+        console.log('PAGE API DATA IS ', data);
         this.showLoader = false;
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
         // console.log("PREPARED CAROUEL DATA ", this.carouselData);
