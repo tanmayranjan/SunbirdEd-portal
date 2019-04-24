@@ -365,6 +365,9 @@
 .courseStructureDesc {
   font-size: 15px
 }
+::ng-deep .ui.modal {
+  height : auto !important;
+}
 ::ng-deep .ui.modal > .close {
   text-shadow: 1px 1px black;
   cursor: unset;
@@ -433,7 +436,7 @@
   background: #F0F0F0;
 }
 ::ng-deep .ui.active.modal {
-  height: auto;
+  height: auto !important;
 }
 ::ng-deep .ui.styled.accordion .active.title {
   background: inherit;
