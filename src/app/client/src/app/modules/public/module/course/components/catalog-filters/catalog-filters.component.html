@@ -28,15 +28,15 @@
                     <fieldset class="form-group" *ngIf="field.inputType==='select'">
                       <div class="form-check" *ngFor="let option of field.range">
                         
-                        <label class="form-check-label" id="textcolor" *ngIf="field.name !== 'Rating'">
                           <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
-                            type="checkbox" [value]="option.name">
-                          &nbsp; {{option.name}} </label>
-                        <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                          type="checkbox" [value]="option.name" *ngIf="field.name !== 'Rating'">
+                        <label class="form-check-label" id="textcolor"  *ngIf="field.name !== 'Rating'">
+                            &nbsp; {{option.name}} </label>
+
                           <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
-                            type="checkbox" [value]="option.name">
-                    
-                            <span *ngIf="option.name=== '5'">
+                            type="checkbox" [value]="option.name"*ngIf="field.name === 'Rating'" >
+                            <label class="form-check-label" id="textcolor" *ngIf="field.name === 'Rating'">
+                            <span class="pl-2"*ngIf="option.name=== '5'">
                                 <i class="fas fa-star yellow-star"></i>
                                   <i class="fas fa-star yellow-star"></i>
                                     <i class="fas fa-star yellow-star"></i>
@@ -45,7 +45,8 @@
                                         &above
                                       </span> 
                           
-                              <span *ngIf="option.name=== '4'"><i class="fas fa-star yellow-star"></i>
+                              <span class="pl-2" *ngIf="option.name=== '4'">
+                                <i class="fas fa-star yellow-star"></i>
                                 <i class="fas fa-star yellow-star"></i>
                                   <i class="fas fa-star yellow-star"></i>
                                     <i class="fas fa-star yellow-star"></i>
@@ -53,7 +54,7 @@
                                       &above
                                     </span>
                    
-                             <span *ngIf="option.name === '3'">
+                             <span class="pl-2" *ngIf="option.name === '3'">
                                 <i class="fas fa-star yellow-star"></i>
                               <i class="fas fa-star yellow-star"></i>
                                 <i class="fas fa-star yellow-star"></i>
@@ -62,7 +63,8 @@
                                     &above
                              </span> 
                            
-                             <span *ngIf="option.name==='2'"> <i class="fas fa-star yellow-star"></i>
+                             <span class="pl-2"  *ngIf="option.name==='2'"> 
+                               <i class="fas fa-star yellow-star"></i>
                               <i class="fas fa-star yellow-star"></i>
                                 <i class="fas fa-star gray-star"></i>
                                   <i class="fas fa-star gray-star"></i>
@@ -70,7 +72,7 @@
                                     &above
                                   </span> 
                         
-                             <span *ngIf="option.name==='1'">
+                             <span class="pl-2" *ngIf="option.name==='1'">
                                 <i class="fas fa-star yellow-star"></i>
                               <i class="fas fa-star gray-star"></i>
                                 <i class="fas fa-star gray-star"></i>

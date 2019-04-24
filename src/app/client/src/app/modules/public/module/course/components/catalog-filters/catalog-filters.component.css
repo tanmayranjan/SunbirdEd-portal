@@ -68,3 +68,7 @@ h6 {
   .gray-star {
     color: #D3D3D3;
   }
+  .form-check-input {
+    margin-top: 0.5rem;
+    font-size: large;
+  }
