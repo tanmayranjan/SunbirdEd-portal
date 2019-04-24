@@ -252,7 +252,10 @@
 .ui.floating.dropdown .custom-menu {
   left : -60px !important;
 }
-
+.ui.floating.dropdown>.menu {
+  margin-top : 1em !important;
+  
+}
 .button-container .hamburger {
   display: inline;
   border: none;

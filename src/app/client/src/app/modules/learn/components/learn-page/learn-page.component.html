@@ -65,7 +65,7 @@
       <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
     </div>
     <!-- <app-top-categories></app-top-categories> -->
-    <p style="font-size:21px;margin-top: 47px;">Course Recommendation</p>
+    <p style="font-size:21px;margin-top: 47px; margin-bottom: 0;">Course Recommendation</p>
     <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
       <app-page-section (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
     </div>
