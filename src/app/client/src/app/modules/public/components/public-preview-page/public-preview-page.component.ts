@@ -75,6 +75,7 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
   mimeTypeCount = 0;
   mimeType = '';
   @ViewChild('target') targetEl: ElementRef;
+  @ViewChild('top') topEl: ElementRef;
   public curriculum = [];
   public contentIds = [];
 
@@ -87,6 +88,11 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
   scroll(el: ElementRef) {
     console.log(el);
     this.targetEl.nativeElement.scrollIntoView();
+  }
+  scrollTop(el: ElementRef) {
+    console.log(el);
+    this.topEl.nativeElement.scrollIntoView();
+
   }
   constructor(contentService: ContentService, route: ActivatedRoute, playerService: PublicPlayerService,
     windowScrollService: WindowScrollService, router: Router, public navigationHelperService: NavigationHelperService,

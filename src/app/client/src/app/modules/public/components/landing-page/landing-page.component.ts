@@ -163,7 +163,7 @@ export class LandingPageComponent implements OnInit {
         _.forOwn(data, value => {
           _.forEach(value, course => {
             console.log(course.name);
-            //this.update_carousel('Data Science', 'gradeLevel');
+            // this.update_carousel('Data Science', 'gradeLevel');
             this.carouselData.push(course);
             console.log(course, this.carouselData);
 
@@ -327,7 +327,7 @@ if (this.userService.loggedIn) {
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
-    //this.activate(clickEvent);
+    // this.activate(clickEvent);
   }
 
   activate(event) {

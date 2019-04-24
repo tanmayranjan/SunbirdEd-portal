@@ -70,7 +70,7 @@
                 </div>
                 <!--display if the user is logged in -->
                 <div *ngIf="userService.loggedIn" class="row align-items-center button-container loggedInIcons justify-content-end">
-                    <div class="d-none d-md-block d-lg-block text-white menu-padding">
+                    <div class="d-none d-md-block d-lg-block text-white">
                         <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
                     <div class="d-none d-md-block d-lg-block menu-padding" *ngIf='permissionService.permissionAvailable' appPermission [permission]='workSpaceRole'>

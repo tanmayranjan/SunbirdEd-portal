@@ -256,6 +256,8 @@ export class CatalogComponent implements OnInit {
   }
 
   ngOnInit() {
+        // tslint:disable-next-line:no-debugger
+        debugger;
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;
     this.filters = {

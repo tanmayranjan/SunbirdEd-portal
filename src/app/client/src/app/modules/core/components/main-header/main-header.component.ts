@@ -237,6 +237,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     );
     this.userDataSubscription = this.userService.userData$.subscribe(
       (user: IUserData) => {
+        console.log(user);
         if (user && !user.err) {
           this.userProfile = user.userProfile;
         }
@@ -377,7 +378,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   getFramework(framework) {
     console.log('framework', framework);
-    const key = { key: framework };
+    const key = { 'gradeLevel': framework };
     this.router.navigate(['/search/explore-course', 1], {
       queryParams: key
     });

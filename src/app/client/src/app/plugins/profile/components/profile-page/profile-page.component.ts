@@ -168,7 +168,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // tslint:disable-next-line:no-debugger
     this.userSubscription = this.userService.userData$.subscribe(
       (user: IUserData) => {
         if (user && !user.err) {

@@ -34,7 +34,7 @@
                         <div class="class ellipsis mt-3" *ngIf="data.gradeLevel" title="{{data.gradeLevel}}">{{resourceService.frmelmnts.lbl.class}} : {{data.gradeLevel}}</div>
                         <div class="medium ellipsis mt-3" *ngIf="data.medium" title="{{data.medium}}">{{resourceService.frmelmnts.lbl.medium}} : {{data.medium}}</div>
                       </div> -->
-                      <h5 class="content-name">
+                      <h5 class="content-name text-capitalize">
                           {{data.name | slice:0:40 }}
                         <span *ngIf="data.name && data.name.length >= 40">...</span>
                       </h5>

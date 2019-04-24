@@ -434,7 +434,9 @@
   background: inherit;
   color: inherit;
 }
-
+.smooth-scroll {
+  cursor: pointer;
+}
 @media (min-width:320px) and(max-width:980px) {
 
   .preview-video {

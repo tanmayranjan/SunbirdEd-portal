@@ -133,11 +133,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   mimeTypeCount = 0;
   mimeType = '';
   @ViewChild('target') targetEl: ElementRef;
+  @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
     console.log(el);
     this.targetEl.nativeElement.scrollIntoView();
   }
+  scrollTop(el: ElementRef) {
+    console.log(el);
+    this.topEl.nativeElement.scrollIntoView();
 
+  }
   constructor(public activatedRoute: ActivatedRoute, private configService: ConfigService,
     private courseConsumptionService: CourseConsumptionService, public windowScrollService: WindowScrollService,
     public router: Router, public navigationHelperService: NavigationHelperService, private userService: UserService,

@@ -59,6 +59,13 @@ color: black;
 ::ng-deep .ui.active.modal {
   height: auto;
 }
+i.blue.icon {
+  color: #451771 !important;
+}
+.ui.basic.blue.button, .ui.basic.blue.buttons .button {
+  color: #451771 !important;
+  border: 1px solid #451771;
+}
 .regular {
   display: block;
   width: 43em;
