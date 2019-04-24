@@ -62,7 +62,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
      _.forEach(this.rootChildrens, child => {
-       child["togglePanelIcon"] = true;
+       child['togglePanelIcon'] = true;
      });
       console.log('rootChildrens', this.rootChildrens);
 

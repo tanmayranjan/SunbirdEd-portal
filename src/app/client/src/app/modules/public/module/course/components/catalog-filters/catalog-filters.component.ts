@@ -1,27 +1,27 @@
-
 import { Subscription, Observable } from 'rxjs';
 import {
   ConfigService, ResourceService, Framework, ToasterService, ServerResponse,
   BrowserCacheTtlService, IUserData
 } from '@sunbird/shared';
-import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef,
+  OnDestroy, OnChanges, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FrameworkService, FormService, ConceptPickerService, PermissionService, UserService } from '../../../../../core/services';
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 
 export class Filter {
   code: string;
-  name:  string;
+  name: string;
 }
 @Component({
   selector: 'app-catalog-filters',
   templateUrl: './catalog-filters.component.html',
   styleUrls: ['./catalog-filters.component.css']
 })
-export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
+export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   @Input() filterEnv: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
@@ -93,7 +93,7 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   submitIntractEdata: IInteractEventEdata;
   browsingCategory: any;
   tempKey: any;
-
+  public filterSelected = false;
   flagArray = [];
   /**
     * Constructor to create injected service(s) object
@@ -130,33 +130,27 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    console.log('inside catalog filters');
-    console.log('path', this.activatedRoute.snapshot.data);
-this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
-this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
-this.activatedRoute.queryParams.subscribe((params) => {
-  console.log(params);
-      _.find(Object.keys(params), value => {
-          if (value === 'rating' || value === 'medium' || value === 'board' ||
-          value === 'topic' || value === 'subject' || value === 'gradeLevel' || value === 'key') {
-            this.tempKey = value;
-          } else {
-            console.warn('no value');
-            this.tempKey = undefined;
-          }
-      });
-
-});
-
+    this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
+    this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.frameworkService.initialize(this.hashTagId);
     this.formInputData = {};
     this.activatedRoute.paramMap.subscribe((paramMap: any) => {
       if (paramMap.params.cat) {
-       this.browsingCategory = paramMap.params.cat;
+        this.browsingCategory = paramMap.params.cat;
       }
+    });
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.queryParams = { ...params };
+      _.forIn(params, (value, key) => {
+        if (typeof value === 'string' && key !== 'key' && key !== 'language') {
+          this.queryParams[key] = [value];
+        }
+      });
+      this.formInputData = _.pickBy(this.queryParams);
     });
     this.getQueryParams();
     this.fetchFilterMetaData();
+
     this.contentTypes = this.configService.dropDownConfig.FILTER.RESOURCES.contentTypes;
     this.userService.userData$.subscribe(
       (user: IUserData) => {
@@ -175,28 +169,18 @@ this.activatedRoute.queryParams.subscribe((params) => {
       pageid: this.pageId,
       extra: { filter: this.formInputData }
     };
-    console.log('filterintracy data', this.filterIntractEdata , 'summit' , this.submitIntractEdata);
   }
 
   getQueryParams() {
     this.activatedRoute.queryParams.subscribe((params) => {
-_.forEach(Object.keys(params), data => {
-if (data === 'rating' || data === 'board' || data === 'medium' || data === 'gradeLevel' ||
-data === 'subject' || data === 'topic' || data === 'key') {
-this.tempKey = data;
-} else {
-  this.tempKey = undefined;
-}
-console.log(this.tempKey);
-});
       this.queryParams = { ...params };
-      console.log(this.queryParams);
       _.forIn(params, (value, key) => {
         if (typeof value === 'string' && key !== 'key' && key !== 'language') {
           this.queryParams[key] = [value];
         }
       });
       this.formInputData = _.pickBy(this.queryParams);
+      this.onFilterChange1(this.formInputData);
       this.refresh = false;
       this.cdr.detectChanges();
       this.refresh = true;
@@ -215,65 +199,59 @@ console.log(this.tempKey);
   /**
 * fetchFilterMetaData is gives form config data
 */
-fetchFilterMetaData() {
-  this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
-  console.log('fetch filter meta data', this.isCachedDataExists);
-  // if (!this.isCachedDataExists) {
-  //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
-  //   this.formFieldProperties = data;
-  //   console.log('form field', data);
-  //   this.dataDrivenFilter.emit(this.formFieldProperties);
-  //   this.createFacets();
-  // } else {
+  fetchFilterMetaData() {
+    this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
+    // if (!this.isCachedDataExists) {
+    //   const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
+    //   this.formFieldProperties = data;
+    //   console.log('form field', data);
+    //   this.dataDrivenFilter.emit(this.formFieldProperties);
+    //   this.createFacets();
+    // } else {
     this.frameworkDataSubscription = this.frameworkService.getFrameworkCategories(this.framework)
-    .subscribe((frameworkData: any) => {
-      console.log('data', frameworkData);
-      if (frameworkData && !frameworkData.err) {
-        this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
-        console.log('categorym list in data', this.categoryMasterList, this.categoryMasterList[0].terms);
-        console.log(this.framework);
-        const formServiceInputParams = {
-          formType: this.formType,
-          formAction: this.formAction,
-          contentType: this.filterEnv,
-          framework: this.framework,
-          component: 'portal'
-        };
-        console.log('hasg id' , this.hashTagId);
-        this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
-          (data: ServerResponse) => {
-            console.log('res in formserveice', data);
-            this.formFieldProperties = data;
-            console.log(this.formFieldProperties);
-            _.forEach(this.formFieldProperties, (formFieldCategory) => {
-              if (formFieldCategory && formFieldCategory.allowedRoles) {
-                const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
-                if (!this.showField(formFieldCategory.allowedRoles)) {
-                  this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
+      .subscribe((frameworkData: any) => {
+        if (frameworkData && !frameworkData.err) {
+          this.categoryMasterList = _.cloneDeep(frameworkData.result.framework.categories);
+
+          const formServiceInputParams = {
+            formType: this.formType,
+            formAction: this.formAction,
+            contentType: this.filterEnv,
+            framework: this.framework,
+            component: 'portal'
+          };
+          this.formService.getFormConfig(formServiceInputParams, this.hashTagId).subscribe(
+            (data: ServerResponse) => {
+              this.formFieldProperties = data;
+              _.forEach(this.formFieldProperties, (formFieldCategory) => {
+                if (formFieldCategory && formFieldCategory.allowedRoles) {
+                  const userRoles = formFieldCategory.allowedRoles.filter(element => this.userRoles.includes(element));
+                  if (!this.showField(formFieldCategory.allowedRoles)) {
+                    this.formFieldProperties.splice(this.formFieldProperties.indexOf(formFieldCategory), 1);
+                  }
+                  if (formServiceInputParams.contentType === 'upforreview') {
+                    this.updateFormFields(formFieldCategory);
+                  }
                 }
-                if (formServiceInputParams.contentType === 'upforreview') {
-                  this.updateFormFields(formFieldCategory);
-                }
-              }
-            });
-            this.getFormConfig();
-            this.dataDrivenFilter.emit(this.formFieldProperties);
-          },
-          (err: ServerResponse) => {
-            this.dataDrivenFilter.emit([]);
-            // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-          }
-        );
-      } else if (frameworkData && frameworkData.err) {
-        this.dataDrivenFilter.emit([]);
-        // this.toasterService.error(this.resourceService.messages.emsg.m0005);
-      }
-    });
+              });
+              this.getFormConfig();
+              this.dataDrivenFilter.emit(this.formFieldProperties);
+            },
+            (err: ServerResponse) => {
+              this.dataDrivenFilter.emit([]);
+              // this.toasterService.error(this.resourceService.messages.emsg.m0005);
+            }
+          );
+        } else if (frameworkData && frameworkData.err) {
+          this.dataDrivenFilter.emit([]);
+          // this.toasterService.error(this.resourceService.messages.emsg.m0005);
+        }
+      });
   }
   // }
-onSelect(filter: Filter): void {
-this.selectedFilter = filter;
-}
+  onSelect(filter: Filter): void {
+    this.selectedFilter = filter;
+  }
   updateFormFields(formFieldCategory) {
     if (formFieldCategory && formFieldCategory.code === 'contentType') {
       if (_.indexOf(this.loggedInUserRoles, 'CONTENT_REVIEWER') !== -1 &&
@@ -323,29 +301,36 @@ this.selectedFilter = filter;
     this.flagArray[i] = !this.flagArray[i];
   }
 
-    public resetFilters() {
-      console.log('resetFilters', this.formInputData);
-      this.formInputData = _.pick(this.formInputData, this.ignoreQuery);
-      if (this.viewAllMode) {
-        const data = this._cacheService.get('viewAllQuery');
-        _.forIn(data, (value, key ) => this.formInputData[key] = value);
-      }
-      this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
-      this.hardRefreshFilter();
+  public resetFilters() {
+    const key1 = ['gradeLevel', 'board', 'medium', 'subject', 'rating'];
+    _.forOwn(key1, (key) => {
+      console.log(key);
+      this.resetFilters2(key);
+    });
+
+    this.formInputData = _.pick(this.formInputData, this.ignoreQuery);
+    if (this.viewAllMode) {
+      const data = this._cacheService.get('viewAllQuery');
+      _.forIn(data, (value, key) => this.formInputData[key] = value);
     }
 
-    private hardRefreshFilter() {
-      this.refresh = false;
-      this.cdr.detectChanges();
-      this.refresh = true;
-    }
+    this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
+    this.hardRefreshFilter();
+
+  }
+
+  private hardRefreshFilter() {
+    this.refresh = false;
+    this.cdr.detectChanges();
+    this.refresh = true;
+
+  }
   resetFilters2(name) {
-
+console.log(name);
     const checkboxes: any = document.getElementsByName(name);
     for (let i = 0, n = checkboxes.length; i < n; i++) {
       checkboxes[i].checked = false;
     }
-
     if ((name in this.formInputData)) {
       delete this.formInputData[name];
     }
@@ -355,7 +340,6 @@ this.selectedFilter = filter;
 
   expandFilters() {
     this.expand = !this.expand;
-    console.log(this.expand);
 
   }
   /**
@@ -450,7 +434,6 @@ this.selectedFilter = filter;
 
   onFilterChange(event) {
     const { name, value } = event.target;
-    console.log('name' , name , 'value' , value);
     if (event.target.checked) {
       if (!(name in this.formInputData)) {
         this.formInputData[name] = [];
@@ -465,5 +448,24 @@ this.selectedFilter = filter;
       }
     }
     this.applyFilters();
+  }
+
+  ngAfterViewInit() {
+    this.onFilterChange1(this.formInputData);
+  }
+
+  onFilterChange1(event) {
+    setTimeout(() => {
+_.forOwn(event, (value, key) => {
+    const checkboxes: any = document.getElementsByName(key);
+    for (let i = 0, n = checkboxes.length; i < n; i++) {
+      if (checkboxes[i].value === value[0]) {
+        checkboxes[i].checked = true;
+      } else if (value.length === 1) {
+        checkboxes[i].checked = false;
+      }
+    }
+    });
+    }, 500);
   }
 }

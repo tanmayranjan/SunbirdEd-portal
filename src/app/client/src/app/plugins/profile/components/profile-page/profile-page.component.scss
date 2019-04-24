@@ -42,15 +42,43 @@
 .profile-label-container {
   max-width: 600px !important;
 }
-::ng-deep .slick-slide {
-  width:auto!important;
+// ::ng-deep .slick-slide {
+//   width:auto!important;
+// }
+// ::ng-deep .slick-list {
+//   height: 30em;
+//   overflow-y: scroll;
+// }
+// ::ng-deep .slick-prev, ::ng-deep .slick-next::before , ::ng-deep .slick-next {
+//   display: none ;
+// }
+::ng-deep .ui.modal>.close {
+position: sticky;
+color: black;
 }
-::ng-deep .slick-list {
-  height: 30em;
+::ng-deep .ui.active.modal {
+  height: auto;
+}
+i.blue.icon {
+  color: #451771 !important;
+}
+.ui.basic.blue.button, .ui.basic.blue.buttons .button {
+  color: #451771 !important;
+  border: 1px solid #451771;
+}
+.regular {
+  display: block;
+  width: 43em;
   overflow-y: scroll;
+  height: 30em;
 }
-::ng-deep .slick-prev, ::ng-deep .slick-next::before , ::ng-deep .slick-next {
-  display: none ;
+.regular::-webkit-scrollbar-thumb {
+  background: #451771;
+  width: 3rem !important;
+}
+.regular::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
 }
 @media only screen and (max-width: 767px) {
   .profile-label-container {

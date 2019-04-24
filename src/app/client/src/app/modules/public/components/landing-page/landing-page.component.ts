@@ -163,7 +163,7 @@ export class LandingPageComponent implements OnInit {
         _.forOwn(data, value => {
           _.forEach(value, course => {
             console.log(course.name);
-            //this.update_carousel('Data Science', 'gradeLevel');
+            // this.update_carousel('Data Science', 'gradeLevel');
             this.carouselData.push(course);
             console.log(course, this.carouselData);
 
@@ -223,10 +223,12 @@ export class LandingPageComponent implements OnInit {
   }
   public playContent(event) {
     console.log(event);
-    if (event.data.metaData.batchId) {
-      event.data.metaData.mimeType = 'application/vnd.ekstep.content-collection';
-      event.data.metaData.contentType = 'Course';
-    }
+if (this.userService.loggedIn) {
+  if (event.data.metaData.batchId) {
+    event.data.metaData.mimeType = 'application/vnd.ekstep.content-collection';
+    event.data.metaData.contentType = 'Course';
+  }
+}
     this.playerService.playContent(event.data.metaData);
     this.router.navigate(['play/collection'], event.data.identifier);
   }
@@ -325,7 +327,7 @@ export class LandingPageComponent implements OnInit {
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
-    //this.activate(clickEvent);
+    // this.activate(clickEvent);
   }
 
   activate(event) {

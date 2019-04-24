@@ -32,12 +32,10 @@ export class MainFooterComponent implements OnInit {
     if (event instanceof NavigationStart) {
       const url = event.url;
       if (url.includes('explore-course')) {
-        console.log('footerrrrrrr');
         this.applyCss = true;
       }
      }
     });
-    // console.log(this.activatedRoute.url);
   }
 
 }

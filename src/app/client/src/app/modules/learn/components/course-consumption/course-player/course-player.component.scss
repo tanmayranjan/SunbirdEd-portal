@@ -363,9 +363,12 @@
 }
 
 .courseStructureDesc {
-  font-size: 18px
+  font-size: 15px
 }
-
+::ng-deep .ui.modal > .close {
+  text-shadow: 1px 1px black;
+  cursor: unset;
+}
 .readmore {
   position: absolute;
   background: rgba(255, 252, 252, 0.5);
@@ -440,7 +443,9 @@
   background: inherit;
   color: inherit;
 }
-
+.smooth-scroll {
+  cursor: pointer;
+}
 @media (min-width:320px) and(max-width:980px) {
 
   .preview-video {

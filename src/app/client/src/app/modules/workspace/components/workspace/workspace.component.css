@@ -1,0 +1,7 @@
+::ng-deep .ui.modal>.close {
+    position: sticky;
+    color: black;
+    }
+    ::ng-deep .ui.active.modal {
+      height: auto;
+    }
