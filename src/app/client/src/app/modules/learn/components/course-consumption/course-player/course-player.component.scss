@@ -21,6 +21,10 @@
   height: 78px;
 }
 
+.no-content {
+  color : darkgray !important;
+  font-weight : 400 !important;
+}
 #dashboardBtn {
   margin: 13px 20px 0 0;
   position: absolute;
@@ -120,6 +124,11 @@
     margin-bottom : 20px;
 }
 
+.notesBtn {
+  background: #451771 !important;
+  color : white !important;
+  border-color: #451771 !important;
+}
 
 
 // product details css//

@@ -183,7 +183,9 @@
   border-radius: 37px;
   color: #451771;
 }
-
+.menu-padding-2 {
+  padding : 0.4em;
+}
 .category {
   font-size: 1.121em;
   color: white;
@@ -243,8 +245,16 @@
   font-size: 1em;
   font-weight: bold;
   width: 90px;
+  display: block;
   border-radius: 37px;
   color: #451771;
+}
+.ui.floating.dropdown .custom-menu {
+  left : -60px !important;
+}
+.ui.floating.dropdown>.menu {
+  margin-top : 1em !important;
+  
 }
 .button-container .hamburger {
   display: inline;

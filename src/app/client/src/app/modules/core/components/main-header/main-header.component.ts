@@ -163,7 +163,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     jQuery(() => {
       jQuery('.carousel').carousel();
       jQuery('.ui.dropdown').dropdown();
-      jQuery('.ui.dropdown.c').dropdown();
       /*  jQuery(window).on("scroll", function() {
          if(jQuery(window).scrollTop() > 150) {
            jQuery(".header").addClass("active");
@@ -347,10 +346,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   }
 
-  signIn() {
-    this.router.navigate(['resources']);
-  }
-
   getFrameworkCategoryandterms(framework) {
     // alert('called get category terms');
     this.terms = [];
@@ -382,5 +377,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/search/explore-course', 1], {
       queryParams: key
     });
+  }
+
+  signIn() {
+    window.location.replace('/learn');
   }
 }

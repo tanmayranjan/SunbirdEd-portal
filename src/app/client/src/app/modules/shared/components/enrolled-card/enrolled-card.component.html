@@ -1,5 +1,5 @@
 
-          <div class="card content-card mt-5 mb-0"
+          <div class="card content-card mt-5 mb-0" (click)="onAction(data,data.action.onImage)"
           *ngIf="data"
           appTelemetryInteract
           [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
@@ -9,7 +9,7 @@
           >
              
 
-              <div class="image">
+              <div class="image" >
                 <img class="card-image" *ngIf="data.showImage? false : true" src="{{data.image || 'assets/images/book.png' | cdnprefixurl}}" alt="{{data.name}}">
               </div>
               <div class="card-body">
@@ -50,7 +50,7 @@
         
                           <div class="lectures-and-duration mt-3">
                               <i class="fas fa-play-circle"></i>
-                              <span class="lectures text-color-gray">&nbsp; 150 lectures &nbsp; | &nbsp;</span>
+                              <span *ngIf="data?.maxCount" class="lectures text-color-gray">&nbsp; {{data?.maxCount}} lectures &nbsp; | &nbsp;</span>
                               <span class="duration text-color-gray"><i class="far fa-clock"></i> 2 Weeks</span>
                           </div>
                           <div class="progress" *ngIf="data.progress && data.maxCount">

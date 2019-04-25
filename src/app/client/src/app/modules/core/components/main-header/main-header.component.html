@@ -56,10 +56,8 @@
                         <a routerLink="/signup" class="signup">Sign Up</a>
                     </div>
                     <div class="col d-none d-md-block d-lg-block">
-                        <button type="button" class="btn btn-outline-default btn-md signin">
-                            <a href="/learn" class="sunblogin item font-weight-bold primary-color pl-5 ml-auto pr-0">
+                        <button type="button" class="btn btn-outline-default btn-md signin" (click)="signIn()">
                                 {{resourceService.frmelmnts?.btn?.signin}}
-                            </a>
                         </button>
                     </div>
                     <div class="col-xs-1 col-sm-1 d-xs-block d-sm-block d-md-none d-lg-none mobile-menu">
@@ -77,20 +75,24 @@
                         <button (click)="navigateToWorkspace()" appTelemetryInteract [telemetryInteractEdata]="workspaceMenuIntractEdata"
                         type="button" class="btn-light btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
                     </div>
-                    <div class="text-right menu-padding">
-                        <i class="fa fa-bell"></i>
+                    <div class="text-right menu-padding-2 pr-0 pl-0 m-0">
+                        <div class="ui floating dropdown icon button" style="background-color: transparent">
+                                <i class="fa fa-bell" style="font-size: 17px; color: #fff"></i>
+                                <div class="menu custom-menu">
+                                    <div class="item">No notifications</div>
+                                </div>
+                        </div>
                     </div>
                     <div class="text-center mr-5 menu-padding">
                         <div class="ui buttons">
             
                             <div class="ui floating dropdown icon button" style="background-color:transparent">
-                                <i class="fa fa-user-circle-o" style="font-size:20px; color: #fff;"></i>
+                                <i class="fa fa-user-circle-o" style="font-size:30px; color: #fff;"></i>
                                 <div class="menu">
                                     <div *ngIf='userProfile' class="item" routerLink="profile"><a>Profile</a></div>
                                     <div *ngIf=' userService.loggedIn && permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard" class="item">
                                     <a>{{resourceService.frmelmnts?.lnk?.dashboard}}</a>
                                 </div>
-                                    <div class="item"><a>Account settings</a></div>
                                     <div class="item"><a (click)="logout()">Logout</a></div>
                                 </div>
                             </div>

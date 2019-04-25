@@ -36,11 +36,12 @@ style= "cursor: pointer"
 
                   <div class="lectures-and-duration mt-3">
                       <i class="fas fa-play-circle"></i>
-                      <span class="lectures text-color-gray">&nbsp; 150 lectures &nbsp; | &nbsp;</span>
+                      <span *ngIf="data?.leafNodesCount"class="lectures text-color-gray">&nbsp; {{data?.leafNodesCount}} lectures &nbsp; | &nbsp;</span>
                       <span class="duration text-color-gray"><i class="far fa-clock"></i> 2 Weeks</span>
                   </div>
                   <div class="price mt-3">
-                    <span class="price">₹ 35000/-</span>
+                    <span *ngIf="data?.subject == 'Paid' || data?.subject == undefined || !data?.subject" class="price">₹ 35000/-</span>
+                    <span *ngIf="data?.subject == 'free'" class="price">FREE</span>
                     <span class="content-type">{{data.contentType}}</span>
                   </div>
         

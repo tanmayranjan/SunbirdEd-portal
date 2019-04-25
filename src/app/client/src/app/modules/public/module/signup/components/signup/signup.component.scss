@@ -8,6 +8,11 @@
     min-height: 90vh;
 }
 
+.primary-purple:hover, .primary-purple:active, .primary-purple:focus, .primary-purple:active {
+  background-color: #451771;
+  color : white;
+}
+
 @media only screen and (min-width: 1024px) {
     .ui.raised.shadow.container.segment {
         margin: 35px auto !important;
