@@ -136,11 +136,11 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
     console.log(el);
-    this.targetEl.nativeElement.scrollIntoView();
+    this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
   scrollTop(el: ElementRef) {
     console.log(el);
-    this.topEl.nativeElement.scrollIntoView();
+    this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
 
   }
   constructor(public activatedRoute: ActivatedRoute, private configService: ConfigService,

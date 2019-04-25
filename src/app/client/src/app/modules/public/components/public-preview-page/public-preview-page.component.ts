@@ -87,11 +87,11 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
 
   scroll(el: ElementRef) {
     console.log(el);
-    this.targetEl.nativeElement.scrollIntoView();
+    this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
   scrollTop(el: ElementRef) {
     console.log(el);
-    this.topEl.nativeElement.scrollIntoView();
+    this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
 
   }
   constructor(contentService: ContentService, route: ActivatedRoute, playerService: PublicPlayerService,

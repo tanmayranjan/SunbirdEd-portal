@@ -53,7 +53,7 @@
 //   display: none ;
 // }
 ::ng-deep .ui.modal>.close {
-position: sticky;
+position: initial;
 color: black;
 }
 ::ng-deep .ui.active.modal {
