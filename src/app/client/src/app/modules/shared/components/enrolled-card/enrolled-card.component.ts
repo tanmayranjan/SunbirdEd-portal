@@ -29,7 +29,11 @@ export class EnrolledCardComponent implements OnInit {
   ngOnInit() {
     console.log(this.data.progress);
     console.log('recieved data ', this.data);
+    this.data['rating'] = this.getRandomNum(0);
+    this.data['dummyWeeks'] = this.getRandomNum(1);
   }
 
-
+  getRandomNum(minLimit) {
+    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
+  }
 }
