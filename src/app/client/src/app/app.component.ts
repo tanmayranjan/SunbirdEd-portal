@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { TelemetryService, ITelemetryContext } from '@sunbird/telemetry';
 import { UtilService, ResourceService, ToasterService, IUserData, IUserProfile,
 NavigationHelperService, ConfigService, BrowserCacheTtlService } from '@sunbird/shared';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { UserService, PermissionService, CoursesService, TenantService, OrgDetailsService, DeviceRegisterService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { ProfileService } from '@sunbird/profile';
@@ -63,6 +63,7 @@ export class AppComponent implements OnInit {
   /**
   * Variable to show popup to install the app
   */
+ public body : HTMLBodyElement;
   showAppPopUp = false;
   viewinBrowser = false;
   constructor(  private cacheService: CacheService,  private browserCacheTtlService: BrowserCacheTtlService,
@@ -71,7 +72,8 @@ export class AppComponent implements OnInit {
     private deviceRegisterService: DeviceRegisterService, private courseService: CoursesService, private tenantService: TenantService,
     private telemetryService: TelemetryService, public router: Router, private configService: ConfigService,
     private orgDetailsService: OrgDetailsService, private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService) {
+    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService,
+    private vcr : ViewContainerRef) {
   }
   /**
    * dispatch telemetry window unload event before browser closes
@@ -82,6 +84,8 @@ export class AppComponent implements OnInit {
     this.telemetryService.syncEvents();
   }
   ngOnInit() {
+    //set the theme
+    this.updateTheme();
     this.resourceService.initialize();
     combineLatest( this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
@@ -281,5 +285,23 @@ export class AppComponent implements OnInit {
   closeIcon() {
     this.showFrameWorkPopUp = false;
     this.cacheService.set('showFrameWorkPopUp', 'installApp' );
+  }
+
+  updateTheme() {
+    let theme = localStorage.getItem('theming');
+    theme = JSON.parse(theme);
+    if(theme !== undefined || theme !== null){
+      //alert('recieved the theme');
+      //let primaryColor = theme['CustomizeOptions']['Home']['theme']['primaryColor'];
+      let primaryColor = 'green'
+      console.log('theme data is ', theme['CustomizeOptions']['Home']['theme']['primaryColor']);
+      this.body = this.vcr.element.nativeElement.parentElement;
+      //let body = document.getElementsByTagName('body');
+      document.documentElement.style.setProperty('--primary-color',primaryColor);
+      //this.vcr.element.nativeElement.parentElement.classList.add(primaryColor);
+      console.log('the body is very body ', this.body);
+    }else {
+      alert('did not recieve any theme');
+    }
   }
 }

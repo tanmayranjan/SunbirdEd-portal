@@ -143,12 +143,12 @@
   color : white;
 }
 .bg-blue {
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 .header {
   position: relative;
   top: 0;
-  background-color: #451771;
+  background-color: var(--primary-color);
   height: 12vh;
   z-index: 100;
   transition: all ease-out 0.5s;

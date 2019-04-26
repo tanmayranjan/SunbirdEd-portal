@@ -1,6 +1,6 @@
 // import { BrowserModule } from '@angular/platform-browser';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,13 @@ import { CacheService } from 'ng2-cache-service';
 import { CacheStorageAbstract } from 'ng2-cache-service/dist/src/services/storage/cache-storage-abstract.service';
 import { CacheSessionStorage } from 'ng2-cache-service/dist/src/services/storage/session-storage/cache-session-storage.service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { TenantResolverService } from './modules/public/services/TenantResolver/tenant-resolver.service';
+
+export function tenantInfoProviderFactory(provider : TenantResolverService) {
+  return () => provider.getTenantInfo();
+}
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -42,6 +49,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
   entryComponents: [AppComponent],
   bootstrap: [AppComponent],
   providers: [
+    TenantResolverService,
+    {provide : APP_INITIALIZER, useFactory: tenantInfoProviderFactory, deps: [TenantResolverService], multi: true},
     CacheService,
     { provide: CacheStorageAbstract, useClass: CacheSessionStorage },
   ]
