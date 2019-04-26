@@ -1,10 +1,10 @@
 
 <!-- IMAGE BANNER SECTION -->
-<div class="container-fluid image-banner">
-  <img src="./../../../../../assets/banner1.jpg" class="img-fluid">
+<div *ngIf="homeConfig.banner.required === true" class="container-fluid image-banner">
+  <img src="{{ homeConfig.banner.imgUrl || './../../../../../assets/banner1.jpg'}}" class="img-fluid">
   <div class="banner-overlay">
-    <h1>LET'S BOOST YOUR SKILLS</h1>
-    <h6 class="image-sub">Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.</h6>
+    <h1>{{homeConfig.banner.heading}}</h1>
+    <h6 class="image-sub">{{homeConfig.banner.paragraph}}</h6>
     <!-- <div class="container-fluid image-search-container d-none d-md-block d-lg-block">
       <form>
         <div class="input-group">
@@ -21,9 +21,18 @@
   </div>
 </div>
 
-<div class="container-fluid">
+<div *ngIf="homeConfig.benefits.required === true"class="container-fluid">
   <ul class="row text-ac">
-    <li class="col-4 list-item">
+    <ng-container *ngFor="let listItem of homeConfig.benefits.columns">
+        <li class="col-4 list-item">
+            <i class="fa fas fa-history"></i>
+            <span>
+              <h6 class="list-title">{{listItem.heading}}</h6>
+              <h6 class="list-sub">{{listItem.subheading}}</h6>
+            </span>
+          </li>
+    </ng-container>
+    <!-- <li class="col-4 list-item">
       <i class="fa fas fa-history"></i>
       <span>
         <h6 class="list-title">100,000 online courses</h6>
@@ -43,7 +52,7 @@
         <h6 class="list-title">Lifetime access</h6>
         <h6 class="list-sub">Learn anytime, anywherer</h6>
       </span>
-    </li>
+    </li> -->
   </ul>
 </div>
 
