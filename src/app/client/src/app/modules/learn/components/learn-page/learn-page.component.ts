@@ -32,7 +32,8 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
-  enrolledIDs: any;
+  enrolledIDs : any;
+  enrolledLoader = true;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
@@ -262,6 +263,9 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     };
   }
   private setNoResultMessage() {
+    if(this.enrolledSection.length == 0){
+      this.enrolledLoader = false;
+    }
     this.noResultMessage = {
       'message': _.get(this.resourceService, 'messages.stmsg.m0007') || 'No results found',
       'messageText': _.get(this.resourceService, 'messages.stmsg.m0006') || 'Please search for something else.'

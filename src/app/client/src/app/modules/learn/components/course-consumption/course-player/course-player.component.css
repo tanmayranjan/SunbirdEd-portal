@@ -147,6 +147,14 @@
     background: transparent !important;
   }
 
+  .image-wrapper {
+      margin : auto;
+  }
+  img {
+    image-rendering: pixelated;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
   .responsive-align-text {
     text-align: left;
   }

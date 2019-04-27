@@ -43,29 +43,29 @@
                         </h6>
                           <h6 *ngIf="!data.orgDetails?.orgName">NIIT</h6>
                           <div class="rating-and-views mt-3">
-                              <sui-rating class="star customstar" [(ngModel)]="data.rating" [maximum]="5"></sui-rating>
+                              <sui-rating class="star customstar" [(ngModel)]="data.rating" [maximum]="5" [isReadonly]="true"></sui-rating>
                               <!-- <span class="rating"> {{data.rating}}</span> -->
                               <!-- <span class="views text-color-gray"> (138,560)</span> -->
                           </div>
         
                           <div class="lectures-and-duration mt-3">
                               <i class="fas fa-play-circle"></i>
-                              <span *ngIf="data?.maxCount" class="lectures text-color-gray">&nbsp; {{data?.maxCount}} lectures &nbsp; | &nbsp;</span>
-                              <span class="duration text-color-gray"><i class="far fa-clock"></i> {{data?.dummyWeeks}} weeks</span>
+                              <span *ngIf="data?.maxCount" class="lectures text-color-gray">&nbsp; {{data?.maxCount}} {{resourceService.frmelmnts.lbl.lectures}} &nbsp; | &nbsp;</span>
+                              <span class="duration text-color-gray"><i class="far fa-clock"></i> {{data?.dummyWeeks}} {{resourceService.frmelmnts.lbl.weeks}}</span>
                           </div>
                           <div class="progress" *ngIf="data.progress && data.maxCount">
                               <div class="progress-bar barcolor" role="progressbar" [style.width]="(data.progress/data.maxCount)*100 + '%'" [attr.aria-valuenow]="data.progress" [attr.aria-valuemin]="0" [attr.aria-valuemax]="data.maxCount"></div>
                           </div>
-                          <h6 class="text-left"> {{(data.progress / data.maxCount) | percent}} complete</h6>
+                          <h6 class="text-left"> {{(data.progress / data.maxCount) | percent}} {{resourceService.frmelmnts.lbl.complete}}</h6>
                           <div class="price mt-3">
                             <span class="content-type">{{data.contentType}}</span>
                           </div>
                       
                           <div *ngIf="((data.progress / data.maxCount) === 0)">
-                            <a class="btn btn-primary"  (click)="onAction(data,data.action.onImage)">Start</a>
+                            <a class="btn btn-primary"  (click)="onAction(data,data.action.onImage)">{{resourceService.frmelmnts.lbl.start}}</a>
                           </div>
                           <div *ngIf="((data.progress / data.maxCount) > 0) && ((data.progress / data.maxCount) < 100)">
-                            <a class="btn btn-primary"  (click)="onAction(data,data.action.onImage)">Resume</a>
+                            <a class="btn btn-primary"  (click)="onAction(data,data.action.onImage)">{{resourceService.frmelmnts.lbl.resume}}</a>
                           </div>
                           <div *ngIf="((data.progress / data.maxCount) === 100)">
                             <a class="btn btn-primary"  (click)="onAction(data,data.action.onImage)">View</a>
