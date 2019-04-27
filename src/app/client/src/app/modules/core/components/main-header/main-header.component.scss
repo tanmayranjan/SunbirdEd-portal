@@ -265,8 +265,14 @@
 .menu.transition.visible {
   min-width : 160px !important;
 }
+
+.custom-menu .item {
+  white-space: normal !important;
+  line-height : 1.4em !important;
+}
 .ui.floating.dropdown .custom-menu {
-  left : -60px !important;
+  left : -300px !important;
+  max-width : 400px !important;
 }
 .ui.floating.dropdown>.menu {
   margin-top : 1em !important;
