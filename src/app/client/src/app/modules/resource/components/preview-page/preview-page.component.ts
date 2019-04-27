@@ -1,255 +1,406 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigService, ToasterService } from '@sunbird/shared';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PublicDataService, LearnerService } from '@sunbird/core';
+
+import { mergeMap, first, map, catchError } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { PlayerService, CollectionHierarchyAPI, PermissionService, CopyContentService } from '@sunbird/core';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as _ from 'lodash';
+import {
+  WindowScrollService, ILoaderMessage, PlayerConfig, ICollectionTreeOptions, NavigationHelperService,
+  ToasterService, ResourceService, ContentData, ContentUtilsServiceService, ITelemetryShare, ConfigService
+} from '@sunbird/shared';
+import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { DomSanitizer } from '@angular/platform-browser';
-// import { CourseBatchService } from '@sunbird/learn';
+
 @Component({
   selector: 'app-preview-page',
   templateUrl: './preview-page.component.html',
   styleUrls: ['./preview-page.component.css']
 })
-export class PreviewPageComponent implements OnInit {
-  // batchControl = new FormControl('', [Validators.required]);
-  // batch: Batches[] = [
-  //   {name: 'Ongoing', status: '1'},
-  //   {name: 'Upcoming', status: '0'},
-  //   {name: 'Previous', status: '2'},
-  // ];
-  courseId;
-  courseDetails = [];
-  public search: any;
-  totalParticipants = 0;
-  batches = [];
-  mentorsDetails = [];
-  previewurl = [];
-  coursechapters = [];
-  youtubelink = [];
-  check = [];
+export class PreviewPageComponent implements OnInit, OnDestroy {
+  /**
+	 * telemetryImpression
+	*/
+  telemetryImpression: IImpressionEventInput;
+
+  telemetryContentImpression: IImpressionEventInput;
+
+  private route: ActivatedRoute;
+
+  public showPlayer: Boolean = false;
+
+  private collectionId: string;
+
+  public collectionStatus: string;
+
+  private contentId: string;
+
+  public collectionTreeNodes: any;
+
+  public collectionTitle: string;
+
+  public contentTitle: string;
+
+  public playerConfig: Observable<any>;
+
+  private playerService: PlayerService;
+
+  private windowScrollService: WindowScrollService;
+
+  private router: Router;
+
+  /**
+   * Reference of config service
+   */
+  public config: ConfigService;
+
+  public loader: Boolean = true;
+
+  public triggerContentImpression = false;
+
+  public showCopyLoader: Boolean = false;
+  /**
+	 * telemetryShareData
+	*/
+  telemetryShareData: Array<ITelemetryShare>;
+
+  objectInteract: IInteractEventObject;
+
+  objectContentInteract: IInteractEventObject;
+
+  collectionInteractObject: IInteractEventObject;
+
+  closeIntractEdata: IInteractEventEdata;
+
+  closeContentIntractEdata: IInteractEventEdata;
+
+  private subscription: Subscription;
+
+  public contentType: string;
+
+  public mimeType: string;
+
+  public sharelinkModal: boolean;
+
+  public badgeData: Array<object>;
+
+  public loaderMessage: ILoaderMessage = {
+    headerMessage: 'Please wait...',
+    loaderMessage: 'Fetching content details!'
+  };
+  public curriculum = [];
+  public contentIds = [];
+  public collectionData: any;
+  previewUrl;
   safeUrl;
-  collectionTreeNodes;
-courseTitle;
-courseDescription;
-creator;
-resourceType;
-  courseInfo ;
-  resources = [];
-  showPreview: boolean;
-firstPreviewUrl;
-  constructor(
-    // public dialog: MatDialog,
-    private route: ActivatedRoute,
-    // private courseConsumptionService: CourseConsumptionService,
-    // public courseBatchService: CourseBatchService,
-    public learnerService: LearnerService,
-    public config: ConfigService,
+  preview = false;
+  mimeTypeCount = 0;
+  @ViewChild('target') targetEl: ElementRef;
+  @ViewChild('top') topEl: ElementRef;
+
+  collectionTreeOptions: ICollectionTreeOptions;
+  /**
+   * contains link that can be shared
+   */
+  shareLink: string;
+  public treeModel: any;
+  public contentDetails = [];
+  public nextPlaylistItem: any;
+  public prevPlaylistItem: any;
+  scroll(el: ElementRef) {
+    this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
+  }
+  scrollTop(el: ElementRef) {
+    this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
+
+  }
+  constructor(route: ActivatedRoute, playerService: PlayerService,
+    windowScrollService: WindowScrollService, router: Router, public navigationHelperService: NavigationHelperService,
+    private toasterService: ToasterService, private resourceService: ResourceService,
+    public permissionService: PermissionService, public copyContentService: CopyContentService,
     public sanitizer: DomSanitizer,
-    public router: Router,
-    public toaster: ToasterService,
-    public configService: ConfigService,
-    public publicDataService: PublicDataService,
-    public activatedRoute: ActivatedRoute
-  ) {
-    // this.collectionTreeOptions = this.config.appConfig.collectionTreeOptions;
+    public contentUtilsServiceService: ContentUtilsServiceService, config: ConfigService, private configService: ConfigService) {
+    this.route = route;
+    this.playerService = playerService;
+    this.windowScrollService = windowScrollService;
+    this.router = router;
+    this.config = config;
+    this.router.onSameUrlNavigation = 'ignore';
+    this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
-
   ngOnInit() {
-    this.search = {
-      filters: {
-        status: '1',
-        courseId: this.courseId
-      }
-    };
-        this.courseId = this.activatedRoute.snapshot.params.collectionId;
-
-    this.getCourseDetails();
-    // this.getBatchDetails(this.search);
+    this.getContent();
   }
-  // getCourseDetails() {
-  //       const req = {
-  //         url: `${this.configService.urlConFig.URLS.COURSE.HIERARCHY}/${
-  //           this.courseId
-  //         }`
-  //       };
-  //   this.publicDataService.get(req).subscribe(data => {
-  //               this.collectionTreeNodes = { data: data.result.content.children };
-  //             this.coursechapters = data.result.content.children;
 
-  //   });
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-    // this.courseConsumptionService.getCourseHierarchy(this.courseId)
-    //   .subscribe(
-    //     (response: any) => {
-    //       this.courseDetails = response;
-    //       this.collectionTreeNodes = { data: this.courseDetails };
-    //       this.coursechapters = this.courseDetails.children;
-    //       // const mentorIds = _.union(this.courseDetails.createdBy);
-    //       // console.log('mentor', mentorIds);
-    //       // this.getMentorslist(mentorIds);
-    //     },
-    //     (err) => {
-    //       this.toaster.error('Fetching Details Failed');
-    //     },
-    //     () => {
-    //     }
-    //   );
-  // }
-  getCourseDetails() {
-    const req = {
-      url: `${this.configService.urlConFig.URLS.COURSE.HIERARCHY}/${
-        this.courseId
-      }`
+  private initPlayer(id: string): void {
+    this.playerConfig = this.getPlayerConfig(id).pipe(map((content) => {
+      this.telemetryContentImpression = {
+        context: {
+          env: this.route.snapshot.data.telemetry.env
+        },
+        edata: {
+          type: this.route.snapshot.data.telemetry.env,
+          pageid: this.route.snapshot.data.telemetry.env,
+          uri: this.router.url
+        },
+        object: {
+          id: content.metadata.identifier,
+          type: content.metadata.contentType || content.metadata.resourceType || content,
+          ver: content.metadata.pkgVersion ? content.metadata.pkgVersion.toString() : '1.0',
+        }
+      };
+      this.closeContentIntractEdata = {
+        id: 'content-close',
+        type: 'click',
+        pageid: 'collection-player'
+      };
+      this.objectContentInteract = {
+        id: content.metadata.identifier,
+        type: content.metadata.contentType || content.metadata.resourceType || 'content',
+        ver: content.metadata.pkgVersion ? content.metadata.pkgVersion.toString() : '1.0',
+        rollup: { l1: this.collectionId }
+        // rollup: this.collectionInteractObject
+      };
+      this.triggerContentImpression = true;
+      return content;
+    }), catchError((error) => {
+      console.log(`unable to get player config for content ${id}`, error);
+      return error;
+    }), );
+  }
+
+  public playContent(data: any): void {
+    this.showPlayer = true;
+    this.windowScrollService.smoothScroll('app-player-collection-renderer', 500);
+    this.contentTitle = data.title;
+    this.initPlayer(data.id);
+  }
+
+  private navigateToContent(content?: { title: string, id: string }, id?: string): void {
+    let navigationExtras: NavigationExtras;
+    navigationExtras = {
+      queryParams: {},
+      relativeTo: this.route
     };
-    this.publicDataService.get(req).subscribe(data => {
-      this.courseInfo = data.result.content;
+    if (id) {
+      navigationExtras.queryParams = { 'contentId': id };
+    } else if (content) {
+      navigationExtras.queryParams = { 'contentId': content.id };
+    }
+    this.router.navigate([], navigationExtras);
+  }
 
-      if (data.result.content.hasOwnProperty('children')) {
-        const childrenIds = data.result.content.children;
+  private getPlayerConfig(contentId: string): Observable<PlayerConfig> {
+    return this.playerService.getConfigByContent(contentId);
+  }
 
-        this.creator = data.result.content.creator;
-        this.courseTitle = data.result.content.name;
-        this.resourceType = data.result.content.resourceType;
-        this.courseDescription = data.result.content.description;
-        _.forOwn(childrenIds, childrenvalue => {
-          this.getChildren(childrenvalue);
-        });
-      }
+  private findContentById(collection: any, id: string) {
+    const model = new TreeModel();
+    return model.parse(collection.data).first((node) => {
+      return node.model.identifier === id;
     });
   }
-  getChildren(sessiondetails) {
 
-    _.forOwn(sessiondetails, (children, key) => {
-      if (key === 'children') {
-        _.forOwn(children, value => {
-          if (key === 'children') {
-            this.getChildren(value);
-            if (value.hasOwnProperty('children')) {
-              if (value.children.length === 0) {
-                console.log(value);
-                if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4' || value.mimeType === 'application/pdf') {
-                this.courseDetails.push(value);
-                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
-                if (this.firstPreviewUrl) {
-                  this.showPreview = true;
-                  this.safeUrl = this.firstPreviewUrl;
+  private parseChildContent(collection: any) {
+    const model = new TreeModel();
+    const mimeTypeCount = {};
+    if (collection.data) {
+      this.treeModel = model.parse(collection.data);
+      this.treeModel.walk((node) => {
+        if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
+          if (mimeTypeCount[node.model.mimeType]) {
+            mimeTypeCount[node.model.mimeType] += 1;
+            this.mimeTypeCount++;
+            console.log(node.model.mimeType, _.includes(node.model.mimeType, 'epub'));
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
+          } else {
+            console.log(node.model.mimeType, _.includes(node.model.mimeType, 'epub'));
 
-                }
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
+           this.mimeTypeCount++;
+            mimeTypeCount[node.model.mimeType] = 1;
+          }
+          this.contentDetails.push({ id: node.model.identifier, title: node.model.name });
+          this.contentIds.push(node.model.identifier);
+        }
+      });
+      _.forEach(mimeTypeCount, (value, key) => {
+        let mime;
+        this.curriculum.push({ mimeType: key, count: value });
+       if (key === 'video/mp4' || 'video/x-youtube' ||  'video/mp4' || 'video/webm') {
+         mime = 'video';
+       }
+       this.mimeType = this.mimeType + ' ' + mime + ' ' + value;
+        console.log(this.mimeType);
+      });
+      //   if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
+      //     this.contentDetails.push({ id: node.model.identifier, title: node.model.name });
+      //   }
+      //   this.setContentNavigators();
+      // });
+    }
+  }
 
-                } else {
-                  console.log(value);
-                  if (value.hasOwnProperty('artifactUrl')) {
-                  this.resources.push(value);
+  private setContentNavigators() {
+    const index = _.findIndex(this.contentDetails, ['id', this.contentId]);
+    this.prevPlaylistItem = this.contentDetails[index - 1];
+    this.nextPlaylistItem = this.contentDetails[index + 1];
+  }
 
-                  }
-                }
-              }
-            } else if (value.hasOwnProperty('artifactUrl')) {
-              console.log(value);
+  public OnPlayContent(content: { title: string, id: string }) {
+    if (content && content.id) {
+      this.navigateToContent(null, content.id);
+      this.setContentNavigators();
+      this.playContent(content);
+    } else {
+      throw new Error(`unable to play collection content for ${this.collectionId}`);
+    }
+  }
 
-              if (value.mimeType === 'video/x-youtube' || value.mimeType === 'video/mp4'  || value.mimeType === 'application/pdf') {
-                this.courseDetails.push(value);
-                this.firstPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(value.artifactUrl);
-                if (this.firstPreviewUrl) {
-                  this.showPreview = true;
-                  this.safeUrl = this.firstPreviewUrl;
-
-                }
-
-                } else if (value.hasOwnProperty('artifactUrl')) {
-                  console.log(value);
-
-                  this.resources.push(value);
-
-                }
+  private getContent(): void {
+    this.subscription = this.route.params.pipe(
+      first(),
+      mergeMap((params) => {
+        this.collectionId = params.collectionId;
+        this.collectionStatus = params.collectionStatus;
+        return this.getCollectionHierarchy(params.collectionId);
+      }), )
+      .subscribe((data) => {
+        this.collectionTreeNodes = data;
+        this.setTelemetryData();
+        this.loader = false;
+        this.route.queryParams.subscribe((queryParams) => {
+          this.contentId = queryParams.contentId;
+          if (this.contentId) {
+            const content = this.findContentById(data, this.contentId);
+            if (content) {
+              this.OnPlayContent({ title: _.get(content, 'model.name'), id: _.get(content, 'model.identifier') });
+            } else {
+              this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
             }
+          } else {
+            this.closeContentPlayer();
           }
         });
-      }
-    });
+        this.parseChildContent(this.collectionTreeNodes);
+      }, (error) => {
+        this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
+      });
   }
-  public fetchUrl(session) {
-    this.showPreview = true;
-    console.log(session);
-    let previewUrl;
-    const url = session.artifactUrl.slice(17);
-    if (session.mimeType === 'video/x-youtube') {
-      console.log(_.includes(session.artifactUrl, 'watch'));
-      if (_.includes(session.artifactUrl, 'watch')) {
-        previewUrl = session.artifactUrl.replace('watch?v=', 'embed/');
-        console.log(previewUrl);
-      } else if (_.includes(session.artifactUrl, 'embed')) {
-        previewUrl = session.artifactUrl;
+  setTelemetryData() {
+    this.telemetryImpression = {
+      context: {
+        env: this.route.snapshot.data.telemetry.env
+      },
+      object: {
+        id: this.collectionId,
+        type: this.collectionData.contentType,
+        ver: this.collectionData.pkgVersion ? this.collectionData.pkgVersion.toString() : '1.0'
+      },
+      edata: {
+        type: this.route.snapshot.data.telemetry.type,
+        pageid: this.route.snapshot.data.telemetry.pageid,
+        uri: this.router.url,
+        subtype: this.route.snapshot.data.telemetry.subtype
+      }
+    };
+    this.closeIntractEdata = {
+      id: 'collection-close',
+      type: 'click',
+      pageid: 'collection-player'
+    };
+    this.collectionInteractObject = {
+      id: this.collectionId,
+      type: this.collectionData.contentType,
+      ver: this.collectionData.pkgVersion ? this.collectionData.pkgVersion.toString() : '1.0'
+    };
+  }
+
+  private getCollectionHierarchy(collectionId: string): Observable<{ data: CollectionHierarchyAPI.Content }> {
+    const option: any = { params: {} };
+    option.params = this.config.appConfig.PublicPlayer.contentApiQueryParams;
+    if (this.collectionStatus && this.collectionStatus === 'Unlisted') {
+      option.params['mode'] = 'edit';
+    }
+    return this.playerService.getCollectionHierarchy(collectionId, option).pipe(
+      map((response) => {
+        this.collectionData = response.result.content;
+        this.contentType = _.get(response, 'result.content.contentType');
+        this.mimeType = _.get(response, 'result.content.mimeType');
+        this.collectionTitle = _.get(response, 'result.content.name') || 'Untitled Collection';
+        this.badgeData = _.get(response, 'result.content.badgeAssertions');
+        return { data: response.result.content };
+      }));
+  }
+  closeCollectionPlayer() {
+    this.navigationHelperService.navigateToResource('/resources');
+  }
+  closeContentPlayer() {
+    this.showPlayer = false;
+    this.triggerContentImpression = false;
+    const navigationExtras: NavigationExtras = {
+      relativeTo: this.route
+    };
+    this.router.navigate([], navigationExtras);
+  }
+
+  /**
+   * This method calls the copy API service
+   * @param {contentData} ContentData Content data which will be copied
+   */
+  copyContent(contentData: ContentData) {
+    this.showCopyLoader = true;
+    this.copyContentService.copyContent(contentData).subscribe(
+      (response) => {
+        this.toasterService.success(this.resourceService.messages.smsg.m0042);
+        this.showCopyLoader = false;
+      },
+      (err) => {
+        this.showCopyLoader = false;
+        this.toasterService.error(this.resourceService.messages.emsg.m0008);
+      });
+  }
+  onShareLink() {
+    this.shareLink = this.contentUtilsServiceService.getPublicShareUrl(this.collectionId, this.mimeType);
+    this.setTelemetryShareData(this.collectionData);
+  }
+  setTelemetryShareData(param) {
+    this.telemetryShareData = [{
+      id: param.identifier,
+      type: param.contentType,
+      ver: param.pkgVersion ? param.pkgVersion.toString() : '1.0'
+    }];
+  }
+  showPreviewVideo() {
+
+    this.preview = !this.preview;
+    let showUrl;
+    const url = this.previewUrl.artifactUrl.slice(17);
+    if (this.previewUrl.mimeType === 'video/x-youtube') {
+      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
+        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
+      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
+        showUrl = this.previewUrl.artifactUrl;
       } else {
-        previewUrl = 'https://www.youtube.com/embed/' + url;
-        console.log(previewUrl);
+        showUrl = 'https://www.youtube.com/embed/' + url;
       }
     } else {
-      previewUrl = session.artifactUrl;
-      console.log(previewUrl);
+      showUrl = this.previewUrl.artifactUrl;
     }
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
-
-  }
-
-
-
-  // getBatchDetails(search) {
-  //   this.courseBatchService.getAllBatchDetails(search)
-  //     .subscribe(
-  //       (data: any) => {
-  //       this.batches = data.result.response.content;
-  //       for (const batch of this.batches) {
-  //         if (batch.hasOwnProperty('participant')) {
-  //           this.totalParticipants = this.totalParticipants + _.keys(batch.participant).length;
-  //         }
-  //       }
-  //       if (this.batches.length > 0 && this.mentorsDetails.length === 0) {
-  //         const mentorIds = _.union(this.batches[0].mentors);
-  //         this.getMentorslist(mentorIds);
-  //       }
-  //     },
-  //     (err) => {
-  //       this.toaster.error('Fetching Details Failed');
-  //     },
-  //     );
-  // }
-  getMentorslist(mentorIds) {
-    const option = {
-      url: this.config.urlConFig.URLS.ADMIN.USER_SEARCH,
-      data: {
-        request: {
-          filters: {
-            identifier : mentorIds,
-          },
-          limit: 2
-        }
-      }
-    };
-    this.learnerService.post(option)
-      .subscribe(
-        (data) => {
-          this.mentorsDetails = data.result.response.content;
-        },
-        (err) => {
-          this.toaster.error('Fetching Details Failed');
-        }
-      );
-  }
-
-  redirect() {
-    this.router.navigate(['/learn/course', this.courseId]);
-  }
-
-  fetchBatches(input) {
-    this.search = {
-      filters: {
-        status: input.status,
-        courseId: this.courseId
-      }
-    };
-    // this.getBatchDetails(this.search);
+    console.log(this.previewUrl);
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(showUrl);
   }
 }
-
 

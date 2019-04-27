@@ -33,7 +33,7 @@ export class UnEnrollBatchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.batchId = params.batchId;
-
+console.log(this.batchId);
       // Create the telemetry impression event for enroll batch page
       this.telemetryImpression = {
         context: {
@@ -55,6 +55,7 @@ export class UnEnrollBatchComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe))
         .subscribe((data) => {
           this.batchDetails = data;
+          console.log(data);
           if (this.batchDetails.enrollmentType !== 'open') {
             this.toasterService.error(this.resourceService.messages.fmsg.m0082);
             this.redirect();

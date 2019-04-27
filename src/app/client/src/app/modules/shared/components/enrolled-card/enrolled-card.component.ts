@@ -21,8 +21,6 @@ export class EnrolledCardComponent implements OnInit {
   }
 
   public onAction(data, action) {
-    console.log(this.resourceService);
-    console.log("ON ACTION DETAILS ", data, action);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 

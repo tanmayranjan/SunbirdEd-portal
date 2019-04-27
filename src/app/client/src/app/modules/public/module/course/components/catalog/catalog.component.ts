@@ -161,7 +161,6 @@ expand = false;
   }
 
   populateCourseSearch() {
-    console.log(this.filters);
     this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
     this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.pageLimit = this.config.appConfig.SEARCH.PAGE_LIMIT;
@@ -181,8 +180,7 @@ expand = false;
           this.totalCount = apiResponse.result.count;
           this.pager = this.paginationService.getPager(apiResponse.result.count, this.pageNumber, this.pageLimit);
           this.searchList = this.processActionObject(apiResponse.result.course);
-          console.log(this.searchList);
-          console.log(apiResponse.result.course);
+
         } else {
           this.noResult = true;
           this.showLoader = false;
@@ -257,8 +255,7 @@ expand = false;
   }
 
   ngOnInit() {
-    console.log('onin it', this.activatedRoute.queryParams);
-  console.log(this.userService.rootOrgId);
+
     this.userloggedIn = this.userService.loggedIn;
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;
@@ -270,7 +267,6 @@ expand = false;
       this.activatedRoute.params,
       this.activatedRoute.queryParams,
       (params: any, queryParams: any) => {
-        console.log('p', params , 'qp', queryParams);
       const keys = Object.keys(queryParams);
       _.find(keys, value => {
           if (value === 'rating' || value === 'medium' || value === 'board' ||
@@ -317,7 +313,6 @@ expand = false;
     const scrol = document.getElementById('scroll');
     scrol.addEventListener('scroll', () => {
       if (scrol.scrollHeight - scrol.scrollTop - scrol.clientHeight < 0) {
-        console.log('Bottom');
       }
     });
   }
@@ -369,7 +364,6 @@ expand = false;
 
   getFiltersArray() {
     return Object.keys(this.filters).map((filter) => {
-      console.log('filter array', filter);
       return [filter, this.filters[filter]];
     });
   }

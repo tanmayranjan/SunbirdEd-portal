@@ -2,6 +2,6 @@
     position: sticky;
     color: black;
     }
-    /* ::ng-deep .ui.active.modal {
-      height: auto;
-    } */
+    ::ng-deep .ui.modal {
+      height: auto !important;
+    }

@@ -32,7 +32,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
-  enrolledIDs : any;
+  enrolledIDs: any;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
@@ -114,11 +114,11 @@ export class LearnPageComponent implements OnInit, OnDestroy {
         this.carouselData = this.carouselData.filter( carouseldata => carouseldata.name === 'Latest Courses');
         // console.log("FILTERED CAROUSLE DATA ", this.carouselData);
         // filter all the courses which are not enrolled
-        if(this.enrolledIDs.length > 0){
+        if (this.enrolledIDs.length > 0) {
           this.carouselData['0']['contents'] = this.carouselData['0']['contents'].filter(content => {
-            if(!content.metaData.hasOwnProperty('batchId')){
+            if (!content.metaData.hasOwnProperty('batchId')) {
               // console.log('filtered ', content.name);
-              return content; 
+              return content;
             }
           });
           console.log('updated carouselData is ', this.carouselData);

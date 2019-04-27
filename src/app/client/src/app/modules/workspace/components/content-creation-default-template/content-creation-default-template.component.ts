@@ -97,9 +97,11 @@ export class DefaultTemplateComponent implements OnInit {
  */
   private editorService: EditorService;
 
-
-
-
+  public show_create_or_upload_content = false;
+  public show_duration = false;
+  public show_link = false;
+  public other_value = false;
+  activity_value;
   constructor(
     formService: FormService,
     private _cacheService: CacheService,
@@ -162,6 +164,31 @@ export class DefaultTemplateComponent implements OnInit {
   * @param {Object} object  - Field information
   */
   updateForm(object) {
+    console.log(object);
+    if (object.value === 'Self Paced' || object.value === 'Classroom' || object.value === 'Create Content'
+    || object.value === 'Upload Content') {
+      this.show_create_or_upload_content = true;
+      this.other_value = false;
+
+    } else {
+      this.other_value = true;
+      this.show_create_or_upload_content = false;
+    }
+    if (object.value === 'Self Paced' || object.value === 'Classroom' || object.value === 'Live Session'
+    || object.value === 'Create Content'
+    || object.value === 'Upload Content') {
+      this.show_duration = true;
+      this.other_value = false;
+    } else {
+      this.other_value = true;
+      this.show_duration = false;
+    }
+    if (object.value === 'Live Session') {
+      this.show_link = true;
+      this.other_value = false;
+    } else {
+      this.show_link = false;
+    }
     if (object.field.range) {
       this.getAssociations(object.value, object.field.range, (associations) => {
         this.applyDependencyRules(object.field, associations, true);

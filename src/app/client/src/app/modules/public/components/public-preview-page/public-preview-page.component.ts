@@ -189,8 +189,18 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
           if (mimeTypeCount[node.model.mimeType]) {
             mimeTypeCount[node.model.mimeType] += 1;
             this.mimeTypeCount++;
+            console.log(_.includes(node.model.mimeType, '.epub'));
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
           } else {
-           this.previewUrl = node.model;
+            console.log(_.includes(node.model.mimeType, '.epub'));
+
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
            this.mimeTypeCount++;
             mimeTypeCount[node.model.mimeType] = 1;
           }

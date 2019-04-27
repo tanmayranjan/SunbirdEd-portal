@@ -1,6 +1,6 @@
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil, first, mergeMap, map } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { UserService, BreadcrumbsService, PermissionService, CoursesService } from '@sunbird/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as _ from 'lodash';
@@ -25,7 +25,7 @@ declare var $: any;
 
 
 
-export class CoursePlayerComponent implements OnInit, OnDestroy {
+export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public courseInteractObject: IInteractEventObject;
 
@@ -121,7 +121,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     headerMessage: 'Please wait...',
     loaderMessage: 'Fetching content details!'
   };
-
+public disable_jumbotron = false;
+showJumbotron = true;
   public previewContentRoles = ['COURSE_MENTOR', 'CONTENT_REVIEWER', 'CONTENT_CREATOR', 'CONTENT_CREATION', 'PUBLIC'];
 
   public collectionTreeOptions: ICollectionTreeOptions;
@@ -135,11 +136,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
   @ViewChild('target') targetEl: ElementRef;
   @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
-    console.log(el);
     this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
   scrollTop(el: ElementRef) {
-    console.log(el);
     this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
 
   }
@@ -180,7 +179,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
           .pipe(map(courseHierarchy => ({ courseHierarchy })));
       })).subscribe(({courseHierarchy, enrolledBatchDetails}: any) => {
         this.courseHierarchy = courseHierarchy;
-        console.log(this.courseHierarchy);
         this.contributions = _.join(_.map(this.courseHierarchy.contentCredits, 'name'));
         this.courseInteractObject = {
           id: this.courseHierarchy.identifier,
@@ -213,14 +211,19 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe))
       .subscribe(courseProgressData => this.courseProgressData = courseProgressData);
   // triggering sidebar change
-      $(() => {
-        $('.ui.sidebar').sidebar({
-          context: $('.bottom.segment')
-        })
-        .sidebar('attach events', '.menu .item');
-      });
+      // $(() => {
+      //   $('.ui.sidebar').sidebar({
+      //     context: $('.bottom.segment')
+      //   })
+      //   .sidebar('attach events', '.menu .item');
+      // });
+      // if(this.userEnrolledBatch) {
+      //   this.navigateToContent();
+      // }
   }
-
+  ngAfterViewInit() {
+    console.log(this.showJumbotron);
+  }
    private parseChildContent() {
     const model = new TreeModel();
     const mimeTypeCount = {};
@@ -230,11 +233,15 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         if (mimeTypeCount[node.model.mimeType]) {
           mimeTypeCount[node.model.mimeType] += 1;
           this.mimeTypeCount++;
+          if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+            this.previewUrl = node.model;
+            console.log(this.previewUrl);
+           }
         } else {
-          console.log(node.model.mimeType);
-         if (!_.includes(node.model.mimeType, 'archive')) {
-          this.previewUrl = node.model;
-         }
+          if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+            this.previewUrl = node.model;
+            console.log(this.previewUrl);
+           }
          this.mimeTypeCount++;
           mimeTypeCount[node.model.mimeType] = 1;
         }
@@ -249,7 +256,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
        mime = 'video';
      }
      this.mimeType = this.mimeType + ' ' + mime + ' ' + value;
-      console.log(this.mimeType);
 
     });
   }
@@ -304,7 +310,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     this.nextPlaylistItem = this.contentDetails[index + 1];
   }
   private playContent(data: any, showExtContentMsg?: boolean): void {
+    console.log(data);
     this.enableContentPlayer = false;
+    this.disable_jumbotron = false;
     this.loader = true;
     const options: any = { courseId: this.courseId };
     if (this.batchId) {
@@ -317,11 +325,12 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
         this.playerConfig = config;
         if ((config.metadata.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl && !(this.istrustedClickXurl))
           || (config.metadata.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl && showExtContentMsg)) {
-          setTimeout(() => this.showExtContentMsg = true, 5000);
+          setTimeout(() => this.showExtContentMsg = true, 100);
         } else {
           this.showExtContentMsg = false;
         }
         this.enableContentPlayer = true;
+        // this.loader = false;
         this.contentTitle = data.title;
         this.breadcrumbsService.setBreadcrumbs([{ label: this.contentTitle, url: '' }]);
         this.windowScrollService.smoothScroll('app-player-collection-renderer', 500);
@@ -331,6 +340,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
       });
   }
   public navigateToContent(content: { title: string, id: string }): void {
+    this.disable_jumbotron = true;
     const navigationExtras: NavigationExtras = {
       queryParams: { 'contentId': content.id },
       relativeTo: this.activatedRoute
@@ -382,6 +392,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     return false;
   }
   public closeContentPlayer() {
+    this.disable_jumbotron = true;
     this.cdr.detectChanges();
     if (this.enableContentPlayer === true) {
       const navigationExtras: NavigationExtras = {
@@ -493,25 +504,20 @@ export class CoursePlayerComponent implements OnInit, OnDestroy {
     $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   } */
   showPreviewVideo() {
-    console.log(this.previewUrl);
-    console.log(this.courseHierarchy);
+
     this.preview = !this.preview;
     let showUrl;
     const url = this.previewUrl.artifactUrl.slice(17);
     if (this.previewUrl.mimeType === 'video/x-youtube') {
-      console.log(_.includes(this.previewUrl.artifactUrl, 'watch'));
       if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
         showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
-        console.log(showUrl);
       } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
         showUrl = this.previewUrl.artifactUrl;
       } else {
         showUrl = 'https://www.youtube.com/embed/' + url;
-        console.log(showUrl);
       }
     } else {
       showUrl = this.previewUrl.artifactUrl;
-      console.log(showUrl);
     }
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(showUrl);
   }

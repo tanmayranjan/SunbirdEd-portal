@@ -119,7 +119,6 @@ export class PageSectionComponent implements OnInit {
     this.resourceService = resourceService;
   }
   playContent(event) {
-    console.log("recieved play CONTENT EVENT AS ", event);
     this.playEvent.emit(event);
   }
   ngOnInit() {

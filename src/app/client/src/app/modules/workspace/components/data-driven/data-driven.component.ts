@@ -6,7 +6,7 @@ import {
 } from '@sunbird/shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditorService } from './../../services';
-import { SearchService, UserService, FrameworkService, FormService } from '@sunbird/core';
+import { SearchService, UserService, FrameworkService, FormService, PermissionService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { DefaultTemplateComponent } from '../content-creation-default-template/content-creation-default-template.component';
@@ -22,7 +22,6 @@ import { WorkSpaceService } from '../../services';
 export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy {
   @ViewChild('formData') formData: DefaultTemplateComponent;
   @ViewChild('modal') modal;
-
   /**
 	 * This variable hepls to show and hide page loader.
    * It is kept true by default as at first when we comes
@@ -103,12 +102,20 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   public isCachedDataExists: boolean;
 
   public framework: string;
+  contentUploadRole: Array<string>;
+  courseRole: Array<string>;
+  live_link;
+  live_link_start;
+  live_link_end;
+  live_duration;
   /**
 	* telemetryImpression
 	*/
   telemetryImpression: IImpressionEventInput;
-
-
+ public change_error;
+ public routeToUploadContent = false;
+ public routeToCreateContent = false;
+ public permissionService: PermissionService;
   constructor(
     public searchService: SearchService,
     public workSpaceService: WorkSpaceService,
@@ -122,7 +129,8 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     configService: ConfigService,
     formService: FormService,
     private _cacheService: CacheService,
-    public navigationHelperService: NavigationHelperService
+    public navigationHelperService: NavigationHelperService,
+    permissionService: PermissionService
   ) {
     super(searchService, workSpaceService, userService);
     this.activatedRoute = activatedRoute;
@@ -133,6 +141,8 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     this.configService = configService;
     this.frameworkService = frameworkService;
     this.formService = formService;
+    this.contentUploadRole = this.configService.rolesConfig.workSpaceRole.contentUploadRole;
+    this.permissionService = permissionService;
     this.activatedRoute.url.subscribe(url => {
       this.contentType = url[0].path;
     });
@@ -146,7 +156,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
 
   ngOnInit() {
-
+    this.courseRole = this.configService.rolesConfig.workSpaceRole.courseRole;
      this.checkForPreviousRouteForRedirect();
 
     /**
@@ -250,6 +260,8 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 * requestBody is returned of type object
 */
   generateData(data) {
+    console.log(_.isEmpty(data));
+if (!_.isEmpty(data)) {
     this.showLoader = true;
     const requestData = _.cloneDeep(data);
     requestData.name = data.name ? data.name : this.name,
@@ -272,28 +284,59 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
     } else {
       requestData.creator = this.userProfile.firstName;
     }
+    this.change_error = false;
     return requestData;
-  }
+  } else  {
+    this.change_error = true;
+      this.toasterService.error('Please Enter Values');
+    }
+}
 
   createContent() {
     const requestData = {
       content: this.generateData(_.pickBy(this.formData.formInputData))
     };
-    if (this.contentType === 'studymaterial') {
-      this.editorService.create(requestData).subscribe(res => {
-        this.createLockAndNavigateToEditor({identifier: res.result.content_id});
-      }, err => {
-        this.toasterService.error(this.resourceService.messages.fmsg.m0078);
-      });
-    } else {
-      this.editorService.create(requestData).subscribe(res => {
-        this.createLockAndNavigateToEditor({identifier: res.result.content_id});
-      }, err => {
-        this.toasterService.error(this.resourceService.messages.fmsg.m0010);
-      });
-    }
+  if (this.contentType === 'studymaterial') {
+    this.editorService.create(requestData).subscribe(res => {
+      if ((requestData.content.activityType !== 'Live Session' || requestData.content.activityType !== 'Reading') &&
+      requestData.content.create_or_upload === 'Create Content') {
+      this.createLockAndNavigateToEditor({identifier: res.result.content_id});
+      }
+    }, err => {
+      console.log(err);
+      if (!this.change_error) {
+      this.toasterService.error(this.resourceService.messages.fmsg.m0078);
+      }
+    });
+  } else {
+    this.editorService.create(requestData).subscribe(res => {
+      this.createLockAndNavigateToEditor({identifier: res.result.content_id});
+    }, err => {
+      this.toasterService.error(this.resourceService.messages.fmsg.m0010);
+    });
   }
-
+  }
+getData() {
+  const requestData = {
+    content: this.generateData(_.pickBy(this.formData.formInputData))
+  };
+  if (this.contentType === 'studymaterial' && (requestData.content.activityType === 'Live Session')) {
+    this.live_link = requestData.content.live_link;
+    this.live_link_end = requestData.content.live_link_end;
+    this.live_link_start = requestData.content.live_link_start;
+    this.live_duration = requestData.content.duration;
+    this.routeToCreateContent = false;
+    this.routeToUploadContent = false;
+  }
+  if (this.contentType === 'studymaterial' && requestData.content.create_or_upload === 'Upload Content') {
+  this.routeToUploadContent = true;
+  this.routeToCreateContent = false;
+} else if (this.contentType === 'studymaterial' && requestData.content.create_or_upload === 'Create Content'
+|| requestData.content.createcontent === 'Create') {
+  this.routeToCreateContent = true;
+  this.routeToUploadContent = false;
+}
+}
   createLockAndNavigateToEditor (content) {
     const state = 'draft';
     const framework = this.framework;
