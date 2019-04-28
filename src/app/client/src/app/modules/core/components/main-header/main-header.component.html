@@ -51,11 +51,11 @@
                 </div>
             </div>
             <div class="menu-right">
-                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-around button-container">
-                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-center button-container">
+                    <div class="col-2 d-none d-md-block d-lg-block p-0 text-center">
                         <a routerLink="/signup" class="signup">Sign Up</a>
                     </div>
-                    <div class="col d-none d-md-block d-lg-block">
+                    <div class="col-2 d-none d-md-block d-lg-block">
                         <button type="button" class="btn btn-outline-default btn-md signin" (click)="signIn()">
                                 {{resourceService.frmelmnts?.btn?.signin}}
                         </button>
