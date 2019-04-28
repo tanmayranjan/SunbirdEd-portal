@@ -35,7 +35,7 @@
                         </div>
                 <span class="align-self-center">&nbsp; Category</span> -->
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-5">
+            <div style="width: 420px;">
                 <div class="container-fluid search-container">
                     <form>
                         <div class="input-group">
@@ -51,11 +51,11 @@
                 </div>
             </div>
             <div class="menu-right">
-                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-around button-container">
-                    <div class="col d-none d-md-block d-lg-block p-0 text-center">
+                <div  *ngIf="!userService.loggedIn" class="row align-items-center justify-content-center button-container">
+                    <div class="col-2 d-none d-md-block d-lg-block p-0 text-center">
                         <a routerLink="/signup" class="signup">Sign Up</a>
                     </div>
-                    <div class="col d-none d-md-block d-lg-block">
+                    <div class="col-2 d-none d-md-block d-lg-block">
                         <button type="button" class="btn btn-outline-default btn-md signin" (click)="signIn()">
                                 {{resourceService.frmelmnts?.btn?.signin}}
                         </button>
@@ -68,6 +68,8 @@
                 </div>
                 <!--display if the user is logged in -->
                 <div *ngIf="userService.loggedIn" class="row align-items-center button-container loggedInIcons justify-content-end">
+                    <app-language-dropdown class="computer only languageDropdown" *ngIf="!router.isActive('workspace', false)"></app-language-dropdown>
+                    
                     <div class="d-none d-md-block d-lg-block text-white">
                         <a routerLink="/learn" class="mycourses">My Courses</a>
                     </div>
@@ -77,9 +79,17 @@
                     </div>
                     <div class="text-right menu-padding-2 pr-0 pl-0 m-0">
                         <div class="ui floating dropdown icon button" style="background-color: transparent">
-                                <i class="fa fa-bell" style="font-size: 17px; color: #fff"></i>
-                                <div class="menu custom-menu">
-                                    <div class="item">No notifications</div>
+                            <span class="fa-stack fa-2x" (click)="clicked = true">
+                                    <i class="fa fa-bell" style="font-size: 17px; color: #fff"></i>
+                                    <span class="ui white circular label align center fs-1 font-weight-bold" *ngIf="!clicked" 
+                                    style="position : absolute; left : 5px; top : 7px; width : 1.5em; height : 1.5em; color : black;">
+                                    1
+                                </span>
+                            </span>
+                                <div class="menu custom-menu" suiDropdownMenu>
+                                    <div class="item">
+                                        Welcome to Camilo. We hope you learn anything and everything you can here and enhance your skill set.
+                                    </div>
                                 </div>
                         </div>
                     </div>
@@ -88,13 +98,39 @@
             
                             <div class="ui floating dropdown icon button" style="background-color:transparent">
                                 <i class="fa fa-user-circle-o" style="font-size:30px; color: #fff;"></i>
-                                <div class="menu">
+                                <!-- <div class="menu">
                                     <div *ngIf='userProfile' class="item" routerLink="profile"><a>Profile</a></div>
                                     <div *ngIf=' userService.loggedIn && permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard" class="item">
                                     <a>{{resourceService.frmelmnts?.lnk?.dashboard}}</a>
                                 </div>
                                     <div class="item"><a (click)="logout()">Logout</a></div>
-                                </div>
+                                </div> -->
+                                    <div class="menu" suiDropdownMenu>
+                                            <ngx-avatar *ngIf='userProfile'  [name]="userProfile?.firstName +  userProfile?.lastName" [size]="100" initialsSize="1">
+                                                </ngx-avatar>
+                                        <div *ngIf='userProfile' class="item headerDropdownProfile">
+                                            {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
+                                        </div>
+                                        <div *ngIf='userProfile' class="ui divider"></div>
+                                        <a class="item" routerLink="profile">
+                                            {{resourceService.frmelmnts?.lnk?.profile}}
+                                        </a>
+                                        <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard">
+                                            {{resourceService.frmelmnts?.lnk?.dashboard}}
+                                        </a>
+                                        <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='announcementRole' routerLink="announcement/outbox/1">
+                                            {{resourceService.frmelmnts?.lnk?.announcement}}
+                                        </a>
+                                        <!-- <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='myActivityRole' routerLink="myActivity">
+                                            {{resourceService.frmelmnts?.lnk?.myactivity}}
+                                        </a> -->
+                                        <!-- <a class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='orgSetupRole' routerLink="orgType">
+                                            {{resourceService.frmelmnts?.lbl?.orgtypes}}
+                                        </a> -->
+                                        <a class="item" (click)="logout()">
+                                            {{resourceService.frmelmnts?.lnk?.logout}}
+                                        </a>
+                                    </div>
                             </div>
                         </div>
                     </div>

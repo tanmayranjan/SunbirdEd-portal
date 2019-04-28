@@ -5,7 +5,9 @@
             <div class="container-fluid banner">
                 <div class="row banner-main-row">
                   <div class="col-xs-12 col-sm-12 col-md-5 image-section">
-                    <img class="float-right" [src]='courseHierarchy?.appIcon || defaultImageSrc' alt="course-image" width="300px" height="270px">
+                      <div class="image-wrapper">
+                            <img class="float-right" [src]='courseHierarchy?.appIcon || defaultImageSrc' alt="course-image" width="300px" height="250px">
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-5 offset-md-1 banner-content-section float-right white-text">
                         <br />
@@ -25,7 +27,7 @@
                         </h5> -->
                         <div class="row icon-section mt-3 font-awesome-white">
                             <div class="col-sm-6 col-md-3 text-align-center">
-                                <h4 class="h3">{{courseHierarchy?.totalVideoDuration || '22'}}</h4>
+                                <h4 class="h3">{{courseHierarchy?.totalVideoDuration || 'NA'}}</h4>
                                 <p> Hours</p>
                             </div>
                             <div class="col-sm-6 col-md-3 text-align-center">
@@ -122,7 +124,8 @@
                                         </div>
                                         <!--course content section-->
                                         <div class="tab-pane container active" id="course-content">
-                                            <div class="ui header">
+                                            <div class="ui header text-align-right" style="font-size : 1em;">
+                                                    <span style="color : grey">Unvisited</span> | <span style="color : #024F9D">Incomplete</span> | <span style="color : #07BC81">Complete</span>
                                                 <!-- <img src="src/app/dist/assets/images/sunbird_logo.png"> -->
                                                 <!-- <img src="../../../../../../../../dist/assets/images/sunbird_logo.png"> -->
                                             </div>
@@ -218,8 +221,9 @@
                                                 href="mailto:{{courseHierarchy.orgDetails?.email}}?subject={{courseHierarchy.name}}">{{courseHierarchy.orgDetails?.email}}</a>
                                         </p>
                                         <div class="ui divider"></div>
-                                        <p class="mb-5">{{resourceService.frmelmnts.lbl.coursecreatedon}}:
+                                        <p class="mb-5">{{resourceService.frmelmnts.lbl.createdon}}:
                                             {{courseHierarchy.createdOn | dateFormat}}</p>
+                                            
                                         <p class="mb-5">{{resourceService.frmelmnts.lbl.updatedon}}:
                                             {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
                                         <!-- <a *ngIf="contributionsLength>0" popupTrigger="outsideClick" [popupPlacement]="'bottom left'" suiPopup popupText={{contributions}}>{{resourceService.frmelmnts.lbl.viewCredits}}</a> -->

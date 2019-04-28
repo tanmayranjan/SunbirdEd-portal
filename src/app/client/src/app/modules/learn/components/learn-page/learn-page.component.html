@@ -43,7 +43,7 @@
     
       <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab"  role="tab" aria-selected="true" href="#menu1">My Courses</a>
+              <a class="nav-link active" data-toggle="tab"  role="tab" aria-selected="true" href="#menu1">{{resourceService.frmelmnts.lbl.mycourses}}</a>
             </li>
            <!-- <li class="nav-item">
               <a class="nav-link" data-toggle="tab"  role="tab" aria-selected="false" href="#menu2">Wishlist</a>
@@ -64,11 +64,14 @@
     <div class="twelve wide column" *ngIf="enrolledSection?.contents?.length">
       <app-page-section *ngIf="enrolledSection?.contents?.length" (visits)="prepareVisits($event)" [section]="enrolledSection" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
     </div>
-    <div class="twelve wide column no-enrolled-courses" *ngIf="!enrolledSection?.contents?.length">
+    <div class="twelve wide column" *ngIf="enrolledLoader">
+        <app-loader [data]='loaderMessage'></app-loader>
+      </div>
+    <div class="twelve wide column no-enrolled-courses" *ngIf="!enrolledSection?.contents?.length && !enrolledLoader">
         <app-no-result [data]="{message : '', messageText: 'You have not enrolled to any of the courses, yet.'}"></app-no-result>
     </div>
     <!-- <app-top-categories></app-top-categories> -->
-    <p style="font-size:21px;margin-top: 47px; margin-bottom: 0;">Recommended Courses</p>
+    <p style="font-size:21px;margin-top: 47px; margin-bottom: 0;">{{resourceService.frmelmnts.lbl.recommendedcourses}}</p>
     <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
       <app-page-section (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-page-section>
     </div>
