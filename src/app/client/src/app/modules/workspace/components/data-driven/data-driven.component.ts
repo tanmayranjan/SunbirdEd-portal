@@ -108,6 +108,7 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   live_link_start;
   live_link_end;
   live_duration;
+  other_forms = false;
   /**
 	* telemetryImpression
 	*/
@@ -156,6 +157,12 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
 
   ngOnInit() {
+   console.log(this.activatedRoute.snapshot.routeConfig.path);
+   if (this.activatedRoute.snapshot.routeConfig.path === 'studymaterial') {
+     this.other_forms = true;
+   } else {
+     this.other_forms = false;
+   }
     this.courseRole = this.configService.rolesConfig.workSpaceRole.courseRole;
      this.checkForPreviousRouteForRedirect();
 
@@ -320,6 +327,7 @@ getData() {
   const requestData = {
     content: this.generateData(_.pickBy(this.formData.formInputData))
   };
+
   if (this.contentType === 'studymaterial' && (requestData.content.activityType === 'Live Session')) {
     this.live_link = requestData.content.live_link;
     this.live_link_end = requestData.content.live_link_end;

@@ -161,6 +161,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
       mentors: new FormControl(),
       users: new FormControl(),
     });
+    console.log(this.createBatchForm);
     this.createBatchForm.valueChanges.subscribe(val => {
       if (this.createBatchForm.status === 'VALID') {
         this.disableSubmitBtn = false;

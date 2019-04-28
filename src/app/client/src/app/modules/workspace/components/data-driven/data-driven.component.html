@@ -17,11 +17,16 @@
                 </div>
  
                 <div class="actions mt-10">
-                      <p class="text-align-center pt-20">
+                      <p class="text-align-center pt-20" *ngIf="other_forms">
                             <button class="ui primary text-align-center icon button" *ngIf= "!routeToCreateContent && !routeToUploadContent" (click)="getData()">
                                     Get
                             </button>
                       </p>
+                      <p class="text-align-center pt-20" *ngIf="!other_forms">
+                        <button class="ui primary text-align-center icon button" (click)="createContent();modal.deny()">
+                            {{resourceService?.frmelmnts?.btn?.startcreating}}
+                        </button>
+                    </p>
                     <p class="text-align-center pt-20" *ngIf="routeToCreateContent">
                         <button class="ui primary text-align-center icon button" (click)="createContent();modal.deny()">
                             {{resourceService?.frmelmnts?.btn?.startcreating}}
