@@ -33,7 +33,7 @@
                         <label class="form-check-label" id="textcolor"  *ngIf="field.name !== 'Rating'">
                             &nbsp; {{option.name}} </label>
                             <div class="justright" *ngFor="let child of option.children">
-                              <input (change)="onFilterChange($event)" name={{child.code}} class="form-check-input"
+                              <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
                                 type="checkbox" [value]="child.name" *ngIf="child.name !== 'Rating'">
                               <label class="form-check-label" id="textcolor" *ngIf="child.name !== 'Rating'">
                                 &nbsp; {{child.name}} </label>
