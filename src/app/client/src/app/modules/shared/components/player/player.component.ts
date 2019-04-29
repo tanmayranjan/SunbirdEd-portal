@@ -64,9 +64,10 @@ export class PlayerComponent implements OnInit, OnChanges {
     }
   }
   generateContentReadEvent(event: any) {
-    console.log(event);
+    console.log('generate content red event ', event);
     if (event.detail.telemetryData.eid && (event.detail.telemetryData.eid === 'START' ||
     event.detail.telemetryData.eid === 'END')) {
+      console.log('emiting the read event ', event);
       this.contentProgressEvent.emit(event);
     } else if (event.detail.telemetryData.eid && (event.detail.telemetryData.eid === 'IMPRESSION')) {
       this.emitSceneChangeEvent();

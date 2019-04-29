@@ -78,11 +78,11 @@
                         type="button" class="btn-light btn-md workspace" routerLink="/workspace/content/create">{{resourceService?.frmelmnts?.tab?.workspace}}</button>
                     </div>
                     <div class="text-right menu-padding-2 pr-0 pl-0 m-0">
-                        <div class="ui floating dropdown icon button" style="background-color: transparent">
+                        <div class="ui floating dropdown icon button text-center" style="background-color: transparent">
                             <span class="fa-stack fa-2x" (click)="clicked = true">
-                                    <i class="fa fa-bell" style="font-size: 17px; color: #fff"></i>
-                                    <span class="ui white circular label align center fs-1 font-weight-bold" *ngIf="!clicked" 
-                                    style="position : absolute; left : 5px; top : 7px; width : 1.5em; height : 1.5em; color : black;">
+                                    <i class="fa fa-bell" style="font-size: 24px; color: #fff"></i>
+                                    <span class="ui white circular label align center fs-1 font-weight-bold" (click)="clicked = true" *ngIf="!clicked" 
+                                    style="position : absolute; left : 23px; top : 8px; min-width : 1em; min-height : 1em; width: 1.5em; height: 1.5em; background-color: #07bc81; line-height: 0.5; color : #fff;">
                                     1
                                 </span>
                             </span>
