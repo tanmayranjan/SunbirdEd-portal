@@ -357,9 +357,9 @@ showJumbotron = true;
     }
   }
   public contentProgressEvent(event) {
-    if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
-      return;
-    }
+    // if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
+    //   return;
+    // }
     const eid = event.detail.telemetryData.eid;
     if (eid === 'END' && !this.validEndEvent(event)) {
       return;
