@@ -117,7 +117,6 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     // tslint:disable-next-line:no-debugger
-    debugger;
     this.frameworkService.initialize(this.hashTagId);
     this.formInputData = {};
     this.activatedRoute.paramMap.subscribe((paramMap: any) => {
