@@ -28,7 +28,7 @@
       <label>{{field.name}}</label>
       <div class="field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
-          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
+          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name" (click)="passDataToParent($event)"></sui-select-option>
         </sui-select>
       </div>
     </div>
@@ -36,7 +36,7 @@
         <label>{{field.name}}</label>
       <div class="field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
-          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
+          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name" (click)="passDataToParent($event)"></sui-select-option>
         </sui-select>
       </div>
     </div>
@@ -44,7 +44,7 @@
         <label>{{field.name}}</label> 
       <div class="field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
-          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
+          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name" (click)="passDataToParent($event)"></sui-select-option>
         </sui-select>
       </div>
     </div>

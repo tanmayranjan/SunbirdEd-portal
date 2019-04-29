@@ -227,6 +227,7 @@ showJumbotron = true;
    private parseChildContent() {
     const model = new TreeModel();
     const mimeTypeCount = {};
+    console.log(this.courseHierarchy);
     this.treeModel = model.parse(this.courseHierarchy);
     this.treeModel.walk((node) => {
       if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
@@ -235,12 +236,10 @@ showJumbotron = true;
           this.mimeTypeCount++;
           if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
             this.previewUrl = node.model;
-            console.log(this.previewUrl);
            }
         } else {
           if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
             this.previewUrl = node.model;
-            console.log(this.previewUrl);
            }
          this.mimeTypeCount++;
           mimeTypeCount[node.model.mimeType] = 1;

@@ -32,7 +32,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
-  enrolledIDs : any;
+  enrolledIDs: any;
   enrolledLoader = true;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
@@ -263,7 +263,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     };
   }
   private setNoResultMessage() {
-    if(this.enrolledSection.length == 0){
+    if (this.enrolledSection.length === 0) {
       this.enrolledLoader = false;
     }
     this.noResultMessage = {
@@ -272,3 +272,4 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     };
   }
 }
+

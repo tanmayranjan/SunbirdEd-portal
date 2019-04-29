@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input} from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework,
@@ -109,13 +109,15 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
   live_link_end;
   live_duration;
   other_forms = false;
+  formDataChanged = false;
   /**
 	* telemetryImpression
 	*/
   telemetryImpression: IImpressionEventInput;
  public change_error;
  public routeToUploadContent = false;
- public routeToCreateContent = false;
+ public routeToCreateContent = true;
+ @Input() formvalue;
  public permissionService: PermissionService;
   constructor(
     public searchService: SearchService,
@@ -158,11 +160,11 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
 
   ngOnInit() {
    console.log(this.activatedRoute.snapshot.routeConfig.path);
-   if (this.activatedRoute.snapshot.routeConfig.path === 'studymaterial') {
-     this.other_forms = true;
-   } else {
-     this.other_forms = false;
+   if (this.activatedRoute.snapshot.routeConfig.path !== 'studymaterial') {
+     this.routeToCreateContent = true;
    }
+  //  console.log(this.formData.activity_changed);
+
     this.courseRole = this.configService.rolesConfig.workSpaceRole.courseRole;
      this.checkForPreviousRouteForRedirect();
 
@@ -191,11 +193,13 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy 
       }
     };
   }
+
   ngOnDestroy() {
     if (this.modal && this.modal.deny) {
       this.modal.deny();
     }
   }
+
   /**
   * fetchFrameworkMetaData is gives form config data
   */
@@ -323,27 +327,26 @@ if (!_.isEmpty(data)) {
     });
   }
   }
-getData() {
-  const requestData = {
-    content: this.generateData(_.pickBy(this.formData.formInputData))
-  };
 
-  if (this.contentType === 'studymaterial' && (requestData.content.activityType === 'Live Session')) {
-    this.live_link = requestData.content.live_link;
-    this.live_link_end = requestData.content.live_link_end;
-    this.live_link_start = requestData.content.live_link_start;
-    this.live_duration = requestData.content.duration;
+inputChangedHandler(event) {
+  console.log(this.formDataChanged);
+  if (event === 'Upload Content')  {
+    this.routeToUploadContent = true;
+    this.routeToCreateContent = false;
+    this.other_forms = false;
+
+    console.log(this.routeToUploadContent, this.routeToCreateContent);
+  } else if (event === 'Create Content' || event === 'Create') {
+    this.routeToUploadContent = false;
+    this.routeToCreateContent = true;
+    this.other_forms = false;
+
+    console.log(this.routeToCreateContent);
+  } else if (event === 'Live Session') {
     this.routeToCreateContent = false;
     this.routeToUploadContent = false;
+    this.other_forms = true;
   }
-  if (this.contentType === 'studymaterial' && requestData.content.create_or_upload === 'Upload Content') {
-  this.routeToUploadContent = true;
-  this.routeToCreateContent = false;
-} else if (this.contentType === 'studymaterial' && requestData.content.create_or_upload === 'Create Content'
-|| requestData.content.createcontent === 'Create') {
-  this.routeToCreateContent = true;
-  this.routeToUploadContent = false;
-}
 }
   createLockAndNavigateToEditor (content) {
     const state = 'draft';
