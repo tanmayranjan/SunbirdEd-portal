@@ -171,7 +171,6 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
       takeUntil(this.unsubscribe$))
       .subscribe(
         (apiResponse: ServerResponse) => {
-          debugger;
           this.notesList = apiResponse.result.response.note;
           this.selectedNote = this.notesList[0];
         },
