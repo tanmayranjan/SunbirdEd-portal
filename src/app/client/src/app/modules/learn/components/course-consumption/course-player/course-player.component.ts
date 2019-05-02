@@ -357,10 +357,12 @@ showJumbotron = true;
     }
   }
   public contentProgressEvent(event) {
-    // if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
-    //   return;
-    // }
+    console.log('recieved content progress event fro the content player ', event);
+    /* if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
+      return;
+    } */
     const eid = event.detail.telemetryData.eid;
+    //alert('valid end event is ' + JSON.stringify(this.validEndEvent(event)));
     if (eid === 'END' && !this.validEndEvent(event)) {
       return;
     }
