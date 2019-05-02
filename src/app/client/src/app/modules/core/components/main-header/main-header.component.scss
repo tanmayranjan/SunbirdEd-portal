@@ -195,8 +195,22 @@
 }
 .category {
   font-size: 1.121em;
-  color: white;
 }
+
+a.categorylink {
+  color : white;
+  border: none;
+  font-size: 1.1em;
+  background: transparent;
+  text-decoration: none;
+  }
+
+  a.categorylink:hover {
+    padding-bottom: 7px;
+    color: white;
+    border-bottom: 2px solid white;
+    }
+
 .category span {
   padding-left: 5px;
 }
