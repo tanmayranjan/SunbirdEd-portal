@@ -4,8 +4,8 @@ import { combineLatest } from 'rxjs';
 import { CourseBatchService } from './../../../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ResourceService, ServerResponse, ToasterService } from '@sunbird/shared';
-import { PermissionService, UserService } from '@sunbird/core';
+import { ResourceService, ServerResponse, ToasterService, ConfigService } from '@sunbird/shared';
+import { PermissionService, UserService, LearnerService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { Subject } from 'rxjs';
@@ -36,14 +36,21 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
   userNames = {};
   showBatchList = false;
   enrolledBatchInfo: any;
+  participantsList = [];
+  mentorsList = [];
   statusOptions = [
     { name: 'Ongoing', value: 1 },
     { name: 'Upcoming', value: 0 }
   ];
+  participantIds = [];
+  mentorIds = [];
+  showListOfUsers = false;
   todayDate = moment(new Date()).format('YYYY-MM-DD');
   progress = 0;
   isUnenrollbtnDisabled = true;
   constructor(public resourceService: ResourceService, public permissionService: PermissionService,
+    public configService: ConfigService,
+    public learnerService: LearnerService,
     public userService: UserService, public courseBatchService: CourseBatchService, public toasterService: ToasterService,
     public router: Router, public activatedRoute: ActivatedRoute) {
     this.batchStatus = this.statusOptions[0].value;
@@ -125,6 +132,7 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
         this.courseBatchService.getAllBatchDetails(searchParamsMentor),
       ).pipe(takeUntil(this.unsubscribe))
        .subscribe((data) => {
+         console.log(data);
            this.batchList = _.union(data[0].result.response.content, data[1].result.response.content);
            if (this.batchList.length > 0) {
              this.fetchUserDetails();
@@ -140,6 +148,7 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
        this.courseBatchService.getAllBatchDetails(searchParams).pipe(
         takeUntil(this.unsubscribe))
         .subscribe((data: ServerResponse) => {
+          console.log(data);
           if (data.result.response.content && data.result.response.content.length > 0) {
             this.batchList = data.result.response.content;
             this.fetchUserDetails();
@@ -158,6 +167,7 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe))
       .subscribe((data: ServerResponse) => {
         this.enrolledBatchInfo = data;
+        console.log(this.enrolledBatchInfo);
         if (this.enrolledBatchInfo.participant) {
           const participant = [];
           _.forIn(this.enrolledBatchInfo.participant, (value, key) => {
@@ -171,12 +181,28 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
       }, () => {
         // handle error
       });
+      this.fetchUserDetails();
   }
   fetchUserDetails() {
-    _.forEach(this.batchList, (val) => {
-      this.userList.push(val.createdBy);
-    });
-    this.userList = _.compact(_.uniq(this.userList));
+    console.log('all batches', this.batchList, 'enrolled batches',  this.enrolledBatchInfo);
+if (this.batchList) {
+  _.forEach(this.batchList, (val) => {
+    this.userList.push(val.createdBy);
+    console.log(val);
+    this.participantIds.push(val.participant);
+      this.mentorIds.push(val.mentors);
+      console.log(this.participantIds, this.mentorIds);
+  });
+}
+if (this.enrolledBatchInfo) {
+  this.participantIds.push(this.enrolledBatchInfo.participant);
+  this.mentorIds.push(this.enrolledBatchInfo.mentors);
+  console.log(this.participantIds, this.mentorIds);
+
+}
+console.log(this.userList);
+    // this.userList = _.compact(_.uniq(this.userList));
+    console.log(this.userList);
     const request = {
       filters: {
         identifier: this.userList
@@ -185,6 +211,8 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
     this.courseBatchService.getUserList(request).pipe(
       takeUntil(this.unsubscribe))
       .subscribe((res) => {
+        console.log(res);
+
         _.forEach(res.result.response.content, (user) => {
           this.userNames[user.identifier] = user;
         });
@@ -192,6 +220,8 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
       }, (err) => {
         this.showError = true;
       });
+
+      this.getUsers(this.participantIds, this.mentorIds);
   }
   batchUpdate(batch) {
     this.courseBatchService.setUpdateBatchDetails(batch);
@@ -212,4 +242,37 @@ export class BatchDetailsComponent implements OnInit, OnDestroy {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
+getUsers(users, mentors) {
+const user = users[0];
+const mentor = mentors [0];
+console.log(users, mentors);
+console.log(user);
+  const option = {
+    url: this.configService.urlConFig.URLS.ADMIN.USER_SEARCH,
+    data: {
+      request: {
+        query: '',
+        filters: {
+        }
+      }
+    }
+  };
+  this.learnerService.post(option).subscribe(data => {
+    console.log(data);
+    _.forOwn(data.result.response.content, (value) => {
+      if (_.includes(user, value.identifier)) {
+        this.participantsList.push(value);
+      }
+    });
+    _.forOwn(data.result.response.content, (value) => {
+      if (_.includes(mentor, value.identifier)) {
+        this.mentorsList.push(value);
+      }
+    });
+    console.log(this.participantsList, this.mentorsList);
+  });
+}
+getUserandMentorDetails() {
+this.showListOfUsers = !this.showListOfUsers;
+}
 }

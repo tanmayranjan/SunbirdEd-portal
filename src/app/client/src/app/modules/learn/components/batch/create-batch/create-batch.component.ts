@@ -185,7 +185,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
             name: userData.firstName + (userData.lastName ? ' ' + userData.lastName : ''),
             avatar: userData.avatar,
             otherDetail: this.getUserOtherDetail(userData)
-          };
+          }; console.log(user);
           _.forEach(userData.organisations, (userOrgData) => {
             if (_.indexOf(userOrgData.roles, 'COURSE_MENTOR') !== -1) {
               mentorList.push(user);
@@ -325,6 +325,7 @@ export class CreateBatchComponent implements OnInit, OnDestroy {
     this.courseBatchService.getUserList(requestBody).pipe(takeUntil(this.unsubscribe))
       .subscribe((res) => {
         const list = this.sortUsers(res);
+        console.log(list);
         if (type === 'participant') {
           this.participantList = list.participantList;
         } else {
