@@ -67,6 +67,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
                 </li>
+                <li class="nav-item" *ngIf="courseStatus !== 'Unlisted'">
+                    <a class="nav-link" data-toggle="pill" href="#batchdetails">Batch Details</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -175,14 +178,28 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!--Batach Details section-->
+                                        <div class="tab-pane fade container" id="batchdetails" *ngIf="courseStatus !== 'Unlisted'">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <!-- <div class="content">
+                                                
+                                                    </div> -->
+                                                    <app-batch-details [courseId]="courseId"
+                                        [batchId]="batchId" [enrolledCourse]="enrolledCourse"
+                                        [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
+                                    </app-batch-details>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="ui fitted divider mb-20 mt-30"></div>
                                 </div>
                                 <div class='three wide column'>
-                                    <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
+                                    <!-- <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
                                         [batchId]="batchId" [enrolledCourse]="enrolledCourse"
                                         [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
-                                    </app-batch-details>
+                                    </app-batch-details> -->
                                     <div *ngIf="enrolledCourse" class="my-15">
                                         <div>
                                             <br>
