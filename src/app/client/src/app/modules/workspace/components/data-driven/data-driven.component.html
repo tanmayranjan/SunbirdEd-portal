@@ -18,7 +18,7 @@
  
                 <div class="actions mt-10">
                        <p class="text-align-center pt-20" *ngIf="other_forms">
-                            <button class="ui primary text-align-center icon button" *ngIf= "!routeToCreateContent && !routeToUploadContent">
+                            <button class="ui primary text-align-center icon button" *ngIf= "!routeToCreateContent && !routeToUploadContent" (click)="createContent();modal.deny()">
                                     GO
                             </button>
                       </p>
@@ -34,9 +34,9 @@
                     </p>
                     <div *ngIf='permissionService.permissionAvailable && routeToUploadContent' appPermission 
                     [permission]='contentUploadRole'>
-                    <div class="text-align-center pt-20" routerLink="workspace/content/../edit/generic/"
+                    <div class="text-align-center pt-20"
                     appTelemetryInteract [telemetryInteractObject]="{id:'',type:'upload-content',ver:'1.0'}" [telemetryInteractEdata]="{id:'uploadContent',type:'click',pageid:'UploadContent'}">
-                    <button class="ui primary text-align-center icon button" (click)="createContent();modal.deny()">
+                    <button class="ui primary text-align-center icon button" routerLink="/workspace/content/edit/generic/">
                        START UPLOADING
                         </button>
                     </div>

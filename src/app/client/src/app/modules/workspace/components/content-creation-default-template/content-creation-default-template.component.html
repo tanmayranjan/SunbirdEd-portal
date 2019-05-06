@@ -16,7 +16,7 @@
           <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" placeholder={{field.placeholder}}>
         </div>
       </div>
-      <div *ngIf="(field.inputType==='text' || field.inputType==='number') && ((field.code === 'live_link' || field.code === 'live_link_start' || field.code === 'live_link_end') && show_link)" class="field" [ngClass]="{ 'disabled':!field.editable}">
+      <div *ngIf="(field.inputType==='text' || field.inputType==='number' || field.inputType==='time') && ((field.code === 'live_link' || field.code === 'live_link_start' || field.code === 'live_link_end') && show_link)" class="field" [ngClass]="{ 'disabled':!field.editable}">
           <label>
             {{field.name}}
           </label>

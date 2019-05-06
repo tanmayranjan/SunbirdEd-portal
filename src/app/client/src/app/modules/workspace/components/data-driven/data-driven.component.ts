@@ -309,8 +309,7 @@ if (!_.isEmpty(data)) {
     };
   if (this.contentType === 'studymaterial') {
     this.editorService.create(requestData).subscribe(res => {
-      if ((requestData.content.activityType !== 'Live Session' || requestData.content.activityType !== 'Reading') &&
-      requestData.content.create_or_upload === 'Create Content') {
+      if (requestData.content.activityType !== 'Live Session') {
       this.createLockAndNavigateToEditor({identifier: res.result.content_id});
       }
     }, err => {
