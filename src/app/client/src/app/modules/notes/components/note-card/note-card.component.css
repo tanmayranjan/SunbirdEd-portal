@@ -1,12 +1,27 @@
-.notes-card-heading {
-    font-family: 'sunbirdboldfont';
-    font-size: 0.9em;
-    color: #007AFF;
+
+.no-content {
+    color: darkgray !important;
+    font-weight: 400 !important;
 }
-.notes-card-section {
-    width: 100%;
+
+.green {
+    color: #07bc81;
 }
-.notes-card-section .content .header a {
-    color: #007AFF !important;
-    font-size: 0.9em !important;
+.fa-trash-alt {
+    color : #ea372a;
+}
+
+.green:hover, .fa-trash-alt:hover {
+    cursor: pointer;
+}
+
+span.ui.tiny.header.right-floated.note-actions {
+    margin-bottom : 10px !important;
+    z-index : 9999;
+}
+
+.note-action-wrapper {
+    height : 21.6px;
+    width : 46px;
+    pointer-events: none;
 }
