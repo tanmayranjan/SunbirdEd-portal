@@ -6,6 +6,7 @@ import { UtilService, ResourceService, ToasterService, IUserData, IUserProfile,
 NavigationHelperService, ConfigService, BrowserCacheTtlService } from '@sunbird/shared';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { TenantResolverService } from '../app/modules/public/services/TenantResolver/tenant-resolver.service';
+import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 import { UserService, PermissionService, CoursesService, TenantService, OrgDetailsService, DeviceRegisterService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { ProfileService } from '@sunbird/profile';
@@ -58,6 +59,8 @@ export class AppComponent implements OnInit {
    * 2. user profile rootOrg hashtag for logged in
    */
   private channel: string;
+
+  theme = false;
   /**
    * constructor
    */
@@ -72,7 +75,7 @@ export class AppComponent implements OnInit {
     private deviceRegisterService: DeviceRegisterService, private courseService: CoursesService, private tenantService: TenantService,
     private telemetryService: TelemetryService, public router: Router, private configService: ConfigService,
     private orgDetailsService: OrgDetailsService, private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService, private tenantTheme : TenantResolverService) {
+    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService, private tenantTheme : TenantResolverService, private sharedTenant : SharedTenantResolverService) {
   }
   /**
    * dispatch telemetry window unload event before browser closes
@@ -84,7 +87,16 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     //set the theme
-    this.tenantTheme.updateTheme();
+    //this.tenantTheme.updateTheme();
+    this.sharedTenant.getTenantThemeData().subscribe(theme => {
+      debugger;
+      if(theme){
+        this.theme = true;
+      }
+      console.log('recieved theme in app component ', theme);
+      //this.theme = true;
+    
+
     this.resourceService.initialize();
     combineLatest( this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
@@ -108,6 +120,11 @@ export class AppComponent implements OnInit {
     }, error => {
       this.initApp = true;
     });
+  }, (err) => {
+    //alert('error while retrieving theme');
+    console.log('error while retrieving theme data ', err);
+    this.theme = false;
+  });
   }
 
   /**

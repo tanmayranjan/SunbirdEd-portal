@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import {take } from 'rxjs/operators';
 import {HttpClient } from '@angular/common/http';
+import { SharedTenantResolverService } from '../../../shared/services/tenant-resolver/shared-tenant-resolver.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,24 +13,20 @@ import {HttpClient } from '@angular/common/http';
  * homepage theming styles and content for a particular tenant layout
  */
 export class TenantResolverService {
-  constructor( private http: HttpClient, private injector : Injector) {}
+  constructor( private http: HttpClient, private injector : Injector, private sharedTenantResolver : SharedTenantResolverService) {}
   
 
   private router : any;
   private themingConfig : any;
 
 updateTheme() {
+  console.log('update theme has the following data ', this.themingConfig);
+  debugger;
     let theme = JSON.parse(this.themingConfig);
     if(theme !== undefined || theme !== null){
-      //alert('recieved the theme');
       let primaryColor = theme['CustomizeOptions']['Home']['theme']['primaryColor'];
-      // let primaryColor = 'green'
       console.log('theme data is ', theme['CustomizeOptions']['Home']['theme']['primaryColor']);
-      //this.body = this.vcr.element.nativeElement.parentElement;
-      //let body = document.getElementsByTagName('body');
       document.documentElement.style.setProperty('--primary-color',primaryColor);
-      //this.vcr.element.nativeElement.parentElement.classList.add(primaryColor);
-      //console.log('the body is very body ', this.body);
     }else {
       alert('did not recieve any theme');
     }
@@ -37,27 +34,43 @@ updateTheme() {
 
   getTenantInfo() {
   // inject the router manualy to read the current route and make decisions
-  this.router = this.injector.get(Router);
-  console.log(this.router);
-  this.themingConfig = localStorage.getItem('theming');
-  if (this.router.isActive('/') && (this.themingConfig == undefined || this.themingConfig == null)) {
-        alert('no theming config detected, making fresh request');
+  //this.router = this.injector.get(Router);
+
+  //this.themingConfig = localStorage.getItem('theming');
+  if (window.location.href === 'http://localhost:3000/') {
+        alert('making fresh request');
+
+        const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/lmnm4': 'https://api.myjson.com/bins/1gvhfw';
         const option = {
-          url : 'https://api.myjson.com/bins/1grijg',
+          url : tenanturl,
         }
         this.http.get(option.url).pipe(take(1)).subscribe(response => {
           if(response){
+            debugger;
             console.log('Recieved something in the RESOLVER');
+            console.log(response);
+            this.sharedTenantResolver.setTenantConfig(response);
             localStorage.setItem('theming', JSON.stringify(response));
+            this.themingConfig = response;
+            this.updateTheme();
           }else {
             console.log('rejected the RESOLVER')
             localStorage.removeItem('theming');
           }
         });
-      }
-      else if (this.router.isActive('/') && (this.themingConfig !== undefined && this.themingConfig !== null)) {
-        alert('we detected the configuration');
-        console.log('here is the configuration ',this.themingConfig);
+    }
+    else {
+        //alert('we detected the configuration');
+        this.themingConfig  = localStorage.getItem('theming');
+        debugger;
+        if(this.themingConfig == undefined || this.themingConfig == null){
+          alert('did not recieve any configuration');
+        } else {
+
+          console.log('here is the configuration ',this.themingConfig);
+          alert('recieved configuration');
+          this.updateTheme();
+        }
       }
   }
 

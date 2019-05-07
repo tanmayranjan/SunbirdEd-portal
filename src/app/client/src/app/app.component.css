@@ -1,3 +1,10 @@
 .footer-fix {
     background: white !important;
 }
+
+.loading-banner {
+    color : black;
+    height : 100%;
+    display : block;
+    transition: all ease-out 1s
+}

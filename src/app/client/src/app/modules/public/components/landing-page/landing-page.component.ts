@@ -185,7 +185,7 @@ export class LandingPageComponent implements OnInit {
       .subscribe(frameworkData => {
         console.log('framework categories', frameworkData.result.framework.categories);
         if(this.homeConfig['popularCatCode']['required'] && this.homeConfig['popularCatCode']['code'].length > 0) {
-          alert('recieved popCatCode')
+          //alert('recieved popCatCode')
           this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code.indexOf(this.homeConfig['popularCatCode']['code']) > -1);
         }else{
           // setting a default category code in case the configuration doesn't exists
