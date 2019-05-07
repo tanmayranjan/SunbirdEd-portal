@@ -1,6 +1,6 @@
 <div class="ui grid">
   <div *ngFor="let field of formFieldProperties;let i = index" class="{{field.renderingHints.semanticColumnWidth || 'twelve'}} wide column">
-    <div *ngIf="(field.inputType==='text' || field.inputType==='number') && field.code !== 'duration' && (field.code !=='live_link' && field.code !== 'live_link_start' && field.code !== 'live_link_end') " class="field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="(field.inputType==='text' || field.inputType==='number') && field.code !== 'duration' && field.code !=='price' && (field.code !=='live_link' && field.code !== 'live_link_start' && field.code !== 'live_link_end') " class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>
         {{field.name}}
       </label>
@@ -8,7 +8,7 @@
         <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" placeholder={{field.placeholder}}>
       </div>
     </div>
-    <div *ngIf="(field.inputType==='text' || field.inputType==='number') && (field.code === 'duration' && show_duration)" class="field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="(field.inputType==='text' || field.inputType==='number') && field.code !=='price' &&  (field.code === 'duration' && show_duration)" class="field" [ngClass]="{ 'disabled':!field.editable}">
         <label>
           {{field.name}}
         </label>
@@ -16,7 +16,7 @@
           <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" placeholder={{field.placeholder}}>
         </div>
       </div>
-      <div *ngIf="(field.inputType==='text' || field.inputType==='number' || field.inputType==='time') && ((field.code === 'live_link' || field.code === 'live_link_start' || field.code === 'live_link_end') && show_link)" class="field" [ngClass]="{ 'disabled':!field.editable}">
+      <div *ngIf="(field.inputType==='text' || field.inputType==='number' || field.inputType==='time') && ((field.code === 'live_link' || field.code === 'live_link_start' || field.code === 'live_link_end') && show_link && field.code !=='price')" class="field" [ngClass]="{ 'disabled':!field.editable}">
           <label>
             {{field.name}}
           </label>
@@ -24,6 +24,14 @@
             <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" placeholder={{field.placeholder}}>
           </div>
         </div>
+        <div *ngIf="(field.inputType==='text' || field.inputType==='number') && (field.code === 'price' && !freecourse)" class="field" [ngClass]="{ 'disabled':!field.editable}">
+            <label>
+              {{field.name}}
+            </label>
+            <div class="field">
+              <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" placeholder={{field.placeholder}}>
+            </div>
+          </div>
     <div *ngIf="field.inputType==='select' && field.code!='year' && field.code !=='create_or_upload' && field.code !== 'createcontent'" class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}}</label>
       <div class="field">
@@ -32,6 +40,7 @@
         </sui-select>
       </div>
     </div>
+
     <div *ngIf="field.code !== 'createcontent' && (field.code === 'create_or_upload' && show_create_or_upload_content)">
         <label>{{field.name}}</label>
       <div class="field">

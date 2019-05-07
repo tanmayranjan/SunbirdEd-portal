@@ -362,7 +362,6 @@ showJumbotron = true;
       return;
     } */
     const eid = event.detail.telemetryData.eid;
-    //alert('valid end event is ' + JSON.stringify(this.validEndEvent(event)));
     if (eid === 'END' && !this.validEndEvent(event)) {
       return;
     }
