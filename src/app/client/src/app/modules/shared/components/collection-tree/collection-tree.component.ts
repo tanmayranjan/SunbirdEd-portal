@@ -1,44 +1,57 @@
 /*
-*
-* Author: Sunil A S<sunils@ilimi.in>
-*
-*/
+ *
+ * Author: Sunil A S<sunils@ilimi.in>
+ *
+ */
 
 import {
-  Component, OnInit, Input, ElementRef,
-  ViewChild, AfterViewInit, OnChanges, Output, EventEmitter
-} from '@angular/core';
-import * as _ from 'lodash';
-import { ICollectionTreeNodes, ICollectionTreeOptions, MimeTypeTofileType } from '../../interfaces';
-import { ResourceService } from '../../services/index';
-import { b } from '@angular/core/src/render3';
-import { constructor } from 'lodash';
+  Component,
+  OnInit,
+  Input,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnChanges,
+  Output,
+  EventEmitter
+} from "@angular/core";
+import * as _ from "lodash";
+import {
+  ICollectionTreeNodes,
+  ICollectionTreeOptions,
+  MimeTypeTofileType,
+  IactivityType
+} from "../../interfaces";
+import { ResourceService } from "../../services/index";
+import { b } from "@angular/core/src/render3";
+import { constructor } from "lodash";
 
 @Component({
-  selector: 'app-collection-tree',
-  templateUrl: './collection-tree.component.html',
-  styleUrls: ['./collection-tree.component.css']
+  selector: "app-collection-tree",
+  templateUrl: "./collection-tree.component.html",
+  styleUrls: ["./collection-tree.component.css"]
 })
 export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
-  @Output() public contentSelect: EventEmitter<{id: string, title: string}> = new EventEmitter();
+  @Output() public contentSelect: EventEmitter<{
+    id: string;
+    title: string;
+  }> = new EventEmitter();
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
   open = true;
   private iconColor = {
-    '0': 'fancy-tree-grey',
-    '1': 'fancy-tree-blue',
-    '2': 'fancy-tree-green'
+    "0": "fancy-tree-grey",
+    "1": "fancy-tree-blue",
+    "2": "fancy-tree-green"
   };
   constructor(public resourceService?: ResourceService) {
     this.resourceService = resourceService;
   }
   ngOnInit() {
-
     this.initialize();
-
   }
 
   ngOnChanges() {
@@ -61,25 +74,31 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
-     _.forEach(this.rootChildrens, child => {
-       child['togglePanelIcon'] = true;
-     });
-      console.log('rootChildrens', this.rootChildrens);
+      _.forEach(this.rootChildrens, child => {
+        child["togglePanelIcon"] = true;
+      });
+      console.log("rootChildrens", this.rootChildrens);
 
       this.addNodeMeta();
     }
   }
 
   private createTreeModel() {
-    if (!this.nodes) { return; }
+    if (!this.nodes) {
+      return;
+    }
     const model = new TreeModel();
     return model.parse(this.nodes.data);
   }
 
   private addNodeMeta() {
-    if (!this.rootNode) { return; }
-    this.rootNode.walk((node) => {
+    if (!this.rootNode) {
+      return;
+    }
+    this.rootNode.walk(node => {
       node.fileType = MimeTypeTofileType[node.model.mimeType];
+      if (!!node.model.activityType)
+        node.activityType = IactivityType[node.model.activityType];
       node.id = node.model.identifier;
       if (node.children && node.children.length) {
         if (this.options.folderIcon) {
@@ -87,28 +106,39 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
         }
         node.folder = true;
       } else {
-        if ( node.fileType === MimeTypeTofileType['application/vnd.ekstep.content-collection']) {
+        if (
+          node.fileType ===
+          MimeTypeTofileType["application/vnd.ekstep.content-collection"]
+        ) {
           node.folder = true;
         } else {
-          const indexOf = _.findIndex(this.contentStatus, { });
+          const indexOf = _.findIndex(this.contentStatus, {});
           if (this.contentStatus) {
-            const content: any = _.find(this.contentStatus, { 'contentId': node.model.identifier});
-            const status = (content && content.status) ? content.status.toString() : 0;
+            const content: any = _.find(this.contentStatus, {
+              contentId: node.model.identifier
+            });
+            const status =
+              content && content.status ? content.status.toString() : 0;
             node.iconColor = this.iconColor[status];
           } else {
-            node.iconColor = this.iconColor['0'];
+            node.iconColor = this.iconColor["0"];
           }
           node.folder = false;
         }
-        node.icon = this.options.customFileIcon[node.fileType] || this.options.fileIcon;
+        node.icon =
+          this.options.customFileIcon[node.fileType] || this.options.fileIcon;
         node.icon = `${node.icon} ${node.iconColor}`;
       }
-      if (node.folder && !(node.children.length)) {
-        node.title = node.model.name + '<strong> (' + this.resourceService.messages.stmsg.m0121 + ')</strong>';
-        node.extraClasses = 'disabled';
+      if (node.folder && !node.children.length) {
+        node.title =
+          node.model.name +
+          "<strong> (" +
+          this.resourceService.messages.stmsg.m0121 +
+          ")</strong>";
+        node.extraClasses = "disabled";
       } else {
-        node.title = node.model.name || 'Untitled File';
-        node.extraClasses = '';
+        node.title = node.model.name || "Untitled File";
+        node.extraClasses = "";
       }
     });
   }

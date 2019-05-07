@@ -43,7 +43,12 @@ import {
 import { DeviceDetectorService } from "ngx-device-detector";
 import { PublicDataService, LearnerService } from "@sunbird/core";
 import { DomSanitizer } from "@angular/platform-browser";
-
+export enum IactivityType {
+  "Self Paced" = "film",
+  "live Session" = "headset",
+  "Classroom Session" = "chalkboard",
+  "Assessments" = "edit"
+}
 declare var $: any;
 
 @Component({
@@ -307,7 +312,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.courseHierarchy);
     this.treeModel = model.parse(this.courseHierarchy);
     this.treeModel.walk(node => {
-      //debugger;
       if (node.model.activityType) {
         if (activityTypeCount[node.model.activityType]) {
           activityTypeCount[node.model.activityType] += 1;
@@ -360,7 +364,11 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     _.forEach(activityTypeCount, (value, key) => {
       let mime;
-      this.curriculumactivity.push({ activityType: key, count: value });
+      this.curriculumactivity.push({
+        activityType: key,
+        count: value,
+        activityTypeIcon: IactivityType[key]
+      });
       //debugger;
     });
   }
