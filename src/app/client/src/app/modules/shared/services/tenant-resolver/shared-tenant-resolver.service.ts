@@ -24,7 +24,7 @@ export class SharedTenantResolverService {
     
   }
 
-  public getTenantThemeData() {
+  /* public getTenantThemeData() {
     if(this.tenantData$.value !== null){
       return this.tenantData;
     } else {
@@ -32,7 +32,7 @@ export class SharedTenantResolverService {
       //return nothing
     }
     
-  }
+  } */
 
 updateTheme() {
   console.log('update theme has the following data ', this._tenantData);
@@ -51,7 +51,7 @@ updateTheme() {
   //this.router = this.injector.get(Router);
 
   //this.themingConfig = localStorage.getItem('theming');
-  if (window.location.href === 'http://localhost:3000/') {
+  if (this._tenantData == undefined || this._tenantData == null) {
 
         const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/11pgw2': 'https://api.myjson.com/bins/1gvhfw';
         const option = {
@@ -63,8 +63,8 @@ updateTheme() {
             console.log('Recieved something in the RESOLVER');
             console.log(response);
             this.setTenantConfig(response);
-            localStorage.setItem('theming', JSON.stringify(response));
-            this.themingConfig = response;
+            //localStorage.setItem('theming', JSON.stringify(response));
+            //this.themingConfig = response;
             this._tenantData = response;
             this.updateTheme();
           }else {
@@ -75,11 +75,11 @@ updateTheme() {
     }
     else {
         //alert('we detected the configuration');
-        this.themingConfig  = JSON.parse(localStorage.getItem('theming'));
-        if(this.themingConfig == undefined || this.themingConfig == null){
+        //this.themingConfig  = JSON.parse(localStorage.getItem('theming'));
+        if(this._tenantData == undefined || this._tenantData == null){
           alert('did not recieve any configuration');
         } else {
-          this._tenantData = this.themingConfig;
+          //this._tenantData = this.themingConfig;
           console.log('here is the configuration ',this._tenantData);
           this.updateTheme();
         }
@@ -87,10 +87,10 @@ updateTheme() {
   }
 
   getTenantThemeConfig(configName ?: string) {
-    let theme = this.themingConfig;
+    let theme = this._tenantData;
     if(theme !== undefined){
       if(configName && configName.length > 0){
-        return theme['CustomizeOptions']['Home'];
+        return theme['CustomizeOptions'][configName];
       } else {
         return theme['CustomizeOptions'];
       }
