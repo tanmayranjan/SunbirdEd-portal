@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
    * 2. user profile rootOrg hashtag for logged in
    */
   private channel: string;
-
+  recievedContent = true;
   theme = false;
   /**
    * constructor
@@ -88,14 +88,18 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     //set the theme
     //this.tenantTheme.updateTheme();
-    this.sharedTenant.getTenantThemeData().subscribe(theme => {
-      debugger;
-      if(theme){
-        this.theme = true;
-      }
-      console.log('recieved theme in app component ', theme);
-      //this.theme = true;
-    
+    //this.sharedTenant.getTenantInfo();
+    setTimeout(()=>{
+      let theme = this.sharedTenant.getTenantThemeConfig();
+        if(theme){
+          this.theme = true;
+        }else {
+          this.theme = false;
+          this.recievedContent = false;
+        }
+        console.log('recieved theme in app component ', theme);
+        //this.theme = true;
+      },2000);
 
     this.resourceService.initialize();
     combineLatest( this.setSlug(), this.setDeviceId()).pipe(
@@ -120,11 +124,6 @@ export class AppComponent implements OnInit {
     }, error => {
       this.initApp = true;
     });
-  }, (err) => {
-    //alert('error while retrieving theme');
-    console.log('error while retrieving theme data ', err);
-    this.theme = false;
-  });
   }
 
   /**

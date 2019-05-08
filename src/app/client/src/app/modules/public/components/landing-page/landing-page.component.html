@@ -1,10 +1,10 @@
 
 <!-- IMAGE BANNER SECTION -->
-<div *ngIf="homeConfig.banner.required === true" class="container-fluid image-banner">
-  <img src="{{ homeConfig.banner.imgUrl || './../../../../../assets/banner1.jpg'}}" class="img-fluid">
+<div *ngIf="homeConfig?.banner?.required === true" class="container-fluid image-banner">
+  <img src="{{ homeConfig?.banner.imgUrl || './../../../../../assets/banner1.jpg'}}" class="img-fluid" width="100%">
   <div class="banner-overlay">
-    <h1>{{homeConfig.banner.heading}}</h1>
-    <h6 class="image-sub">{{homeConfig.banner.paragraph}}</h6>
+    <h1>{{homeConfig?.banner.heading}}</h1>
+    <h6 class="image-sub">{{homeConfig?.banner.paragraph}}</h6>
     <!-- <div class="container-fluid image-search-container d-none d-md-block d-lg-block">
       <form>
         <div class="input-group">
@@ -21,9 +21,9 @@
   </div>
 </div>
 
-<div *ngIf="homeConfig.benefits.required === true"class="container-fluid">
+<div *ngIf="homeConfig?.benefits.required === true"class="container-fluid">
   <ul class="row text-ac">
-    <ng-container *ngFor="let listItem of homeConfig.benefits.columns">
+    <ng-container *ngFor="let listItem of homeConfig?.benefits.columns">
         <li class="col-4 list-item">
             <i class="fa fas fa-history"></i>
             <span>
@@ -57,7 +57,7 @@
 </div>
 
 <!-- COURSE CAROUSEL SECTION -->
-<div *ngIf="homeConfig.popularCatCode.required === true" class="course-carousel">
+<div *ngIf="homeConfig?.popularCatCode.required === true" class="course-carousel">
   <!-- <span class="bubble"><img src="./../../../../../assets/fa/elliipse_green.png" alt="bubble" width="50px" height="50px"></span> -->
   <h1 class="text-center mb-2 heading-text"> Popular Courses</h1>
 
@@ -122,7 +122,7 @@
 <!-- MOTIVE TEXT SECTION END -->
 
 <!-- CUSTOMER FEEDBACK SECTION -->
-<div class="customer-feedback text-center">
+<div class="customer-feedback text-center" *ngIf="homeConfig?.testimonial.required === true">
   <h1>Customer Satisfaction</h1>
   <h6>A lot of folks around the world are talking about us.</h6>
 

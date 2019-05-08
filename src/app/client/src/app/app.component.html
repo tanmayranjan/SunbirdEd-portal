@@ -8,5 +8,10 @@
 </div>
 <app-footer *ngIf="theme == true"></app-footer>
 <div *ngIf="theme == false" class="text-center loading-banner">
-  LOADING YOUR CONTENT......HAVE SOME PATIENCE!!!
+  <h6 *ngIf="recievedContent == true">
+    LOADING YOUR CONTENT......HAVE SOME PATIENCE!!!
+  </h6>
+  <h6 *ngIf="recievedContent == false">
+    OOPS..!!! SOMETHING WENT WRONG HERE. TRY AGAIN AFTER SOME TIME. :)
+  </h6>
 </div>

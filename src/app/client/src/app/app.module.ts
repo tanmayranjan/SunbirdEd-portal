@@ -19,8 +19,9 @@ import { CacheStorageAbstract } from 'ng2-cache-service/dist/src/services/storag
 import { CacheSessionStorage } from 'ng2-cache-service/dist/src/services/storage/session-storage/cache-session-storage.service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TenantResolverService } from './modules/public/services/TenantResolver/tenant-resolver.service';
+import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 
-export function tenantInfoProviderFactory(provider : TenantResolverService) {
+export function tenantInfoProviderFactory(provider : SharedTenantResolverService) {
   return () => provider.getTenantInfo();
 }
 
@@ -49,8 +50,8 @@ export function tenantInfoProviderFactory(provider : TenantResolverService) {
   entryComponents: [AppComponent],
   bootstrap: [AppComponent],
   providers: [
-    TenantResolverService,
-    {provide : APP_INITIALIZER, useFactory: tenantInfoProviderFactory, deps: [TenantResolverService], multi: true},
+    SharedTenantResolverService,
+    {provide : APP_INITIALIZER, useFactory: tenantInfoProviderFactory, deps: [SharedTenantResolverService], multi: true},
     CacheService,
     { provide: CacheStorageAbstract, useClass: CacheSessionStorage },
   ]

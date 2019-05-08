@@ -181,7 +181,7 @@
   font-weight: bold;
   width: 90px;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .menu-padding-2 {
   padding : 0.4em;
@@ -247,7 +247,7 @@
   width: 90px;
   display: block;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .ui.floating.dropdown .custom-menu {
   left : -60px !important;

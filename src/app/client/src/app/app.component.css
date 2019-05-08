@@ -6,5 +6,12 @@
     color : black;
     height : 100%;
     display : block;
-    transition: all ease-out 1s
+    transition: all ease-out 1s;
+    float: left;
+}
+
+.loading-banner h6 {
+    font-size : 24px;
+    vertical-align: middle;
+
 }
