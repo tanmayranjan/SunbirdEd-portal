@@ -13,6 +13,5 @@ export class CurriculumCardComponent implements OnInit {
     this.resourceService = resourceService;
   }
   ngOnInit() {
-    debugger;
   }
 }

@@ -12,6 +12,5 @@ export class ActivitytypeCardComponent implements OnInit {
     this.resourceService = resourceService;
   }
   ngOnInit() {
-    debugger;
   }
 }
