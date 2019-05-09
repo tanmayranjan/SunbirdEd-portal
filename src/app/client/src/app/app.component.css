@@ -9,7 +9,9 @@
     transition: all ease-out 1s;
     position : relative;
 }
-
+#centerpl div {
+  text-align: center;
+}
 .loading-banner h6 {
     width : 100%;
     position : fixed;
@@ -25,6 +27,27 @@
   height: 120px;
   -webkit-animation: spin 2s linear infinite ; /* Safari */
   animation: spin 1s linear infinite ;
+}
+
+.text-center.loading-banner {
+  width: 100px;
+  height: 100px;
+}
+
+div#centerpl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
 }
 
 /* Safari */
