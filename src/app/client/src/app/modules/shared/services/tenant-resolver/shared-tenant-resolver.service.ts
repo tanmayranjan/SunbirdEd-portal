@@ -52,10 +52,12 @@ updateTheme() {
 
   //this.themingConfig = localStorage.getItem('theming');
   if (this._tenantData == undefined || this._tenantData == null) {
-
+       const hostname = window.location.host || window.location.hostname ;
+       console.log('hostname is ', hostname);
         const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/11pgw2': 'https://api.myjson.com/bins/1gvhfw';
         const option = {
           url : tenanturl,
+          hostname : hostname
         }
         this.http.get(option.url).pipe(take(1))
         .subscribe(response => {
@@ -65,7 +67,7 @@ updateTheme() {
             this.setTenantConfig(response);
             //localStorage.setItem('theming', JSON.stringify(response));
             //this.themingConfig = response;
-            this._tenantData = response;
+            // this._tenantData = response;
             this.updateTheme();
           }else {
             console.log('rejected the RESOLVER')

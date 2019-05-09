@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
     //set the theme
     //this.tenantTheme.updateTheme();
     //this.sharedTenant.getTenantInfo();
-    setTimeout(()=>{
+    /* setTimeout(()=>{
       let theme = this.sharedTenant.getTenantThemeConfig();
         if(theme){
           this.theme = true;
@@ -99,8 +99,20 @@ export class AppComponent implements OnInit {
         }
         console.log('recieved theme in app component ', theme);
         //this.theme = true;
-      },2000);
-
+      },2000); */
+      this.sharedTenant.tenantData$.subscribe(dataTheme => {
+        if(dataTheme && dataTheme !== null){
+          this.theme = true;
+        }else {
+          this.theme = false;
+        }
+        console.log('recieved theme in app component ', dataTheme);
+      }, (err)=> {
+        console.log('recieved error while getting the theme configuration in app component ');
+        console.log(err);
+        this.recievedContent = false;
+      });
+      
     this.resourceService.initialize();
     combineLatest( this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
