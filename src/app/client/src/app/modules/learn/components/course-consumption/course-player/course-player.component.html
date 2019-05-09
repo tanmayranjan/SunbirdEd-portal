@@ -5,7 +5,7 @@
         <div class="row banner-main-row">
           <div class="col-xs-12 col-sm-12 col-md-5 image-section">
             <div class="image-wrapper">
-              <img class="float-right" [src]='courseHierarchy?.appIcon || defaultImageSrc' alt="course-image"
+              <img *ngIf="courseHierarchy?.appIcon || defaultImageSrc" class="float-right" [src]='courseHierarchy?.appIcon || defaultImageSrc' alt="course-image"
                 width="300px" height="250px">
             </div>
           </div>
@@ -48,28 +48,32 @@
         </div>
       </div>
     </div>
-  </header>
-  <!--banner section ends-->
-  <div class="container custom-margin">
-    <div class="tab-view" *ngIf="!enableContentPlayer && !loader">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#overview">Overview</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" data-toggle="pill" href="#course-content">Course Content</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#qa">QA</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#discussions">Discussions</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
-        </li>
-      </ul>
-    </div>
+    </header>
+    <!--banner section ends-->
+    <div class="container custom-margin">
+        <div class="tab-view" *ngIf="!enableContentPlayer && !loader">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#course-content">Course Content</a>
+                </li>
+                <li class="nav-item">
+                    <!-- <a class="nav-link" data-toggle="pill" href="#qa">QA</a> -->
+                    <a class="nav-link" data-toggle="pill" href="#notes">Notes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#discussions">Discussions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#announcement">Announcements</a>
+                </li>
+                <li class="nav-item" *ngIf="courseStatus !== 'Unlisted'">
+                    <a class="nav-link" data-toggle="pill" href="#batchdetails">Batch Details</a>
+                </li>
+            </ul>
+        </div>
   </div>
   <div class="ui container" [appTelemetryStart]="telemetryCourseStart" [appTelemetryEnd]="telemetryCourseEndEvent">
     <div class="ui stackable grid mt-20">
@@ -87,7 +91,8 @@
                         <div class="ui card">
                           <div class="content">
                             <div class="header">
-                              {{resourceService.frmelmnts.lbl.aboutthecourse}}</div>
+                              {{resourceService.frmelmnts.lbl.aboutthecourse}}
+                            </div>
                           </div>
                           <div class="content">
                             <p>{{ courseHierarchy.description}}</p>
@@ -122,114 +127,142 @@
                                         </p>
                                       </div>
                                 </div> -->
-                    </div>
-                    <!--course content section-->
-                    <div class="tab-pane container active" id="course-content">
-                      <div class="ui header text-align-right" style="font-size : 1em;">
-                        <span class="fas fa-circle" style="color : grey">&nbsp; Unvisited</span> | <span
-                          class="fas fa-circle" style="color : #024F9D">&nbsp; Incomplete</span> | <span
-                          class="fas fa-circle" style="color : #07BC81">&nbsp; Complete</span>
-                        <!-- <img src="src/app/dist/assets/images/sunbird_logo.png"> -->
-                        <!-- <img src="../../../../../../../../dist/assets/images/sunbird_logo.png"> -->
-                      </div>
-                      <app-collection-tree
-                        *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
-                        (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
-                        [options]="collectionTreeOptions" [contentStatus]="contentStatus" [enrolledDate]="enrolledDate"></app-collection-tree>
-                      <ng-template #dataCommingSoon>
-                        <div class="placeholder mt-40">
-                          <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
-                          <h5 class="header placeholder-heading mb-5">
-                            {{resourceService?.messages?.stmsg?.m0121}}</h5>
-                          <p class="placeholder-content">
-                            {{resourceService?.messages?.stmsg?.m0122}}</p>
-                        </div>
-                      </ng-template>
-                    </div>
-                    <!--QA section-->
-                    <div class="tab-pane fade container" id="qa">
-                      <div class="container card-wrapper">
-                        <div class="ui card">
-                          <div class="content">
-                            <div class="header text-align-center no-content">No content available to
-                              display </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tab-pane fade container" id="discussions">
-                      <div class="container card-wrapper">
-                        <div class="ui card">
-                          <div class="content">
-                            <div class="header text-align-center no-content">Hang on ! discussions will be coming soon
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!--announcements section-->
-                    <div class="tab-pane fade container" id="announcement">
-                      <div class="container card-wrapper">
-                        <div class="ui card">
-                          <div class="content">
-                            <div class="header text-align-center no-content">No content available to
-                              display </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ui fitted divider mb-20 mt-30"></div>
-                </div>
-                <div class='three wide column'>
-                  <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId" [batchId]="batchId"
-                    [enrolledCourse]="enrolledCourse" [courseHierarchy]="courseHierarchy"
-                    [courseProgressData]="courseProgressData">
-                  </app-batch-details>
-                  <div *ngIf="enrolledCourse" class="my-15">
-                    <div>
-                      <br>
-                      <span (click)="showNoteEditor=!showNoteEditor" class="cursor-pointer">
-                        <button class="btn btn-md btn-default m-0 notesBtn">
-                          <i class="circular icon plus"></i>{{resourceService.frmelmnts.lbl.addnote}}
-                        </button>
-                        <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'"
-                          [ids]="{contentId:contentId, courseId:courseId}" (exitModal)="showNoteEditor=false"
-                          (createEventEmitter)="createEventEmitter($event)">
-                        </app-popup-editor>
-                      </span>
-                      <br>
-                      <br>
-                      <app-note-card [ids]="{contentId:contentId, courseId:courseId}" [createNoteData]="createNoteData">
-                      </app-note-card>
-                    </div>
-                  </div>
-                  <br>
-                  <app-curriculum-card *ngIf="curriculum && curriculum.length > 0" [curriculum]="curriculum"
-                    [activitytypecount]="curriculumactivity">
-                  </app-curriculum-card>
-                  <br>
-                  <div class="courseupdate">
-                    <p class="mb-5" *ngIf="courseHierarchy.creator">
-                      {{resourceService.frmelmnts.lbl.courseCreatedBy}}:
-                      {{courseHierarchy.creator}}</p>
-                    <p class="mb-5" *ngIf="courseHierarchy.orgDetails?.orgName">
-                      {{courseHierarchy.orgDetails.orgName}}
-                    </p>
-                    <p class="mb-5" *ngIf="courseHierarchy.orgDetails?.email">
-                      <a
-                        href="mailto:{{courseHierarchy.orgDetails?.email}}?subject={{courseHierarchy.name}}">{{courseHierarchy.orgDetails?.email}}</a>
-                    </p>
-                    <div class="ui divider"></div>
-                    <p class="mb-5">{{resourceService.frmelmnts.lbl.createdon}}:
-                      {{courseHierarchy.createdOn | dateFormat}}</p>
+                                        </div>
+                                        <!--course content section-->
+                                        <div class="tab-pane container active" id="course-content">
+                                            <div class="ui header text-align-right" style="font-size : 1em;">
+                                                    <span class="fas fa-circle" style="color : grey">&nbsp; Unvisited</span> | <span class="fas fa-circle" style="color : #024F9D">&nbsp; Incomplete</span> | <span class="fas fa-circle" style="color : #07BC81">&nbsp; Complete</span>
+                                                <!-- <img src="src/app/dist/assets/images/sunbird_logo.png"> -->
+                                                <!-- <img src="../../../../../../../../dist/assets/images/sunbird_logo.png"> -->
+                                            </div>
+                                            <app-collection-tree
+                                                *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
+                                                (contentSelect)="navigateToContent($event)"
+                                                [nodes]="collectionTreeNodes" [options]="collectionTreeOptions"
+                                                [contentStatus]="contentStatus" [enrolledDate]="enrolledDate"></app-collection-tree>
+                                            <ng-template #dataCommingSoon>
+                                                <div class="placeholder mt-40">
+                                                    <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
+                                                    <h5 class="header placeholder-heading mb-5">
+                                                        {{resourceService?.messages?.stmsg?.m0121}}</h5>
+                                                    <p class="placeholder-content">
+                                                        {{resourceService?.messages?.stmsg?.m0122}}</p>
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                        <!--QA section-->
+                                        <!-- <div class="tab-pane fade container" id="qa">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <div class="content">
+                                                        <div class="header text-align-center no-content">No content available to
+                                                            display </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!--notes section-->
+                                        <div class="tab-pane fade container" id="notes">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <!-- <div class="content">
+                                                        <div class="header text-align-center no-content">No content available to
+                                                            display in notes </div>
+                                                    </div> -->
+                                                    <app-note-card [ids]="{contentId:contentId, courseId:courseId}"
+                                                [createNoteData]="createNoteData">
+                                            </app-note-card>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Discussions section-->
+                                        <div class="tab-pane fade container" id="discussions">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <div class="content">
+                                                        <div class="header text-align-center no-content">Hang on ! discussions will be coming soon </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--announcements section-->
+                                        <div class="tab-pane fade container" id="announcement">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <div class="content">
+                                                        <div class="header text-align-center no-content">No content available to
+                                                            display </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Batach Details section-->
+                                        <div class="tab-pane fade container" id="batchdetails" *ngIf="courseStatus !== 'Unlisted'">
+                                            <div class="container card-wrapper">
+                                                <div class="ui card">
+                                                    <!-- <div class="content">
 
-                    <p class="mb-5">{{resourceService.frmelmnts.lbl.updatedon}}:
-                      {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
-                    <!-- <a *ngIf="contributionsLength>0" popupTrigger="outsideClick" [popupPlacement]="'bottom left'" suiPopup popupText={{contributions}}>{{resourceService.frmelmnts.lbl.viewCredits}}</a> -->
-                  </div>
-                </div>
-              </div>
+                                                    </div> -->
+                                                    <app-batch-details [courseId]="courseId"
+                                        [batchId]="batchId" [enrolledCourse]="enrolledCourse"
+                                        [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
+                                    </app-batch-details>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui fitted divider mb-20 mt-30"></div>
+                                </div>
+                                <div class='three wide column'>
+                                    <!-- <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
+                                        [batchId]="batchId" [enrolledCourse]="enrolledCourse"
+                                        [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
+                                    </app-batch-details> -->
+                                    <div *ngIf="enrolledCourse" class="my-15">
+                                        <div>
+                                            <br>
+                                            <span (click)="showNoteEditor=!showNoteEditor" class="cursor-pointer">
+                                                    <button class="btn btn-md btn-default m-0 notesBtn">
+                                                      <i class="circular icon plus"></i>{{resourceService.frmelmnts.lbl.addnote}}
+                                                    </button>
+                                                <app-popup-editor *ngIf="showNoteEditor" [mode]="'create'"
+                                                    [ids]="{contentId:contentId, courseId:courseId}"
+                                                    (exitModal)="showNoteEditor=false"
+                                                    (createEventEmitter)="createEventEmitter($event)">
+                                                </app-popup-editor>
+                                            </span>
+                                            <!-- <app-note-card [ids]="{contentId:contentId, courseId:courseId}"
+                                                [createNoteData]="createNoteData">
+                                            </app-note-card> -->
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <app-curriculum-card *ngIf="curriculum && curriculum.length > 0" [curriculum]="curriculum"
+                                      [activitytypecount]="curriculumactivity">
+                                    </app-curriculum-card>
+                                    <br>
+                                    <div class="courseupdate">
+                                        <p class="mb-5" *ngIf="courseHierarchy.creator">
+                                            {{resourceService.frmelmnts.lbl.courseCreatedBy}}:
+                                            {{courseHierarchy.creator}}</p>
+                                        <p class="mb-5" *ngIf="courseHierarchy.orgDetails?.orgName">
+                                            {{courseHierarchy.orgDetails.orgName}}
+                                        </p>
+                                        <p class="mb-5" *ngIf="courseHierarchy.orgDetails?.email">
+                                            <a
+                                                href="mailto:{{courseHierarchy.orgDetails?.email}}?subject={{courseHierarchy.name}}">{{courseHierarchy.orgDetails?.email}}</a>
+                                        </p>
+                                        <div class="ui divider"></div>
+                                        <p class="mb-5">{{resourceService.frmelmnts.lbl.createdon}}:
+                                            {{courseHierarchy.createdOn | dateFormat}}</p>
+
+                                        <p class="mb-5">{{resourceService.frmelmnts.lbl.updatedon}}:
+                                            {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
+                                        <!-- <a *ngIf="contributionsLength>0" popupTrigger="outsideClick" [popupPlacement]="'bottom left'" suiPopup popupText={{contributions}}>{{resourceService.frmelmnts.lbl.viewCredits}}</a> -->
+                                    </div>
+                                </div>
+                            </div>
+
             </div>
           </div>
         </div>

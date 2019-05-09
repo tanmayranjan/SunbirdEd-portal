@@ -74,8 +74,8 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
         if (data.node.data.activityType) {
           $(data.node.span).append(
             '<span class=\'activitytypeicon fas fa-' +
-            data.node.data.activityType +
-            '\'></span>'
+              data.node.data.activityType +
+              '\'></span>'
           );
         }
       },

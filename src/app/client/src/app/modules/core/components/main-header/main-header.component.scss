@@ -143,12 +143,12 @@
   color : white;
 }
 .bg-blue {
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 .header {
   position: relative;
   top: 0;
-  background-color: #451771;
+  background-color: var(--primary-color);
   height: 12vh;
   z-index: 100;
   transition: all ease-out 0.5s;
@@ -188,15 +188,29 @@
   font-weight: bold;
   width: 90px;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .menu-padding-2 {
   padding : 0.4em;
 }
 .category {
   font-size: 1.121em;
-  color: white;
 }
+
+a.categorylink {
+  color : white;
+  border: none;
+  font-size: 1.1em;
+  background: transparent;
+  text-decoration: none;
+  }
+
+  a.categorylink:hover {
+    padding-bottom: 7px;
+    color: white;
+    border-bottom: 2px solid white;
+    }
+
 .category span {
   padding-left: 5px;
 }
@@ -263,7 +277,7 @@
   width: 90px;
   display: block;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .menu.transition.visible {
   min-width : 160px !important;

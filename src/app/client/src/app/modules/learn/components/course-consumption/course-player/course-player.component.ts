@@ -170,7 +170,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   preview = false;
   mimeTypeCount = 0;
   mimeType = '';
+<<<<<<< HEAD
   enrolledDate: any;
+=======
+>>>>>>> 51ebb7fea6a7f315b96cfcdc2e09305fd437eec4
   @ViewChild('target') targetEl: ElementRef;
   @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
@@ -324,6 +327,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
+        // debugger;
 
         if (mimeTypeCount[node.model.mimeType]) {
           mimeTypeCount[node.model.mimeType] += 1;
@@ -446,7 +450,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.nextPlaylistItem = this.contentDetails[index + 1];
   }
   private playContent(data: any, showExtContentMsg?: boolean): void {
-    console.log(data);
+    // console.log(data);
     this.enableContentPlayer = false;
     this.disable_jumbotron = false;
     this.loader = true;
@@ -521,15 +525,14 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   public contentProgressEvent(event) {
-    console.log(
+    /* console.log(
       'recieved content progress event fro the content player ',
       event
-    );
+    ); */
     /* if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
       return;
     } */
     const eid = event.detail.telemetryData.eid;
-
     if (eid === 'END' && !this.validEndEvent(event)) {
       return;
     }

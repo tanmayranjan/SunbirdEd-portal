@@ -224,7 +224,7 @@
     text-align: center;
     color: white;
     width: -webkit-fill-available;
-    background-color: #451771;
+    background-color: var(--primary-color);
   }
 
   .description {
@@ -253,7 +253,7 @@
   top:98px;
   font-size: 11px;
   left: 77%;
-background-color:#451771;
+background-color:var(--primary-color);
 border-radius:5px;
 color: white;
 
@@ -271,7 +271,7 @@ color: white;
 }
 .progress-bar
 {
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 
 #menu1 {

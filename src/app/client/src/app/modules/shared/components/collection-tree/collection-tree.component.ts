@@ -141,8 +141,12 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
           this.options.customFileIcon[node.fileType] || this.options.fileIcon;
         node.icon = `${node.icon} ${node.iconColor}`;
       }
-      if (node.folder && !(node.children.length)) {
-        node.title = node.model.name + '<strong> (' + this.resourceService.messages.stmsg.m0121 + ')</strong>' + '<span>';
+      if (node.folder && !node.children.length) {
+        node.title =
+          node.model.name +
+          '<strong> (' +
+          this.resourceService.messages.stmsg.m0121 +
+          ')</strong>';
         node.extraClasses = 'disabled';
       } else {
         node.title = node.model.name || 'Untitled File';

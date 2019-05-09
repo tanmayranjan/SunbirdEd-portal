@@ -1,29 +1,42 @@
-<div class="notes-card-section ui card mb-15 width-100"  *ngIf="notesList.length > 0">
+<div class="notes-card-section ui card width-100"  *ngIf="notesList.length > 0">
     <div class="content">
-        <div class="header">
+        <!-- <div class="header">
             <span>{{resourceService?.frmelmnts?.lbl?.mynotebook}}</span>
             <a class="ui right floated font-dark-blue" (click)="viewAllNotes()">{{resourceService?.frmelmnts?.lnk?.viewall}}</a>
-        </div>
+        </div> -->
         <div class="description">
             <div class="ui list" *ngFor="let note of notesList | orderBy:'updatedDate':true; let i=index">
-                <div class="item" *ngIf="i < 2">
+                <div class="item" (click)="viewNote(note)">
                     <div class="content">
                         <span class="ui tiny header">
                             <span class="notes-card-heading mouse-pointer" (click)="setSelectedNote(note,i); showUpdateEditor = !showUpdateEditor">
-                                {{ note.title | slice:0:15 }}
+                                {{ note.title | slice:0:80 }}
                                 <i *ngIf="note.title.length > 15" class="ellipsis horizontal icon popup-button"></i>
                             </span>
                             <span class="note-card-time-stamp right floated">{{note.updatedDate | timeAgo}}</span>
                         </span>
                         <div class="description mt-0 notedec">
-                            <span Markdown content="noteData">{{ note.note | slice:0:15 }}</span>
+                            <span Markdown content="noteData">{{ note.note | slice:0:100 }}</span>
+                        </div>
+                        <div class="description mt-0 note-action-wrapper d-inline">
+                                        <i class="fas fa-edit green" (click)="setSelectedNote(note,i); showUpdateEditor = !showUpdateEditor;"></i>
+                                        &nbsp;&nbsp; 
+                                        <i class="fas fa-trash-alt red" (click)="showDeletemodal = !showDeletemodal"></i>
                         </div>
                     </div>
-                    <div *ngIf="notesList.length>1 && i===0" class="ui clearing divider"></div>
+                    <div *ngIf="i !== notesList.length-1" class="ui clearing divider" style="margin-top: 5px;"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<app-delete-note *ngIf="showDeletemodal === true" [deleteNote]="selectedNote"  (exitModal)="showDeletemodal = false" (deleteEventEmitter)="deleteEventEmitter($event)">
+    </app-delete-note>
+<div *ngIf="notesList.length <= 0">
+    
+            <div class="header text-align-center no-content">
+                    You did not create any notes for this course. Please create some to view them.
+            </div>
 </div>
 <div *ngIf="showCreateEditor">
     <app-popup-editor [mode]="'create'" (exitModal)="showCreateEditor=false" (createEventEmitter)="createEventEmitter($event)"></app-popup-editor>
@@ -31,3 +44,13 @@
 <div *ngIf="showUpdateEditor">
     <app-popup-editor [mode]="'update'" [selectedNote]="selectedNote" (exitModal)="showUpdateEditor=false" (updateEventEmitter)="updateEventEmitter($event)"></app-popup-editor>
 </div>
+<ng-template let-context let-modal="modal" #modalTemplate>
+        <div class="header">{{context.title || 'title not available'}}</div>
+        <div class="content">
+            <p>{{context.data || 'description not available'}}</p>
+        </div>
+        <div class="actions">
+            <button class="ui pink button" (click)="modal.deny()" autofocus>Close Note</button>
+            <!-- <button class="ui green button" (click)="modal.approve('approved')" autofocus>OK</button> -->
+        </div>
+    </ng-template>

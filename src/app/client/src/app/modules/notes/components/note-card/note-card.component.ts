@@ -4,15 +4,16 @@ import { PopupEditorComponent } from './../popup-editor/popup-editor.component';
 import { ResourceService, ToasterService, ServerResponse } from '@sunbird/shared';
 import { NotesService } from '../../services';
 import { UserService, ContentService } from '@sunbird/core';
-import { Component, OnInit, Pipe, PipeTransform, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SuiModal, ComponentModalConfig, ModalSize, SuiModalService } from 'ng2-semantic-ui';
+import { TemplateModalConfig, ModalTemplate, SuiModalService } from 'ng2-semantic-ui';
 import { INoteData, IdDetails } from '@sunbird/notes';
 import * as _ from 'lodash';
 
 import { Subject } from 'rxjs';
 
+declare var jQuery: any;
 /**
  * This component holds the note card widget.
  */
@@ -20,7 +21,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-note-card',
   templateUrl: './note-card.component.html',
-  styles: [' ::ng-deep .notedec ul li { list-style-type: disc; margin-bottom: 10px; }']
+  styleUrls : ['./note-card.component.css']
 })
 export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -84,6 +85,10 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
    */
   contentService: ContentService;
   /**
+   * triggerevent to open/close the delete modal
+   */
+  showDeletemodal = false;
+  /**
    * Reference of resource service.
    */
 
@@ -94,6 +99,9 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
 
   modalService: SuiModalService;
   activatedRoute: ActivatedRoute;
+  @ViewChild('modalTemplate')
+  public modalTemplate: ModalTemplate<any, string, string>;
+
   batchId: string;
   public unsubscribe$ = new Subject<void>();
 
@@ -172,6 +180,7 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(
         (apiResponse: ServerResponse) => {
           this.notesList = apiResponse.result.response.note;
+          console.log('these are the notes ', this.notesList);
           this.selectedNote = this.notesList[0];
         },
         (err) => {
@@ -216,8 +225,33 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
   }
+
+  deleteEventEmitter(noteId) {
+    this.notesList = this.notesList.filter((note) => {
+      return note.id !== noteId;
+    });
+    if (this.selectedIndex === 0) {
+      this.setSelectedNote(this.notesList[0], 0);
+    } else {
+      this.setSelectedNote(this.notesList[this.selectedIndex - 1], this.selectedIndex - 1);
+    }
+    this.showDeletemodal = false;
+  }
+
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
+  public viewNote(noteData: object = {}) {
+    const config = new TemplateModalConfig<any, string, string>(this.modalTemplate);
+    config.context = { title: noteData['title'],
+    data : noteData['note']
+   };
+
+    this.modalService
+        .open(config)
+        .onApprove(result => { /* approve callback */ })
+        .onDeny(result => { /* deny callback */});
+}
 }
