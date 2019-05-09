@@ -34,7 +34,9 @@ export class UtilService {
       gradeLevel: '',
       contentType: data.contentType,
       topic: this.getTopicSubTopic('topic', data.topic),
-      subTopic: this.getTopicSubTopic('subTopic', data.topic)
+      subTopic: this.getTopicSubTopic('subTopic', data.topic),
+      enrolledDate: data.enrolledDate
+
     };
 
     // this customization is done for enrolled courses

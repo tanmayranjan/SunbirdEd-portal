@@ -173,7 +173,8 @@
       "metaData": {
         "metaData": [
           "batchId",
-          "courseId"
+          "courseId",
+          "enrolledDate"
         ]
       },
       "dynamicFields": {

@@ -135,7 +135,7 @@
                       <app-collection-tree
                         *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                         (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
-                        [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
+                        [options]="collectionTreeOptions" [contentStatus]="contentStatus" [enrolledDate]="enrolledDate"></app-collection-tree>
                       <ng-template #dataCommingSoon>
                         <div class="placeholder mt-40">
                           <img src="{{'assets/images/datacomingsoon.png' | cdnprefixurl }}" />
@@ -249,7 +249,7 @@
               <app-collection-tree
                 *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                 (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
-                [options]="collectionTreeOptions" [contentStatus]="contentStatus"></app-collection-tree>
+                [options]="collectionTreeOptions" [contentStatus]="contentStatus" [enrolledDate]="enrolledDate" ></app-collection-tree>
             </div>
             <!--mobile view to represent video playlist, not working-->
             <!--video player section-->
@@ -435,7 +435,7 @@
                       <app-collection-tree #top
                         *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                         (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
-                        [options]="collectionTreeOptions" [contentStatus]="contentStatus">
+                        [options]="collectionTreeOptions" [contentStatus]="contentStatus" >
                       </app-collection-tree>
 
                       <div #target *ngIf="courseHierarchy.description" class="mt-10" id="course-description">

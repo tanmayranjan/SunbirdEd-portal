@@ -1,5 +1,5 @@
-import { combineLatest, Subject } from "rxjs";
-import { takeUntil, first, mergeMap, map } from "rxjs/operators";
+import { combineLatest, Subject } from 'rxjs';
+import { takeUntil, first, mergeMap, map } from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -8,15 +8,15 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit
-} from "@angular/core";
+} from '@angular/core';
 import {
   UserService,
   BreadcrumbsService,
   PermissionService,
   CoursesService
-} from "@sunbird/core";
-import { ActivatedRoute, Router, NavigationExtras } from "@angular/router";
-import * as _ from "lodash";
+} from '@sunbird/core';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import * as _ from 'lodash';
 import {
   WindowScrollService,
   ILoaderMessage,
@@ -26,35 +26,35 @@ import {
   ToasterService,
   ResourceService,
   ExternalUrlPreviewService
-} from "@sunbird/shared";
+} from '@sunbird/shared';
 import {
   CourseConsumptionService,
   CourseBatchService,
   CourseProgressService
-} from "./../../../services";
-import { INoteData } from "@sunbird/notes";
+} from './../../../services';
+import { INoteData } from '@sunbird/notes';
 import {
   IImpressionEventInput,
   IEndEventInput,
   IStartEventInput,
   IInteractEventObject,
   IInteractEventEdata
-} from "@sunbird/telemetry";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { PublicDataService, LearnerService } from "@sunbird/core";
-import { DomSanitizer } from "@angular/platform-browser";
+} from '@sunbird/telemetry';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { PublicDataService, LearnerService } from '@sunbird/core';
+import { DomSanitizer } from '@angular/platform-browser';
 export enum IactivityType {
-  "Self Paced" = "film",
-  "live Session" = "headset",
-  "Classroom Session" = "chalkboard",
-  "Assessments" = "edit"
+  'Self Paced' = 'film',
+  'live Session' = 'headset',
+  'Classroom Session' = 'chalkboard',
+  'Assessments' = 'edit'
 }
 declare var $: any;
 
 @Component({
-  selector: "app-course-player",
-  templateUrl: "./course-player.component.html",
-  styleUrls: ["./course-player.component.scss"]
+  selector: 'app-course-player',
+  templateUrl: './course-player.component.html',
+  styleUrls: ['./course-player.component.scss']
 })
 export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   public courseInteractObject: IInteractEventObject;
@@ -127,9 +127,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public contributions: any;
 
-  public noContentToPlay = "No content to play";
+  public noContentToPlay = 'No content to play';
 
-  public defaultImageSrc = "./../../../../../../assets/images/book.png";
+  public defaultImageSrc = './../../../../../../assets/images/book.png';
 
   public showExtContentMsg = false;
   courseDetails = [];
@@ -149,17 +149,17 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   courseInfo;
   showPreview: boolean;
   public loaderMessage: ILoaderMessage = {
-    headerMessage: "Please wait...",
-    loaderMessage: "Fetching content details!"
+    headerMessage: 'Please wait...',
+    loaderMessage: 'Fetching content details!'
   };
   public disable_jumbotron = false;
   showJumbotron = true;
   public previewContentRoles = [
-    "COURSE_MENTOR",
-    "CONTENT_REVIEWER",
-    "CONTENT_CREATOR",
-    "CONTENT_CREATION",
-    "PUBLIC"
+    'COURSE_MENTOR',
+    'CONTENT_REVIEWER',
+    'CONTENT_CREATOR',
+    'CONTENT_CREATION',
+    'PUBLIC'
   ];
 
   public collectionTreeOptions: ICollectionTreeOptions;
@@ -169,14 +169,15 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   safeUrl;
   preview = false;
   mimeTypeCount = 0;
-  mimeType = "";
-  @ViewChild("target") targetEl: ElementRef;
-  @ViewChild("top") topEl: ElementRef;
+  mimeType = '';
+  enrolledDate: any;
+  @ViewChild('target') targetEl: ElementRef;
+  @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
-    this.targetEl.nativeElement.scrollIntoView({ behavior: "smooth" });
+    this.targetEl.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
   scrollTop(el: ElementRef) {
-    this.topEl.nativeElement.scrollIntoView({ behavior: "smooth" });
+    this.topEl.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -201,10 +202,11 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     public sanitizer: DomSanitizer,
     public route: Router
   ) {
-    this.router.onSameUrlNavigation = "ignore";
+    this.router.onSameUrlNavigation = 'ignore';
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
+    console.log('this.activatedroute', this.activatedRoute.snapshot.params.enrolledDate);
     this.activatedRoute.params
       .pipe(
         first(),
@@ -216,6 +218,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
           if (this.batchId) {
             this.userEnrolledBatch = true;
+            this.enrolledDate = this.activatedRoute.snapshot.params.enrolledDate;
           }
 
           const inputParams = {
@@ -245,16 +248,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         ({ courseHierarchy, enrolledBatchDetails }: any) => {
           this.courseHierarchy = courseHierarchy;
           this.contributions = _.join(
-            _.map(this.courseHierarchy.contentCredits, "name")
+            _.map(this.courseHierarchy.contentCredits, 'name')
           );
           this.courseInteractObject = {
             id: this.courseHierarchy.identifier,
-            type: "Course",
+            type: 'Course',
             ver: this.courseHierarchy.pkgVersion
               ? this.courseHierarchy.pkgVersion.toString()
-              : "1.0"
+              : '1.0'
           };
-          if (this.courseHierarchy.status === "Flagged") {
+          if (this.courseHierarchy.status === 'Flagged') {
             this.flaggedCourse = true;
           }
           this.parseChildContent();
@@ -267,7 +270,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
               this.subscribeToQueryParam();
             }
           } else if (
-            this.courseStatus === "Unlisted" ||
+            this.courseStatus === 'Unlisted' ||
             this.permissionService.checkRolesPermissions(
               this.previewContentRoles
             ) ||
@@ -320,22 +323,21 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
 
-      if (node.model.mimeType !== "application/vnd.ekstep.content-collection") {
-        //debugger;
+      if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
 
         if (mimeTypeCount[node.model.mimeType]) {
           mimeTypeCount[node.model.mimeType] += 1;
           this.mimeTypeCount++;
           if (
-            !_.includes(node.model.mimeType, "archive") &&
-            !_.includes(node.model.mimeType, "epub")
+            !_.includes(node.model.mimeType, 'archive') &&
+            !_.includes(node.model.mimeType, 'epub')
           ) {
             this.previewUrl = node.model;
           }
         } else {
           if (
-            !_.includes(node.model.mimeType, "archive") &&
-            !_.includes(node.model.mimeType, "epub")
+            !_.includes(node.model.mimeType, 'archive') &&
+            !_.includes(node.model.mimeType, 'epub')
           ) {
             this.previewUrl = node.model;
           }
@@ -353,23 +355,21 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       let mime;
       this.curriculum.push({ mimeType: key, count: value });
       if (
-        key === "video/mp4" ||
-        "video/x-youtube" ||
-        "video/mp4" ||
-        "video/webm"
+        key === 'video/mp4' ||
+        'video/x-youtube' ||
+        'video/mp4' ||
+        'video/webm'
       ) {
-        mime = "video";
+        mime = 'video';
       }
-      this.mimeType = this.mimeType + " " + mime + " " + value;
+      this.mimeType = this.mimeType + ' ' + mime + ' ' + value;
     });
     _.forEach(activityTypeCount, (value, key) => {
-      let mime;
       this.curriculumactivity.push({
         activityType: key,
         count: value,
         activityTypeIcon: IactivityType[key]
       });
-      //debugger;
     });
   }
   private getContentState() {
@@ -384,7 +384,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(first())
       .subscribe(
         res => (this.contentStatus = res.content),
-        err => console.log(err, "content read api failed")
+        err => console.log(err, 'content read api failed')
       );
   }
   private subscribeToQueryParam() {
@@ -399,8 +399,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           if (content) {
             this.OnPlayContent(
               {
-                title: _.get(content, "model.name"),
-                id: _.get(content, "model.identifier")
+                title: _.get(content, 'model.name'),
+                id: _.get(content, 'model.identifier')
               },
               isExtContentMsg
             );
@@ -426,7 +426,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       ((this.enrolledCourse &&
         !this.flaggedCourse &&
         this.enrolledBatchInfo.status > 0) ||
-        this.courseStatus === "Unlisted" ||
+        this.courseStatus === 'Unlisted' ||
         this.permissionService.checkRolesPermissions(
           this.previewContentRoles
         ) ||
@@ -441,7 +441,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   private setContentNavigators() {
-    const index = _.findIndex(this.contentDetails, ["id", this.contentId]);
+    const index = _.findIndex(this.contentDetails, ['id', this.contentId]);
     this.prevPlaylistItem = this.contentDetails[index - 1];
     this.nextPlaylistItem = this.contentDetails[index + 1];
   }
@@ -478,10 +478,10 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.loader = false;
           this.contentTitle = data.title;
           this.breadcrumbsService.setBreadcrumbs([
-            { label: this.contentTitle, url: "" }
+            { label: this.contentTitle, url: '' }
           ]);
           this.windowScrollService.smoothScroll(
-            "app-player-collection-renderer",
+            'app-player-collection-renderer',
             500
           );
         },
@@ -513,7 +513,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (
       (this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status) ||
-      this.courseStatus === "Unlisted" ||
+      this.courseStatus === 'Unlisted' ||
       this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
       this.courseHierarchy.createdBy === this.userService.userid
     ) {
@@ -522,14 +522,15 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   public contentProgressEvent(event) {
     console.log(
-      "recieved content progress event fro the content player ",
+      'recieved content progress event fro the content player ',
       event
     );
     /* if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
       return;
     } */
     const eid = event.detail.telemetryData.eid;
-    if (eid === "END" && !this.validEndEvent(event)) {
+
+    if (eid === 'END' && !this.validEndEvent(event)) {
       return;
     }
     const request: any = {
@@ -537,24 +538,24 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       contentId: this.contentId,
       courseId: this.courseId,
       batchId: this.batchId,
-      status: eid === "END" ? 2 : 1
+      status: eid === 'END' ? 2 : 1
     };
     this.courseConsumptionService
       .updateContentsState(request)
       .pipe(first())
       .subscribe(
         updatedRes => (this.contentStatus = updatedRes.content),
-        err => console.log("updating content status failed", err)
+        err => console.log('updating content status failed', err)
       );
   }
   private validEndEvent(event) {
     const playerSummary: Array<any> = _.get(
       event,
-      "detail.telemetryData.edata.summary"
+      'detail.telemetryData.edata.summary'
     );
     const contentMimeType = _.get(
       this.findContentById(this.contentId),
-      "model.mimeType"
+      'model.mimeType'
     );
     const validSummary = (summaryList: Array<any>) => (percentage: number) =>
       _.find(
@@ -564,14 +565,14 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     if (
       validSummary(playerSummary)(20) &&
-      ["video/x-youtube", "video/mp4", "video/webm"].includes(contentMimeType)
+      ['video/x-youtube', 'video/mp4', 'video/webm'].includes(contentMimeType)
     ) {
       return true;
     } else if (
       validSummary(playerSummary)(0) &&
       [
-        "application/vnd.ekstep.h5p-archive",
-        "application/vnd.ekstep.html-archive"
+        'application/vnd.ekstep.h5p-archive',
+        'application/vnd.ekstep.html-archive'
       ].includes(contentMimeType)
     ) {
       return true;
@@ -612,7 +613,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        mode: "play",
+        mode: 'play',
         uaspec: {
           agent: deviceInfo.browser,
           ver: deviceInfo.browser_version,
@@ -634,7 +635,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        mode: "play"
+        mode: 'play'
       }
     };
   }
@@ -650,8 +651,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       object: {
         id: this.courseId,
-        type: "course",
-        ver: "1.0"
+        type: 'course',
+        ver: '1.0'
       }
     };
   }
@@ -667,8 +668,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       object: {
         id: this.contentId,
-        type: "content",
-        ver: "1.0",
+        type: 'content',
+        ver: '1.0',
         rollup: {
           l1: this.courseId,
           l2: this.contentId
@@ -682,16 +683,16 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       type:
         config.metadata.contentType ||
         config.metadata.resourceType ||
-        "content",
+        'content',
       ver: config.metadata.pkgVersion
         ? config.metadata.pkgVersion.toString()
-        : "1.0",
+        : '1.0',
       rollup: { l1: this.courseId }
     };
     this.closeContentIntractEdata = {
-      id: "content-close",
-      type: "click",
-      pageid: "course-consumption"
+      id: 'content-close',
+      type: 'click',
+      pageid: 'course-consumption'
     };
   }
   /* toggleSidebar() {
@@ -701,13 +702,13 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.preview = !this.preview;
     let showUrl;
     const url = this.previewUrl.artifactUrl.slice(17);
-    if (this.previewUrl.mimeType === "video/x-youtube") {
-      if (_.includes(this.previewUrl.artifactUrl, "watch")) {
-        showUrl = this.previewUrl.artifactUrl.replace("watch?v=", "embed/");
-      } else if (_.includes(this.previewUrl.artifactUrl, "embed")) {
+    if (this.previewUrl.mimeType === 'video/x-youtube') {
+      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
+        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
+      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
         showUrl = this.previewUrl.artifactUrl;
       } else {
-        showUrl = "https://www.youtube.com/embed/" + url;
+        showUrl = 'https://www.youtube.com/embed/' + url;
       }
     } else {
       showUrl = this.previewUrl.artifactUrl;
