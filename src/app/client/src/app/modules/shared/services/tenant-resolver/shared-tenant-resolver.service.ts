@@ -54,7 +54,8 @@ updateTheme() {
   if (this._tenantData == undefined || this._tenantData == null) {
        const hostname = window.location.host || window.location.hostname ;
        console.log('hostname is ', hostname);
-        const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/11pgw2': 'https://api.myjson.com/bins/1gvhfw';
+       const tenanturl = 'https://my-json-server.typicode.com/rkalra1996/multi-tenant-theming/theme/2';
+        //const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/11pgw2': 'https://api.myjson.com/bins/1gvhfw';
         const option = {
           url : tenanturl,
           hostname : hostname
