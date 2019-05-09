@@ -4,7 +4,7 @@ import { ICard } from '../../interfaces';
 import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry';
 import { Router } from '@angular/router';
 
-import { SharedTenantResolverService } from '../../services/tenant-resolver/shared-tenant-resolver.service'
+import { SharedTenantResolverService } from '../../services/tenant-resolver/shared-tenant-resolver.service';
 
 @Component({
   selector: 'app-landingpage-card',
@@ -24,14 +24,14 @@ export class LandingpageCardComponent implements OnInit {
 
   constructor(public resourceService: ResourceService,
     public router: Router,
-    private tenantTheme : SharedTenantResolverService
+    private tenantTheme: SharedTenantResolverService
     ) {
     this.resourceService = resourceService;
   }
 
   ngOnInit(): void {
     console.log('recieved data in the card is ', this.data);
-    let tenantConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    const tenantConfig = this.tenantTheme.getTenantThemeConfig('Home');
     if ( tenantConfig && tenantConfig['cards'] !== undefined ) {
         this.displayRating = tenantConfig['cards']['rating'];
     }

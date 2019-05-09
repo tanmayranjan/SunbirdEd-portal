@@ -1,12 +1,12 @@
-import { TelemetryModule } from "@sunbird/telemetry";
-import { LearnRoutingModule } from "./learn-routing.module";
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { SharedModule } from "@sunbird/shared";
-import { SuiModule } from "ng2-semantic-ui/dist";
-import { SlickModule } from "ngx-slick";
-import { NgInviewModule } from "angular-inport";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TelemetryModule } from '@sunbird/telemetry';
+import { LearnRoutingModule } from './learn-routing.module';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '@sunbird/shared';
+import { SuiModule } from 'ng2-semantic-ui/dist';
+import { SlickModule } from 'ngx-slick';
+import { NgInviewModule } from 'angular-inport';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   LearnPageComponent,
   CoursePlayerComponent,
@@ -19,19 +19,19 @@ import {
   CurriculumCardComponent,
   ActivitytypeCardComponent,
   UnEnrollBatchComponent
-} from "./components";
+} from './components';
 import {
   CourseConsumptionService,
   CourseBatchService,
   CourseProgressService
-} from "./services";
-import { CoreModule } from "@sunbird/core";
-import { NotesModule } from "@sunbird/notes";
-import { DashboardModule } from "@sunbird/dashboard";
-import { CourseBatchModule } from "@sunbird/course-batch";
-import { SharedFeatureModule } from "@sunbird/shared-feature";
-import { BatchCardComponent } from "./components/batch/batch-card/batch-card.component";
-import { TopCategoriesComponent } from "./components/top-categories/top-categories.component";
+} from './services';
+import { CoreModule } from '@sunbird/core';
+import { NotesModule } from '@sunbird/notes';
+import { DashboardModule } from '@sunbird/dashboard';
+import { CourseBatchModule } from '@sunbird/course-batch';
+import { SharedFeatureModule } from '@sunbird/shared-feature';
+import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
+import { TopCategoriesComponent } from './components/top-categories/top-categories.component';
 @NgModule({
   imports: [
     CommonModule,

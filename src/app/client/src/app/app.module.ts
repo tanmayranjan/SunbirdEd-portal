@@ -21,9 +21,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TenantResolverService } from './modules/public/services/TenantResolver/tenant-resolver.service';
 import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 
-export function tenantInfoProviderFactory(provider : SharedTenantResolverService) {
-  return () => provider.getTenantInfo();
-}
+export const tenantInfoProviderFactory = (provider: SharedTenantResolverService) => () => provider.getTenantInfo();
 
 
 @NgModule({

@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 
 import { Subject } from 'rxjs';
 
-declare var jQuery : any;
+declare var jQuery: any;
 /**
  * This component holds the note card widget.
  */
@@ -100,7 +100,7 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
   modalService: SuiModalService;
   activatedRoute: ActivatedRoute;
   @ViewChild('modalTemplate')
-  public modalTemplate:ModalTemplate<any, string, string>;
+  public modalTemplate: ModalTemplate<any, string, string>;
 
   batchId: string;
   public unsubscribe$ = new Subject<void>();
@@ -243,7 +243,7 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  public viewNote(noteData : object = {}) {
+  public viewNote(noteData: object = {}) {
     const config = new TemplateModalConfig<any, string, string>(this.modalTemplate);
     config.context = { title: noteData['title'],
     data : noteData['note']

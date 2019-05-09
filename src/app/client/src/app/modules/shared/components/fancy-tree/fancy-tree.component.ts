@@ -7,18 +7,18 @@ import {
   Output,
   EventEmitter,
   OnInit
-} from "@angular/core";
-import "jquery.fancytree";
-import { IFancytreeOptions } from "../../interfaces";
-import * as _ from "lodash";
+} from '@angular/core';
+import 'jquery.fancytree';
+import { IFancytreeOptions } from '../../interfaces';
+import * as _ from 'lodash';
 
 @Component({
-  selector: "app-fancy-tree",
-  templateUrl: "./fancy-tree.component.html",
-  styleUrls: ["./fancy-tree.component.scss"]
+  selector: 'app-fancy-tree',
+  templateUrl: './fancy-tree.component.html',
+  styleUrls: ['./fancy-tree.component.scss']
 })
 export class FancyTreeComponent implements AfterViewInit, OnInit {
-  @ViewChild("fancyTree") public tree: ElementRef;
+  @ViewChild('fancyTree') public tree: ElementRef;
   @Input() public nodes: any;
   @Input() public options: IFancytreeOptions;
   @Output() public itemSelect: EventEmitter<
@@ -27,28 +27,28 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     _.forEach(this.nodes, topic => {
-      topic["expanded"] = true;
+      topic['expanded'] = true;
     });
   }
   ngAfterViewInit() {
     let options: IFancytreeOptions = {
-      extensions: ["glyph"],
+      extensions: ['glyph'],
       clickFolderMode: 3,
       source: this.nodes,
       glyph: {
-        preset: "awesome4",
+        preset: 'awesome4',
         map: {
-          folder: "fa fa-folder-o fa-lg",
-          folderOpen: "fa fa-folder-open-o fa-lg"
+          folder: 'fa fa-folder-o fa-lg',
+          folderOpen: 'fa fa-folder-open-o fa-lg'
         }
       },
       renderNode: function(event, data) {
         // Optionally tweak data.node.span
         if (data.node.data.activityType) {
           $(data.node.span).append(
-            "<span class='activitytypeicon fas fa-" +
+            '<span class=\'activitytypeicon fas fa-' +
               data.node.data.activityType +
-              "'></span>"
+              '\'></span>'
           );
         }
       },
@@ -61,7 +61,7 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
     options = { ...options, ...this.options };
     $(this.tree.nativeElement).fancytree(options);
     if (this.options.showConnectors) {
-      $(".fancytree-container").addClass("fancytree-connectors");
+      $('.fancytree-container').addClass('fancytree-connectors');
     }
   }
 }

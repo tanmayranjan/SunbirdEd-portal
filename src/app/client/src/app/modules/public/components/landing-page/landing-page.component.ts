@@ -23,16 +23,10 @@ import { SharedTenantResolverService } from './../../../shared/services/tenant-r
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {
-  
-  ngAfterViewInit(): void {
-    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
-    console.log('RECIEVED THE TENANT THEME AS  ', this.homeConfig);
-  }
   /**
  /**
   * Contains result object returned from getPageData API.
   */
-  categors;
   categoryNames = [];
   categories = [1, 2, 3, 4, 5, 6];
   popularcourses = [
@@ -117,7 +111,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   queryParam: any = {};
   key: string;
   search: object;
-  public homeConfig : any;
+  public homeConfig: any;
 
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
@@ -125,7 +119,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     private orgDetailsService: OrgDetailsService, userService: UserService,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private frameworkService: FrameworkService, private searchservice: SearchService, private tenantTheme : SharedTenantResolverService) {
+    private frameworkService: FrameworkService, private searchservice: SearchService, private tenantTheme: SharedTenantResolverService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
@@ -189,13 +183,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     this.frameworkService.getFrameworkCategories(this.frameWorkName)
       .subscribe(frameworkData => {
         console.log('framework categories', frameworkData.result.framework.categories);
-        if(this.homeConfig['popularCatCode']['required'] && this.homeConfig['popularCatCode']['code'].length > 0) {
-          //alert('recieved popCatCode')
+        if (this.homeConfig['popularCatCode']['required'] && this.homeConfig['popularCatCode']['code'].length > 0) {
+          // alert('recieved popCatCode')
           console.log('recieved popular category code as ', this.homeConfig['popularCatCode']['code']);
-          this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code.indexOf(this.homeConfig['popularCatCode']['code']) > -1);
-        }else{
+          this.categoryNames = frameworkData.result.framework.categories
+          .filter(category => category.code.indexOf(this.homeConfig['popularCatCode']['code']) > -1);
+        } else {
           // setting a default category code in case the configuration doesn't exists
-          this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'gradeLevel');
+          this.categoryNames = frameworkData.result.framework.categories
+          .filter(category => category.code === 'gradeLevel');
         }
         console.log('grade level categories created as ', this.categoryNames);
         this.categoryNames = this.categoryNames.map(category => {
@@ -358,5 +354,10 @@ if (this.userService.loggedIn) {
       currentEl.addClass('active');
     }
     console.log('parent clicked is ', parent);
+  }
+
+  ngAfterViewInit(): void {
+    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    console.log('RECIEVED THE TENANT THEME AS  ', this.homeConfig);
   }
 }
