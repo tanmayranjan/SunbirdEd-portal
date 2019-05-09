@@ -5,6 +5,8 @@ import { TelemetryService, ITelemetryContext } from '@sunbird/telemetry';
 import { UtilService, ResourceService, ToasterService, IUserData, IUserProfile,
 NavigationHelperService, ConfigService, BrowserCacheTtlService } from '@sunbird/shared';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { TenantResolverService } from '../app/modules/public/services/TenantResolver/tenant-resolver.service';
+import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 import { UserService, PermissionService, CoursesService, TenantService, OrgDetailsService, DeviceRegisterService } from '@sunbird/core';
 import * as _ from 'lodash';
 import { ProfileService } from '@sunbird/profile';
@@ -57,6 +59,8 @@ export class AppComponent implements OnInit {
    * 2. user profile rootOrg hashtag for logged in
    */
   private channel: string;
+  recievedContent = true;
+  theme = false;
   /**
    * constructor
    */
@@ -71,7 +75,7 @@ export class AppComponent implements OnInit {
     private deviceRegisterService: DeviceRegisterService, private courseService: CoursesService, private tenantService: TenantService,
     private telemetryService: TelemetryService, public router: Router, private configService: ConfigService,
     private orgDetailsService: OrgDetailsService, private activatedRoute: ActivatedRoute,
-    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService) {
+    private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService, private tenantTheme : TenantResolverService, private sharedTenant : SharedTenantResolverService) {
   }
   /**
    * dispatch telemetry window unload event before browser closes
@@ -82,6 +86,33 @@ export class AppComponent implements OnInit {
     this.telemetryService.syncEvents();
   }
   ngOnInit() {
+    //set the theme
+    //this.tenantTheme.updateTheme();
+    //this.sharedTenant.getTenantInfo();
+    /* setTimeout(()=>{
+      let theme = this.sharedTenant.getTenantThemeConfig();
+        if(theme){
+          this.theme = true;
+        }else {
+          this.theme = false;
+          this.recievedContent = false;
+        }
+        console.log('recieved theme in app component ', theme);
+        //this.theme = true;
+      },2000); */
+      this.sharedTenant.tenantData$.subscribe(dataTheme => {
+        if(dataTheme && dataTheme !== null){
+          this.theme = true;
+        }else {
+          this.theme = false;
+        }
+        console.log('recieved theme in app component ', dataTheme);
+      }, (err)=> {
+        console.log('recieved error while getting the theme configuration in app component ');
+        console.log(err);
+        this.recievedContent = false;
+      });
+      
     this.resourceService.initialize();
     combineLatest( this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {

@@ -1,6 +1,6 @@
 import { combineLatest, of, Subject } from 'rxjs';
 import { PageApiService, CoursesService, ISort, PlayerService, FormService } from '@sunbird/core';
-import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, AfterViewInit } from '@angular/core';
 import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService
 } from '@sunbird/shared';
@@ -15,12 +15,19 @@ import { IUserProfile, IUserData } from '@sunbird/shared';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services';
 import { FrameworkService } from './../../../core/services/framework/framework.service';
+
+import { SharedTenantResolverService } from './../../../shared/services/tenant-resolver/shared-tenant-resolver.service';
 @Component({
   selector: 'app-home-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
+  
+  ngAfterViewInit(): void {
+    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    console.log('RECIEVED THE TENANT THEME AS  ', this.homeConfig);
+  }
   /**
  /**
   * Contains result object returned from getPageData API.
@@ -110,6 +117,7 @@ export class LandingPageComponent implements OnInit {
   queryParam: any = {};
   key: string;
   search: object;
+  public homeConfig : any;
 
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
@@ -117,13 +125,15 @@ export class LandingPageComponent implements OnInit {
     private orgDetailsService: OrgDetailsService, userService: UserService,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private frameworkService: FrameworkService, private searchservice: SearchService) {
+    private frameworkService: FrameworkService, private searchservice: SearchService, private tenantTheme : SharedTenantResolverService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
+    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    console.log('this ishomeConfig in landingPage ', this.homeConfig);
     // set the active class behaviour in  the navtabs of popular section
     jQuery(document).ready(() => {
       console.log('jQuery loaded');
@@ -179,7 +189,14 @@ export class LandingPageComponent implements OnInit {
     this.frameworkService.getFrameworkCategories(this.frameWorkName)
       .subscribe(frameworkData => {
         console.log('framework categories', frameworkData.result.framework.categories);
-        this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'gradeLevel');
+        if(this.homeConfig['popularCatCode']['required'] && this.homeConfig['popularCatCode']['code'].length > 0) {
+          //alert('recieved popCatCode')
+          console.log('recieved popular category code as ', this.homeConfig['popularCatCode']['code']);
+          this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code.indexOf(this.homeConfig['popularCatCode']['code']) > -1);
+        }else{
+          // setting a default category code in case the configuration doesn't exists
+          this.categoryNames = frameworkData.result.framework.categories.filter(category => category.code === 'gradeLevel');
+        }
         console.log('grade level categories created as ', this.categoryNames);
         this.categoryNames = this.categoryNames.map(category => {
           return category.terms.splice(0, 8);

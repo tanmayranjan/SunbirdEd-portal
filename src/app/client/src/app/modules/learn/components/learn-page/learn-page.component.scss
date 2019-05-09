@@ -19,7 +19,7 @@
 
 .nav-link.active {
   display: inline-block;
-  border-bottom: 3px solid #451771;
+  border-bottom: 3px solid var(--primary-color);
   margin-left: 10px;
   font-size: 1.3em;
   border-top: white;

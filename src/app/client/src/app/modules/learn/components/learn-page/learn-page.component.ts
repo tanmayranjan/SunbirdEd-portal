@@ -32,7 +32,8 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public sortingOptions: ISort;
   public enrolledSection: any;
   public redirectUrl: string;
-  enrolledIDs: any;
+  public homeConfig : object;
+  enrolledIDs : any;
   enrolledLoader = true;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,

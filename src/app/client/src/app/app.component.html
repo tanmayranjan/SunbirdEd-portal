@@ -1,4 +1,4 @@
-<div class="footer-fix" [ngClass]="{'loggedInUser': userService.loggedIn, 'guestUser': !userService.loggedIn}">
+<div class="footer-fix" [ngClass]="{'loggedInUser': userService.loggedIn, 'guestUser': !userService.loggedIn}" *ngIf="theme == true">
   <app-popup #frameWorkPopUp *ngIf="showFrameWorkPopUp" [buttonLabel]="resourceService.frmelmnts.btn.submit" (submit)="updateFrameWork($event)"></app-popup>
   <app-tnc-popup (close)="onAcceptTnc()" #termsAndCondPopUp *ngIf="showTermsAndCondPopUp"></app-tnc-popup>
   <app-header></app-header>
@@ -6,4 +6,12 @@
   <!-- <app-breadcrumbs *ngIf="userService.loggedIn"></app-breadcrumbs> -->
   <router-outlet *ngIf="initApp"></router-outlet>
 </div>
-<app-footer></app-footer>
+<app-footer *ngIf="theme == true"></app-footer>
+<div *ngIf="theme == false" class="text-center loading-banner">
+  <h6 *ngIf="recievedContent == true" class="mx-auto"> 
+  <span class="loader">&nbsp;</span> LOADING YOUR CONTENT......HAVE SOME PATIENCE!!!
+  </h6>
+  <h6 *ngIf="recievedContent == false">
+    OOPS..!!! SOMETHING WENT WRONG HERE. TRY AGAIN AFTER SOME TIME. :)
+  </h6>
+</div>

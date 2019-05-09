@@ -104,6 +104,7 @@ export class DefaultTemplateComponent implements OnInit {
   public other_value = false;
   activity_value;
   activity_changed;
+freecourse = true;
   constructor(
     formService: FormService,
     private _cacheService: CacheService,
@@ -184,6 +185,14 @@ export class DefaultTemplateComponent implements OnInit {
     } else {
       this.other_value = true;
       this.show_duration = false;
+    }
+    if (object.value === 'Paid') {
+      this.freecourse = false;
+      console.log(this.freecourse);
+    } else {
+      this.freecourse = true;
+      console.log(this.freecourse);
+
     }
     if (object.value === 'Live Session') {
       this.show_link = true;

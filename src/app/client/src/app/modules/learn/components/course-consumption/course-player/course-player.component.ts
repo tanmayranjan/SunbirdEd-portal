@@ -1,32 +1,62 @@
-import { combineLatest, Subject } from 'rxjs';
-import { takeUntil, first, mergeMap, map } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { UserService, BreadcrumbsService, PermissionService, CoursesService } from '@sunbird/core';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import * as _ from 'lodash';
+import { combineLatest, Subject } from "rxjs";
+import { takeUntil, first, mergeMap, map } from "rxjs/operators";
 import {
-  WindowScrollService, ILoaderMessage, ConfigService, ICollectionTreeOptions, NavigationHelperService,
-  ToasterService, ResourceService, ExternalUrlPreviewService
-} from '@sunbird/shared';
-import { CourseConsumptionService, CourseBatchService, CourseProgressService } from './../../../services';
-import { INoteData } from '@sunbird/notes';
-import { IImpressionEventInput, IEndEventInput, IStartEventInput, IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { PublicDataService, LearnerService } from '@sunbird/core';
-import { DomSanitizer } from '@angular/platform-browser';
-
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from "@angular/core";
+import {
+  UserService,
+  BreadcrumbsService,
+  PermissionService,
+  CoursesService
+} from "@sunbird/core";
+import { ActivatedRoute, Router, NavigationExtras } from "@angular/router";
+import * as _ from "lodash";
+import {
+  WindowScrollService,
+  ILoaderMessage,
+  ConfigService,
+  ICollectionTreeOptions,
+  NavigationHelperService,
+  ToasterService,
+  ResourceService,
+  ExternalUrlPreviewService
+} from "@sunbird/shared";
+import {
+  CourseConsumptionService,
+  CourseBatchService,
+  CourseProgressService
+} from "./../../../services";
+import { INoteData } from "@sunbird/notes";
+import {
+  IImpressionEventInput,
+  IEndEventInput,
+  IStartEventInput,
+  IInteractEventObject,
+  IInteractEventEdata
+} from "@sunbird/telemetry";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { PublicDataService, LearnerService } from "@sunbird/core";
+import { DomSanitizer } from "@angular/platform-browser";
+export enum IactivityType {
+  "Self Paced" = "film",
+  "live Session" = "headset",
+  "Classroom Session" = "chalkboard",
+  "Assessments" = "edit"
+}
 declare var $: any;
 
 @Component({
-  selector: 'app-course-player',
-  templateUrl: './course-player.component.html',
-  styleUrls: ['./course-player.component.scss']
+  selector: "app-course-player",
+  templateUrl: "./course-player.component.html",
+  styleUrls: ["./course-player.component.scss"]
 })
-
-
-
 export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
-
   public courseInteractObject: IInteractEventObject;
 
   public contentInteractObject: IInteractEventObject;
@@ -65,6 +95,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   public createNoteData: INoteData;
 
   public curriculum = [];
+  public curriculumactivity = [];
 
   public istrustedClickXurl = false;
 
@@ -96,9 +127,9 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public contributions: any;
 
-  public noContentToPlay = 'No content to play';
+  public noContentToPlay = "No content to play";
 
-  public defaultImageSrc = './../../../../../../assets/images/book.png';
+  public defaultImageSrc = "./../../../../../../assets/images/book.png";
 
   public showExtContentMsg = false;
   courseDetails = [];
@@ -118,12 +149,18 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   courseInfo;
   showPreview: boolean;
   public loaderMessage: ILoaderMessage = {
-    headerMessage: 'Please wait...',
-    loaderMessage: 'Fetching content details!'
+    headerMessage: "Please wait...",
+    loaderMessage: "Fetching content details!"
   };
-public disable_jumbotron = false;
-showJumbotron = true;
-  public previewContentRoles = ['COURSE_MENTOR', 'CONTENT_REVIEWER', 'CONTENT_CREATOR', 'CONTENT_CREATION', 'PUBLIC'];
+  public disable_jumbotron = false;
+  showJumbotron = true;
+  public previewContentRoles = [
+    "COURSE_MENTOR",
+    "CONTENT_REVIEWER",
+    "CONTENT_CREATOR",
+    "CONTENT_CREATION",
+    "PUBLIC"
+  ];
 
   public collectionTreeOptions: ICollectionTreeOptions;
 
@@ -132,130 +169,207 @@ showJumbotron = true;
   safeUrl;
   preview = false;
   mimeTypeCount = 0;
-  mimeType = '';
-  @ViewChild('target') targetEl: ElementRef;
-  @ViewChild('top') topEl: ElementRef;
+  mimeType = "";
+  @ViewChild("target") targetEl: ElementRef;
+  @ViewChild("top") topEl: ElementRef;
   scroll(el: ElementRef) {
-    this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
+    this.targetEl.nativeElement.scrollIntoView({ behavior: "smooth" });
   }
   scrollTop(el: ElementRef) {
-    this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
-
+    this.topEl.nativeElement.scrollIntoView({ behavior: "smooth" });
   }
-  constructor(public activatedRoute: ActivatedRoute, private configService: ConfigService,
-    private courseConsumptionService: CourseConsumptionService, public windowScrollService: WindowScrollService,
-    public router: Router, public navigationHelperService: NavigationHelperService, private userService: UserService,
-    private toasterService: ToasterService, private resourceService: ResourceService, public breadcrumbsService: BreadcrumbsService,
-    private cdr: ChangeDetectorRef, public courseBatchService: CourseBatchService, public permissionService: PermissionService,
-    public externalUrlPreviewService: ExternalUrlPreviewService, public coursesService: CoursesService,
-    private courseProgressService: CourseProgressService, private deviceDetectorService: DeviceDetectorService,
- public publicDataService: PublicDataService,
-        public learnerService: LearnerService,
-        public sanitizer: DomSanitizer,
-        public route: Router) {
-    this.router.onSameUrlNavigation = 'ignore';
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    private configService: ConfigService,
+    private courseConsumptionService: CourseConsumptionService,
+    public windowScrollService: WindowScrollService,
+    public router: Router,
+    public navigationHelperService: NavigationHelperService,
+    private userService: UserService,
+    private toasterService: ToasterService,
+    private resourceService: ResourceService,
+    public breadcrumbsService: BreadcrumbsService,
+    private cdr: ChangeDetectorRef,
+    public courseBatchService: CourseBatchService,
+    public permissionService: PermissionService,
+    public externalUrlPreviewService: ExternalUrlPreviewService,
+    public coursesService: CoursesService,
+    private courseProgressService: CourseProgressService,
+    private deviceDetectorService: DeviceDetectorService,
+    public publicDataService: PublicDataService,
+    public learnerService: LearnerService,
+    public sanitizer: DomSanitizer,
+    public route: Router
+  ) {
+    this.router.onSameUrlNavigation = "ignore";
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
   }
   ngOnInit() {
-    this.activatedRoute.params.pipe(first(),
-      mergeMap(({courseId, batchId, courseStatus}) => {
-        this.courseId = courseId;
-        this.batchId = batchId;
-        this.courseStatus = courseStatus;
-        this.setTelemetryCourseImpression();
+    this.activatedRoute.params
+      .pipe(
+        first(),
+        mergeMap(({ courseId, batchId, courseStatus }) => {
+          this.courseId = courseId;
+          this.batchId = batchId;
+          this.courseStatus = courseStatus;
+          this.setTelemetryCourseImpression();
 
-        if (this.batchId) {
-          this.userEnrolledBatch = true;
-        }
+          if (this.batchId) {
+            this.userEnrolledBatch = true;
+          }
 
-        const inputParams = {params: this.configService.appConfig.CourseConsumption.contentApiQueryParams};
-        if (this.batchId) {
-          return combineLatest(
-            this.courseConsumptionService.getCourseHierarchy(courseId, inputParams),
-            this.courseBatchService.getEnrolledBatchDetails(this.batchId),
-          ).pipe(map(results => ({ courseHierarchy: results[0], enrolledBatchDetails: results[1] })));
-        }
-        return this.courseConsumptionService.getCourseHierarchy(courseId, inputParams)
-          .pipe(map(courseHierarchy => ({ courseHierarchy })));
-      })).subscribe(({courseHierarchy, enrolledBatchDetails}: any) => {
-        this.courseHierarchy = courseHierarchy;
-        this.contributions = _.join(_.map(this.courseHierarchy.contentCredits, 'name'));
-        this.courseInteractObject = {
-          id: this.courseHierarchy.identifier,
-          type: 'Course',
-          ver: this.courseHierarchy.pkgVersion ? this.courseHierarchy.pkgVersion.toString() : '1.0'
-        };
-        if (this.courseHierarchy.status === 'Flagged') {
-          this.flaggedCourse = true;
-        }
-        this.parseChildContent();
-        if (this.batchId) {
-          this.enrolledBatchInfo = enrolledBatchDetails;
-          this.enrolledCourse = true;
-          this.setTelemetryStartEndData();
-          if (this.enrolledBatchInfo.status && this.contentIds.length) {
-            this.getContentState();
+          const inputParams = {
+            params: this.configService.appConfig.CourseConsumption
+              .contentApiQueryParams
+          };
+          if (this.batchId) {
+            return combineLatest(
+              this.courseConsumptionService.getCourseHierarchy(
+                courseId,
+                inputParams
+              ),
+              this.courseBatchService.getEnrolledBatchDetails(this.batchId)
+            ).pipe(
+              map(results => ({
+                courseHierarchy: results[0],
+                enrolledBatchDetails: results[1]
+              }))
+            );
+          }
+          return this.courseConsumptionService
+            .getCourseHierarchy(courseId, inputParams)
+            .pipe(map(courseHierarchy => ({ courseHierarchy })));
+        })
+      )
+      .subscribe(
+        ({ courseHierarchy, enrolledBatchDetails }: any) => {
+          this.courseHierarchy = courseHierarchy;
+          this.contributions = _.join(
+            _.map(this.courseHierarchy.contentCredits, "name")
+          );
+          this.courseInteractObject = {
+            id: this.courseHierarchy.identifier,
+            type: "Course",
+            ver: this.courseHierarchy.pkgVersion
+              ? this.courseHierarchy.pkgVersion.toString()
+              : "1.0"
+          };
+          if (this.courseHierarchy.status === "Flagged") {
+            this.flaggedCourse = true;
+          }
+          this.parseChildContent();
+          if (this.batchId) {
+            this.enrolledBatchInfo = enrolledBatchDetails;
+            this.enrolledCourse = true;
+            this.setTelemetryStartEndData();
+            if (this.enrolledBatchInfo.status && this.contentIds.length) {
+              this.getContentState();
+              this.subscribeToQueryParam();
+            }
+          } else if (
+            this.courseStatus === "Unlisted" ||
+            this.permissionService.checkRolesPermissions(
+              this.previewContentRoles
+            ) ||
+            this.courseHierarchy.createdBy === this.userService.userid
+          ) {
             this.subscribeToQueryParam();
           }
-        } else if (this.courseStatus === 'Unlisted' || this.permissionService.checkRolesPermissions(this.previewContentRoles)
-          || this.courseHierarchy.createdBy === this.userService.userid) {
-          this.subscribeToQueryParam();
+          this.collectionTreeNodes = {
+            data: this.courseHierarchy,
+            enrolldata: this.enrolledBatchInfo
+          };
+          this.loader = false;
+        },
+        error => {
+          this.loader = false;
+          this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
         }
-        this.collectionTreeNodes = { data: this.courseHierarchy };
-        this.loader = false;
-      }, (error) => {
-        this.loader = false;
-        this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
-    });
-    this.courseProgressService.courseProgressData.pipe(
-      takeUntil(this.unsubscribe))
-      .subscribe(courseProgressData => this.courseProgressData = courseProgressData);
-  // triggering sidebar change
-      // $(() => {
-      //   $('.ui.sidebar').sidebar({
-      //     context: $('.bottom.segment')
-      //   })
-      //   .sidebar('attach events', '.menu .item');
-      // });
-      // if(this.userEnrolledBatch) {
-      //   this.navigateToContent();
-      // }
+      );
+    this.courseProgressService.courseProgressData
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(
+        courseProgressData => (this.courseProgressData = courseProgressData)
+      );
+    // triggering sidebar change
+    // $(() => {
+    //   $('.ui.sidebar').sidebar({
+    //     context: $('.bottom.segment')
+    //   })
+    //   .sidebar('attach events', '.menu .item');
+    // });
+    // if(this.userEnrolledBatch) {
+    //   this.navigateToContent();
+    // }
   }
   ngAfterViewInit() {
     console.log(this.showJumbotron);
   }
-   private parseChildContent() {
+  private parseChildContent() {
     const model = new TreeModel();
     const mimeTypeCount = {};
+    const activityTypeCount = {};
     console.log(this.courseHierarchy);
     this.treeModel = model.parse(this.courseHierarchy);
-    this.treeModel.walk((node) => {
-      if (node.model.mimeType !== 'application/vnd.ekstep.content-collection') {
+    this.treeModel.walk(node => {
+      if (node.model.activityType) {
+        if (activityTypeCount[node.model.activityType]) {
+          activityTypeCount[node.model.activityType] += 1;
+        } else {
+          activityTypeCount[node.model.activityType] = 1;
+        }
+      }
+
+      if (node.model.mimeType !== "application/vnd.ekstep.content-collection") {
+        //debugger;
+
         if (mimeTypeCount[node.model.mimeType]) {
           mimeTypeCount[node.model.mimeType] += 1;
           this.mimeTypeCount++;
-          if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+          if (
+            !_.includes(node.model.mimeType, "archive") &&
+            !_.includes(node.model.mimeType, "epub")
+          ) {
             this.previewUrl = node.model;
-           }
+          }
         } else {
-          if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+          if (
+            !_.includes(node.model.mimeType, "archive") &&
+            !_.includes(node.model.mimeType, "epub")
+          ) {
             this.previewUrl = node.model;
-           }
-         this.mimeTypeCount++;
+          }
+          this.mimeTypeCount++;
           mimeTypeCount[node.model.mimeType] = 1;
         }
-        this.contentDetails.push({ id: node.model.identifier, title: node.model.name });
+        this.contentDetails.push({
+          id: node.model.identifier,
+          title: node.model.name
+        });
         this.contentIds.push(node.model.identifier);
       }
     });
     _.forEach(mimeTypeCount, (value, key) => {
       let mime;
       this.curriculum.push({ mimeType: key, count: value });
-     if (key === 'video/mp4' || 'video/x-youtube' ||  'video/mp4' || 'video/webm') {
-       mime = 'video';
-     }
-     this.mimeType = this.mimeType + ' ' + mime + ' ' + value;
-
+      if (
+        key === "video/mp4" ||
+        "video/x-youtube" ||
+        "video/mp4" ||
+        "video/webm"
+      ) {
+        mime = "video";
+      }
+      this.mimeType = this.mimeType + " " + mime + " " + value;
+    });
+    _.forEach(activityTypeCount, (value, key) => {
+      let mime;
+      this.curriculumactivity.push({
+        activityType: key,
+        count: value,
+        activityTypeIcon: IactivityType[key]
+      });
+      //debugger;
     });
   }
   private getContentState() {
@@ -265,36 +379,59 @@ showJumbotron = true;
       contentIds: this.contentIds,
       batchId: this.batchId
     };
-    this.courseConsumptionService.getContentState(req).pipe(first())
-      .subscribe(res => this.contentStatus = res.content,
-        err => console.log(err, 'content read api failed'));
+    this.courseConsumptionService
+      .getContentState(req)
+      .pipe(first())
+      .subscribe(
+        res => (this.contentStatus = res.content),
+        err => console.log(err, "content read api failed")
+      );
   }
   private subscribeToQueryParam() {
-    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe))
-    .subscribe(({contentId}) => {
-      if (contentId) {
-        const content = this.findContentById(contentId);
-        const isExtContentMsg = this.coursesService.showExtContentMsg ? this.coursesService.showExtContentMsg : false;
-        if (content) {
-          this.OnPlayContent({ title: _.get(content, 'model.name'), id: _.get(content, 'model.identifier') },
-            isExtContentMsg);
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(({ contentId }) => {
+        if (contentId) {
+          const content = this.findContentById(contentId);
+          const isExtContentMsg = this.coursesService.showExtContentMsg
+            ? this.coursesService.showExtContentMsg
+            : false;
+          if (content) {
+            this.OnPlayContent(
+              {
+                title: _.get(content, "model.name"),
+                id: _.get(content, "model.identifier")
+              },
+              isExtContentMsg
+            );
+          } else {
+            this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
+            this.closeContentPlayer();
+          }
         } else {
-          this.toasterService.error(this.resourceService.messages.emsg.m0005); // need to change message
           this.closeContentPlayer();
         }
-      } else {
-        this.closeContentPlayer();
-      }
-    });
+      });
   }
   public findContentById(id: string) {
     return this.treeModel.first(node => node.model.identifier === id);
   }
-  private OnPlayContent(content: { title: string, id: string }, showExtContentMsg?: boolean) {
-    if (content && content.id && ((this.enrolledCourse && !this.flaggedCourse &&
-      this.enrolledBatchInfo.status > 0) || this.courseStatus === 'Unlisted'
-      || this.permissionService.checkRolesPermissions(this.previewContentRoles)
-      || this.courseHierarchy.createdBy === this.userService.userid)) {
+  private OnPlayContent(
+    content: { title: string; id: string },
+    showExtContentMsg?: boolean
+  ) {
+    if (
+      content &&
+      content.id &&
+      ((this.enrolledCourse &&
+        !this.flaggedCourse &&
+        this.enrolledBatchInfo.status > 0) ||
+        this.courseStatus === "Unlisted" ||
+        this.permissionService.checkRolesPermissions(
+          this.previewContentRoles
+        ) ||
+        this.courseHierarchy.createdBy === this.userService.userid)
+    ) {
       this.contentId = content.id;
       this.setTelemetryContentImpression();
       this.setContentNavigators();
@@ -304,7 +441,7 @@ showJumbotron = true;
     }
   }
   private setContentNavigators() {
-    const index = _.findIndex(this.contentDetails, ['id', this.contentId]);
+    const index = _.findIndex(this.contentDetails, ["id", this.contentId]);
     this.prevPlaylistItem = this.contentDetails[index - 1];
     this.nextPlaylistItem = this.contentDetails[index + 1];
   }
@@ -317,53 +454,82 @@ showJumbotron = true;
     if (this.batchId) {
       options.batchHashTagId = this.enrolledBatchInfo.hashTagId;
     }
-    this.courseConsumptionService.getConfigByContent(data.id, options).pipe(first())
-      .subscribe(config => {
-        this.setContentInteractData(config);
-        this.loader = false;
-        this.playerConfig = config;
-        if ((config.metadata.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl && !(this.istrustedClickXurl))
-          || (config.metadata.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl && showExtContentMsg)) {
-          setTimeout(() => this.showExtContentMsg = true, 100);
-        } else {
-          this.showExtContentMsg = false;
+    this.courseConsumptionService
+      .getConfigByContent(data.id, options)
+      .pipe(first())
+      .subscribe(
+        config => {
+          this.setContentInteractData(config);
+          this.loader = false;
+          this.playerConfig = config;
+          if (
+            (config.metadata.mimeType ===
+              this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl &&
+              !this.istrustedClickXurl) ||
+            (config.metadata.mimeType ===
+              this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl &&
+              showExtContentMsg)
+          ) {
+            setTimeout(() => (this.showExtContentMsg = true), 100);
+          } else {
+            this.showExtContentMsg = false;
+          }
+          this.enableContentPlayer = true;
+          // this.loader = false;
+          this.contentTitle = data.title;
+          this.breadcrumbsService.setBreadcrumbs([
+            { label: this.contentTitle, url: "" }
+          ]);
+          this.windowScrollService.smoothScroll(
+            "app-player-collection-renderer",
+            500
+          );
+        },
+        err => {
+          this.loader = false;
+          this.toasterService.error(this.resourceService.messages.stmsg.m0009);
         }
-        this.enableContentPlayer = true;
-        // this.loader = false;
-        this.contentTitle = data.title;
-        this.breadcrumbsService.setBreadcrumbs([{ label: this.contentTitle, url: '' }]);
-        this.windowScrollService.smoothScroll('app-player-collection-renderer', 500);
-      }, (err) => {
-        this.loader = false;
-        this.toasterService.error(this.resourceService.messages.stmsg.m0009);
-      });
+      );
   }
-  public navigateToContent(content: { title: string, id: string }): void {
+  public navigateToContent(content: { title: string; id: string }): void {
     this.disable_jumbotron = true;
     const navigationExtras: NavigationExtras = {
-      queryParams: { 'contentId': content.id },
+      queryParams: { contentId: content.id },
       relativeTo: this.activatedRoute
     };
     const playContentDetail = this.findContentById(content.id);
-    if (playContentDetail.model.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl) {
+    if (
+      playContentDetail.model.mimeType ===
+      this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.xUrl
+    ) {
       this.showExtContentMsg = false;
       this.istrustedClickXurl = true;
-      this.externalUrlPreviewService.generateRedirectUrl(playContentDetail.model, this.userService.userid, this.courseId, this.batchId);
+      this.externalUrlPreviewService.generateRedirectUrl(
+        playContentDetail.model,
+        this.userService.userid,
+        this.courseId,
+        this.batchId
+      );
     }
-    if ((this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status)
-      || this.courseStatus === 'Unlisted' || this.permissionService.checkRolesPermissions(this.previewContentRoles)
-      || this.courseHierarchy.createdBy === this.userService.userid) {
+    if (
+      (this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status) ||
+      this.courseStatus === "Unlisted" ||
+      this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
+      this.courseHierarchy.createdBy === this.userService.userid
+    ) {
       this.router.navigate([], navigationExtras);
     }
   }
   public contentProgressEvent(event) {
-    console.log('recieved content progress event fro the content player ', event);
+    console.log(
+      "recieved content progress event fro the content player ",
+      event
+    );
     /* if (!this.batchId || _.get(this.enrolledBatchInfo, 'status') !== 1) {
       return;
     } */
     const eid = event.detail.telemetryData.eid;
-    //alert('valid end event is ' + JSON.stringify(this.validEndEvent(event)));
-    if (eid === 'END' && !this.validEndEvent(event)) {
+    if (eid === "END" && !this.validEndEvent(event)) {
       return;
     }
     const request: any = {
@@ -371,21 +537,43 @@ showJumbotron = true;
       contentId: this.contentId,
       courseId: this.courseId,
       batchId: this.batchId,
-      status: eid === 'END' ? 2 : 1
+      status: eid === "END" ? 2 : 1
     };
-    this.courseConsumptionService.updateContentsState(request).pipe(first())
-    .subscribe(updatedRes => this.contentStatus = updatedRes.content,
-      err => console.log('updating content status failed', err));
+    this.courseConsumptionService
+      .updateContentsState(request)
+      .pipe(first())
+      .subscribe(
+        updatedRes => (this.contentStatus = updatedRes.content),
+        err => console.log("updating content status failed", err)
+      );
   }
   private validEndEvent(event) {
-    const playerSummary: Array<any> = _.get(event, 'detail.telemetryData.edata.summary');
-    const contentMimeType = _.get(this.findContentById(this.contentId), 'model.mimeType');
-    const validSummary = (summaryList: Array<any>) => (percentage: number) => _.find(summaryList, (requiredProgress =>
-      summary => summary && summary.progress >= requiredProgress)(percentage));
-    if (validSummary(playerSummary)(20) && ['video/x-youtube', 'video/mp4', 'video/webm'].includes(contentMimeType)) {
-        return true;
-    } else if (validSummary(playerSummary)(0) &&
-        ['application/vnd.ekstep.h5p-archive', 'application/vnd.ekstep.html-archive'].includes(contentMimeType)) {
+    const playerSummary: Array<any> = _.get(
+      event,
+      "detail.telemetryData.edata.summary"
+    );
+    const contentMimeType = _.get(
+      this.findContentById(this.contentId),
+      "model.mimeType"
+    );
+    const validSummary = (summaryList: Array<any>) => (percentage: number) =>
+      _.find(
+        summaryList,
+        (requiredProgress => summary =>
+          summary && summary.progress >= requiredProgress)(percentage)
+      );
+    if (
+      validSummary(playerSummary)(20) &&
+      ["video/x-youtube", "video/mp4", "video/webm"].includes(contentMimeType)
+    ) {
+      return true;
+    } else if (
+      validSummary(playerSummary)(0) &&
+      [
+        "application/vnd.ekstep.h5p-archive",
+        "application/vnd.ekstep.html-archive"
+      ].includes(contentMimeType)
+    ) {
       return true;
     } else if (validSummary(playerSummary)(100)) {
       return true;
@@ -419,16 +607,16 @@ showJumbotron = true;
       object: {
         id: this.courseId,
         type: this.activatedRoute.snapshot.data.telemetry.object.type,
-        ver: this.activatedRoute.snapshot.data.telemetry.object.ver,
+        ver: this.activatedRoute.snapshot.data.telemetry.object.ver
       },
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        mode: 'play',
+        mode: "play",
         uaspec: {
           agent: deviceInfo.browser,
           ver: deviceInfo.browser_version,
-          system: deviceInfo.os_version ,
+          system: deviceInfo.os_version,
           platform: deviceInfo.os,
           raw: deviceInfo.userAgent
         }
@@ -446,7 +634,7 @@ showJumbotron = true;
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        mode: 'play'
+        mode: "play"
       }
     };
   }
@@ -458,12 +646,12 @@ showJumbotron = true;
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        uri: this.router.url,
+        uri: this.router.url
       },
       object: {
         id: this.courseId,
-        type: 'course',
-        ver: '1.0'
+        type: "course",
+        ver: "1.0"
       }
     };
   }
@@ -475,12 +663,12 @@ showJumbotron = true;
       edata: {
         type: this.activatedRoute.snapshot.data.telemetry.type,
         pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        uri: this.router.url,
+        uri: this.router.url
       },
       object: {
         id: this.contentId,
-        type: 'content',
-        ver: '1.0',
+        type: "content",
+        ver: "1.0",
         rollup: {
           l1: this.courseId,
           l2: this.contentId
@@ -491,31 +679,35 @@ showJumbotron = true;
   private setContentInteractData(config) {
     this.contentInteractObject = {
       id: config.metadata.identifier,
-      type: config.metadata.contentType || config.metadata.resourceType || 'content',
-      ver: config.metadata.pkgVersion ? config.metadata.pkgVersion.toString() : '1.0',
+      type:
+        config.metadata.contentType ||
+        config.metadata.resourceType ||
+        "content",
+      ver: config.metadata.pkgVersion
+        ? config.metadata.pkgVersion.toString()
+        : "1.0",
       rollup: { l1: this.courseId }
     };
     this.closeContentIntractEdata = {
-      id: 'content-close',
-      type: 'click',
-      pageid: 'course-consumption'
+      id: "content-close",
+      type: "click",
+      pageid: "course-consumption"
     };
   }
   /* toggleSidebar() {
     $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
   } */
   showPreviewVideo() {
-
     this.preview = !this.preview;
     let showUrl;
     const url = this.previewUrl.artifactUrl.slice(17);
-    if (this.previewUrl.mimeType === 'video/x-youtube') {
-      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
-        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
-      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
+    if (this.previewUrl.mimeType === "video/x-youtube") {
+      if (_.includes(this.previewUrl.artifactUrl, "watch")) {
+        showUrl = this.previewUrl.artifactUrl.replace("watch?v=", "embed/");
+      } else if (_.includes(this.previewUrl.artifactUrl, "embed")) {
         showUrl = this.previewUrl.artifactUrl;
       } else {
-        showUrl = 'https://www.youtube.com/embed/' + url;
+        showUrl = "https://www.youtube.com/embed/" + url;
       }
     } else {
       showUrl = this.previewUrl.artifactUrl;

@@ -143,12 +143,12 @@
   color : white;
 }
 .bg-blue {
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 .header {
   position: relative;
   top: 0;
-  background-color: #451771;
+  background-color: var(--primary-color);
   height: 12vh;
   z-index: 100;
   transition: all ease-out 0.5s;
@@ -188,7 +188,7 @@
   font-weight: bold;
   width: 90px;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .menu-padding-2 {
   padding : 0.4em;
@@ -277,7 +277,7 @@ a.categorylink {
   width: 90px;
   display: block;
   border-radius: 37px;
-  color: #451771;
+  color: var(--primary-color);
 }
 .menu.transition.visible {
   min-width : 160px !important;

@@ -635,7 +635,7 @@ label {
 }
 .nav-item:active,
 .nav-item:hover {
-  border-bottom: 2px solid #451771;
+  border-bottom: 2px solid var(--primary-color);
   cursor: pointer;
 }
 
@@ -649,7 +649,7 @@ label {
   width: 130px;
   color: white;
   font-weight: 400;
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 
 .positioning {
@@ -661,7 +661,7 @@ label {
 }
 
 .nav_item_selector.active {
-  border-bottom: 2px solid #451771;
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .heading-text {
@@ -705,7 +705,7 @@ label {
 .explore .container .row div:hover {
   cursor: pointer;
   color: white;
-  background: #451771;
+  background: var(--primary-color);
   transition: 0.5s;
 }
 /* .explore .container .row:first-child {
@@ -738,7 +738,7 @@ label {
   width: 130px;
   color: white;
   font-weight: 400;
-  background-color: #451771;
+  background-color: var(--primary-color);
 }
 .subheading {
   background-color: #fff3d2;
@@ -811,7 +811,7 @@ label {
   height: 150px;
 }
 .selected {
-border-bottom: 2px solid #451771;
+border-bottom: 2px solid var(--primary-color);
 }
 @media only screen and (max-width: 889px) {
   .banner-overlay {

@@ -33,7 +33,7 @@
   color: #D3D3D3;
 }
 .barcolor {
-  background-color: #451771 !important;
+  background-color: var(--primary-color) !important;
 }
 
 .rating{
@@ -72,7 +72,7 @@ font-weight: 450;
   padding: 3px 6px 3px 6px;
   font-size: .7em;
   color: aliceblue;
-  background:#451771;
+  background: var(--primary-color);
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px;
   border-bottom-right-radius: 30px;
@@ -91,7 +91,7 @@ font-weight: 450;
 }
 
 .social-network{
-  background: #805FE5;
+  background: var(--primary-color);
   height:max-content;
 }
 
@@ -118,7 +118,7 @@ font-weight: 450;
 }
 .progress-bar
 {
-  background-color: #7D5CE7;
+  background-color: var(--primary-color);
 }
 /*CSS to be used in multiple elements*/
 
