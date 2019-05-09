@@ -170,10 +170,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   preview = false;
   mimeTypeCount = 0;
   mimeType = '';
-<<<<<<< HEAD
   enrolledDate: any;
-=======
->>>>>>> 51ebb7fea6a7f315b96cfcdc2e09305fd437eec4
   @ViewChild('target') targetEl: ElementRef;
   @ViewChild('top') topEl: ElementRef;
   scroll(el: ElementRef) {
