@@ -7,7 +7,7 @@ import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry'
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   rating = 3;
   /**
 * content is used to render IContents value on the view
@@ -20,9 +20,18 @@ export class CardComponent {
     this.resourceService = resourceService;
   }
 
+  ngOnInit() {
+    this.data['rating'] = this.getRandomNum(0);
+    this.data['dummyWeeks'] = this.getRandomNum(1);
+  }
+
   public onAction(data, action) {
     console.log(this.resourceService);
     console.log(data, action);
     this.clickEvent.emit({ 'action': action, 'data': data });
+  }
+
+  getRandomNum(minLimit) {
+    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
   }
 }

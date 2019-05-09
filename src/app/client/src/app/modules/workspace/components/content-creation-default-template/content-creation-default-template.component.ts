@@ -96,10 +96,15 @@ export class DefaultTemplateComponent implements OnInit {
  * To make content editor service API calls
  */
   private editorService: EditorService;
+  @Output() inputChanged: EventEmitter<number> =   new EventEmitter();
 
-
-
-
+  public show_create_or_upload_content = false;
+  public show_duration = false;
+  public show_link = false;
+  public other_value = false;
+  activity_value;
+  activity_changed;
+freecourse = true;
   constructor(
     formService: FormService,
     private _cacheService: CacheService,
@@ -162,6 +167,39 @@ export class DefaultTemplateComponent implements OnInit {
   * @param {Object} object  - Field information
   */
   updateForm(object) {
+    console.log(object);
+    if (object.value === 'Self Paced' || object.value === 'Classroom' || object.value === 'Create Content'
+    || object.value === 'Upload Content') {
+      this.activity_changed = object.value;
+      this.show_create_or_upload_content = true;
+      this.other_value = false;
+    } else {
+      this.other_value = true;
+      this.show_create_or_upload_content = false;
+    }
+    if (object.value === 'Self Paced' || object.value === 'Classroom' || object.value === 'Live Session'
+    || object.value === 'Create Content'
+    || object.value === 'Upload Content') {
+      this.show_duration = true;
+      this.other_value = false;
+    } else {
+      this.other_value = true;
+      this.show_duration = false;
+    }
+    if (object.value === 'Paid') {
+      this.freecourse = false;
+      console.log(this.freecourse);
+    } else {
+      this.freecourse = true;
+      console.log(this.freecourse);
+
+    }
+    if (object.value === 'Live Session') {
+      this.show_link = true;
+      this.other_value = false;
+    } else {
+      this.show_link = false;
+    }
     if (object.field.range) {
       this.getAssociations(object.value, object.field.range, (associations) => {
         this.applyDependencyRules(object.field, associations, true);
@@ -289,6 +327,10 @@ export class DefaultTemplateComponent implements OnInit {
       years.push(i);
     }
     return years;
+  }
+  passDataToParent(event) {
+    console.log(event.target.innerText);
+    this.inputChanged.emit(event.target.innerText);
   }
 }
 

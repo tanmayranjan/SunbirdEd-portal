@@ -53,11 +53,11 @@
 //   display: none ;
 // }
 ::ng-deep .ui.modal>.close {
-position: sticky;
+position: initial;
 color: black;
 }
-::ng-deep .ui.active.modal {
-  height: auto;
+::ng-deep .ui.modal {
+  height: auto !important;
 }
 i.blue.icon {
   color: #451771 !important;

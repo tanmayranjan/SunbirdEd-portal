@@ -2,7 +2,7 @@
   <div>
     <div class="filter-reset-text-div p-3 computer only">
       <span class="filter-text"><i class="mr-2 ml-2 fas fa-filter"></i>Filters</span>
-      <span class="float-right mr-2 reset-blue-text" (click)="resetFilters()">Reset All</span>
+      <span class="float-right mr-2 reset-blue-text mt-2" (click)="resetFilters()">Reset All</span>
     </div>
     <div class="filter-reset-text-div p-3 mt-3 mobile only">
         <span class="filter-text" (click)="expandFilters()"><i class="mr-2 ml-2 fas fa-filter"></i>Filters</span>
@@ -15,7 +15,7 @@
         <fieldset>
           <div *ngIf="formFieldProperties">
             <div *ngFor="let field of filtersDetails;let i=index;">
-              <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory && field.code !== 'board'">
+              <div class="" *ngIf="field.inputType==='select' && field.code!==browsingCategory">
                 <div>
                   <h6 class="mt-3 mb-1 ml-4" (click)="iconChange(i)">{{field.name}}
                     <i class="minus mr-3"
@@ -32,6 +32,12 @@
                           type="checkbox" [value]="option.name" *ngIf="field.name !== 'Rating'">
                         <label class="form-check-label" id="textcolor"  *ngIf="field.name !== 'Rating'">
                             &nbsp; {{option.name}} </label>
+                            <div class="justright" *ngFor="let child of option.children">
+                              <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
+                                type="checkbox" [value]="child.name" *ngIf="child.name !== 'Rating'">
+                              <label class="form-check-label" id="textcolor" *ngIf="child.name !== 'Rating'">
+                                &nbsp; {{child.name}} </label>
+                            </div>
 
                           <input (change)="onFilterChange($event)" name={{field.code}} class="form-check-input"
                             type="checkbox" [value]="option.name"*ngIf="field.name === 'Rating'" >

@@ -34,6 +34,7 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public redirectUrl: string;
   public homeConfig : object;
   enrolledIDs : any;
+  enrolledLoader = true;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
@@ -115,11 +116,11 @@ export class LearnPageComponent implements OnInit, OnDestroy {
         this.carouselData = this.carouselData.filter( carouseldata => carouseldata.name === 'Latest Courses');
         // console.log("FILTERED CAROUSLE DATA ", this.carouselData);
         // filter all the courses which are not enrolled
-        if(this.enrolledIDs.length > 0){
+        if (this.enrolledIDs.length > 0) {
           this.carouselData['0']['contents'] = this.carouselData['0']['contents'].filter(content => {
-            if(!content.metaData.hasOwnProperty('batchId')){
+            if (!content.metaData.hasOwnProperty('batchId')) {
               // console.log('filtered ', content.name);
-              return content; 
+              return content;
             }
           });
           console.log('updated carouselData is ', this.carouselData);
@@ -263,9 +264,13 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     };
   }
   private setNoResultMessage() {
+    if (this.enrolledSection.length === 0) {
+      this.enrolledLoader = false;
+    }
     this.noResultMessage = {
       'message': _.get(this.resourceService, 'messages.stmsg.m0007') || 'No results found',
       'messageText': _.get(this.resourceService, 'messages.stmsg.m0006') || 'Please search for something else.'
     };
   }
 }
+

@@ -21,15 +21,17 @@ export class EnrolledCardComponent implements OnInit {
   }
 
   public onAction(data, action) {
-    console.log(this.resourceService);
-    console.log("ON ACTION DETAILS ", data, action);
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 
   ngOnInit() {
     console.log(this.data.progress);
     console.log('recieved data ', this.data);
+    this.data['rating'] = this.getRandomNum(0);
+    this.data['dummyWeeks'] = this.getRandomNum(1);
   }
 
-
+  getRandomNum(minLimit) {
+    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
+  }
 }

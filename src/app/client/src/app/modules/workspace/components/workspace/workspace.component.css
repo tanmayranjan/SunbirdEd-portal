@@ -3,8 +3,5 @@
     color: black;
     }
     ::ng-deep .ui.modal {
-      height : auto !important;
-    }
-    ::ng-deep .ui.active.modal {
-      height: auto;
+      height: auto !important;
     }

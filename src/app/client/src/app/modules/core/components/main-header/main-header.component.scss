@@ -156,6 +156,13 @@
 .header.active {
   background-color: #451771;
 }
+:host ::ng-deep .avatar-container {
+  margin : auto;
+}
+
+.item.headerDropdownProfile {
+  text-align: center !important;
+}
 
 .menu.transition.visible {
   max-height : 400px;
@@ -193,10 +200,13 @@
 .category span {
   padding-left: 5px;
 }
+.search-wrapper {
+  width: 420px;
+}
 .search-container {
   margin: 0;
   height: 35px;
-  max-width: 80%;
+  max-width: 100%;
   background: white;
   border: 1px solid white;
   border-top-left-radius: 20px;
@@ -222,8 +232,14 @@
   vertical-align: middle;
 }
 .button-container {
+  width : 500px;
   color: white;
   text-decoration: none;
+}
+
+::ng-deep .languageDropdown {
+  position : absolute;
+  left: 0;
 }
 .button-container .signup {
   border: none;
@@ -249,11 +265,20 @@
   border-radius: 37px;
   color: var(--primary-color);
 }
+.menu.transition.visible {
+  min-width : 160px !important;
+}
+
+.custom-menu .item {
+  white-space: normal !important;
+  line-height : 1.4em !important;
+}
 .ui.floating.dropdown .custom-menu {
-  left : -60px !important;
+  left : -300px !important;
+  max-width : 400px !important;
 }
 .ui.floating.dropdown>.menu {
-  margin-top : 1em !important;
+  margin-top : 0.3em !important;
   
 }
 .menu-right {
@@ -284,6 +309,12 @@
 }
 button:focus {
   outline: none;
+}
+
+@media only screen and (max-width: 1350px){
+  .search-wrapper {
+    width: 300px;
+  }
 }
 @media only screen and (max-width: 767px) {
   .header {

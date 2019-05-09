@@ -36,6 +36,8 @@ export class LandingpageCardComponent implements OnInit {
         this.displayRating = tenantConfig['cards']['rating'];
     }
     console.log('Ratings decider is ', this.displayRating);
+    this.data['rating'] = this.getRandomNum(0);
+    this.data['dummyWeeks'] = this.getRandomNum(1);
   }
 
   public onAction(data, action) {
@@ -48,5 +50,9 @@ export class LandingpageCardComponent implements OnInit {
     console.log(data);
     this.clickEvent.emit({ 'action': action, 'data': data });
     this.router.navigate(['/play/collection', data.identifier]);
+  }
+
+  getRandomNum(minLimit) {
+    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
   }
 }

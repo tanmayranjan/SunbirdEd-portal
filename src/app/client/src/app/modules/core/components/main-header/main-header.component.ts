@@ -29,6 +29,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   exploreButtonVisibility: string;
   logo: string;
   key: string;
+  clicked: false;
   queryParam: any = {};
   showExploreHeader = false;
   showQrmodal = false;

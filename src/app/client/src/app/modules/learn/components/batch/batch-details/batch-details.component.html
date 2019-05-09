@@ -60,12 +60,60 @@
             <span *ngIf="enrolledBatchInfo.endDate" class="date"> - {{enrolledBatchInfo.endDate | dateFormat}}</span>
         </div>
     </div>
-    <div class="selectedBatchContent extra content">
+    <div class="selectedBatchContent extra content" (click)="getUserandMentorDetails()">
         <span class="right floated">
             {{enrolledBatchInfo.participant.length}} {{resourceService.frmelmnts.lbl.learners}}
         </span>
         <span>
             {{enrolledBatchInfo.mentors.length}} {{resourceService.frmelmnts.lbl.mentors}}
         </span>
-    </div>    
+    </div>
+
+          <div *ngIf="showListOfUsers">
+            <div class="card ">
+                <div class="card-body">
+                    <div>
+                 
+                    <table class="table">
+                            <thead>
+                              <tr>
+                                  <th>S.No</th>
+                                <th scope="col">Photo</th>
+                                <th scope="col">Learner Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr  *ngFor="let user of participantsList;let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td><img class="profile-image" [src]="!!user.avatar ? user.avatar : '../../../../../../assets/images/user-profile.png'"></td>
+                                <td>{{user.firstName}} {{user.lastName}} </td>
+                              </tr>
+              
+                            </tbody>
+                          </table>
+                </div> 
+                <div>
+                                         
+                    <table class="table">
+                            <thead>
+                              <tr>
+                                    <th>S.No</th>
+                                    <th scope="col">Photo</th>
+                                    <th scope="col">Mentor Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr  *ngFor="let mentor of mentorsList; let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td><img class="profile-image" [src]="!!mentor.avatar ? mentor.avatar : '../../../../../../assets/images/user-profile.png'"></td>
+                                <td> {{mentor.firstName}} {{mentor.lastName}}
+                                    </td>
+                              </tr>
+              
+                            </tbody>
+                          </table>
+                </div>
+                </div>
+            </div>
+          </div> 
 </div>

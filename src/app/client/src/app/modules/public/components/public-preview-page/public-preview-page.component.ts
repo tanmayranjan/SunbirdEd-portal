@@ -87,11 +87,11 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
 
   scroll(el: ElementRef) {
     console.log(el);
-    this.targetEl.nativeElement.scrollIntoView();
+    this.targetEl.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
   scrollTop(el: ElementRef) {
     console.log(el);
-    this.topEl.nativeElement.scrollIntoView();
+    this.topEl.nativeElement.scrollIntoView({behavior: 'smooth'});
 
   }
   constructor(contentService: ContentService, route: ActivatedRoute, playerService: PublicPlayerService,
@@ -189,8 +189,18 @@ export class PublicPreviewPageComponent implements OnInit, OnDestroy {
           if (mimeTypeCount[node.model.mimeType]) {
             mimeTypeCount[node.model.mimeType] += 1;
             this.mimeTypeCount++;
+            console.log(_.includes(node.model.mimeType, '.epub'));
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
           } else {
-           this.previewUrl = node.model;
+            console.log(_.includes(node.model.mimeType, '.epub'));
+
+            if (!_.includes(node.model.mimeType, 'archive') && !_.includes(node.model.mimeType, 'epub')) {
+              this.previewUrl = node.model;
+              console.log(this.previewUrl);
+             }
            this.mimeTypeCount++;
             mimeTypeCount[node.model.mimeType] = 1;
           }

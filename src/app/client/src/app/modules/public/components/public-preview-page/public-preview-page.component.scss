@@ -25,7 +25,9 @@
 .ui.button.left.floated {
   text-align: left;
 }
-
+::ng-deep #preview-modal .ui.active.modal {
+  margin-top: -19em !important;
+  }
 .jumbotron {
   height: 30em;
   background: #451771;
@@ -293,8 +295,8 @@
   text-shadow: 1px 0px black;
   font-size: 18px;
 }
-::ng-deep .ui.active.modal {
-  height: auto;
+::ng-deep .ui.modal {
+  height: auto !important;
 }
 .smooth-scroll {
   cursor: pointer;

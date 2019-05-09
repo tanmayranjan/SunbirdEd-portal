@@ -10,7 +10,6 @@ import {
   LearnerService
 } from '@sunbird/core';
 import { SignupService } from '../../../public/module/signup/services';
-
 @Component({
   selector: 'app-adduser',
   templateUrl: './adduser.component.html',
@@ -30,6 +29,18 @@ export class AdduserComponent implements OnInit {
   username = new FormControl('', [Validators.required]);
   phonenumber = new FormControl('', [Validators.required]);
   name = new FormControl('', [Validators.required]);
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: false,
+    headers: [],
+    showTitle: true,
+    title: 'asfasf',
+    useBom: false,
+    removeNewLines: true,
+  };
+  data;
   constructor(
     public configService: ConfigService,
     public userService: UserService,
@@ -43,7 +54,9 @@ export class AdduserComponent implements OnInit {
     this.route = route;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
   disableViewUser(event) {
     if (event.target.name === 'adduser') {
       this.enableadduser = true;
@@ -79,9 +92,16 @@ export class AdduserComponent implements OnInit {
               emailVerified: true
             }
           };
+          this.data = {
+            firstName: this.name.value,
+            userName: this.username.value,
+            email: this.email.value,
+            password: this.password.value,
+            channel: channel,
+            emailVerified: true
+          };
           this.signupService.createUser1(option1).subscribe(data => {
             this.toasterService.success('User Created Successfully');
-            this.goBackToCoursePage();
           }, (err) => {
             console.log(err);
             this.toasterService.error(err.error.params.err);
@@ -93,9 +113,9 @@ export class AdduserComponent implements OnInit {
     this.enabled = !this.enabled;
   }
 
-  goBackToCoursePage() {
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  }
+  // goBackToCoursePage() {
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 500);
+  // }
 }

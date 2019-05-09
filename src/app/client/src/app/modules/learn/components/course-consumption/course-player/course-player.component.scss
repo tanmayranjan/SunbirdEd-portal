@@ -132,16 +132,24 @@
 
 
 // product details css//
-
+// ::ng-deep .ui.active.modal {
+//   height: auto;
+//   height: inherit;
+// }
 .modal-height {
     //  margin-top: -19em;
     color: white;
     background: black;
+    position: sticky;
+    // height: 39em;
+    // min-height: 39em;
 }
 
 #app-player-collection-renderer {
   color: white;
   font-size: 18px;
+  // height: 3em;
+  // min-height: 3em;
 }
 
 .click-notify-xurl {
@@ -365,12 +373,19 @@
 .courseStructureDesc {
   font-size: 15px
 }
-::ng-deep .ui.modal {
-  height : auto !important;
-}
-::ng-deep .ui.modal > .close {
-  text-shadow: 1px 1px black;
+::ng-deep .ui.modal>.close {
+  text-shadow: 1px 2px black;
+  position: initial;
   cursor: unset;
+}
+::ng-deep .ui.modal {
+  height: auto !important;
+}
+.basicpreview {
+  position: sticky;
+}
+::ng-deep #preview-modal .ui.active.modal {
+  margin-top: -19em !important;
 }
 .readmore {
   position: absolute;
@@ -434,9 +449,6 @@
 }
 #course-content .ui.styled.accordion .active.title {
   background: #F0F0F0;
-}
-::ng-deep .ui.active.modal {
-  height: auto !important;
 }
 ::ng-deep .ui.styled.accordion .active.title {
   background: inherit;

@@ -1,4 +1,4 @@
-<sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal>
+<sui-modal [isClosable]="true" (dismissed)="goToCreate(); " [mustScroll]="true" #modal id="workspace-modal">
     <div class=" ui segment mt-10" [appTelemetryImpression]="telemetryImpression">
         <div class=" mb-15">
             <div class="ui grid">
@@ -12,15 +12,32 @@
         <form class="ui form">
             <div class="content">
                 <div *ngIf="formFieldProperties && categoryMasterList">
-                    <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList">
+                    <app-content-creation-default-template #formData [formFieldProperties]="formFieldProperties" [categoryMasterList]="categoryMasterList" (inputChanged)="inputChangedHandler($event)">
                     </app-content-creation-default-template>
                 </div>
+ 
                 <div class="actions mt-10">
-                    <p class="text-align-center pt-20">
+                       <p class="text-align-center pt-20" *ngIf="other_forms">
+                            <button class="ui primary text-align-center icon button" *ngIf= "!routeToCreateContent && !routeToUploadContent" (click)="createContent();modal.deny()">
+                                    GO
+                            </button>
+                      </p>
+
+                    <p class="text-align-center pt-20" *ngIf="routeToCreateContent">
                         <button class="ui primary text-align-center icon button" (click)="createContent();modal.deny()">
                             {{resourceService?.frmelmnts?.btn?.startcreating}}
                         </button>
                     </p>
+                    <div *ngIf='permissionService.permissionAvailable && routeToUploadContent' appPermission 
+                    [permission]='contentUploadRole'>
+                    <div class="text-align-center pt-20"
+                    appTelemetryInteract [telemetryInteractObject]="{id:'',type:'upload-content',ver:'1.0'}" [telemetryInteractEdata]="{id:'uploadContent',type:'click',pageid:'UploadContent'}">
+                    <button class="ui primary text-align-center icon button" routerLink="/workspace/content/edit/generic/">
+                       START UPLOADING
+                        </button>
+                    </div>
+                </div>
+               
                     <div [ngSwitch]="creationFormLable">
                         <h4 class="text-align-center mt-10" *ngSwitchCase="'createtextbook'">{{resourceService?.frmelmnts?.lbl?.bookfillater}}</h4>
                         <h4 class="text-align-center mt-10" *ngSwitchCase="'designcourse'">{{resourceService?.frmelmnts?.lbl?.coursefilllater}}</h4>
