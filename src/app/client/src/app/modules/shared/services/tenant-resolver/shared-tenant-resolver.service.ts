@@ -39,8 +39,10 @@ export class SharedTenantResolverService {
     // let theme = JSON.parse(this._tenantData);
     if (this._tenantData !== undefined || this._tenantData !== null) {
       const primaryColor = this._tenantData['CustomizeOptions']['Home']['theme']['primaryColor'];
+      const secondaryColor = this._tenantData['CustomizeOptions']['Home']['theme']['secondaryColor'];
       // console.log('theme data is ', this._tenantData['CustomizeOptions']['Home']['theme']['primaryColor']);
       document.documentElement.style.setProperty('--primary-color', primaryColor);
+      document.documentElement.style.setProperty('--secondary-color',secondaryColor);
     } else {
       alert('did not recieve any theme');
     }

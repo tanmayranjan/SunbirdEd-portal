@@ -24,4 +24,9 @@ span.ui.tiny.header.right-floated.note-actions {
     height : 21.6px;
     width : 46px;
     pointer-events: none;
+    float : right;
+}
+
+.notes-card-section.ui.card {
+    margin-bottom : 0;
 }

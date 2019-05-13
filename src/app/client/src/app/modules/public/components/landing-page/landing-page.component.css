@@ -701,6 +701,7 @@ label {
 .explore .container .row div {
   padding: 0;
   height: 250px;
+  border : 1px solid #f2f2f2;
 }
 .explore .container .row div:hover {
   cursor: pointer;

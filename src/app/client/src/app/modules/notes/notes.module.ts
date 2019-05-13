@@ -12,6 +12,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { NoteListComponent, InlineEditorComponent, NoteCardComponent, DeleteNoteComponent, PopupEditorComponent } from './components';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
+import { NoteCardActionsComponent } from './components/note-card-actions/note-card-actions.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { NgInviewModule } from 'angular-inport';
     NgInviewModule
   ],
   declarations: [TimeAgoPipe, NoteListComponent, InlineEditorComponent,
-    NoteCardComponent, PopupEditorComponent, DeleteNoteComponent],
+    NoteCardComponent, PopupEditorComponent, DeleteNoteComponent, NoteCardActionsComponent],
   providers: [NotesService],
   exports: [NoteListComponent, PopupEditorComponent, NoteCardComponent]
 })
