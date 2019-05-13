@@ -46,7 +46,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   private rootNode: any;
   public rootChildrens: any;
   public children = [];
-  public preContent = [];
+  public preContent = {};
   public contentsStatus = [];
 openLock = false;
 open: boolean;
@@ -75,46 +75,11 @@ open: boolean;
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
-// public onNode(node: any) {
-// // const currentRootNodeId = node.model.identifier;
-// // let prevContent;
-// // let contentIds: any;
-// // let prevNodeCount = 0;
-// // _.forOwn(node.model.prerequisite_Data, data => {
-// //   _.forOwn(this.rootContents, (data1: any) => {
-// // if (data === data1.name) {
-// // contentIds = data1.id;
-// // }
-// //   });
-// //     });
-// //  _.forOwn(this.preContent, (content, key) => {
-// // prevNodeCount++;
-// // if (contentIds === key) {
-// //  prevContent = content;
-// // }
-
-// // if (prevContent) {
-// //   _.forOwn(prevContent, value => {
-// //   const contentvalue: any = this.findElement(value);
-// //   console.log(value);
-// //   if (contentvalue) {
-// //     if ( _.includes(prevContent, contentvalue.contentId)) {
-// //         this.statuscount++;
-// //         if (this.statuscount === prevContent.length) {
-// //           this.statuscount = 0;
-// //           } else if (this.statuscount === 0) {
-// //             node.togglePanelIcon = true;
-// //         }
-// //   }
-// //   } else if (currentRootNodeId === key) {
-// //     node.togglePanelIcon = true;
-// //     this.toasterService.error('please complete prerequisites');
-// //   }
-// // });
-// // }
-
-// //  });
-// }
+public onNode(node: any) {
+if (!node.model.prerequisite_Data) {
+  node.model.togglePanelIcon = !node.model.togglePanelIcon;
+}
+}
 public findElement(content) {
   // console.log(content);
   const foundObject = _.find(this.contentsStatus, (e) => {
@@ -140,31 +105,41 @@ public findElement(content) {
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
       _.forEach(this.rootChildrens, child => {
-       if (child.model.prerequisite_Data) {
-        child['togglePanelIcon'] = false;
-       } else {
-        child['togglePanelIcon'] = true;
-       }
+        this.rootContents.push(child);
       });
       this.addNodeMeta();
       _.forOwn(this.rootNode.model.children, children => {
         console.log('child', children);
-        if (this.open === true) {
-          // children['togglePanelIcon'] = true;
-          children['open'] = true;
-          console.log('cj', children);
-
-
-        } else {
-
-          children['open'] = false;
-
-        }
+        if (children.prerequisite_Data) {
+          children['togglePanelIcon'] = false;
+         } else {
+           children['togglePanelIcon'] = true;
+         }
+        console.log('child', children);
         this.getContent(children.identifier, children);
-        // this.preContent[children.identifier] = this.children;
-        this.getStausOfNode(children.identifier, this.children);
+        this.preContent[children.identifier] = this.children;
+
         this.children = [];
       });
+_.forOwn(this.rootContents, (children: any) => {
+  if (children.model.prerequisite_Data) {
+    _.forOwn(this.rootContents, (contents: any) => {
+      if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
+        console.log(this.preContent[contents.model.identifier]);
+        if (this.preContent.hasOwnProperty(contents.model.identifier)) {
+          console.log('this.pre', this.preContent);
+      this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
+      if (this.open === true) {
+        children.model['open'] = true;
+        children.model['togglePanelIcon'] = true;
+      } else {
+        children.model['open'] = false;
+      }
+        }
+      }
+    });
+  }
+});
     }
   }
 
@@ -201,6 +176,7 @@ public findElement(content) {
       }
     });
     }
+
   private createTreeModel() {
     if (!this.nodes) {
       return;
