@@ -26,6 +26,7 @@ import { ResourceService, ToasterService } from '../../services/index';
 import { b, d } from '@angular/core/src/render3';
 import { constructor } from 'lodash';
 import * as moment from 'moment';
+import { _localeFactory } from '@angular/core/src/application_module';
 
 @Component({
   selector: 'app-collection-tree',
@@ -48,6 +49,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   public preContent = [];
   public contentsStatus = [];
 openLock = false;
+open: boolean;
   statuscount = 0;
   rootContents = [];
   private iconColor = {
@@ -55,6 +57,7 @@ openLock = false;
     '1': 'fancy-tree-blue',
     '2': 'fancy-tree-green'
   };
+  units: any;
   constructor(public resourceService?: ResourceService, public toasterService?: ToasterService) {
     this.resourceService = resourceService;
   }
@@ -72,46 +75,46 @@ openLock = false;
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
-public onNode(node: any) {
-const currentRootNodeId = node.model.identifier;
-let prevContent;
-let contentIds: any;
-let prevNodeCount = 0;
-_.forOwn(node.model.prerequisite_Data, data => {
-  _.forOwn(this.rootContents, (data1: any) => {
-if (data === data1.name) {
-contentIds = data1.id;
-}
-  });
-    });
- _.forOwn(this.preContent, (content, key) => {
-prevNodeCount++;
-if (contentIds === key) {
- prevContent = content;
-}
+// public onNode(node: any) {
+// // const currentRootNodeId = node.model.identifier;
+// // let prevContent;
+// // let contentIds: any;
+// // let prevNodeCount = 0;
+// // _.forOwn(node.model.prerequisite_Data, data => {
+// //   _.forOwn(this.rootContents, (data1: any) => {
+// // if (data === data1.name) {
+// // contentIds = data1.id;
+// // }
+// //   });
+// //     });
+// //  _.forOwn(this.preContent, (content, key) => {
+// // prevNodeCount++;
+// // if (contentIds === key) {
+// //  prevContent = content;
+// // }
 
-if (prevContent) {
-  _.forOwn(prevContent, value => {
-  const contentvalue: any = this.findElement(value);
-  console.log(value);
-  if (contentvalue) {
-    if ( _.includes(prevContent, contentvalue.contentId)) {
-        this.statuscount++;
-        if (this.statuscount === prevContent.length) {
-          this.statuscount = 0;
-          } else if (this.statuscount === 0) {
-            node.togglePanelIcon = true;
-        }
-  }
-  } else if (currentRootNodeId === key) {
-    node.togglePanelIcon = true;
-    this.toasterService.error('please complete prerequisites');
-  }
-});
-}
+// // if (prevContent) {
+// //   _.forOwn(prevContent, value => {
+// //   const contentvalue: any = this.findElement(value);
+// //   console.log(value);
+// //   if (contentvalue) {
+// //     if ( _.includes(prevContent, contentvalue.contentId)) {
+// //         this.statuscount++;
+// //         if (this.statuscount === prevContent.length) {
+// //           this.statuscount = 0;
+// //           } else if (this.statuscount === 0) {
+// //             node.togglePanelIcon = true;
+// //         }
+// //   }
+// //   } else if (currentRootNodeId === key) {
+// //     node.togglePanelIcon = true;
+// //     this.toasterService.error('please complete prerequisites');
+// //   }
+// // });
+// // }
 
- });
-}
+// //  });
+// }
 public findElement(content) {
   // console.log(content);
   const foundObject = _.find(this.contentsStatus, (e) => {
@@ -130,6 +133,7 @@ public findElement(content) {
   }
 
   private initialize() {
+    console.log('contentStatus', this.contentStatus);
     // tslint:disable-next-line:no-debugger
     debugger;
     this.rootNode = this.createTreeModel();
@@ -144,31 +148,51 @@ public findElement(content) {
       });
       this.addNodeMeta();
       _.forOwn(this.rootNode.model.children, children => {
-        const obj = {
-          id: children.identifier,
-          preData: children.prerequisite_Data,
-          name: children.name
-        };
-        this.rootContents[children.identifier] = obj;
+        console.log('child', children);
+        if (this.open === true) {
+          // children['togglePanelIcon'] = true;
+          children['open'] = true;
+          console.log('cj', children);
+
+
+        } else {
+
+          children['open'] = false;
+
+        }
         this.getContent(children.identifier, children);
-        this.preContent[children.identifier] = this.children;
+        // this.preContent[children.identifier] = this.children;
+        this.getStausOfNode(children.identifier, this.children);
         this.children = [];
-
-        console.log(this.contentsStatus, this.preContent);
       });
-      // _.forOwn(this.preContent, (value, key) => {
-      //   console.log(value);
-      // _.forOwn(value , contentid => {
-      //   const contentValue: any = this.findElement(contentid);
-      //   console.log(contentValue, key);
-      // });
-      //  });
-      // console.log(this.contentsStatus, this.preContent);
+    }
+  }
 
+
+
+  getStausOfNode(id, children: any) {
+    let statusofcontent = 0;
+    const totalContent = 2 * children.length;
+    _.forEach(children, pre => {
+     if (_.find(this.contentsStatus, {'contentId': pre })) {
+          const obj = _.find(this.contentsStatus, {'contentId': pre } );
+          if (obj.status === 2) {
+              statusofcontent = statusofcontent + obj.status;
+          }
+
+     }
+    });
+
+    if (statusofcontent === totalContent) {
+      console.log('tr', id);
+       this.open = true;
+       console.log('this.open', this.open);
+    } else {
+      this.open = false;
     }
   }
   getContent(rootId, children) {
-    // console.log(this.contentsStatus);
+    console.log(this.contentsStatus);
     _.forOwn(children.children, child => {
       if (child.hasOwnProperty('children') && child.children.length > 0) {
         this.getContent(rootId, child);
