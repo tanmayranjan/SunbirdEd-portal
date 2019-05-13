@@ -1,18 +1,19 @@
 <sui-accordion *ngFor="let child of rootChildrens" class="ui styled accordion mt-10  width-100" id="course-content">
   <sui-accordion-panel [ngClass]="child.extraClasses" (click)="!child.folder && onNodeClick(child)"
     [(isOpen)]="child.togglePanelIcon" [isDisabled]="(!child.children.length) || (!child.folder)">
-    <div title class="accordian-left-text">
-      <i *ngIf="child.folder" class="fa fa-2x mr-10 vertical-align-middle"
-        [class.fa-folder-open-o]="!child.togglePanelIcon" [class.fa-folder-o]="!child.togglePanelIcon"></i>
-      <i *ngIf="!child.folder" class="fa fa-2x mr-10 vertical-align-middle" [ngClass]="child.icon"></i>
-      <span [innerHTML]="child.title" class="d-inline-block mt-5" id="title"></span>
-      <span [innerHTML]="child.startDate" class="d-inline-block mt-5"></span>
-      <span *ngIf="enrolledDate" [innerHTML]="'-'" class="d-inline-block mt-5"></span>
-
-      <span [innerHTML]="child.endDate" class="d-inline-block mt-5"></span>
-
-      <i *ngIf="child.folder && child.children.length" class="icon right-float accordion-content-right"
-        [class.plus]="!child.togglePanelIcon" [class.minus]="child.togglePanelIcon"></i>
+    <div title class="accordian-left-text" (click)="onNode(child)" >
+  <i *ngIf="child.folder" class="fa fa-2x mr-10 vertical-align-middle"
+  [class.fa-folder-open-o]="!child.togglePanelIcon" [class.fa-folder-o]="!child.togglePanelIcon"></i>
+<i *ngIf="!child.folder" class="fa fa-2x mr-10 vertical-align-middle" [ngClass]="child.icon"></i>
+<i class="mt-2 fa-1-429 mr-10 red-tooltip"
+title="Complete the Prerequisites"
+ [ngClass]="{'fas':true , 'fa-lock': (child.model.prerequisite_Data && !child.togglePanelIcon) === true, 'fa-lock-open': (child.model.prerequisite_Data && !child.togglePanelIcon) === false}" ></i>
+<span [innerHTML]="child.title" class="d-inline-block mt-2" id="title"></span>
+<span [innerHTML]="child.startDate" class="d-inline-block mt-2"></span>
+<span *ngIf="enrolledDate" [innerHTML]="'-'" class="d-inline-block mt-2"></span>
+<span [innerHTML]="child.endDate" class="d-inline-block mt-2"></span>
+<i *ngIf="child.folder && child.children.length" class="icon right-float accordion-content-right"
+  [class.plus]="!child.togglePanelIcon" [class.minus]="child.togglePanelIcon"></i>
     </div>
     <div *ngIf="child.folder" content>
       <app-fancy-tree (itemSelect)="onItemSelect($event)" [nodes]="child.children" [options]="{ showConnectors: true }" [enrolledDate]="enrolledDate">

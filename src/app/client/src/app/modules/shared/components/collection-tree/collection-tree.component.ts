@@ -22,8 +22,8 @@ import {
   MimeTypeTofileType,
   IactivityType
 } from '../../interfaces';
-import { ResourceService } from '../../services/index';
-import { b } from '@angular/core/src/render3';
+import { ResourceService, ToasterService } from '../../services/index';
+import { b, d } from '@angular/core/src/render3';
 import { constructor } from 'lodash';
 import * as moment from 'moment';
 
@@ -44,18 +44,22 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
-  open = true;
+  public children = [];
+  public preContent = [];
+  public contentsStatus = [];
+openLock = false;
+  statuscount = 0;
+  rootContents = [];
   private iconColor = {
     '0': 'fancy-tree-grey',
     '1': 'fancy-tree-blue',
     '2': 'fancy-tree-green'
   };
-  constructor(public resourceService?: ResourceService) {
+  constructor(public resourceService?: ResourceService, public toasterService?: ToasterService) {
     this.resourceService = resourceService;
   }
   ngOnInit() {
     this.initialize();
-    console.log('resource ', this.resourceService);
   }
 
   ngOnChanges() {
@@ -63,11 +67,62 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
 
   public onNodeClick(node: any) {
+
     if (!node.folder) {
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
+public onNode(node: any) {
+const currentRootNodeId = node.model.identifier;
+let prevContent;
+let contentIds: any;
+let prevNodeCount = 0;
+_.forOwn(node.model.prerequisite_Data, data => {
+  _.forOwn(this.rootContents, (data1: any) => {
+if (data === data1.name) {
+contentIds = data1.id;
+}
+  });
+    });
+ _.forOwn(this.preContent, (content, key) => {
+prevNodeCount++;
+if (contentIds === key) {
+ prevContent = content;
+}
 
+if (prevContent) {
+  _.forOwn(prevContent, value => {
+  const contentvalue: any = this.findElement(value);
+  console.log(value);
+  if (contentvalue) {
+    if ( _.includes(prevContent, contentvalue.contentId)) {
+        this.statuscount++;
+        if (this.statuscount === prevContent.length) {
+          this.statuscount = 0;
+          } else if (this.statuscount === 0) {
+            node.togglePanelIcon = true;
+        }
+  }
+  } else if (currentRootNodeId === key) {
+    node.togglePanelIcon = true;
+    this.toasterService.error('please complete prerequisites');
+  }
+});
+}
+
+ });
+}
+public findElement(content) {
+  // console.log(content);
+  const foundObject = _.find(this.contentsStatus, (e) => {
+    // console.log(e);
+    if (e.contentId === content && e.status === 2) {
+      console.log(e.contentId, content);
+      return content;
+    }
+  });
+  return foundObject;
+}
   public onItemSelect(item: any) {
     if (!item.folder) {
       this.contentSelect.emit({ id: item.data.id, title: item.title });
@@ -75,18 +130,53 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
 
   private initialize() {
+    // tslint:disable-next-line:no-debugger
+    debugger;
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
       _.forEach(this.rootChildrens, child => {
+       if (child.model.prerequisite_Data) {
+        child['togglePanelIcon'] = false;
+       } else {
         child['togglePanelIcon'] = true;
+       }
       });
-      console.log('rootChildrens', this.rootChildrens);
-
       this.addNodeMeta();
+      _.forOwn(this.rootNode.model.children, children => {
+        const obj = {
+          id: children.identifier,
+          preData: children.prerequisite_Data,
+          name: children.name
+        };
+        this.rootContents[children.identifier] = obj;
+        this.getContent(children.identifier, children);
+        this.preContent[children.identifier] = this.children;
+        this.children = [];
+
+        console.log(this.contentsStatus, this.preContent);
+      });
+      // _.forOwn(this.preContent, (value, key) => {
+      //   console.log(value);
+      // _.forOwn(value , contentid => {
+      //   const contentValue: any = this.findElement(contentid);
+      //   console.log(contentValue, key);
+      // });
+      //  });
+      // console.log(this.contentsStatus, this.preContent);
+
     }
   }
-
+  getContent(rootId, children) {
+    // console.log(this.contentsStatus);
+    _.forOwn(children.children, child => {
+      if (child.hasOwnProperty('children') && child.children.length > 0) {
+        this.getContent(rootId, child);
+      } else {
+        this.children.push(child.identifier);
+      }
+    });
+    }
   private createTreeModel() {
     if (!this.nodes) {
       return;
@@ -98,7 +188,6 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
   }
   private addNodeMeta() {
-    console.log('this.root.node', this.rootNode);
     if (!this.rootNode) { return; }
     this.rootNode.walk((node) => {
       node.fileType = MimeTypeTofileType[node.model.mimeType];
@@ -129,6 +218,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
             const content: any = _.find(this.contentStatus, {
               contentId: node.model.identifier
             });
+            this.contentsStatus.push(content);
             const status =
               content && content.status ? content.status.toString() : 0;
             node.iconColor = this.iconColor[status];
