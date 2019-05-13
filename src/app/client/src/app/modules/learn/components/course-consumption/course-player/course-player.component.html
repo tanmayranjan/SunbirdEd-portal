@@ -215,10 +215,6 @@
                                     <div class="ui fitted divider mb-20 mt-30"></div>
                                 </div>
                                 <div class='three wide column'>
-                                    <!-- <app-batch-details *ngIf="courseStatus !== 'Unlisted'" [courseId]="courseId"
-                                        [batchId]="batchId" [enrolledCourse]="enrolledCourse"
-                                        [courseHierarchy]="courseHierarchy" [courseProgressData]="courseProgressData">
-                                    </app-batch-details> -->
                                     <div *ngIf="enrolledCourse" class="my-15">
                                         <div>
                                             <br>
@@ -232,12 +228,9 @@
                                                     (createEventEmitter)="createEventEmitter($event)">
                                                 </app-popup-editor>
                                             </span>
-                                            <!-- <app-note-card [ids]="{contentId:contentId, courseId:courseId}"
-                                                [createNoteData]="createNoteData">
-                                            </app-note-card> -->
                                         </div>
                                     </div>
-                                    <br>
+                                    <!-- <br>
                                     <app-curriculum-card *ngIf="curriculum && curriculum.length > 0" [curriculum]="curriculum"
                                       [activitytypecount]="curriculumactivity">
                                     </app-curriculum-card>
@@ -259,8 +252,8 @@
 
                                         <p class="mb-5">{{resourceService.frmelmnts.lbl.updatedon}}:
                                             {{courseHierarchy.lastUpdatedOn | dateFormat}}</p>
-                                        <!-- <a *ngIf="contributionsLength>0" popupTrigger="outsideClick" [popupPlacement]="'bottom left'" suiPopup popupText={{contributions}}>{{resourceService.frmelmnts.lbl.viewCredits}}</a> -->
-                                    </div>
+                                        <a *ngIf="contributionsLength>0" popupTrigger="outsideClick" [popupPlacement]="'bottom left'" suiPopup popupText={{contributions}}>{{resourceService.frmelmnts.lbl.viewCredits}}</a>
+                                    </div> -->
                                 </div>
                             </div>
 

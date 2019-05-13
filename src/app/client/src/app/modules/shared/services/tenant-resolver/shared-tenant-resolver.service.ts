@@ -42,7 +42,7 @@ export class SharedTenantResolverService {
       const secondaryColor = this._tenantData['CustomizeOptions']['Home']['theme']['secondaryColor'];
       // console.log('theme data is ', this._tenantData['CustomizeOptions']['Home']['theme']['primaryColor']);
       document.documentElement.style.setProperty('--primary-color', primaryColor);
-      document.documentElement.style.setProperty('--secondary-color',secondaryColor);
+      document.documentElement.style.setProperty('--secondary-color', secondaryColor);
     } else {
       alert('did not recieve any theme');
     }

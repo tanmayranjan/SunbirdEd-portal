@@ -17,15 +17,15 @@ export class NoteCardActionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  public editEvent(event : Event) {
-    console.log('edit clicked' + `{"note" : ${this.note},"id" : ${this.i}}`);
+  public editEvent(event: Event) {
+    console.log('edit clicked' + `{'note' : ${this.note},'id' : ${this.i}}`);
     event.stopPropagation();
-    this.oneditEvent.emit({"note" : this.note,"id" : this.i});
+    this.oneditEvent.emit({'note': this.note, 'id': this.i});
   }
-  deleteEvent(event : Event) {
-    console.log('delete clicked' + `{"note" : ${this.note},"id" : ${this.i}}`);
+  deleteEvent(event: Event) {
+    console.log('delete clicked' + `{'note' : ${this.note},'id' : ${this.i}}`);
     event.stopPropagation();
-    this.ondeleteEvent.emit({"note" : this.note,"id" : this.i});
+    this.ondeleteEvent.emit({'note': this.note, 'id': this.i});
   }
 
 }
