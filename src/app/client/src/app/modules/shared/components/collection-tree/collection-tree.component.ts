@@ -75,22 +75,8 @@ open: boolean;
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
-public onNode(node: any) {
-if (!node.model.prerequisite_Data) {
-  node.model.togglePanelIcon = !node.model.togglePanelIcon;
-}
-}
-public findElement(content) {
-  // console.log(content);
-  const foundObject = _.find(this.contentsStatus, (e) => {
-    // console.log(e);
-    if (e.contentId === content && e.status === 2) {
-      console.log(e.contentId, content);
-      return content;
-    }
-  });
-  return foundObject;
-}
+
+
   public onItemSelect(item: any) {
     if (!item.folder) {
       this.contentSelect.emit({ id: item.data.id, title: item.title });
@@ -121,61 +107,11 @@ public findElement(content) {
 
         this.children = [];
       });
-_.forOwn(this.rootContents, (children: any) => {
-  if (children.model.prerequisite_Data) {
-    _.forOwn(this.rootContents, (contents: any) => {
-      if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
-        console.log(this.preContent[contents.model.identifier]);
-        if (this.preContent.hasOwnProperty(contents.model.identifier)) {
-          console.log('this.pre', this.preContent);
-      this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
-      if (this.open === true) {
-        children.model['open'] = true;
-        children.model['togglePanelIcon'] = true;
-      } else {
-        children.model['open'] = false;
-      }
-        }
-      }
-    });
-  }
-});
+this.getCourseStatus();
     }
   }
 
 
-
-  getStausOfNode(id, children: any) {
-    let statusofcontent = 0;
-    const totalContent = 2 * children.length;
-    _.forEach(children, pre => {
-     if (_.find(this.contentsStatus, {'contentId': pre })) {
-          const obj = _.find(this.contentsStatus, {'contentId': pre } );
-          if (obj.status === 2) {
-              statusofcontent = statusofcontent + obj.status;
-          }
-
-     }
-    });
-
-    if (statusofcontent === totalContent) {
-      console.log('tr', id);
-       this.open = true;
-       console.log('this.open', this.open);
-    } else {
-      this.open = false;
-    }
-  }
-  getContent(rootId, children) {
-    console.log(this.contentsStatus);
-    _.forOwn(children.children, child => {
-      if (child.hasOwnProperty('children') && child.children.length > 0) {
-        this.getContent(rootId, child);
-      } else {
-        this.children.push(child.identifier);
-      }
-    });
-    }
 
   private createTreeModel() {
     if (!this.nodes) {
@@ -244,4 +180,66 @@ _.forOwn(this.rootContents, (children: any) => {
       }
     });
   }
+
+/* To get CourseUnit Status details starts*/
+public onNode(node: any) {
+  console.log(node, open);
+  if (node.model.prerequisite_Data && !node.model.open) {
+    this.toasterService.error('You should complete' + '     ' + node.model.prerequisite_Data);
+  }
+  if (!node.model.prerequisite_Data) {
+    node.model.togglePanelIcon = !node.model.togglePanelIcon;
+  }
+  }
+  getCourseStatus() {
+    _.forOwn(this.rootContents, (children: any) => {
+      if (children.model.prerequisite_Data) {
+        _.forOwn(this.rootContents, (contents: any) => {
+          if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
+            console.log(this.preContent[contents.model.identifier]);
+            if (this.preContent.hasOwnProperty(contents.model.identifier)) {
+              console.log('this.pre', this.preContent);
+          this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
+          if (this.open === true) {
+            children.model['open'] = true;
+            children.model['togglePanelIcon'] = true;
+          } else {
+            children.model['open'] = false;
+          }
+            }
+          }
+        });
+      }
+    });
+  }
+    getStausOfNode(id, children: any) {
+      let statusofcontent = 0;
+      const totalContent = 2 * children.length;
+      _.forEach(children, pre => {
+       if (_.find(this.contentsStatus, {'contentId': pre })) {
+            const obj = _.find(this.contentsStatus, {'contentId': pre } );
+            if (obj.status === 2) {
+                statusofcontent = statusofcontent + obj.status;
+            }
+       }
+      });
+      if (statusofcontent === totalContent) {
+        console.log('tr', id);
+         this.open = true;
+         console.log('this.open', this.open);
+      } else {
+        this.open = false;
+      }
+    }
+    getContent(rootId, children) {
+      console.log(this.contentsStatus);
+      _.forOwn(children.children, child => {
+        if (child.hasOwnProperty('children') && child.children.length > 0) {
+          this.getContent(rootId, child);
+        } else {
+          this.children.push(child.identifier);
+        }
+      });
+      }
+      /* To get CourseUnit Status details ends*/
 }
