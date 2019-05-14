@@ -3,7 +3,6 @@
     <div class="header">{{resourceService?.frmelmnts?.lbl?.curriculum}}</div>
     <div class="description">
       <div class="ui list">
-        <app-activitytype-card [activitytypecount]="activitytypecount"></app-activitytype-card>
         <div class="item" *ngFor="let data of curriculum">
           <div *ngIf="data.mimeType=='application/pdf'">
             <div class="content curriculum-content">
