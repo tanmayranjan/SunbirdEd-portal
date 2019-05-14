@@ -1,3 +1,4 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
 .ui.styled.accordion, .ui.styled.accordion .accordion {
     background: inherit ;
 }
@@ -9,5 +10,7 @@
     color: black;
 }
 #title {
-    width: 64% !important
+    width: 64% !important;
 }
+.tooltip-arrow,
+.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}

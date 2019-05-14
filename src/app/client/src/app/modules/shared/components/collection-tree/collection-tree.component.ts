@@ -22,10 +22,11 @@ import {
   MimeTypeTofileType,
   IactivityType
 } from '../../interfaces';
-import { ResourceService } from '../../services/index';
-import { b } from '@angular/core/src/render3';
+import { ResourceService, ToasterService } from '../../services/index';
+import { b, d } from '@angular/core/src/render3';
 import { constructor } from 'lodash';
 import * as moment from 'moment';
+import { _localeFactory } from '@angular/core/src/application_module';
 
 @Component({
   selector: 'app-collection-tree',
@@ -44,18 +45,24 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() contentStatus: any;
   private rootNode: any;
   public rootChildrens: any;
-  open = true;
+  public children = [];
+  public preContent = {};
+  public contentsStatus = [];
+openLock = false;
+open: boolean;
+  statuscount = 0;
+  rootContents = [];
   private iconColor = {
     '0': 'fancy-tree-grey',
     '1': 'fancy-tree-blue',
     '2': 'fancy-tree-green'
   };
-  constructor(public resourceService?: ResourceService) {
+  units: any;
+  constructor(public resourceService?: ResourceService, public toasterService?: ToasterService) {
     this.resourceService = resourceService;
   }
   ngOnInit() {
     this.initialize();
-    console.log('resource ', this.resourceService);
   }
 
   ngOnChanges() {
@@ -63,10 +70,12 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
 
   public onNodeClick(node: any) {
+
     if (!node.folder) {
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
+
 
   public onItemSelect(item: any) {
     if (!item.folder) {
@@ -75,17 +84,34 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   }
 
   private initialize() {
+    console.log('contentStatus', this.contentStatus);
+    // tslint:disable-next-line:no-debugger
+    debugger;
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
       _.forEach(this.rootChildrens, child => {
-        child['togglePanelIcon'] = true;
+        this.rootContents.push(child);
       });
-      console.log('rootChildrens', this.rootChildrens);
-
       this.addNodeMeta();
+      _.forOwn(this.rootNode.model.children, children => {
+        console.log('child', children);
+        if (children.prerequisite_Data) {
+          children['togglePanelIcon'] = false;
+         } else {
+           children['togglePanelIcon'] = true;
+         }
+        console.log('child', children);
+        this.getContent(children.identifier, children);
+        this.preContent[children.identifier] = this.children;
+
+        this.children = [];
+      });
+this.getCourseStatus();
     }
   }
+
+
 
   private createTreeModel() {
     if (!this.nodes) {
@@ -98,7 +124,6 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
     return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
   }
   private addNodeMeta() {
-    console.log('this.root.node', this.rootNode);
     if (!this.rootNode) { return; }
     this.rootNode.walk((node) => {
       node.fileType = MimeTypeTofileType[node.model.mimeType];
@@ -129,6 +154,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
             const content: any = _.find(this.contentStatus, {
               contentId: node.model.identifier
             });
+            this.contentsStatus.push(content);
             const status =
               content && content.status ? content.status.toString() : 0;
             node.iconColor = this.iconColor[status];
@@ -154,4 +180,69 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
       }
     });
   }
+
+/* To get CourseUnit Status details starts*/
+
+public onNode(node: any) {
+  console.log(node, open);
+  if (node.model.prerequisite_Data && !node.model.open) {
+    this.toasterService.error('You should complete' + '     ' + node.model.prerequisite_Data);
+  }
+  if (!node.model.prerequisite_Data) {
+    node.model.togglePanelIcon = !node.model.togglePanelIcon;
+  }
+  }
+
+public getCourseStatus() {
+    _.forOwn(this.rootContents, (children: any) => {
+      if (children.model.prerequisite_Data) {
+        _.forOwn(this.rootContents, (contents: any) => {
+          if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
+            console.log(this.preContent[contents.model.identifier]);
+            if (this.preContent.hasOwnProperty(contents.model.identifier)) {
+              console.log('this.pre', this.preContent);
+          this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
+          if (this.open === true) {
+            children.model['open'] = true;
+            children.model['togglePanelIcon'] = true;
+          } else {
+            children.model['open'] = false;
+            children.model['togglePanelIcon'] = false;
+          }
+            }
+          }
+        });
+      }
+    });
+  }
+ public getStausOfNode(id, children: any) {
+      let statusofcontent = 0;
+      const totalContent = 2 * children.length;
+      _.forEach(children, pre => {
+       if (_.find(this.contentsStatus, {'contentId': pre })) {
+            const obj = _.find(this.contentsStatus, {'contentId': pre } );
+            if (obj.status === 2) {
+                statusofcontent = statusofcontent + obj.status;
+            }
+       }
+      });
+      if (statusofcontent === totalContent) {
+        console.log('tr', id);
+         this.open = true;
+         console.log('this.open', this.open);
+      } else {
+        this.open = false;
+      }
+    }
+ public getContent(rootId, children) {
+      console.log(this.contentsStatus);
+      _.forOwn(children.children, child => {
+        if (child.hasOwnProperty('children') && child.children.length > 0) {
+          this.getContent(rootId, child);
+        } else {
+          this.children.push(child.identifier);
+        }
+      });
+      }
+      /* To get CourseUnit Status details ends*/
 }
