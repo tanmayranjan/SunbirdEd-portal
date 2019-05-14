@@ -182,6 +182,7 @@ this.getCourseStatus();
   }
 
 /* To get CourseUnit Status details starts*/
+
 public onNode(node: any) {
   console.log(node, open);
   if (node.model.prerequisite_Data && !node.model.open) {
@@ -191,7 +192,8 @@ public onNode(node: any) {
     node.model.togglePanelIcon = !node.model.togglePanelIcon;
   }
   }
-  getCourseStatus() {
+
+public getCourseStatus() {
     _.forOwn(this.rootContents, (children: any) => {
       if (children.model.prerequisite_Data) {
         _.forOwn(this.rootContents, (contents: any) => {
@@ -205,6 +207,7 @@ public onNode(node: any) {
             children.model['togglePanelIcon'] = true;
           } else {
             children.model['open'] = false;
+            children.model['togglePanelIcon'] = false;
           }
             }
           }
@@ -212,7 +215,7 @@ public onNode(node: any) {
       }
     });
   }
-    getStausOfNode(id, children: any) {
+ public getStausOfNode(id, children: any) {
       let statusofcontent = 0;
       const totalContent = 2 * children.length;
       _.forEach(children, pre => {
@@ -231,7 +234,7 @@ public onNode(node: any) {
         this.open = false;
       }
     }
-    getContent(rootId, children) {
+ public getContent(rootId, children) {
       console.log(this.contentsStatus);
       _.forOwn(children.children, child => {
         if (child.hasOwnProperty('children') && child.children.length > 0) {
