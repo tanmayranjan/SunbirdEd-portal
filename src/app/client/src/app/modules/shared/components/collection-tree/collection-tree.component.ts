@@ -46,8 +46,9 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   private rootNode: any;
   public rootChildrens: any;
   public children = [];
-  public preContent = [];
+  public preContent = {};
   public contentsStatus = [];
+  public completedUnits = [];
 openLock = false;
 open: boolean;
   statuscount = 0;
@@ -75,57 +76,8 @@ open: boolean;
       this.contentSelect.emit({ id: node.id, title: node.title });
     }
   }
-// public onNode(node: any) {
-// // const currentRootNodeId = node.model.identifier;
-// // let prevContent;
-// // let contentIds: any;
-// // let prevNodeCount = 0;
-// // _.forOwn(node.model.prerequisite_Data, data => {
-// //   _.forOwn(this.rootContents, (data1: any) => {
-// // if (data === data1.name) {
-// // contentIds = data1.id;
-// // }
-// //   });
-// //     });
-// //  _.forOwn(this.preContent, (content, key) => {
-// // prevNodeCount++;
-// // if (contentIds === key) {
-// //  prevContent = content;
-// // }
 
-// // if (prevContent) {
-// //   _.forOwn(prevContent, value => {
-// //   const contentvalue: any = this.findElement(value);
-// //   console.log(value);
-// //   if (contentvalue) {
-// //     if ( _.includes(prevContent, contentvalue.contentId)) {
-// //         this.statuscount++;
-// //         if (this.statuscount === prevContent.length) {
-// //           this.statuscount = 0;
-// //           } else if (this.statuscount === 0) {
-// //             node.togglePanelIcon = true;
-// //         }
-// //   }
-// //   } else if (currentRootNodeId === key) {
-// //     node.togglePanelIcon = true;
-// //     this.toasterService.error('please complete prerequisites');
-// //   }
-// // });
-// // }
 
-// //  });
-// }
-public findElement(content) {
-  // console.log(content);
-  const foundObject = _.find(this.contentsStatus, (e) => {
-    // console.log(e);
-    if (e.contentId === content && e.status === 2) {
-      console.log(e.contentId, content);
-      return content;
-    }
-  });
-  return foundObject;
-}
   public onItemSelect(item: any) {
     if (!item.folder) {
       this.contentSelect.emit({ id: item.data.id, title: item.title });
@@ -134,73 +86,40 @@ public findElement(content) {
 
   private initialize() {
     console.log('contentStatus', this.contentStatus);
-    // tslint:disable-next-line:no-debugger
-    debugger;
+
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
       _.forEach(this.rootChildrens, child => {
-       if (child.model.prerequisite_Data) {
-        child['togglePanelIcon'] = false;
-       } else {
-        child['togglePanelIcon'] = true;
-       }
+        this.rootContents.push(child);
       });
       this.addNodeMeta();
+
+
+      /*
+      *
+      *to add prerequisites data
+      *
+      */
       _.forOwn(this.rootNode.model.children, children => {
         console.log('child', children);
-        if (this.open === true) {
-          // children['togglePanelIcon'] = true;
-          children['open'] = true;
-          console.log('cj', children);
-
-
-        } else {
-
-          children['open'] = false;
-
-        }
+        if (children.prerequisite_Data) {
+          children['togglePanelIcon'] = false;
+         } else {
+           children['togglePanelIcon'] = true;
+         }
+        console.log('child', children);
         this.getContent(children.identifier, children);
-        // this.preContent[children.identifier] = this.children;
-        this.getStausOfNode(children.identifier, this.children);
+        this.preContent[children.identifier] = this.children;
+
         this.children = [];
       });
+        this.getCourseStatus();
     }
   }
 
 
 
-  getStausOfNode(id, children: any) {
-    let statusofcontent = 0;
-    const totalContent = 2 * children.length;
-    _.forEach(children, pre => {
-     if (_.find(this.contentsStatus, {'contentId': pre })) {
-          const obj = _.find(this.contentsStatus, {'contentId': pre } );
-          if (obj.status === 2) {
-              statusofcontent = statusofcontent + obj.status;
-          }
-
-     }
-    });
-
-    if (statusofcontent === totalContent) {
-      console.log('tr', id);
-       this.open = true;
-       console.log('this.open', this.open);
-    } else {
-      this.open = false;
-    }
-  }
-  getContent(rootId, children) {
-    console.log(this.contentsStatus);
-    _.forOwn(children.children, child => {
-      if (child.hasOwnProperty('children') && child.children.length > 0) {
-        this.getContent(rootId, child);
-      } else {
-        this.children.push(child.identifier);
-      }
-    });
-    }
   private createTreeModel() {
     if (!this.nodes) {
       return;
@@ -268,4 +187,85 @@ public findElement(content) {
       }
     });
   }
+
+/* To get CourseUnit Status details starts*/
+
+public onNode(node: any) {
+  console.log(node, open, this.completedUnits);
+  let preData = node.model.prerequisite_Data;
+
+
+  if (node.model.prerequisite_Data && !node.model.open) {
+    _.forEach(node.model.prerequisite_Data , data => {
+      console.log('complted units', this.completedUnits, data);
+      console.log('find', _.includes(this.completedUnits, data));
+      if ( _.includes(this.completedUnits, data)) {
+        _.pull(preData, data);
+        console.log('fil', _.pull(preData, data)
+        );
+       }
+    });
+    this.toasterService.error('You should complete' + '     ' + preData);
+    preData = [];
+  }
+  if (!node.model.prerequisite_Data) {
+    node.model.togglePanelIcon = !node.model.togglePanelIcon;
+  }
+  }
+
+public getCourseStatus() {
+    _.forOwn(this.rootContents, (children: any) => {
+      if (children.model.prerequisite_Data) {
+        _.forOwn(this.rootContents, (contents: any) => {
+          if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
+            if (this.preContent.hasOwnProperty(contents.model.identifier)) {
+          this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
+          if (this.open === true ) {
+            if (this.completedUnits.indexOf(contents.model.name) === -1) {
+              this.completedUnits.push(contents.model.name);
+
+            }
+
+            children.model['open'] = true;
+            children.model['togglePanelIcon'] = true;
+          } else {
+            children.model['open'] = false;
+            children.model['togglePanelIcon'] = false;
+          }
+            }
+          }
+        });
+      }
+    });
+  }
+ public getStausOfNode(id, children: any) {
+      let statusofcontent = 0;
+      const totalContent = 2 * children.length;
+      _.forEach(children, pre => {
+       if (_.find(this.contentsStatus, {'contentId': pre })) {
+            const obj = _.find(this.contentsStatus, {'contentId': pre } );
+            if (obj.status === 2) {
+                statusofcontent = statusofcontent + obj.status;
+            }
+       }
+      });
+      if (statusofcontent === totalContent) {
+        console.log('tr', id);
+         this.open = true;
+         console.log('this.open', this.open);
+      } else {
+        this.open = false;
+      }
+    }
+ public getContent(rootId, children) {
+      console.log(this.contentsStatus);
+      _.forOwn(children.children, child => {
+        if (child.hasOwnProperty('children') && child.children.length > 0) {
+          this.getContent(rootId, child);
+        } else {
+          this.children.push(child.identifier);
+        }
+      });
+      }
+      /* To get CourseUnit Status details ends*/
 }
