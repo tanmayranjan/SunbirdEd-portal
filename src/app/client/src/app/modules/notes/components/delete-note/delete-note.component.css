@@ -1,0 +1,6 @@
+.ui.primary.button.yes {
+    background-color : var(--primary-color) !important;
+}
+.no {
+    background-color : var(--secondary-color) !important;
+}

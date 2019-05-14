@@ -18,10 +18,7 @@
                         <div class="description mt-0 notedec">
                             <span Markdown content="noteData">{{ note.note | slice:0:100 }}</span>
                         </div>
-                        <div class="description mt-0 note-action-wrapper d-inline">
-                                        <i class="fas fa-edit green" (click)="setSelectedNote(note,i); showUpdateEditor = !showUpdateEditor;"></i>
-                                        &nbsp;&nbsp; 
-                                        <i class="fas fa-trash-alt red" (click)="showDeletemodal = !showDeletemodal"></i>
+                        <app-note-card-actions [note]="note" [i]="i" (oneditEvent)="editTrigger($event)" (ondeleteEvent)="triggerDelete($event)"></app-note-card-actions>
                         </div>
                     </div>
                     <div *ngIf="i !== notesList.length-1" class="ui clearing divider" style="margin-top: 5px;"></div>
@@ -29,7 +26,6 @@
             </div>
         </div>
     </div>
-</div>
 <app-delete-note *ngIf="showDeletemodal === true" [deleteNote]="selectedNote"  (exitModal)="showDeletemodal = false" (deleteEventEmitter)="deleteEventEmitter($event)">
     </app-delete-note>
 <div *ngIf="notesList.length <= 0">
@@ -46,7 +42,7 @@
 </div>
 <ng-template let-context let-modal="modal" #modalTemplate>
         <div class="header">{{context.title || 'title not available'}}</div>
-        <div class="content">
+        <div class="scrolling content">
             <p>{{context.data || 'description not available'}}</p>
         </div>
         <div class="actions">

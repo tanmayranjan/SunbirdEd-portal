@@ -254,4 +254,15 @@ export class NoteCardComponent implements OnInit, OnChanges, OnDestroy {
         .onApprove(result => { /* approve callback */ })
         .onDeny(result => { /* deny callback */});
 }
+triggerDelete(event : object) {
+  console.log(event);
+  this.setSelectedNote(event['note'],event['id']);
+  this.showDeletemodal = true;
+}
+
+editTrigger(event : object){
+  this.setSelectedNote(event['note'],event['id']);
+  this.showUpdateEditor = true;
+}
+
 }

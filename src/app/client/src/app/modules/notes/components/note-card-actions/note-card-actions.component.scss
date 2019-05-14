@@ -1,0 +1,17 @@
+.green {
+    color: #07bc81;
+}
+.fa-trash-alt {
+    color : #ea372a;
+}
+
+.green:hover, .fa-trash-alt:hover {
+    cursor: pointer;
+}
+
+.note-action-wrapper {
+    height : 21.6px;
+    width : 50px;
+    float : right;
+    z-index: 99999;
+}
