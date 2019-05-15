@@ -104,6 +104,7 @@ export class AppComponent implements OnInit {
         // this.theme = true;
       },2000); */
     this.sharedTenant.tenantData$.subscribe(dataTheme => {
+      console.log('appcomponent', dataTheme);
       if (dataTheme && dataTheme !== null) {
         this.theme = true;
       } else {

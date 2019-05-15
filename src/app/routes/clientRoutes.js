@@ -13,6 +13,7 @@ const tenantCdnUrl = envHelper.TENANT_CDN_URL
 const defaultTenant = envHelper.DEFAULT_CHANNEL
 const oneDayMS = 86400000
 let tenantId = ''
+let tenantUrl = ''
 
 module.exports = (app, keycloak) => {
   app.set('view engine', 'ejs')
@@ -60,12 +61,15 @@ module.exports = (app, keycloak) => {
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage)
 
-  app.all('/:tenantName', (req, res) => {
-    tenantId = req.params.tenantName
+  app.all('/:tenantName1', (req, res) => {
+    tenantUrl = (req.url !== '/bootstrap.min.css.map' && req.url !=='/favicon.ico')? (req.get('host') + req.originalUrl) : req.get('host');
+    console.log(tenantUrl);
+    tenantId = req.params.tenantName1
     if (_.isString(tenantId)) {
       tenantId = _.lowerCase(tenantId)
     }
     if (tenantId) {
+      //getTenantTheme(tenantUrl);
       renderTenantPage(req, res)
     } else if (defaultTenant) {
       renderTenantPage(req, res)
@@ -77,6 +81,7 @@ module.exports = (app, keycloak) => {
 
 function getLocals (req, callback) {
   var locals = {}
+  locals.tenantUrl = tenantUrl
   locals.userId = _.get(req, 'kauth.grant.access_token.content.sub') ? req.kauth.grant.access_token.content.sub : null
   locals.sessionId = _.get(req, 'sessionID') && _.get(req, 'kauth.grant.access_token.content.sub') ? req.sessionID : null
   locals.cdnUrl = envHelper.PORTAL_CDN_URL
