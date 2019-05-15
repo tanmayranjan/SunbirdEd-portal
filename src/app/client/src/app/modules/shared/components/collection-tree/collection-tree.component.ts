@@ -187,10 +187,11 @@ open: boolean;
 
 public onNode(node: any) {
   console.log(node, open, this.completedUnits);
-  let preData = node.model.prerequisites.split(',');
+
 
 
   if (node.model.prerequisites && !node.model.open) {
+    let preData = node.model.prerequisites.split(',');
     console.log(preData);
 
     _.forEach(preData , data => {
