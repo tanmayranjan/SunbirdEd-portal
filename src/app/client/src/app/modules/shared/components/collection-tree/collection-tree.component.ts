@@ -48,6 +48,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   public children = [];
   public preContent = {};
   public contentsStatus = [];
+  public completedUnits = [];
 openLock = false;
 open: boolean;
   statuscount = 0;
@@ -85,8 +86,7 @@ open: boolean;
 
   private initialize() {
     console.log('contentStatus', this.contentStatus);
-    // tslint:disable-next-line:no-debugger
-    debugger;
+
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
       this.rootChildrens = this.rootNode.children;
@@ -94,9 +94,16 @@ open: boolean;
         this.rootContents.push(child);
       });
       this.addNodeMeta();
+
+
+      /*
+      *
+      *to add prerequisites data
+      *
+      */
       _.forOwn(this.rootNode.model.children, children => {
         console.log('child', children);
-        if (children.prerequisite_Data) {
+        if (children.prerequisites) {
           children['togglePanelIcon'] = false;
          } else {
            children['togglePanelIcon'] = true;
@@ -107,7 +114,7 @@ open: boolean;
 
         this.children = [];
       });
-this.getCourseStatus();
+        this.getCourseStatus();
     }
   }
 
@@ -120,9 +127,6 @@ this.getCourseStatus();
     const model = new TreeModel();
     return model.parse(this.nodes.data);
   }
-  getRandomNum(minLimit) {
-    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
-  }
   private addNodeMeta() {
     if (!this.rootNode) { return; }
     this.rootNode.walk((node) => {
@@ -132,8 +136,6 @@ this.getCourseStatus();
       }
       node.id = node.model.identifier;
       if (node.children && node.children.length) {
-        // node['acticityStart'] = this.getRandomNum(1);
-        // node['activityEnd'] = 5
         if (this.enrolledDate) {
           node['startDate'] = moment(this.enrolledDate).add(node.model.activitystart, 'days').format('D MMMM YYYY');
           node['endDate'] = moment(this.enrolledDate).add( node.model.activityend, 'days').format('D MMMM YYYY');
@@ -184,25 +186,44 @@ this.getCourseStatus();
 /* To get CourseUnit Status details starts*/
 
 public onNode(node: any) {
-  console.log(node, open);
-  if (node.model.prerequisite_Data && !node.model.open) {
-    this.toasterService.error('You should complete' + '     ' + node.model.prerequisite_Data);
+  console.log(node, open, this.completedUnits);
+
+
+
+  if (node.model.prerequisites && !node.model.open) {
+    let preData = node.model.prerequisites.split(',');
+    console.log(preData);
+
+    _.forEach(preData , data => {
+      console.log('complted units', this.completedUnits, data);
+      console.log('find', _.includes(this.completedUnits, data));
+      if ( _.includes(this.completedUnits, data)) {
+        _.pull(preData, data);
+        console.log('fil', _.pull(preData, data)
+        );
+       }
+    });
+    this.toasterService.error('You should complete' + '     ' + preData);
+    preData = [];
   }
-  if (!node.model.prerequisite_Data) {
+  if (!node.model.prerequisites) {
     node.model.togglePanelIcon = !node.model.togglePanelIcon;
   }
   }
 
 public getCourseStatus() {
     _.forOwn(this.rootContents, (children: any) => {
-      if (children.model.prerequisite_Data) {
+      if (children.model.prerequisites) {
         _.forOwn(this.rootContents, (contents: any) => {
-          if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
-            console.log(this.preContent[contents.model.identifier]);
+          if (_.includes(children.model.prerequisites, contents.model.name)) {
             if (this.preContent.hasOwnProperty(contents.model.identifier)) {
-              console.log('this.pre', this.preContent);
           this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
-          if (this.open === true) {
+          if (this.open === true ) {
+            if (this.completedUnits.indexOf(contents.model.name) === -1) {
+              this.completedUnits.push(contents.model.name);
+
+            }
+
             children.model['open'] = true;
             children.model['togglePanelIcon'] = true;
           } else {

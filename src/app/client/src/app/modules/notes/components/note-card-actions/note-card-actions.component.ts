@@ -18,12 +18,12 @@ export class NoteCardActionsComponent implements OnInit {
   }
 
   public editEvent(event: Event) {
-    console.log('edit clicked' + `{'note' : ${this.note},'id' : ${this.i}}`);
+    console.log('edit clicked' + `{'note' : ${this.note}, 'id' : ${this.i}}`);
     event.stopPropagation();
     this.oneditEvent.emit({'note' : this.note, 'id' : this.i});
   }
   deleteEvent(event: Event) {
-    console.log('delete clicked' + `{'note' : ${this.note},'id' : ${this.i}}`);
+    console.log('delete clicked' + `{'note' : ${this.note}, 'id' : ${this.i}}`);
     event.stopPropagation();
     this.ondeleteEvent.emit({'note' : this.note, 'id' : this.i});
   }
