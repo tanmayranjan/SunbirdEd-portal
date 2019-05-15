@@ -103,7 +103,7 @@ open: boolean;
       */
       _.forOwn(this.rootNode.model.children, children => {
         console.log('child', children);
-        if (children.prerequisite_Data) {
+        if (children.prerequisites) {
           children['togglePanelIcon'] = false;
          } else {
            children['togglePanelIcon'] = true;
@@ -127,9 +127,6 @@ open: boolean;
     const model = new TreeModel();
     return model.parse(this.nodes.data);
   }
-  getRandomNum(minLimit) {
-    return (Math.floor(Math.random() * (+6 - +minLimit)) + +minLimit);
-  }
   private addNodeMeta() {
     if (!this.rootNode) { return; }
     this.rootNode.walk((node) => {
@@ -139,8 +136,6 @@ open: boolean;
       }
       node.id = node.model.identifier;
       if (node.children && node.children.length) {
-        // node['acticityStart'] = this.getRandomNum(1);
-        // node['activityEnd'] = 5
         if (this.enrolledDate) {
           node['startDate'] = moment(this.enrolledDate).add(node.model.activitystart, 'days').format('D MMMM YYYY');
           node['endDate'] = moment(this.enrolledDate).add( node.model.activityend, 'days').format('D MMMM YYYY');
@@ -192,11 +187,13 @@ open: boolean;
 
 public onNode(node: any) {
   console.log(node, open, this.completedUnits);
-  let preData = node.model.prerequisite_Data;
+  let preData = node.model.prerequisites.split(',');
 
 
-  if (node.model.prerequisite_Data && !node.model.open) {
-    _.forEach(node.model.prerequisite_Data , data => {
+  if (node.model.prerequisites && !node.model.open) {
+    console.log(preData);
+
+    _.forEach(preData , data => {
       console.log('complted units', this.completedUnits, data);
       console.log('find', _.includes(this.completedUnits, data));
       if ( _.includes(this.completedUnits, data)) {
@@ -208,16 +205,16 @@ public onNode(node: any) {
     this.toasterService.error('You should complete' + '     ' + preData);
     preData = [];
   }
-  if (!node.model.prerequisite_Data) {
+  if (!node.model.prerequisites) {
     node.model.togglePanelIcon = !node.model.togglePanelIcon;
   }
   }
 
 public getCourseStatus() {
     _.forOwn(this.rootContents, (children: any) => {
-      if (children.model.prerequisite_Data) {
+      if (children.model.prerequisites) {
         _.forOwn(this.rootContents, (contents: any) => {
-          if (_.includes(children.model.prerequisite_Data, contents.model.name)) {
+          if (_.includes(children.model.prerequisites, contents.model.name)) {
             if (this.preContent.hasOwnProperty(contents.model.identifier)) {
           this.getStausOfNode(contents.model.identifier, this.preContent[contents.model.identifier]);
           if (this.open === true ) {
