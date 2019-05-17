@@ -203,7 +203,7 @@ public onNode(node: any) {
         );
        }
     });
-    this.toasterService.error('You should complete' + '     ' + preData);
+    this.toasterService.error('You should complete prerequisites:' + '     ' + preData);
     preData = [];
   }
   if (!node.model.prerequisites) {
