@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -13,31 +13,23 @@ import { of, Observable } from 'rxjs';
  * homepage theming styles and content for a particular tenant layout
  */
 export class TenantResolverService {
-  constructor(private http: HttpClient, private injector: Injector) { }
+  constructor(private http: HttpClient) { }
 
-  private themingConfig: any;
-
-  public getMockTenant(): Observable<any> {
-    const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
-    return of(this.getSubOrgConfig(tenantUrl));
-  }
-
-
-  private searchSubOrg(value: string) {
-    const subOrgConfigurations = [
-      {
-        'homeUrl': 'localhost:3000',
-        'tenantPreferenceDetails': {
-          'Home': {
-            'banner': {
-              'required': true,
-              'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
-              'heading': `LET's BOOST YOUR SKILLS`,
-              'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
-            },
-            'benefits': {
-              'required': true,
-              'column-size': 4,
+  private subOrgConfigurations = [
+    {
+      'homeUrl': 'localhost:3000',
+      'orgid': '0127589565338337284',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
+            'heading': `LET's BOOST YOUR SKILLS`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
             'columns': [
               {
                 'heading': '1000 online courses',
@@ -68,101 +60,102 @@ export class TenantResolverService {
           'cards': {
             'rating': true,
             'total-reviews': true,
-          'image': true,
-          'title': true,
-          'subtitle': true,
-          'orgname': true,
-          'tag': true,
-          'card-utton': true,
-        'progress-bar': {
-          'required': true,
-          'bar-color': '#fff',
-        },
-},
-'theme': {
-  'primaryColor': '#4a1e75',
-    'secondaryColor': '#D84CAD',
-      'accentColor': 'black',
-        },
-'testimonial': {
-  'required': true,
-    'apiUrl': 'url to get the testimonial data',
-      'headers': {
-    'required': true,
-      'value': [
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-      ],
-        },
-},
-'footer': {
-  'Column2': [
-    {
-      'name': 'USEFULL LINKS',
-      'internal': 'boolean',
-      'externalUrl': 'string',
-    }
-  ],
-    'column3': [
-      {
-        'name': 'LINK',
-        'internal': 'boolean',
-        'externalUrl': 'string',
-      }
-    ],
-      'column4': {
-    'name': 'CONTACT',
-      'email': 'info@niit.com',
-        'phone': [
-          '0124-758252'
-        ],
-          'address': '122001',
-        },
-},
-'Social': {
-  'required': true,
-    'instagram': {
-    'required': true,
-      'url': 'url to instagram account',
-        },
-  'facebook': {
-    'required': true,
-      'url': 'url to facebook account',
-        },
-  'twitter': {
-    'required': true,
-      'url': 'url to twitter account',
-        },
-  'linkedin': {
-    'required': true,
-      'url': 'url to linkedin account',
-        },
-},
-        },
-'discussionForum': true,
-  'Qna': true,
-        }
-      },
-      {
-        'homeUrl': 'localhost:3000/niit',
-        'tenantPreferenceDetails': {
-          'Home': {
-            'banner': {
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-utton': true,
+            'progress-bar': {
               'required': true,
-              'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
-              'heading': `LET's BOOST YOUR SKILLS`,
-              'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+              'bar-color': '#fff',
             },
-            'benefits': {
+          },
+          'theme': {
+            'primaryColor': '#4a1e75',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
               'required': true,
-              'column-size': 4,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': true,
+        'Qna': true,
+      }
+    },
+    {
+      'homeUrl': 'localhost:3000/niit',
+      'orgid': '0127053482034872320',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
+            'heading': `LET's BOOST YOUR SKILLS`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
             'columns': [
               {
                 'heading': '1000 online courses',
@@ -193,101 +186,102 @@ export class TenantResolverService {
           'cards': {
             'rating': true,
             'total-reviews': true,
-          'image': true,
-          'title': true,
-          'subtitle': true,
-          'orgname': true,
-          'tag': true,
-          'card-utton': true,
-        'progress-bar': {
-          'required': true,
-          'bar-color': '#fff',
-        },
-},
-'theme': {
-  'primaryColor': '#4a1e75',
-    'secondaryColor': '#D84CAD',
-      'accentColor': 'black',
-        },
-'testimonial': {
-  'required': false,
-    'apiUrl': 'url to get the testimonial data',
-      'headers': {
-    'required': true,
-      'value': [
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-      ],
-        },
-},
-'footer': {
-  'Column2': [
-    {
-      'name': 'USEFULL LINKS',
-      'internal': 'boolean',
-      'externalUrl': 'string',
-    }
-  ],
-    'column3': [
-      {
-        'name': 'LINK',
-        'internal': 'boolean',
-        'externalUrl': 'string',
-      }
-    ],
-      'column4': {
-    'name': 'CONTACT',
-      'email': 'info@niit.com',
-        'phone': [
-          '0124-758252'
-        ],
-          'address': '122001',
-        },
-},
-'Social': {
-  'required': true,
-    'instagram': {
-    'required': true,
-      'url': 'url to instagram account',
-        },
-  'facebook': {
-    'required': true,
-      'url': 'url to facebook account',
-        },
-  'twitter': {
-    'required': true,
-      'url': 'url to twitter account',
-        },
-  'linkedin': {
-    'required': true,
-      'url': 'url to linkedin account',
-        },
-},
-        },
-'discussionForum': false,
-  'Qna': false,
-        }
-        },
-      {
-        'homeUrl': 'localhost:3000/wipro',
-        'tenantPreferenceDetails': {
-          'Home': {
-            'banner': {
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-utton': true,
+            'progress-bar': {
               'required': true,
-              'imgUrl': 'http://i65.tinypic.com/2cmvx9j.jpg',
-              'heading': 'THE BEST MENTORS, CONTENT FOR YOU',
-              'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+              'bar-color': '#fff',
             },
-            'benefits': {
+          },
+          'theme': {
+            'primaryColor': '#4a1e75',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': false,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
               'required': true,
-              'column-size': 4,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': false,
+        'Qna': false,
+      }
+    },
+    {
+      'homeUrl': 'localhost:3000/wipro',
+      'orgid': '',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'http://i65.tinypic.com/2cmvx9j.jpg',
+            'heading': 'THE BEST MENTORS, CONTENT FOR YOU',
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
             'columns': [
               {
                 'heading': '1000 online courses1',
@@ -318,94 +312,118 @@ export class TenantResolverService {
           'cards': {
             'rating': true,
             'total-reviews': true,
-          'image': true,
-          'title': true,
-          'subtitle': true,
-          'orgname': true,
-          'tag': true,
-          'card-button': true,
-        'progress-bar': {
-          'required': true,
-          'bar-color': '#fff',
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-button': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
           },
-},
-'theme': {
-  'primaryColor': '#8060e7',
-    'secondaryColor': 'green',
-      'accentColor': 'black',
+          'theme': {
+            'primaryColor': '#8060e7',
+            'secondaryColor': 'green',
+            'accentColor': 'black',
           },
-'testimonial': {
-  'required': true,
-    'apiUrl': 'url to get the testimonial data',
-      'headers': {
-    'required': true,
-      'value': [
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-        {
-          'key': 'value'
-        },
-      ],
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
           },
-},
-'footer': {
-  'Column2': [
-    {
-      'name': 'USEFULL LINKS1',
-      'internal': 'boolean',
-      'externalUrl': 'string',
-    }
-  ],
-    'column3': [
-      {
-        'name': 'LINK1',
-        'internal': 'boolean',
-        'externalUrl': 'string',
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS1',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK1',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT1',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': false,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': false,
+        'Qna': false,
       }
-    ],
-      'column4': {
-    'name': 'CONTACT1',
-      'email': 'info@niit.com',
-        'phone': [
-          '0124-758252'
-        ],
-          'address': '122001',
-          },
-},
-'Social': {
-  'required': true,
-    'instagram': {
-    'required': true,
-      'url': 'url to instagram account',
-          },
-  'facebook': {
-    'required': true,
-      'url': 'url to facebook account',
-          },
-  'twitter': {
-    'required': false,
-      'url': 'url to twitter account',
-          },
-  'linkedin': {
-    'required': true,
-      'url': 'url to linkedin account',
-          },
-},
-          },
-'discussionForum': false,
-  'Qna': false,
-          }
-        }
-    ];
+    }
+  ];
+
+  public getMockTenant(): Observable<any> {
+    const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
+    return of(this.getSubOrgConfig(tenantUrl));
+  }
+
+  public getMockDataonID(orgID: string): Observable<object> {
+    let found = false;
+    let thenanTTheme;
+    this.subOrgConfigurations.forEach(tenant => {
+      if (found === false && tenant['orgid'] === orgID) {
+        console.log('found new config from orgID', tenant);
+        found = true;
+        thenanTTheme = tenant;
+      }
+    });
+    if (found === false) {
+      thenanTTheme = null;
+    }
+    return of(thenanTTheme);
+  }
+
+
+  private searchSubOrg(value: string) {
     if (value && value.length > 0) {
-       // find out the theme
-       let found = false;
-       let tenanTTheme;
-      subOrgConfigurations.forEach(tenant => {
+      // find out the theme
+      let found = false;
+      let tenanTTheme;
+      this.subOrgConfigurations.forEach(tenant => {
         if (found === false && tenant['homeUrl'].indexOf(value) > -1) {
           console.log('found somethin with ', tenant);
           found = true;
@@ -416,9 +434,9 @@ export class TenantResolverService {
         tenanTTheme = null;
       }
       return tenanTTheme;
-     } else {
-       return null;
-     }
+    } else {
+      return null;
+    }
   }
 
   private getSubOrgConfig(tenantUrl: string): Observable<any> {

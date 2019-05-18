@@ -331,6 +331,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    // let tenantUrl = JSON.parse(localStorage.getItem('theming'))['homeUrl'];
+    localStorage.setItem('logout', 'true');
     window.location.replace('/logoff');
     this.cacheService.removeAll();
   }

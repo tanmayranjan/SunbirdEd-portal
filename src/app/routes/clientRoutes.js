@@ -61,12 +61,14 @@ module.exports = (app, keycloak) => {
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage)
 
-  app.all('/:tenantName1', (req, res) => {
+  app.all('/:tenantName', (req, res) => {
     tenantUrl = (req.url !== '/bootstrap.min.css.map' && req.url !=='/favicon.ico')? (req.get('host') + req.originalUrl) : req.get('host');
     console.log(tenantUrl);
-    tenantId = req.params.tenantName1
+    tenantId = req.params.tenantName
+    console.log('tenantID is ', tenantId);
     if (_.isString(tenantId)) {
       tenantId = _.lowerCase(tenantId)
+      res.cookie('tenantUrl', tenantUrl);
     }
     if (tenantId) {
       //getTenantTheme(tenantUrl);
@@ -80,6 +82,7 @@ module.exports = (app, keycloak) => {
 }
 
 function getLocals (req, callback) {
+  console.log('\x1b[33m%s\x1b[0m', 'getlocals' + req.url);
   var locals = {}
   locals.tenantUrl = tenantUrl
   locals.userId = _.get(req, 'kauth.grant.access_token.content.sub') ? req.kauth.grant.access_token.content.sub : null
@@ -113,6 +116,7 @@ function indexPage (req, res) {
 }
 
 function renderDefaultIndexPage (req, res) {
+  console.log('\x1b[33m%s\x1b[0m', 'rendering default tenant page for ' + req.path);
   try {
     const mobileDetect = new MobileDetect(req.headers['user-agent'])
     if ((req.path === '/get' || req.path === '/' + req.params.slug + '/get') &&

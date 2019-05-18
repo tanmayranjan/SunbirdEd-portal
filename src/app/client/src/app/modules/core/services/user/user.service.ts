@@ -45,7 +45,7 @@ export class UserService {
   public readonly userData$: Observable<IUserData> = this._userData$.asObservable()
   .pipe(skipWhile(data => data === undefined || data === null));
   /**
-   * reference of config service.
+   * reference of config service.`
    */
   public config: ConfigService;
   /**
@@ -183,7 +183,9 @@ export class UserService {
     const profileData = res.result.response;
     const orgRoleMap = {};
     const hashTagIds = [];
+    debugger;
     this._channel = _.get(profileData, 'rootOrg.hashTagId');
+    this.setCookie('x-user-org-id', this._channel, 1);
     profileData.skills = _.get(profileData, 'skills' ) || [];
     hashTagIds.push(this._channel);
     let organisationIds = [];
@@ -399,5 +401,12 @@ export class UserService {
       ERROR: 'error',
       EXCLUDED: 'excluded'
     });
+  }
+
+  setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 }

@@ -89,20 +89,6 @@ export class AppComponent implements OnInit {
     this.telemetryService.syncEvents();
   }
   ngOnInit() {
-    // set the theme
-    // this.tenantTheme.updateTheme();
-    // this.sharedTenant.getTenantInfo();
-    /* setTimeout(()=>{
-      let theme = this.sharedTenant.getTenantThemeConfig();
-        if(theme){
-          this.theme = true;
-        }else {
-          this.theme = false;
-          this.recievedContent = false;
-        }
-        console.log('recieved theme in app component ', theme);
-        // this.theme = true;
-      },2000); */
     this.sharedTenant.tenantData$.subscribe(dataTheme => {
       console.log('appcomponent', dataTheme);
       if (dataTheme && dataTheme !== null) {
