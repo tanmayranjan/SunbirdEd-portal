@@ -44,7 +44,6 @@ export class SharedTenantResolverService {
     let userid =(<HTMLInputElement>document.getElementById('userId'))? (<HTMLInputElement>document.getElementById('userId')).value : null;
     let tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
     if(userid === null) {
-      debugger;
       if(localStorage.getItem('logout') === 'true'){
         this.reloadInfo();
         localStorage.removeItem('logout');
@@ -97,18 +96,21 @@ export class SharedTenantResolverService {
       }
     }
     else {
-      debugger;
       let loggedUserOrgID = '';
       // user is logged in , check for orgId of the user
-      this.userSrvc.getLoggedInOrganisation().pipe(take(1)).subscribe(userOrgId => {
-      loggedUserOrgID = userOrgId;
-      if(!!!loggedUserOrgID) {
-        //did not find any cookie storing the orgId, load the default one
+      this.userSrvc.userData$.pipe(take(1)).subscribe(userOrgId => {
+        debugger;
+        if(!!!userOrgId) {
+          console.log(loggedUserOrgID);
+          // loggedUserOrgID = userOrgId;
+          if(!!!loggedUserOrgID) {
+            //did not find any cookie storing the orgId, load the default one
 
-      } else {
-        // a user from different domain may have logged in
-        this.compareUser(loggedUserOrgID);
-      }
+          } else {
+            // a user from different domain may have logged in
+            this.compareUser(loggedUserOrgID);
+          }
+        }
       });
       //const loggedUserOrgID = this.cookieSrvc.getCookie('x-user-org-id');
       /* if(!!!loggedUserOrgID) {

@@ -183,9 +183,8 @@ export class UserService {
     const profileData = res.result.response;
     const orgRoleMap = {};
     const hashTagIds = [];
-    debugger;
     this._channel = _.get(profileData, 'rootOrg.hashTagId');
-    this.setCookie('x-user-org-id', this._channel, 1);
+    //this.setCookie('x-user-org-id', this._channel, 1);
     profileData.skills = _.get(profileData, 'skills' ) || [];
     hashTagIds.push(this._channel);
     let organisationIds = [];
