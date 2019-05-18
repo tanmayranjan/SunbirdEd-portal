@@ -23,7 +23,8 @@ import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { CdnprefixPipe } from './pipes/cdnprefix.pipe';
 import { LandingpageCardComponent } from './components/landingpage-card/landingpage-card.component';
-
+import { SharedUserService} from './services/sharedUser/shared-user.service';
+import { DataService } from './../core/services/data/data.service';
 import { DisplayPopularCourseComponent } from './components/display-popular-course/display-popular-course.component';
 // import {
 //   MatAutocompleteModule,
@@ -161,7 +162,7 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [ResourceService, ConfigService, FileUploadService, ToasterService, Ng2IzitoastService, PaginationService,
         RouterNavigationService, WindowScrollService, NavigationHelperService, CacheService, UtilService, ContentUtilsServiceService,
-        DeviceDetectorModule, DeviceDetectorService, BrowserCacheTtlService, ExternalUrlPreviewService]
+        DeviceDetectorModule, DeviceDetectorService, BrowserCacheTtlService, ExternalUrlPreviewService, SharedUserService, DataService]
     };
   }
 }

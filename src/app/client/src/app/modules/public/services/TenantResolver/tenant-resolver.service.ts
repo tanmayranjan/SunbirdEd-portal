@@ -423,7 +423,7 @@ export class TenantResolverService {
       // find out the theme
       let found = false;
       let tenanTTheme;
-      this.subOrgConfigurations.forEach(tenant => {
+      this.subOrgConfigurations.forEach(tenant => {``
         if (found === false && tenant['homeUrl'].indexOf(value) > -1) {
           console.log('found somethin with ', tenant);
           found = true;
