@@ -56,6 +56,9 @@ export class DataService {
       headers: requestParam.header ? requestParam.header : this.getHeader(),
       params: requestParam.param
     };
+    if(requestParam.hasOwnProperty('userOrgForTenant') && requestParam.userOrgForTenant){
+      this.baseUrl = '/learner/';
+    }
     return this.http.get(this.baseUrl + requestParam.url, httpOptions).pipe(
       mergeMap((data: ServerResponse) => {
         if (data.responseCode !== 'OK') {

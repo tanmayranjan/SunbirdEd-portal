@@ -147,6 +147,7 @@ export class UserService {
       url: `${this.config.urlConFig.URLS.USER.GET_PROFILE}${this.userid}`,
       param: this.config.urlConFig.params.userReadParam
     };
+    debugger;
     this.learnerService.get(option).subscribe(
       (data: ServerResponse) => {
         console.log(data);

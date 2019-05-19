@@ -22,7 +22,7 @@ export class SharedTenantResolverService {
     debugger;
     this._tenantData = configData['value'];
     this.tenantData$.next(this._tenantData);
-    //localStorage.setItem('theming', JSON.stringify(configData['value']));
+    // localStorage.setItem('theming', JSON.stringify(configData['value']));
     this.cookieSrvc.setCookie('theming', JSON.stringify(configData['value']));
     console.log('I recieved tenant data like this ', this._tenantData);
   }
@@ -39,7 +39,7 @@ export class SharedTenantResolverService {
   }
 
   getTenantInfo() {
-    //let themedata =localStorage.getItem('theming');
+    // let themedata =localStorage.getItem('theming');
     let themedata = this.cookieSrvc.getCookie('theming');
     let userid =(<HTMLInputElement>document.getElementById('userId'))? (<HTMLInputElement>document.getElementById('userId')).value : null;
     let tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
@@ -50,7 +50,7 @@ export class SharedTenantResolverService {
         return;
       }
       if (!!themedata) {
-        //let localStorageConfig = JSON.parse(themedata) || null;
+        // let localStorageConfig = JSON.parse(themedata) || null;
         let localStorageConfig = JSON.parse(this.cookieSrvc.getCookie('theming')) || null;
         if (localStorageConfig !== null && localStorageConfig['homeUrl'] === tenantUrl) {
           console.log('no need to update localStorage');
@@ -62,19 +62,19 @@ export class SharedTenantResolverService {
                 console.log('Recieved something in the RESOLVER');
                 console.log(response);
                 this.setTenantConfig(response);
-                // localStorage.setItem('theming', JSON.stringify(response));
-                // this.themingConfig = response;
-                // this._tenantData = response;
+                //  localStorage.setItem('theming', JSON.stringify(response));
+                //  this.themingConfig = response;
+                //  this._tenantData = response;
                 this.updateTheme();
               } else {
                 console.log('rejected the RESOLVER');
-                //localStorage.removeItem('theming');
+                // localStorage.removeItem('theming');
                 this.cookieSrvc.setCookie('theming', '', 0);
               }
             });
         }
         console.log('got in localStorage');
-        //this._tenantData = JSON.parse(localStorage.getItem('theming'));
+        // this._tenantData = JSON.parse(localStorage.getItem('theming'));
         this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
         this.updateTheme();
         this.tenantData$.next(this._tenantData);
@@ -89,21 +89,22 @@ export class SharedTenantResolverService {
               this.updateTheme();
             } else {
               console.log('rejected the RESOLVER');
-              //localStorage.removeItem('theming');
+              // localStorage.removeItem('theming');
               this.cookieSrvc.setCookie('theming', '', 0);
             }
           });
       }
-    }
-    else {
+    } else {
       let loggedUserOrgID = '';
-      // user is logged in , check for orgId of the user
-      this.userSrvc.userData$.pipe(take(1)).subscribe(userOrgId => {
+      //  user is logged in , check for orgId of the user
+      this.userSrvc.getLoggedInOrganisation();
+      this.userSrvc.userData$.subscribe(userOrgId => {
         debugger;
-        if(!!!userOrgId) {
+        if(!!userOrgId) {
+          loggedUserOrgID = userOrgId['orgId'];
           console.log(loggedUserOrgID);
           // loggedUserOrgID = userOrgId;
-          if(!!!loggedUserOrgID) {
+          if(!!loggedUserOrgID) {
             //did not find any cookie storing the orgId, load the default one
 
           } else {
@@ -140,21 +141,21 @@ export class SharedTenantResolverService {
     //let localData = localStorage.getItem('theming');
     let localData = this.cookieSrvc.getCookie('theming');
     if(JSON.parse(localData)['orgid'] === loggedInOrgID) {
-      //user belongs from the same domain
+      // user belongs from the same domain
       console.log('initial tenant', this._tenantData);
 
-      //this._tenantData = JSON.parse(localStorage.getItem('theming'));
+      // this._tenantData = JSON.parse(localStorage.getItem('theming'));
       this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
       this.updateTheme();
       this.tenantData$.next(this._tenantData);
     
     } else {
-      // user logged in to different domain, update the theme to user specific domain
+      //  user logged in to different domain, update the theme to user specific domain
       this.mockservice.getMockDataonID(loggedInOrgID).pipe(take(1)).subscribe( newThemeData => {
         if(newThemeData) {
-          //localStorage.setItem('theming', JSON.stringify(newThemeData));
+          // localStorage.setItem('theming', JSON.stringify(newThemeData));
           this.cookieSrvc.setCookie('theming', JSON.stringify(newThemeData));
-          //now update the theme with new data
+          // now update the theme with new data
           this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
           this.updateTheme();
           this.tenantData$.next(this._tenantData);

@@ -18,4 +18,8 @@ export interface RequestParam {
      * http data
     */
   data?: any;
+  /**
+   * only for tenant theme
+   */
+  userOrgForTenant?: boolean;
 }
