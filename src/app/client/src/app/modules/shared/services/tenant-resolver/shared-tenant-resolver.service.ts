@@ -16,39 +16,41 @@ export class SharedTenantResolverService {
   public tenantData = this.tenantData$.asObservable();
 
   constructor(private mockservice: TenantResolverService, private cookieSrvc: CookieManagerService, private userSrvc: SharedUserService) {
-   }
+  }
 
   public setTenantConfig(configData: object) {
     this._tenantData = configData['value'];
     // localStorage.setItem('theming', JSON.stringify(configData['value']));
     this.cookieSrvc.setCookie('theming', JSON.stringify(configData['value']));
     this.tenantData$.next(this._tenantData);
-    // console.log('I recieved tenant data like this ', this._tenantData);
+    // // console.log('I recieved tenant data like this ', this._tenantData);
   }
 
   updateTheme() {
-    if (this._tenantData !== undefined || this._tenantData !== null) {
+    if (!!this._tenantData) {
       const primaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['primaryColor'];
       const secondaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['secondaryColor'];
       document.documentElement.style.setProperty('--primary-color', primaryColor);
       document.documentElement.style.setProperty('--secondary-color', secondaryColor);
     } else {
-      alert('did not recieve any theme');
+      console.log('did not recieve any theme');
+      return of(false);
     }
   }
 
-  getTenantInfo(): Observable<boolean> {
+  getTenantInfo(): Observable<string | boolean> {
     const themedata = this.cookieSrvc.getCookie('theming');
     let userid;
+
     if (<HTMLInputElement>document.getElementById('userId')) {
       userid = (<HTMLInputElement>document.getElementById('userId')).value;
-     } else {
+    } else {
       userid = null;
-     }
+    }
     const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
     // check if user is logged in or not
 
-     if (userid === null) {
+    if (userid === null) {
       // check when the user is not logged in, has he logged out or visited the page first
       if (localStorage.getItem('logout') === 'true') {
 
@@ -57,23 +59,21 @@ export class SharedTenantResolverService {
       } else if (!!themedata) {
         // let localStorageConfig = JSON.parse(themedata) || null;
         const localStorageConfig = JSON.parse(themedata) || null;
-        if (localStorageConfig !== null && localStorageConfig['homeUrl'] !== tenantUrl) {
-           // console.log('need to update localstorage');
+        if (!!localStorageConfig && localStorageConfig['homeUrl'] !== tenantUrl) {
+          // // console.log('need to update localstorage');
           this.mockservice.getMockTenant().pipe(take(1))
             .subscribe(response => {
               if (response) {
-                // console.log('Recieved something in the RESOLVER');
-                // console.log(response);
+                // // console.log('Recieved something in the RESOLVER');
+                // // console.log(response);
                 this.setTenantConfig(response);
                 this.updateTheme();
               } else {
-                // console.log('rejected the RESOLVER');
+                // // console.log('rejected the RESOLVER');
                 this.cookieSrvc.setCookie('theming', '', 0);
                 return of(false);
               }
             });
-        } else {
-          // console.log('no need to update the local storage');
         }
         this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
         this.updateTheme();
@@ -81,21 +81,20 @@ export class SharedTenantResolverService {
         return of(true);
       } else {
         // console.log('actual request');
-          this.mockservice.getMockTenant().pipe(take(1))
-          .subscribe(response => {
-            if (response) {
-              // console.log('Recieved something in the RESOLVER');
-              // console.log(response);
-              this.setTenantConfig(response);
-              this.updateTheme();
-              return of(true);
-            } else {
-              // console.log('rejected the RESOLVER');
-              // localStorage.removeItem('theming');
-              this.cookieSrvc.setCookie('theming', '', 0);
-              return of(false);
-            }
-          });
+        return this.mockservice.getMockTenant().pipe(map(response => {
+          if (response) {
+            // console.log('Recieved something in the RESOLVER');
+            // console.log(response);
+            this.setTenantConfig(response);
+            this.updateTheme();
+            return true;
+          } else {
+            // console.log('rejected the RESOLVER');
+            localStorage.removeItem('theming');
+            this.cookieSrvc.setCookie('theming', '', 0);
+            return false;
+          }
+        }));
       }
     } else {
       //  user is logged in , check for orgId of the user
@@ -121,7 +120,7 @@ export class SharedTenantResolverService {
     const localData = this.cookieSrvc.getCookie('theming');
     if (JSON.parse(localData)['orgid'] === loggedInOrgID) {
       // user belongs from the same domain
-      // console.log('initial tenant', this._tenantData);
+      // // console.log('initial tenant', this._tenantData);
 
       // this._tenantData = JSON.parse(localStorage.getItem('theming'));
       this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
@@ -140,7 +139,7 @@ export class SharedTenantResolverService {
   }
 
   reloadInfo() {
-    this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
+    this._tenantData = this.cookieSrvc.getCookie('theming') ? JSON.parse(this.cookieSrvc.getCookie('theming')) : null;
     this.updateTheme();
     this.tenantData$.next(this._tenantData);
   }

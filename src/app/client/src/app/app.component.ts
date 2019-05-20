@@ -106,8 +106,7 @@ export class AppComponent implements OnInit {
                 1.2.1.1 if user did not came from logout, update the theme based on url
     */
    this.sharedTenant.getTenantInfo().subscribe(themeData => {
-
-     if (typeof themeData === 'boolean' && themeData && themeData !== undefined) {
+     if (typeof themeData === 'boolean' && !!themeData) {
       this.theme = true;
      } else if (_.isString(themeData)) {
        // console.log('object data recorded', themeData);
@@ -149,9 +148,12 @@ export class AppComponent implements OnInit {
             });
           }
         }
-      } else {this.theme = false; }
+      } else {
+        // console.log('neither boolean not object recieved');
+        this.theme = false;
+      }
      }, err => {
-     // console.log('error whille retrieving the theme status');
+     // console.log('error whille retrieving the theme status', err);
      this.theme = false;
      this.recievedContent = false;
    });
@@ -256,7 +258,7 @@ export class AppComponent implements OnInit {
    * set org Details for Anonymous user.
    */
   private setOrgDetails(): Observable<any> {
-    // console.log('slug', this.slug);
+    // // console.log('slug', this.slug);
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data => {
         this.orgDetails = data;
