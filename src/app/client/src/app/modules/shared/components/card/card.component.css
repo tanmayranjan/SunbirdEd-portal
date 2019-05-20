@@ -124,7 +124,10 @@
  border-left: 1px solid gray;
  height: 18px;
 }
-
+#left-align {
+  text-align: left !important;
+  justify-content: center !important;
+}
 @media only screen and (max-width: 600px) {
  .content-card {
    margin: auto;
