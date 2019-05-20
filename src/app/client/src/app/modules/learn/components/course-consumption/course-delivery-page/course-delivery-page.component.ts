@@ -13,7 +13,7 @@ import {
   UserService,
   BreadcrumbsService,
   PermissionService,
-  CoursesService
+  CoursesService, PlayerService
 } from '@sunbird/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import * as _ from 'lodash';
@@ -50,13 +50,13 @@ export enum IactivityType {
   'Assessments' = 'edit'
 }
 declare var $: any;
-
 @Component({
-  selector: 'app-course-player',
-  templateUrl: './course-player.component.html',
-  styleUrls: ['./course-player.component.scss']
+  selector: 'app-course-delivery-page',
+  templateUrl: './course-delivery-page.component.html',
+  styleUrls: ['./course-delivery-page.component.scss']
 })
-export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CourseDeliveryPageComponent implements OnInit, OnDestroy, AfterViewInit {
+
   public courseInteractObject: IInteractEventObject;
 
   public contentInteractObject: IInteractEventObject;
@@ -200,7 +200,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     public publicDataService: PublicDataService,
     public learnerService: LearnerService,
     public sanitizer: DomSanitizer,
-    public route: Router
+    public route: Router,
+    public playerService: PlayerService
   ) {
     this.router.onSameUrlNavigation = 'ignore';
     this.collectionTreeOptions = this.configService.appConfig.collectionTreeOptions;
@@ -498,6 +499,8 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       queryParams: { contentId: content.id },
       relativeTo: this.activatedRoute
     };
+
+    console.log('naviagation extras', navigationExtras);
     const playContentDetail = this.findContentById(content.id);
     if (
       playContentDetail.model.mimeType ===
@@ -512,27 +515,13 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         this.batchId
       );
     }
-    if (this.enrolledDate) {
-      if (
-        (this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status) || this.courseStatus === 'Unlisted' ||
-        this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
-        this.courseHierarchy.createdBy === this.userService.userid && this.userEnrolledBatch
-      ) {
-        this.route.navigate(['/learn/play/batch', this.batchId, 'course', this.courseId, {enrolledDate: this.enrolledDate}],
-         navigationExtras);
-        this.enableContentPlayer = false;
-
-
-      }
-    } else {
-      if (
-        (this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status) || this.courseStatus === 'Unlisted' ||
-        this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
-        this.courseHierarchy.createdBy === this.userService.userid && this.userEnrolledBatch
-      ) {
-        this.router.navigate([], navigationExtras);
-        this.enableContentPlayer = false;
-      }
+    if (
+      (this.batchId && !this.flaggedCourse && this.enrolledBatchInfo.status) ||
+      this.courseStatus === 'Unlisted' ||
+      this.permissionService.checkRolesPermissions(this.previewContentRoles) ||
+      this.courseHierarchy.createdBy === this.userService.userid
+    ) {
+      this.router.navigate([], navigationExtras);
     }
   }
   public contentProgressEvent(event) {
@@ -596,15 +585,27 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
   public closeContentPlayer() {
-    this.disable_jumbotron = true;
-    this.cdr.detectChanges();
-    if (this.enableContentPlayer === true) {
-      const navigationExtras: NavigationExtras = {
-        relativeTo: this.activatedRoute
+
+      // this.disable_jumbotron = true;
+      // this.cdr.detectChanges();
+      // if (this.enableContentPlayer === true) {
+      //   console.log('bye')
+      //   const navigationExtras: NavigationExtras = {
+      //     relativeTo: this.activatedRoute
+      //   };
+      //   this.enableContentPlayer = false;
+      //   this.router.navigate(['/learn/course', this.contentId]);
+      //   console.log( 'route', navigationExtras)
+      // }
+      const content = {
+        courseId: this.courseId,
+        batchId: this.batchId,
+        enrolledDate: this.enrolledDate,
+        contentType: 'Course',
+        mimeType: 'application/vnd.ekstep.content-collection'
       };
-      this.enableContentPlayer = false;
-      this.router.navigate([], navigationExtras);
-    }
+      this.playerService.playContent(content);
+
   }
   public createEventEmitter(data) {
     this.createNoteData = data;
@@ -709,24 +710,5 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       pageid: 'course-consumption'
     };
   }
-  /* toggleSidebar() {
-    $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
-  } */
-  showPreviewVideo() {
-    this.preview = !this.preview;
-    let showUrl;
-    const url = this.previewUrl.artifactUrl.slice(17);
-    if (this.previewUrl.mimeType === 'video/x-youtube') {
-      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
-        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
-      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
-        showUrl = this.previewUrl.artifactUrl;
-      } else {
-        showUrl = 'https://www.youtube.com/embed/' + url;
-      }
-    } else {
-      showUrl = this.previewUrl.artifactUrl;
-    }
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(showUrl);
-  }
+
 }
