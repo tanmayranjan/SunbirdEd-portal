@@ -710,25 +710,5 @@ export class CourseDeliveryPageComponent implements OnInit, OnDestroy, AfterView
       pageid: 'course-consumption'
     };
   }
-  /* toggleSidebar() {
-    $('.videoSidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
-  } */
-  showPreviewVideo() {
-    this.preview = !this.preview;
-    let showUrl;
-    const url = this.previewUrl.artifactUrl.slice(17);
-    if (this.previewUrl.mimeType === 'video/x-youtube') {
-      if (_.includes(this.previewUrl.artifactUrl, 'watch')) {
-        showUrl = this.previewUrl.artifactUrl.replace('watch?v=', 'embed/');
-      } else if (_.includes(this.previewUrl.artifactUrl, 'embed')) {
-        showUrl = this.previewUrl.artifactUrl;
-      } else {
-        showUrl = 'https://www.youtube.com/embed/' + url;
-      }
-    } else {
-      showUrl = this.previewUrl.artifactUrl;
-    }
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(showUrl);
-  }
 
 }

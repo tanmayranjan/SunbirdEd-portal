@@ -1,4 +1,4 @@
-<div *ngIf="enableContentPlayer && !loader">
+<div>
 
   <div class=" row content-player-container">
     <!--playlist section-->
@@ -18,8 +18,10 @@
     </div>
     <!--mobile view to represent video playlist, not working-->
     <!--video player section-->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 video-player-wrapper">
-
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 video-player-wrapper" *ngIf="enableContentPlayer && !loader">
+      <div *ngIf="loader">
+        <app-loader [data]="loaderMessage"></app-loader>
+      </div>
       <div class="video-player-wrapper" [appTelemetryImpression]="telemetryContentImpression">
         <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size"
           [playerConfig]="playerConfig"></app-player>
@@ -27,4 +29,3 @@
     </div>
   </div>
 </div>
-  <router-outlet></router-outlet>
