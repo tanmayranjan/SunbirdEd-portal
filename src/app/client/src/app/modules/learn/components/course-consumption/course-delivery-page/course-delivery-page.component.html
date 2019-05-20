@@ -1,4 +1,4 @@
-<div>
+
 
   <div class=" row content-player-container">
     <!--playlist section-->
@@ -10,7 +10,6 @@
           [telemetryInteractEdata]="closeContentIntractEdata" [telemetryInteractObject]="contentInteractObject"
           (click)="closeContentPlayer()"><i class="fas fa-chevron-left fs-1-3"></i></button>
       </div>
-      <div></div>
       <app-collection-tree
         *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
         (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
@@ -18,14 +17,15 @@
     </div>
     <!--mobile view to represent video playlist, not working-->
     <!--video player section-->
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 video-player-wrapper" *ngIf="enableContentPlayer && !loader">
-      <div *ngIf="loader">
-        <app-loader [data]="loaderMessage"></app-loader>
-      </div>
+    <div *ngIf="loader">
+      <app-loader [data]="loaderMessage"></app-loader>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 video-player-wrapper">
+     
       <div class="video-player-wrapper" [appTelemetryImpression]="telemetryContentImpression">
-        <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size"
+        <app-player (contentProgressEvent)="contentProgressEvent($event)" class="content-player full-size" *ngIf="enableContentPlayer"
           [playerConfig]="playerConfig"></app-player>
       </div>
     </div>
   </div>
-</div>
+
