@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app.routing';
 import { HttpClientModule } from '@angular/common/http';
 import { SuiModule } from 'ng2-semantic-ui';
 import { CommonModule } from '@angular/common';
-import { CoreModule } from '@sunbird/core';
+import { CoreModule, UserService } from '@sunbird/core';
 import { SharedModule } from '@sunbird/shared';
 import { Ng2IziToastModule } from 'ng2-izitoast';
 import { PublicModule } from '@sunbird/public';
@@ -21,7 +21,16 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TenantResolverService } from './modules/public/services/TenantResolver/tenant-resolver.service';
 import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 
-export const tenantInfoProviderFactory = (provider: SharedTenantResolverService) => () => provider.getTenantInfo();
+export const tenantInfoProviderFactory = (provider: SharedTenantResolverService) => () => {
+  if (performance.navigation.type === 1) {
+    console.log('reloaded');
+    localStorage.setItem('reload', JSON.stringify(true));
+    return provider.reloadInfo();
+   } else {
+    localStorage.setItem('reload', JSON.stringify(false));
+    return;
+   }
+};
 
 
 @NgModule({

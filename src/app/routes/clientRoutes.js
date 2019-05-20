@@ -13,6 +13,7 @@ const tenantCdnUrl = envHelper.TENANT_CDN_URL
 const defaultTenant = envHelper.DEFAULT_CHANNEL
 const oneDayMS = 86400000
 let tenantId = ''
+let tenantUrl = ''
 
 module.exports = (app, keycloak) => {
   app.set('view engine', 'ejs')
@@ -61,11 +62,16 @@ module.exports = (app, keycloak) => {
     '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage)
 
   app.all('/:tenantName', (req, res) => {
+    tenantUrl = (req.url !== '/bootstrap.min.css.map' && req.url !=='/favicon.ico')? (req.get('host') + req.originalUrl) : req.get('host');
+    console.log(tenantUrl);
     tenantId = req.params.tenantName
+    console.log('tenantID is ', tenantId);
     if (_.isString(tenantId)) {
       tenantId = _.lowerCase(tenantId)
+      res.cookie('tenantUrl', tenantUrl);
     }
     if (tenantId) {
+      //getTenantTheme(tenantUrl);
       renderTenantPage(req, res)
     } else if (defaultTenant) {
       renderTenantPage(req, res)
@@ -76,7 +82,9 @@ module.exports = (app, keycloak) => {
 }
 
 function getLocals (req, callback) {
+  console.log('\x1b[33m%s\x1b[0m', 'getlocals' + req.url);
   var locals = {}
+  locals.tenantUrl = tenantUrl
   locals.userId = _.get(req, 'kauth.grant.access_token.content.sub') ? req.kauth.grant.access_token.content.sub : null
   locals.sessionId = _.get(req, 'sessionID') && _.get(req, 'kauth.grant.access_token.content.sub') ? req.sessionID : null
   locals.cdnUrl = envHelper.PORTAL_CDN_URL
@@ -108,6 +116,7 @@ function indexPage (req, res) {
 }
 
 function renderDefaultIndexPage (req, res) {
+  console.log('\x1b[33m%s\x1b[0m', 'rendering default tenant page for ' + req.path);
   try {
     const mobileDetect = new MobileDetect(req.headers['user-agent'])
     if ((req.path === '/get' || req.path === '/' + req.params.slug + '/get') &&

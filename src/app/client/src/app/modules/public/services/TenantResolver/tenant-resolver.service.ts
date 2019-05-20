@@ -1,8 +1,8 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { SharedTenantResolverService } from '../../../shared/services/tenant-resolver/shared-tenant-resolver.service';
+import { of, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,71 +13,567 @@ import { SharedTenantResolverService } from '../../../shared/services/tenant-res
  * homepage theming styles and content for a particular tenant layout
  */
 export class TenantResolverService {
-  constructor(private http: HttpClient, private injector: Injector, private sharedTenantResolver: SharedTenantResolverService) { }
+  constructor(private http: HttpClient) { }
 
-  private router: any;
-  private themingConfig: any;
-
-  updateTheme() {
-    console.log('update theme has the following data ', this.themingConfig);
-    const theme = JSON.parse(this.themingConfig);
-    if (theme !== undefined || theme !== null) {
-      const primaryColor = theme['CustomizeOptions']['Home']['theme']['primaryColor'];
-      console.log('theme data is ', theme['CustomizeOptions']['Home']['theme']['primaryColor']);
-      document.documentElement.style.setProperty('--primary-color', primaryColor);
-    } else {
-      alert('did not recieve any theme');
+  private subOrgConfigurations = [
+    {
+      'homeUrl': 'localhost:3000',
+      'orgid': '0127589565338337284',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
+            'heading': `LET's BOOST YOUR SKILLS`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '1000 online courses',
+                'subheading': 'Explore a variety of fresh topics',
+              },
+              {
+                'heading': 'Expert Instructors',
+                'subheading': 'Find the right instructor for you',
+              },
+              {
+                'heading': 'Lifetime Access',
+                'subheading': 'Learn anytime, anywhere',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': true,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-utton': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#4a1e75',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': true,
+        'Qna': true,
+      }
+    },
+    {
+      'homeUrl': 'localhost:3000/costarica',
+      'orgid': '0127589565338337284',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'http://localhost:3000/brazil/images/Slider-Image.jpg',
+            'heading': `WELCOME TO COSTA RICA`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '1000 online courses',
+                'subheading': 'Explore a variety of fresh topics',
+              },
+              {
+                'heading': 'Expert Instructors',
+                'subheading': 'Find the right instructor for you',
+              },
+              {
+                'heading': 'Lifetime Access',
+                'subheading': 'Learn anytime, anywhere',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': false,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-button': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#CC7B60',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': true,
+        'Qna': true,
+      }
+    },
+    {
+      'homeUrl': 'localhost:3000/niit',
+      'orgid': '',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'https://i.postimg.cc/Qx1jSM83/banner1.jpg',
+            'heading': `LET's BOOST YOUR SKILLS`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '1000 online courses',
+                'subheading': 'Explore a variety of fresh topics',
+              },
+              {
+                'heading': 'Expert Instructors',
+                'subheading': 'Find the right instructor for you',
+              },
+              {
+                'heading': 'Lifetime Access',
+                'subheading': 'Learn anytime, anywhere',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': true,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-utton': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#4a1e75',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': false,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': false,
+        'Qna': false,
+      }
+    },
+    {
+      'homeUrl': 'localhost:3000/wipro',
+      'orgid': '0127053482034872320',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'http://i65.tinypic.com/2cmvx9j.jpg',
+            'heading': 'THE BEST MENTORS, CONTENT FOR YOU',
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '1000 online courses1',
+                'subheading': 'Explore a variety of fresh topics1',
+              },
+              {
+                'heading': 'Expert Instructors2',
+                'subheading': 'Find the right instructor for you2',
+              },
+              {
+                'heading': 'Lifetime Access3',
+                'subheading': 'Learn anytime, anywhere3',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': true,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-button': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#8060e7',
+            'secondaryColor': 'green',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS1',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK1',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT1',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': false,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': false,
+        'Qna': false,
+      }
     }
+  ];
+
+  public getMockTenant(): Observable<any> {
+    const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
+    return of(this.getSubOrgConfig(tenantUrl));
   }
 
-  getTenantInfo() {
-    // inject the router manualy to read the current route and make decisions
-    // this.router = this.injector.get(Router);
+  public getMockDataonID(orgID: string): Observable<object> {
+    let found = false;
+    let thenanTTheme;
+    this.subOrgConfigurations.forEach(tenant => {
+      if (found === false && tenant['orgid'] === orgID) {
+        console.log('found new config from orgID', tenant);
+        found = true;
+        thenanTTheme = tenant;
+      }
+    });
+    if (found === false) {
+      thenanTTheme = null;
+    }
+    return of(thenanTTheme);
+  }
 
-    // this.themingConfig = localStorage.getItem('theming');
-    if (window.location.href === 'http://localhost:3000/') {
-      alert('making fresh request');
 
-      const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/lmnm4' :
-       'https://api.myjson.com/bins/1gvhfw';
-      const option = {
-        url: tenanturl,
-      };
-      this.http.get(option.url).pipe(take(1)).subscribe(response => {
-        if (response) {
-          console.log('Recieved something in the RESOLVER');
-          console.log(response);
-          this.sharedTenantResolver.setTenantConfig(response);
-          localStorage.setItem('theming', JSON.stringify(response));
-          this.themingConfig = response;
-          this.updateTheme();
-        } else {
-          console.log('rejected the RESOLVER');
-          localStorage.removeItem('theming');
+  private searchSubOrg(value: string) {
+    if (value && value.length > 0) {
+      // find out the theme
+      let found = false;
+      let tenanTTheme;
+      this.subOrgConfigurations.forEach(tenant => {
+        if (found === false && tenant['homeUrl'].indexOf(value) > -1) {
+          console.log('found somethin with ', tenant);
+          found = true;
+          tenanTTheme = tenant;
         }
       });
-    } else {
-      // alert('we detected the configuration');
-      this.themingConfig = localStorage.getItem('theming');
-      if (this.themingConfig === undefined || this.themingConfig === null) {
-        alert('did not recieve any configuration');
-      } else {
-
-        console.log('here is the configuration ', this.themingConfig);
-        alert('recieved configuration');
-        this.updateTheme();
+      if (found === false) {
+        tenanTTheme = null;
       }
+      return tenanTTheme;
+    } else {
+      return null;
     }
   }
 
-  getTenantThemeConfig(configName?: string) {
-    const theme = JSON.parse(this.themingConfig);
-    if (theme !== undefined) {
-      if (configName.length > 0) {
-        return theme['CustomizeOptions']['Home'];
-      }
+  private getSubOrgConfig(tenantUrl: string): Observable<any> {
+    const tenant = tenantUrl.split('/')[1];
+
+    const subOrgTenantTheme = this.searchSubOrg(tenant);
+    if (subOrgTenantTheme !== undefined && subOrgTenantTheme !== null) {
+      return of(subOrgTenantTheme);
     } else {
-      throw Error('No them object found');
+      // sending the theme of main domain
+      return of(this.searchSubOrg(tenantUrl.split('/')[0]));
     }
   }
 }

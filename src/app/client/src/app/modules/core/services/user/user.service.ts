@@ -45,7 +45,7 @@ export class UserService {
   public readonly userData$: Observable<IUserData> = this._userData$.asObservable()
   .pipe(skipWhile(data => data === undefined || data === null));
   /**
-   * reference of config service.
+   * reference of config service.`
    */
   public config: ConfigService;
   /**
@@ -149,7 +149,7 @@ export class UserService {
     };
     this.learnerService.get(option).subscribe(
       (data: ServerResponse) => {
-        console.log(data);
+        // console.log(data);
         this.setUserProfile(data);
       },
       (err: ServerResponse) => {
@@ -184,6 +184,7 @@ export class UserService {
     const orgRoleMap = {};
     const hashTagIds = [];
     this._channel = _.get(profileData, 'rootOrg.hashTagId');
+    // this.setCookie('x-user-org-id', this._channel, 1);
     profileData.skills = _.get(profileData, 'skills' ) || [];
     hashTagIds.push(this._channel);
     let organisationIds = [];
@@ -256,7 +257,7 @@ export class UserService {
     };
     this.publicDataService.post(option).subscribe
       ((data: ServerResponse) => {
-        console.log(data);
+        // console.log(data);
         this.orgnisationsDetails = _.get(data, 'result.response.content');
         _.forEach(this.orgnisationsDetails, (orgData) => {
           this.orgNames.push(orgData.orgName);
@@ -399,5 +400,12 @@ export class UserService {
       ERROR: 'error',
       EXCLUDED: 'excluded'
     });
+  }
+
+  setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
   }
 }

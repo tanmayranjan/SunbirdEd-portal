@@ -1,46 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector, ReflectiveInjector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Resolve } from '@angular/router';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, forkJoin } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
+import { TenantResolverService } from '../../../public/services/TenantResolver/tenant-resolver.service';
+import { CookieManagerService } from '../cookie-manager/cookie-manager.service';
+import { SharedUserService } from '../sharedUser/shared-user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedTenantResolverService {
 
-  private themingConfig: any;
-  private _tenantData = null;
-
-  public tenantData$ = new BehaviorSubject<object>(this._tenantData);
+  public _tenantData = false;
+  public tenantData$ = new BehaviorSubject<any>(this._tenantData);
   public tenantData = this.tenantData$.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private mockservice: TenantResolverService, private cookieSrvc: CookieManagerService, private userSrvc: SharedUserService) {
+   }
 
   public setTenantConfig(configData: object) {
-    this._tenantData = configData;
+    this._tenantData = configData['value'];
+    // localStorage.setItem('theming', JSON.stringify(configData['value']));
+    this.cookieSrvc.setCookie('theming', JSON.stringify(configData['value']));
     this.tenantData$.next(this._tenantData);
-    console.log('I recieved tenant data like this ', this._tenantData);
-
+    // console.log('I recieved tenant data like this ', this._tenantData);
   }
 
-  /* public getTenantThemeData() {
-    if(this.tenantData$.value !== null){
-      return this.tenantData;
-    } else {
-      console.log("received no tenant data like it ");
-      // return nothing
-    }
-
-  } */
-
   updateTheme() {
-    // console.log('update theme has the following data ', this._tenantData);
-    // let theme = JSON.parse(this._tenantData);
     if (this._tenantData !== undefined || this._tenantData !== null) {
-      const primaryColor = this._tenantData['CustomizeOptions']['Home']['theme']['primaryColor'];
-      const secondaryColor = this._tenantData['CustomizeOptions']['Home']['theme']['secondaryColor'];
-      // console.log('theme data is ', this._tenantData['CustomizeOptions']['Home']['theme']['primaryColor']);
+      const primaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['primaryColor'];
+      const secondaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['secondaryColor'];
       document.documentElement.style.setProperty('--primary-color', primaryColor);
       document.documentElement.style.setProperty('--secondary-color', secondaryColor);
     } else {
@@ -48,46 +37,69 @@ export class SharedTenantResolverService {
     }
   }
 
-  getTenantInfo() {
-    // inject the router manualy to read the current route and make decisions
-    // this.router = this.injector.get(Router);
+  getTenantInfo(): Observable<boolean> {
+    const themedata = this.cookieSrvc.getCookie('theming');
+    let userid;
+    if (<HTMLInputElement>document.getElementById('userId')) {
+      userid = (<HTMLInputElement>document.getElementById('userId')).value;
+     } else {
+      userid = null;
+     }
+    const tenantUrl = (<HTMLInputElement>document.getElementById('tenantUrl')).value;
+    // check if user is logged in or not
 
-    // this.themingConfig = localStorage.getItem('theming');
-    if (this._tenantData === undefined || this._tenantData == null) {
-      const hostname = window.location.host || window.location.hostname;
-      // console.log('hostname is ', hostname);
-      const tenanturl = 'https://my-json-server.typicode.com/rkalra1996/multi-tenant-theming/theme/2';
-      // const tenanturl = (Math.floor(Math.random() * (+3 - +1)) + +1) === 1 ? 'https://api.myjson.com/bins/11pgw2'
-      // : 'https://api.myjson.com/bins/1gvhfw';
-      const option = {
-        url: tenanturl,
-        hostname: hostname
-      };
-      this.http.get(option.url).pipe(take(1))
-        .subscribe(response => {
-          if (response) {
-            console.log('Recieved something in the RESOLVER');
-            console.log(response);
-            this.setTenantConfig(response);
-            // localStorage.setItem('theming', JSON.stringify(response));
-            // this.themingConfig = response;
-            // this._tenantData = response;
-            this.updateTheme();
-          } else {
-            console.log('rejected the RESOLVER');
-            localStorage.removeItem('theming');
-          }
-        });
-    } else {
-      // alert('we detected the configuration');
-      // this.themingConfig  = JSON.parse(localStorage.getItem('theming'));
-      if (this._tenantData === undefined || this._tenantData == null) {
-        alert('did not recieve any configuration');
-      } else {
-        // this._tenantData = this.themingConfig;
-        console.log('here is the configuration ', this._tenantData);
+     if (userid === null) {
+      // check when the user is not logged in, has he logged out or visited the page first
+      if (localStorage.getItem('logout') === 'true') {
+
+        this.reloadSameConfig();
+        return of(true);
+      } else if (!!themedata) {
+        // let localStorageConfig = JSON.parse(themedata) || null;
+        const localStorageConfig = JSON.parse(themedata) || null;
+        if (localStorageConfig !== null && localStorageConfig['homeUrl'] !== tenantUrl) {
+           // console.log('need to update localstorage');
+          this.mockservice.getMockTenant().pipe(take(1))
+            .subscribe(response => {
+              if (response) {
+                // console.log('Recieved something in the RESOLVER');
+                // console.log(response);
+                this.setTenantConfig(response);
+                this.updateTheme();
+              } else {
+                // console.log('rejected the RESOLVER');
+                this.cookieSrvc.setCookie('theming', '', 0);
+                return of(false);
+              }
+            });
+        } else {
+          // console.log('no need to update the local storage');
+        }
+        this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
         this.updateTheme();
+        this.tenantData$.next(this._tenantData);
+        return of(true);
+      } else {
+        // console.log('actual request');
+          this.mockservice.getMockTenant().pipe(take(1))
+          .subscribe(response => {
+            if (response) {
+              // console.log('Recieved something in the RESOLVER');
+              // console.log(response);
+              this.setTenantConfig(response);
+              this.updateTheme();
+              return of(true);
+            } else {
+              // console.log('rejected the RESOLVER');
+              // localStorage.removeItem('theming');
+              this.cookieSrvc.setCookie('theming', '', 0);
+              return of(false);
+            }
+          });
       }
+    } else {
+      //  user is logged in , check for orgId of the user
+      return this.userSrvc.getLoggedInOrganisation();
     }
   }
 
@@ -95,12 +107,50 @@ export class SharedTenantResolverService {
     const theme = this._tenantData;
     if (theme !== undefined) {
       if (configName && configName.length > 0) {
-        return theme['CustomizeOptions'][configName];
+        return theme['tenantPreferenceDetails'][configName];
       } else {
-        return theme['CustomizeOptions'];
+        return theme['tenantPreferenceDetails'];
       }
     } else {
       alert('no theme config found');
     }
+  }
+
+  compareUser(loggedInOrgID: string) {
+    // let localData = localStorage.getItem('theming');
+    const localData = this.cookieSrvc.getCookie('theming');
+    if (JSON.parse(localData)['orgid'] === loggedInOrgID) {
+      // user belongs from the same domain
+      // console.log('initial tenant', this._tenantData);
+
+      // this._tenantData = JSON.parse(localStorage.getItem('theming'));
+      this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
+      this.updateTheme();
+      this.tenantData$.next(this._tenantData);
+      return of(true);
+    } else {
+      //  user logged in to different domain, update the theme to user specific domain
+      return of(false);
+    }
+  }
+
+  reloadSameConfig() {
+    this.reloadInfo();
+    localStorage.removeItem('logout');
+  }
+
+  reloadInfo() {
+    this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
+    this.updateTheme();
+    this.tenantData$.next(this._tenantData);
+  }
+
+  setInitialRequirements() {
+    const initialData = {
+      themedata: this.cookieSrvc.getCookie('theming'),
+      userid: (<HTMLInputElement>document.getElementById('userId')) ? (<HTMLInputElement>document.getElementById('userId')).value : null,
+      tenantUrl: (<HTMLInputElement>document.getElementById('tenantUrl')).value
+    };
+    return of(initialData);
   }
 }

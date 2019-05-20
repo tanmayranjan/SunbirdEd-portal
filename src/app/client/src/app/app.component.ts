@@ -13,8 +13,10 @@ import { UserService, PermissionService, CoursesService, TenantService, OrgDetai
 import * as _ from 'lodash';
 import { ProfileService } from '@sunbird/profile';
 import { Observable, of, throwError, combineLatest } from 'rxjs';
-import { first, filter, mergeMap, tap, map } from 'rxjs/operators';
+import { first, filter, mergeMap, tap, map, take } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
+import {CookieManagerService} from './modules/shared/services/cookie-manager/cookie-manager.service';
+
 const fingerPrint2 = new Fingerprint2();
 
 /**
@@ -78,7 +80,8 @@ export class AppComponent implements OnInit {
     private telemetryService: TelemetryService, public router: Router, private configService: ConfigService,
     private orgDetailsService: OrgDetailsService, private activatedRoute: ActivatedRoute,
     private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService,
-    private tenantTheme: TenantResolverService, private sharedTenant: SharedTenantResolverService) {
+    private mockservice: TenantResolverService, private sharedTenant: SharedTenantResolverService,
+     private cookieSrvc: CookieManagerService) {
   }
   /**
    * dispatch telemetry window unload event before browser closes
@@ -89,32 +92,70 @@ export class AppComponent implements OnInit {
     this.telemetryService.syncEvents();
   }
   ngOnInit() {
-    // set the theme
-    // this.tenantTheme.updateTheme();
-    // this.sharedTenant.getTenantInfo();
-    /* setTimeout(()=>{
-      let theme = this.sharedTenant.getTenantThemeConfig();
-        if(theme){
-          this.theme = true;
-        }else {
-          this.theme = false;
-          this.recievedContent = false;
+
+    /* 1. check if user is logged in or not
+          1.1 if user is logged in
+            1.1.1 check whether the user is from the same domain or not
+                1.1.1.1 if the user is from the same domain, load the theme
+                1.1.1.2 if the user is not from same domain,
+                      1.1.1.2.1 get the user specific theme and load the theme
+
+          1.2 if user is not logged in
+            1.2.1 check if the user came from logout or not
+                1.2.1.1 if user came from logout, load the theme
+                1.2.1.1 if user did not came from logout, update the theme based on url
+    */
+   this.sharedTenant.getTenantInfo().subscribe(themeData => {
+
+     if (typeof themeData === 'boolean' && themeData && themeData !== undefined) {
+      this.theme = true;
+     } else if (_.isString(themeData)) {
+       // console.log('object data recorded', themeData);
+        if (!!themeData) {
+          const loggedUserOrgID = themeData;
+          // console.log(loggedUserOrgID);
+          // loggedUserOrgID = userOrgId;
+          if (loggedUserOrgID['length'] < 0) {
+            // did not find any cookie storing the orgId, load the default one
+            // console.log('did not recieve user id in loggedUserOrgID variable');
+            this.theme = false;
+          } else {
+            // a user from different domain may have logged in
+            this.sharedTenant.compareUser(loggedUserOrgID).subscribe( response => {
+
+              if (!!!response) {
+
+                this.mockservice.getMockDataonID(loggedUserOrgID).pipe(take(1)).subscribe( newThemeData => {
+                  if (newThemeData) {
+                    // localStorage.setItem('theming', JSON.stringify(newThemeData));
+
+                    this.cookieSrvc.setCookie('theming', JSON.stringify(newThemeData));
+                    // now update the theme with new data
+                    this.sharedTenant._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
+                    this.sharedTenant.updateTheme();
+                    this.sharedTenant.tenantData$.next(this.sharedTenant._tenantData);
+                    this.theme = true;
+                  }
+                }, err => {
+                  // console.log('did not get any theme data while updating for different user');
+                  // console.log(err);
+                  this.theme = false;
+                });
+              } else {
+                this.theme = true;
+              }
+            }, err => {
+              // console.log('an error occured while', err);
+            });
+          }
         }
-        console.log('recieved theme in app component ', theme);
-        // this.theme = true;
-      },2000); */
-    this.sharedTenant.tenantData$.subscribe(dataTheme => {
-      if (dataTheme && dataTheme !== null) {
-        this.theme = true;
-      } else {
-        this.theme = false;
-      }
-      // console.log('recieved theme in app component ', dataTheme);
-    }, (err) => {
-      // console.log('recieved error while getting the theme configuration in app component ');
-      console.log(err);
-      this.recievedContent = false;
-    });
+      } else {this.theme = false; }
+     }, err => {
+     // console.log('error whille retrieving the theme status');
+     this.theme = false;
+     this.recievedContent = false;
+   });
+
 
     this.resourceService.initialize();
     combineLatest(this.setSlug(), this.setDeviceId()).pipe(
@@ -215,7 +256,7 @@ export class AppComponent implements OnInit {
    * set org Details for Anonymous user.
    */
   private setOrgDetails(): Observable<any> {
-    console.log('slug', this.slug);
+    // console.log('slug', this.slug);
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data => {
         this.orgDetails = data;
