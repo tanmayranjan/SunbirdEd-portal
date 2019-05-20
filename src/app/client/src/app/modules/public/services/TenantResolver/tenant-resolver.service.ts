@@ -142,9 +142,138 @@ export class TenantResolverService {
         'Qna': true,
       }
     },
+
+
+
+    {
+      'homeUrl': 'localhost:3000/costarica',
+      'orgid': '0127589565338337284',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'http://localhost:3000/brazil/images/Slider-Image.jpg',
+            'heading': `WELCOME TO COSTA RICA`,
+            'paragraph': 'Learn something new everyday from over 100,000 courses and get inspired by the diversity of online learning.',
+          },
+          'benefits': {
+            'required': true,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '1000 online courses',
+                'subheading': 'Explore a variety of fresh topics',
+              },
+              {
+                'heading': 'Expert Instructors',
+                'subheading': 'Find the right instructor for you',
+              },
+              {
+                'heading': 'Lifetime Access',
+                'subheading': 'Learn anytime, anywhere',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': false,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-button': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#CC7B60',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': true,
+        'Qna': true,
+      }
+    },
     {
       'homeUrl': 'localhost:3000/niit',
-      'orgid': '0127053482034872320',
+      'orgid': '',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -270,7 +399,7 @@ export class TenantResolverService {
     },
     {
       'homeUrl': 'localhost:3000/wipro',
-      'orgid': '',
+      'orgid': '0127053482034872320',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -423,7 +552,7 @@ export class TenantResolverService {
       // find out the theme
       let found = false;
       let tenanTTheme;
-      this.subOrgConfigurations.forEach(tenant => {``
+      this.subOrgConfigurations.forEach(tenant => {
         if (found === false && tenant['homeUrl'].indexOf(value) > -1) {
           console.log('found somethin with ', tenant);
           found = true;

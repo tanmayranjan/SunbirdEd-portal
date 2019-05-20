@@ -1,42 +1,34 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { skipWhile, map } from 'rxjs/operators';
 import { DataService } from '../../../core/services/data/data.service';
-import {ConfigService } from './../config/config.service';
+import { ConfigService } from '../config/config.service';
 @Injectable({
   providedIn: 'root'
 })
 export class SharedUserService {
 
   private userid: string;
-  private _userData = new BehaviorSubject<object>(undefined);
+  public userData$ = new BehaviorSubject<object>(undefined);
+  // private _userData: Observable<object> = this.userData$.asObservable();
 
-  public userData$: Observable<object> = this._userData.asObservable();
-
-  constructor( private dataSrvc: DataService, private config: ConfigService) {
+  constructor( private dataSrvc: DataService, private configSrvc: ConfigService) {
 
    }
 
-  public getLoggedInOrganisation() {
+  public getLoggedInOrganisation(): Observable<any> {
     this.userid = (<HTMLInputElement>document.getElementById('userId')).value;
-    console.log('user id is ', this.userid);
+    // console.log('user id is ', this.userid);
     const option = {
-      url: `${this.config.urlConFig.URLS.USER.GET_PROFILE}${this.userid}`,
-      param: this.config.urlConFig.params.userReadParam,
+      url: `${this.configSrvc.urlConFig.URLS.USER.GET_PROFILE}${this.userid}`,
+      param: this.configSrvc.urlConFig.params.userReadParam,
       userOrgForTenant: true
     };
-    /* const option = {
-      url: `user/v2/read/${this.userid}`}; */
-    this.dataSrvc.get(option).subscribe(
-      (data) => {
-        debugger;
-        console.log('user data ', data['rootOrg']['hashTagId']);
-        this._userData.next({orgId: data['rootOrg']['hashTagId']});
-      },
-      (err) => {
-        debugger;
-        this._userData.next({error : err});
+    return this.dataSrvc.get(option).pipe(map(data => {
+      if (data !== undefined && data.result.response.hasOwnProperty('rootOrg')) {
+        // console.log('recieved user data ');
+        return data.result.response['rootOrg']['hashTagId'];
       }
-    );
+    }));
   }
 }
