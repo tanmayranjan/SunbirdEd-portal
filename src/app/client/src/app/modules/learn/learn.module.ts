@@ -18,7 +18,9 @@ import {
   UpdateCourseBatchComponent,
   CurriculumCardComponent,
   ActivitytypeCardComponent,
-  UnEnrollBatchComponent
+  UnEnrollBatchComponent,
+  LivesessionComponent,
+  UpdateLivesessionComponent
 } from './components';
 import {
   CourseConsumptionService,
@@ -67,7 +69,9 @@ import { TopCategoriesComponent } from './components/top-categories/top-categori
     ActivitytypeCardComponent,
     UnEnrollBatchComponent,
     BatchCardComponent,
-    TopCategoriesComponent
+    TopCategoriesComponent,
+    LivesessionComponent,
+    UpdateLivesessionComponent,
   ]
 })
 export class LearnModule {}

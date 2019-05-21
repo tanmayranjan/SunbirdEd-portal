@@ -14,8 +14,9 @@ import { IFancytreeOptions } from '../../interfaces';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { nodeChildrenAsMap } from '@angular/router/src/utils/tree';
-
-
+import { FormGroup, FormControl, NgForm } from '@angular/forms';
+import { LivesessionService, ToasterService } from '../../services';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fancy-tree',
@@ -27,12 +28,31 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
   @Input() public nodes: any;
   @Input() enrolledDate: any;
   @Input() public options: IFancytreeOptions;
+  @Input() rootNode: any;
   @Output() public itemSelect: EventEmitter<
     Fancytree.FancytreeNode
   > = new EventEmitter();
   date: Date;
-
+  public openModal =  false;
+  liveSessionUrl: FormControl;
+  startTime: FormControl;
+  endTime: FormControl;
+  courseId;
+  batchId;
+  public sessionDetails = {};
+  contentDetails;
+  @Input() userEnrolledBatch;
+  contentTitle;
+  currentNode;  constructor(public liveSessionService: LivesessionService,   public router: Router,
+    public activatedRoute: ActivatedRoute,
+    public toasterService: ToasterService
+     ) {
+  }
   ngOnInit() {
+    this.activatedRoute.params.subscribe((params) => {
+      this.courseId = params.courseId;
+      this.batchId = params.batchId;
+    });
     _.forEach(this.nodes, topic => {
       topic['expanded'] = true;
       if (this.enrolledDate) {
@@ -46,12 +66,10 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
             child['endDate'] = this.addDate(child.model.activityend);
             child['title'] = child.title + '<span class="date">' + child.startDate + '-' + child.endDate + '</span>';
           }
-
-
         });
       }
-
     });
+    this.getSessionDetails();
   }
 
   addDate(day) {
@@ -80,9 +98,16 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
         }
       },
       click: (event, data): boolean => {
+        console.log(data);
         const node = data.node;
-        this.itemSelect.emit(node);
-        return true;
+        this.currentNode = node;
+        this.contentTitle = node.title;
+        if (data.node.data.activityType !== 'headset') {
+          this.itemSelect.emit(node);
+          return true;
+        } else {
+          this.getContentDetails(node.data.id);
+        }
       }
     };
     options = { ...options, ...this.options };
@@ -91,4 +116,33 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
       $('.fancytree-container').addClass('fancytree-connectors');
     }
   }
+
+  getSessionDetails() {
+  this.liveSessionService.getSessionDetails().subscribe(contents => {
+    _.forOwn(contents, (content: any) => {
+      _.forOwn(content.sessionDetail, (sessions: any) => {
+        if (sessions.contentDetails.length > 0) {
+          _.forOwn(sessions.contentDetails, (session: any) => {
+            console.log(session);
+            this.sessionDetails[session.contentId] = session;
+          });
+        }
+      });
+    });
+  });
+  console.log(this.sessionDetails);
+  }
+  getContentDetails(contentId) {
+    if (this.sessionDetails.hasOwnProperty(contentId) && this.userEnrolledBatch) {
+      this.openModal = true;
+      this.contentDetails = this.sessionDetails[contentId];
+    } else {
+      this.openModal = false;
+      if (!this.userEnrolledBatch) {
+        this.toasterService.error('Sorry you should enroll to this course to be a part of this live sessions');
+      } else {
+        this.toasterService.error('Sorry this content does not have any Live Session');
+      }
+  }
+}
 }

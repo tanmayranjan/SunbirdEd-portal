@@ -10,7 +10,8 @@ import {
 } from './components';
 import {
   ConfigService, ResourceService, FileUploadService, ToasterService, WindowScrollService, BrowserCacheTtlService,
-  PaginationService, RouterNavigationService, NavigationHelperService, UtilService, ContentUtilsServiceService, ExternalUrlPreviewService
+  PaginationService, RouterNavigationService, NavigationHelperService, UtilService,
+  ContentUtilsServiceService, ExternalUrlPreviewService, LivesessionService,
 } from './services';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
@@ -23,45 +24,8 @@ import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { CdnprefixPipe } from './pipes/cdnprefix.pipe';
 import { LandingpageCardComponent } from './components/landingpage-card/landingpage-card.component';
-
 import { DisplayPopularCourseComponent } from './components/display-popular-course/display-popular-course.component';
-// import {
-//   MatAutocompleteModule,
-//   MatBadgeModule,
-//   MatBottomSheetModule,
-//   MatButtonModule,
-//   MatButtonToggleModule,
-//   MatCheckboxModule,
-//   MatChipsModule,
-//   MatDatepickerModule,
-//   MatDialogModule,
-//   MatDividerModule,
-//   MatExpansionModule,
-//   MatGridListModule,
-//   MatIconModule,
-//   MatInputModule,
-//   MatListModule,
-//   MatMenuModule,
-//   MatNativeDateModule,
-//   MatPaginatorModule,
-//   MatProgressBarModule,
-//   MatProgressSpinnerModule,
-//   MatRadioModule,
-//   MatRippleModule,
-//   MatSelectModule,
-//   MatSidenavModule,
-//   MatSliderModule,
-//   MatSlideToggleModule,
-//   MatSnackBarModule,
-//   MatSortModule,
-//   MatStepperModule,
-//   MatTableModule,
-//   MatTabsModule,
-//   MatToolbarModule,
-//   MatTooltipModule,
-//   MatTreeModule,
-//   MatCardModule
-// } from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -70,41 +34,7 @@ import { DisplayPopularCourseComponent } from './components/display-popular-cour
     FormsModule,
     TelemetryModule,
     NgInviewModule ,
-    // MatAutocompleteModule,
-    // MatBadgeModule,
-    // MatBottomSheetModule,
-    // MatButtonModule,
-    // MatButtonToggleModule,
-    // MatCheckboxModule,
-    // MatChipsModule,
-    // MatDatepickerModule,
-    // MatDialogModule,
-    // MatDividerModule,
-    // MatExpansionModule,
-    // MatGridListModule,
-    // MatIconModule,
-    // MatInputModule,
-    // MatListModule,
-    // MatMenuModule,
-    // MatNativeDateModule,
-    // MatPaginatorModule,
-    // MatProgressBarModule,
-    // MatProgressSpinnerModule,
-    // MatRadioModule,
-    // MatRippleModule,
-    // MatSelectModule,
-    // MatSidenavModule,
-    // MatSliderModule,
-    // MatSlideToggleModule,
-    // MatSnackBarModule,
-    // MatSortModule,
-    // MatStepperModule,
-    // MatTableModule,
-    // MatTabsModule,
-    // MatToolbarModule,
-    // MatTooltipModule,
-    // MatTreeModule,
-    // MatCardModule
+
   ],
   declarations: [AppLoaderComponent, ContentCreditsComponent, AnnouncementInboxCardComponent,
     DateFormatPipe, PageSectionComponent, NoResultComponent, DateFilterXtimeAgoPipe, DisplayPopularCourseComponent ,
@@ -112,47 +42,14 @@ import { DisplayPopularCourseComponent } from './components/display-popular-cour
     ShareLinkComponent, CollectionPlayerMetadataComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe,
     RedirectComponent, CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, DisplayPopularCourseComponent,
     LandingpageCardComponent,
-    EnrolledCardComponent],
+    EnrolledCardComponent,
+    ],
   exports: [AppLoaderComponent, ContentCreditsComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,
     PageSectionComponent, DisplayPopularCourseComponent , NoResultComponent, CollectionTreeComponent, FancyTreeComponent,
     PlayerComponent, CardComponent, CardCreationComponent, FilterPipe, ShareLinkComponent, CollectionPlayerMetadataComponent,
     BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent, CustomMultiSelectComponent,
     InstallAppComponent, LockInfoPopupComponent ,
-    // MatAutocompleteModule,
-    // MatBadgeModule,
-    // MatBottomSheetModule,
-    // MatButtonModule,
-    // MatButtonToggleModule,
-    // MatCheckboxModule,
-    // MatChipsModule,
-    // MatDatepickerModule,
-    // MatDialogModule,
-    // MatDividerModule,
-    // MatExpansionModule,
-    // MatGridListModule,
-    // MatIconModule,
-    // MatInputModule,
-    // MatListModule,
-    // MatMenuModule,
-    // MatNativeDateModule,
-    // MatPaginatorModule,
-    // MatProgressBarModule,
-    // MatProgressSpinnerModule,
-    // MatRadioModule,
-    // MatRippleModule,
-    // MatSelectModule,
-    // MatSidenavModule,
-    // MatSliderModule,
-    // MatSlideToggleModule,
-    // MatSnackBarModule,
-    // MatSortModule,
-    // MatStepperModule,
-    // MatTableModule,
-    // MatTabsModule,
-    // MatToolbarModule,
-    // MatTooltipModule,
-    // MatTreeModule,
-    // MatCardModule
+
   ]
 })
 export class SharedModule {
@@ -161,7 +58,7 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [ResourceService, ConfigService, FileUploadService, ToasterService, Ng2IzitoastService, PaginationService,
         RouterNavigationService, WindowScrollService, NavigationHelperService, CacheService, UtilService, ContentUtilsServiceService,
-        DeviceDetectorModule, DeviceDetectorService, BrowserCacheTtlService, ExternalUrlPreviewService]
+        DeviceDetectorModule, DeviceDetectorService, BrowserCacheTtlService, ExternalUrlPreviewService, LivesessionService ]
     };
   }
 }

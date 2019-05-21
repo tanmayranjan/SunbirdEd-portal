@@ -1,7 +1,8 @@
 import { NoteListComponent } from '@sunbird/notes';
 import {
   LearnPageComponent, CourseConsumptionPageComponent, CoursePlayerComponent,
-  EnrollBatchComponent, UnEnrollBatchComponent, CreateBatchComponent, UpdateCourseBatchComponent
+  EnrollBatchComponent, UnEnrollBatchComponent, CreateBatchComponent, UpdateCourseBatchComponent,
+  LivesessionComponent
 } from './components';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -77,7 +78,18 @@ const routes: Routes = [
               },
               roles: 'coursebacthesRole'
             }
+          },
+          {
+            path: 'create/livesession/batch/:batchId', component: LivesessionComponent, canActivate: [AuthGuard],
+            data: {
+              telemetry: {
+                env: telemetryEnv, pageid: 'batch-create', type: 'view', mode: 'create',
+                object: { ver: '1.0', type: 'batch' }
+              },
+              roles: 'coursebacthesRole'
+            }
           }
+
         ]
       },
       {
@@ -100,7 +112,7 @@ const routes: Routes = [
             data: {
               telemetry: { env: telemetryEnv, pageid: 'batch-enroll', type: 'view', object: { ver: '1.0', type: 'batch' } }
             }
-          }
+          },
         ]
       },
       {

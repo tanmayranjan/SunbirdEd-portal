@@ -1,1 +1,29 @@
 <div #fancyTree></div>
+<div *ngIf="openModal">
+  <sui-modal [isClosable]="true" [size]="'small'" (dismissed)="openModal=false">
+    <div class="header">
+      <div class="ui grid">
+        <div class="eleven wide column">
+          <span class="ui header">Live Session Details of {{contentTitle}}</span>
+          <div class="p-30 tweleve wide column">
+            <p>
+              <a class="ann-link-or-attachment" href="{{contentDetails.livesessionurl}}" target="_blank">
+                {{contentDetails.livesessionurl | slice:0:70}}
+                <span class="blue-text-color-sunbird" *ngIf="link && link.length > 70">...</span>
+              </a>
+            </p>
+          </div>
+        </div>
+        <div class="six wide column">
+
+          {{contentDetails.startTime}}
+          </div>
+          <div class="six wide column">
+
+          {{contentDetails.endTime}}
+</div>
+
+      </div>
+    </div>
+  </sui-modal>
+</div>

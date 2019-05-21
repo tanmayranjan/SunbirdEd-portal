@@ -139,6 +139,7 @@
                                             <app-collection-tree
                                                 *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                                                 (contentSelect)="navigateToContent($event)"
+                                                [userEnrolledBatch] = "userEnrolledBatch"
                                                 [nodes]="collectionTreeNodes" [options]="collectionTreeOptions"
                                                 [contentStatus]="contentStatus" [enrolledDate]="enrolledDate"></app-collection-tree>
                                             <ng-template #dataCommingSoon>
@@ -282,7 +283,7 @@
               <div></div>
               <app-collection-tree
                 *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
-                (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes" [userEnrolledBatch] = "userEnrolledBatch"
                 [options]="collectionTreeOptions" [contentStatus]="contentStatus" [enrolledDate]="enrolledDate" ></app-collection-tree>
             </div>
             <!--mobile view to represent video playlist, not working-->
@@ -469,6 +470,7 @@
                       <app-collection-tree #top
                         *ngIf="collectionTreeNodes.data && collectionTreeNodes.data.children && collectionTreeNodes.data.children.length >0 ; else dataCommingSoon"
                         (contentSelect)="navigateToContent($event)" [nodes]="collectionTreeNodes"
+                        [userEnrolledBatch] = "userEnrolledBatch"
                         [options]="collectionTreeOptions" [contentStatus]="contentStatus" >
                       </app-collection-tree>
 
