@@ -51,9 +51,15 @@ export class SharedTenantResolverService {
     // check if user is logged in or not
 
     if (userid === null) {
+      if (performance.navigation.type === 1) {
+        console.log('reload');
+        //localStorage.setItem('reload', JSON.stringify(true));
+        this.reloadInfo();
+        return of(true);
+       }
       // check when the user is not logged in, has he logged out or visited the page first
-      if (localStorage.getItem('logout') === 'true') {
-
+      else if (localStorage.getItem('logout') === 'true') {
+        console.log('post logout');
         this.reloadSameConfig();
         return of(true);
       } else if (!!themedata) {
@@ -118,17 +124,25 @@ export class SharedTenantResolverService {
   compareUser(loggedInOrgID: string) {
     // let localData = localStorage.getItem('theming');
     const localData = this.cookieSrvc.getCookie('theming');
-    if (JSON.parse(localData)['orgid'] === loggedInOrgID) {
-      // user belongs from the same domain
-      // // console.log('initial tenant', this._tenantData);
+    let localDataJSON;
+    if(!!localData) {
+      localDataJSON = JSON.parse(localData);
 
-      // this._tenantData = JSON.parse(localStorage.getItem('theming'));
-      this._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
-      this.updateTheme();
-      this.tenantData$.next(this._tenantData);
-      return of(true);
-    } else {
-      //  user logged in to different domain, update the theme to user specific domain
+      if (localDataJSON['orgid'] === loggedInOrgID) {
+        // user belongs from the same domain
+        // // console.log('initial tenant', this._tenantData);
+  
+        // this._tenantData = JSON.parse(localStorage.getItem('theming'));
+        this._tenantData = localDataJSON;
+        this.updateTheme();
+        this.tenantData$.next(this._tenantData);
+        return of(true);
+      } else {
+        //  user logged in to different domain, update the theme to user specific domain
+        return of(false);
+      }
+    }
+    else {
       return of(false);
     }
   }

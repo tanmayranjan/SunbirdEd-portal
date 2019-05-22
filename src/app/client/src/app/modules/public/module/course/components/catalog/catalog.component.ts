@@ -11,6 +11,7 @@ import { IPagination } from '@sunbird/announcement';
 import * as _ from 'lodash';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CatalogFiltersComponent } from '../catalog-filters/catalog-filters.component';
+import { CookieManagerService } from '../../../../../shared/services/cookie-manager/cookie-manager.service';
 
 
 @Component({
@@ -141,7 +142,7 @@ expand = false;
     activatedRoute: ActivatedRoute, paginationService: PaginationService,
     resourceService: ResourceService, toasterService: ToasterService, private changeDetectorRef: ChangeDetectorRef,
     config: ConfigService, coursesService: CoursesService, public utilService: UtilService,
-    public userService: UserService) {
+    public userService: UserService, private cookieSrvc: CookieManagerService) {
     this.searchService = searchService;
     this.route = route;
     this.coursesService = coursesService;
@@ -255,7 +256,6 @@ expand = false;
   }
 
   ngOnInit() {
-
     this.userloggedIn = this.userService.loggedIn;
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;

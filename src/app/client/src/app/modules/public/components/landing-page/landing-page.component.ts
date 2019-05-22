@@ -15,7 +15,7 @@ import { IUserProfile, IUserData } from '@sunbird/shared';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services';
 import { FrameworkService } from './../../../core/services/framework/framework.service';
-
+import { CookieManagerService } from '../../../shared/services/cookie-manager/cookie-manager.service';
 import { SharedTenantResolverService } from './../../../shared/services/tenant-resolver/shared-tenant-resolver.service';
 @Component({
   selector: 'app-home-page',
@@ -119,15 +119,19 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     private orgDetailsService: OrgDetailsService, userService: UserService,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private frameworkService: FrameworkService, private searchservice: SearchService, private tenantTheme: SharedTenantResolverService) {
+    private frameworkService: FrameworkService, private searchservice: SearchService, 
+    private tenantTheme: SharedTenantResolverService, private cookieSrvc: CookieManagerService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
-    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
-    console.log('this ishomeConfig in landingPage ', this.homeConfig);
+    // this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    this.homeConfig = this.cookieSrvc.getCookieKey('theming', 'tenantPreferenceDetails')['Home'];
+    if (this.homeConfig) {
+      console.log('this ishomeConfig in landingPage ', this.homeConfig);
+    }
     // set the active class behaviour in  the navtabs of popular section
     jQuery(document).ready(() => {
       console.log('jQuery loaded');
@@ -357,7 +361,7 @@ if (this.userService.loggedIn) {
   }
 
   ngAfterViewInit(): void {
-    this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
+    this.homeConfig = this.cookieSrvc.getCookieKey('theming', 'tenantPreferenceDetails')['Home'];
     console.log('RECIEVED THE TENANT THEME AS  ', this.homeConfig);
   }
 }

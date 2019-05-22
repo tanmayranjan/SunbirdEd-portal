@@ -19,6 +19,7 @@ export class TenantResolverService {
     {
       'homeUrl': 'localhost:3000',
       'orgid': '0127589565338337284',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -143,8 +144,135 @@ export class TenantResolverService {
       }
     },
     {
+      'homeUrl': 'localhost:3000/samsung',
+      'orgid': '01276670296884019217',
+      'tenantPreferenceDetails': {
+        'Home': {
+          'banner': {
+            'required': true,
+            'imgUrl': 'https://www.mineraltree.com/wp-content/uploads/blog/accounting-tips-ap-automation-cfo-office/virtual-cards-banner.png',
+            'heading': `KICKSTART YOUR CAREER`,
+            'paragraph': 'With Samsung R&D department, upgrade your skills and achieve new heights',
+          },
+          'benefits': {
+            'required': false,
+            'column-size': 4,
+            'columns': [
+              {
+                'heading': '500 online courses',
+                'subheading': 'Explore a variety of fresh topics',
+              },
+              {
+                'heading': 'Expert Instructors',
+                'subheading': 'Find the right instructor for you',
+              },
+              {
+                'heading': 'Lifetime Access',
+                'subheading': 'Learn anytime, anywhere',
+              },
+            ],
+          },
+          'popularCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'exploreCatCode': {
+            'required': true,
+            'code': [
+              'gradeLevel'
+            ],
+          },
+          'cards': {
+            'rating': true,
+            'total-reviews': true,
+            'image': true,
+            'title': true,
+            'subtitle': true,
+            'orgname': true,
+            'tag': true,
+            'card-utton': true,
+            'progress-bar': {
+              'required': true,
+              'bar-color': '#fff',
+            },
+          },
+          'theme': {
+            'primaryColor': '#F53F85',
+            'secondaryColor': '#D84CAD',
+            'accentColor': 'black',
+          },
+          'testimonial': {
+            'required': true,
+            'apiUrl': 'url to get the testimonial data',
+            'headers': {
+              'required': true,
+              'value': [
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+                {
+                  'key': 'value'
+                },
+              ],
+            },
+          },
+          'footer': {
+            'Column2': [
+              {
+                'name': 'USEFULL LINKS',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column3': [
+              {
+                'name': 'LINK',
+                'internal': 'boolean',
+                'externalUrl': 'string',
+              }
+            ],
+            'column4': {
+              'name': 'CONTACT',
+              'email': 'info@niit.com',
+              'phone': [
+                '0124-758252'
+              ],
+              'address': '122001',
+            },
+          },
+          'Social': {
+            'required': true,
+            'instagram': {
+              'required': true,
+              'url': 'url to instagram account',
+            },
+            'facebook': {
+              'required': true,
+              'url': 'url to facebook account',
+            },
+            'twitter': {
+              'required': true,
+              'url': 'url to twitter account',
+            },
+            'linkedin': {
+              'required': true,
+              'url': 'url to linkedin account',
+            },
+          },
+        },
+        'discussionForum': true,
+        'Qna': true,
+      }
+    },
+    {
       'homeUrl': 'localhost:3000/costarica',
-      'orgid': '0127589565338337284',
+      'orgid': '0127660156352102402',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -270,7 +398,8 @@ export class TenantResolverService {
     },
     {
       'homeUrl': 'localhost:3000/niit',
-      'orgid': '',
+      'orgid': '0127053482034872320',
+      'framework': 'niit_tv',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -396,7 +525,7 @@ export class TenantResolverService {
     },
     {
       'homeUrl': 'localhost:3000/wipro',
-      'orgid': '0127053482034872320',
+      'orgid': '01276670259351552016',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -566,6 +695,7 @@ export class TenantResolverService {
   }
 
   private getSubOrgConfig(tenantUrl: string): Observable<any> {
+    debugger;
     const tenant = tenantUrl.split('/')[1];
 
     const subOrgTenantTheme = this.searchSubOrg(tenant);

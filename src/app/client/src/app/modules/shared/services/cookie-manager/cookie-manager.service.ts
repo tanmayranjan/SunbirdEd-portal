@@ -29,4 +29,20 @@ export class CookieManagerService {
     const expires = 'expires=' + d.toUTCString();
     document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
   }
+
+  getCookieKey(objectname: string, keyname: string) {
+    const cookieString = this.getCookie(objectname);
+    if (!!cookieString) {
+      const cookieJSON = JSON.parse(cookieString) || null;
+      if (!!cookieJSON) {
+        console.log(cookieJSON[keyname]);
+        const cookieKey = !!cookieJSON[keyname] ? cookieJSON[keyname] : null;
+        return !!cookieKey ? cookieKey : null;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 }

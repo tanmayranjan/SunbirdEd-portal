@@ -22,14 +22,13 @@ import { TenantResolverService } from './modules/public/services/TenantResolver/
 import { SharedTenantResolverService } from './modules/shared/services/tenant-resolver/shared-tenant-resolver.service';
 
 export const tenantInfoProviderFactory = (provider: SharedTenantResolverService) => () => {
-  if (performance.navigation.type === 1) {
-    console.log('reloaded');
+  /* if (performance.navigation.type === 1) {
     localStorage.setItem('reload', JSON.stringify(true));
     return provider.reloadInfo();
    } else {
-    localStorage.setItem('reload', JSON.stringify(false));
+    localStorage.setItem('no reload', JSON.stringify(false));
     return;
-   }
+   } */
 };
 
 
