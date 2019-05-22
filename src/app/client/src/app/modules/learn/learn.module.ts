@@ -32,6 +32,7 @@ import { CourseBatchModule } from '@sunbird/course-batch';
 import { SharedFeatureModule } from '@sunbird/shared-feature';
 import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
 import { TopCategoriesComponent } from './components/top-categories/top-categories.component';
+import { LiveSessionComponent } from './components/live-session/live-session.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -67,7 +68,8 @@ import { TopCategoriesComponent } from './components/top-categories/top-categori
     ActivitytypeCardComponent,
     UnEnrollBatchComponent,
     BatchCardComponent,
-    TopCategoriesComponent
+    TopCategoriesComponent,
+    LiveSessionComponent
   ]
 })
 export class LearnModule {}

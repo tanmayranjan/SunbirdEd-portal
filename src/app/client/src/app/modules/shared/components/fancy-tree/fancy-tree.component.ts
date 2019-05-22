@@ -13,6 +13,7 @@ import 'jquery.fancytree';
 import { IFancytreeOptions } from '../../interfaces';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { Router, ActivatedRoute } from '@angular/router';
 import { nodeChildrenAsMap } from '@angular/router/src/utils/tree';
 
 
@@ -26,13 +27,24 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
   @ViewChild('fancyTree') public tree: ElementRef;
   @Input() public nodes: any;
   @Input() enrolledDate: any;
+  @Input() isLoggedIn: boolean;
+  @Input() isEnrolled: boolean;
+  @Input() public courseId: any;
+  @Input() public batchId: any;
+  @Input() userName: any;
   @Input() public options: IFancytreeOptions;
   @Output() public itemSelect: EventEmitter<
     Fancytree.FancytreeNode
   > = new EventEmitter();
   date: Date;
+  liveSessionIcon: any;
+  link: HTMLIFrameElement;
 
+  constructor( public router: Router, public activatedRoute: ActivatedRoute) {
+
+  }
   ngOnInit() {
+    console.log('logged date', this.isEnrolled, this.isLoggedIn, this.userName, this.batchId, this.courseId);
     _.forEach(this.nodes, topic => {
       topic['expanded'] = true;
       if (this.enrolledDate) {
@@ -69,20 +81,31 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
           folderOpen: 'fa fa-folder-open-o fa-lg'
         }
       },
-      renderNode:  (event, data) => {
+      renderNode: (event, data) => {
         // Optionally tweak data.node.span
         if (data.node.data.activityType) {
           $(data.node.span).append(
             '<span class=\'activitytypeicon fas fa-' +
-              data.node.data.activityType +
-              '\'></span>'
+            data.node.data.activityType +
+            '\'></span>'
           );
         }
       },
       click: (event, data): boolean => {
         const node = data.node;
-        this.itemSelect.emit(node);
-        return true;
+        this.liveSessionIcon = node.data.activityType;
+        console.log('calling click event', data, this.liveSessionIcon);
+        if (this.liveSessionIcon !== 'headset') {
+          console.log('inside if');
+          this.itemSelect.emit(node);
+        } else {
+          if (this.isLoggedIn && this.isEnrolled) {
+
+            this.router.navigate(['/learn/course/' + this.courseId + '/batch/' + this.batchId + '/live-session'],
+            { queryParams: { userName: this.userName } }
+            );
+          }
+        } return true;
       }
     };
     options = { ...options, ...this.options };

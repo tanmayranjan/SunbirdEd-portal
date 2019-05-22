@@ -11,6 +11,7 @@ import { FlagContentComponent, AuthGuard } from '@sunbird/core';
 import { CourseProgressComponent } from '@sunbird/dashboard';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/shared-feature';
+import { LiveSessionComponent } from './components/live-session/live-session.component';
 const telemetryEnv = 'course';
 const objectType = 'course';
 const routes: Routes = [
@@ -129,9 +130,11 @@ const routes: Routes = [
           },
           breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Courses', url: '/learn' }]
         }
-      }
+      },
+      { path: ':courseId/batch/:batchId/live-session' , component: LiveSessionComponent},
     ]
-  }
+  },
+
 ];
 
 @NgModule({

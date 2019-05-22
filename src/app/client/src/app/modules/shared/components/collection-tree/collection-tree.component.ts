@@ -37,12 +37,17 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   @Input() public nodes: ICollectionTreeNodes;
   @Input() public options: ICollectionTreeOptions;
   @Input() public enrolledDate: any;
+  @Input() public name: any;
+  @Input() public courseId: any;
+  @Input() public batchId: any;
   date: Date;
   @Output() public contentSelect: EventEmitter<{
     id: string;
     title: string;
   }> = new EventEmitter();
   @Input() contentStatus: any;
+  @Input() enrolled: boolean;
+  @Input() loggedIn: boolean;
   private rootNode: any;
   public rootChildrens: any;
   public children = [];
@@ -63,6 +68,7 @@ open: boolean;
     this.resourceService = resourceService;
   }
   ngOnInit() {
+    console.log('enrolled date', this.enrolledDate, this.enrolled, this.loggedIn, this.name, this.batchId, this.courseId);
     this.initialize();
   }
 
