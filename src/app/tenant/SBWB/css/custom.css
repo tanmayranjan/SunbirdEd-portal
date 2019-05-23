@@ -1,5 +1,9 @@
 html, body{width: 100%; overflow-x: hidden;}
 
+input.btn.btn-primary {
+    background-color: rgb(204,123,96);
+}
+
 .Main_Header nav {
     background: #fff;
     border-radius: 0px;
@@ -65,7 +69,7 @@ html, body{width: 100%; overflow-x: hidden;}
     bottom: 0px;
     right: 0px;
     position: absolute;
-    background: rgba(23, 43, 90, 0.81);
+    background: rgba(204,123,96, 0.81);
     left: 0;
     top: 0;
     z-index: 0;
@@ -191,7 +195,7 @@ html, body{width: 100%; overflow-x: hidden;}
 }
 
 .CoursesSection .CoursesSectionOnline p span.thimColor {
-    color: #1f79d6;
+    color: #cc7b60;
 }
 
 .CoursesSection .CoursesSectionOnline h4 {
@@ -276,7 +280,7 @@ html, body{width: 100%; overflow-x: hidden;}
 
 .OnlineRegisterForm .RegisterFormDetail .title:before {
     height: 820px;
-    background: #1f79d6;
+    background: #cc7b60;
     content: '';
     border-radius: 50%;
     bottom: 20px;
@@ -379,7 +383,6 @@ html, body{width: 100%; overflow-x: hidden;}
     color: #fff
 }
 .EventsNews .SlideImages .EventSlide .EventImg::before {
-    background: -webkit-linear-gradient(left, #215698bd, #186bd2);
     content: '';
     display: block;
     width: 92.5%;
