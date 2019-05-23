@@ -150,6 +150,7 @@ export class TenantResolverService {
         'Home': {
           'banner': {
             'required': true,
+// tslint:disable-next-line: max-line-length
             'imgUrl': 'https://www.mineraltree.com/wp-content/uploads/blog/accounting-tips-ap-automation-cfo-office/virtual-cards-banner.png',
             'heading': `KICKSTART YOUR CAREER`,
             'paragraph': 'With Samsung R&D department, upgrade your skills and achieve new heights',
@@ -695,7 +696,6 @@ export class TenantResolverService {
   }
 
   private getSubOrgConfig(tenantUrl: string): Observable<any> {
-    debugger;
     const tenant = tenantUrl.split('/')[1];
 
     const subOrgTenantTheme = this.searchSubOrg(tenant);

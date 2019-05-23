@@ -119,7 +119,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     private orgDetailsService: OrgDetailsService, userService: UserService,
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private frameworkService: FrameworkService, private searchservice: SearchService, 
+    private frameworkService: FrameworkService, private searchservice: SearchService,
     private tenantTheme: SharedTenantResolverService, private cookieSrvc: CookieManagerService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
