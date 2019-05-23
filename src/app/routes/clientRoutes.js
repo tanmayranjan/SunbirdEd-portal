@@ -77,6 +77,7 @@ module.exports = (app, keycloak) => {
     } else if (defaultTenant) {
       renderTenantPage(req, res)
     } else {
+      res.cookie('theming', 'value', {expire: 0 + Date.now()});
       res.redirect('/')
     }
   })
