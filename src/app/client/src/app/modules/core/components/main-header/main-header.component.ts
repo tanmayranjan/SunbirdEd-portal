@@ -9,6 +9,7 @@ import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { FrameworkService } from './../../../core/services/framework/framework.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { CookieManagerService} from '../../../shared/services/cookie-manager/cookie-manager.service';
 declare var jQuery: any;
 /**
  * Main header component
@@ -80,7 +81,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   frameWorkName = '';
   termNames = [];
   terms = [];
-
+  appLogoName;
   public resourceService: ResourceService;
   avtarMobileStyle = {
     backgroundColor: 'transparent',
@@ -115,13 +116,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   userDataSubscription: Subscription;
   exploreRoutingUrl: string;
   pageId: string;
+  appLogoUrl: string;
   /*
   * constructor
   */
   constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
-    private frameworkService: FrameworkService) {
+    private frameworkService: FrameworkService, private cookieSrvc: CookieManagerService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -131,6 +133,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const cookie = this.cookieSrvc.getCookieKey('theming', 'orgName');
+    this.appLogoName = cookie ? cookie :  'niit_default';
+    this.appLogoUrl = '../../../../../assets/logo/' + this.appLogoName + '.png';
     this.terms = [];
     this.getFrameworkCategoryandterms('niit_tv');
     // save framework name to the local storage
