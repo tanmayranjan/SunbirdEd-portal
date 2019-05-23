@@ -80,7 +80,7 @@ module.exports = {
         if (err) { }
         console.log('eerr', err , 'resul', results);
         responseObj.logo = results.logo
-          ? results.logo : baseUrl + '/assets/images/sunbird_logo.png'
+          ? results.logo : baseUrl + '/assets/images/niit.png'
         responseObj.poster = results.poster
           ? results.poster : baseUrl + '/assets/images/sunbird_logo.png'
         responseObj.favicon = results.favicon

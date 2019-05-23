@@ -1,4 +1,5 @@
 window.sr = ScrollReveal();
+localStorage.setItem('tenant', 'SBWB');
 sr.reveal('.foo');
 sr.reveal('.bar');
  

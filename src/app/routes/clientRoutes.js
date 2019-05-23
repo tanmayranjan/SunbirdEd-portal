@@ -14,6 +14,7 @@ const defaultTenant = envHelper.DEFAULT_CHANNEL
 const oneDayMS = 86400000
 let tenantId = ''
 let tenantUrl = ''
+let slugName = ''
 
 module.exports = (app, keycloak) => {
   app.set('view engine', 'ejs')
@@ -84,7 +85,8 @@ module.exports = (app, keycloak) => {
 function getLocals (req, callback) {
   console.log('\x1b[33m%s\x1b[0m', 'getlocals' + req.url);
   var locals = {}
-  locals.tenantUrl = tenantUrl
+  locals.slugName = slugName
+  locals.tenantUrl = tenantUrl + '/' + slugName
   locals.userId = _.get(req, 'kauth.grant.access_token.content.sub') ? req.kauth.grant.access_token.content.sub : null
   locals.sessionId = _.get(req, 'sessionID') && _.get(req, 'kauth.grant.access_token.content.sub') ? req.sessionID : null
   locals.cdnUrl = envHelper.PORTAL_CDN_URL
