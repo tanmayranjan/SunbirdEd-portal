@@ -54,6 +54,7 @@ export class CollectionTreeComponent implements OnInit, OnChanges {
   public preContent = {};
   public contentsStatus = [];
   public completedUnits = [];
+  @Input() userEnrolledBatch;
 openLock = false;
 open: boolean;
   statuscount = 0;
@@ -91,7 +92,7 @@ open: boolean;
   }
 
   private initialize() {
-    console.log('contentStatus', this.contentStatus);
+    console.log('contentStatus', this.userEnrolledBatch);
 
     this.rootNode = this.createTreeModel();
     if (this.rootNode) {
@@ -193,9 +194,6 @@ open: boolean;
 
 public onNode(node: any) {
   console.log(node, open, this.completedUnits);
-
-
-
   if (node.model.prerequisites && !node.model.open) {
     let preData = node.model.prerequisites.split(',');
     console.log(preData);

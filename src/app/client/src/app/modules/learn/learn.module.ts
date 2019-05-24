@@ -18,7 +18,9 @@ import {
   UpdateCourseBatchComponent,
   CurriculumCardComponent,
   ActivitytypeCardComponent,
-  UnEnrollBatchComponent
+  UnEnrollBatchComponent,
+  LivesessionComponent,
+  UpdateLivesessionComponent
 } from './components';
 import {
   CourseConsumptionService,
@@ -32,7 +34,7 @@ import { CourseBatchModule } from '@sunbird/course-batch';
 import { SharedFeatureModule } from '@sunbird/shared-feature';
 import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
 import { TopCategoriesComponent } from './components/top-categories/top-categories.component';
-import { LiveSessionComponent } from './components/live-session/live-session.component';
+import { LiveSessionUrlComponent } from './components/live-session/live-session-url.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -69,7 +71,9 @@ import { LiveSessionComponent } from './components/live-session/live-session.com
     UnEnrollBatchComponent,
     BatchCardComponent,
     TopCategoriesComponent,
-    LiveSessionComponent
+    LiveSessionUrlComponent,
+    LivesessionComponent,
+    UpdateLivesessionComponent,
   ]
 })
 export class LearnModule {}

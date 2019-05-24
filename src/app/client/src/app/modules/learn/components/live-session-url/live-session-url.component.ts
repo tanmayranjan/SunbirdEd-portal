@@ -6,11 +6,11 @@ import { BadgesService } from '../../../core/services/badges/badges.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-live-session',
-  templateUrl: './live-session.component.html',
-  styleUrls: ['./live-session.component.scss']
+  selector: 'app-live-session-url',
+  templateUrl: './live-session-url.component.html',
+  styleUrls: ['./live-session-url.component.scss']
 })
-export class LiveSessionComponent implements OnInit {
+export class LiveSessionUrlComponent implements OnInit {
   public activatedRoute: ActivatedRoute;
   public configService: ConfigService;
   public contentService: ContentService;
@@ -23,12 +23,13 @@ export class LiveSessionComponent implements OnInit {
   path: string;
   path1: string;
   userName: string;
+    sessionUrl: any;
   constructor(activated: ActivatedRoute, sanitizers: DomSanitizer,
     config: ConfigService, contentServe: ContentService , private rout: Router) {
       this.activatedRoute = activated;
       this.activatedRoute.queryParams.subscribe(url => {
           console.log('parm url', url);
-        this.userName = url.userName;
+        this.sessionUrl = url.sessionUrl;
       });
       this.configService = config;
       this.contentService = contentServe;
@@ -42,7 +43,7 @@ export class LiveSessionComponent implements OnInit {
 
 
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://niitltd.adobeconnect.com/_a948682411/rp5fhou59l9d/?launcher=false&guestName=' + this.userName);
+          this.sessionUrl);
       this.showLoader = false;
 
   }
@@ -52,7 +53,7 @@ export class LiveSessionComponent implements OnInit {
       this.path = url[0].path;
       this.path1 = url[2].path;
       });
-      this.route.navigate(['learn/course/' + this.path + '/batch/', this.path1]);
+        this.route.navigate(['learn/course/' + this.path + '/batch/', this.path1]);
   }
 
 }

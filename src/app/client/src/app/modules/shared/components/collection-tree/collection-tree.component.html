@@ -17,7 +17,7 @@ title="Complete the Prerequisites"
     </div>
     <div *ngIf="child.folder" content>
       <app-fancy-tree (itemSelect)="onItemSelect($event)" [nodes]="child.children" [options]="{ showConnectors: true }" [enrolledDate]="enrolledDate" [isLoggedIn]="loggedIn" [isEnrolled]="enrolled" [userName]="name"
-      [courseId]="courseId" [batchId]="batchId">
+      [userEnrolledBatch] = "userEnrolledBatch"  [rootNode]="preContent" >
       </app-fancy-tree>
     </div>
   </sui-accordion-panel>

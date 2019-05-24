@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveSessionComponent } from './live-session.component';
+import { LiveSessionUrlComponent } from './live-session-url.component';
 
 describe('LiveSessionComponent', () => {
-  let component: LiveSessionComponent;
-  let fixture: ComponentFixture<LiveSessionComponent>;
+  let component: LiveSessionUrlComponent;
+  let fixture: ComponentFixture<LiveSessionUrlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LiveSessionComponent ]
+      declarations: [ LiveSessionUrlComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveSessionComponent);
+    fixture = TestBed.createComponent(LiveSessionUrlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

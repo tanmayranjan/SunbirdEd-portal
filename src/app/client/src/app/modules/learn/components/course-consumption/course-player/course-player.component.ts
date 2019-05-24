@@ -282,6 +282,7 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.parseChildContent();
           if (this.batchId) {
             this.enrolledBatchInfo = enrolledBatchDetails;
+            console.log(this.enrolledBatchInfo);
             this.enrolledCourse = true;
             this.setTelemetryStartEndData();
             if (this.enrolledBatchInfo.status && this.contentIds.length) {
@@ -313,16 +314,6 @@ export class CoursePlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(
         courseProgressData => (this.courseProgressData = courseProgressData)
       );
-    // triggering sidebar change
-    // $(() => {
-    //   $('.ui.sidebar').sidebar({
-    //     context: $('.bottom.segment')
-    //   })
-    //   .sidebar('attach events', '.menu .item');
-    // });
-    // if(this.userEnrolledBatch) {
-    //   this.navigateToContent();
-    // }
   }
   ngAfterViewInit() {
     console.log(this.showJumbotron);
