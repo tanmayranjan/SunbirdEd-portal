@@ -154,12 +154,16 @@ export class SharedTenantResolverService {
       let tenant;
       localStorage.removeItem('logout');
       const uri = this.cookieSrvc.getCookieKey('theming', 'homeUrl');
-      if (uri.split('/')[1].length > 0) {
+      if (uri.split('/')[1]) {
         tenant = uri.split('/')[1];
-      } else { tenant = uri.split('/')[0]; }
+        this.document.location.href = this.document.location.origin + '/' + tenant;
+
+      } else {
+        tenant = uri.split('/')[0];
+       this.document.location.href = tenant;
+      }
       // redirect to the static url of the logged out organisation
-      const staticUrl = this.document.location.origin + '/' + tenant;
-      this.document.location.href = staticUrl;
+      // this.document.location.href = staticUrl;
     }
     this.reloadInfo();
   }
