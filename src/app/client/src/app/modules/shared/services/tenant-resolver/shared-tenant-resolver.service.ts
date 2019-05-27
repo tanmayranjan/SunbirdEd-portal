@@ -1,10 +1,10 @@
-import { Injectable, Injector, ReflectiveInjector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject, forkJoin } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
+import { Observable, of, BehaviorSubject} from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { TenantResolverService } from '../../../public/services/TenantResolver/tenant-resolver.service';
 import { CookieManagerService } from '../cookie-manager/cookie-manager.service';
 import { SharedUserService } from '../sharedUser/shared-user.service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,11 @@ export class SharedTenantResolverService {
   public tenantData$ = new BehaviorSubject<any>(this._tenantData);
   public tenantData = this.tenantData$.asObservable();
 
-  constructor(private mockservice: TenantResolverService, private cookieSrvc: CookieManagerService, private userSrvc: SharedUserService) {
+  constructor(private mockservice: TenantResolverService,
+    private cookieSrvc: CookieManagerService,
+    private userSrvc: SharedUserService,
+    private injector: Injector,
+    @Inject(DOCUMENT) private document: any) {
   }
 
   public setTenantConfig(configData: object) {
@@ -58,7 +62,7 @@ export class SharedTenantResolverService {
         return of(true);
        } else if (localStorage.getItem('logout') === 'true') {
         console.log('post logout');
-        this.reloadSameConfig();
+        this.reloadSameConfig('logout');
         return of(true);
       } else if (!!themedata) {
         // let localStorageConfig = JSON.parse(themedata) || null;
@@ -144,9 +148,20 @@ export class SharedTenantResolverService {
     }
   }
 
-  reloadSameConfig() {
+  reloadSameConfig(logout = null) {
+    if (logout === 'logout') {
+      // const routerInjector = this.injector.get(Router);
+      let tenant;
+      localStorage.removeItem('logout');
+      const uri = this.cookieSrvc.getCookieKey('theming', 'homeUrl');
+      if (uri.split('/')[1].length > 0) {
+        tenant = uri.split('/')[1];
+      } else { tenant = uri.split('/')[0]; }
+      // redirect to the static url of the logged out organisation
+      const staticUrl = this.document.location.origin + '/' + tenant;
+      this.document.location.href = staticUrl;
+    }
     this.reloadInfo();
-    localStorage.removeItem('logout');
   }
 
   reloadInfo() {

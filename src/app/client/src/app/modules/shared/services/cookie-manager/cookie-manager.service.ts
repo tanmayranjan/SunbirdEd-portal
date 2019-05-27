@@ -35,7 +35,6 @@ export class CookieManagerService {
     if (!!cookieString) {
       const cookieJSON = JSON.parse(cookieString) || null;
       if (!!cookieJSON) {
-        console.log(cookieJSON[keyname]);
         const cookieKey = !!cookieJSON[keyname] ? cookieJSON[keyname] : null;
         return !!cookieKey ? cookieKey : null;
       } else {
