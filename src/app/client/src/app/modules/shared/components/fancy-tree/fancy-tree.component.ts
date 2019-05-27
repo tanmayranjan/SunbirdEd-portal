@@ -103,6 +103,7 @@ export class FancyTreeComponent implements AfterViewInit, OnInit {
       },
       renderNode: (event, data) => {
         // Optionally tweak data.node.span
+        console.log('data in famcy tree', data);
         if (data.node.data.activityType) {
           $(data.node.span).append(
             '<span class=\'activitytypeicon fas fa-' +

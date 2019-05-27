@@ -34,7 +34,7 @@ import { CourseBatchModule } from '@sunbird/course-batch';
 import { SharedFeatureModule } from '@sunbird/shared-feature';
 import { BatchCardComponent } from './components/batch/batch-card/batch-card.component';
 import { TopCategoriesComponent } from './components/top-categories/top-categories.component';
-import { LiveSessionUrlComponent } from './components/live-session/live-session-url.component';
+import { LiveSessionUrlComponent } from './components/live-session-url/live-session-url.component';
 @NgModule({
   imports: [
     CommonModule,

@@ -12,7 +12,7 @@ import { FlagContentComponent, AuthGuard } from '@sunbird/core';
 import { CourseProgressComponent } from '@sunbird/dashboard';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/shared-feature';
-import { LiveSessionUrlComponent } from './components/live-session/live-session-url.component';
+import { LiveSessionUrlComponent } from './components/live-session-url/live-session-url.component';
 const telemetryEnv = 'course';
 const objectType = 'course';
 const routes: Routes = [

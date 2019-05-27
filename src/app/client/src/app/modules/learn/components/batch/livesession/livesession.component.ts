@@ -215,7 +215,7 @@ export class LivesessionComponent implements OnInit {
     this.createSessions(unitDetail, unitIds);
   }
 createSessions(sessionDetails, unitIds) {
-  console.log(sessionDetails);
+  console.log('session details', sessionDetails, 'unit id', unitIds);
   const sessiondetail = [];
   _.forOwn(sessionDetails, (session: any, key) => {
     const obj = {
@@ -256,7 +256,7 @@ createSessions(sessionDetails, unitIds) {
           });
         });
       });
-      console.log(this.sessionDetails);
+      console.log('session details after live service called', this.sessionDetails);
   }
   onUnitChange(event) {
     console.log(event);
