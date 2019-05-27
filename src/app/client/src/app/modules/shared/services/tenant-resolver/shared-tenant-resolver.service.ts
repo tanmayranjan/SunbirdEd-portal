@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Inject } from '@angular/core';
 import { Observable, of, BehaviorSubject} from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { TenantResolverService } from '../../../public/services/TenantResolver/tenant-resolver.service';
