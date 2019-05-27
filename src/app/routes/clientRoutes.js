@@ -15,6 +15,7 @@ const oneDayMS = 86400000
 let tenantId = ''
 let tenantUrl = ''
 let slugName = ''
+global.wrongUrl=false
 
 module.exports = (app, keycloak) => {
   app.set('view engine', 'ejs')
@@ -65,7 +66,7 @@ module.exports = (app, keycloak) => {
   app.all('/:tenantName', (req, res) => {
     tenantUrl = (req.url !== '/bootstrap.min.css.map' && req.url !=='/favicon.ico')? (req.get('host') + req.originalUrl) : req.get('host');
     // console.log(tenantUrl);
-    tenantId = req.params.tenantName
+    tenantId = (req.params.tenantName !== '/bootstrap.min.css.map' && req.params.tenantName !=='/favicon.ico')? req.params.tenantName : '';
     // console.log('tenantID is ', tenantId);
     if (_.isString(tenantId)) {
       tenantId = _.lowerCase(tenantId)
@@ -87,6 +88,7 @@ function getLocals (req, callback) {
   // console.log('\x1b[33m%s\x1b[0m', 'getlocals' + req.url);
   var locals = {}
   locals.slugName = slugName
+  locals.wrongUrl = wrongUrl
   locals.tenantUrl = tenantUrl + '/' + slugName
   locals.userId = _.get(req, 'kauth.grant.access_token.content.sub') ? req.kauth.grant.access_token.content.sub : null
   locals.sessionId = _.get(req, 'sessionID') && _.get(req, 'kauth.grant.access_token.content.sub') ? req.sessionID : null
@@ -138,9 +140,11 @@ function renderDefaultIndexPage (req, res) {
         }
       })
     }
+    global.wrongUrl = false;
   } catch (e) {
     throw e
   }
+  //reset the variable
 }
 // renders tenant page from cdn or from local files based on tenantCdnUrl exists
 function renderTenantPage (req, res) {
@@ -164,13 +168,15 @@ function renderTenantPage (req, res) {
 function loadTenantFromLocal (req, res) {
   if (tenantId) {
     if (fs.existsSync(path.join(__dirname, 'tenant', tenantId, 'index.html'))) {
+      wrongUrl = false
       res.sendFile(path.join(__dirname, 'tenant', tenantId, 'index.html'))
     } else {
+      wrongUrl = true
             // renderDefaultIndexPage only if there is no local default tenant else redirect
       if (defaultTenant && req.path === '/') {
         renderDefaultIndexPage(req, res)
       } else {
-                // this will be executed only if user is typed invalid tenant in url
+        // this will be executed only if user is typed invalid tenant in url
         res.redirect('/')
       }
     }
