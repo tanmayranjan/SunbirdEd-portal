@@ -1,4 +1,4 @@
-<div class="footer-fix" [ngClass]="{'loggedInUser': userService.loggedIn, 'guestUser': !userService.loggedIn}" *ngIf="theme == true">
+<div class="footer-fix" *ngIf="theme" [ngClass]="{'loggedInUser': userService.loggedIn, 'guestUser': !userService.loggedIn}">
   <app-popup #frameWorkPopUp *ngIf="showFrameWorkPopUp" [buttonLabel]="resourceService.frmelmnts.btn.submit" (submit)="updateFrameWork($event)"></app-popup>
   <app-tnc-popup (close)="onAcceptTnc()" #termsAndCondPopUp *ngIf="showTermsAndCondPopUp"></app-tnc-popup>
   <app-header></app-header>
@@ -6,13 +6,13 @@
   <!-- <app-breadcrumbs *ngIf="userService.loggedIn"></app-breadcrumbs> -->
   <router-outlet *ngIf="initApp"></router-outlet>
 </div>
-<app-footer *ngIf="theme == true"></app-footer>
-<div id="centerpl" *ngIf="theme == false">
+<app-footer *ngIf="theme"></app-footer>
+<div id="centerpl" *ngIf="!theme">
     <div>
         <img src="./../assets/spinner.svg" width="100px" height="100px">
-      <h6 *ngIf="recievedContent == true" class="pt-3"> LOADING... 
+      <h6 *ngIf="recievedContent" class="pt-3"> LOADING...
       </h6>
-      <h6 *ngIf="recievedContent == false">
+      <h6 *ngIf="!recievedContent">
         OOPS..!!! SOMETHING WENT WRONG HERE. TRY AGAIN AFTER SOME TIME. :)
       </h6>
     </div>

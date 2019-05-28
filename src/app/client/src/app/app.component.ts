@@ -112,12 +112,12 @@ export class AppComponent implements OnInit {
        // console.log('object data recorded', themeData);
         if (!!themeData) {
           const loggedUserOrgID = themeData;
-          // console.log(loggedUserOrgID);
-          // loggedUserOrgID = userOrgId;
           if (loggedUserOrgID['length'] < 0) {
             // did not find any cookie storing the orgId, load the default one
             // console.log('did not recieve user id in loggedUserOrgID variable');
             this.theme = false;
+            this.recievedContent = false;
+            console.log('did not recieve any organization id for logged in user');
           } else {
             // a user from different domain may have logged in
             this.sharedTenant.compareUser(loggedUserOrgID).subscribe( response => {
@@ -126,8 +126,6 @@ export class AppComponent implements OnInit {
 
                 this.mockservice.getMockDataonID(loggedUserOrgID).pipe(take(1)).subscribe( newThemeData => {
                   if (newThemeData) {
-                    // localStorage.setItem('theming', JSON.stringify(newThemeData));
-
                     this.cookieSrvc.setCookie('theming', JSON.stringify(newThemeData));
                     // now update the theme with new data
                     this.sharedTenant._tenantData = JSON.parse(this.cookieSrvc.getCookie('theming'));
@@ -136,26 +134,31 @@ export class AppComponent implements OnInit {
                     this.theme = true;
                   }
                 }, err => {
-                  // console.log('did not get any theme data while updating for different user');
-                  // console.log(err);
                   this.theme = false;
+                  this.recievedContent = false;
+                  console.log('An error occured while retreiving the tenant data according to the user id');
+                  console.log(err);
                 });
               } else {
                 this.theme = true;
               }
             }, err => {
-              // console.log('an error occured while', err);
+              this.theme = false;
+              this.recievedContent = false;
+              console.log('An error occured while getting org id of logged in user');
             });
           }
         }
       } else {
-        // console.log('neither boolean not object recieved');
         this.theme = false;
+        this.recievedContent = false;
+        console.log('Recieved neither boolean nor string(orgID) in the observable');
       }
      }, err => {
-     // console.log('error whille retrieving the theme status', err);
      this.theme = false;
      this.recievedContent = false;
+     console.log('Error occured while subscribing the getTenantInfo');
+     console.log(err);
    });
 
 

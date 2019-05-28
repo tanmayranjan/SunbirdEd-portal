@@ -18,7 +18,7 @@ export class SharedUserService {
 
   public getLoggedInOrganisation(): Observable<any> {
     this.userid = (<HTMLInputElement>document.getElementById('userId')).value;
-    // console.log('user id is ', this.userid);
+
     const option = {
       url: `${this.configSrvc.urlConFig.URLS.USER.GET_PROFILE}${this.userid}`,
       param: this.configSrvc.urlConFig.params.userReadParam,
