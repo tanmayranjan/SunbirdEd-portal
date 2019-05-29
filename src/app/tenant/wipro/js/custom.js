@@ -1,5 +1,5 @@
 window.sr = ScrollReveal();
-window.localStorage.setItem('tenant', 'wipro');
+window.sessionStorage.setItem('tenant', 'wipro');
 
 sr.reveal('.foo');
 sr.reveal('.bar');

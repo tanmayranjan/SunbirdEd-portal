@@ -60,7 +60,7 @@ export class TenantService extends DataService {
      *
      * by rishabh kalra (NIIT)
      */
-    const tenantName = localStorage.getItem('tenant');
+    const tenantName = sessionStorage.getItem('tenant');
     const url = `${this.config.urlConFig.URLS.TENANT.INFO + '/'}` + (tenantName ? tenantName : '');
     this.get({ url }).subscribe(
       (apiResponse: ServerResponse) => {

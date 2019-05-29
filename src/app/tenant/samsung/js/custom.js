@@ -1,5 +1,5 @@
 window.sr = ScrollReveal();
-window.localStorage.setItem('tenant', 'samsung');
+window.sessionStorage.setItem('tenant', 'samsung');
 
 
 function setCookie(cname, cvalue, exdays = 1) {

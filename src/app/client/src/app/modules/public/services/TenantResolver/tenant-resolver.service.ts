@@ -276,6 +276,7 @@ export class TenantResolverService {
       'homeUrl': 'camino.stackroute.com/samsung',
       'orgid': '01276670296884019217',
       'orgName': 'samsung',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -404,6 +405,7 @@ export class TenantResolverService {
       'homeUrl': 'localhost:3000/samsung',
       'orgid': '01276670296884019217',
       'orgName': 'samsung',
+      'framework': 'niit_tv',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -788,6 +790,7 @@ export class TenantResolverService {
       'homeUrl': 'camino.stackroute.com/wipro',
       'orgid': '01276670259351552016',
       'orgName': 'wipro',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -915,6 +918,7 @@ export class TenantResolverService {
       'homeUrl': 'localhost:3000/wipro',
       'orgid': '01276670259351552016',
       'orgName': 'wipro',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {
@@ -1044,13 +1048,14 @@ export class TenantResolverService {
 // tslint:disable-next-line: max-line-length
     const worngUrlResponse = (<HTMLInputElement>document.getElementById('wrongUrl')) ? (<HTMLInputElement>document.getElementById('wrongUrl')).value : false;
     if ( worngUrlResponse === 'true' ) {
-      localStorage.removeItem('tenant');
+      sessionStorage.removeItem('tenant');
     }
-    const localStorageTenant = localStorage.getItem('tenant');
-    const tenantUrl = localStorageTenant ? window.location.host + '/'
+    const localStorageTenant = sessionStorage.getItem('tenant');
+    const tenantUrl = !!localStorageTenant ? window.location.host + '/'
     + localStorageTenant : (<HTMLInputElement>document.getElementById('tenantUrl')).value;
     // remove the tenant varible as it is no longer needed
-    localStorage.removeItem('tenant');
+    // localStorage.removeItem('tenant');
+    sessionStorage.removeItem('tenant');
     return of(this.getSubOrgConfig(tenantUrl));
   }
 
@@ -1063,7 +1068,7 @@ export class TenantResolverService {
         found = true;
         thenanTTheme = tenant;
         // update the tenantName in localStorage
-      localStorage.setItem('tenant', thenanTTheme['orgName']);
+      sessionStorage.setItem('tenant', thenanTTheme['orgName']);
       }
     });
     if (found === false) {
