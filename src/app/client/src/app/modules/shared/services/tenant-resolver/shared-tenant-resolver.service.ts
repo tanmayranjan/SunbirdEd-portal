@@ -21,12 +21,19 @@ export class SharedTenantResolverService {
     @Inject(DOCUMENT) private document: any) {
   }
 
+  /**
+   * To set the theming values into the cookies and also emit the data to all the observables
+   * subscribing to tenantData$
+   */
   public setTenantConfig(configData: object) {
     this._tenantData = configData['value'];
     this.cookieSrvc.setCookie('theming', JSON.stringify(configData['value']));
     this.tenantData$.next(this._tenantData);
   }
 
+  /**
+   *Updates the theme basedon the data set by setTenantConfig method
+   */
   updateTheme() {
     if (!!this._tenantData) {
       const primaryColor = this._tenantData['tenantPreferenceDetails']['Home']['theme']['primaryColor'];
@@ -39,6 +46,9 @@ export class SharedTenantResolverService {
     }
   }
 
+  /**
+   * Generic method called in app component to initiate the tenant retrieval process
+   */
   getTenantInfo(): Observable<string | boolean> {
     const themedata = this.cookieSrvc.getCookie('theming');
     let userid;
@@ -113,6 +123,9 @@ export class SharedTenantResolverService {
     }
   }
 
+  /**
+   * checks whether the user is logged in or not using the hidden variable input element
+   */
   private isLoggedIn(userid: any) {
     if (<HTMLInputElement>document.getElementById('userId')) {
       userid = (<HTMLInputElement>document.getElementById('userId')).value;
@@ -122,6 +135,9 @@ export class SharedTenantResolverService {
     return userid;
   }
 
+  /**
+   * Generic method to retrieve specific data from tenant data stored
+   */
   getTenantThemeConfig(configName?: string) {
     const theme = this._tenantData;
     if (theme !== undefined) {
@@ -135,6 +151,9 @@ export class SharedTenantResolverService {
     }
   }
 
+  /**
+   * Checks if the user belongs to the current tenant website
+   */
   compareUser(loggedInOrgID: string) {
     // let localData = localStorage.getItem('theming');
     const localData = this.cookieSrvc.getCookie('theming');

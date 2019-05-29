@@ -138,46 +138,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.appLogoUrl = '../../../../../assets/logo/' + this.appLogoName + '.png';
     this.terms = [];
     this.getFrameworkCategoryandterms('niit_tv');
-    // save framework name to the local storage
-    /* if (this.userService.loggedIn) {
-      if(window.localStorage.getItem('default_framework') !== undefined){
-        alert('logged in with framework');
-        this.frameWorkName = window.localStorage.getItem('default_framework');
-      this.getFrameworkCategoryandterms(this.frameWorkName);
-      }
-      else {
-        alert('logged in with no default_framework')
-        //get framework details from the framework service and store it in localstorage
-        this.frameworkService.frameworkData$.subscribe((frameworkData) => {
-          if (frameworkData && !frameworkData.err) {
-            this.frameWorkName = frameworkData.frameworkdata.defaultFramework.code;
-            if(this.frameWorkName == null){
-              this.frameWorkName = 'niit_tv';
-            }
-            window.localStorage.setItem('default_framework', this.frameWorkName);
-            this.getFrameworkCategoryandterms(this.frameWorkName);
-          }
-        });
-      }
-    }else {
-      //when user is not logged in
-      this.frameWorkName = window.localStorage.getItem('default_framework');
-      alert('found framework '+ this.frameWorkName);
-      this.getFrameworkCategoryandterms(this.frameWorkName);
-    } */
 
     jQuery(() => {
       jQuery('.carousel').carousel();
       jQuery('.ui.dropdown').dropdown();
-      /*  jQuery(window).on("scroll", function() {
-         if(jQuery(window).scrollTop() > 150) {
-           jQuery(".header").addClass("active");
-         } else {
-             //remove the background property so it comes transparent again (defined in your css)
-            jQuery(".header").removeClass("active");
-         }
-     }); */
-
     });
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
@@ -190,19 +154,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
             child.forEach(route => {
               currentRoute = route;
               console.log('here is  the  current route', currentRoute.data['value']['orgdata']['defaultFramework']);
-              /* if(!this.userService.loggedIn){
-                alert('updating the categories based');
-                this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
-                if(this.frameWorkName !== undefined ){
-                  this.getFrameworkCategoryandterms(this.frameWorkName);
-                }else {
-                  this.frameWorkName = window.localStorage.getItem('default_framework');
-                  this.getFrameworkCategoryandterms(this.frameWorkName);
-                }
-              } */
-              // this.frameWorkName = currentRoute.data['value']['orgdata']['defaultFramework'];
-              // console.log('framework name from main header router event', this.frameWorkName);
-              // this.getFrameworkCategoryandterms(this.frameWorkName);
               if (route.snapshot.data.telemetry) {
                 if (route.snapshot.data.telemetry.pageid) {
                   this.pageId = route.snapshot.data.telemetry.pageid;
@@ -233,7 +184,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
     this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
       data => {
-        console.log('data img', data.tenantData.logo);
         if (data && !data.err) {
           this.logo = data.tenantData.logo;
           this.tenantName = data.tenantData.titleName;
@@ -259,11 +209,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
   navigateToHome() {
     this.router.navigate(['']);
-    /* if (this.userService.loggedIn) {
-      this.router.navigate(['resources']);
-    } else {
-      this.router.navigate(['']);
-    } */
   }
 
   navigateToWorkspace() {
