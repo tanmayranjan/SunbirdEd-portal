@@ -63,6 +63,7 @@ export class LanguageDropdownComponent implements OnInit, OnDestroy {
   }
 
   getLanguage() {
+
     this.isCachedDataExists = this._cacheService.exists(this.filterEnv + this.formAction);
     if (this.isCachedDataExists) {
       const data: any | null = this._cacheService.get(this.filterEnv + this.formAction);
