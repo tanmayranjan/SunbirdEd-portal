@@ -1045,6 +1045,7 @@ export class TenantResolverService {
   ];
 
   public getMockTenant(): Observable<any> {
+// tslint:disable-next-line: no-debugger
 // tslint:disable-next-line: max-line-length
     const worngUrlResponse = (<HTMLInputElement>document.getElementById('wrongUrl')) ? (<HTMLInputElement>document.getElementById('wrongUrl')).value : false;
     if ( worngUrlResponse === 'true' ) {

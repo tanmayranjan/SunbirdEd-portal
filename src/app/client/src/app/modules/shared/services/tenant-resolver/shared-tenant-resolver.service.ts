@@ -42,6 +42,7 @@ export class SharedTenantResolverService {
       document.documentElement.style.setProperty('--secondary-color', secondaryColor);
     } else {
       console.log('did not recieve any theme');
+      this.cookieSrvc.setCookie('theming', '', 0);
       return of(false);
     }
   }
@@ -67,7 +68,7 @@ export class SharedTenantResolverService {
          // user visited the root page after logout
         this.reloadSameConfig('logout');
         return of(true);
-      } else if (!!themedata) {
+      } else if (!!themedata && themedata !== 'null') {
         // there is some tenant data present in the cookies
         const localStorageConfig = JSON.parse(themedata) || null;
 
@@ -158,7 +159,7 @@ export class SharedTenantResolverService {
     // let localData = localStorage.getItem('theming');
     const localData = this.cookieSrvc.getCookie('theming');
     let localDataJSON;
-    if (!!localData) {
+    if (!!localData && localData !== 'null') {
       localDataJSON = JSON.parse(localData);
 
       if (localDataJSON['orgid'] === loggedInOrgID) {
