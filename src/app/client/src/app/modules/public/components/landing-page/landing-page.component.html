@@ -74,10 +74,19 @@
           routerLink="search/explore-course/1">VIEW ALL</button>
       </div>
     </div>
-    <div *ngFor="let section of carouselData;let last = last">
-      <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)"
-        (viewAll)="viewAll($event)"></app-display-popular-course>
-    </div>
+
+    <ng-container *ngIf="carouselData?.length > 0; else noresults">
+      <div *ngFor="let section of carouselData;let last = last">
+        <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)"
+          (viewAll)="viewAll($event)"></app-display-popular-course>
+      </div>
+    </ng-container>
+
+    <ng-template #noresults>
+      <div class="twelve wide columnn align-content-center">
+        <app-no-result [data]="{message : 'No results found !'}"></app-no-result>
+      </div>
+  </ng-template>
   </div>
   <!-- <div class="twelve wide column" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
     <app-display-popular-course (visits)="prepareVisits($event)" [section]="section" (playEvent)="playContent($event)" (viewAll)="viewAll($event)"></app-display-popular-course>

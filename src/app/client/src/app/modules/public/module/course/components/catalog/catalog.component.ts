@@ -124,8 +124,11 @@ export class CatalogComponent implements OnInit {
   userloggedIn;
   show = false;
   public framework: string;
-public hashTagId: string;
-expand = false;
+  public hashTagId: string;
+  expand = false;
+  orgId: string;
+  frameworkName: string;
+  tenantData: any;
   /**
      * Constructor to create injected service(s) object
      * Default method of Draft Component class
@@ -162,8 +165,8 @@ expand = false;
   }
 
   populateCourseSearch() {
-    this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
-    this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
+    this.hashTagId = !!this.orgId ? this.orgId : this.activatedRoute.snapshot.data.orgdata.rootOrgId;
+    this.framework = !!this.frameworkName ? this.frameworkName : this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.pageLimit = this.config.appConfig.SEARCH.PAGE_LIMIT;
     this.filters.channel = this.hashTagId;
     const requestParams = {
@@ -256,6 +259,15 @@ expand = false;
   }
 
   ngOnInit() {
+    // gather framework details
+
+    this.tenantData = this.cookieSrvc.getCookie('theming') || null;
+
+    if (!!this.tenantData && this.tenantData.length > 0) {
+      this.tenantData = JSON.parse(this.tenantData);
+      this.frameworkName = this.tenantData['framework'];
+      this.orgId = this.tenantData['orgid'];
+    }
     this.userloggedIn = this.userService.loggedIn;
     this.filterType = this.config.appConfig.course.filterType;
     this.redirectUrl = this.config.appConfig.course.searchPageredirectUrl;

@@ -27,6 +27,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
  /**
   * Contains result object returned from getPageData API.
   */
+ initialCategory: any;
   categoryNames = [];
   categories = [1, 2, 3, 4, 5, 6];
   popularcourses = [
@@ -85,6 +86,49 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       background: '../../../../../assets/fa/personal-dev.png',
       name: 'Data Science',
       frameWork: 'medium'
+    },
+    {
+      background: '../../../../../assets/fa/development.png',
+      name: 'KG',
+      frameWork: 'rating'
+    },
+    {
+      // tslint:disable-next-line: max-line-length
+      background: '../../../../../assets/fa/Design.png',
+      name: 'Class 1',
+      frameWork: 'board'
+    },
+    {
+      // tslint:disable-next-line: max-line-length
+      background: '../../../../../assets/fa/personal-dev.png',
+      name: 'Class 2',
+      frameWork: 'medium'
+    },
+    {
+      // tslint:disable-next-line: max-line-length
+      background: '../../../../../assets/fa/ITandSoft.png',
+      name: 'Class 3',
+      frameWork: 'gradeLevel'
+    },
+    {
+      background: '../../../../../assets/fa/marketing.png',
+      name: 'Class 4',
+      frameWork: 'subject'
+    },
+    {
+      background: '../../../../../assets/fa/business.png',
+      name: 'Class 5',
+      frameWork: 'topic'
+    },
+    {
+      background: '../../../../../assets/fa/data-science.png',
+      name: 'Class 6',
+      frameWork: 'topic'
+    },
+    {
+      background: '../../../../../assets/fa/personal-dev.png',
+      name: 'Class 7',
+      frameWork: 'medium'
     }
   ];
   userDataSubscription: Subscription;
@@ -111,7 +155,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   queryParam: any = {};
   key: string;
   search: object;
-  public homeConfig: any;
+  public homeConfig: any = null;
+  public tenantData: any = null;
 
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
@@ -120,7 +165,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     private playerService: PlayerService, private cacheService: CacheService, private telemetry: TelemetryService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
     private frameworkService: FrameworkService, private searchservice: SearchService,
-    private tenantTheme: SharedTenantResolverService, private cookieSrvc: CookieManagerService) {
+     private cookieSrvc: CookieManagerService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.userService = userService;
@@ -128,7 +173,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     // this.homeConfig = this.tenantTheme.getTenantThemeConfig('Home');
-    this.homeConfig = this.cookieSrvc.getCookieKey('theming', 'tenantPreferenceDetails')['Home'];
+    this.tenantData = this.cookieSrvc.getCookie('theming') || null;
+    if (!!this.tenantData) {
+      this.tenantData = JSON.parse(this.tenantData);
+      this.homeConfig = this.tenantData['tenantPreferenceDetails']['Home'];
+    }
+    // this.homeConfig = this.cookieSrvc.getCookieKey('theming', 'tenantPreferenceDetails')['Home'];
     if (this.homeConfig) {
       console.log('this ishomeConfig in landingPage ', this.homeConfig);
     }
@@ -139,25 +189,15 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
         interval: 5000
       });
     });
-    // if (!this.userService.loggedIn) {
-    //   console.log('logged in', this.userService.loggedIn);    }
-    //  this.userService.userData$.subscribe(
-    //     (user: IUserData) => {
-    //       console.log('user', user);
-    //       if (user && !user.err) {
-    //         console.log('inside if true');
-    //         // this.userProfile = user.userProfile;
-    //       }
-    //     });
-    // tslint:disable-next-line:no-unused-expression
     console.log('path', this.activatedRoute.snapshot.data.orgdata.defaultFramework);
-    this.frameWorkName = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
+    // tslint:disable-next-line: max-line-length
+    this.frameWorkName = this.tenantData['framework'] ? this.tenantData['framework'] : this.activatedRoute.snapshot.data.orgdata.defaultFramework;
+    console.log('framework name in landing page from tenant Data is ', this.frameWorkName);
     this.fetchPageData();
   }
   private fetchPageData() {
     const filters = {
       contentType: ['TextBook', 'Resources'],
-
     };
     const option: any = {
       source: 'web',
@@ -165,8 +205,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       filters: filters,
       params: this.configService.appConfig.CoursePageSection.contentApiQueryParams
     };
-    console.log('params', this.configService.appConfig.CoursePageSection.contentApiQueryParams);
-    this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
+    /* this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
         _.forOwn(data, value => {
           _.forEach(value, course => {
@@ -182,7 +221,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
         this.showLoader = false;
         this.carouselData = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0002);
-      });
+      }); */
     // get the framework categories
     this.frameworkService.getFrameworkCategories(this.frameWorkName)
       .subscribe(frameworkData => {
@@ -197,14 +236,12 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
           this.categoryNames = frameworkData.result.framework.categories
           .filter(category => category.code === 'gradeLevel');
         }
-        console.log('grade level categories created as ', this.categoryNames);
+        console.log('categories created as ', this.categoryNames);
         this.categoryNames = this.categoryNames.map(category => {
           return category.terms.splice(0, 8);
         });
         console.log('mapped category names are ', this.categoryNames);
-        // this.categoryNames[0] = this.categoryNames.splice(0, 8);
-        // console.log('category names filled as ', this.categoryNames);
-        // add images to the specified ategories
+        this.update_carousel(this.categoryNames[0][0].name, this.categoryNames[0][0].category);
         this.categoryNames[0].forEach(category => {
           this.images.filter(imageData => {
             if (imageData['name'] === category['name']) {
@@ -267,7 +304,6 @@ if (this.userService.loggedIn) {
     this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
   }
   scroll() {
-    console.log('inside scroll');
     document.getElementById('GoToPopularCourses').click();
     // element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
@@ -288,17 +324,6 @@ if (this.userService.loggedIn) {
       this.router.navigate(['/search/explore-course', 1], {
         queryParams: this.queryParam
       });
-      //   if (this.userService.loggedIn) {
-      //     this.router.navigate(['/search/explore-course', 1], {
-      //       queryParams: this.queryParam
-      //   },
-      //   );
-      // } else {
-      //   console.log('log', this.queryParam);
-      //   this.router.navigate(['/search/explore-course', 1], {
-      //     queryParams: this.queryParam
-      //   });
-      // }
     }
 
   }
@@ -321,12 +346,12 @@ if (this.userService.loggedIn) {
       'contentType': ['Course']
     };
     request['filters'][frameworkCategory] = [keyword];
+    request['filters']['channel'] = this.tenantData['orgid'];
+    request['limit'] = '10';
     this.searchservice.contentSearch(request, false).subscribe(response => {
-      console.log(response);
       if (response.result.count <= 0) {
         console.log('no results found');
         this.carouselData['0']['contents'] = [];
-        console.log(this.carouselData);
       } else {
         // empty the data and refill with new content
         /**
@@ -337,14 +362,12 @@ if (this.userService.loggedIn) {
         this.carouselData['0'] = [];
         this.carouselData['0']['name'] = keyword;
         this.carouselData['0']['contents'] = response.result.content;
-        console.log(this.carouselData);
-
       }
     }, err => {
+      this.carouselData = [];
       console.log('an error occured while getting the selected content');
       console.error(err);
     });
-    // this.activate(clickEvent);
   }
 
   activate(event) {

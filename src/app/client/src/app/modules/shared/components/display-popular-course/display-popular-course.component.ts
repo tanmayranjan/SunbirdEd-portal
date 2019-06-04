@@ -108,7 +108,7 @@ export class DisplayPopularCourseComponent implements OnInit {
       }
     }
   ],
-  infinite: false
+  infinite: true
  };
   /**The previous or next value of the button clicked
    * to generate interact telemetry data */

@@ -1,8 +1,9 @@
-import { combineLatest, of, Subject } from 'rxjs';
-import { PageApiService, CoursesService, ISort, PlayerService, FormService } from '@sunbird/core';
+import { combineLatest, of, Subject, Subscription } from 'rxjs';
+import { PageApiService, CoursesService, ISort, PlayerService, FormService, UserService } from '@sunbird/core';
 import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import {
-  ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService
+  ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService,
+  IUserData
 } from '@sunbird/shared';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -28,6 +29,8 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public dataDrivenFilterEvent = new EventEmitter();
   public frameWorkName: string;
   public initFilters = false;
+  public userDataSubscription: Subscription;
+  public userRecommendationObject: any;
   public loaderMessage;
   public sortingOptions: ISort;
   public enrolledSection: any;
@@ -39,13 +42,22 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
     private playerService: PlayerService, private cacheService: CacheService,
-    private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService) {
+    private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
+    private userSrvc: UserService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     this.setTelemetryData();
   }
   ngOnInit() {
+    this.userDataSubscription = this.userSrvc.userData$.subscribe(
+      (user: IUserData) => {
+        if (user && !user.err) {
+          this.userRecommendationObject = user.userProfile.framework;
+          this.userRecommendationObject['framework'] = this.userRecommendationObject['id'];
+          delete this.userRecommendationObject['framework']['id'];
+        }
+      });
     combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];

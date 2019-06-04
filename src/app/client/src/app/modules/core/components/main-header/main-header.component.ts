@@ -117,6 +117,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   exploreRoutingUrl: string;
   pageId: string;
   appLogoUrl: string;
+  tenantData: any;
+  frameworkName: string;
+  categoryName: string;
   /*
   * constructor
   */
@@ -133,11 +136,19 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.tenantData = this.cookieSrvc.getCookie('theming');
+
+    if (this.tenantData.length > 0) {
+      this.frameworkName = JSON.parse(this.tenantData)['framework'];
+      console.log('new framework name according to the tenant data is  ', this.frameworkName);
+      this.categoryName = JSON.parse(this.tenantData)['tenantPreferenceDetails']['Home']['popularCatCode']['code'][0];
+      console.log('new category name according to the tenant data is  ', this.categoryName);
+    }
     const cookie = this.cookieSrvc.getCookieKey('theming', 'orgName');
     this.appLogoName = cookie ? cookie :  'niit_default';
     this.appLogoUrl = '../../../../../assets/logo/' + this.appLogoName + '.png';
     this.terms = [];
-    this.getFrameworkCategoryandterms('niit_tv');
+    this.getFrameworkCategoryandterms(this.frameworkName);
 
     jQuery(() => {
       jQuery('.carousel').carousel();
@@ -146,7 +157,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         this.terms = [];
-        this.getFrameworkCategoryandterms('niit_tv');
+        this.getFrameworkCategoryandterms(this.frameworkName);
         let currentRoute = this.activatedRoute.root;
         if (currentRoute.children) {
           while (currentRoute.children.length > 0) {

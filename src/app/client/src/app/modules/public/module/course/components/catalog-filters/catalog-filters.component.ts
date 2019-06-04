@@ -10,7 +10,7 @@ import { FrameworkService, FormService, ConceptPickerService, PermissionService,
 import * as _ from 'lodash';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
-import { FormControl, NgForm } from '@angular/forms';
+import { CookieManagerService } from '../../../../../shared/services/cookie-manager/cookie-manager.service';
 
 export class Filter {
   code: string;
@@ -95,6 +95,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges, Af
   tempKey: any;
   public filterSelected = false;
   flagArray = [];
+  public tenantData: any;
+  public frameworkName = null;
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -114,7 +116,8 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges, Af
     userService: UserService,
     public conceptPickerService: ConceptPickerService,
     permissionService: PermissionService,
-    private browserCacheTtlService: BrowserCacheTtlService
+    private browserCacheTtlService: BrowserCacheTtlService,
+    private cookieSrvc: CookieManagerService
 
   ) {
     this.userService = userService;
@@ -130,8 +133,13 @@ export class CatalogFiltersComponent implements OnInit, OnDestroy, OnChanges, Af
   }
 
   ngOnInit() {
-    this.hashTagId = this.activatedRoute.snapshot.data.orgdata.rootOrgId;
-    this.framework = this.activatedRoute.snapshot.data.orgdata.defaultFramework;
+    this.tenantData = this.cookieSrvc.getCookie('theming') || null;
+    if (!!this.tenantData && this.tenantData.length > 0) {
+      this.tenantData = JSON.parse(this.tenantData);
+      this.frameworkName = this.tenantData['framework'];
+    }
+    this.hashTagId = !!this.tenantData['orgid'] ? this.tenantData['orgid'] : this.activatedRoute.snapshot.data.orgdata.rootOrgId;
+    this.framework = !!this.frameworkName ? this.frameworkName : this.activatedRoute.snapshot.data.orgdata.defaultFramework;
     this.frameworkService.initialize(this.hashTagId);
     this.formInputData = {};
     this.activatedRoute.paramMap.subscribe((paramMap: any) => {

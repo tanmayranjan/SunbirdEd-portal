@@ -1,10 +1,10 @@
 <div class="ui grid" *ngIf="section.contents && section.contents.length > 0; else noresults">
     <div class="ui twelve wide column">
-        <div class="d-flex flex-ai-center">
-            <!-- <h4 class="ui header m-0 mr-5 pageSection-heading">{{section.name}}</h4> -->
-            <!-- <span class="ui primary label pageSection-count">{{section.contents.length}}</span> -->
+        <!-- <div class="d-flex flex-ai-center">
+            <h4 class="ui header m-0 mr-5 pageSection-heading">{{section.name}}</h4>
+            <span class="ui primary label pageSection-count">{{section.contents.length}}</span>
             <button class="ui button small bs-1 py-5 m-0 ml-auto" *ngIf="section.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">{{ resourceService.frmelmnts.lnk.viewall}}</button>
-        </div>
+        </div> -->
         <div class="pageSection-Slider">
             <ngx-slick
                 in-view-container (inview)="inview($event)"

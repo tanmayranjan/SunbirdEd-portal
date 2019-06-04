@@ -163,6 +163,7 @@ export class AppComponent implements OnInit {
 
 
     this.resourceService.initialize();
+
     combineLatest(this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
         this.navigationHelperService.initialize();
