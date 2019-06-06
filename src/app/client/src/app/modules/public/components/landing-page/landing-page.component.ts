@@ -329,6 +329,8 @@ if (this.userService.loggedIn) {
   }
   getFramework(framework, name) {
     console.log('framework', framework, name);
+    // this is temporary fix because some courses have a categoryname as gradelevel and not gradeLevel
+    framework = framework === 'gradelevel' ? 'gradeLevel' : framework;
 
     const key = {
       [framework]: name
@@ -340,6 +342,9 @@ if (this.userService.loggedIn) {
   }
 
   update_carousel(keyword, frameworkCategory) {
+    // this is temporary fix because some courses have a categoryname as gradelevel and not gradeLevel
+    frameworkCategory = frameworkCategory === 'gradelevel' ? 'gradeLevel' : frameworkCategory;
+
     this.selectedSection = keyword;
     const request = {};
     request['filters'] = {

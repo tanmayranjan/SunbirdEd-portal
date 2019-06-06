@@ -405,7 +405,7 @@ export class TenantResolverService {
       'homeUrl': 'localhost:3000/samsung',
       'orgid': '01276670296884019217',
       'orgName': 'samsung',
-      'framework': 'niit_tv',
+      'framework': 'NCF',
       'tenantPreferenceDetails': {
         'Home': {
           'banner': {

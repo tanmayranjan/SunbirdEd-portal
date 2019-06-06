@@ -60,8 +60,10 @@
                               <span *ngIf="data?.leafNodesCount"class="lectures text-color-gray">&nbsp; {{data?.leafNodesCount || 0}} {{resourceService.frmelmnts.lbl.lectures}} &nbsp; | &nbsp;</span>
                               <span class="duration text-color-gray"><i class="far fa-clock"></i> {{data?.dummyWeeks}} {{resourceService.frmelmnts.lbl.weeks}}</span>
                           </div>
+                          <br>
+                          <br>
                           <div class="price ">
-                            <span *ngIf="data?.subject == 'Paid' || data?.subject == undefined || !data?.subject" class="price">₹ 35000/-</span>
+                            <span *ngIf="data?.subject == 'Paid' || data?.subject == undefined || !data?.subject" class="price">₹ {{data?.price || '3500'}}</span>
                           
                             <span class="content-type">{{data.contentType}}</span>
                           </div>

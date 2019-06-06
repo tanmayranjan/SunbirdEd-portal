@@ -5,6 +5,7 @@ import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage, BrowserCacheTtlService,
   IUserData
 } from '@sunbird/shared';
+import { CookieManagerService } from '../../../shared/services/cookie-manager/cookie-manager.service';
 import * as _ from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
@@ -36,6 +37,8 @@ export class LearnPageComponent implements OnInit, OnDestroy {
   public enrolledSection: any;
   public redirectUrl: string;
   public homeConfig: object;
+  public  organisationName: any;
+  public organisationIDs: any;
   enrolledIDs: any;
   enrolledLoader = true;
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
@@ -43,17 +46,19 @@ export class LearnPageComponent implements OnInit, OnDestroy {
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
     private playerService: PlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    private userSrvc: UserService) {
+    private userSrvc: UserService, private cookieSrvc: CookieManagerService) {
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     this.setTelemetryData();
   }
   ngOnInit() {
+
     this.userDataSubscription = this.userSrvc.userData$.subscribe(
       (user: IUserData) => {
         if (user && !user.err) {
           this.userRecommendationObject = user.userProfile.framework;
+          this.organisationName = user.userProfile.organisations;
           this.userRecommendationObject['framework'] = this.userRecommendationObject['id'];
           delete this.userRecommendationObject['framework']['id'];
         }
@@ -116,6 +121,15 @@ export class LearnPageComponent implements OnInit, OnDestroy {
       // exists: [],
       params: this.configService.appConfig.CoursePageSection.contentApiQueryParams
     };
+    // populate the organisation id of each organisation
+    this.organisationIDs = this.organisationName.map(org => {
+      return org.organisationId;
+    });
+    // populate organisation names of logged in user
+    this.organisationName = this.organisationName.map(org => {
+      return org.orgName;
+    });
+    option.filters = {...filters , 'organisation': this.organisationName, 'channel': this.organisationIDs};
     if (this.queryParams.sort_by) {
       option.sort_by = { [this.queryParams.sort_by]: this.queryParams.sortType };
     }
