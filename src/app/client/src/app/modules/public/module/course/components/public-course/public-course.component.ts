@@ -138,6 +138,13 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
       // exists: [],
       params : this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
+    /*
+    adding channel code in the filters to show relevant courses only
+
+    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
+    */
+    option.filters['channel'] = [this.hashTagId];
+
     this.pageApiService.getPageData(option).pipe(takeUntil(this.unsubscribe$))
       .subscribe(data => {
         this.showLoader = false;

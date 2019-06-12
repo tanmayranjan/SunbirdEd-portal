@@ -1,4 +1,3 @@
-import { OfflineFileUploaderService } from '../../../../../offline/services';
 import { combineLatest, Subject } from 'rxjs';
 import { PageApiService, OrgDetailsService, UserService } from '@sunbird/core';
 import { PublicPlayerService } from './../../../../services';
@@ -12,11 +11,12 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
-import { environment } from '@sunbird/environment';
 @Component({
-  templateUrl: './explore.component.html'
+  selector: 'app-library',
+  templateUrl: './library.component.html',
+  styleUrls: ['./library.component.scss']
 })
-export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showLoader = true;
   public showLoginModal = false;
@@ -35,29 +35,29 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   public initFilters = false;
   public loaderMessage;
   public pageSections: Array<ICaraouselData> = [];
-  isOffline: boolean = environment.isOffline;
+  channel: any;
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
-      && this.pageSections.length < this.carouselMasterData.length) {
-      this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
+    && this.pageSections.length < this.carouselMasterData.length) {
+        this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
     }
   }
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
-    public offlineFileUploaderService: OfflineFileUploaderService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
     public navigationhelperService: NavigationHelperService) {
     this.router.onSameUrlNavigation = 'reload';
-    this.filterType = this.configService.appConfig.explore.filterType;
+    this.filterType = this.configService.appConfig.explorelibrary.filterType;
   }
 
   ngOnInit() {
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
         this.hashTagId = orgDetails.hashTagId;
+        this.channel = orgDetails.orgName;
         this.initFilters = true;
         return this.dataDrivenFilterEvent;
       }), first()
@@ -70,13 +70,6 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate(['']);
       }
     );
-
-    if (this.isOffline) {
-      const self = this;
-      this.offlineFileUploaderService.isUpload.subscribe(() => {
-        self.fetchPageData();
-      });
-    }
   }
   public getFilters(filters) {
     const defaultFilters = _.reduce(filters, (collector: any, element) => {
@@ -89,7 +82,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private fetchContentOnParamChange() {
     combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams).pipe(
-      takeUntil(this.unsubscribe$))
+        takeUntil(this.unsubscribe$))
       .subscribe((result) => {
         this.showLoader = true;
         this.queryParams = { ...result[0], ...result[1] };
@@ -99,44 +92,39 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   private fetchPageData() {
-    const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
+    const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key)  => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
         return false;
       }
       return value.length;
     });
     const softConstraintData = {
-      filters: {
-        channel: this.hashTagId,
-        board: [this.dataDrivenFilters.board]
-      },
+      filters: {channel: this.hashTagId,
+      board: [this.dataDrivenFilters.board]},
       softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
       mode: 'soft'
     };
-    const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
-      softConstraintData);
+    const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams, 'appliedFilters'),
+    softConstraintData);
     const option = {
       source: 'web',
       name: 'Explore',
-      filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
+      filters: _.get(this.queryParams, 'appliedFilters') ?  filters : _.get(manipulatedData, 'filters'),
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
       params: this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
+    option.filters.channel = this.hashTagId;
+    option.filters.organisation = this.activatedRoute.snapshot.params.slug;
     if (_.get(manipulatedData, 'filters')) {
       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
     }
-    /*
-    adding channel code in the filters to show relevant courses only
-
-    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
-    */
-   option.filters['channel'] = [this.hashTagId];
-
     this.pageApiService.getPageData(option)
       .subscribe(data => {
+        console.log('data', data);
         this.showLoader = false;
-        this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+        this.carouselMasterData = this.prepareCarouselData(data.sections);
+        console.log('t', this.carouselMasterData);
         if (!this.carouselMasterData.length) {
           return; // no page section
         }
@@ -152,7 +140,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
       });
   }
-  private prepareCarouselData(sections = []) {
+  private prepareCarouselData(sections) {
     const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.ExplorePage;
     const carouselData = _.reduce(sections, (collector, element) => {
       const contents = _.slice(_.get(element, 'contents'), 0, slickSize) || [];
@@ -190,7 +178,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   public viewAll(event) {
     const searchQuery = JSON.parse(event.searchQuery);
     const softConstraintsFilter = {
-      board: [this.dataDrivenFilters.board],
+      board : [this.dataDrivenFilters.board],
       channel: this.hashTagId,
     };
     searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
@@ -202,10 +190,10 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     const sectionUrl = this.router.url.split('?')[0] + '/view-all/' + event.name.replace(/\s/g, '-');
     this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
   }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.setTelemetryData();
-    });
+  ngAfterViewInit () {
+      setTimeout(() => {
+        this.setTelemetryData();
+      });
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -231,9 +219,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
   private setNoResultMessage() {
-    this.noResultMessage = {
-      'message': 'messages.stmsg.m0007',
-      'messageText': 'messages.stmsg.m0006'
-    };
+      this.noResultMessage = {
+        'message': 'messages.stmsg.m0007',
+        'messageText': 'messages.stmsg.m0006'
+      };
   }
 }
