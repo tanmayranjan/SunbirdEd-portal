@@ -126,6 +126,13 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     if (_.get(manipulatedData, 'filters')) {
       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
     }
+    /*
+    adding channel code in the filters to show relevant courses only
+
+    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
+    */
+   option.filters['channel'] = [this.hashTagId];
+
     this.pageApiService.getPageData(option)
       .subscribe(data => {
         this.showLoader = false;
