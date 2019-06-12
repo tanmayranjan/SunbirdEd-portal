@@ -31,14 +31,14 @@
 			{{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
 		</button>
 		<a class="item"
-			[class.active]="router.isActive('/search/explore') || router.isActive(slug ? slug + '/explore' : '/explore')"
-			*ngIf="!router.isActive('', true)" [routerLink]="[slug ? slug + '/explore' : '/explore']"
+			[class.active]="router.isActive('/search/explore') || router.isActive(slug ? slug + '/explore-library' : '/explore-library')"
+			*ngIf="!router.isActive('', true)" [routerLink]="[slug ? slug + '/explore-library' : '/explore-library']"
 			appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata">
 			{{resourceService?.frmelmnts?.tab?.resources}}
 		</a>
 		<a class="item"
-			[class.active]="router.isActive('/search/explore-course') || router.isActive(slug ? slug + '/explore-course' : '/explore-course')"
-			*ngIf="!router.isActive('', true)" [routerLink]="[slug ? slug + '/explore-course' : '/explore-course']"
+			[class.active]="router.isActive('/search/explore-course') || router.isActive(slug ? slug + '/explore-courses' : '/explore-courses')"
+			*ngIf="!router.isActive('', true)" [routerLink]="[slug ? slug + '/explore-courses' : '/explore-courses']"
 			appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata">
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>
