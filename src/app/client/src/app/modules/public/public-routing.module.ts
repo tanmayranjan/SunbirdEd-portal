@@ -12,6 +12,13 @@ const routes: Routes = [
     path: 'explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
   {
+    path: 'explore-library', loadChildren: './module/library-content/library-content.module#LibraryContentModule'
+  },
+  {
+    path: ':slug/explore-library', loadChildren: './module/library-content/library-content.module#LibraryContentModule'
+
+  },
+  {
     path: ':slug/explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
   {
@@ -19,6 +26,12 @@ const routes: Routes = [
   },
   {
     path: ':slug/explore-course', loadChildren: './module/course/course.module#CourseModule'
+  },
+  {
+    path: 'explore-courses', loadChildren: './module/course/course.module#CourseModule'
+  },
+  {
+    path: ':slug/explore-courses', loadChildren: './module/course/course.module#CourseModule'
   },
   {
     path: ':slug/signup', loadChildren: './module/signup/signup.module#SignupModule'
