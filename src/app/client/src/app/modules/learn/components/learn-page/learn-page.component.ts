@@ -108,7 +108,6 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: filters,
       params : this.configService.appConfig.CoursePageSection.contentApiQueryParams
     };
-    debugger;
     if (this.queryParams.sort_by) {
       option.sort_by = {[this.queryParams.sort_by]: this.queryParams.sortType  };
     }
