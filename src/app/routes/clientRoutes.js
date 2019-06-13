@@ -82,6 +82,7 @@ module.exports = (app, keycloak) => {
      '/play/*', 
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
     '/explore-courses','/explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
+    '/explore-library','/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
 
   app.all(['*/dial/:dialCode', '/dial/:dialCode'], (req, res) => res.redirect('/get/dial/' + req.params.dialCode))
