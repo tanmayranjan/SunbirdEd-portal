@@ -27,9 +27,9 @@
             </a>
           </li> -->
                     <li class="mb-15">
-                        <a appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('help-center')" href="/resources/#">
-              {{resourceService.frmelmnts?.lnk?.footerHelpCenter}}
-            </a>
+                        <div appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('help-center')">
+                            {{resourceService.frmelmnts?.lnk?.footerHelpCenter}}
+                        </div>
                     </li>
                     <!-- <li class="mb-15">
             <a href="/partners/">
@@ -50,9 +50,9 @@
                     <!-- <label class="d-block pb-10">{{resourceService.frmelmnts?.lbl?.download}}
             {{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}</label> -->
                     <label class="d-block pb-10 text-center">{{resourceService?.frmelmnts?.lbl?.downloadDikshaForMobile}}</label>
-                    <a class="d-block app-download" href="/resources/#">
+                    <div class="d-block app-download">
                         <img class="playStore-img" src="/assets/images/google_playstore.png" alt="{{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}">
-                    </a>
+                    </div>
                     <p class="d-block pt-10">{{resourceService.frmelmnts?.lbl?.getUnlimitedAccess}}</p>
                 </div>
             </div>
@@ -60,11 +60,11 @@
                 <label class="d-block mb-10">
           {{resourceService.frmelmnts?.lnk?.footerContact}}
         </label>
-                <a appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('fresh-desk')" class="d-block mb-30" href="/resources/#">
-          support@sunbird-ncte.freshdesk.com
-        </a>
-                <label class="d-block">
-          <a appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('t&c')" href="/term-of-use.html">
+                <div appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('fresh-desk')" class="d-block mb-30">
+                    support@sunbird-ncte.freshdesk.com
+                </div>
+                <label class=" d-block ">
+          <a appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata( 't&c') " href="/term-of-use.html ">
             {{resourceService.frmelmnts?.lnk?.footerTnC}}
           </a>
           <span>| &copy; {{date | date:'yyyy'}}, SUNBIRD</span>
@@ -72,14 +72,14 @@
             </div>
         </div>
     </div>
-    <div class="ui one column stackable center aligned page grid" *ngIf="isOffline">
-        <div class="column twelve wide">
-            <label class="d-block mb-10">
+    <div class="ui one column stackable center aligned page grid " *ngIf="isOffline ">
+        <div class="column twelve wide ">
+            <label class="d-block mb-10 ">
         {{resourceService.frmelmnts?.lnk?.footerContact}}
       </label>
-            <a appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('fresh-desk')" class="d-block mb-30" href="/resources/#">
-        support@sunbird-ncte.freshdesk.com
-      </a>
+            <div appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata( 'fresh-desk') " class="d-block mb-30 ">
+                support@sunbird-ncte.freshdesk.com
+            </div>
         </div>
     </div>
 </footer>
