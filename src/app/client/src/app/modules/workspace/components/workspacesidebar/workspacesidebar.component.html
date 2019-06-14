@@ -9,33 +9,33 @@
       {{resourceService?.frmelmnts?.snav?.start}}
     </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('allmycontents-button')"  *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/allcontent') " 
-  appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]" suiPopup popupText="View all your content in draft, review, published and more"
+  appPermission [permission]='allContentRole' class="item" [routerLink]="['allcontent',1]" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.viewallcontent}}"
   [popupPlacement]="'right'">
        {{resourceService?.frmelmnts?.snav?.allmycontents}}
   </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('draft-button')" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/draft') " appPermission
-    [permission]='draftRole' class="item" [routerLink]="['draft',1]"  suiPopup popupText="View drafts you are working on. Submit them for review when completed"
+    [permission]='draftRole' class="item" [routerLink]="['draft',1]"  suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.viewdrafts}}"
     [popupPlacement]="'right'">
        {{resourceService?.frmelmnts?.snav?.draft}}
     </a>
   <a class="item" appTelemetryInteract [telemetryInteractEdata]="setInteractData('submittedForReview-button')"  *ngIf='permissionService.permissionAvailable' appPermission [permission]='inreviewRole' [routerLink]="['review',1]"
-    [class.active]="router.isActive('/workspace/content/review')" suiPopup popupText="View all content you have submitted for review"
+    [class.active]="router.isActive('/workspace/content/review')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.viewsubmittedcontent}}"
     [popupPlacement]="'right'">
     {{resourceService?.frmelmnts?.snav?.submittedForReview}}
   </a>
   <a class="item" appTelemetryInteract [telemetryInteractEdata]="setInteractData('publish-button')"  *ngIf='permissionService.permissionAvailable' appPermission [permission]='publishedRole' [routerLink]="['published',1]"
-    [class.active]="router.isActive('/workspace/content/published')" suiPopup popupText="View all your published content"
+    [class.active]="router.isActive('/workspace/content/published')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.viewpublishedconent}}"
     [popupPlacement]="'right'">
     {{resourceService?.frmelmnts?.snav?.published}}
   </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('alluploads-button')"  class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='alluploadsRole' [routerLink]="['uploaded',1]"
-    [class.active]="router.isActive('/workspace/content/uploaded')" suiPopup popupText="View all your uploads"
+    [class.active]="router.isActive('/workspace/content/uploaded')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.viewuploads}}"
     [popupPlacement]="'right'">
     {{resourceService?.frmelmnts?.snav?.alluploads}}
   </a>
   <!-- <a class="item" [routerLink]="['upForReview',1]" routerLinkActive="active"> -->
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('upforreview-button')"  class="item" *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/workspace/content/upForReview')"
-    [routerLink]="['upForReview',1]" appPermission [permission]='upForReviewRole' suiPopup popupText="Content awaiting your review"
+    [routerLink]="['upForReview',1]" appPermission [permission]='upForReviewRole' suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.awaitedcontent}}"
     [popupPlacement]="'right'">
     {{resourceService?.frmelmnts?.snav?.upForReview}}
   </a>
@@ -44,7 +44,7 @@
     {{resourceService?.frmelmnts?.snav?.flagReviewer}}
   </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('coursebatch-button')"  class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='courseBatchRoles' [routerLink]="['batches','created']"
-    [class.active]="router.isActive('/workspace/content/batches')" suiPopup popupText="Manage course batches"
+    [class.active]="router.isActive('/workspace/content/batches')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.managebatches}}"
     [popupPlacement]="'right'">
     {{resourceService?.frmelmnts?.lnk?.coursebacthes}}
   </a>
