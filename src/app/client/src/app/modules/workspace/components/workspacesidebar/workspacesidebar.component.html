@@ -61,12 +61,12 @@
     {{resourceService?.frmelmnts?.snav?.flagged}}
   </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('sharevialink-button')"  class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='limitedPublishingRole' [routerLink]="['limited-publish',1]"
-    [class.active]="router.isActive('/workspace/content/limited-publish')" suiPopup popupText="View content shared via link. This is not searchable until published by submitting for review"
+    [class.active]="router.isActive('/workspace/content/limited-publish')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl?.shareViaLinkText}}"
     [popupPlacement]="'right'">
    {{resourceService?.frmelmnts?.snav?.shareViaLink}}
   </a>
   <a appTelemetryInteract [telemetryInteractEdata]="setInteractData('collaborations-button')"  class="item" *ngIf='permissionService.permissionAvailable' appPermission [permission]='collaboratingRole' [routerLink]="['collaborating-on',1]"
-  [class.active]="router.isActive('/workspace/content/collaborating-on')" suiPopup popupText="View content you are collaborating on" [popupPlacement]="'right'">
+  [class.active]="router.isActive('/workspace/content/collaborating-on')" suiPopup popupText="{{resourceService?.frmelmnts?.lbl.CollaboratingonText}}" [popupPlacement]="'right'">
  {{resourceService?.frmelmnts?.snav?.Collaboratingon}}
 </a>
 </div>
