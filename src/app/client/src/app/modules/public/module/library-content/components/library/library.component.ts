@@ -1,6 +1,7 @@
-import { combineLatest, Subject } from 'rxjs';
-import { PageApiService, OrgDetailsService, UserService } from '@sunbird/core';
+import { combineLatest, Subject, of } from 'rxjs';
+import { PageApiService, OrgDetailsService, UserService, FormService } from '@sunbird/core';
 import { PublicPlayerService } from './../../../../services';
+
 import { Component, OnInit, OnDestroy, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
 import {
   ResourceService, ToasterService, INoResultMessage, ConfigService, UtilService, ICaraouselData,
@@ -9,7 +10,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
-import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
+import { takeUntil, map, mergeMap, first, filter, debounceTime, catchError, tap, delay } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 @Component({
   selector: 'app-library',
@@ -48,6 +49,7 @@ export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
+    public formService: FormService,
     public navigationhelperService: NavigationHelperService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explorelibrary.filterType;
@@ -224,4 +226,25 @@ export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
         'messageText': 'messages.stmsg.m0006'
       };
   }
+
+  private getFrameWork() {
+    const framework = this.cacheService.get('framework' + 'search');
+    if (framework) {
+    return of(framework);
+    } else {
+    const formServiceInputParams = {
+        formType: 'framework',
+        formAction: 'search',
+        contentType: 'framework-code',
+    };
+    return this.formService.getFormConfig(formServiceInputParams, this.hashTagId)
+        .pipe(map((data) => {
+            const frameWork = _.find(data, 'framework').framework;
+            this.cacheService.set('framework' + 'search', frameWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});
+            return frameWork;
+        }), catchError((error) => {
+            return of(false);
+        }));
+    }
+}
 }
