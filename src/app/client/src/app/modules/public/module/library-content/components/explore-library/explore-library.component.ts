@@ -37,6 +37,7 @@ export class ExploreLibraryComponent implements OnInit, OnDestroy, AfterViewInit
   public contentList: Array<ICard> = [];
   public cardIntractEdata: IInteractEventEdata;
   public loaderMessage: ILoaderMessage;
+  private slug: any;
 
   constructor(public searchService: SearchService, public router: Router,
       public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -53,6 +54,7 @@ export class ExploreLibraryComponent implements OnInit, OnDestroy, AfterViewInit
           mergeMap((orgDetails: any) => {
           this.hashTagId = orgDetails.hashTagId;
           this.initFilters = true;
+          this.slug = orgDetails.slug;
           return this.dataDrivenFilterEvent;
           }), first()
       ).subscribe((filters: any) => {
@@ -118,7 +120,7 @@ export class ExploreLibraryComponent implements OnInit, OnDestroy, AfterViewInit
 
       option.filters.contentType = filters.contentType ||
       ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
-      option.filters.organization = 'sbwb';
+      option.filters.organisation = this.slug;
       if (manipulatedData.filters) {
           option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
         }
