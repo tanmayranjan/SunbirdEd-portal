@@ -2,6 +2,15 @@ const _ = require('lodash');
 const { googleOauth, createSession, fetchUserByEmailId, createUserWithMailId } = require('./../helpers/googleOauthHelper');
 const telemetryHelper = require('../helpers/telemetryHelper')
 const googleDid = '2c010e13a76145d864e459f75a176171';
+
+const delay = (duration = 3000) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, duration)
+    });
+}
+
 module.exports = (app) => {
 
     app.get('/google/auth', (req, res) => {
@@ -42,6 +51,9 @@ module.exports = (app) => {
                 errType = 'USER_CREATE_API';
                 newUserDetails = await createUserWithMailId(googleProfile, reqQuery.client_id, req).catch(handleCreateUserError);
             }
+            // temporary fix for google sign in
+            await delay();
+            
             errType = 'KEYCLOAK_SESSION_CREATE';
             keyCloakToken = await createSession(googleProfile.emailId, reqQuery, req, res);
             errType = 'UNHANDLED_ERROR';
