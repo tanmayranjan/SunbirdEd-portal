@@ -132,8 +132,13 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
           }
         });
     } else {
-        option = {'filters': {'objectType': 'Asset'}, 'offset': 0, 'limit': 20};
-        // option.filters.contentType = [];
+        option = {filters: {
+            assetType: 'Software',
+             objectType: 'Asset',
+        limit: 20,
+        offset: 0
+        }};
+        option.filters.contentType = [];
     }
     console.log('option', option);
 

@@ -20,6 +20,7 @@ import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { SunbirdFooterComponent } from './components/sunbird-footer/sunbird-footer.component';
 import { SunbirdHeaderComponent } from './components/sunbird-header/sunbird-header.component';
+import { SunbirdDataDrivenFilterComponent } from './components/sunbird-data-driven-filter/sunbird-data-driven-filter.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,8 +37,8 @@ import { SunbirdHeaderComponent } from './components/sunbird-header/sunbird-head
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
     BodyScrollDirective, DataDrivenFilterComponent, SortByComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
     ErrorPageComponent, FlagContentComponent, LanguageDropdownComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
-    ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective],
-  exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective,
+    ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective, SunbirdDataDrivenFilterComponent],
+  exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, SunbirdDataDrivenFilterComponent,
     DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
     TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],
   providers: [CacheService, AuthGuard]

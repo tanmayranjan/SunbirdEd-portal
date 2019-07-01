@@ -5,16 +5,16 @@ import {
 } from '@sunbird/shared';
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FrameworkService, FormService, PermissionService, UserService, OrgDetailsService } from './../../services';
+import { FrameworkService, FormService, PermissionService, UserService, OrgDetailsService } from '../../services';
 import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
 
 @Component({
-  selector: 'app-data-driven-filter',
-  templateUrl: './data-driven-filter.component.html'
+  selector: 'app-sunbird-data-driven-filter',
+  templateUrl: './sunbird-data-driven-filter.component.html'
 })
-export class DataDrivenFilterComponent implements OnInit, OnChanges, OnDestroy {
+export class SunbirdDataDrivenFilterComponent implements OnInit, OnDestroy {
   @Input() filterEnv: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
@@ -253,12 +253,12 @@ export class DataDrivenFilterComponent implements OnInit, OnChanges, OnDestroy {
       this.hardRefreshFilter();
     }
   }
-  ngOnChanges() {
-
-    if (this.formFieldProperties && this.enrichFilters) {
-      this.enrichFiltersOnInputChange();
-    }
-  }
+  // ngOnChanges() {
+  //   debugger;
+  //   if (this.formFieldProperties && this.enrichFilters) {
+  //     this.enrichFiltersOnInputChange();
+  //   }
+  // }
   private enrichFiltersOnInputChange() {
     this.filtersDetails = _.map(this.formFieldProperties, (eachFields) => {
       const enrichField = _.cloneDeep(eachFields);
