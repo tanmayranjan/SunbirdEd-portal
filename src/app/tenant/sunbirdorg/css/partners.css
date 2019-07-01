@@ -1,0 +1,171 @@
+/*
+modal css specifically for modal effect
+*/
+
+.modal-window {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.75);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .modal-window:target {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-window > div {
+    width: 70%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: #fff;
+  }
+  .modal-window header {
+    font-weight: bold;
+  }
+  .modal-window h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+  }
+  .modal-close {
+    color: #aaa;
+    line-height: 50px;
+    font-size: 80%;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 70px;
+    text-decoration: none;
+  }
+  .modal-close:hover {
+    color: black;
+  }
+
+/*
+modal css end
+*/
+
+.partnerWrapper {
+    padding: 0;
+    padding-top: 8%;
+}
+.partnerTitle {
+    text-align: center;
+    font-size: 3rem;
+    color: #0c7f5d;
+}
+
+.partnerBody {
+    font-size: 17px;
+    line-height: 2.0;
+    text-align: center;
+}
+
+.partnerContainer .partners .title {
+    padding-top : 10px;
+    font-size: 2.5rem;
+    margin : 0;
+    padding-bottom : 0px;
+}
+
+.imageRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom : 20px;
+}
+
+.imageRow .box {
+    width : 20%;
+    padding:0.5em 1em 0em 1em; 
+}
+
+.listContainer {
+    text-align: left;
+    width : 100%;
+    display: flex; 
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    overflow: auto;
+    max-height : 500px;
+}
+
+.hl {
+    border-right: 2px solid grey;
+}
+
+.listContainer ul {
+    margin: auto;
+    font-size: 19px;
+    line-height: 1.5;
+}
+
+.listContainer ul li {
+    font-size: 17px;
+}
+
+.hl {
+    min-height : 100%;
+    border-left : 2px solid grey;
+    width : 2px;
+
+}
+
+.contributionText {
+    margin-top : 0;
+}
+
+@media only screen and (max-width : 1114px) {
+    .listContainer {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 991px){
+    .partnerWrapper {
+        padding-top: 15%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .partnerContainer .partners .title, .contributionText {
+        text-align: center;
+    }
+    .partnerContainer .partners .title {
+        padding-bottom : 20px;
+    }
+
+    .imageRow .box{
+        width : 50%;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .partnerWrapper {
+        padding-top: 11%;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .partnerWrapper {
+        padding-top: 14%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .imageRow .box {
+        width : 100%;
+    }
+}

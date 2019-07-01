@@ -69,6 +69,8 @@ export class AppComponent implements OnInit {
   isOffline: boolean = environment.isOffline;
   sessionExpired = false;
   instance: string;
+  public orgName: string;
+  public enableTenantHeader: string;
 
   constructor(private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService,
     public userService: UserService, private navigationHelperService: NavigationHelperService,
@@ -111,6 +113,7 @@ export class AppComponent implements OnInit {
         this.tenantService.getTenantInfo(this.slug);
         this.setPortalTitleLogo();
         this.telemetryService.initialize(this.getTelemetryContext());
+        this.logCdnStatus();
         this.checkTncAndFrameWorkSelected();
         this.initApp = true;
       }, error => {
@@ -118,7 +121,25 @@ export class AppComponent implements OnInit {
       });
     this.changeLanguageAttribute();
   }
-
+  logCdnStatus() {
+    const isCdnWorking  = (<HTMLInputElement>document.getElementById('cdnWorking'))
+    ? (<HTMLInputElement>document.getElementById('cdnWorking')).value : 'no';
+    if (isCdnWorking !== 'no') {
+      return;
+    }
+    const event = {
+      context: {
+        env: 'app'
+      },
+      edata: {
+        type: 'cdn_failed',
+        level: 'ERROR',
+        message: 'cdn failed, loading files from portal',
+        pageid: this.router.url.split('?')[0]
+      }
+    };
+    this.telemetryService.log(event);
+  }
   /**
    * checks if user has accepted the tnc and show tnc popup.
    */
@@ -186,6 +207,7 @@ export class AppComponent implements OnInit {
         }
         this.userProfile = user.userProfile;
         this.slug = _.get(this.userProfile, 'rootOrg.slug');
+        this.enableTenantHeader = _.get(this.userProfile, 'rootOrg.slug');
         this.channel = this.userService.hashTagId;
         return of(user.userProfile);
       }));
@@ -196,7 +218,10 @@ export class AppComponent implements OnInit {
   private setOrgDetails(): Observable<any> {
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data => {
+        console.log('getting org details = ' , data);
         this.orgDetails = data;
+        this.orgName = data.slug;
+        this.enableTenantHeader = data.slug;
         this.channel = this.orgDetails.hashTagId;
       })
     );

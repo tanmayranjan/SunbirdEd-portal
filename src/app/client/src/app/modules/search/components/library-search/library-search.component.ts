@@ -38,6 +38,7 @@ export class LibrarySearchComponent implements OnInit, OnDestroy, AfterViewInit 
     public redirectUrl;
     public frameworkData: object;
     public closeIntractEdata;
+    pageid: any;
 
     constructor(public searchService: SearchService, public router: Router, private playerService: PlayerService,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -52,6 +53,8 @@ export class LibrarySearchComponent implements OnInit, OnDestroy, AfterViewInit 
         this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     }
     ngOnInit() {
+        this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+        console.log('pageid in library-course', this.pageid);
         this.userService.userData$.subscribe(userData => {
             if (userData && !userData.err) {
                 this.frameworkData = _.get(userData.userProfile, 'framework');

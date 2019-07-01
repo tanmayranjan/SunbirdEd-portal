@@ -18,6 +18,8 @@ import { AuthGuard } from './guard/auth-gard.service';
 import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
+import { SunbirdFooterComponent } from './components/sunbird-footer/sunbird-footer.component';
+import { SunbirdHeaderComponent } from './components/sunbird-header/sunbird-header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,11 +34,11 @@ import { TelemetryModule } from '@sunbird/telemetry';
     AvatarModule
   ],
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
-    BodyScrollDirective, DataDrivenFilterComponent, SortByComponent,
-    ErrorPageComponent, FlagContentComponent, LanguageDropdownComponent,
+    BodyScrollDirective, DataDrivenFilterComponent, SortByComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
+    ErrorPageComponent, FlagContentComponent, LanguageDropdownComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
     ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective,
-    DataDrivenFilterComponent, SortByComponent, FlagContentComponent,
+    DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
     TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],
   providers: [CacheService, AuthGuard]
 })

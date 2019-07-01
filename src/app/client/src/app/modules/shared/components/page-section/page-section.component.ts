@@ -5,8 +5,11 @@ import { ICaraouselData } from '../../interfaces';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash-es';
 import { IInteractEventEdata } from '@sunbird/telemetry';
-import { Subscription } from 'rxjs';
+import { Subscription , Observable, of} from 'rxjs';
 import { DOCUMENT } from '@angular/platform-browser';
+import { Router, NavigationEnd } from '@angular/router';
+// import { OrgDetailsService , UserService} from '@sunbird/core';
+import { takeUntil, map, mergeMap, first, filter, tap } from 'rxjs/operators';
 /**
  * This display a a section
  */
@@ -24,6 +27,8 @@ export class PageSectionComponent implements OnInit, OnDestroy {
 
   @Input() cardType: string;
 
+  @Input() slug: string;
+
   @Output() playEvent = new EventEmitter<any>();
 
   @Output() visits = new EventEmitter<any>();
@@ -40,8 +45,10 @@ export class PageSectionComponent implements OnInit, OnDestroy {
 
   maxSlide = 0;
 
+
   constructor(public config: ConfigService, public activatedRoute: ActivatedRoute, public resourceService: ResourceService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    public router: Router) {
       this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     }
   playContent(event) {
@@ -49,6 +56,7 @@ export class PageSectionComponent implements OnInit, OnDestroy {
     this.playEvent.emit(event);
   }
   ngOnInit() {
+    console.log('slug info in page section = ', this.slug, this.pageid);
     this.updateSlick();
     this.slideConfig = this.cardType === 'batch'
       ? _.cloneDeep(this.config.appConfig.CourseBatchPageSection.slideConfig)
@@ -64,6 +72,7 @@ export class PageSectionComponent implements OnInit, OnDestroy {
       };
     }
   }
+
   updateSlick() {
     if (this.contentList.length && this.contentList.length < this.section.contents.length) {
       const upperLimit = _.get(this.config, 'appConfig.CoursePageSection.slideConfig.slidesToScroll') || 4;

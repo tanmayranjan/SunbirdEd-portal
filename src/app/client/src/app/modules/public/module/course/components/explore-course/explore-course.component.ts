@@ -39,6 +39,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy, AfterViewInit 
     public loaderMessage: ILoaderMessage;
 
     public frameWorkName: string;
+    pageid: any;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -51,6 +52,8 @@ export class ExploreCourseComponent implements OnInit, OnDestroy, AfterViewInit 
         this.filterType = this.configService.appConfig.exploreCourse.filterType;
     }
     ngOnInit() {
+        this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+        console.log('pageid in explore-course', this.pageid);
         combineLatest(
             this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug),
             this.getFrameWork()

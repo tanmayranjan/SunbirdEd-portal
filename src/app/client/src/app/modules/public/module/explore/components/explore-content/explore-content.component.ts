@@ -37,6 +37,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     public contentList: Array<ICard> = [];
     public cardIntractEdata: IInteractEventEdata;
     public loaderMessage: ILoaderMessage;
+    slug: any;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -51,8 +52,10 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     ngOnInit() {
         this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
             mergeMap((orgDetails: any) => {
+                console.log('org details for explore component = ', orgDetails.slug);
             this.hashTagId = orgDetails.hashTagId;
             this.initFilters = true;
+            this.slug = orgDetails.slug;
             return this.dataDrivenFilterEvent;
             }), first()
         ).subscribe((filters: any) => {
@@ -92,7 +95,10 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
     private fetchContents() {
-        let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+      let option;
+      if (this.slug !== 'sunbirdorg') {
+            console.log('slug if');
+            let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
         filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
           const softConstraintData: any = {
             filters: {
@@ -106,7 +112,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
           }
           const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
              'appliedFilters'), softConstraintData );
-        const option = {
+        option = {
             filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
             limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
             pageNumber: this.paginationDetails.currentPage,
@@ -125,6 +131,12 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             option.params.framework = _.get(channelData, 'channelData.defaultFramework');
           }
         });
+    } else {
+        option = {'filters': {'objectType': 'Asset'}, 'offset': 0, 'limit': 20};
+        // option.filters.contentType = [];
+    }
+    console.log('option', option);
+
         this.searchService.contentSearch(option)
         .subscribe(data => {
             this.showLoader = false;

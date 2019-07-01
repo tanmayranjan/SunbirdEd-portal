@@ -82,6 +82,8 @@ export class MainHeaderComponent implements OnInit {
       this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
   }
   ngOnInit() {
+    console.log('activated route', this.activatedRoute);
+    this.showExploreHeader = true;
     if (this.userService.loggedIn) {
       this.userService.userData$.pipe(first()).subscribe((user: any) => {
         if (user && !user.err) {
@@ -133,11 +135,15 @@ export class MainHeaderComponent implements OnInit {
     }
   }
   onEnter(key) {
+
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;
     }
-    this.router.navigate([this.exploreRoutingUrl, 1], { queryParams: this.queryParam });
+    const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
+    const slug = route[0].firstChild.children[0].url[0].path;
+    const currRoute = route[0].firstChild.children[0].url[1].path;
+    this.router.navigate(['/' + slug + '/' + currRoute, 1], { queryParams: this.queryParam });
   }
 
   getSearchButtonInteractEdata(key) {
@@ -157,6 +163,7 @@ export class MainHeaderComponent implements OnInit {
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
       let currentRoute = this.activatedRoute.root;
+      console.log('getting url');
       if (currentRoute.children) {
         while (currentRoute.children.length > 0) {
           const child: ActivatedRoute[] = currentRoute.children;
@@ -173,15 +180,23 @@ export class MainHeaderComponent implements OnInit {
         }
       }
       this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug');
+      console.log('main header if',  urlAfterRedirects.url);
       if (_.includes(urlAfterRedirects.url, '/explore')) {
+        console.log('main header if',  urlAfterRedirects.url);
         this.showExploreHeader = true;
         const url = urlAfterRedirects.url.split('?')[0].split('/');
-        if (url.indexOf('explore') === 2) {
+        console.log('url', url);
+        if (url.indexOf('explore-library') === 2) {
           this.exploreRoutingUrl = url[1] + '/' + url[2];
+          console.log('else', this.exploreRoutingUrl);
+        } else if (url.indexOf('explore-courses') === 2) {
+          this.exploreRoutingUrl = url[1] + '/' + url[2];
+          console.log('else', this.exploreRoutingUrl);
         } else {
           this.exploreRoutingUrl = url[1];
         }
       } else if (_.includes(urlAfterRedirects.url, '/explore-course')) {
+        console.log('main header else',  urlAfterRedirects.url);
         this.showExploreHeader = true;
         const url = urlAfterRedirects.url.split('?')[0].split('/');
         if (url.indexOf('explore-course') === 2) {

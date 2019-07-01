@@ -43,6 +43,7 @@ export class CourseSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   public showBatchInfo = false;
   public selectedCourseBatches: any;
   sortingOptions: Array<ISort>;
+  pageid: any;
 
   constructor(public searchService: SearchService, public router: Router,
     public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -57,6 +58,8 @@ export class CourseSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
   ngOnInit() {
+    this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+    console.log('pageid in course-search', this.pageid);
     combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];

@@ -42,6 +42,7 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   public showBatchInfo = false;
   public selectedCourseBatches: any;
   sortingOptions: Array<ISort>;
+  pageid: any;
 
   constructor(public searchService: SearchService, public router: Router,
     public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -58,6 +59,8 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngOnInit() {
     this.initFilters = true;
+    this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+    console.log('pageid in home-course', this.pageid);
     combineLatest(this.fetchEnrolledCoursesSection(), this.dataDrivenFilterEvent).pipe(first()).
     subscribe((data: Array<any>) => {
       this.enrolledSection = data[0];

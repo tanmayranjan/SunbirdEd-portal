@@ -35,6 +35,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   public initFilters = false;
   public loaderMessage;
   public pageSections: Array<ICaraouselData> = [];
+  public slug;
   isOffline: boolean = environment.isOffline;
 
   @HostListener('window:scroll', []) onScroll(): void {
@@ -58,6 +59,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
+        console.log('org details for explore component = ', orgDetails);
+        this.slug = orgDetails.slug;
         this.hashTagId = orgDetails.hashTagId;
         this.initFilters = true;
         return this.dataDrivenFilterEvent;
@@ -93,7 +96,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       takeUntil(this.unsubscribe$))
       .subscribe((result) => {
         this.showLoader = true;
-        this.queryParams = { ...result[0], ...result[1] };
+        this.queryParams = { ...result[1] };
         this.carouselMasterData = [];
         this.pageSections = [];
         this.fetchPageData();
