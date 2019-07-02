@@ -1,0 +1,24 @@
+.ui.selection.dropdown {
+    border: 0 !important;
+    border-bottom: 1px solid #333 !important;
+    border-radius: 0 !important;
+}
+.data-driven-filter .ui.multiple.dropdown {
+    font-size: 13px!important;
+    color: #4a4a4a!important;
+    border-color: #e4e4e4!important;
+    height: 33px !important;
+}
+.btnprimary {
+    background-color: #1185bf !important;
+    border-color: #1185bf !important;
+}
+.btnoutline
+{
+    border-color: #107eb6;
+    background-color: #fff;
+    color: #1185bf;
+}
+.primary {
+    color: #1185bf;
+}

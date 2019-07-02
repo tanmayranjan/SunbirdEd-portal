@@ -12,7 +12,8 @@ import { IInteractEventEdata } from '@sunbird/telemetry';
 
 @Component({
   selector: 'app-sunbird-data-driven-filter',
-  templateUrl: './sunbird-data-driven-filter.component.html'
+  templateUrl: './sunbird-data-driven-filter.component.html',
+  styleUrls: ['./sunbird-data-driven-filter.component.css']
 })
 export class SunbirdDataDrivenFilterComponent implements OnInit, OnDestroy {
   @Input() filterEnv: string;

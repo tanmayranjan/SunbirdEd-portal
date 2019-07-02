@@ -1,15 +1,17 @@
 
-<div class="ui segment br-0 p-0 prominent-filter">
-      <div class="ui container">
-            <div class="twelve wide column mb-15">
+<div class="ui container">
+      <div class="ui grid">
+            <div class="twelve wide column ">
                 <app-sunbird-data-driven-filter [pageId]="'explore-search'" *ngIf="initFilters" [filterEnv]="filterType"
                 [enrichFilters]="facetsList" [ignoreQuery]="['key']" [accordionDefaultOpen]=true
                 [isShowFilterLabel]=true [hashTagId]="hashTagId" [showSearchedParam]=true (dataDrivenFilter)="getFilters($event)"></app-sunbird-data-driven-filter>
+                <app-sort-by [sortingOptions]="sortByOption" [url]="activatedRoute.snapshot.params.slug ? '/' + activatedRoute.snapshot.params.slug+ '/explore/1' : '/explore/1'"></app-sort-by>
             </div>
-      </div>
-</div>
-<div class="ui container">
-  <div class="content-grid mt-24">
+      <!-- </div>
+</div> -->
+<!-- <div class="ui container">
+  <div class="content-grid mt-24"> -->
+      <div class="twelve wide column " in-view-container>
     <div class="sb-pageSection" *ngIf="!showLoader && contentList.length && this.queryParams.key">
       <div class="sb-pageSection-header">
         <div class="">
@@ -60,6 +62,7 @@
     </div>
   </div>
 </div>
+  </div>
 <sui-modal [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'small'" class="sb-modal"
   appBodyScroll (dismissed)="showLoginModal = false" #modal *ngIf="showLoginModal">
 
