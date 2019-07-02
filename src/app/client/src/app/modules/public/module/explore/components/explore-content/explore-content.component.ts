@@ -152,7 +152,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         option.filters.contentType = [];
         console.log('option', option, filters);
     }
-   
+
 
         this.searchService.contentSearch(option)
         .subscribe(data => {
