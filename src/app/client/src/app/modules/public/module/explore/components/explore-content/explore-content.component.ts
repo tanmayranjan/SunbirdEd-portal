@@ -132,15 +132,27 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
           }
         });
     } else {
-        option = {filters: {
-            assetType: 'Software',
-             objectType: 'Asset',
-        limit: 20,
-        offset: 0
-        }};
+        let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+        filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+        const softConstraintData: any = {
+            filters: {
+                channel: this.hashTagId,
+            },
+            softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+            mode: 'soft'
+          };
+        const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
+            'appliedFilters'), softConstraintData );
+        // filters =  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters;
+        option = {filters:  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
+            limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+            offset: 0
+                 };
+        option.filters.objectType = 'Asset';
         option.filters.contentType = [];
+        console.log('option', option, filters);
     }
-    console.log('option', option);
+   
 
         this.searchService.contentSearch(option)
         .subscribe(data => {

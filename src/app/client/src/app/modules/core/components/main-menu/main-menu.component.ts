@@ -1,5 +1,5 @@
 import { ConfigService, ResourceService, IUserData, IUserProfile } from '@sunbird/shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService, PermissionService } from '../../services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
@@ -18,6 +18,7 @@ declare var jQuery: any;
   styleUrls: ['./main-menu.component.scss']
 })
 export class MainMenuComponent implements OnInit {
+  // @Input() slug: string;
   /**
    * Workspace access roles
    */
@@ -59,7 +60,9 @@ export class MainMenuComponent implements OnInit {
   isOffline: boolean = environment.isOffline;
 
   signInIntractEdata: IInteractEventEdata;
-  slug: string;
+  slug: any;
+  pageid: any;
+
   /*
   * constructor
   */
@@ -74,7 +77,9 @@ export class MainMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.slug = this.activatedRoute.snapshot.params.slug;
+    this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+    // this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+    console.log('slug in main menu = ' , this.slug);
     try {
       this.helpLinkVisibility = (<HTMLInputElement>document.getElementById('helpLinkVisibility')).value;
     } catch (error) {

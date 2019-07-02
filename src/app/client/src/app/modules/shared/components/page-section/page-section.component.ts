@@ -56,7 +56,8 @@ export class PageSectionComponent implements OnInit, OnDestroy {
     this.playEvent.emit(event);
   }
   ngOnInit() {
-    console.log('slug info in page section = ', this.slug, this.pageid);
+    const slug1 = this.activatedRoute;;
+    console.log('slug info in page section = ', this.slug, slug1, this.pageid);
     this.updateSlick();
     this.slideConfig = this.cardType === 'batch'
       ? _.cloneDeep(this.config.appConfig.CourseBatchPageSection.slideConfig)

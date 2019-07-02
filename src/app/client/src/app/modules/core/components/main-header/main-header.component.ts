@@ -66,6 +66,7 @@ export class MainHeaderComponent implements OnInit {
   slug: string;
   isOffline: boolean = environment.isOffline;
   languages: Array<any>;
+  slugInfo: any;
 
   constructor(public config: ConfigService, public resourceService: ResourceService, public router: Router,
     public permissionService: PermissionService, public userService: UserService, public tenantService: TenantService,
@@ -141,9 +142,10 @@ export class MainHeaderComponent implements OnInit {
       this.queryParam.key = key;
     }
     const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
-    const slug = route[0].firstChild.children[0].url[0].path;
+   this.slugInfo = route[0].firstChild.children[0].url[0].path;
     const currRoute = route[0].firstChild.children[0].url[1].path;
-    this.router.navigate(['/' + slug + '/' + currRoute, 1], { queryParams: this.queryParam });
+    console.log('slug info in main header = ', this.slugInfo);
+    this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
   }
 
   getSearchButtonInteractEdata(key) {
