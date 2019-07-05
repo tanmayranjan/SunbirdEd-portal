@@ -1,0 +1,29 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.thumbnail {
+    position: relative;
+    margin-bottom: 0;
+    border: 0;
+    border-color: transparent;
+    padding: 0 !important;
+    /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+  }
+
+  .caption {
+    position: absolute;
+    top: 21%;
+    left: 0;
+    width: 100%;
+    color:#222;
+  }
+  .text {
+    width: 54rem;
+    margin: auto;
+    display: block;
+    font-size: 17px;
+    font-family: 'Muli', sans-serif;
+  }
+  @media screen and (max-width:820px ) and (min-width: 312px) {
+    .text{
+        width: auto;
+    }
+  }

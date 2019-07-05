@@ -25,7 +25,7 @@
 	<!--/Logged in user-->
 
 	<!--Not Logged in user-->
-	<ng-container *ngIf="!userService.loggedIn && !isOffline">
+	<ng-container *ngIf="!userService.loggedIn && !isOffline && slugInfo !== 'space'">
 		<button class="ui blue button" *ngIf="router.isActive('', true) && exploreButtonVisibility==='true'"
 			tabindex="0" [routerLink]="'/explore'">
 			{{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}

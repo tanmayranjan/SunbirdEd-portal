@@ -1,0 +1,116 @@
+<div id="responsive-table">
+  <table class="table table-hover" id="res-table">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>First Name</th>
+        <th>User Name</th>
+        <th>User Roles</th>
+        <th>Assign role to user</th>
+        <th>Delete User</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userIds; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ user.firstName }}</td>
+        <td>{{user.organisationName}}</td>
+        <td class="roles">
+          {{ user.roles }}
+        </td>
+        <td>
+<div class="res-update">
+  <button
+  type="button"
+  class="btn btn-purple"
+  data-toggle="modal"
+  data-target="#updateuserrole"
+  (click)="openLg(content)"
+>
+  <i class="fas fa-pencil-alt "></i>
+</button>
+</div>
+
+          <ng-template #content let-d="dismiss" >
+             
+           
+            <div class="header">
+              <div class="ui grid">
+                  <div class="eleven wide column">
+                      <span class="ui header">{{resourceService.frmelmnts?.lbl?.selrole}}</span>
+                  </div>
+              </div>
+          </div>
+      
+          <!-- <div class="scrolling content">
+              <div 
+                  class="ui selection dropdown ml-10" suiDropdown *ngIf="userDetails && userDetails.organisations.length > 0">
+                  <i class="dropdown icon"></i>
+                  <div>{{selectedOrgName || userDetails.organisations[0].orgName || orgId}}</div>
+                  <div class="menu" suiDropdownMenu [menuAutoSelectFirst]="true">
+                      <div class="item" [ngClass]="{'active': orgId === org.organisationId }" *ngFor="let org of userDetails.organisations"
+                          (click)="selectedOrgName = org.orgName; selectedOrgUserRoles=org.roles; selectedOrgId=org.organisationId">{{org.orgName || org.organisationId}}</div>
+                  </div>
+              </div>
+           
+              <div class="ui form mt-40" *ngIf="selectedOrgUserRoles">
+                  <ul class="selectOrgRoles">
+                      <li class="orgRolesListView" *ngFor="let role of roles">
+                          <div class="ui checkbox">
+                            <input 
+                            type="checkbox" value='{{role.name}}' (click)="editRoles(role.name, selectedOrgUserRoles, $event,user.id)"
+                            [checked]="user.roles.includes(role.name)">
+                        <label>{{role.roleName || role.name}}</label>
+                          </div>
+                 
+                    
+                      </li>
+                  </ul>
+              </div>
+          </div> -->
+          <app-user-edit [userid]="user.id" [model]="modalRef" (messageEvent)="receiveMessage($event)"></app-user-edit>
+         
+          <!-- <div class="row pb-15">
+              <div class="col-9 text-align-right">
+                  <button 
+                      [disabled]="!selectedOrgUserRoles" class="btn btn-purple" type="submit" (click)="updateRoles(selectedOrgUserRoles,user.id,user.roles)">
+                      {{resourceService.frmelmnts?.btn?.update}}</button>
+              </div>
+              <div class="">
+                  <button
+                    type="button"
+                    class="btn button"
+                    data-dismiss="modal"
+                    (click)="d('Cross click')"
+                  >
+                    Close
+                  </button>
+                </div>
+          </div> -->
+          <div class="btnStyle text-align-center">
+            <button
+              type="button"
+              class="btn button "
+              value="CLOSE" id="close"
+              (click)="d('Cross click')" 
+            >
+              Close
+            </button>
+          </div>
+           
+            </ng-template>
+            
+        </td>
+        <td>
+       <div class="res-delete">
+        <button (click)="deleteUser(user)" class="btn btn-purple">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+       </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <router-outlet></router-outlet>
+  
+</div>

@@ -4,6 +4,7 @@ import * as dropDownConfig from './dropdown.config.json';
 import * as rolesConfig from './roles.config.json';
 import * as appConfig from './app.config.json';
 import * as editorConfig from './editor.config.json';
+import * as countryConfig from './country.config.json';
 /**
  * Service to fetch config details.
  *
@@ -35,5 +36,7 @@ export class ConfigService {
   *
   */
   editorConfig = (<any>editorConfig.default);
+
+  countryConfig = (<any>countryConfig);
 }
 

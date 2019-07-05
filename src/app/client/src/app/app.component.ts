@@ -192,6 +192,7 @@ export class AppComponent implements OnInit {
     if (this.userService.loggedIn) {
       return of(undefined);
     } else {
+      console.log('slug info in app = ', this.activatedRoute);
       return this.router.events.pipe(filter(event => event instanceof NavigationEnd), first(),
         map(data => this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug')));
     }
@@ -218,7 +219,7 @@ export class AppComponent implements OnInit {
   private setOrgDetails(): Observable<any> {
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data => {
-        console.log('getting org details = ' , data);
+        console.log('getting org details = ' , data, this.slug);
         this.orgDetails = data;
         this.orgName = data.slug;
         this.enableTenantHeader = data.slug;

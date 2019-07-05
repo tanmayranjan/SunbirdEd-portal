@@ -1,0 +1,37 @@
+
+
+.button {
+    background-color: #a8abe3 !important;
+    border: none;
+    width: fit-content;
+    border-radius: 5px;
+    height: 40px;
+    font-family: "Muli",sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: none;
+    cursor: pointer;
+    color: white !important ;
+}
+
+@media screen and (min-width:312px) and (max-width:424px) {
+    .prominent-filter {
+        width: 100vw;
+    }
+}
+@media screen and (max-width:765px) and (min-width:425px) {
+    .prominent-filter {
+        width: 100vw;
+    }
+}
+// @media screen and (max-width:980px) and (min-width:766px) {
+//     #res-searchbtn {
+//         right: -12rem !important;
+//     }
+// }
+@media not all and (min-width: 805px) {
+    #search {
+       text-align: center;
+    }
+    }

@@ -160,6 +160,9 @@
     "OTP": {
       "GENERATE": "otp/v1/generate",
       "VERIFY": "otp/v1/verify"
+    },
+    "FEEDBACK": {
+      "EMAIL":"user/v1/notification/email"
     }
   }
 }

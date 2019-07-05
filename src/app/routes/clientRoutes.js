@@ -82,6 +82,9 @@ module.exports = (app, keycloak) => {
     '/:slug/explore', '/:slug/explore/*',
      '/play/*', 
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
+     '/contactUs','/contactUs/*', '/:slug/contactUs', '/:slug/contactUs/*',
+     '/core','/core/*', '/:slug/core', '/:slug/core/*',
+     '/framework','/framework/*', '/:slug/framework', '/:slug/framework/*',
     '/explore-courses','/explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
     '/explore-library','/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))

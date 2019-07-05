@@ -59,7 +59,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
-        console.log('org details for explore component = ', orgDetails);
+        console.log('org details form explore component = ', orgDetails);
         this.slug = orgDetails.slug;
         this.hashTagId = orgDetails.hashTagId;
         this.initFilters = true;

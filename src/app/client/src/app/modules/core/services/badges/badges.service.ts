@@ -45,6 +45,13 @@ export class BadgesService {
   /**
    * method to fetch badges from server.
   */
+ public createAssertion(req) {
+  const option = {
+    url: this.config.urlConFig.URLS.BADGE.CREATE,
+    data: req
+  };
+  return this.learner.post(option);
+}
   public getAllBadgeList(req) {
     const option = {
       url: this.config.urlConFig.URLS.BADGE.BADGE_CLASS_SEARCH,

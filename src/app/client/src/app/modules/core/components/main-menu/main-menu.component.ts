@@ -18,7 +18,7 @@ declare var jQuery: any;
   styleUrls: ['./main-menu.component.scss']
 })
 export class MainMenuComponent implements OnInit {
-  // @Input() slug: string;
+  @Input() slugInfo: string;
   /**
    * Workspace access roles
    */

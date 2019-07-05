@@ -1,0 +1,131 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+.h1{
+  font-family: Arial Regular;
+  font-size: 39px;
+  color:#373737;
+  padding-top: 5rem;
+  padding-bottom: 3rem;
+}
+.h4{
+ font-family: Arial  Regular;
+ font-size: 28px;
+ color:#373737;
+}
+.p{
+ font-family: Arial Regular;
+ font-size: 16px;
+ color:#373737;
+}
+.p1{
+ font-family: Arial Regular;
+ font-size: 18px;
+ color:#373737;
+}
+.link {
+ cursor: pointer;
+}
+.head{
+ font-family: Arial Regular;
+ font-size: 26px;
+}
+.cimage{
+ /* background-image: url('../../../../../assets/images/slide-04.png'); */
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-color: white;
+}
+.fa{
+ color: slategray;
+}
+.alert-success {
+ width: fit-content !important;
+   margin-left: 7rem !important;
+}
+.envelope {
+ margin-top: -2rem;
+}
+.ico-success{
+color:black !important;
+background-color: blue !important;
+}
+@media screen and (max-width:424px ) and (min-width: 320px) {
+
+.contact-form {
+ width: 95vw !important;
+ display: block !important;
+ left: -12rem !important;
+ bottom: 1rem !important;
+}
+.send-btn {
+ width: 9rem;
+ display: inline-block;
+}
+.cimage {
+ width: 100vw !important;
+}
+.para {
+ width: 92vw !important;
+}
+.padding-bottom {
+ margin-bottom: 4rem !important;
+}
+}
+@media screen and (max-width:760px ) and (min-width: 425px) {
+#card {
+  width: 90vw !important;
+  left: -11rem !important;
+}
+}
+@media screen and (max-width:980px ) and (min-width: 761px) {
+ .contact-form {
+   width: 49vw !important;
+   display: block !important;
+ left: 0rem !important;
+ }
+ /* .need-help {
+   margin-top: 0rem !important;
+ } */
+ .form {
+   top: -17rem;
+   left: 21rem;
+ }
+ .contact {
+   height: 133vh;
+ }
+ #card {
+  width: 86vw !important;
+  left: -10rem !important;
+}
+}
+@media screen and (min-width: 1024px)
+{
+.form[_ngcontent-c9] {
+   top: 0rem;
+   left: 0rem;
+}
+.contact[_ngcontent-c9] {
+ height: 110vh;
+}
+}
+
+.center {
+ padding-left: 11.5rem;
+}
+.color{
+ background-color:#f6f6f6;
+ box-shadow: inset 0 1px 2px rgba(10,10,10,0.1);
+ padding: 10px 20px;
+ border-radius: 5px;
+ height: 3.5rem;
+}
+.btn{
+ width: 8rem !important;
+}
+#message{
+ line-height: 1.15;  height: 13rem;
+}
+#card{
+ width: 46rem; height: auto;
+ width: 56rem;
+ border: none;
+}
