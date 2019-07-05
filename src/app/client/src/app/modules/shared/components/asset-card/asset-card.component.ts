@@ -9,7 +9,7 @@ import * as _ from 'lodash-es';
   templateUrl: './asset-card.component.html',
   styleUrls: ['./asset-card.component.scss']
 })
-export class AssetCardComponent implements OnInit{
+export class AssetCardComponent implements OnInit {
 
   @Input() data: ICard;
   @Input() dialCode: string;
