@@ -96,81 +96,108 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
     private fetchContents() {
-      let option;
-      if (this.slug !== 'sunbirdorg') {
+        let option;
+        if (this.slug !== 'sunbirdorg') {
             console.log('slug if');
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
-        filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-          const softConstraintData: any = {
-            filters: {
-                channel: this.hashTagId,
-            },
-            softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-            mode: 'soft'
-          };
-          if (this.dataDrivenFilters.board) {
-            softConstraintData.board = [this.dataDrivenFilters.board];
-          }
-          const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
-             'appliedFilters'), softConstraintData );
-        option = {
-            filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
-            limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
-            pageNumber: this.paginationDetails.currentPage,
-            query: this.queryParams.key,
-            mode: _.get(manipulatedData, 'mode'),
-            facets: this.facets,
-            params: this.configService.appConfig.ExplorePage.contentApiQueryParams
-        };
-        option.filters.contentType = filters.contentType ||
-        ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
-        if (manipulatedData.filters) {
-            option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
-          }
-        this.frameworkService.channelData$.subscribe((channelData) => {
-          if (!channelData.err) {
-            option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-          }
-        });
-    } else {
-        let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
-        filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-        const softConstraintData: any = {
-            filters: {
-                channel: this.hashTagId,
-            },
-            softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-            mode: 'soft'
-          };
-        const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
-            'appliedFilters'), softConstraintData );
-        // filters =  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters;
-        option = {filters:  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
-            limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
-            offset: 0
-                 };
-        option.filters.objectType = 'Asset';
-        option.filters.contentType = [];
-        console.log('option', option, filters);
-    }
+            filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+            const softConstraintData: any = {
+                filters: {
+                    channel: this.hashTagId,
+                },
+                softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+                mode: 'soft'
+            };
+            if (this.dataDrivenFilters.board) {
+                softConstraintData.board = [this.dataDrivenFilters.board];
+            }
+            const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+                'appliedFilters'), softConstraintData);
+            option = {
+                filters: _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters,
+                limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+                pageNumber: this.paginationDetails.currentPage,
+                query: this.queryParams.key,
+                mode: _.get(manipulatedData, 'mode'),
+                facets: this.facets,
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+            };
+            option.filters.contentType = filters.contentType ||
+                ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
+            if (manipulatedData.filters) {
+                option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
+            }
+            this.frameworkService.channelData$.subscribe((channelData) => {
+                if (!channelData.err) {
+                    option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+                }
+            });
+
+            this.searchService.contentSearch(option)
+                .subscribe(data => {
+                    console.log('card data from explore content = ', data);
+                    this.showLoader = false;
+                    this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+                    this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+                    this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
+                }, err => {
+                    this.showLoader = false;
+                    this.contentList = [];
+                    this.facetsList = [];
+                    this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+                });
+        } else {
+            let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+            filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+            const softConstraintData: any = {
+                filters: {
+                    channel: this.hashTagId,
+                },
+                softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+                mode: 'soft'
+            };
+            const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+                'appliedFilters'), softConstraintData);
+            // filters =  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters;
+            option = {
+                filters: _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters,
+                limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+                offset: 0,
+                query: this.queryParams.key,
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+            };
+            option.filters.objectType = 'Asset';
+            option.filters.contentType = [];
+            option.filters.channel = [];
+            this.frameworkService.channelData$.subscribe((channelData) => {
+                if (!channelData.err) {
+                    option.params.framework = 'NCERT';
+                }
+            });
+            console.log('option', option, filters);
+            this.searchService.compositeSearch(option).subscribe(data => {
+                this.showLoader = false;
+                console.log('card data from explore content = ', data);
+                    this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+                    this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+                    this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+                }, err => {
+                    this.showLoader = false;
+                    this.contentList = [];
+                    this.facetsList = [];
+                    this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+                });
+        }
 
 
-        this.searchService.contentSearch(option)
-        .subscribe(data => {
-            this.showLoader = false;
-            this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
-            this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
-                this.configService.appConfig.SEARCH.PAGE_LIMIT);
-            const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
-            this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
-        }, err => {
-            this.showLoader = false;
-            this.contentList = [];
-            this.facetsList = [];
-            this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
-                this.configService.appConfig.SEARCH.PAGE_LIMIT);
-            this.toasterService.error(this.resourceService.messages.fmsg.m0051);
-        });
     }
     public navigateToPage(page: number): void {
         if (page < 1 || page > this.paginationDetails.totalPages) {
