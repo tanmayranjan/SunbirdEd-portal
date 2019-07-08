@@ -983,6 +983,13 @@
     "studymaterial": "createlessontext",
     "lessonplan": "createlessonplan"
   },
+  "assetType": {
+    "Knowledge": "Knowledge",
+    "Software": "Software",
+    "Hardware": "Hardware",
+    "Process": "Process",
+    "Data": "Data"
+  },
   "contentName": {
     "textbook": "Untitled Textbook",
     "course": "Untitled Course",

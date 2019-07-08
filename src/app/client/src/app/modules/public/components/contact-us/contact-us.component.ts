@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService, ServerResponse, ToasterService, IUserData } from '@sunbird/shared';
 import { PublicDataService, UserService, LearnerService } from '@sunbird/core';
-import { ConfigureService } from '../../../../services/configure/configure.service';
+import { ConfigureService } from '../../services/configure/configure.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';

@@ -1,4 +1,3 @@
-
 import { Subscription, Observable } from 'rxjs';
 import { of, throwError } from 'rxjs';
 import { ConfigService, ResourceService, Framework, ToasterService, ServerResponse, BrowserCacheTtlService } from '@sunbird/shared';
@@ -18,6 +17,7 @@ import { first, mergeMap, map, tap , catchError, filter} from 'rxjs/operators';
 })
 export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   @Input() filterEnv: string;
+  @Input() slugInfo: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
   @Input() hashTagId = '';
@@ -28,7 +28,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   @Input() frameworkName: string;
   @Input() formAction: string;
   @Output() prominentFilter = new EventEmitter();
-  @Input() slugInfo: string;
   /**
  * To get url, app configs
  */
@@ -116,12 +115,13 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    // this.frameworkName = 'NCERT';
+    console.log('filter in space filter = ', this.framework, this.formAction, this.hashTagId);
     // this.formInputData['language']=this.configService.countryConfig.languages;
     // this.formInputData['country']=this.configService.countryConfig.countries;
-    console.log('filter component ', this.frameworkName, this.hashTagId);
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
+      console.log('filter in space filter = ', this.framework , formFieldProperties);
       this.formFieldProperties = formFieldProperties;
       this.prominentFilter.emit(formFieldProperties);
       this.subscribeToQueryParams();
@@ -143,6 +143,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     const formAction = this.formAction ? this.formAction : 'search';
     return this.fetchFrameWorkDetails().pipe(
       mergeMap((frameworkDetails: any) => {
+        console.log('category master list= ', frameworkDetails);
         this.categoryMasterList = frameworkDetails.categoryMasterList;
         this.framework = frameworkDetails.code;
         return this.getFormDetails();
@@ -159,6 +160,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
       }),
       map((formData: any) => {
         let formFieldProperties = _.filter(formData.formData, (formFieldCategory) => {
+          console.log('foemfield properties = ', formFieldCategory);
           if (formFieldCategory.code === 'channel') {
             formFieldCategory.range = _.map(formData.channelData, (value) => {
               return {category: 'channel',
@@ -194,9 +196,11 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   }
   private fetchFrameWorkDetails() {
     return this.frameworkService.frameworkData$.pipe(filter((frameworkDetails) => {
+      console.log('data from framewok service = ', frameworkDetails, !frameworkDetails.err);
       if (!frameworkDetails.err) {
         const framework = this.frameworkName ? this.frameworkName : 'defaultFramework';
         const frameworkData = _.get(frameworkDetails.frameworkdata, framework);
+        console.log('frmaework in space = ', framework, frameworkData);
         if (frameworkData) {
           return true;
         } else {
@@ -220,7 +224,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
       }));
   }
   private subscribeToQueryParams() {
-    console.log('form values = ', this.formInputData, this.formFieldProperties, this.activatedRoute.queryParams);
     this.activatedRoute.queryParams.subscribe((params) => {
       this.formInputData = {};
       _.forIn(params, (value, key) => this.formInputData[key] = typeof value === 'string' && key !== 'key' ? [value] : value);
@@ -244,6 +247,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
       contentType: this.filterEnv,
       framework: this.framework
     };
+    console.log('request', formServiceInputParams);
     return this.formService.getFormConfig(formServiceInputParams, this.hashTagId);
   }
 
@@ -338,5 +342,4 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     }
   }
 }
-
 

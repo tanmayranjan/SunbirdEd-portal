@@ -9,7 +9,7 @@ import * as _ from 'lodash-es';
   templateUrl: './asset-card.component.html',
   styleUrls: ['./asset-card.component.scss']
 })
-export class AssetCardComponent {
+export class AssetCardComponent implements OnInit {
 
   @Input() data: ICard;
   @Input() dialCode: string;
@@ -22,6 +22,10 @@ export class AssetCardComponent {
     if (this.dialCode) {
       this.telemetryCdata = [{ 'type': 'dialCode', 'id': this.dialCode }];
     }
+  }
+
+  ngOnInit() {
+    console.log('assets from cards = ', this.data);
   }
 
   convertToString(data) {

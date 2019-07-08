@@ -135,6 +135,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
 
             this.searchService.contentSearch(option)
                 .subscribe(data => {
+                    console.log('card data from explore content = ', data);
                     this.showLoader = false;
                     this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
                     this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
@@ -166,6 +167,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 filters: _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters,
                 limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
                 offset: 0,
+                query: this.queryParams.key,
                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
             option.filters.objectType = 'Asset';
@@ -179,6 +181,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             console.log('option', option, filters);
             this.searchService.compositeSearch(option).subscribe(data => {
                 this.showLoader = false;
+                console.log('card data from explore content = ', data);
                     this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
                     this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
                         this.configService.appConfig.SEARCH.PAGE_LIMIT);

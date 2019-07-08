@@ -76,12 +76,15 @@ export class DataService {
    * @param requestParam interface
    */
   get(requestParam: RequestParam): Observable<ServerResponse> {
+
     const httpOptions: HttpOptions = {
       headers: requestParam.header ? requestParam.header : this.getHeader(),
       params: requestParam.param
     };
+    console.log(' data service = ', requestParam, httpOptions);
     return this.http.get(this.baseUrl + requestParam.url, httpOptions).pipe(
       mergeMap((data: ServerResponse) => {
+        console.log('responce of form read in public service = ', data, requestParam);
         if (data.responseCode !== 'OK') {
           return observableThrowError(data);
         }
