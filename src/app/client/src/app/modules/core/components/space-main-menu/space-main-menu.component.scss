@@ -1,0 +1,116 @@
+@import "../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "variables";
+
+.ui.text.menu .item {
+  padding: .35714286em .86em;
+}
+
+.ui.text.menu .item:hover {
+  color: $link-color;
+}
+
+.ui.text.menu .item.active {
+  font-weight: bold;
+  color: $link-color;
+}
+
+.ui.vertical.menu .active.item,
+.ui.vertical.menu .sign-in.item {
+  color:$link-color;
+  font-weight: bold;
+  background: none;
+}
+
+.side-bar-close-icon {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  font-size: 1.2rem;
+  color: $link-color;
+  z-index: 888;
+  height: 35px;
+  width: 35px;
+  vertical-align: middle;
+  line-height: 35px;
+}
+.ui.text.menu[_ngcontent-c7] .item.active[_ngcontent-c7] {
+  font-size: 1rem !important;
+    color: #585858 !important;
+  }
+  .item{
+    color: #585858 !important;
+  }
+  .item:hover {
+    color: black !important;
+  }
+.item:active {
+  color: black !important;
+}
+.sign-in {
+  color: $link-color;
+  font-weight: bold;
+  background: none;
+}
+
+.fixed-logout-btn {
+  position: fixed !important;
+  bottom: 0;
+  width: 100%;
+  font-weight: bold !important;
+  color: $link-color !important;
+  border-top: 1px solid rgba(34,36,38, .15) !important;
+}
+.ui.menu .item>img:not(.ui) {
+  width: 1.5rem !important;
+  height: 1.8rem !important;
+  color: #BCBCCB !important;
+}
+.link {
+  cursor: pointer;
+}
+.modal-content {
+  top: 9rem !important;
+    // align-items: center !important;
+    justify-content: center !important;
+    position: unset !important;
+}
+.head{
+  font-family: 'Muli', sans-serif;
+  font-size: 26px;
+  margin-bottom: 0rem;
+}
+.text{
+  font-family:'Muli' !important; 
+  color: black !important;
+}
+.btn-info {
+  background-color: #a8abe3 !important;
+  border-radius:4px;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  font-family: "Muli",sans-serif;
+  font-size: 15px;
+  width: fit-content;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+@media screen and (min-width:312px) and (max-width:991px) {
+#close {
+  // margin-bottom: 1rem;
+  float: right;
+  // margin-top: -3rem;
+}
+}
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }

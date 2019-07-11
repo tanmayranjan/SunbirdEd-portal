@@ -102,6 +102,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('slug info in search = ', this.slugInfo);
     this.activatedRoute.queryParams.subscribe(queryParams => {
       this.queryParam = { ...queryParams };
       this.key = this.queryParam['key'];
@@ -148,6 +149,7 @@ export class SearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
+    console.log('key = ', key);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -156,9 +158,21 @@ export class SearchComponent implements OnInit {
     } else {
       delete this.queryParam['key'];
     }
-    this.route.navigate([this.search[this.selectedOption], 1], {
-      queryParams: this.queryParam
-    });
+    if (this.userService.loggedIn) {
+      this.route.navigate([this.search[this.selectedOption], 1], {
+        queryParams: this.queryParam
+      });
+     } else  {
+     if (this.slugInfo !== 'space') {
+      this.route.navigate(['explore', 1], {
+        queryParams: this.queryParam
+      });
+     } else {
+      this.route.navigate(['space/explore', 1], {
+        queryParams: this.queryParam
+      });
+     }
+     }
   }
 
   setFilters() {

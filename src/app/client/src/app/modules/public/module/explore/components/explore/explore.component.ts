@@ -114,7 +114,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         channel: this.hashTagId,
         board: [this.dataDrivenFilters.board]
       },
-      softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+      // softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
       mode: 'soft'
     };
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),

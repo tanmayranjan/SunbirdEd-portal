@@ -13,6 +13,7 @@ import { HomeAnnouncementService } from './service/index';
 import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { AnnouncementModule } from '@sunbird/announcement';
+import { SpaceMainHomeComponent } from './component/space-main-home/space-main-home.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { AnnouncementModule } from '@sunbird/announcement';
     HomeCalendarCardComponent,
     HomeAnnouncementComponent,
     NotificationComponent,
+    SpaceMainHomeComponent,
   ],
   providers: [HomeAnnouncementService]
 })

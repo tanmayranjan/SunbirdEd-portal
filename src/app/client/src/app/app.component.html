@@ -7,10 +7,10 @@
   <app-install-app (viewInBrowser)="viewInBrowser($event)" *ngIf="showAppPopUp && userService.loggedIn && !isOffline">
   </app-install-app>
 
-  <div *ngIf="orgName && orgName ==='sunbirdorg'">
+  <div *ngIf=" orgName ==='sunbirdorg' || enableTenantHeader === 'sunbirdorg' ">
     <app-sunbird-header></app-sunbird-header>
  </div>
- <div *ngIf="orgName && orgName ==='space'">
+ <div *ngIf=" orgName ==='space' || enableTenantHeader === 'space'">
    <app-space-header></app-space-header>
  </div>
  <div *ngIf="enableTenantHeader && enableTenantHeader!=='sunbirdorg' && enableTenantHeader !== 'space'">
@@ -19,7 +19,7 @@
   <!--<app-breadcrumbs *ngIf="userService.loggedIn"></app-breadcrumbs>-->
   <router-outlet *ngIf="initApp"></router-outlet>
 </div>
-<app-sunbird-footer  *ngIf= "orgName ==='sunbirdorg' else spacefooter"></app-sunbird-footer>
+<app-sunbird-footer  *ngIf= "enableTenantHeader ==='sunbirdorg' else spacefooter"></app-sunbird-footer>
 <sui-modal [mustScroll]="false" [isClosable]="false" [transitionDuration]="0" [size]="'small'" class="sb-modal"
   (dismissed)="showLoginModal = false" #modal *ngIf="sessionExpiryInterceptor.sessionExpired">
   <div class="sb-modal-header">
@@ -38,7 +38,7 @@
   </div>
 </sui-modal>
 <ng-template #spacefooter>
-    <app-space-footer *ngIf= "orgName ==='space' else otherfooter"></app-space-footer>
+    <app-space-footer *ngIf= "enableTenantHeader ==='space' else otherfooter"></app-space-footer>
 </ng-template>
 
 <ng-template #otherfooter>

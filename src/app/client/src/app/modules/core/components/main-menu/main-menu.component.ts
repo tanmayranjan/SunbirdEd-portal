@@ -77,9 +77,11 @@ export class MainMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+    if(!this.userService.loggedIn){
+      this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+      console.log('slug in main menu = ' , this.slug);
+    }
     // this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
-    console.log('slug in main menu = ' , this.slug);
     try {
       this.helpLinkVisibility = (<HTMLInputElement>document.getElementById('helpLinkVisibility')).value;
     } catch (error) {
@@ -91,6 +93,9 @@ export class MainMenuComponent implements OnInit {
       (user: IUserData) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
+          console.log('user details from main menu = ', user.userProfile, this.slug , this.slugInfo);
+
         }
       });
   }

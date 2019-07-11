@@ -30,6 +30,12 @@ import { LearnerService, TenantService, CopyContentService, AnnouncementService,
    ContentService, CoursesService, PageApiService, FormService, FrameworkService, PlayerService,
    OrgDetailsService, ChannelService } from './services';
 import { ConceptPickerService } from './services/concept-picker/concept-picker.service';
+import { SpaceDataDrivenFilterComponent } from './components/space-data-driven-filter/space-data-driven-filter.component';
+import { OtherSearchComponent } from './components/other-search/other-search.component';
+import { SpaceMainMenuComponent } from './components/space-main-menu/space-main-menu.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpModule } from '@angular/http';
+import { ConceptPickerComponent } from './components/concept-picker/concept-picker.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -41,18 +47,20 @@ import { ConceptPickerService } from './services/concept-picker/concept-picker.s
     ReactiveFormsModule,
     WebExtensionModule,
     TelemetryModule,
-    AvatarModule
+    AvatarModule,
+    HttpModule,
+    NgbModule.forRoot()
   ],
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,
     BodyScrollDirective, DataDrivenFilterComponent, SortByComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
     ErrorPageComponent, FlagContentComponent, LanguageDropdownComponent, SunbirdFooterComponent, SunbirdHeaderComponent,
-    ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective,
-    SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent,
-     SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent],
+    ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective, OtherSearchComponent,
+    SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent, ConceptPickerComponent,
+     SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent, SpaceDataDrivenFilterComponent, OtherSearchComponent, SpaceMainMenuComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, SunbirdDataDrivenFilterComponent,
     DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent,
-     SunbirdHeaderComponent, SpaceHeaderComponent,
-    SpaceFooterComponent, SpaceProminentFilterComponent,
+     SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent, FramworkSelectorComponent,
+    SpaceFooterComponent, SpaceProminentFilterComponent, SearchComponent, ConceptPickerComponent,
     TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],
   providers: [CacheService, AuthGuard]
 })

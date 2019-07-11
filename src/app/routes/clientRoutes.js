@@ -82,9 +82,9 @@ module.exports = (app, keycloak) => {
     '/:slug/explore', '/:slug/explore/*',
      '/play/*', 
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
-     '/contactUs','/contactUs/*', '/:slug/contactUs', '/:slug/contactUs/*',
-     '/core','/core/*', '/:slug/core', '/:slug/core/*',
-     '/framework','/framework/*', '/:slug/framework', '/:slug/framework/*',
+     '/contactUs', '/:slug/contactUs',
+     '/core','/:slug/core',
+     '/framework', '/:slug/framework',
     '/explore-courses','/explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
     '/explore-library','/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
@@ -96,7 +96,7 @@ module.exports = (app, keycloak) => {
   app.all(['/announcement', '/announcement/*', '/search', '/search/*',
     '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
-    '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
+    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
 
   app.all('/:tenantName', renderTenantPage)
 }

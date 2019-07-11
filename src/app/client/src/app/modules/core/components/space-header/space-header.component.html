@@ -10,10 +10,12 @@
                             <img class="image centered cursor-pointer ml-10" alt={{tenantName}} src="../../../../../assets/images/space_logo.png">
                         </a>
             </div>
-            <div class="">
-                    <app-main-menu class="d-flex computer only ml-auto" [slugInfo]= "slug"></app-main-menu>
+            <div class="" *ngIf="slug !=='space'">
+                    <app-main-menu class="d-flex computer only ml-auto"  [slugInfo]= "slug"></app-main-menu>
             </div>
-        
+            <div class="" *ngIf="slug ==='space'">
+                    <app-space-main-menu class="d-flex computer only ml-auto"  [slugInfo]= "slug"></app-space-main-menu>
+            </div>
         <!-- <i class="large bars icon link sidebar-hamburger-menu mobile only" (click)="showSideBar()" tabindex="0"></i> -->
         
         <a class="profile-avtar item  pr-0 mr-100" *ngIf="userService.loggedIn; else showLoginBtn">

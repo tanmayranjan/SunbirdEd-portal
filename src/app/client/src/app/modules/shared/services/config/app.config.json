@@ -351,7 +351,9 @@
     "dynamicFields": {
       "ribbon.right.name": "resourceType",
       "ribbon.left.image": "badgeAssertions[0].badgeClassImage"
-    }
+    },
+    "orgId":["0127227887366471688"],
+    "orgName":["Societal Platform", "EkStep","ShikshaLokam"]
   },
   "CoursePage": {
     "slickSize": 10,

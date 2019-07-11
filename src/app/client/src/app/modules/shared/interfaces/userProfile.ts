@@ -64,6 +64,7 @@ export interface IUserProfile {
     tncLatestVersion?: string;
     promptTnC?: boolean;
     tncLatestVersionUrl?: string;
+    channel?: string;
 }
 export interface IJobProfile {
     jobName: string;
@@ -124,6 +125,7 @@ export interface IOrganization {
     orgjoindate: string;
     orgLeftDate: string;
     hashTagId?: string;
+    locationIds: Array<any>;
 }
 export interface IEducation {
     updatedBy: string;

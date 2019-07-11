@@ -33,7 +33,6 @@ export class FrameworkService {
     const channelKey =  hashTagId ? hashTagId : this.userService.hashTagId;
     const  channelData = this.cacheService.get(channelKey);
     const frameWorkKey = framework ? framework : _.get(channelData, 'defaultFramework');
-    console.log('framework key = ', framework , _.get(channelData, 'defaultFramework'), !_.get(this._frameworkData, framework));
     if ( frameWorkKey && this.cacheService.get(frameWorkKey)) {
       const data = this.cacheService.get(frameWorkKey);
       const frameWorkName = framework ? framework : 'defaultFramework';
@@ -42,7 +41,6 @@ export class FrameworkService {
       this._channelData$.next({ err: null, channelData: channelData });
     } else {
       if (framework && !_.get(this._frameworkData, framework)) {
-        console.log('if');
         this.getFrameworkCategories(framework).subscribe(
           (frameworkData: ServerResponse) => {
             this.setFrameWorkData(frameworkData);
@@ -55,8 +53,6 @@ export class FrameworkService {
           });
       } else {
         if (!_.get(this._frameworkData, 'defaultFramework')) {
-          console.log('else if = ');
-
           this.getDefaultFrameWork(hashTagId ? hashTagId : this.userService.hashTagId)
             .pipe(mergeMap(data => {
               this.setChannelData(hashTagId ? hashTagId : this.userService.hashTagId, data);
@@ -87,7 +83,6 @@ export class FrameworkService {
     const frameworkOptions = {
       url: this.configService.urlConFig.URLS.FRAMEWORK.READ + '/' + framework
     };
-    console.log('framework api req option = ', framework, frameworkOptions, this.publicDataService.get(frameworkOptions));
 
     return this.publicDataService.get(frameworkOptions);
   }

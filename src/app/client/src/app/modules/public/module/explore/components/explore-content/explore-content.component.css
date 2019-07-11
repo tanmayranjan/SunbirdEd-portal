@@ -1,0 +1,11 @@
+#search {
+    padding-top: 4rem
+}
+
+@media not all and (min-width: 800px) {
+    #search {
+        margin-right: 8rem;
+        padding-top: 0rem;
+        text-align: center;
+    }
+    }

@@ -116,12 +116,11 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.frameworkName = 'NCERT';
-    console.log('filter in space filter = ', this.framework, this.formAction, this.hashTagId);
+    console.log('filter component called by  ', this.slugInfo );
     // this.formInputData['language']=this.configService.countryConfig.languages;
     // this.formInputData['country']=this.configService.countryConfig.countries;
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
-      console.log('filter in space filter = ', this.framework , formFieldProperties);
       this.formFieldProperties = formFieldProperties;
       this.prominentFilter.emit(formFieldProperties);
       this.subscribeToQueryParams();
@@ -143,7 +142,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     const formAction = this.formAction ? this.formAction : 'search';
     return this.fetchFrameWorkDetails().pipe(
       mergeMap((frameworkDetails: any) => {
-        console.log('category master list= ', frameworkDetails);
         this.categoryMasterList = frameworkDetails.categoryMasterList;
         this.framework = frameworkDetails.code;
         return this.getFormDetails();
@@ -160,7 +158,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
       }),
       map((formData: any) => {
         let formFieldProperties = _.filter(formData.formData, (formFieldCategory) => {
-          console.log('foemfield properties = ', formFieldCategory);
           if (formFieldCategory.code === 'channel') {
             formFieldCategory.range = _.map(formData.channelData, (value) => {
               return {category: 'channel',
@@ -196,11 +193,9 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   }
   private fetchFrameWorkDetails() {
     return this.frameworkService.frameworkData$.pipe(filter((frameworkDetails) => {
-      console.log('data from framewok service = ', frameworkDetails, !frameworkDetails.err);
       if (!frameworkDetails.err) {
         const framework = this.frameworkName ? this.frameworkName : 'defaultFramework';
         const frameworkData = _.get(frameworkDetails.frameworkdata, framework);
-        console.log('frmaework in space = ', framework, frameworkData);
         if (frameworkData) {
           return true;
         } else {
@@ -247,7 +242,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
       contentType: this.filterEnv,
       framework: this.framework
     };
-    console.log('request', formServiceInputParams);
     return this.formService.getFormConfig(formServiceInputParams, this.hashTagId);
   }
 

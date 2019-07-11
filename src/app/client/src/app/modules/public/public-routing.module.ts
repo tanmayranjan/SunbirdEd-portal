@@ -37,6 +37,9 @@ const routes: Routes = [
     path: ':slug/contactUs' , component: ContactUsComponent
   },
   {
+    path: 'contactUs' , component: ContactUsComponent
+  },
+  {
     path: ':slug/explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
   {

@@ -1,4 +1,4 @@
-<sui-modal
+<!-- <sui-modal
   [mustScroll]="false" 
   [isClosable]="isClosable"
   [transitionDuration]="0"
@@ -8,13 +8,11 @@
   (dismissed)="modal.deny();close.emit();"
   *ngIf="formFieldOptions.length">
 
-  <!--Header-->
+
   <div class="sb-modal-header">
     {{resourceService?.frmelmnts?.lbl?.profilePopup}}&lrm;
   </div>
-  <!--/Header-->
 
-  <!--Content-->
   <div class="sb-modal-content o-y-visible">
     <form class="ui form">
       <div *ngFor="let field of formFieldOptions">
@@ -39,9 +37,7 @@
       </div>
     </form>
   </div>
-  <!--/Content-->
-
-  <!--Actions-->
+ 
   <div class="sb-modal-actions">
     <button 
       appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
@@ -53,6 +49,6 @@
       {{buttonLabel}}
     </button>
   </div>
-  <!--/Actions-->
+
   
-</sui-modal>
+</sui-modal> -->

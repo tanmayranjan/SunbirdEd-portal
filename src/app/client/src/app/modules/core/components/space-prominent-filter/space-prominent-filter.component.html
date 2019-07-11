@@ -24,7 +24,8 @@
                         <div class="field">
                           <label class="mb-10">{{field.label}}</label>
                           <ng-container *ngIf="field.inputType==='select' || field.inputType==='multi-select'">
-                              <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" (selectedValue)="selectedValue($event, field.code)"></app-custom-multi-select>
+                              <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field"  *ngIf="slugInfo !=='space'" (selectedValue)="selectedValue($event, field.code)"></app-custom-multi-select>
+                              <app-space-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" *ngIf="slugInfo ==='space'"  (selectedValue)="selectedValue($event, field.code)"></app-space-custom-multi-select>
                           </ng-container>
                           <ng-container *ngIf="field.code==='topic'">
                             <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
@@ -56,7 +57,7 @@
                 </div>
                 
                 <div class="twelve wide tablet two wide computer right aligned top aligned column filter-button" id="res-searchbtn">
-                  <label class="computer-only mb-5">&nbsp;</label>
+                  <label class="computer-only ">&nbsp;</label>
                   <a class="searchfilterbutton ui tiny button" (click)="applyFilters()" appTelemetryInteract [telemetryInteractEdata]="submitIntractEdata">
                     Apply
                   </a>
@@ -71,7 +72,7 @@
        
       </div>
       <div class="three wide computer twelve wide tablet column mt-lg-5" id="search">
-          <app-search class="flex-as-center width-100"></app-search>
+          <app-search class="flex-as-center width-100" [slugInfo]="slugInfo"></app-search>
       </div>
     </div>
   </div>

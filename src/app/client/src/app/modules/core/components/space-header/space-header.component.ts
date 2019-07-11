@@ -171,6 +171,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       (user: IUserData) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
         }
       });
     this.setInteractEventData();

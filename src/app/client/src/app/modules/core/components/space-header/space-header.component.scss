@@ -30,7 +30,7 @@
   opacity: 0.7 !important;
 }
 .item1 {
-color: black!important;
+// color: black!important;
 box-shadow: none;
 -ms-grid-row-align: center;
 align-self: center;
@@ -126,7 +126,9 @@ background: #007b5e;
 //   }
 // }
 
-
+.container {
+  width: 100% !important;
+}
 @media only screen and (min-width: 768px) {
   .primary-searchbar-alignment {
     margin-right: auto;

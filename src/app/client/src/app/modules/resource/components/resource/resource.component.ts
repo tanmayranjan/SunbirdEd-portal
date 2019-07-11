@@ -3,7 +3,7 @@ import { PageApiService, PlayerService, UserService, ISort } from '@sunbird/core
 import { Component, OnInit, OnDestroy, EventEmitter, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
 import {
   ResourceService, ToasterService, INoResultMessage, ConfigService, UtilService, ICaraouselData,
-  BrowserCacheTtlService, NavigationHelperService
+  BrowserCacheTtlService, NavigationHelperService, IUserData
 } from '@sunbird/shared';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash-es';
@@ -11,13 +11,15 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, delay, tap } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 @Component({
-  templateUrl: './resource.component.html'
+  templateUrl: './resource.component.html',
+  styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showLoader = true;
   public baseUrl: string;
   public noResultMessage: INoResultMessage;
+  public carouselData: Array<ICaraouselData> = [];
   public carouselMasterData: Array<ICaraouselData> = [];
   public filterType: string;
   public hashTagId: string;
@@ -34,6 +36,8 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   public loaderMessage;
   public redirectUrl;
   public pageSections: Array<ICaraouselData> = [];
+  userProfile: any;
+  slug: any;
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -60,6 +64,15 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.frameworkData = _.get(userData.userProfile, 'framework');
       }
     });
+    this.userService.userData$.pipe(first()).subscribe(
+      (user: IUserData) => {
+        if (user && !user.err) {
+          this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
+          console.log('user details from resource page = ', user.userProfile, this.slug );
+
+        }
+      });
     this.initFilters = true;
     this.hashTagId = this.userService.hashTagId;
     this.dataDrivenFilterEvent.pipe(first())
@@ -91,50 +104,100 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     .subscribe((result) => {
       this.queryParams = { ...result[0], ...result[1] };
       this.carouselMasterData = [];
+      this.carouselData = [];
       this.pageSections = [];
       this.fetchPageData();
     });
   }
-  private fetchPageData() {
-    const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
-      if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
-        return false;
+  private fetchPageData() { 
+    let option;
+    if(this.slug !== 'space') {
+      const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
+        if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
+          return false;
+        }
+        return value.length;
+      });
+      const softConstraintData = {
+        filters: {channel: this.userService.hashTagId,
+        board: [this.dataDrivenFilters.board]},
+        softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+        mode: 'soft'
+      };
+      const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams, 'appliedFilters'),
+      softConstraintData, this.frameworkData );
+       option = {
+        source: 'web',
+        name: 'Resource',
+        filters: _.get(this.queryParams, 'appliedFilters') ?  filters : _.get(manipulatedData, 'filters'),
+        mode: _.get(manipulatedData, 'mode'),
+        exists: [],
+        params : this.configService.appConfig.Library.contentApiQueryParams
+      };
+      if (_.get(manipulatedData, 'filters')) {
+        option.softConstraints = _.get(manipulatedData, 'softConstraints');
       }
-      return value.length;
-    });
-    const softConstraintData = {
-      filters: {channel: this.userService.hashTagId,
-      board: [this.dataDrivenFilters.board]},
-      softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-      mode: 'soft'
-    };
-    const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams, 'appliedFilters'),
-    softConstraintData, this.frameworkData );
-    const option: any = {
-      source: 'web',
-      name: 'Resource',
-      filters: _.get(this.queryParams, 'appliedFilters') ?  filters : _.get(manipulatedData, 'filters'),
-      mode: _.get(manipulatedData, 'mode'),
-      exists: [],
-      params : this.configService.appConfig.Library.contentApiQueryParams
-    };
-    if (_.get(manipulatedData, 'filters')) {
-      option.softConstraints = _.get(manipulatedData, 'softConstraints');
-    }
-    /*
-    adding channel code in the filters to show relevant courses only
-
-    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
-    */
-   option.filters['channel'] = [this.hashTagId];
-
-    if (this.queryParams.sort_by) {
-      option.sort_by = {[this.queryParams.sort_by]: this.queryParams.sortType  };
-    }
-    this.pageApiService.getPageData(option)
+      /*
+      adding channel code in the filters to show relevant courses only
+  
+      change made by RISHABH KALRA, NIIT LTD on 12-06-2019
+      */
+     option.filters['channel'] = [this.hashTagId];
+  
+      if (this.queryParams.sort_by) {
+        option.sort_by = {[this.queryParams.sort_by]: this.queryParams.sortType  };
+      }
+      this.pageApiService.getPageData(option)
+        .subscribe(data => {
+          this.showLoader = false;
+          this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+          this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+          this.cdr.detectChanges();
+        }, err => {
+          this.showLoader = false;
+          this.carouselMasterData = [];
+          this.carouselData = [];
+          this.pageSections = [];
+          this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
+    } else {
+      let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+      filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+        const softConstraintData = {
+          filters: {
+            // channel: this.hashTagId,
+          board: [this.dataDrivenFilters.board]},
+          softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+          mode: 'soft'
+        };
+        const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
+           'appliedFilters'), softConstraintData );
+       option = {
+          source: 'web',
+          name: 'Resource',
+          filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
+          limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+          query: this.queryParams.key,
+          mode: _.get(manipulatedData, 'mode'), 
+          params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      };
+      // option.filters.channel = this.configService.appConfig.ExplorePage.orgId,
+      option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
+      option.filters.contentType = filters.contentType ||
+      ['Resource'];
+      this.pageApiService.getPageData(option)
       .subscribe(data => {
         this.showLoader = false;
         this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+        this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
         if (!this.carouselMasterData.length) {
           return; // no page section
         }
@@ -147,9 +210,12 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }, err => {
         this.showLoader = false;
         this.carouselMasterData = [];
+        this.carouselData = [];
         this.pageSections = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
     });
+    }
+    
   }
   private prepareCarouselData(sections = []) {
     const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.Library;
