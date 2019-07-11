@@ -77,7 +77,9 @@ export class MainMenuComponent implements OnInit {
   }
 
   ngOnInit() {
+   if (!this.userService.loggedIn) {
     this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+   }
     // this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     console.log('slug in main menu = ' , this.slug);
     try {

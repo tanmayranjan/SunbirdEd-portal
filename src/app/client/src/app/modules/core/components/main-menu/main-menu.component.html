@@ -17,7 +17,7 @@
 			{{resourceService?.frmelmnts?.tab?.workspace}}
 		</a>
 		<a class="item" appTelemetryInteract [telemetryInteractEdata]="helpMenuIntractEdata"
-			*ngIf='permissionService.permissionAvailable && helpLinkVisibility.toLowerCase() === "true"' appPermission
+			*ngIf='permissionService.permissionAvailable' appPermission
 			[permission]='workSpaceRole' href="/help/creator/content-lifecycle/index.html" target="_blank">
 			{{resourceService?.frmelmnts?.tab?.help}}
 		</a>
