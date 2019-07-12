@@ -10,7 +10,7 @@ import {
   ResourceService, IUserData
 } from '@sunbird/shared';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 export interface IassessDetail {
   name: string;

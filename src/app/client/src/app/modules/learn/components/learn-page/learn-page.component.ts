@@ -1,6 +1,6 @@
 
 import {combineLatest, of, Subject } from 'rxjs';
-import { PageApiService, CoursesService, ISort, PlayerService, FormService ,UserService} from '@sunbird/core';
+import { PageApiService, CoursesService, ISort, PlayerService, FormService , UserService} from '@sunbird/core';
 import { Component, OnInit, OnDestroy, EventEmitter, AfterViewInit, HostListener } from '@angular/core';
 import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage,

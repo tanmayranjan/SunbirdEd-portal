@@ -204,7 +204,7 @@ export class AppComponent implements OnInit {
   private setUserDetails(): Observable<any> {
     return this.userService.userData$.pipe(first(),
       mergeMap((user: IUserData) => {
-       
+
         if (user.err) {
           return throwError(user.err);
         }
@@ -313,7 +313,7 @@ export class AppComponent implements OnInit {
     }, err => {
       this.toasterService.warning(this.resourceService.messages.emsg.m0012);
       this.frameWorkPopUp.modal.deny();
-      if(this.slug !== 'space') {
+      if (this.slug !== 'space') {
         this.router.navigate(['/resources']);
       } else {
         this.router.navigate(['/myassets']);
@@ -322,7 +322,7 @@ export class AppComponent implements OnInit {
     });
   }
   viewInBrowser() {
-    if(this.slug !== 'space') {
+    if (this.slug !== 'space') {
       this.router.navigate(['/resources']);
     } else {
       this.router.navigate(['/myassets']);

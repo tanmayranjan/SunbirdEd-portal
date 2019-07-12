@@ -116,9 +116,9 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.fetchPageData();
     });
   }
-  private fetchPageData() { 
+  private fetchPageData() {
     let option;
-    if(this.slug !== 'space') {
+    if (this.slug !== 'space') {
       const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
         if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
           return false;
@@ -146,11 +146,11 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       /*
       adding channel code in the filters to show relevant courses only
-  
+
       change made by RISHABH KALRA, NIIT LTD on 12-06-2019
       */
      option.filters['channel'] = [this.hashTagId];
-  
+
       if (this.queryParams.sort_by) {
         option.sort_by = {[this.queryParams.sort_by]: this.queryParams.sortType  };
       }
@@ -187,14 +187,15 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
            'appliedFilters'), softConstraintData );
-           console.log('resoiurce page filter qparams = ', this.queryParams ,  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters)
+           console.log('resoiurce page filter qparams = ', this.queryParams ,
+            _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters);
        option = {
           source: 'web',
           name: 'Resource',
           filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
           limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
           query: '',
-          mode: _.get(manipulatedData, 'mode'), 
+          mode: _.get(manipulatedData, 'mode'),
           params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
       // option.filters.channel = this.configService.appConfig.ExplorePage.orgId,
@@ -203,7 +204,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       ['Resource'];
 
       this.paramType.forEach(param => {
-        if(option.filters.hasOwnProperty(param)) {
+        if (option.filters.hasOwnProperty(param)) {
           option.filters[param] = option.filters[param][0];
 console.log('check query param = ', option.filters, param );
 this.contentSearch(option);

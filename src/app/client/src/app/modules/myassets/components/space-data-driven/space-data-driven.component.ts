@@ -21,7 +21,7 @@ import { takeUntil, first, mergeMap, map, tap , filter, catchError} from 'rxjs/o
   templateUrl: './space-data-driven.component.html',
   styleUrls: ['./space-data-driven.component.scss']
 })
-export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestroy{
+export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestroy {
   @ViewChild('formData') formData: SpaceDefaultTemplateComponent;
   @ViewChild('modal') modal;
   announcementForm: FormGroup;

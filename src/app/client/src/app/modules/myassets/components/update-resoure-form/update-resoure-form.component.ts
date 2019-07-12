@@ -2,7 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterCon
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService, ContentService } from '@sunbird/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
 import { ActivatedRoute, Router } from '@angular/router';

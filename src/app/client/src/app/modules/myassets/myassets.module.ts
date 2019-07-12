@@ -47,10 +47,10 @@ import { SpaceDefaultTemplateComponent } from './components/space-default-templa
       SpaceDataDrivenComponent,
       SpaceDefaultTemplateComponent,
       GenericEditorComponent
-      
+
     ],
     providers: [MyassetsService, SpaceEditorService],
     exports: [ CreateAssetComponent, MyassestPageComponent]
   })
-  
+
 export class MyassetsModule { }

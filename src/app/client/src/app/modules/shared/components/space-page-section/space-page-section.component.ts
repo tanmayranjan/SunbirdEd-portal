@@ -3,7 +3,7 @@ import { ResourceService } from '../../services/index';
 import { Component,  Input, EventEmitter, Output } from '@angular/core';
 import {ICaraouselData} from '../../interfaces/caraouselData';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { Router} from '@angular/router';
 
@@ -16,9 +16,9 @@ export class SpacePageSectionComponent implements OnInit {
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
   /**
-  * slug input 
+  * slug input
   */
-  @Input() slug:string;
+  @Input() slug: string;
  /**
   * section is used to render ICaraouselData value on the view
   */

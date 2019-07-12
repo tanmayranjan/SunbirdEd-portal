@@ -38,10 +38,13 @@ import { SpacePageSectionComponent } from './components/space-page-section/space
   declarations: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, PageSectionComponent, AssetCardComponent,
     BatchCardComponent, NoResultComponent, DateFilterXtimeAgoPipe, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
-    InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, SpaceCustomMultiSelectComponent, SpaceCardComponent, SpacePageSectionComponent],
+    InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, SpaceCustomMultiSelectComponent,
+    SpaceCardComponent, SpacePageSectionComponent],
   exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
-    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent, CardCreationComponent, FilterPipe, SpaceCardComponent,
-    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent, SpacePageSectionComponent,
+    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent
+    , CardCreationComponent, FilterPipe, SpaceCardComponent,
+    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent,
+     CdnprefixPipe, InterpolatePipe, RedirectComponent, SpacePageSectionComponent,
     CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, SpaceCustomMultiSelectComponent]
 })
 export class SharedModule {

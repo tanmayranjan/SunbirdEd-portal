@@ -7,7 +7,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
 import { SearchService, UserService, FrameworkService, FormService, ContentService } from '@sunbird/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { DefaultTemplateComponent } from '../../../workspace/components/content-creation-default-template/content-creation-default-template.component';
 import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';

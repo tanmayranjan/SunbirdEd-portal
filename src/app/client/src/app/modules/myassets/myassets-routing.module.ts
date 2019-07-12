@@ -27,7 +27,7 @@ const routes: Routes = [
       path: 'review/detail/:contentId', component: AssetDetailPageComponent
     },
     {
-      path: 'update/:contentId/:status', component: CreateAssetComponent, 
+      path: 'update/:contentId/:status', component: CreateAssetComponent,
       data: {
         roles: 'workspace'
       }

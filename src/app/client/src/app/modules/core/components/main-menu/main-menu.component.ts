@@ -77,7 +77,7 @@ export class MainMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.userService.loggedIn){
+    if (!this.userService.loggedIn) {
       this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
       console.log('slug in main menu = ' , this.slug);
     }

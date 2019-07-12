@@ -10,7 +10,7 @@ import {
 import { Ibatch, IStatusOption } from '../../../workspace/interfaces/';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import { IPagination } from '@sunbird/announcement';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import { ICard } from '../../../shared/interfaces/card';
@@ -197,10 +197,10 @@ modalMessage = '';
   role: any;
   userDetails: any;
   public paramType = [
-    "assetType",
-    "focusArea",
-    "organization",
-    "region"
+    'assetType',
+    'focusArea',
+    'organization',
+    'region'
   ];
   public qparam = [];
   /**
@@ -333,12 +333,12 @@ modalMessage = '';
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
-      query: "",
+      query: '',
       sort_by: this.sort
     };
-    
+
     this.paramType.forEach(param => {
-        if(bothParams.queryParams.hasOwnProperty(param)) {
+        if (bothParams.queryParams.hasOwnProperty(param)) {
           searchParams.query = bothParams.queryParams[param][0];
 console.log('check query param = ', bothParams.queryParams[param][0]);
 this.contentSearch(searchParams, pageNumber, limit);

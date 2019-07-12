@@ -4,7 +4,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import { CoursesService, UserService, PlayerService, PermissionService } from '@sunbird/core';
 import { ResourceService, ToasterService, ServerResponse, ConfigService, UtilService, IUserData } from '@sunbird/shared';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 // import { IUserData } from '../../../shared';
 // import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,7 +13,7 @@ import * as _ from 'lodash';
   templateUrl: './space-main-home.component.html',
   styleUrls: ['./space-main-home.component.scss']
 })
-export class SpaceMainHomeComponent implements OnInit {
+export class SpaceMainHomeComponent implements OnInit, OnDestroy {
   public contents = [
     {
       role: 'CONTENT_CREATOR',
