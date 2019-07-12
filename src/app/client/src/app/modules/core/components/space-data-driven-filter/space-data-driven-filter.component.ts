@@ -209,6 +209,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     if (this.activatedRoute.snapshot.params.pageNumber) { // when using dataDriven filter should this should be verified
       redirectUrl = this.router.url.split('?')[0].replace(/[^\/]+$/, '1');
     } else {
+      console.log('apply filter key = ', this.router.url.split('?')[0]);
       redirectUrl = this.router.url.split('?')[0];
     }
     this.router.navigate([redirectUrl], { queryParams: queryParams });
@@ -294,7 +295,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   selectedOption(event) {
     console.log('data evenet', event);
     if (event.length === 0) {
-    this.placeholder = '';
+    this.placeholder = 'Select';
     } else {
       this.placeholder = 'Selected';
     }

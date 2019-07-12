@@ -196,6 +196,13 @@ modalMessage = '';
   orgId: any;
   role: any;
   userDetails: any;
+  public paramType = [
+    "assetType",
+    "focusArea",
+    "organization",
+    "region"
+  ];
+  public qparam = [];
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -260,6 +267,7 @@ modalMessage = '';
         }
         this.queryParams = bothParams.queryParams;
         this.query = this.queryParams['query'];
+        console.log('both params = ', bothParams.queryParams);
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
 
       });
@@ -325,15 +333,23 @@ modalMessage = '';
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
-      query: _.toString(bothParams.queryParams.query),
+      query: "",
       sort_by: this.sort
     };
-    this.orgDetailsUnsubscribe = this.searchContentWithLockStatus(searchParams)
+    
+    this.paramType.forEach(param => {
+        if(bothParams.queryParams.hasOwnProperty(param)) {
+          searchParams.query = bothParams.queryParams[param][0];
+console.log('check query param = ', bothParams.queryParams[param][0]);
+this.contentSearch(searchParams, pageNumber, limit);
+    }
+  });
+  this.contentSearch(searchParams, pageNumber, limit);
+  }
+contentSearch(searchParams, pageNumber, limit) {
+  this.orgDetailsUnsubscribe = this.searchContentWithLockStatus(searchParams)
       .subscribe(
         (data: ServerResponse) => {
-
-
-
           if (this.route.url === '/upForReview' ) {
             if (this.route.url === '/upForReview' ) {
                this.noResultsForReview = false;
@@ -404,7 +420,7 @@ modalMessage = '';
           this.toasterService.error(this.resourceService.messages.fmsg.m0081);
         }
       );
-  }
+}
   public deleteConfirmModal(contentIds) {
     this.deleteAsset = true;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
@@ -468,8 +484,6 @@ modalMessage = '';
 
         this.contentService.post(option).subscribe(
           (data: ServerResponse) => {
-
-
             this.toasterService.success('Your Asset has been sucessfully sent for review');
             setTimeout(() => {
               this.showLoader = false;

@@ -64,6 +64,7 @@
       "UNENROLL_USER_COURSE":"course/v1/unenrol"
     },
     "CONTENT": {
+      "UPDATE": "content/v1/update",
       "SEARCH": "content/v1/search",
       "CREATE": "content/v1/create",
       "PUBLISH": "content/v1/publish",
@@ -77,7 +78,9 @@
       "COPY": "content/v1/copy",
       "LOCK_LIST": "lock/v1/list",
       "LOCK_CREATE": "lock/v1/create",
-      "LOCK_RETIRE": "lock/v1/retire"
+      "LOCK_RETIRE": "lock/v1/retire",
+      "REVIEW": "content/v1/review",
+      "UPLOADURL": "v3/upload/url"
     },
     "DASHBOARD": {
       "ORG_CREATION": "dashboard/v1/creation/org",

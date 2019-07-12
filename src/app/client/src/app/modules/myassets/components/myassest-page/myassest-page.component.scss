@@ -185,7 +185,20 @@ i.fas.fa-database.fa-lg {
   box-shadow: none;
   cursor: pointer;
 }
-
+.modal {
+  height: unset !important;
+}
+.ui.modal {
+  height: unset !important;
+}
+.ui.mini.modal {
+  height: unset !important;
+}
+@media only screen and (min-width: 1200px) {
+.ui.mini.modal {
+  height: unset !important;
+}
+}
 @media not all and (min-width: 801px) {
   .card {
     // width: 300px;

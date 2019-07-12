@@ -42,7 +42,11 @@ export class UtilService {
       source: data.source,
       assetType: data.assetType,
       region: data.region,
-      organization: data.organization
+      organization: data.organization,
+      board: data.board,
+      link: data.link,
+      year: data.year,
+      version: data.version
     };
 
     // this customization is done for enrolled courses

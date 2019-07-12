@@ -58,7 +58,7 @@ import { ConceptPickerComponent } from './components/concept-picker/concept-pick
     SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent, ConceptPickerComponent,
      SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent, SpaceDataDrivenFilterComponent, OtherSearchComponent, SpaceMainMenuComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective, SunbirdDataDrivenFilterComponent,
-    DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent,
+    DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent, FrameworkPickerComponent, FramworkSelectorComponent, 
      SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent, FramworkSelectorComponent,
     SpaceFooterComponent, SpaceProminentFilterComponent, SearchComponent, ConceptPickerComponent,
     TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],

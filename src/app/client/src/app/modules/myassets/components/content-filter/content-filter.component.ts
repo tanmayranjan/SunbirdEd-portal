@@ -106,6 +106,7 @@ export class ContentFilterComponent implements OnInit {
       flatMap(search => of(search).pipe(delay(500)))
       ).
       subscribe(query => {
+        console.log('query = ', query);
         this.query = query;
         this.handleSearch();
       });

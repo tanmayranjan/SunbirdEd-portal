@@ -1,5 +1,5 @@
 import { ProfileService } from '../../services';
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { UserService, SearchService, PlayerService, CoursesService, OrgDetailsService } from '@sunbird/core';
 import {
   ResourceService, ConfigService, ServerResponse, IUserProfile, IUserData, ToasterService, UtilService,
@@ -16,7 +16,7 @@ import { CacheService } from 'ng2-cache-service';
   styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
-
+  public slug: string;
   @ViewChild('profileModal') profileModal;
   @ViewChild('slickModal') slickModal;
   userProfile: any;
@@ -54,6 +54,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription = this.userService.userData$.subscribe((user: IUserData) => {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
+        this.slug = this.userProfile.channel;
         this.state = _.get(_.find(this.userProfile.userLocations, { type: 'state' }), 'name');
         this.district = _.get(_.find(this.userProfile.userLocations, { type: 'district' }), 'name');
         this.userFrameWork =  this.userProfile.framework ? _.cloneDeep(this.userProfile.framework) : {};

@@ -127,6 +127,7 @@ export class SpacePageSectionComponent implements OnInit {
     // this.route.navigate(['/play/content', data.identifier]);
   }
   ngOnInit() {
+    console.log('icarousal data = ', this.section);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {

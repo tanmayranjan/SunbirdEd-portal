@@ -136,11 +136,13 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
     /***
  * Call User service to get user data
  */
-    this.categoryList['languages'] = this.configService.countryConfig.languages;
-    this.categoryList['region'] = this.configService.countryConfig.countries;
+    this.categoryList['languages'] = this.configService.countryConfig.default.languages;
+    this.categoryList['region'] = this.configService.countryConfig.default.countries;
 
-this.countryList = this.configService.countryConfig.countries;
-this.langugaes = this.configService.countryConfig.languages;
+this.countryList = this.configService.countryConfig.default.countries;
+this.langugaes = this.configService.countryConfig.default.languages;
+
+console.log('coutry and language list = ', this.configService.countryConfig);
     this.setFormConfig();
     this.userService.userData$.subscribe(
       (user: IUserData) => {

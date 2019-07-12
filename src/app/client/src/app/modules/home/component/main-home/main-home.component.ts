@@ -235,6 +235,7 @@ export class MainHomeComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     // this.populateUserProfile();
+    console.log('home')
     this.getUserRoles();
 
     this.populateEnrolledCourse();

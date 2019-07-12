@@ -38,6 +38,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageSections: Array<ICaraouselData> = [];
   userProfile: any;
   slug: any;
+  public paramType = [
+    'assetType',
+    'focusArea',
+    'organization',
+    'region',
+  ];
+  public qparam = [];
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -180,12 +187,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
            'appliedFilters'), softConstraintData );
+           console.log('resoiurce page filter qparams = ', this.queryParams ,  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters)
        option = {
           source: 'web',
           name: 'Resource',
           filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
           limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
-          query: this.queryParams.key,
+          query: '',
           mode: _.get(manipulatedData, 'mode'), 
           params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
@@ -193,6 +201,19 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
       option.filters.contentType = filters.contentType ||
       ['Resource'];
+
+      this.paramType.forEach(param => {
+        if(option.filters.hasOwnProperty(param)) {
+          option.filters[param] = option.filters[param][0];
+console.log('check query param = ', option.filters, param );
+this.contentSearch(option);
+    }
+  });
+  this.contentSearch(option);
+}
+}
+contentSearch(option) {
+  console.log('option = ', option);
       this.pageApiService.getPageData(option)
       .subscribe(data => {
         this.showLoader = false;
@@ -215,8 +236,6 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
     });
     }
-    
-  }
   private prepareCarouselData(sections = []) {
     const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.Library;
     const carouselData = _.reduce(sections, (collector, element) => {

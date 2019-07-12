@@ -15,7 +15,7 @@ import { SuiModule } from 'ng2-semantic-ui';
 import { SharedModule } from '../shared';
 import { SlickModule } from 'ngx-slick';
 import { MyassetsRoutingModule } from './myassets-routing.module';
-import { AllMyContentFilterComponent } from '../workspace';
+import { AllMyContentFilterComponent, GenericEditorComponent } from '../workspace';
 import { MyassetsService, SpaceEditorService } from './services';
 import { ContentFilterComponent } from './components/content-filter/content-filter.component';
 import { SpaceDataDrivenComponent } from './components/space-data-driven/space-data-driven.component';
@@ -46,7 +46,7 @@ import { SpaceDefaultTemplateComponent } from './components/space-default-templa
       ContentFilterComponent,
       SpaceDataDrivenComponent,
       SpaceDefaultTemplateComponent,
-      SpaceDefaultTemplateComponent
+      GenericEditorComponent
       
     ],
     providers: [MyassetsService, SpaceEditorService],

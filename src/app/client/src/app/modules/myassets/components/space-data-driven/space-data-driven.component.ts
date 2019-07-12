@@ -182,17 +182,17 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
         }
       });
 
-    this.telemetryImpression = {
-      context: {
-        env: this.activatedRoute.snapshot.data.telemetry.env
-      },
-      edata: {
-        type: this.activatedRoute.snapshot.data.telemetry.type,
-        pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
-        uri: this.activatedRoute.snapshot.data.telemetry.uri
-      }
-    };
+    // this.telemetryImpression = {
+    //   context: {
+    //     env: this.activatedRoute.snapshot.data.telemetry.env
+    //   },
+    //   edata: {
+    //     type: this.activatedRoute.snapshot.data.telemetry.type,
+    //     pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
+    //     subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
+    //     uri: this.activatedRoute.snapshot.data.telemetry.uri
+    //   }
+    // };
   }
   ngOnDestroy() {
     if (this.modal && this.modal.deny) {
@@ -224,7 +224,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
             formType: this.formType,
             formAction: this.formAction,
             contentType: this.contentType,
-            framework: this.framework
+            // framework: this.framework
           };
           this.formService.getFormConfig(formServiceInputParams).subscribe(
             (data: ServerResponse) => {

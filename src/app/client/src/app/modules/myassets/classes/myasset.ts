@@ -30,6 +30,7 @@ export class MyAsset {
    * Search Api call
    */
    search(searchParams) {
+       console.log('myassets in search = ', searchParams);
        return this.searchService.compositeSearch(searchParams);
    }
 

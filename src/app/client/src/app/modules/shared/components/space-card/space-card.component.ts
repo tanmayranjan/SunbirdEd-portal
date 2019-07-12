@@ -16,12 +16,14 @@ export class SpaceCardComponent  {
   @Output() clickEvent = new EventEmitter<any>();
 
   constructor(public resourceService: ResourceService, public router: Router) {
+    console.log('content in space cards = ', this.data);
     this.resourceService = resourceService;
 
   }
 
 
   public onAction(data, action) {
+    console.log('content in space cards = ', data);
     this.clickEvent.emit({ 'action': action, 'data': data });
     // this.router.navigate(['/play/content', data.identifier]);
   }

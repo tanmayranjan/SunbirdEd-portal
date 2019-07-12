@@ -180,8 +180,7 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
 
-
-
+console.log('semantic column width = ', this.formFieldProperties);
     /***
  * Call User service to get user data
  */

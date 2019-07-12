@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { IConceptData } from './../../interfaces';
-import { ConceptPickerService } from './../../services/concept-picker/concept-picker.service';
+import { ConceptPickerService } from './../../services';
 import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 @Component({

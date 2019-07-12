@@ -14,11 +14,14 @@ const appRoutes: Routes = [
   {
     path: 'workspace', loadChildren: 'app/modules/workspace/workspace.module#WorkspaceModule'
   },
-  // {
-  //   path: 'home', loadChildren: 'app/modules/home/home.module#HomeModule'
-  // },
+  {
+    path: 'home', loadChildren: 'app/modules/home/home.module#HomeModule'
+  },
   {
     path: 'myassets', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
+  },
+  {
+    path: 'upForReview', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
   },
   {
     path: 'announcement', loadChildren: 'app/modules/announcement/announcement.module#AnnouncementModule'
@@ -46,10 +49,7 @@ const appRoutes: Routes = [
   },
   {
     path: '**', redirectTo: ''
-  },
-  // {
-  //   path: 'upForReview', loadChildren: 'app/modules/workspace/workspace.module#WorkspaceModule'
-  // },
+  }
   
 ];
 
