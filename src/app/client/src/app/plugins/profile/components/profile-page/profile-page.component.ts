@@ -42,6 +42,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   editMobileInteractEdata: IInteractEventEdata;
   editEmailInteractEdata: IInteractEventEdata;
   telemetryInteractObject: IInteractEventObject;
+  btnArrow: string;
+  telemetryLogs = [];
   constructor(private cacheService: CacheService, public resourceService: ResourceService, public coursesService: CoursesService,
     public toasterService: ToasterService, public profileService: ProfileService, public userService: UserService,
     public configService: ConfigService, public router: Router, public utilService: UtilService, public searchService: SearchService,
@@ -204,6 +206,38 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       type: 'User',
       ver: '1.0'
     };
+  }
+  beforeContributionSlideChange(event) {
+    if (event.currentSlide === 0 && event.nextSlide === 0) {
+      this.btnArrow = 'prev-button';
+    } else if (event.currentSlide < event.nextSlide) {
+      this.btnArrow = 'next-button';
+    } else if (event.currentSlide > event.nextSlide) {
+      this.btnArrow = 'prev-button';
+    }
+  }
+  onTelemetryEvent(contribution, event) {
+    const CONTRIBUTION_SLIDE_COUNT_FIRST = 1;
+    const CONTRIBUTION_SLIDE_COUNT_LAST = 5;
+    // const slideData = contribution.slice(event.currentSlide + CONTRIBUTION_SLIDE_COUNT_FIRST,
+    //   event.currentSlide + CONTRIBUTION_SLIDE_COUNT_LAST);
+    const slideData = contribution.slice(event.currentSlide + 1, event.currentSlide + 5);
+    _.forEach(slideData, (slide, key) => {
+      const obj = _.find(this.telemetryLogs, (o) => {
+        return o.objid === slide.metaData.identifier;
+      });
+      if (obj === undefined) {
+        this.telemetryLogs.push({
+          objid: slide.metaData.identifier || '',
+          objtype: 'profile',
+          index: event.currentSlide + key,
+          section: 'Contribution'
+        });
+      }
+    });
+    this.telemetryImpression.edata.visits = this.telemetryLogs;
+    this.telemetryImpression.edata.subtype = 'pageexit';
+    this.telemetryImpression = Object.assign({}, this.telemetryImpression);
   }
 
   ngAfterViewInit () {

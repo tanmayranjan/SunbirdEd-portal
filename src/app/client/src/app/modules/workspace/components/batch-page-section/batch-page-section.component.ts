@@ -110,6 +110,7 @@ export class BatchPageSectionComponent extends WorkSpace implements OnInit, OnDe
 	* telemetryImpression
 	*/
   telemetryImpression: IImpressionEventInput;
+  slug: any;
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -142,6 +143,7 @@ export class BatchPageSectionComponent extends WorkSpace implements OnInit, OnDe
   }
 
   ngOnInit() {
+    this.slug = this.userService.userProfile.channel;
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$))
     .subscribe(params => {
       this.category = params.category;

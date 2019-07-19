@@ -192,32 +192,31 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         source: 'web',
         name: 'Resource',
         filters: {
-          board: [],
-          organisation: [],
-          region: []
+          organisation: this.configService.appConfig.ExplorePage.orgName,
+          region: [],
+          contentType: [],
+          status: ['Live'],
+          board: []
         },
         limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         query: '',
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
-      option.filters.contentType = [];
+      option.filters.contentType = ['Resource'];
 
+      console.log('query param', this.queryParams);
       this.paramType.forEach(param => {
-        if (option.filters.hasOwnProperty(param)) {
+        if (this.queryParams.hasOwnProperty(param)) {
           if (param === 'assetType') {
-            option.filters.board = option.filters[param][0];
-            console.log('true');
+            option.filters.board = this.queryParams[param];
           }
           if (param === 'organization') {
-            option.filters.organisation = option.filters[param][0];
-            console.log('true');
+            option.filters.organisation = this.queryParams[param];
           }
           if (param === 'region') {
-            option.filters.region = option.filters[param][0];
-            console.log('true');
+            option.filters.region = this.queryParams[param];
           }
-          console.log('check query param = ', option.filters, param);
           this.contentSearch(option);
         }
       });

@@ -64,7 +64,7 @@ export class PageApiService {
 
   getPageSectionData (requestParam: IPageSection) {
 
-    requestParam.filters['board'] = [];
+    // requestParam.filters['board'] = [];
     console.log('page section ', requestParam);
     const option: any = {
       url: this.config.urlConFig.URLS.PAGE_PREFIX,

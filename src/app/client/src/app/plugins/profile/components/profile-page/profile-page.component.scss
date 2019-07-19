@@ -85,7 +85,12 @@
 .text-warm-grey {
   color:#9b9b9b;
 }
-
+.slide {
+  width: unset !important;
+}
+.slick-list .slick-track {
+  transform: unset !important;
+}
 .name-info {
   background-color: $gray-400;
     -webkit-mask-image: url(../../../../../assets/images/info-icon.svg);

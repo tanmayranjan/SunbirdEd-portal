@@ -218,7 +218,7 @@
         <div class="ui segment">
           <div class="regular slider pt-10">
             <app-page-section [section]="{ contents: contributions}" (visits)="prepareVisits($event)"
-              (playEvent)="openContent($event)"></app-page-section>
+              (playEvent)="openContent($event)" [slug]= "slug"></app-page-section>
           </div>
         </div>
       </div>
@@ -362,25 +362,24 @@
   <!-- my badges section ends -->
 
 
-  <div class="profile-bg-c-2 pt-30">
+  <div class="profile-bg-c-2 pt-30" *ngIf="attendedTraining && attendedTraining.length > 0">
     <div class="ui container">
       <!--contributions view starts-->
-      <div class="fs-1-7 font-w-bold pl-20 mobile only" *ngIf="contributions && contributions.length > 0">{{resourceService.frmelmnts.scttl.contributions}}
+      <!-- <div class="fs-1-7 font-w-bold pl-20 mobile only" *ngIf="contributions && contributions.length > 0">{{resourceService.frmelmnts.scttl.contributions}}
         ({{contributions.length}})&#x200E;</div>
-      <div class="ui divider my-5 mobile only"></div>
+      <div class="ui divider my-5 mobile only"></div> -->
       <!--contributions computer view starts-->
-      <div class="ui segments" *ngIf="contributions && contributions.length > 0">
+      <!-- <div class="ui segments" *ngIf="contributions && contributions.length > 0">
         <div class="ui segment computer only">
           <div class="fs-1-7 pl-10 font-w-bold">{{resourceService.frmelmnts.scttl.contributions}} ({{contributions.length}})&#x200E;</div>
         </div>
 
         <div class="ui segment">
           <div class="regular slider pt-10">
-            <ngx-slick in-view-container [throttle]="[1000]" [trigger]="item" (afterChange)="onTelemetryEvent(contributions,$event)"
-              (beforeChange)="beforeContributionSlideChange($event)" class="carousel" #slickModal="slick-modal"
-              [config]="slideConfig">
-              <div in-view-item [id]="i" [data]="content" ngxSlickItem *ngFor="let item of contributions;let i = index;"
-                class="slide">
+            <ngx-slick  in-view-container [throttle]="[1000]" [trigger]="item" class="carousel" #slickModal="slick-modal"
+            [config]="slideConfig" (afterChange)="onTelemetryEvent(contributions,$event)"
+              (beforeChange)="beforeContributionSlideChange($event)">
+              <div in-view-item  ngxSlickItem *ngFor="let item of contributions;let i = index;" [id]="i" [data]="item" class="slide">
                 <div>
                   <app-space-card (clickEvent)="onClickOfMyContributions($event)" [slug]="slug" [data]="item" [customClass]="'pr-20'" class="pr-20 d-block"></app-space-card>
                 </div>
@@ -388,12 +387,12 @@
             </ngx-slick>
           </div>
         </div>
-      </div>
+      </div> -->
       <!--contributions computer view ends-->
       <!--contributions view ends-->
 
       <!-- tarainings attended computer view strats-->
-      <table class="ui basic table profile-bg-c-1 mt-20 mb-30 computer only" *ngIf="attendedTraining && attendedTraining.length > 0">
+      <table class="ui basic table profile-bg-c-1 mt-20 mb-30 computer only" >
         <thead>
           <tr>
             <th colspan="2" class="fs-1-7 pl-30">{{resourceService.frmelmnts.lbl.trainingAttended}}
