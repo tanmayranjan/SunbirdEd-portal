@@ -43,6 +43,7 @@ export class PdfViewerComponent implements OnInit {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
     this.contentService.get(req).subscribe(data => {
+      console.log('data in pdf = ', data);
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
       this.showLoader = false;
     });
@@ -57,6 +58,7 @@ export class PdfViewerComponent implements OnInit {
 
   navigateToDetailsPage() {
     this.activatedRoute.url.subscribe(url => {
+      console.log('url = ',  url);
       this.path = url[0].path;
       this.status = url[2].path;
       if (this.path === 'review') {
@@ -70,7 +72,7 @@ export class PdfViewerComponent implements OnInit {
       this.route.navigate(['upForReview/review/detail', this.contentId]);
 
     } else {
-      this.route.navigate(['myassets', this.path, this.contentId, this.status]);
+      this.route.navigate(['myassets/detail/', this.contentId, this.status]);
     }
 
   }

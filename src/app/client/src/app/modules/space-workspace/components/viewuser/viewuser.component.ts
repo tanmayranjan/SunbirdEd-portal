@@ -2,10 +2,10 @@ import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewIni
 import { ConfigService, IUserData } from '@sunbird/shared';
 import { UserService, LearnerService, PublicDataService  } from '@sunbird/core';
 import * as _ from 'lodash-es';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResourceService, ToasterService, RouterNavigationService, ServerResponse } from '@sunbird/shared';
 import {Router, ActivatedRoute} from '@angular/router';
-import { UserSearchServicePublicService  } from '../../services/searchService/user-search-service-public.service';
+import { UserSearchServicePublicService  } from '../../services/searchservices/user-search-service-public.service';
 import { element, componentRefresh } from '@angular/core/src/render3/instructions';
 import { Subscription } from 'rxjs';
 import { IUserProfile } from '@sunbird/shared';
@@ -13,7 +13,7 @@ import { IUserProfile } from '@sunbird/shared';
   selector: 'app-viewuser',
   templateUrl: './viewuser.component.html',
   styleUrls: ['./viewuser.component.css'],
-  // providers: [NgbModal]
+  providers: [NgbModal]
 })
 export class ViewuserComponent implements OnInit {
   @ViewChild('modal') modal;
@@ -54,7 +54,7 @@ export class ViewuserComponent implements OnInit {
     public learnerService: LearnerService,
     public publicdataService: PublicDataService,
     public toasterService: ToasterService,
-    // private modalService: NgbModal,
+    private modalService: NgbModal,
     public router: Router,
     public userSearchService: UserSearchServicePublicService,
     public resourceService: ResourceService,
@@ -238,7 +238,7 @@ this.userIds = [];
   }
 
   openLg(content) {
-  // this.modalRef = this.modalService.open(content, { size: 'sm' , centered: true});
+  this.modalRef = this.modalService.open(content, { size: 'sm' , centered: true});
   }
 
   goToUsers() {

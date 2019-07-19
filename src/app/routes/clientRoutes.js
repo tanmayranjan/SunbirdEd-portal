@@ -84,9 +84,9 @@ module.exports = (app, keycloak) => {
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
      '/contactUs', '/:slug/contactUs',
      '/core','/:slug/core',
-     '/framework', '/:slug/framework',
-    '/explore-courses','/explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
-    '/explore-library','/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
+     '/framework', '/:slug/framework', 'resource/player/conetnt/:contentId',
+    '/explore-courses',' /explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
+    '/explore-library', '/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
 
   app.all(['*/dial/:dialCode', '/dial/:dialCode'], (req, res) => res.redirect('/get/dial/' + req.params.dialCode))
@@ -95,6 +95,7 @@ module.exports = (app, keycloak) => {
 
   app.all(['/announcement', '/announcement/*', '/search', '/search/*',
     '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home',
+    '/Workspace','/Workspace/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
 

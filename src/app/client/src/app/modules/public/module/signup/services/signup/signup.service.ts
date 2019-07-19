@@ -40,6 +40,7 @@ export class SignupService {
     return this.learnerService.post(options);
   }
   createUser1(data) {
+    console.log('inside create uxer services = ', data , this.configService.urlConFig.URLS.USER.SIGNUP);
     const options = {
       url: this.configService.urlConFig.URLS.USER.SIGNUP,
       data: data

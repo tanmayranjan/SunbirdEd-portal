@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResourceService, ToasterService, RouterNavigationService, ServerResponse } from '@sunbird/shared';
-import { UserSearchServicePublicService } from '../../services/searchService/user-search-service-public.service';
+import { UserSearchServicePublicService } from '../../services/searchservices/user-search-service-public.service';
 import * as _ from 'lodash-es';
 import { SearchService, UserService, PermissionService, RolesAndPermissions } from '@sunbird/core';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';

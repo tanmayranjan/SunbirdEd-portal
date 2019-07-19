@@ -94,6 +94,7 @@ export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   private fetchPageData() {
+    console.log('library component');
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key)  => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
         return false;
@@ -101,8 +102,9 @@ export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
       return value.length;
     });
     const softConstraintData = {
-      filters: {channel: this.hashTagId,
-      board: [this.dataDrivenFilters.board]},
+      filters: {
+      channel: this.hashTagId,
+      board: []},
       softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
       mode: 'soft'
     };

@@ -1,0 +1,14 @@
+<div class="cursor-pointer treepicker-parent" *ngIf="!showLoader && key === 'concept'">
+ <input id="treePicker" class="tree-pickers" type="text" readonly [(ngModel)]="pickerMessage" />
+</div>
+<div class="twelve wide column" *ngIf="showLoader">
+    <app-loader [data]='loaderMessage'></app-loader>
+</div>
+
+
+ <!-- <div class="treepicker-parent" *ngIf="!showLoader">
+    <input id="treePicker" class="cursor-pointer tree-picker-selector" type="text" readonly [(ngModel)]="pickerMessage" />
+</div>
+<div class="twelve wide column" *ngIf="showLoader">
+    <app-loader [data]='loaderMessage'></app-loader>
+</div> -->

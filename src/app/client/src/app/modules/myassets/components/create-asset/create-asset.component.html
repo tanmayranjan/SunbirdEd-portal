@@ -13,10 +13,9 @@
                     File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                 </p> -->
                 <p>
-                        File : <span (click)="contentClick()" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
-                        
-                    </p>
-               
+                    File : <span (click)="contentClick()" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
+                </p>
+
             </div>
             <div *ngIf="enabled">
                 <!-- <div class="form-group" *ngIf="enabled">
@@ -46,15 +45,15 @@
                 </p>
 
             </div>
-            <div class="actions mt-10" *ngIf="enablelink">
-                    <p class="text-align-center pt-20">
-                        <button class="btn btn-default btn-sec mr-5 btn-lg text-light" (click)="checkFields()"
-                            type="submit">Update</button>
-                        <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
-    
-                    </p>
-    
-                </div>
+            <div class="actions mt-10" *ngIf="enableLink">
+                <p class="text-align-center pt-20">
+                    <button class="btn btn-default btn-sec mr-5 btn-lg text-light" (click)="checkFields()"
+                        type="submit">Update</button>
+                    <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
+
+                </p>
+
+            </div>
 
         </div>
     </form>

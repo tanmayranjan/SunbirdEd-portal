@@ -10,7 +10,7 @@ import { SpaceEditorService } from '../../services/space-editor/space-editor.ser
 @Component({
   selector: 'app-space-default-template',
   templateUrl: './space-default-template.component.html',
-  styles: ['./space-default-template.component.scss']
+  styleUrls: ['./space-default-template.component.scss']
 })
 export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   @Input() formFieldProperties: any;
@@ -26,7 +26,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   showLoader = true;
   countryList: any;
   langugaes: any;
-
+  key = 'concept';
   /**
 * To show toaster(error, success etc) after any API calls
 */
@@ -142,7 +142,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
 this.countryList = this.configService.countryConfig.default.countries;
 this.langugaes = this.configService.countryConfig.default.languages;
 
-console.log('coutry and language list = ', this.configService.countryConfig);
+console.log('coutry and language list = ', this.configService.countryConfig, this.formFieldProperties);
     this.setFormConfig();
     this.userService.userData$.subscribe(
       (user: IUserData) => {

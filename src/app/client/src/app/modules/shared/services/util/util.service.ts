@@ -46,6 +46,7 @@ export class UtilService {
       board: data.board,
       link: data.link,
       year: data.year,
+      identifier: data.identifier,
       version: data.version
     };
 

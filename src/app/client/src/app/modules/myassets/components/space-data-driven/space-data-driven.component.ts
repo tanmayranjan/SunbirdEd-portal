@@ -268,9 +268,8 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
 */
   goToCreate() {
     setTimeout(() => {
-      this.router.navigate(['myassets']);
+      this.router.navigate(['/myassets']);
     }, 1700);
-
   }
 
   /**
@@ -295,6 +294,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     } else if (this.contentType === 'studymaterial' && this.uploadLink === 'uploadContent') {
       requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
     } else if (this.uploadLink === 'uploadFile') {
+      console.log('file name = ', this.fileList);
       requestData.mimeType = 'application/pdf';
     }
     if (this.resourceType) {
@@ -331,42 +331,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.toasterService.error('Asset creation failed please provide required fields');
     }
   }
-  // checkFieldofFile() {
-  //   const data = _.pickBy(this.formData.formInputData);
-  //   if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators
-  //     && !!data.version && !!data.gradeLevel && !!this.fileList) {
-  //     this.uploadSuccess = true;
-  //     if (this.fileList.size < 50000000 ) {
-  //       this.createContentFile();
-  //     } else {
-  //       this.toasterService.error('File size should be less than 50MB');
-  //     }
-  //   } else {
-  //     this.toasterService.error('Asset creation failed please provide required fields');
-  //   }
-  // }
-
-  // createContentFile() {
-  //   const requestData = {
-  //     content: this.generateData(_.pickBy(this.formData.formInputData))
-  //   };
-
-  //   if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-  //     this.editorService.create(requestData).subscribe(res => {
-  //       console.log('res', res);
-
-  //       this.contentId = res.result.content_id;
-  //       this.toasterService.success('Asset created successfully');
-  //       this.uploadFileEvent();
-  //     }, err => {
-  //       this.toasterService.error('asset creation failed');
-  //     });
-  //   } else {
-  //     this.toasterService.error('asset creation failed');
-  //   }
-
-  // }
-  createContent() {
+    createContent() {
 
     const requestData = {
       content: this.generateData(_.pickBy(this.formData.formInputData))
@@ -408,55 +373,16 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     this.router.navigate(['myassets/edit/content', content.identifier, state, framework, 'Draft']);
   }
 
-  /**
-    * Issue #SB-1448,  If previous url is not from create page, redirect current page to 'workspace/content/create'
-  */
-  // checkForPreviousRouteForRedirect() {
-  //   const previousUrlObj = this.navigationHelperService.getPreviousUrl();
-  //   if (previousUrlObj && previousUrlObj.url && (previousUrlObj.url !== '/myassets/create')) {
-  //     this.redirect();
-  //   }
-  // }
-
   redirect() {
     this.router.navigate(['/myassets/create']);
   }
 
-  // basicUploadFile(event) {
-  //    this.fileList = event.target.files[0];
-  // }
+  basicUploadFile(event) {
+    console.log('event while upload file', event);
+     this.fileList = event.target.files[0];
+  }
 
-  // uploadFileEvent() {
-  //   console.log('fileList', this.fileList);
-  //   const data = {
-  //     fileName: this.fileList.name
-  //   };
-  //   const request = {
-  //     content: data
-  //   };
-  //   console.log('request in upload file', request);
-  //   this.editorService.uploadUrl(request, this.contentId).subscribe(res => {
-  //     this.toasterService.success('uploaded successfully');
-  //     const pdfurl = res.result.pre_signed_url.substring(0, res.result.pre_signed_url.lastIndexOf('?'));
-  //     this.workSpaceService.uploadPreSigned(res.result.pre_signed_url, this.fileList).subscribe(ress => {
-  //       this.editorService.upload(pdfurl, this.contentId).subscribe(response => {
-  //         console.log('ress', response);
 
-  //       });
-  //       this.goToCreate();
-
-  //     }, err => {
-  //       this.toasterService.error('asset creation failed');
-  //     }
-
-  //     );
-
-  //     // this.editorService.upload()
-  //   }, err => {
-  //     this.toasterService.error('asset creation failed');
-  //   });
-
-  // }
   routetoediter() {
     // edit/generic/:contentId/:state/:framework/:contentStatus
     setTimeout(() => {
@@ -466,30 +392,5 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     this.router.navigate(['myassets/edit/generic', this.contentId, this.status, this.frameworks, 'Draft']);
   }, 1800);
   }
-
-  // locking(id) {
-  //   const requestData = {};
-  //   const info = {
-  //     'identifier': id,
-  //     'mimetype': 'application/pdf',
-  //     'framework': this.framework,
-  //     'contentType': this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
-  //   };
-
-
-  //   requestData['resourceId'] = id;
-  //   requestData['createdBy'] = this.userProfile.id;
-  //   requestData['resourceInfo'] = JSON.stringify(info);
-  //   requestData['creatorInfo'] = JSON.stringify({
-  //     'name': this.userProfile.firstName,
-  //     'id': this.userProfile.id
-  //   });
-  //   requestData['resourceType'] = 'Content';
-
-
-  //   this.workSpaceService.lockContent(requestData).subscribe(res => {
-  //     console.log('suc', res);
-  //   });
-  // }
 
 }

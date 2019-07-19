@@ -28,7 +28,7 @@ import { FrameworkPickerComponent } from './components/framework-picker/framewor
 import { FramworkSelectorComponent } from './components/framwork-selector/framwork-selector.component';
 import { LearnerService, TenantService, CopyContentService, AnnouncementService, BadgesService,
    ContentService, CoursesService, PageApiService, FormService, FrameworkService, PlayerService,
-   OrgDetailsService, ChannelService } from './services';
+   OrgDetailsService, ChannelService, UploadContentService } from './services';
 import { ConceptPickerService } from './services/concept-picker/concept-picker.service';
 import { SpaceDataDrivenFilterComponent } from './components/space-data-driven-filter/space-data-driven-filter.component';
 import { OtherSearchComponent } from './components/other-search/other-search.component';
@@ -36,6 +36,8 @@ import { SpaceMainMenuComponent } from './components/space-main-menu/space-main-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 import { ConceptPickerComponent } from './components/concept-picker/concept-picker.component';
+import { SpaceConceptPickerComponent } from './components/space-concept-picker/space-concept-picker.component';
+import { SpaceFramworkSelectorComponent } from './components/space-framwork-selector/space-framwork-selector.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -57,11 +59,13 @@ import { ConceptPickerComponent } from './components/concept-picker/concept-pick
     ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective, OtherSearchComponent,
     SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent, ConceptPickerComponent,
      SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent, SpaceDataDrivenFilterComponent,
-      OtherSearchComponent, SpaceMainMenuComponent],
+      OtherSearchComponent, SpaceMainMenuComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective,
     SunbirdDataDrivenFilterComponent,
-    DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent, FrameworkPickerComponent, FramworkSelectorComponent,
-     SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent, FramworkSelectorComponent,
+    DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent,
+     FrameworkPickerComponent, FramworkSelectorComponent,
+     SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent,
+      FramworkSelectorComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent,
     SpaceFooterComponent, SpaceProminentFilterComponent, SearchComponent, ConceptPickerComponent,
     TelemetryModule, LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent],
   providers: [CacheService, AuthGuard]
@@ -73,7 +77,7 @@ export class CoreModule {
       providers: [LearnerService, TenantService, SearchService, CopyContentService,
         AnnouncementService, BadgesService, ContentService, CoursesService, PageApiService,
         AuthGuard, FrameworkService, FormService, CacheService,
-        ConceptPickerService, PlayerService, OrgDetailsService,
+        ConceptPickerService, PlayerService, OrgDetailsService, UploadContentService ,
         ChannelService]
     };
   }

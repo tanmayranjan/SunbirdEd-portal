@@ -111,7 +111,8 @@ export class AdduserComponent implements OnInit {
             this.toasterService.error(err.error.params.errmsg);
           });
         }, (err) => {
-          this.toasterService.error(err.error.params.errmsg);
+          console.log(err);
+          this.toasterService.error(err.error.message);
           // this.goBackToCoursePage();
         }
 

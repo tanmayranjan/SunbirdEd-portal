@@ -13,6 +13,7 @@ import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { AvatarModule } from 'ngx-avatar';
 import {SharedFeatureModule} from '@sunbird/shared-feature';
+import { SpaceResourceSearchComponent } from './components/space-resource-search/space-resource-search.component';
 // import { Angular2CsvModule } from 'angular2-csv'; Angular2CsvModule removed TODO: use Blob object to generate csv file
 
 @NgModule({
@@ -32,7 +33,7 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
   ],
   declarations: [ UserSearchComponent, CourseSearchComponent, LibrarySearchComponent,
   UserFilterComponent, UserEditComponent, UserDeleteComponent, OrgSearchComponent, OrgFilterComponent,
-  UserProfileComponent, HomeSearchComponent ],
+  UserProfileComponent, HomeSearchComponent, SpaceResourceSearchComponent ],
   providers: [UserSearchService]
 })
 export class SearchModule { }

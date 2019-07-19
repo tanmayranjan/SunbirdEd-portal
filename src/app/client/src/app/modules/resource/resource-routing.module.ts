@@ -10,7 +10,17 @@ const routes: Routes = [
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '' }],
       telemetry: { env: telemetryEnv, pageid: 'library', type: 'view', subtype: 'paginate' },
       softConstraints: {badgeAssertions: 98, board: 99, channel: 100}
-    }
+    },
+    // children: [
+    //   {
+    //     path: 'player/content/:contentId', component: SharedDetailPageComponent,
+    //     data: {
+    //       telemetry: {
+    //         env: telemetryEnv, pageid: 'content-player', type: 'play'
+    //       }, breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '/resources' }]
+    //     },
+    //   }
+    // ]
   }, {
     path: 'view-all/:section/:pageNumber', component: ViewAllComponent,
     data: {
@@ -25,7 +35,8 @@ const routes: Routes = [
   },
   {
     path: 'play', loadChildren: './modules/player/player.module#PlayerModule'
-  }
+  },
+
 ];
 
 @NgModule({

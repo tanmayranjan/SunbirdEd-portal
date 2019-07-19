@@ -21,6 +21,9 @@ const appRoutes: Routes = [
     path: 'myassets', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
   },
   {
+    path: 'Workspace', loadChildren: 'app/modules/space-workspace/space-workspace.module#SpaceWorkspaceModule'
+  },
+  {
     path: 'upForReview', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
   },
   {

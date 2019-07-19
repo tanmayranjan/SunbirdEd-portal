@@ -171,6 +171,7 @@ export class DataService {
     };
     return this.http.post(this.baseUrl + requestParam.url, requestParam.data, httpOptions).pipe(
       mergeMap((data: ServerResponse) => {
+        console.log('frmaework = ', data);
         if (data.responseCode !== 'OK') {
           return observableThrowError(data);
         }

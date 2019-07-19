@@ -149,7 +149,7 @@ export class SearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
-    console.log('key = ', key);
+    console.log('key = ', key, this.search, this.selectedOption);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -159,7 +159,7 @@ export class SearchComponent implements OnInit {
       delete this.queryParam['key'];
     }
     if (this.userService.loggedIn) {
-      this.route.navigate([this.search[this.selectedOption], 1], {
+      this.route.navigate(['/search/sharedAssets', 1], {
         queryParams: this.queryParam
       });
      } else  {

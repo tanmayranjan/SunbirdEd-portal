@@ -14,3 +14,6 @@ input {
     height: 42px;
     cursor: pointer;
 }
+.name {
+    font-size: 14px !important;
+}

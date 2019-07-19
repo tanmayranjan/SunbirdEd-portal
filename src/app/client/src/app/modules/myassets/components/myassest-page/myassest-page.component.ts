@@ -320,27 +320,38 @@ modalMessage = '';
         createdBy: this.userService.userid,
         contentType: this.config.appConfig.WORKSPACE.contentType,
         objectType: this.config.appConfig.WORKSPACE.objectType,
-        board: bothParams.queryParams.board,
+        board: [],
         subject: bothParams.queryParams.subject,
         medium: bothParams.queryParams.medium,
         gradeLevel: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
         keywords: bothParams.queryParams.keywords,
-        region: bothParams.queryParams.country,
+        region: [],
         creators: bothParams.queryParams.channel,
-        languages: bothParams.queryParams.languages
-
+        languages: bothParams.queryParams.languages,
+        organisation: []
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
-      query: '',
+      query: '' || bothParams.queryParams.query,
       sort_by: this.sort
     };
-
+console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
         if (bothParams.queryParams.hasOwnProperty(param)) {
-          searchParams.query = bothParams.queryParams[param][0];
-console.log('check query param = ', bothParams.queryParams[param][0]);
+          if (param === 'assetType') {
+            searchParams.filters.board.push(bothParams.queryParams[param][0]);
+            console.log('true');
+          }
+          if (param === 'organization') {
+            searchParams.filters.organisation.push(bothParams.queryParams[param][0]);
+            console.log('true');
+          }
+          if (param === 'region') {
+            searchParams.filters.region.push(bothParams.queryParams[param][0]);
+            console.log('true');
+          }
+console.log('check query param = ', bothParams.queryParams[param][0], searchParams);
 this.contentSearch(searchParams, pageNumber, limit);
     }
   });

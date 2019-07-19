@@ -67,7 +67,7 @@
 
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
-                    File : <span routerLink="play" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+                    File : <span (click)="navigateToplay()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
                     
                 </p>
                 <!-- <p>
@@ -75,7 +75,7 @@
                     
                 </p> -->
             </div>
-            <div *ngIf="assetDetail?.mimeType === 'application/vnd.ekstep.ecml-archive'" routerLink="play">
+            <div *ngIf="assetDetail?.mimeType === 'application/vnd.ekstep.ecml-archive'" (click)="navigateToplay()">
                  <p>
                     View Content <span  class="pdfStyle"></span>
                     

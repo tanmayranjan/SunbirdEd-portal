@@ -10,7 +10,9 @@
       <div class="twelve wide column" *ngFor="let section of pageSections;let last = last"
         [ngClass]="{'last mb-30':last}">
         <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
-          (viewAll)="viewAll($event)"></app-page-section>
+          (viewAll)="viewAll($event)" *ngIf="slug !== 'space'" ></app-page-section>
+          <app-space-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
+          (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
       </div>
       <div class="twelve wide column" *ngIf="showLoader">
         <app-loader [data]='loaderMessage'></app-loader>

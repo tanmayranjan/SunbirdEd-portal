@@ -54,6 +54,7 @@ export class SpaceCustomMultiSelectComponent implements OnInit {
     }
     const fieldName = [];
     _.forEach(this.field['range'], (value, key) => {
+      // console.log('value in selected checkbox = ', value, key, event);
       fieldName.push(value.name);
     });
     if (fieldName.length === event.length) {

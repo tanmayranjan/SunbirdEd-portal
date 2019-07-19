@@ -13,11 +13,12 @@
                         (clickEvent)="playContent($event)"
                         [data]="content" 
                         [customClass]="'mr-20'"
+                        [slug]="slug"
                         class="pr-20 d-block" [class.last-card]="pr-0" *ngIf="slug === 'space'"></app-space-card>
                 </div>
         </div>
     </div>
-    <div class="ui twelve wide column my-5 pageSection-Divider">
+    <!-- <div class="ui twelve wide column my-5 pageSection-Divider">
         <div class="ui divider m-0"></div>
-    </div>
+    </div> -->
 </div>

@@ -48,8 +48,8 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
-    && this.pageSections.length < this.carouselMasterData.length) {
-        this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
+      && this.pageSections.length < this.carouselMasterData.length) {
+      this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
     }
   }
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService, private cdr: ChangeDetectorRef,
@@ -68,7 +68,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.userService.userData$.subscribe(userData => {
       if (userData && !userData.err) {
-          this.frameworkData = _.get(userData.userProfile, 'framework');
+        this.frameworkData = _.get(userData.userProfile, 'framework');
       }
     });
     this.userService.userData$.pipe(first()).subscribe(
@@ -76,45 +76,45 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
           this.slug = this.userProfile.channel;
-          console.log('user details from resource page = ', user.userProfile, this.slug );
+          console.log('user details from resource page = ', user.userProfile, this.slug);
 
         }
       });
     this.initFilters = true;
     this.hashTagId = this.userService.hashTagId;
     this.dataDrivenFilterEvent.pipe(first())
-    .subscribe((filters: any) => {
-      this.dataDrivenFilters = filters;
-      this.fetchContentOnParamChange();
-      this.setNoResultMessage();
-    });
+      .subscribe((filters: any) => {
+        this.dataDrivenFilters = filters;
+        this.fetchContentOnParamChange();
+        this.setNoResultMessage();
+      });
   }
   public getFilters(filters) {
     const defaultFilters = _.reduce(filters, (collector: any, element) => {
-        if (element.code === 'board') {
-          collector.board = _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') || '';
-        }
-        return collector;
-      }, {});
+      if (element.code === 'board') {
+        collector.board = _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') || '';
+      }
+      return collector;
+    }, {});
     this.dataDrivenFilterEvent.emit(defaultFilters);
   }
   private fetchContentOnParamChange() {
     combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
-    .pipe(
-      tap(data => this.prepareVisits([])), // trigger pageexit if last filter resulted 0 contents
-      delay(1), // to trigger telemetry pageexit event
-      tap(data => {
-        this.showLoader = true;
-        this.setTelemetryData();
-      }),
-      takeUntil(this.unsubscribe$))
-    .subscribe((result) => {
-      this.queryParams = { ...result[0], ...result[1] };
-      this.carouselMasterData = [];
-      this.carouselData = [];
-      this.pageSections = [];
-      this.fetchPageData();
-    });
+      .pipe(
+        tap(data => this.prepareVisits([])), // trigger pageexit if last filter resulted 0 contents
+        delay(1), // to trigger telemetry pageexit event
+        tap(data => {
+          this.showLoader = true;
+          this.setTelemetryData();
+        }),
+        takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        this.queryParams = { ...result[0], ...result[1] };
+        this.carouselMasterData = [];
+        this.carouselData = [];
+        this.pageSections = [];
+        this.fetchPageData();
+      });
   }
   private fetchPageData() {
     let option;
@@ -126,20 +126,22 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         return value.length;
       });
       const softConstraintData = {
-        filters: {channel: this.userService.hashTagId,
-        board: [this.dataDrivenFilters.board]},
+        filters: {
+          channel: this.userService.hashTagId,
+          board: [this.dataDrivenFilters.board]
+        },
         softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
         mode: 'soft'
       };
-      const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams, 'appliedFilters'),
-      softConstraintData, this.frameworkData );
-       option = {
+      const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
+        softConstraintData, this.frameworkData);
+      option = {
         source: 'web',
         name: 'Resource',
-        filters: _.get(this.queryParams, 'appliedFilters') ?  filters : _.get(manipulatedData, 'filters'),
+        filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
         mode: _.get(manipulatedData, 'mode'),
         exists: [],
-        params : this.configService.appConfig.Library.contentApiQueryParams
+        params: this.configService.appConfig.Library.contentApiQueryParams
       };
       if (_.get(manipulatedData, 'filters')) {
         option.softConstraints = _.get(manipulatedData, 'softConstraints');
@@ -149,10 +151,10 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       change made by RISHABH KALRA, NIIT LTD on 12-06-2019
       */
-     option.filters['channel'] = [this.hashTagId];
+      option.filters['channel'] = [this.hashTagId];
 
       if (this.queryParams.sort_by) {
-        option.sort_by = {[this.queryParams.sort_by]: this.queryParams.sortType  };
+        option.sort_by = { [this.queryParams.sort_by]: this.queryParams.sortType };
       }
       this.pageApiService.getPageData(option)
         .subscribe(data => {
@@ -174,48 +176,57 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.carouselData = [];
           this.pageSections = [];
           this.toasterService.error(this.resourceService.messages.fmsg.m0004);
-      });
+        });
     } else {
       let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
       filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-        const softConstraintData = {
-          filters: {
-            // channel: this.hashTagId,
-          board: [this.dataDrivenFilters.board]},
-          softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-          mode: 'soft'
-        };
-        const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
-           'appliedFilters'), softConstraintData );
-           console.log('resoiurce page filter qparams = ', this.queryParams ,
-            _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters);
-       option = {
-          source: 'web',
-          name: 'Resource',
-          filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
-          limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
-          query: '',
-          mode: _.get(manipulatedData, 'mode'),
-          params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      const softConstraintData = {
+        softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+        mode: 'soft'
       };
-      // option.filters.channel = this.configService.appConfig.ExplorePage.orgId,
-      option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-      option.filters.contentType = filters.contentType ||
-      ['Resource'];
+      const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+        'appliedFilters'), softConstraintData);
+      console.log('resoiurce page filter qparams = ', this.queryParams,
+        _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters);
+      option = {
+        source: 'web',
+        name: 'Resource',
+        filters: {
+          board: [],
+          organisation: [],
+          region: []
+        },
+        limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+        query: '',
+        mode: _.get(manipulatedData, 'mode'),
+        params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      };
+      option.filters.contentType = [];
 
       this.paramType.forEach(param => {
         if (option.filters.hasOwnProperty(param)) {
-          option.filters[param] = option.filters[param][0];
-console.log('check query param = ', option.filters, param );
-this.contentSearch(option);
+          if (param === 'assetType') {
+            option.filters.board = option.filters[param][0];
+            console.log('true');
+          }
+          if (param === 'organization') {
+            option.filters.organisation = option.filters[param][0];
+            console.log('true');
+          }
+          if (param === 'region') {
+            option.filters.region = option.filters[param][0];
+            console.log('true');
+          }
+          console.log('check query param = ', option.filters, param);
+          this.contentSearch(option);
+        }
+      });
+      this.contentSearch(option);
     }
-  });
-  this.contentSearch(option);
-}
-}
-contentSearch(option) {
-  console.log('option = ', option);
-      this.pageApiService.getPageData(option)
+  }
+  contentSearch(option) {
+    console.log('option = ', option);
+    this.pageApiService.getPageData(option)
       .subscribe(data => {
         this.showLoader = false;
         this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
@@ -235,8 +246,8 @@ contentSearch(option) {
         this.carouselData = [];
         this.pageSections = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
-    });
-    }
+      });
+  }
   private prepareCarouselData(sections = []) {
     const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.Library;
     const carouselData = _.reduce(sections, (collector, element) => {
@@ -272,7 +283,7 @@ contentSearch(option) {
   public viewAll(event) {
     const searchQuery = JSON.parse(event.searchQuery);
     const softConstraintsFilter = {
-      board : [this.dataDrivenFilters.board],
+      board: [this.dataDrivenFilters.board],
       channel: this.hashTagId,
     };
     searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
@@ -280,9 +291,9 @@ contentSearch(option) {
     searchQuery.request.filters.exists = searchQuery.request.exists;
     this.cacheService.set('viewAllQuery', searchQuery.request.filters);
     this.cacheService.set('pageSection', event, { maxAge: this.browserCacheTtlService.browserCacheTtl });
-    const queryParams = { ...searchQuery.request.filters, ...this.queryParams}; // , ...this.queryParams
+    const queryParams = { ...searchQuery.request.filters, ...this.queryParams }; // , ...this.queryParams
     const sectionUrl = 'resources/view-all/' + event.name.replace(/\s/g, '-');
-    this.router.navigate([sectionUrl, 1], {queryParams: queryParams});
+    this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -292,7 +303,7 @@ contentSearch(option) {
     this.inViewLogs = []; // set to empty every time filter or page changes
   }
 
-  ngAfterViewInit () {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.telemetryImpression = {
         context: {
@@ -310,9 +321,9 @@ contentSearch(option) {
   }
 
   private setNoResultMessage() {
-      this.noResultMessage = {
-        'message': 'messages.stmsg.m0007',
-        'messageText': 'messages.stmsg.m0006'
-      };
+    this.noResultMessage = {
+      'message': 'messages.stmsg.m0007',
+      'messageText': 'messages.stmsg.m0006'
+    };
   }
 }

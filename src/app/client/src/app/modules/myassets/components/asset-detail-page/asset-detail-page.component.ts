@@ -90,6 +90,7 @@ export class AssetDetailPageComponent implements OnInit {
   */
   showLockedContentModal = false;
   content: any;
+  status: string;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router, private location: Location,
@@ -304,7 +305,11 @@ export class AssetDetailPageComponent implements OnInit {
             });
     }
    navigateToplay() {
-    this.route.navigate(['play']);
+    this.activatedRoute.url.subscribe(url => {
+      console.log('url = ',  url);
+      this.status = url[2].path;
+    });
+    this.route.navigate(['myassets/play/', this.contentId, this.status]);
    }
 
    contentClick() {

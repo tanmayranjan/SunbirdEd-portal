@@ -62,6 +62,7 @@ export class SpaceEditorService {
                 'request': req
             }
         };
+        console.log('create = ', option);
         return this.contentService.post(option);
     }
     /**

@@ -20,9 +20,11 @@ import { MyassetsService, SpaceEditorService } from './services';
 import { ContentFilterComponent } from './components/content-filter/content-filter.component';
 import { SpaceDataDrivenComponent } from './components/space-data-driven/space-data-driven.component';
 import { SpaceDefaultTemplateComponent } from './components/space-default-template/space-default-template.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 @NgModule({
     imports: [
+      CoreModule,
       CommonModule,
       SlickModule,
       MyassetsRoutingModule,
@@ -46,7 +48,8 @@ import { SpaceDefaultTemplateComponent } from './components/space-default-templa
       ContentFilterComponent,
       SpaceDataDrivenComponent,
       SpaceDefaultTemplateComponent,
-      GenericEditorComponent
+      GenericEditorComponent,
+      EditorComponent
 
     ],
     providers: [MyassetsService, SpaceEditorService],

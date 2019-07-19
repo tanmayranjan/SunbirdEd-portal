@@ -61,6 +61,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
+      console.log('form filed properties = ', formFieldProperties);
       this.formFieldProperties = formFieldProperties;
       this.filtersDetails = _.cloneDeep(formFieldProperties);
       this.dataDrivenFilter.emit(formFieldProperties);
@@ -74,6 +75,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     const formAction = this.formAction ? this.formAction : 'search';
     return this.fetchFrameWorkDetails().pipe(
       mergeMap((frameworkDetails: any) => {
+        console.log('details = ', frameworkDetails);
         this.categoryMasterList = frameworkDetails.categoryMasterList;
         this.framework = frameworkDetails.code;
         return this.getFormDetails();
@@ -138,6 +140,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   }
   private fetchFrameWorkDetails() {
     return this.frameworkService.frameworkData$.pipe(filter((frameworkDetails) => { // wait to get the framework name if passed as input
+      console.log('framework details = ', frameworkDetails );
       if (!frameworkDetails.err) {
         const framework = this.frameworkName ? this.frameworkName : 'defaultFramework';
         const frameworkData = _.get(frameworkDetails.frameworkdata, framework);
@@ -153,6 +156,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
         if (!frameworkDetails.err) {
           const framework = this.frameworkName ? this.frameworkName : 'defaultFramework';
           const frameworkData = _.get(frameworkDetails.frameworkdata, framework);
+          console.log('framework data = ', frameworkData );
           if (frameworkData) {
             return of({ categoryMasterList: frameworkData.categories, framework: frameworkData.code });
           } else {
@@ -182,6 +186,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
       contentType: this.filterEnv,
       framework: this.framework
     };
+    console.log('frmaework param = ', formServiceInputParams);
     return this.formService.getFormConfig(formServiceInputParams, this.hashTagId);
   }
 

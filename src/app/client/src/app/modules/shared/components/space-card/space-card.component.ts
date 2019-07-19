@@ -3,6 +3,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ICard } from '../../interfaces';
 import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry';
 import {Router} from '@angular/router';
+// import { UserService } from '../../../core/services/user/user.service';
 
 @Component({
   selector: 'app-space-card',
@@ -10,7 +11,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./space-card.component.scss']
 })
 export class SpaceCardComponent  {
-
+  @Input() slug: string;
   @Input() data: ICard;
   @Input() customClass: string;
   @Output() clickEvent = new EventEmitter<any>();
@@ -18,14 +19,18 @@ export class SpaceCardComponent  {
   constructor(public resourceService: ResourceService, public router: Router) {
     console.log('content in space cards = ', this.data);
     this.resourceService = resourceService;
-
   }
 
 
   public onAction(data, action) {
-    console.log('content in space cards = ', data);
-    this.clickEvent.emit({ 'action': action, 'data': data });
-    // this.router.navigate(['/play/content', data.identifier]);
+    console.log('content in space cards = ', data, action);
+    // if(this.slug !== 'space' && !(this.userService.loggedIn)){
+    // this.clickEvent.emit({ 'action': action, 'data': data });
+    // } else {
+      if (this.slug === 'space') {
+    this.router.navigate(['resource/player/content/', data.identifier]);
+      }
+    // }
   }
 
 }

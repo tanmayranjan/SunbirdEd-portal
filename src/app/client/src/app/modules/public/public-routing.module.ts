@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LandingPageComponent } from './components';
+import { LandingPageComponent, SharedDetailPageComponent } from './components';
 import { LandingpageGuard } from './services';
 import { CommonLicenseComponent } from './components/common-license/common-license.component';
 import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
@@ -11,6 +11,11 @@ import { CoreComponent } from './components/core/core.component';
 import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
 import { FrameworkComponent } from './components/framework/framework.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+// import { WorkspaceComponent } from './components/workspace/workspace.component';
+// import { AdduserComponent } from './components/adduser/adduser.component';
+import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
+// import { ViewuserComponent } from './components/viewuser/viewuser.component';
+import { UserEditComponent } from '../search';
 
 const routes: Routes = [
   {
@@ -93,7 +98,12 @@ const routes: Routes = [
   },
   {
     path: 'play', loadChildren: './module/player/player.module#PlayerModule'
-  }];
+  },
+  {
+    path: 'resource/player/content/:contentId' , component: SharedDetailPageComponent,
+
+  }
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -201,8 +201,9 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
               const softConstraintData = {
-                filters: {channel: this.hashTagId,
-                board: [this.dataDrivenFilters.board]},
+                filters: {
+                    // channel: this.hashTagId,
+                board: []},
                 softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
                 mode: 'soft'
               };
@@ -214,17 +215,13 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 pageNumber: this.paginationDetails.currentPage,
                 query: this.queryParams.key,
                 mode: _.get(manipulatedData, 'mode'),
-                facets: this.facets,
+                // facets: this.facets,
                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
-            option.filters.channel = this.configService.appConfig.ExplorePage.orgId,
+            option.filters.objectType = 'Content';
+            option.filters.status = ['Live'];
+            option.filters.contentType = filters.contentType || ['Resource'];
             option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-            option.filters.contentType = filters.contentType ||
-            ['Resource'];
-
-            if (manipulatedData.filters) {
-                option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
-              }
             this.frameworkService.channelData$.subscribe((channelData) => {
               if (!channelData.err) {
                 option.params.framework = _.get(channelData, 'channelData.defaultFramework');

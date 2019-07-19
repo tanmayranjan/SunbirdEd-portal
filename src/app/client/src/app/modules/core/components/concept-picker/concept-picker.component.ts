@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 import { IConceptData } from './../../interfaces';
 import { ConceptPickerService } from './../../services';
 import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 @Component({
   selector: 'app-concept-picker',
   templateUrl: './concept-picker.component.html',

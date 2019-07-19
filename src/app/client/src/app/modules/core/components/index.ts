@@ -11,6 +11,8 @@ export * from './sort-by/sort-by.component';
 export * from './language-dropdown/language-dropdown.component';
 export * from './prominent-filter/prominent-filter.component';
 export * from './topic-picker/topic-picker.component';
-export *from './framwork-selector/framwork-selector.component';
-export *from './framework-picker/framework-picker.component';
+export * from './framwork-selector/framwork-selector.component';
+export * from './framework-picker/framework-picker.component';
+export * from './space-concept-picker/space-concept-picker.component';
+export * from './space-framwork-selector/space-framwork-selector.component';
 

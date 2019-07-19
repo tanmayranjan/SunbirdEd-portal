@@ -39,6 +39,7 @@ export interface IUserProfile {
     avatar: string;
     userName: string;
     rootOrgId: string;
+    rootOrgName: string;
     userId: string;
     emailVerified: string;
     firstName: string;

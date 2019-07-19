@@ -12,6 +12,7 @@ export interface ICard {
     maxCount?: number;
     progress?: number;
     board?: string;
+    identifier?: string;
     ribbon?: {
         right?: { class: string, name: string }
         left?: { class: string, name: string , image: string }

@@ -9,7 +9,7 @@ import { SpaceEditorService } from '../../services/space-editor/space-editor.ser
 import { SearchService, UserService, FrameworkService, FormService, ContentService } from '@sunbird/core';
 import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
-import { DefaultTemplateComponent } from '../../../workspace/components/content-creation-default-template/content-creation-default-template.component';
+import { DefaultTemplateComponent } from '@sunbird/workspace';
 import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';
 import { MyAsset } from '../../classes/myasset';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
@@ -219,7 +219,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       if (!frameworkData.err) {
 
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
-        this.framework = frameworkData.frameworkdata['defaultFramework'].code;
+        // this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
   * form api otherwise call form api and get form data

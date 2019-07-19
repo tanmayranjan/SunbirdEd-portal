@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PermissionService, UserService } from '@sunbird/core';
 import { Subscription } from 'rxjs';
 import { IUserData, IUserProfile} from '@sunbird/shared';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.scss'],
-  // providers: [NgbModal]
+  providers: [NgbModal]
 })
 export class WorkspaceComponent implements OnInit {
  public permissionService: PermissionService;
@@ -18,7 +18,7 @@ export class WorkspaceComponent implements OnInit {
  modalRef: any;
 
   constructor(permissionService: PermissionService, userService: UserService,
-    // private modalService: NgbModal
+    private modalService: NgbModal
     ) {
     this.permissionService = permissionService;
     this.userService = userService;
@@ -33,7 +33,7 @@ export class WorkspaceComponent implements OnInit {
       });
   }
   openLg(content) {
-    // this.modalRef = this.modalService.open(content, { size: 'lg' });
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
   }
 
 }

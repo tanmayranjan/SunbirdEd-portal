@@ -123,6 +123,7 @@ export class SpacePageSectionComponent implements OnInit {
     this.resourceService = resourceService;
   }
   playContent(event) {
+    console.log('event =', event);
     this.playEvent.emit(event);
     // this.route.navigate(['/play/content', data.identifier]);
   }
