@@ -44,10 +44,10 @@
                             <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" (selectedValue)="selectedValue($event, field.code)"></app-custom-multi-select>
                           </ng-container>
                           <ng-container *ngIf="field.code==='topic'">
-                              <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
+                              <app-topic-picker [selectedTopics]="formInputData[field.code]" [key]="topic" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
                             </ng-container>
                             <ng-container *ngIf="field.code==='gradeLevel'">
-                                <app-framework-picker [selectedTopics]="formInputData[field.code]" [formTopics]="field" (topicChanges)="handleGradeLevelChange($event)"></app-framework-picker>
+                                <app-framework-picker [selectedTopics]="formInputData[field.code]" [key]="frame" [formTopics]="field" (topicChanges)="handleGradeLevelChange($event)"></app-framework-picker>
                               </ng-container>
                       
                         </div>

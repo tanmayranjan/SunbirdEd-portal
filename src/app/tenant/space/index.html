@@ -73,28 +73,31 @@
 	<!-- Header -->
 	<header class="bg-white p-10" id="nav-bar">
 		<div class="ui logo d-flex flex-ai-center row">
-			<div class=" col-lg">
+			<div class=" col-2">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu"
 					aria-expanded="false">
 					<span class="sr-only">Toggle navigation</span>
 					<i class="fa fa-bars fa-2x"></i>
 				</button>
 				<span class="navbar-brand ">
-					<a class="flex-ai-center"><img class="image centered cursor-pointer ml-10"
+					<a class="flex-ai-center ml-10"><img class="image centered cursor-pointer ml-10"
 							src="images/space_logo.png" alt="sunbird.ins"></a>
 				</span>
 			</div>
 
-			<div>
+			<div class="col-lg-5">
 				<nav class="navbar-collapse collapse  navbar-right" id="menu" aria-expanded="true">
 					<div class=" ml-auto computer only pr-30 ">
-						<a class="menuItem" id="a" >Home</a>
+						<a class="menuItem" href="about.html" >About</a>
+						<a class="menuItem" onclick="gotoResources('explore')" >Assets</a>
+						<a class="menuItem" href="collaborators.html" >Collaborators</a>
 						<a class="menuItem" id="a" onclick="gotoContact('contact')">Contact</a>
-
 						<!-- <a class="menuItem" id="a" href="/contactUs">Contact</a> -->
-						<a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
-							Sign In </a></div>
 				</nav>
+			</div>
+			<div class="col-lg-offset-3">
+					<a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
+						Sign In </a></div>
 			</div>
 		</div>
 		<div class="container">
@@ -115,18 +118,16 @@
 						<div class="slide-details text-center text-white">
 							<div class="container">
 								<p class="fax"> Welcome to Societal Platform Assets Collaboration Environment</p>
-								<p class="text"> It is an open and collaborative place to search, discover and share
-									assets. An asset can be a piece of knowledge, a process or workflow, a software, a
-									hardware and a set of data.
+								<p class="text"> A place to search, discover and share assets including concepts, methods, processes, software, hardware and data.
 								</p>
 								<br> <button class="ui explore btn btn-purple button flex-as-center mr-20" tabindex="0"
 									  onclick="gotoResources('explore')">
-									Explore the Assets
+									Explore
 								</button>
 							</div>
 						</div>
 					</div>
-					<div class="item"><img src="images/banner_bg.jpg" alt="GTA V">
+					<!-- <div class="item"><img src="images/banner_bg.jpg" alt="GTA V">
 						<div class="slide-details text-center text-white">
 							<div class="container">
 								<p class="fax2">Explore Thinking</p>
@@ -170,11 +171,11 @@
 								</button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
-				<!-- </div> -->
+				</div>
 				<!-- /SlideShow Item-->
-			</div>
+			<!-- </div> -->
 		</div>
 	</div>
 	</div>
@@ -189,8 +190,8 @@
 
 			<div class="">
 				<div class="row pt-2 pb-2">
-					<div class="col-lg-3 col-sm-12 col-md-4 text-pp-crt  mt-15 ">
-						<div class="row">
+					<!-- <div class="col-lg-3 col-sm-12 col-md-4 text-pp-crt  mt-15 "> -->
+						<!-- <div class="row">
 							<div _ngcontent-c3="" class="ft-1 font" role="banner">
 								<p><a href="https://societalplatform.org/code-of-sharing/" class="cmnlink"
 										style="font-family: 'Muli', sans-serif;" target="_blank" >Societal
@@ -200,9 +201,17 @@
 										class="footer__link footer__link--twitter cmnlink"><i class="fa fa-twitter"></i> Follow
 										us on Twitter</a></p>
 							</div>
-						</div>
+						</div> -->
+						<div class="col">
+							<div class="row">
+                <div _ngcontent-c3="" class="ft-1 font" role="banner">
+                     <p class="p"> EkStep Foundation </p>
+                     <p class="p"><a href="space@societalplatform.org" style="font-family: 'Muli', sans-serif;" target="_blank" class=""></a>   email: space@societalplatform.org</p>
+                   <span><a onclick="footer('policy')">Data and Privacy Policy </a> | <a onclick="footer('termsOfUse')" >Terms of Use </a> | <a onclick="footer('process')">Grievance Redressal Process </a> </span>
+                  </div>
+              </div>
 					</div>
-					<div class="col-lg-6 pr-5 col-md-5 col-sm-12 text-pp-crt-rg  mt-15" style="padding:0 1em;">
+					<!-- <div class="col-lg-6 pr-5 col-md-5 col-sm-12 text-pp-crt-rg  mt-15" style="padding:0 1em;">
 						<div class="row font">
 							<p>Copyright © 2018 EkStep Foundation. All content here is licensed under a&nbsp;<a
 									title=" Creative Commons Attribution-NoDerivatives 4.0 International License"
@@ -211,7 +220,7 @@
 									rel="noopener">Creative Commons Attribution-NoDerivatives 4.0 International
 									License</a>&nbsp;unless otherwise noted.</p>
 						</div>
-					</div>
+					</div> -->
 					<div class="col-lg-3 col-md-4 col-sm-12 text-pp mt-15">
 						<div class="row r">
 							<h5 class="footer__title" style="font-family: 'Muli', sans-serif;">Contact Us</h5>
@@ -266,13 +275,23 @@ if(key){
 function gotoContact(key) {
 	console.log('function callled by = ', key);
 	if ( key === 'about') {
-    window.location.href = '/aboutUs';
+    window.location.href = '/space/about';
     }
     if ( key === 'contact') {
 		window.location.href = '/space/contactUs';
     }
 }
-	
+function footer(key) {
+	if ( key === 'policy') {
+    window.location.href = '/space/policy';
+    }
+    if ( key === 'process') {
+		window.location.href = '/space/process';
+		}
+		if ( key === 'termsOfUse') {
+		window.location.href = '/space/termsOfUse';
+    }
+}
 	</script>
 </body>
 

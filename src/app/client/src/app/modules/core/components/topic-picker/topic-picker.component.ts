@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import * as _ from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ResourceService } from '@sunbird/shared';
@@ -17,6 +17,10 @@ interface TopicTreeNode {
 })
 export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @ViewChild('topic') public topic: ElementRef;
+
+  @Input() key: any;
+
   @Input() formTopic: any;
 
   @Input() selectedTopics: any;
@@ -30,11 +34,15 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedNodes: any;
 
   resourceDataSubscription: Subscription;
+  nodeName: string;
+  name: string;
 
   constructor(public resourceService: ResourceService) {
     this.resourceService = resourceService;
   }
   ngOnInit() {
+    console.log('topic picker = ', this.topic.nativeElement);
+
     const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
       if (typeof element === 'string') {
         collector.unformatted.push(element);
@@ -72,9 +80,16 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initTopicPicker(this.formatTopics(this.formTopic.range));
   }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    jQuery('.topic-picker-selector').treePicker({
+    if (this.key === 'topic') {
+      this.nodeName = 'topic';
+      this.name = 'Framework';
+    } else {
+      this.nodeName = 'framework';
+      this.name = 'Sector';
+    }
+    jQuery('.topic').treePicker({
       data: data,
-      name: this.resourceService.frmelmnts.lbl.topics,
+      name: this.name,
       noDataMessage: this.resourceService.messages.fmsg.m0089,
       submitButtonText: this.resourceService.frmelmnts.lbl.done,
       cancelButtonText: this.resourceService.frmelmnts.btn.cancelCapitalize,
@@ -92,11 +107,11 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.placeHolder = this.selectedTopics.length + ' topics selected';
         this.topicChange.emit(this.selectedTopics);
       },
-      nodeName: 'topicSelector',
+      nodeName: this.nodeName,
       minSearchQueryLength: 1
     });
     setTimeout(() =>
-    document.getElementById('topicSelector').classList.add(this.topicPickerClass), 100);
+    document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 100);
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({

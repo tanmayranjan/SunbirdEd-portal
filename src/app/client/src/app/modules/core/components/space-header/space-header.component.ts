@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash-es';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var jQuery: any;
 
 @Component({
@@ -105,13 +106,14 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   exploreRoutingUrl: string;
   pageId: string;
   slug: any;
+  modalRef: any;
   /*
   * constructor
   */
   constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
-    public learnService: LearnerService) {
+    public learnService: LearnerService, private modalService: NgbModal) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -275,11 +277,20 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   }
   gotoContact(value) {
     if ( value === 'about') {
-    this.router.navigate(['aboutUs']);
+    this.router.navigate(['/space/about']);
     }
     if ( value === 'contact') {
-    this.router.navigate(['contactUs']);
+    this.router.navigate(['/space/contactUs']);
     }
+    if ( value === 'collaborators') {
+      this.router.navigate(['/space/collaborators']);
+      }
+      if ( value === 'assets') {
+        this.router.navigate(['/space/explore']);
+        }
+}
+openSm(content) {
+  this.modalRef = this.modalService.open(content,  {centered: true});
 }
 }
 

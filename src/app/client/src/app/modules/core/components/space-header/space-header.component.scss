@@ -165,6 +165,9 @@ background: #007b5e;
 .ui.menu a.item:hover {
   background: none;
 }
+.ui.menu .item {
+  padding: 0.9em 0.9em;
+}
 
 .ui.menu .primary-nav-item a.item.divider {
   top: 15px;

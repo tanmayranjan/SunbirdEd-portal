@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, AfterViewInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import * as _ from 'lodash-es';
 
 interface TopicTreeNode {
@@ -15,7 +15,11 @@ interface TopicTreeNode {
 })
 export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestroy {
 
+  @ViewChild('id') public id: ElementRef;
+
   @Input() formTopics: any;
+
+  @Input() key: any;
 
   @Input() selectedTopics: any;
 
@@ -26,11 +30,13 @@ export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestr
   public placeHolder: string;
 
   public selectedNodes: any;
+  nodeName: string;
+  name: string;
 
   constructor() {
   }
   ngOnInit() {
-
+console.log('framework picker = ', this.id.nativeElement.classList[0], this.id, this.key);
     const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
       if (typeof element === 'string') {
         collector.unformatted.push(element);
@@ -66,9 +72,16 @@ export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestr
     this.initTopicPicker(this.formatTopics(this.formTopics.range));
   }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    $('.topic-picker-selectors').treePicker({
+    if (this.key === 'topic') {
+      this.nodeName = 'topic';
+      this.name = 'Framework';
+    } else {
+      this.nodeName = 'framework';
+      this.name = 'Sector';
+    }
+    $('.framework').treePicker({
       data: data,
-      name: 'Sector',
+      name: this.name,
       noDataMessage: 'No Topics/SubTopics found',
       picked: _.map(this.selectedNodes, 'identifier'),
       onSubmit: (selectedNodes) => {
@@ -79,11 +92,11 @@ export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestr
         this.placeHolder = this.selectedTopics.length + ' selected';
         this.topicChanges.emit(this.selectedTopics);
       },
-      nodeName: 'topicSelectors',
+      nodeName: this.nodeName,
       minSearchQueryLength: 1
     });
     setTimeout(() =>
-      document.getElementById('topicSelectors').classList.add(this.topicPickerClass), 200);
+      document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 200);
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({

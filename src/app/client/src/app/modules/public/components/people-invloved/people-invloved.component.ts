@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-people-invloved',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./people-invloved.component.css']
 })
 export class PeopleInvlovedComponent implements OnInit {
-
-  constructor() { }
+  modalRef: any;
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+  }
+  openSm(content) {
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
   }
 
 }

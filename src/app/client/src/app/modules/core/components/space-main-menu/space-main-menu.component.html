@@ -2,12 +2,15 @@
     <!-- <a class="item" appTelemetryInteract [telemetryInteractEdata]="homeMenuIntractEdata" [class.active]="router.isActive('/search/All') || router.isActive('/home')" routerLink="/home">
       {{resourceService?.frmelmnts?.tab?.home}}
     </a> -->
+    <a class="item " routerLink="/about">About</a>
+    <a class="item " routerLink="/collaborators">Collaborators</a>
     <a class="item link" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/contactUs"
     routerLinkActive="active">
       <!-- {{resourceService?.frmelmnts?.tab?.resources}} -->
       Contact
     </a>
     <a class="item " (click)="openSm(content)">Feedback</a>
+   
     <div>
         <ng-template #content let-d="dismiss">
             <div class="modal-header">
@@ -52,10 +55,6 @@
       
           </ng-template>
     </div>
-    <a class="item">
-      <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
-      <i class="fas fa-bell fs-1-5"></i>
-    </a>
   </div>
   <div class="mobile only">
       <div class="ui sidebar right vertical menu" *ngIf="userService.loggedIn">

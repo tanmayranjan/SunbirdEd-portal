@@ -13,7 +13,7 @@
     top: 21%;
     left: 0;
     width: 100%;
-    color:#222;
+    color: #FFFFFF;
   }
   .text {
     width: 54rem;
@@ -21,6 +21,11 @@
     display: block;
     font-size: 17px;
     font-family: 'Muli', sans-serif;
+  }
+  .cimage{
+    background-image: url('../../../../../assets/images/slide-04.png');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   @media screen and (max-width:820px ) and (min-width: 312px) {
     .text{

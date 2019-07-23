@@ -39,8 +39,8 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   userProfile: any;
   slug: any;
   public paramType = [
-    'assetType',
-    'focusArea',
+    'board',
+    'channel',
     'organization',
     'region',
   ];
@@ -193,6 +193,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         name: 'Resource',
         filters: {
           organisation: this.configService.appConfig.ExplorePage.orgName,
+          channel: [],
           region: [],
           contentType: [],
           status: ['Live'],
@@ -208,11 +209,14 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('query param', this.queryParams);
       this.paramType.forEach(param => {
         if (this.queryParams.hasOwnProperty(param)) {
-          if (param === 'assetType') {
+          if (param === 'board') {
             option.filters.board = this.queryParams[param];
           }
           if (param === 'organization') {
             option.filters.organisation = this.queryParams[param];
+          }
+          if (param === 'channel') {
+            option.filters.channel = this.queryParams[param];
           }
           if (param === 'region') {
             option.filters.region = this.queryParams[param];

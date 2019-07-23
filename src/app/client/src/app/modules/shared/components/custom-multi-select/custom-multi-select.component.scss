@@ -21,6 +21,7 @@
 .option-text {
   width: calc(100% - 30px);
   word-break: break-word;
+  padding: 5px !important;
 }
 .prominent-filter .ui.multiple.dropdown {
   font-size: 13px;

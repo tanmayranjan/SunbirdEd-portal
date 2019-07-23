@@ -327,7 +327,7 @@ h1.logo img{
 	padding:0;
 	color:#333;
 	position:absolute;
-	top:43%;
+	top: 50%;
 	left:50%;
 	transform:translate(-50%,-50%);
 	font-weight:500;
@@ -903,7 +903,7 @@ address{margin:0;}
 	opacity: 0.8;
 }
 a:not([href]):not([tabindex]) {
-    color: inherit;
+    /* color: inherit; */
     text-decoration: none;
 }
  .menuItem {
@@ -941,10 +941,10 @@ a:not([href]):not([tabindex]) {
 .owl-carousel .owl-item img {
 	width: unset !important;
 }
-img {
+/* img {
 	width: unset !important;
 	max-width: unset !important;
-}
+} */
 @media only screen and (min-width: 768px) {
 .owl-dots {
 	position: inherit !important;
@@ -1013,12 +1013,12 @@ font-family: 'Muli', sans-serif;
 .image{
     height: 44px !important;
 }
-hr{
+/* hr{
     border: none !important;
     border-left: 1px solid gray !important;
     height: 3rem !important;
     width: 1px !important;
-}
+} */
 .link {
     cursor: pointer;
 }
@@ -1123,4 +1123,16 @@ a:hover, a:active {
 .cmnlink:hover {
 		opacity: 0.8; 
 		text-decoration: none;
+}
+.col {
+	flex-basis: 0;
+	flex-grow: 1;
+	max-width: 100%;	
+}
+.p {
+	font-size: 14px;
+	color: #585858;
+}
+a:hover {
+	text-decoration: none !important;
 }

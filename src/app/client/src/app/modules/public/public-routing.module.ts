@@ -45,6 +45,18 @@ const routes: Routes = [
     path: 'contactUs' , component: ContactUsComponent
   },
   {
+    path: ':slug/about', component: AboutUSComponent
+  },
+  {
+    path: 'about', component: AboutUSComponent
+  },
+  {
+    path: ':slug/collaborators', component: PeopleInvlovedComponent
+  },
+  {
+    path: 'collaborators', component: PeopleInvlovedComponent
+  },
+  {
     path: ':slug/explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
   {
@@ -73,16 +85,16 @@ const routes: Routes = [
   },
 
   {
-    path: 'license', component: CommonLicenseComponent
+    path: 'process', component: CommonLicenseComponent
   },
   {
-    path: 'people', component: PeopleInvlovedComponent
+    path: ':slug/process', component: CommonLicenseComponent
   },
   {
-    path: 'aboutUs', component: AboutUSComponent
+    path: 'policy', component: BlogComponent
   },
   {
-    path: 'blog', component: BlogComponent
+    path: ':slug/policy', component: BlogComponent
   },
   {
     path: 'exploreAsset', component: ExploreAssetComponent
@@ -91,7 +103,10 @@ const routes: Routes = [
     path: ':slug/core', component: CoreComponent
   },
   {
-    path: 'exploreThinking', component: ExploreThinkingComponent
+    path: 'termsOfUse', component: ExploreThinkingComponent
+  },
+  {
+    path: ':slug/termsOfUse', component: ExploreThinkingComponent
   }
   , {
     path: ':slug/framework', component: FrameworkComponent

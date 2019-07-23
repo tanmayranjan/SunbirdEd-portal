@@ -29,8 +29,28 @@
           <h4 class="sb-pageSection-title m-0 mr-5">{{resourceService.frmelmnts?.lbl?.showingResultsFor |
                                 interpolate:'{searchString}':this.queryParams.key}}</h4>
         </div>
+        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata"
+        class="ui ml-auto basic icon circular button " [routerLink]="['/space/explore']">
+        <i class="ui remove icon "></i>
+    </h5>
       </div>
     </div>
+
+    <div class="sb-pageSection"
+    *ngIf="!showLoader && !contentList.length">
+    <div class="sb-pageSection-header">
+        <p class="serch-allresult">
+            <span class="lower-case" *ngIf="this.queryParams.key">
+                No results found
+            </span>
+            in "assets"
+        </p>
+    </div>
+    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata"
+        class="ui right floated basic icon circular button " [routerLink]="['/space/explore']">
+        <i class="ui remove icon "></i>
+    </h5>
+</div>
 
     <div [appTelemetryImpression]="telemetryImpression" class="twelve wide column" in-view-container
       (inview)="inView($event)" *ngIf="!showLoader && contentList.length">

@@ -62,6 +62,9 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
 
   public queryParams: any;
   public showFilters = false;
+
+  public topic = 'topic';
+  public frame = 'framework';
   /**
  * formInputData is to take input data's from form
  */
