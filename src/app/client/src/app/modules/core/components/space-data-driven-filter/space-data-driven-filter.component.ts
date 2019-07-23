@@ -29,6 +29,9 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   @Input() formAction: string;
   @Output() dataDrivenFilter = new EventEmitter();
 
+  frame = 'framework';
+  topic = 'topic';
+
   public showFilters = false;
 
   public formFieldProperties: Array<any>;

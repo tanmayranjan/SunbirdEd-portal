@@ -41,8 +41,8 @@
                         <div class="field large">
                           <label class="mb-10">{{field.label}}</label>
                           <ng-container *ngIf="field.inputType==='select' || field.inputType==='multi-select'">
-                            <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" (selectedValue)="selectedValue($event, field.code)"></app-custom-multi-select>
-                          </ng-container>
+                              <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field"  *ngIf="slugInfo !=='space'" (selectedValue)="selectedValue($event, field.code)"></app-custom-multi-select>
+                              <app-space-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" *ngIf="slugInfo ==='space'"  (selectedValue)="selectedValue($event, field.code)"></app-space-custom-multi-select>                          </ng-container>
                           <ng-container *ngIf="field.code==='topic'">
                               <app-topic-picker [selectedTopics]="formInputData[field.code]" [key]="topic" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
                             </ng-container>

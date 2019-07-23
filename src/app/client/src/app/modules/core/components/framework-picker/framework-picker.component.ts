@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter, AfterViewInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import * as _ from 'lodash-es';
+import { count } from 'rxjs/operators';
 
 interface TopicTreeNode {
   id: string;
@@ -13,7 +14,7 @@ interface TopicTreeNode {
   templateUrl: './framework-picker.component.html',
   styleUrls: ['./framework-picker.component.scss']
 })
-export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestroy {
+export class FrameworkPickerComponent implements OnInit, OnDestroy {
 
   @ViewChild('id') public id: ElementRef;
 
@@ -32,11 +33,19 @@ export class FrameworkPickerComponent implements OnInit , AfterViewInit, OnDestr
   public selectedNodes: any;
   nodeName: string;
   name: string;
+  count = 0;
 
   constructor() {
   }
   ngOnInit() {
-console.log('framework picker = ', this.id.nativeElement.classList[0], this.id, this.key);
+// console.log('framework picker = ', this.id.nativeElement.classList[0], this.id.nativeElement, this.id, this.key);
+if (this.key === 'topic') {
+  this.nodeName = 'topic';
+  this.name = 'Framework';
+} else {
+  this.nodeName = 'framework';
+  this.name = 'Sector';
+}
     const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
       if (typeof element === 'string') {
         collector.unformatted.push(element);
@@ -54,6 +63,7 @@ console.log('framework picker = ', this.id.nativeElement.classList[0], this.id, 
     } else if (this.selectedTopics.length > 0) {
       this.placeHolder = this.selectedTopics.length + ' selected';
            }
+           this.initTopicPicker(this.formatTopics(this.formTopics.range));
   }
   private formatSelectedTopics(topics, unformatted, formated) {
     _.forEach(topics, (topic) => {
@@ -68,20 +78,16 @@ console.log('framework picker = ', this.id.nativeElement.classList[0], this.id, 
       }
     });
   }
-  ngAfterViewInit() {
-    this.initTopicPicker(this.formatTopics(this.formTopics.range));
-  }
+  // ngAfterViewInit() {
+  //   this.initTopicPicker(this.formatTopics(this.formTopics.range));
+  // }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    if (this.key === 'topic') {
-      this.nodeName = 'topic';
-      this.name = 'Framework';
-    } else {
-      this.nodeName = 'framework';
-      this.name = 'Sector';
-    }
+    this.count ++;
+   if (this.count === 1) {
     $('.framework').treePicker({
       data: data,
       name: this.name,
+      count: this.count,
       noDataMessage: 'No Topics/SubTopics found',
       picked: _.map(this.selectedNodes, 'identifier'),
       onSubmit: (selectedNodes) => {
@@ -97,6 +103,7 @@ console.log('framework picker = ', this.id.nativeElement.classList[0], this.id, 
     });
     setTimeout(() =>
       document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 200);
+   }
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({

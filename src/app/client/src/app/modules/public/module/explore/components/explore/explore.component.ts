@@ -44,6 +44,10 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     'focusArea',
     'organization',
     'region',
+    'gradeLevel',
+    'topic',
+    'board',
+    'channel'
   ];
 
   @HostListener('window:scroll', []) onScroll(): void {
@@ -189,7 +193,10 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         region: [],
         contentType: [],
         status: ['Live'],
-        board: []
+        board: [],
+        channel: [],
+        gradeLevel: [],
+        topic: []
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
@@ -207,14 +214,23 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
   this.paramType.forEach(param => {
     if (this.queryParams.hasOwnProperty(param)) {
-      if (param === 'assetType') {
+      if (param === 'board') {
         option.filters.board = this.queryParams[param];
       }
       if (param === 'organization') {
         option.filters.organisation = this.queryParams[param];
       }
+      if (param === 'channel') {
+        option.filters.channel = this.queryParams[param];
+      }
       if (param === 'region') {
         option.filters.region = this.queryParams[param];
+      }
+      if (param === 'gradeLevel') {
+        option.filters.gradeLevel = this.queryParams[param];
+      }
+      if (param === 'topic') {
+        option.filters.topic = this.queryParams[param];
       }
       this.callingPageApi(option);
     }

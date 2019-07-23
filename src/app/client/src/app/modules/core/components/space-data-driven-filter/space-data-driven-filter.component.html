@@ -68,13 +68,13 @@
                           <div *ngIf="field.code==='topic'" class="field">
                               <label>{{field.label}}</label>
 
-                              <app-topic-picker  *ngIf="field.code==='topic'" [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
+                              <app-topic-picker  *ngIf="field.code==='topic'" [key]="topic" [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
             
                             </div> 
                             <div *ngIf="field.code==='gradeLevel'" class="field">
                                 <label>{{field.label}}</label>
 
-                            <app-framework-picker  *ngIf="field.code==='gradeLevel'" [selectedTopics]="formInputData[field.code]" [formTopics]="field" (topicChanges)="handleGradeLevel($event)"></app-framework-picker>
+                            <app-framework-picker  *ngIf="field.code==='gradeLevel'" [key]="frame" [selectedTopics]="formInputData[field.code]" [formTopics]="field" (topicChanges)="handleGradeLevel($event)"></app-framework-picker>
                             </div> 
                             <!-- <div *ngIf="field.code==='gradeLevel'" class="field">
                                 <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>

@@ -200,7 +200,11 @@ modalMessage = '';
     'assetType',
     'focusArea',
     'organization',
-    'region'
+    'region',
+    'board',
+    'channel',
+    'gradeLevel',
+    'topic'
   ];
   public qparam = [];
   /**
@@ -329,7 +333,9 @@ modalMessage = '';
         region: [],
         creators: bothParams.queryParams.channel,
         languages: bothParams.queryParams.languages,
-        organisation: []
+        organisation: [],
+        channel: [],
+        topic: []
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
@@ -339,18 +345,28 @@ modalMessage = '';
 console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
         if (bothParams.queryParams.hasOwnProperty(param)) {
-          if (param === 'assetType') {
+          if (param === 'board') {
             searchParams.filters.board.push(bothParams.queryParams[param][0]);
             console.log('true');
           }
-          if (param === 'organization') {
+          if (param === 'channel') {
             searchParams.filters.organisation.push(bothParams.queryParams[param][0]);
+            // searchParams.filters.channel.push(bothParams.queryParams[param][0]);
             console.log('true');
           }
           if (param === 'region') {
             searchParams.filters.region.push(bothParams.queryParams[param][0]);
             console.log('true');
           }
+          if (param === 'gradeLevel') {
+            searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
+            console.log('true');
+          }
+          if (param === 'topic') {
+            searchParams.filters.topic.push(bothParams.queryParams[param][0]);
+            console.log('true');
+          }
+
 console.log('check query param = ', bothParams.queryParams[param][0], searchParams);
 this.contentSearch(searchParams, pageNumber, limit);
     }

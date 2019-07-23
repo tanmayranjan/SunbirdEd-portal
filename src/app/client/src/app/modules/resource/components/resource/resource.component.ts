@@ -43,6 +43,8 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     'channel',
     'organization',
     'region',
+    'gradeLevel',
+    'topic'
   ];
   public qparam = [];
 
@@ -197,7 +199,9 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           region: [],
           contentType: [],
           status: ['Live'],
-          board: []
+          board: [],
+          gradeLevel: [],
+          topic: []
         },
         limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         query: '',
@@ -221,6 +225,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           if (param === 'region') {
             option.filters.region = this.queryParams[param];
           }
+          if (param === 'gradeLevel') {
+            option.filters.gradeLevel = this.queryParams[param];
+          }
+          if (param === 'topic') {
+            option.filters.topic = this.queryParams[param];
+          }
+
           this.contentSearch(option);
         }
       });

@@ -34,15 +34,21 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedNodes: any;
 
   resourceDataSubscription: Subscription;
-  nodeName: string;
-  name: string;
-
+  public nodeName: string;
+  public name: string;
+  public count = 0 ;
   constructor(public resourceService: ResourceService) {
     this.resourceService = resourceService;
   }
   ngOnInit() {
-    console.log('topic picker = ', this.topic.nativeElement);
-
+    // console.log('topic picker = ', this.topic.nativeElement.classList[0], this.topic, this.key);
+    if (this.key === 'topic') {
+      this.nodeName = 'topic';
+      this.name = 'Framework';
+    } else {
+      this.nodeName = 'framework';
+      this.name = 'Sector';
+    }
     const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
       if (typeof element === 'string') {
         collector.unformatted.push(element);
@@ -62,6 +68,8 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
         ' ' + this.resourceService.frmelmnts.lbl.selected;
       }
     );
+    // this.initTopicPicker(this.formatTopics(this.formTopic.range));
+
   }
   private formatSelectedTopics(topics, unformatted, formated) {
     _.forEach(topics, (topic) => {
@@ -80,16 +88,12 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initTopicPicker(this.formatTopics(this.formTopic.range));
   }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    if (this.key === 'topic') {
-      this.nodeName = 'topic';
-      this.name = 'Framework';
-    } else {
-      this.nodeName = 'framework';
-      this.name = 'Sector';
-    }
-    jQuery('.topic').treePicker({
+ this.count++;
+  if (this.count === 1) {
+    jQuery('.topic-picker-selector').treePicker({
       data: data,
       name: this.name,
+      count: this.count,
       noDataMessage: this.resourceService.messages.fmsg.m0089,
       submitButtonText: this.resourceService.frmelmnts.lbl.done,
       cancelButtonText: this.resourceService.frmelmnts.btn.cancelCapitalize,
@@ -112,6 +116,7 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     setTimeout(() =>
     document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 100);
+  }
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({
