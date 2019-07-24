@@ -87,12 +87,12 @@ export class SpaceConceptPickerComponent implements OnInit {
           this.selectedConcepts = contentConcepts;
           this.Concepts.emit(this.selectedConcepts);
         },
-        nodeName: 'conceptSelector_treePicker',
+        nodeName: 'topic',
         minSearchQueryLength: 1
       });
       // console.log('selector = ',  document.getElementById('conceptSelector_treePicker'), this.selectedConcepts, this.Concepts);
       setTimeout(() => {
-        document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
+        document.getElementById('topic').classList.add(this.conceptPickerClass);
       }, 500);
     }, 500);
   }

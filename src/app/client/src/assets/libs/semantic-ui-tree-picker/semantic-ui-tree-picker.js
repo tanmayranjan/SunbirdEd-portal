@@ -1,7 +1,7 @@
 var conceptModal;
 (function () {
   module.exports = function (options) {
-    console.log('tree js = ', options);
+    console.log('tree js picker = ', options);
     var actionButtons, config, count, initialize, initializeNodeList, initializeNodes, loadNodes, modal, nodeClicked, nodeIsPicked, nodes, pickNode, picked, recursiveNodeSearch, renderList, renderTree, showPicked, showSearch, showTree, tabs, unpickNode, updatePickedIds, updatePickedNodes, widget;
     widget = $(this);
     picked = [];
@@ -65,7 +65,16 @@ var conceptModal;
         widget.html(config.displayFormat([]));
       }
       widget.unbind("click");
+      $('.sb-modal .ui.modal.normal').removeClass('active');
+      $('.sb-modal .ui.modal.normal').removeClass('visible');
       widget.on('click', function (e) {
+        if(config.nodeName === 'framework') {
+        $('#framework').addClass('active');
+        $('#framework').addClass('visible');
+        } else {
+          $('#topic').addClass('active');
+          $('#topic').addClass('visible');
+        }
         modal.modal('show');
         if (!nodes.length) {
           if (config.url) {

@@ -31,6 +31,7 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
   /**
  * To get url, app configs
  */
+  public topic = 'topicPicker';
   public configService: ConfigService;
 
   public resourceService: ResourceService;

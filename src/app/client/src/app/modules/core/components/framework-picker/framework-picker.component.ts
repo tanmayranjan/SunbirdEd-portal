@@ -82,9 +82,7 @@ if (this.key === 'topic') {
   //   this.initTopicPicker(this.formatTopics(this.formTopics.range));
   // }
   private initTopicPicker(data: Array<TopicTreeNode>) {
-    this.count ++;
-   if (this.count === 1) {
-    $('.framework').treePicker({
+$('.framework').treePicker({
       data: data,
       name: this.name,
       count: this.count,
@@ -104,7 +102,6 @@ if (this.key === 'topic') {
     setTimeout(() =>
       document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 200);
    }
-  }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({
       id: topic.identifier,

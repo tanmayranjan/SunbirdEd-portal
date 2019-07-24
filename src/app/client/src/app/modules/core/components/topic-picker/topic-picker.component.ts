@@ -45,9 +45,14 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.key === 'topic') {
       this.nodeName = 'topic';
       this.name = 'Framework';
-    } else {
+    }
+    if (this.key === 'framework') {
       this.nodeName = 'framework';
       this.name = 'Sector';
+    }
+    if (this.key === 'topicPicker') {
+      this.nodeName = 'topic';
+      this.name = 'Topic';
     }
     const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
       if (typeof element === 'string') {
@@ -88,8 +93,6 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initTopicPicker(this.formatTopics(this.formTopic.range));
   }
   private initTopicPicker(data: Array<TopicTreeNode>) {
- this.count++;
-  if (this.count === 1) {
     jQuery('.topic-picker-selector').treePicker({
       data: data,
       name: this.name,
@@ -116,7 +119,7 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     setTimeout(() =>
     document.getElementById(this.nodeName).classList.add(this.topicPickerClass), 100);
-  }
+
   }
   private formatTopics(topics, subTopic = false): Array<TopicTreeNode> {
     return _.map(topics, (topic) => ({

@@ -84,15 +84,17 @@ export class MainHeaderComponent implements OnInit {
   }
   ngOnInit() {
     console.log('activated route', this.activatedRoute);
-    this.showExploreHeader = true;
     if (this.userService.loggedIn) {
       this.userService.userData$.pipe(first()).subscribe((user: any) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slugInfo = this.userProfile.channel;
             this.getLanguage(this.userService.channel);
         }
       });
     } else {
+      this.slugInfo = 'loggedIn';
+          this.showExploreHeader = true;
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
         if (data && !data.err) {
           this.getLanguage(data.orgDetails.hashTagId);
@@ -144,7 +146,7 @@ export class MainHeaderComponent implements OnInit {
     const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
    this.slugInfo = route[0].firstChild.children[0].url[0].path;
     const currRoute = route[0].firstChild.children[0].url[1].path;
-    console.log('slug info in main header = ', this.slugInfo);
+    console.log('slug info in main header = ', this.slugInfo, route);
     this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
   }
 

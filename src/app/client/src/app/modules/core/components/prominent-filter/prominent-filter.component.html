@@ -26,7 +26,7 @@
                                 <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" (selectedValue)="selectedValue($event, field.code);setFilterInteractData()"></app-custom-multi-select>
                             </ng-container>
                             <ng-container *ngIf="field.code==='topic'">
-                              <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()"></app-topic-picker>
+                              <app-topic-picker [key]="topic" [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()"></app-topic-picker>
                             </ng-container>
                         </div>
                       </ng-container>
@@ -37,7 +37,7 @@
                               <app-custom-multi-select [inputData]="formInputData[field.code]" [field]="field" (selectedValue)="selectedValue($event, field.code);setFilterInteractData()"></app-custom-multi-select>
                             </ng-container>
                             <ng-container *ngIf="field.code==='topic'">
-                              <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()"></app-topic-picker>
+                              <app-topic-picker [key]="topic" [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()"></app-topic-picker>
                             </ng-container>
                         </div>
                       </ng-container>

@@ -29,10 +29,14 @@
           <h4 class="sb-pageSection-title m-0 mr-5">{{resourceService.frmelmnts?.lbl?.showingResultsFor |
                                 interpolate:'{searchString}':this.queryParams.key}}</h4>
         </div>
-        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata"
+        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'space'"
         class="ui ml-auto basic icon circular button " [routerLink]="['/space/explore']">
         <i class="ui remove icon "></i>
     </h5>
+    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'sunbirdorg'"
+    class="ui ml-auto basic icon circular button " [routerLink]="['/explore/1']">
+    <i class="ui remove icon "></i>
+</h5>
       </div>
     </div>
 
@@ -45,11 +49,17 @@
             </span>
             in "assets"
         </p>
-    </div>
-    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata"
+   
+    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'space'"
         class="ui right floated basic icon circular button " [routerLink]="['/space/explore']">
         <i class="ui remove icon "></i>
+      </h5>
+        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'sunbirdorg'"
+        class="ui ml-auto basic icon circular button " [routerLink]="['/explore/1']">
+        <i class="ui remove icon "></i>
+  
     </h5>
+  </div>
 </div>
 
     <div [appTelemetryImpression]="telemetryImpression" class="twelve wide column" in-view-container
