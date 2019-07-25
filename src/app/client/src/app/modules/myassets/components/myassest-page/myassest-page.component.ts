@@ -204,7 +204,9 @@ modalMessage = '';
     'board',
     'channel',
     'gradeLevel',
-    'topic'
+    'topic',
+    'languages',
+    'country'
   ];
   public qparam = [];
   /**
@@ -271,7 +273,7 @@ modalMessage = '';
         }
         this.queryParams = bothParams.queryParams;
         this.query = this.queryParams['query'];
-        console.log('both params = ', bothParams.queryParams);
+        console.log('both params = ', bothParams.queryParams, this.activatedRoute);
         this.fecthAllContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber, bothParams);
 
       });
@@ -332,10 +334,11 @@ modalMessage = '';
         keywords: bothParams.queryParams.keywords,
         region: [],
         creators: bothParams.queryParams.channel,
-        languages: bothParams.queryParams.languages,
+        languages: [],
         organisation: [],
         channel: [],
-        topic: []
+        topic: [],
+        country: []
       },
       limit: limit,
       offset: (pageNumber - 1) * (limit),
@@ -347,25 +350,26 @@ console.log('filter param = ', searchParams);
         if (bothParams.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
             searchParams.filters.board.push(bothParams.queryParams[param][0]);
-            console.log('true');
           }
           if (param === 'channel') {
             searchParams.filters.organisation.push(bothParams.queryParams[param][0]);
             // searchParams.filters.channel.push(bothParams.queryParams[param][0]);
-            console.log('true');
           }
-          if (param === 'region') {
+          if (param === 'country') {
             searchParams.filters.region.push(bothParams.queryParams[param][0]);
-            console.log('true');
           }
           if (param === 'gradeLevel') {
             searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
-            console.log('true');
           }
           if (param === 'topic') {
             searchParams.filters.topic.push(bothParams.queryParams[param][0]);
-            console.log('true');
           }
+          if (param === 'languages') {
+            searchParams.filters.languages.push(bothParams.queryParams[param][0]);
+          }
+          // if (param === 'country') {
+          //   searchParams.filters.country = this.queryParams[param];
+          // }
 
 console.log('check query param = ', bothParams.queryParams[param][0], searchParams);
 this.contentSearch(searchParams, pageNumber, limit);

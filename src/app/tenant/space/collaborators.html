@@ -67,7 +67,7 @@
             <i class="fa fa-bars fa-2x"></i>
           </button>
           <span class="navbar-brand ">
-            <a class="flex-ai-center ml-10"  href="index.html"><img class="image centered cursor-pointer ml-10"
+            <a class="flex-ai-center ml-10"  href="/space/index.html"><img class="image centered cursor-pointer ml-10"
                 src="images/space_logo.png" alt="sunbird.ins"></a>
           </span>
         </div>
@@ -75,15 +75,15 @@
         <div class="col-lg-5">
           <nav class="navbar-collapse collapse  navbar-right" id="menu" aria-expanded="true">
             <div class=" ml-auto computer only pr-30 ">
-              <a class="menuItem" href="about.html" >About</a>
+              <a class="menuItem" onclick="gotoContact('about')" >About</a>
               <a class="menuItem" onclick="gotoResources('explore')" >Assets</a>
-              <a class="menuItem" href="collaborators.html" >Collaborators</a>
+              <a class="menuItem" href="/space/collaborators.html" >Collaborators</a>
               <a class="menuItem" id="a" onclick="gotoContact('contact')">Contact</a>
               <!-- <a class="menuItem" id="a" href="/contactUs">Contact</a> -->
           </nav>
         </div>
         <div class="col-lg-offset-3">
-            <a class="menuItem" href="index.html" >Home</a>
+            <a class="menuItem" href="/space/index.html" >Home</a>
             <a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
               Sign In </a></div>
         </div>
@@ -204,9 +204,11 @@
                             <div class="col">
                             <div class="row">
                                 <div _ngcontent-c3="" class="ft-1 font" role="banner">
-                                     <p class="p"> EkStep Foundation </p>
-                                     <p class="p"><a href="space@societalplatform.org" style="font-family: 'Muli', sans-serif;" target="_blank" class=""></a>   email: space@societalplatform.org</p>
-                                   <span><a href="">Data and Privacy Policy </a> | <a href="" >Terms of Use </a> | <a href="">Grievance Redressal Process </a> </span>
+                                     <!-- <p class="p"> EkStep Foundation </p>
+                     <p class="p"><a href="space@societalplatform.org" style="font-family: 'Muli', sans-serif;" target="_blank" class=""></a>   email: space@societalplatform.org</p> -->
+										 <p class="p"><a onclick="footer('policy')">Data and Privacy Policy </a> </p>
+										 <p class="p"> <a onclick="footer('termsOfUse')" >Terms of Use </a> </p>
+										 <p class="p"> <a onclick="footer('process')">Grievance Redressal Process </a> </p>
                                   </div>
                               </div>
                         </div>

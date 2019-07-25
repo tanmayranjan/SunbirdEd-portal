@@ -111,6 +111,7 @@
       "USER_SEARCH": "user/v1/search",
       "ORG_SEARCH": "org/v1/search",
       "GET_ORG": "org/v1/read",
+      "REMOVE_USER": "org/v1/member/remove",
       "BULK": {
         "USERS_UPLOAD": "user/v1/upload",
         "ORGANIZATIONS_UPLOAD": "org/v1/upload",

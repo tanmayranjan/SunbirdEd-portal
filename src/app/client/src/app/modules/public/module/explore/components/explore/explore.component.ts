@@ -47,7 +47,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     'gradeLevel',
     'topic',
     'board',
-    'channel'
+    'channel',
+    'languages',
+    'country'
   ];
 
   @HostListener('window:scroll', []) onScroll(): void {
@@ -196,7 +198,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         board: [],
         channel: [],
         gradeLevel: [],
-        topic: []
+        topic: [],
+        languages: [],
+        country: []
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
@@ -223,7 +227,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       if (param === 'channel') {
         option.filters.channel = this.queryParams[param];
       }
-      if (param === 'region') {
+      if (param === 'country') {
         option.filters.region = this.queryParams[param];
       }
       if (param === 'gradeLevel') {
@@ -232,6 +236,13 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       if (param === 'topic') {
         option.filters.topic = this.queryParams[param];
       }
+      if (param === 'languages') {
+        option.filters.languages = this.queryParams[param];
+      }
+      // if (param === 'country') {
+      //   option.filters.country = this.queryParams[param];
+      // }
+
       this.callingPageApi(option);
     }
   });

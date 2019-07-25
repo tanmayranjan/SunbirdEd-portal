@@ -87,10 +87,12 @@ export class SunbirdHeaderComponent implements OnInit {
       this.userService.userData$.pipe(first()).subscribe((user: any) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
             this.getLanguage(this.userService.channel);
         }
       });
     } else {
+      this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug');
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
         if (data && !data.err) {
           this.getLanguage(data.orgDetails.hashTagId);

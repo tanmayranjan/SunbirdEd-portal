@@ -84,11 +84,11 @@ export class FramworkSelectorComponent implements OnInit {
           this.selectedConcept = contentConcepts;
           this.Framework.emit(this.selectedConcept);
         },
-        nodeName: 'conceptSelector',
+        nodeName: 'framework',
         minSearchQueryLength: 1
       });
       setTimeout(() => {
-        document.getElementById('conceptSelector').classList.add(this.conceptPicker);
+        document.getElementById('framework').classList.add(this.conceptPicker);
       }, 500);
     }, 500);
   }

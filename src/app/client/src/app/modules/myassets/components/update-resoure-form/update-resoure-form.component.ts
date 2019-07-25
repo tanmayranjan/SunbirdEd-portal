@@ -185,10 +185,10 @@ console.log('semantic column width = ', this.formFieldProperties);
  * Call User service to get user data
  */
 
- this.categoryList['languages'] = this.configService.countryConfig.languages;
- this.categoryList['region'] = this.configService.countryConfig.countries;
- this.countryList = this.configService.countryConfig.countries;
-this.langugaes = this.configService.countryConfig.languages;
+ this.categoryList['languages'] = this.configService.countryConfig.default.languages;
+ this.categoryList['region'] = this.configService.countryConfig.default.countries;
+ this.countryList = this.configService.countryConfig.default.countries;
+this.langugaes = this.configService.countryConfig.default.languages;
 this.activatedRoute.url.subscribe(url => {
   console.log('urls', url);
   this.path = url[2].path;

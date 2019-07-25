@@ -6,6 +6,7 @@ export interface ICard {
     subject?: string;
     medium?: string;
     creator?: string;
+    creators?: string;
     orgDetails?: { orgName: string, email: string};
     gradeLevel?: any;
     resourceType?: string;

@@ -109,7 +109,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
             });
           } else if (formFieldCategory.code === 'languages') {
             let id = 1;
-            formFieldCategory.range = _.map(this.configService.countryConfig.languages, (value) => {
+            formFieldCategory.range = _.map(this.configService.countryConfig.default.languages, (value) => {
               return {
                 category: 'languages',
                 identifier: id++,
@@ -118,7 +118,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
             });
           } else if (formFieldCategory.code === 'country') {
             let id = 1;
-            formFieldCategory.range = _.map(this.configService.countryConfig.countries, (value) => {
+            formFieldCategory.range = _.map(this.configService.countryConfig.default.countries, (value) => {
               return {
                 category: 'country',
                 identifier: id++,
@@ -208,6 +208,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     _.forIn(this.formInputData, (eachInputs: Array<any | object>, key) => {
       const formatedValue = typeof eachInputs === 'string' ? eachInputs :
         _.compact(_.map(eachInputs, value => typeof value === 'string' ? value : _.get(value, 'identifier')));
+        console.log('after clicking apply filter = ', formatedValue);
       if (formatedValue.length) {
         queryParams[key] = formatedValue;
       }

@@ -63,6 +63,7 @@ export class SpaceCustomMultiSelectComponent implements OnInit {
     this.selectedValue.emit(event);
   }
   ngOnInit() {
+    console.log('fields = ', this.field);
     this.checkBox = {};
     const name = [];
     if (this.inputData) {

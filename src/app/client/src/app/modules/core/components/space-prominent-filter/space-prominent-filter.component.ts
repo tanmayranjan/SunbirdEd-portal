@@ -139,6 +139,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
           }
         });
       });
+      console.log('form field properties = ', this.formFieldProperties);
   }
 
   getFormatedFilterDetails() {
@@ -160,6 +161,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
         }
       }),
       map((formData: any) => {
+        console.log('form data in map = ', formData);
         let formFieldProperties = _.filter(formData.formData, (formFieldCategory) => {
           if (formFieldCategory.code === 'channel') {
             formFieldCategory.range = _.map(formData.channelData, (value) => {
@@ -170,7 +172,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
             });
           } else if (formFieldCategory.code === 'languages') {
            let id = 1;
-            formFieldCategory.range = _.map(this.configService.countryConfig.languages, (value) => {
+            formFieldCategory.range = _.map(this.configService.countryConfig.default.languages, (value) => {
               return {category: 'languages',
               identifier: id++,
               name: value,
@@ -178,7 +180,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
           });
           } else if (formFieldCategory.code === 'country') {
             let id = 1;
-             formFieldCategory.range = _.map(this.configService.countryConfig.countries, (value) => {
+             formFieldCategory.range = _.map(this.configService.countryConfig.default.countries, (value) => {
                return {category: 'country',
                identifier: id++,
                name: value,

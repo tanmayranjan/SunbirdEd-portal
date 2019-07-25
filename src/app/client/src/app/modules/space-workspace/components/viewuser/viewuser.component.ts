@@ -232,6 +232,7 @@ this.userIds = [];
         this.goToUsers();
       },
       err => {
+        console.log('err', err);
         this.toasterService.error(err.error.params.errmsg);
       }
     );

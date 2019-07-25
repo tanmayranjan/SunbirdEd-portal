@@ -84,11 +84,11 @@ export class ConceptPickerComponent implements OnInit {
           this.selectedConcepts = contentConcepts;
           this.Concepts.emit(this.selectedConcepts);
         },
-        nodeName: 'conceptSelector_treePicker',
+        nodeName: 'topic',
         minSearchQueryLength: 1
       });
       setTimeout(() => {
-        document.getElementById('conceptSelector_treePicker').classList.add(this.conceptPickerClass);
+        document.getElementById('topic').classList.add(this.conceptPickerClass);
       }, 100);
     }, 100);
   }

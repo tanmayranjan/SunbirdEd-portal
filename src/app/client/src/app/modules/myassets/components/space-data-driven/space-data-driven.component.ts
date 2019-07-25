@@ -389,7 +389,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.router.navigate(['myassets']);
     }, 1700);
     setTimeout(() => {
-    this.router.navigate(['myassets/edit/generic', this.contentId, this.status, this.frameworks, 'Draft']);
+    this.router.navigate(['myassets/edit/generic', this.contentId, this.status, 'Draft']);
   }, 1800);
   }
 
