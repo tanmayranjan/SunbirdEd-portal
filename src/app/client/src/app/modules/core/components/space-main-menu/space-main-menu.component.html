@@ -4,11 +4,10 @@
     </a> -->
     <a class="item " routerLink="/about">About</a>
     <a class="item " routerLink="/collaborators">Collaborators</a>
-    <a class="item link" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/contactUs"
+    <!-- <a class="item link" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/contactUs"
     routerLinkActive="active">
-      <!-- {{resourceService?.frmelmnts?.tab?.resources}} -->
       Contact
-    </a>
+    </a> -->
     <a class="item " (click)="openSm(content)">Feedback</a>
    
     <div>
@@ -63,14 +62,18 @@
         </div>
         <i class="close link icon side-bar-close-icon" (click)="showSideBar()"></i>
         <div *ngIf='userProfile' class="ui divider mt-0"></div>
-        <a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata"
-          [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">
-          {{resourceService?.frmelmnts?.tab?.resources}}
+        <a class="item" (click)="showSideBar()"
+          [class.active]="router.isActive('/about')" routerLink="/about">
+        About
         </a>
-        <a class="item" (click)="showSideBar()" appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata"
-          [class.active]="router.isActive('/search/Courses') || router.isActive('/learn')" routerLink="/learn">
-          {{resourceService?.frmelmnts?.tab?.courses}}
+        <a class="item" (click)="showSideBar()" 
+          [class.active]="router.isActive('/collaborators') " routerLink="/collaborators">
+          Collaborators
         </a>
+        <!-- <a class="item" 
+        (click)="openSm(content)">
+        Feedback
+      </a> -->
         <a class="item" (click)="showSideBar()" routerLink="profile"
           [class.active]="router.isActive('/search/profile') || router.isActive('/profile')" routerLink="/profile">
           {{resourceService.frmelmnts?.lnk?.profile}}
@@ -79,27 +82,8 @@
           {{resourceService.frmelmnts?.lnk?.logout}}
         </a>
       </div>
-      <div class="ui sidebar right vertical menu" *ngIf="!userService.loggedIn">
-        <i class="close icon side-bar-close-icon link" (click)="showSideBar()"></i>
-        <div>
-          <a href="/myassets" class="item sign-in">
-            {{resourceService.frmelmnts?.btn?.signin}}
-          </a>
-        </div>
-        <div class="ui divider mt-0"></div>
-        <div class="item" (click)="showSideBar()" *ngIf="router.isActive('', true)" routerLink="/explore">
-          {{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
-        </div>
-        <a class="item" routerLink="explore" (click)="showSideBar()" *ngIf="!router.isActive('', true)"
-          [class.active]="router.isActive('/search/explore') || router.isActive('/explore')">
-          {{resourceService?.frmelmnts?.tab?.resources}}
-        </a>
-        <a class="item" routerLink="explore-course" (click)="showSideBar()" *ngIf="!router.isActive('', true)"
-          [class.active]="router.isActive('/search/explore-course') || router.isActive('/explore-course')">
-          {{resourceService?.frmelmnts?.tab?.courses}}
-        </a>
-      </div>
       <div class="pusher dimmer">
         <!-- Site content !-->
+      </div>
       </div>
   

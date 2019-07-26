@@ -87,8 +87,8 @@
 							<div class=" ml-auto computer only pr-30 ">
 								<a class="menuItem" onclick="gotoContact('about')">About</a>
 								<a class="menuItem" onclick="gotoResources('explore')">Assets</a>
-								<a class="menuItem" href="/space/collaborators.html">Collaborators</a>
-								<a class="menuItem" id="a" onclick="gotoContact('contact')">Contact</a>
+								<a class="menuItem" onclick="gotoContact('collaborators')">Collaborators</a>
+								<!-- <a class="menuItem" id="a" onclick="gotoContact('contactUs')">Contact</a> -->
 								<!-- <a class="menuItem" id="a" href="/contactUs">Contact</a> -->
 								
 						</div></nav>
@@ -96,7 +96,7 @@
 				
 				
 		
-					<div class="col-lg-offset-2">
+					<div class="col-lg-offset-3">
 					<a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
 									Sign In </a>
 					</div>
@@ -282,21 +282,24 @@ if(key){
 function gotoContact(key) {
 	console.log('function callled by = ', key);
 	if ( key === 'about') {
-    window.location.href = '/space/about';
+    window.location.href = '/space/'+key;
     }
-    if ( key === 'contact') {
-		window.location.href = '/space/contactUs';
+    if ( key === 'contactUs') {
+		window.location.href = '/space/'+key;
+		}
+		if ( key === 'collaborators') {
+		window.location.href = '/space/'+ key;
     }
 }
 function footer(key) {
 	if ( key === 'policy') {
-    window.location.href = '/space/policy';
+    window.location.href = '/space/'+key;
     }
     if ( key === 'process') {
-		window.location.href = '/space/process';
+		window.location.href = '/space/'+key;
 		}
 		if ( key === 'termsOfUse') {
-		window.location.href = '/space/termsOfUse';
+		window.location.href = '/space/'+key;
     }
 }
 	</script>

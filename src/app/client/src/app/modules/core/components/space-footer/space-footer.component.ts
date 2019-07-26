@@ -33,15 +33,32 @@ this.padding = true;
 }
   }
   gotoContact(value) {
+    if (this.userService.loggedIn) {
     if ( value === 'contact') {
     this.router.navigate(['contactUs']);
     }
-    if ( value === 'license') {
-    this.router.navigate(['license']);
+    if ( value === 'policy') {
+    this.router.navigate([value]);
     }
-    if ( value === 'people') {
-    this.router.navigate(['people']);
+    if ( value === 'process') {
+    this.router.navigate([value]);
     }
+    if ( value === 'termsOfUse') {
+      this.router.navigate([value]);
+      }
+  } else {
+    if ( value === 'contact') {
+      this.router.navigate(['contactUs']);
+      }
+      if ( value === 'policy') {
+      this.router.navigate(['/space/' + value]);
+      }
+      if ( value === 'process') {
+      this.router.navigate(['/space/' + value]);
+      }
+      if ( value === 'termsOfUse') {
+        this.router.navigate(['/space/' + value]);
+        }
   }
 }
-
+}
