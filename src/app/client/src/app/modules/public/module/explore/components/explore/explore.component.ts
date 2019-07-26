@@ -70,7 +70,6 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
         console.log('org details form explore component = ', orgDetails);
@@ -200,7 +199,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         gradeLevel: [],
         topic: [],
         languages: [],
-        country: []
+        country: [],
+        creators: []
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
@@ -225,7 +225,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         option.filters.organisation = this.queryParams[param];
       }
       if (param === 'channel') {
-        option.filters.channel = this.queryParams[param];
+        option.filters.creators = this.queryParams[param];
       }
       if (param === 'country') {
         option.filters.region = this.queryParams[param];

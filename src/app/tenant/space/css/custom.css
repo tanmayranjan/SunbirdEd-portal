@@ -171,7 +171,7 @@ h1.logo img{
 }
 .navbar-toggle{
 	margin:0;
-	padding:13px 20px;
+	/* padding:13px 20px; */
 	color:#333;
 }
 .navbar-brand{
@@ -457,7 +457,8 @@ address{margin:0;}
 	.slide-details{
 		font-size:22px;
 		/* text-shadow:1px 1px 1px #000; */
-		width:90%;
+		/* width:90%; */
+		width: auto;
 		padding:20px 30px;
 	}
 	.slide-highlights{
@@ -935,12 +936,12 @@ a:not([href]):not([tabindex]) {
 }
 #owl-demo .item img{
     display: block;
-    /* width: 100%; */
+    width: -webkit-fill-available;
     height: 57rem;
 }
-.owl-carousel .owl-item img {
+/* .owl-carousel .owl-item img {
 	width: unset !important;
-}
+} */
 /* img {
 	width: unset !important;
 	max-width: unset !important;

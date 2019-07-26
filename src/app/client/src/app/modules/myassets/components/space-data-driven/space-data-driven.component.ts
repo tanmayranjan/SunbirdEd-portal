@@ -269,7 +269,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   goToCreate() {
     setTimeout(() => {
       this.router.navigate(['/myassets']);
-    }, 1700);
+    }, 100);
   }
 
   /**
@@ -360,7 +360,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   }
   routeToContentEditor(content) {
     setTimeout(() => {
-      this.router.navigate(['myassets']);
+      this.router.navigate(['/myassets']);
     }, 1700);
     setTimeout(() => {
       this.createLockAndNavigateToEditor(content);
@@ -386,7 +386,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   routetoediter() {
     // edit/generic/:contentId/:state/:framework/:contentStatus
     setTimeout(() => {
-      this.router.navigate(['myassets']);
+      this.router.navigate(['/myassets']);
     }, 1700);
     setTimeout(() => {
     this.router.navigate(['myassets/edit/generic', this.contentId, this.status, 'Draft']);

@@ -285,3 +285,13 @@ background: #007b5e;
   margin-right: 5rem !important;
 }
 }
+.ui.sidebar { 
+  height: auto;
+} 
+.ui.right.sidebar {
+  width: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  /* margin-top: 1rem; */
+}

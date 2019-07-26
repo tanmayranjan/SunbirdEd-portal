@@ -1,5 +1,5 @@
 import { combineLatest as observableCombineLatest, Observable, Subject, Subscription, BehaviorSubject } from 'rxjs';
-import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
 import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService } from '@sunbird/core';
@@ -24,7 +24,7 @@ import { Location } from '@angular/common';
   templateUrl: './myassest-page.component.html',
   styleUrls: ['./myassest-page.component.scss']
 })
-export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy {
+export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('modalTemplate')
   // @ViewChild('modalTemplate2')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
@@ -251,6 +251,7 @@ modalMessage = '';
   }
 
   ngOnInit() {
+   console.log('myasset page');
     this.userId = this.userService.userid;
     this.lessonRole = this.config.rolesConfig.workSpaceRole.lessonRole;
 
@@ -302,7 +303,13 @@ modalMessage = '';
     });
   }
 
-
+ngAfterViewInit() {
+  console.log('after view in it');
+  setTimeout(() => {
+    this.showLoader = false;
+    this.ngOnInit();
+  }, 2000);
+}
 
   /**
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
@@ -333,7 +340,7 @@ modalMessage = '';
         resourceType: bothParams.queryParams.resourceType,
         keywords: bothParams.queryParams.keywords,
         region: [],
-        creators: bothParams.queryParams.channel,
+        creators: [],
         languages: [],
         organisation: [],
         channel: [],
@@ -352,7 +359,7 @@ console.log('filter param = ', searchParams);
             searchParams.filters.board.push(bothParams.queryParams[param][0]);
           }
           if (param === 'channel') {
-            searchParams.filters.organisation.push(bothParams.queryParams[param][0]);
+            searchParams.filters.creators.push(bothParams.queryParams[param][0]);
             // searchParams.filters.channel.push(bothParams.queryParams[param][0]);
           }
           if (param === 'country') {
@@ -427,6 +434,7 @@ contentSearch(searchParams, pageNumber, limit) {
             }
           } else {
             if (data.result.count && data.result.content.length > 0) {
+              console.log('my asset page content = ', data);
             // this is the tem area
             this.allContent = data.result.content;
 
@@ -598,6 +606,7 @@ contentSearch(searchParams, pageNumber, limit) {
   }
   removeAllMyContent(contentList, requestData) {
     return contentList.filter((content) => {
+      console.log('removed content = ', content);
       return requestData.indexOf(content.identifier) === -1;
     });
   }

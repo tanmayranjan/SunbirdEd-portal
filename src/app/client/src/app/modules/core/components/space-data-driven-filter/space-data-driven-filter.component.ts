@@ -87,6 +87,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
         if (_.find(formData, { code: 'channel' })) {
           return this.getOrgSearch().pipe(map((channelData: any) => {
             const data = _.filter(channelData, 'hashTagId');
+            console.log('channel data = ', channelData, formData);
             return { formData: formData, channelData: data };
           }));
         } else {

@@ -110,7 +110,6 @@ export class AssetDetailPageComponent implements OnInit {
    }
 
   ngOnInit() {
-
     if (this.route.url.indexOf('review/detail') > -1 ) {
       this.visible = true;
     } else {
@@ -139,7 +138,7 @@ export class AssetDetailPageComponent implements OnInit {
         url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
       };
       this.contentService.get(req).subscribe(data => {
-
+console.log('content = ', this.assetDetail);
         this.assetDetail = data.result.content;
         this.content = data.result.content;
         this.showLoader = false;
@@ -147,7 +146,6 @@ export class AssetDetailPageComponent implements OnInit {
         data.result.content.artifactUrl.lastIndexOf('pdf'));
 
       });
-
     }
 
     this.userService.userData$.subscribe(
@@ -177,6 +175,8 @@ export class AssetDetailPageComponent implements OnInit {
 
       this.badgeList = data.result.badges;
     });
+    const link = this.assetDetail.link.slice(0, 4);
+    console.log('check link = ', link, this.assetDetail);
 
   }
   assignBadge(issuerId, badgeId) {

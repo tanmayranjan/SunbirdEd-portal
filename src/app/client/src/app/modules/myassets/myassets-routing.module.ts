@@ -8,16 +8,24 @@ import { GenericEditorComponent } from '../workspace';
 const routes: Routes = [
     {
         path: '', component: MyassestPageComponent, canActivate: [AuthGuard], data: { roles: 'workspace' },
-        children: [
-            {
-                path: 'create', component: SpaceDataDrivenComponent, canActivate: [AuthGuard],
-                data: {
-                  breadcrumbs: [{ label: 'Home', url: '/home' },
-                  { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }],
-                  roles: 'workspace'
-                }
-              }
-        ]
+        // children: [
+        //     {
+        //         path: 'create', component: SpaceDataDrivenComponent, canActivate: [AuthGuard],
+        //         data: {
+        //           breadcrumbs: [{ label: 'Home', url: '/home' },
+        //           { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }],
+        //           roles: 'workspace'
+        //         }
+        //       }
+        // ]
+    },
+    {
+      path: 'create', component: SpaceDataDrivenComponent, canActivate: [AuthGuard],
+      data: {
+        breadcrumbs: [{ label: 'Home', url: '/home' },
+        { label: 'Profile', url: '/profile' }, { label: 'My Workspace', url: '' }],
+        roles: 'workspace'
+      }
     },
     {
       path: 'review/detail/:contentId', component: AssetDetailPageComponent

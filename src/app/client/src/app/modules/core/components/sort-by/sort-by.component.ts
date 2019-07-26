@@ -49,12 +49,15 @@ export class SortByComponent implements OnInit {
       .subscribe(params => {
         this.queryParams = { ...params };
         const checkSortByType = this.queryParams['sort_by'] instanceof Array;
+        console.log('sort by = ', checkSortByType, this.queryParams);
         if (this.queryParams['sort_by'] && !checkSortByType ) {
           const options = this.sortingOptions.find(o => o.field === this.queryParams['sort_by']);
           this.sortByOption = options.field;
+          console.log('if ', this.sortByOption);
         } else if (this.queryParams['sort_by'] && checkSortByType ) {
           const options = this.sortingOptions.find(o => o.field === this.queryParams['sort_by'].toString());
           this.sortByOption = options.field;
+          console.log('else ', this.sortByOption);
         } else {
           this.sortByOption = '';
         }

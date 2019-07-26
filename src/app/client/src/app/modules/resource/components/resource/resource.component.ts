@@ -205,7 +205,8 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           gradeLevel: [],
           topic: [],
           languages: [],
-          country: []
+          country: [],
+          creators: []
         },
         limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         query: '',
@@ -224,7 +225,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
             option.filters.organisation = this.queryParams[param];
           }
           if (param === 'channel') {
-            option.filters.channel = this.queryParams[param];
+            option.filters.creators = this.queryParams[param];
           }
           if (param === 'country') {
             option.filters.region = this.queryParams[param];

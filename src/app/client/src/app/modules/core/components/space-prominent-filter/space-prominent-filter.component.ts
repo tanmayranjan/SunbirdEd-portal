@@ -154,6 +154,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
         if (_.find(formData, {code: 'channel'})) {
           return this.getOrgSearch().pipe(map((channelData: any) => {
             const data = _.filter(channelData, 'hashTagId');
+            console.log('channel data = ', channelData, formData, data);
             return {formData: formData, channelData: data};
           }));
         } else {
@@ -284,8 +285,10 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
         if (formatedValue.length) {
           queryParams[key] = formatedValue;
         }
+        console.log('formated values in space prominanet filter = ', formatedValue);
         if (key === 'channel') {
-          queryParams[key] = this.populateChannelData(formatedValue);
+          // queryParams[key] = this.populateChannelData(formatedValue);
+          queryParams[key] = formatedValue;
         }
     });
     queryParams['appliedFilters'] = true;
@@ -323,7 +326,8 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     this.refresh = true;
   }
   private getOrgSearch() {
-    return this.orgDetailsService.searchOrg().pipe(map(data => ( data.content )),
+    return this.orgDetailsService.searchOrgDetails(this.hashTagId).pipe(map(data =>
+       ( data.content )),
     catchError(err => {
       return [];
     }));

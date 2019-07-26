@@ -6897,3 +6897,8 @@ html {
     margin-right: 11rem !important;
     border-style: inset !important;
   }
+  @media (min-width: 1200px) {
+.col-lg-offset-3 {
+    margin-left: 18% !important;
+}
+}

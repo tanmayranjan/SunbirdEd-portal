@@ -171,9 +171,20 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 query: this.queryParams.key,
                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
+            console.log('explore content component query param = ', this.queryParams);
             option.filters.objectType = 'Asset';
             option.filters.contentType = [];
             option.filters.channel = [];
+            if (this.queryParams.hasOwnProperty('sort_by')) {
+                const sortby = this.queryParams.sort_by;
+                const sorttype = this.queryParams.sortType;
+                if (sortby === 'lastUpdatedOn') {
+                   option.sort_by = { 'lastUpdatedOn' : sorttype};
+                }
+                if (sortby === 'createdOn') {
+                    option.sort_by = { 'createdOn' : sorttype};
+                 }
+            }
             this.frameworkService.channelData$.subscribe((channelData) => {
                 if (!channelData.err) {
                     option.params.framework = 'NCERT';
@@ -306,11 +317,13 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         }
     }
     ngAfterViewInit() {
+        sessionStorage.clear();
         setTimeout(() => {
             this.setTelemetryData();
         });
     }
     ngOnDestroy() {
+        sessionStorage.clear();
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }

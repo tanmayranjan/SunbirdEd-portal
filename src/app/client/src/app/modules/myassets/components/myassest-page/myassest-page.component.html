@@ -3,7 +3,7 @@
 <div class="container" *ngIf="!route.isActive('myassets/create', true )">
   <div class="row pt-15" *ngIf="!route.isActive('upForReview', true)">
     <div class="col" *ngIf='permissionService.permissionAvailable' appPermission [permission]='lessonRole'>
-      <button type="button" class="btn btn-sec text-light float-right" routerLink="create"><i class="fas fa-plus"></i> New
+      <button type="button" class="btn btn-sec text-light float-right" routerLink="/myassets/create"><i class="fas fa-plus"></i> New
         Asset</button>
     </div>
   </div>

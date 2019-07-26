@@ -72,33 +72,38 @@
 
 	<!-- Header -->
 	<header class="bg-white p-10" id="nav-bar">
-		<div class="ui logo d-flex flex-ai-center row">
-			<div class=" col-2">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu"
-					aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<i class="fa fa-bars fa-2x"></i>
-				</button>
-				<span class="navbar-brand ">
-					<a class="flex-ai-center ml-10"><img class="image centered cursor-pointer ml-10"
-							src="images/space_logo.png" alt="sunbird.ins"></a>
-				</span>
-			</div>
-
-			<div class="col-lg-5">
-				<nav class="navbar-collapse collapse  navbar-right" id="menu" aria-expanded="true">
-					<div class=" ml-auto computer only pr-30 ">
-						<a class="menuItem" onclick="gotoContact('about')" >About</a>
-						<a class="menuItem" onclick="gotoResources('explore')" >Assets</a>
-						<a class="menuItem" href="/space/collaborators.html" >Collaborators</a>
-						<a class="menuItem" id="a" onclick="gotoContact('contact')">Contact</a>
-						<!-- <a class="menuItem" id="a" href="/contactUs">Contact</a> -->
-				</nav>
-			</div>
-			<div class="col-lg-offset-3">
+			<div class="ui logo d-flex flex-ai-center row">
+					<div class="col-2">
+							<span class="navbar-brand ">
+									<a class="flex-ai-center ml-10"><img class="image centered cursor-pointer ml-10" src="images/space_logo.png" alt="sunbird.ins"></a>
+								</span>
+							</div>
+					<div class="col-lg-5">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<i class="fa fa-bars fa-2x"></i>
+						</button>
+					<nav class="navbar-collapse  navbar-right collapse" id="menu" aria-expanded="false" style="height: 1px;">
+							<div class=" ml-auto computer only pr-30 ">
+								<a class="menuItem" onclick="gotoContact('about')">About</a>
+								<a class="menuItem" onclick="gotoResources('explore')">Assets</a>
+								<a class="menuItem" href="/space/collaborators.html">Collaborators</a>
+								<a class="menuItem" id="a" onclick="gotoContact('contact')">Contact</a>
+								<!-- <a class="menuItem" id="a" href="/contactUs">Contact</a> -->
+								
+						</div></nav>
+					</div>
+				
+				
+		
+					<div class="col-lg-offset-2">
 					<a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
-						Sign In </a></div>
-			</div>
+									Sign In </a>
+					</div>
+					<!-- <div class="col-lg-offset-3">
+							<a class="sunblogin menuItem font-weight-bold ml-auto btn btn-purple" href="/resources" id="ab">
+								Sign In </a></div> -->
+					</div>
 		</div>
 		<div class="container">
 
