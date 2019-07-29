@@ -323,8 +323,10 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   checkFields() {
     this.formData.formInputData['link'] = this.link;
     const data = _.pickBy(this.formData.formInputData);
+    console.log('data in checking fields = ', data);
     if (!!data.name && !!data.description && !!data.board && !!data.keywords
-      && !!data.creators && !!data.version && !!data.gradeLevel) {
+      && !!data.creators && !!data.version && !!data.gradeLevel
+      && !!data.link && !!data.year && !!data.region && !!data.languages) {
       this.uploadSuccess = true;
       this.createContent();
     } else {
@@ -354,7 +356,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
         this.toasterService.error('asset creation failed');
       });
     } else {
-      this.toasterService.error('asset creation failed');
+      this.toasterService.error('asset creation failed ');
     }
     // this.goToCreate();
   }

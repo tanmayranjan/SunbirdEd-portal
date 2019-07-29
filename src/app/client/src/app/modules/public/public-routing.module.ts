@@ -16,6 +16,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
 // import { ViewuserComponent } from './components/viewuser/viewuser.component';
 import { UserEditComponent } from '../search';
+import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
 
 const routes: Routes = [
   {
@@ -115,9 +116,11 @@ const routes: Routes = [
     path: 'play', loadChildren: './module/player/player.module#PlayerModule'
   },
   {
-    path: 'resource/player/content/:contentId' , component: SharedDetailPageComponent,
-
-  }
+    path: 'resource/player/content/:contentId' , component: SharedDetailPageComponent
+  },
+  {
+    path: 'resource/player/content/:contentId/view' , component: ResourceViewerComponent
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

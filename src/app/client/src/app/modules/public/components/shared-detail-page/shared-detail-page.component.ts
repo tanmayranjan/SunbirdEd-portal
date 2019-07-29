@@ -84,7 +84,8 @@ export class SharedDetailPageComponent implements OnInit {
    }
 
   ngOnInit() {
-
+console.log('param = ', this.activatedRoute.snapshot.params.contentId);
+this.contentId = this.activatedRoute.snapshot.params.contentId;
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
@@ -170,5 +171,8 @@ export class SharedDetailPageComponent implements OnInit {
        })
        .onDeny(result => {
        });
+   }
+   navigateToPlayer() {
+     this.route.navigate(['resource/player/content/' + this.contentId + '/view']);
    }
 }

@@ -308,7 +308,7 @@ ngAfterViewInit() {
   setTimeout(() => {
     this.showLoader = false;
     this.ngOnInit();
-  }, 2000);
+  }, 500);
 }
 
   /**

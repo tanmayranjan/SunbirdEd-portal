@@ -119,6 +119,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.permissionService = permissionService;
     this.userService = userService;
     this.tenantService = tenantService;
+    this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
     this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
     this.upForReviewRole = this.config.rolesConfig.headerDropdownRoles.upForReviewRole;
    }

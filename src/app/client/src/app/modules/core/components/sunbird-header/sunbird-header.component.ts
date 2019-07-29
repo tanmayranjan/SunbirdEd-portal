@@ -20,6 +20,7 @@ export class SunbirdHeaderComponent implements OnInit {
     formAction: 'search',
     filterEnv: 'resourcebundle'
   };
+  workSpaceRole: Array<string>;
   exploreButtonVisibility: string;
   queryParam: any = {};
   showExploreHeader = false;
@@ -80,6 +81,7 @@ export class SunbirdHeaderComponent implements OnInit {
       this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
       this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
       this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
+      this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
   }
   ngOnInit() {
     this.showExploreHeader = true;

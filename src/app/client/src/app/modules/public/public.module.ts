@@ -28,6 +28,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TelemetryModule } from '../telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { BadgingModule } from '../badging';
+import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -51,6 +52,7 @@ import { BadgingModule } from '../badging';
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
     ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent,
      ExploreDetailPageComponent,
+     ResourceViewerComponent,
     //  AdduserComponent, WorkspaceComponent
     ],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard, UserSearchServicePublicService]

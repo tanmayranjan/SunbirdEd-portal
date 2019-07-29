@@ -65,7 +65,7 @@
                     <p class="card-text">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
-                    File : <span routerLink="view" class="pdfStyle">{{pdfs | titlecase  | slice: 1}}pdf</span>
+                    File : <span (click)="navigateToPlayer()" class="pdfStyle">{{pdfs | titlecase  | slice: 1}}pdf</span>
                 </p>
 
             </div>
