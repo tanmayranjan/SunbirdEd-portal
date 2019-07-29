@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@sunbird/core';
-import { LandingPageComponent, SharedDetailPageComponent } from './components';
+import { LandingPageComponent } from './components';
 import { PublicPlayerService, LandingpageGuard } from './services';
 import { SharedModule } from '@sunbird/shared';
 import { PublicRoutingModule } from './public-routing.module';
@@ -28,7 +28,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TelemetryModule } from '../telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { BadgingModule } from '../badging';
-import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
+// import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -48,11 +48,11 @@ import { ResourceViewerComponent } from './components/resource-viewer/resource-v
   declarations: [LandingPageComponent,
     // ViewuserComponent, UserEditComponent,
    PublicFooterComponent, ContactUsComponent,
-   SharedDetailPageComponent,
+  //  SharedDetailPageComponent,
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
     ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent,
      ExploreDetailPageComponent,
-     ResourceViewerComponent,
+    //  ResourceViewerComponent,
     //  AdduserComponent, WorkspaceComponent
     ],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard, UserSearchServicePublicService]

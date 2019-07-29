@@ -28,7 +28,7 @@ export class SpaceCardComponent  {
     // this.clickEvent.emit({ 'action': action, 'data': data });
     // } else {
       if (this.slug === 'space') {
-    this.router.navigate(['resource/player/content/', data.identifier]);
+    this.router.navigate(['resources/player/content/', data.identifier]);
       }
     // }
   }

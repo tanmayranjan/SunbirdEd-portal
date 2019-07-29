@@ -59,19 +59,20 @@ export class PdfViewerComponent implements OnInit {
   navigateToDetailsPage() {
     this.activatedRoute.url.subscribe(url => {
       console.log('url = ',  url);
-      this.path = url[0].path;
-      this.status = url[2].path;
-      if (this.path === 'review') {
-        this.contentId = url[2].path;
+      this.path = url[2 ].path;
+
+      if (this.path === 'pdfReview') {
+        this.contentId = url[1].path;
       } else {
         this.contentId = url[1].path;
       }
 
     });
-    if (this.path === 'review') {
+    if (this.path === 'pdfReview') {
+      this.status = 'Review';
       this.route.navigate(['upForReview/review/detail', this.contentId]);
-
     } else {
+      this.status = this.path;
       this.route.navigate(['myassets/detail/', this.contentId, this.status]);
     }
 

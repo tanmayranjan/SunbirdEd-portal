@@ -305,6 +305,7 @@ modalMessage = '';
 
 ngAfterViewInit() {
   console.log('after view in it');
+  sessionStorage.clear();
   setTimeout(() => {
     this.showLoader = false;
     this.ngOnInit();

@@ -1,7 +1,7 @@
 import { ResourceRoutingModule } from './resource-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResourceComponent} from './components';
+import { ResourceComponent, SharedDetailPageComponent, ResourceViewerComponent} from './components/';
 import { SharedModule } from '@sunbird/shared';
 import { SuiModule } from 'ng2-semantic-ui/dist';
 import { SlickModule } from 'ngx-slick';
@@ -10,6 +10,7 @@ import { CoreModule } from '@sunbird/core';
 import { NgInviewModule } from 'angular-inport';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { SharedFeatureModule } from '@sunbird/shared-feature';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +24,8 @@ import { SharedFeatureModule } from '@sunbird/shared-feature';
     NgInviewModule,
     SharedFeatureModule
   ],
-  declarations: [ResourceComponent]
+
+  declarations: [ResourceComponent, SharedDetailPageComponent, ResourceViewerComponent]
 })
 export class ResourceModule {
   }

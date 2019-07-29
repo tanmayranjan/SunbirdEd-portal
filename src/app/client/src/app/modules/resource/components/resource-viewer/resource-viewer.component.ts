@@ -47,9 +47,11 @@ console.log('resource viewer component ');
   }
   navigateToDetailsPage() {
     this.activatedRoute.url.subscribe(url => {
+      console.log('url = ', url);
       this.path = url[3].path;
+      this.contentId = url[2].path;
       });
-      this.route.navigate(['resource/player/content/', this.path]);
+      this.route.navigate(['resources/player/content/', this.contentId]);
   }
 
 }

@@ -326,7 +326,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     console.log('data in checking fields = ', data);
     if (!!data.name && !!data.description && !!data.board && !!data.keywords
       && !!data.creators && !!data.version && !!data.gradeLevel
-      && !!data.link && !!data.year && !!data.region && !!data.languages) {
+      && !!data.year && !!data.region && !!data.languages) {
       this.uploadSuccess = true;
       this.createContent();
     } else {

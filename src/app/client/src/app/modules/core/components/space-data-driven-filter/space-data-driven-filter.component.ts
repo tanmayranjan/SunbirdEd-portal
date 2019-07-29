@@ -62,6 +62,8 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+
+    console.log('hashtag id = ', this.userService.hashTagId);
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
       console.log('form filed properties = ', formFieldProperties);
@@ -296,7 +298,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     this.refresh = true;
   }
   getOrgSearch() {
-    return this.orgDetailsService.searchOrg().pipe(map(data => (data.content)),
+    return this.orgDetailsService.searchOrgDetails(this.userService.hashTagId).pipe(map(data => (data.content)),
       catchError(err => {
         return [];
       }));

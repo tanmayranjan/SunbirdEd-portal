@@ -11,6 +11,7 @@ export class PeopleInvlovedComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+    sessionStorage.clear();
   }
   openSm(content) {
     this.modalRef = this.modalService.open(content, { size: 'lg' });

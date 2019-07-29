@@ -33,20 +33,20 @@ this.padding = true;
 }
   }
   gotoContact(value) {
-    if (this.userService.loggedIn) {
-    if ( value === 'contact') {
-    this.router.navigate(['contactUs']);
-    }
-    if ( value === 'policy') {
-    this.router.navigate([value]);
-    }
-    if ( value === 'process') {
-    this.router.navigate([value]);
-    }
-    if ( value === 'termsOfUse') {
-      this.router.navigate([value]);
-      }
-  } else {
+  //   if (this.userService.loggedIn) {
+  //   if ( value === 'contact') {
+  //   this.router.navigate(['contactUs']);
+  //   }
+  //   if ( value === 'policy') {
+  //   this.router.navigate([value]);
+  //   }
+  //   if ( value === 'process') {
+  //   this.router.navigate([value]);
+  //   }
+  //   if ( value === 'termsOfUse') {
+  //     this.router.navigate([value]);
+  //     }
+  // } else {
     if ( value === 'contact') {
       this.router.navigate(['contactUs']);
       }
@@ -59,6 +59,6 @@ this.padding = true;
       if ( value === 'termsOfUse') {
         this.router.navigate(['/space/' + value]);
         }
-  }
+  // }
 }
 }

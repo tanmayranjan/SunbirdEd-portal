@@ -91,6 +91,8 @@ export class AssetDetailPageComponent implements OnInit {
   showLockedContentModal = false;
   content: any;
   status: string;
+  urlPath: string;
+  id: string;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router, private location: Location,
@@ -308,8 +310,16 @@ console.log('content = ', this.assetDetail);
     this.activatedRoute.url.subscribe(url => {
       console.log('url = ',  url);
       this.status = url[2].path;
+      this.urlPath = url[0].path;
+      this.id = url[2].path;
     });
+if (this.urlPath === 'detail') {
     this.route.navigate(['myassets/play/', this.contentId, this.status]);
+}
+if (this.urlPath === 'review') {
+  this.status = 'pdfReview';
+  this.route.navigate(['upForReview/play/', this.id, this.status]);
+}
    }
 
    contentClick() {

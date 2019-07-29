@@ -96,7 +96,7 @@ module.exports = (app, keycloak) => {
 
   app.all(['/announcement', '/announcement/*', '/search', '/search/*',
     '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home',
-    '/Workspace','/Workspace/*',
+    '/Workspace','/Workspace/*', '/upForReview', '/upForReview/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
 

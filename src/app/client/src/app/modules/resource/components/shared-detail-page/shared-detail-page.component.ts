@@ -173,6 +173,6 @@ this.contentId = this.activatedRoute.snapshot.params.contentId;
        });
    }
    navigateToPlayer() {
-     this.route.navigate(['resource/player/content/' + this.contentId + '/view']);
+     this.route.navigate(['resources/player/content/' + this.contentId + '/view']);
    }
 }

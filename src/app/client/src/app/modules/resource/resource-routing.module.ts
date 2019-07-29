@@ -1,7 +1,8 @@
-import { ResourceComponent } from './components';
+import { ResourceComponent, SharedDetailPageComponent, ResourceViewerComponent } from './components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ViewAllComponent} from '@sunbird/shared-feature';
+
 const telemetryEnv = 'library';
 const routes: Routes = [
   {
@@ -21,7 +22,19 @@ const routes: Routes = [
     //     },
     //   }
     // ]
-  }, {
+  },
+  {
+        path: 'player/content/:contentId', component: SharedDetailPageComponent,
+        data: {
+          telemetry: {
+            env: telemetryEnv, pageid: 'content-player', type: 'play'
+          }, breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '/resources' }]
+        }
+  },
+  {
+    path: 'player/content/:contentId/view' , component: ResourceViewerComponent
+  },
+   {
     path: 'view-all/:section/:pageNumber', component: ViewAllComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Library', url: '/resources' }],
