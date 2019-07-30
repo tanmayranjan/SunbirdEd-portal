@@ -39,6 +39,8 @@
                     </app-card>
                     <app-asset-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
                     (clickEvent)="playContent($event)" [data]="content" *ngIf="slug === 'sunbirdorg'"></app-asset-card>
+                    <app-space-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
+                    (clickEvent)="playContent($event)" [data]="content" [slug]="slug" *ngIf="slug === 'space'"></app-space-card>
                    
                 </ng-template>
                 <!--/Course & Resourse Card-->

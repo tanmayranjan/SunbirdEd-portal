@@ -57,6 +57,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
+        console.log('slug in profile page = ', this.slug);
         this.state = _.get(_.find(this.userProfile.userLocations, { type: 'state' }), 'name');
         this.district = _.get(_.find(this.userProfile.userLocations, { type: 'district' }), 'name');
         this.userFrameWork =  this.userProfile.framework ? _.cloneDeep(this.userProfile.framework) : {};
