@@ -1,3 +1,24 @@
-input{
-    background: transparent !important;
+// input{
+//     background: transparent !important;
+// }
+
+input {
+    border: 1px solid #e4e4e4 !important;
+    background: #f6f6f6 !important;
+    color: white !important
 }
+
+.treepicker-parent input {
+    background: #f6f6f6 !important;
+}
+
+#treePicker {
+
+    color: #707070 !important;
+    cursor: pointer;
+    border: 1px solid #e4e4e4 !important;
+    border-radius: 4px;
+}
+::ng-deep .ui.modal {
+    height : auto !important;
+  }

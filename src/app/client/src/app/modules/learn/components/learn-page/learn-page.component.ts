@@ -1,10 +1,10 @@
 
 import {combineLatest, of, Subject } from 'rxjs';
-import { PageApiService, CoursesService, ISort, PlayerService, FormService } from '@sunbird/core';
+import { PageApiService, CoursesService, ISort, PlayerService, FormService , UserService} from '@sunbird/core';
 import { Component, OnInit, OnDestroy, EventEmitter, AfterViewInit, HostListener } from '@angular/core';
 import {
   ResourceService, ServerResponse, ToasterService, ICaraouselData, ConfigService, UtilService, INoResultMessage,
-  BrowserCacheTtlService, NavigationHelperService
+  BrowserCacheTtlService, NavigationHelperService, IUserData
 } from '@sunbird/shared';
 import * as _ from 'lodash-es';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -39,13 +39,15 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public showBatchInfo = false;
   public selectedCourseBatches: any;
   public pageSections: Array<ICaraouselData> = [];
+  userProfile: any;
+  slug: any;
 
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
     public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, public coursesService: CoursesService,
     private playerService: PlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, public formService: FormService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService, public userService: UserService) {
     window.scroll(0, 0);
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
@@ -58,6 +60,15 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngOnInit() {
+    this.userService.userData$.pipe(first()).subscribe(
+      (user: IUserData) => {
+        if (user && !user.err) {
+          this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
+          console.log('user details from learn page = ', user.userProfile, this.slug );
+
+        }
+      });
     combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork()).pipe(first(),
       mergeMap((data: Array<any>) => {
         this.enrolledSection = data[0];

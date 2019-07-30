@@ -20,6 +20,7 @@ export class SunbirdHeaderComponent implements OnInit {
     formAction: 'search',
     filterEnv: 'resourcebundle'
   };
+  workSpaceRole: Array<string>;
   exploreButtonVisibility: string;
   queryParam: any = {};
   showExploreHeader = false;
@@ -80,6 +81,7 @@ export class SunbirdHeaderComponent implements OnInit {
       this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
       this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
       this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
+      this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
   }
   ngOnInit() {
     this.showExploreHeader = true;
@@ -87,10 +89,12 @@ export class SunbirdHeaderComponent implements OnInit {
       this.userService.userData$.pipe(first()).subscribe((user: any) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
             this.getLanguage(this.userService.channel);
         }
       });
     } else {
+      this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug');
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
         if (data && !data.err) {
           this.getLanguage(data.orgDetails.hashTagId);

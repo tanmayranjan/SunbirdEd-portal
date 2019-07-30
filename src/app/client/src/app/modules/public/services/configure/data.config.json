@@ -1,0 +1,13 @@
+{
+    "contactsubject": "Contact request from SPace" ,
+    "feedbacksubject": "Feedback for SPace" ,
+    "body": "Someone tried to Contact you. Here are the details:" ,
+    "feedbackBody" :"You have received some feedback. Here are the details:",
+    "orgImgUrl":  "https://societal-sunbird.stackroute.com/assets/images/sunbird_logo.png" ,
+    "actionName": "Test Action",
+    "actionUrl": "https://societal-sunbird.stackroute.com/",
+    "template": "acceptFlag",
+    "contacttemplate":"acceptFlag",
+    "email": ["kamaleeanbu@gmail.com","sumit.nautiyal@niit.com","sumit.nautiyal@gmail.com"],
+    "fromEmail": "space@societalplatform.org"
+}

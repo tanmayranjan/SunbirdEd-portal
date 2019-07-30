@@ -1,6 +1,6 @@
 
 import { filter } from 'rxjs/operators';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { UserService } from './../../services';
 import { ResourceService, ConfigService, IUserProfile } from '@sunbird/shared';
@@ -15,6 +15,8 @@ import * as _ from 'lodash-es';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  @Input() slugInfo: string;
   /**
    * Sui dropdown initiator
    */
@@ -100,6 +102,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('slug info in search = ', this.slugInfo);
     this.activatedRoute.queryParams.subscribe(queryParams => {
       this.queryParam = { ...queryParams };
       this.key = this.queryParam['key'];
@@ -146,6 +149,7 @@ export class SearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
+    console.log('key = ', key, this.search, this.selectedOption);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -154,9 +158,21 @@ export class SearchComponent implements OnInit {
     } else {
       delete this.queryParam['key'];
     }
-    this.route.navigate([this.search[this.selectedOption], 1], {
-      queryParams: this.queryParam
-    });
+    if (this.userService.loggedIn) {
+      this.route.navigate(['/search/sharedAssets', 1], {
+        queryParams: this.queryParam
+      });
+     } else  {
+     if (this.slugInfo !== 'space') {
+      this.route.navigate(['explore', 1], {
+        queryParams: this.queryParam
+      });
+     } else {
+      this.route.navigate(['space/explore', 1], {
+        queryParams: this.queryParam
+      });
+     }
+     }
   }
 
   setFilters() {

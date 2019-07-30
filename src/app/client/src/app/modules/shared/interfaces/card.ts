@@ -6,11 +6,14 @@ export interface ICard {
     subject?: string;
     medium?: string;
     creator?: string;
+    creators?: string;
     orgDetails?: { orgName: string, email: string};
     gradeLevel?: any;
     resourceType?: string;
     maxCount?: number;
     progress?: number;
+    board?: string;
+    identifier?: string;
     ribbon?: {
         right?: { class: string, name: string }
         left?: { class: string, name: string , image: string }

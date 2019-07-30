@@ -1,0 +1,128 @@
+<div *ngIf="showQrmodal">
+    <app-qr-code-modal (closeQrModal)="closeQrModalEvent($event)"></app-qr-code-modal>
+</div>
+<div class="ui fixed menu bs-0 main-header d-block">
+    <div class="ui primary-header p-10">
+
+        <div role="banner" class="ui logo d-flex flex-ai-center row">
+            <div class="col-2">
+                    <a class="flex-ai-center" (click)="navigateToHome()">
+                            <img class="image centered cursor-pointer ml-10" alt={{tenantName}} src="../../../../../assets/images/space_logo.png">
+                        </a>
+            </div>
+            <div class="" *ngIf="slug !=='space'">
+                    <app-main-menu class="d-flex computer only ml-auto"  [slugInfo]= "slug"></app-main-menu>
+            </div>
+            <div class="col-lg" *ngIf="slug ==='space' && userService.loggedIn">
+                    <i class="large bars icon link primary-color mobile only" (click)="showSideBar()" tabindex="0"></i>
+                    <app-space-main-menu class="d-flex computer only ml-auto justify-content-center"  [slugInfo]= "slug"></app-space-main-menu>
+            </div>        
+        <a class="profile-avtar item  pr-0 mr-100" *ngIf="userService.loggedIn; else showLoginBtn">
+                <a class="item mr-1">
+                        <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
+                        <i class="fas fa-bell fs-1-5"></i>
+                      </a>
+            <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
+                <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
+                </ngx-avatar>
+                <div class="menu" suiDropdownMenu>
+                    <div *ngIf='userProfile' class="item headerDropdownProfile text">
+                        {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
+                    </div>
+                    <div *ngIf='userProfile' class="ui divider "></div>
+                    <a class="item text" routerLink="profile">
+                        {{resourceService.frmelmnts?.lnk?.profile}}
+                    </a>
+                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard">
+                        {{resourceService.frmelmnts?.lnk?.dashboard}}
+                    </a> -->
+                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='announcementRole' routerLink="announcement/outbox/1">
+                        {{resourceService.frmelmnts?.lnk?.announcement}}
+                    </a> -->
+                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='myActivityRole' routerLink="myActivity">
+                        {{resourceService.frmelmnts?.lnk?.myactivity}}
+                    </a> -->
+                    <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='orgSetupRole' routerLink="orgType">
+                        {{resourceService.frmelmnts?.lbl?.orgtypes}}
+                    </a>
+                    <a class="item text" (click)="logout()">
+                        {{resourceService.frmelmnts?.lnk?.logout}}
+                    </a>
+                </div>
+            </div>
+        </a>
+    </div>
+        <ng-template #showLoginBtn>
+                <i class="large bars icon link primary-color col-12 mobile only" (click)="showSideBar()" tabindex="0"></i>
+                <div class="col computer only">
+                <div class="primary-nav-item d-flex ml-auto pr-30 col-8">
+                  
+                        <a (click)="gotoContact('about')" class="item" id="a" >About</a>
+                        <a (click)="gotoContact('assets')" class="item" id="a" >Assets</a>
+                        <a  class="item" id="a" (click)="gotoContact('collaborators')">Collaborators</a>
+                        <!-- <a  class="item" id="a" (click)="gotoContact('contact')">Contact</a> -->
+                        <!-- <button class="ui green1 button" routerLink="[/resources]" id="a">{{resourceService.frmelmnts?.btn?.signin}}</button> -->
+                        <!-- <a (click)="navigateToHome()" class="item ml-auto mr-10" >
+                          Home
+                        </a> -->
+                        <a href="/resources" class="sunblogin item font-weight-bold btn btn-purple ml-auto" id="ab">
+                            {{resourceService.frmelmnts?.btn?.signin}}
+                        </a>
+                   </div>
+                
+                <div class="mobile only">
+                        <div class="ui sidebar right vertical menu">
+                                <a (click)="gotoContact('about')" class="item" id="a" >About</a>
+                                <a (click)="gotoContact('assets')" class="item" id="a" >Assets</a>
+                                <a  class="item" id="a" (click)="gotoContact('collaborators')">Collaborators</a>
+                                <a  class="item" id="a" (click)="gotoContact('contact')">Contact</a>
+                                <!-- <button class="ui green1 button" routerLink="[/resources]" id="a">{{resourceService.frmelmnts?.btn?.signin}}</button> -->
+                                <!-- <a (click)="navigateToHome()" class="item ml-auto mr-10" >
+                                  Home
+                                </a> -->
+                                <a href="/resources" class="sunblogin item font-weight-bold btn btn-purple ml-auto" id="ab">
+                                    {{resourceService.frmelmnts?.btn?.signin}}
+                                </a>
+        </div>
+    </div>
+</div>
+        </ng-template>
+    </div>
+    <div class="navbar-bg p-20 navbar-padding" *ngIf="userService.loggedIn" style="background-color:#BABABA">
+        <div class="ui mobile-view container d-flex flex-ai-center mx-0 fz">
+              
+                            <div class="row">
+                                <div class="col-xs-12 ">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link p-15 text" id="nav-home-tab" data-toggle="tab" routerLink="/home" [class.active]="router.isActive('/home')"
+                                            role="tab" aria-controls="nav-home"  aria-selected="true">Home</a>
+                                            <a class="nav-item nav-link p-15 text" id="nav-profile-tab" data-toggle="tab" role="tab" aria-controls="nav-profile" aria-selected="false" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')" routerLink="/resources">Shared Assets</a>
+
+                                            <a class="nav-item nav-link p-15 text" id="nav-contact-tab" data-toggle="tab" *ngIf='permissionService.permissionAvailable' appPermission
+                                             [permission]='myActivityRole'  routerLink="/myassets" [class.active]="router.isActive('/myassets')" role="tab" aria-controls="nav-contact" aria-selected="false"> My Assets</a>
+
+                                             <a class="nav-item nav-link p-15 text" id="nav-contact-tab" data-toggle="tab" *ngIf='permissionService.permissionAvailable' appPermission
+                                             [permission]='upForReviewRole'  routerLink="/upForReview" [class.active]="router.isActive('/upForReview')" role="tab" aria-controls="nav-contact" aria-selected="false">Up For Review</a>
+                                             
+                                             <a class="nav-item nav-link p-15 text"  *ngIf='permissionService.permissionAvailable' appPermission
+                                             [permission]='adminDashboard' routerLink="/Workspace/addUser">
+                                                 {{resourceService?.frmelmnts?.tab?.workspace}}
+                                             </a>
+                                             <!-- <a class="nav-item nav-link p-15 text"id="nav-contact-tab" data-toggle="tab"  *ngIf='permissionService.permissionAvailable' [class.active]="router.isActive('/upForReview/')"
+                                             [routerLink]="['myassets/upForReview/'+1]" appPermission [permission]='workSpaceRole'>
+                                            upForReview
+                                           </a> -->
+
+                                            <!-- <a class="nav-item nav-link p-15 text" id="nav-about-tab" data-toggle="tab" routerLink="/addUser" *ngIf='permissionService.permissionAvailable' appPermission
+                                            [permission]='adminDashboard' role="tab" aria-controls="nav-about" [class.active]="router.isActive('/addUser')" aria-selected="false">Add User</a>
+                                            <a class="nav-item nav-link p-15 text" id="nav-about-tab" data-toggle="tab" routerLink="/viewuser" *ngIf='permissionService.permissionAvailable && userProfile?.rootOrgAdmin' appPermission  
+                                            [permission]='adminDashboard' role="tab" aria-controls="nav-about" [class.active]="router.isActive('/viewuser')" aria-selected="false">Role Assign</a> -->
+                                        </div>
+                                    </nav>
+                                    </div>
+                                </div>
+    </div>
+    </div>
+
+</div>

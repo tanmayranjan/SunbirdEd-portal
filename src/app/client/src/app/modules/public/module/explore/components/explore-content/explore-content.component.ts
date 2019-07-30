@@ -13,7 +13,8 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, debounceTime, tap, delay } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 @Component({
-    templateUrl: './explore-content.component.html'
+    templateUrl: './explore-content.component.html',
+    styleUrls: ['./explore-content.component.css']
 })
 export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -54,16 +55,16 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
             mergeMap((orgDetails: any) => {
                 console.log('org details for explore component = ', orgDetails.slug);
-            this.hashTagId = orgDetails.hashTagId;
-            this.initFilters = true;
-            this.slug = orgDetails.slug;
-            return this.dataDrivenFilterEvent;
+                this.hashTagId = orgDetails.hashTagId;
+                this.initFilters = true;
+                this.slug = orgDetails.slug;
+                return this.dataDrivenFilterEvent;
             }), first()
         ).subscribe((filters: any) => {
             this.dataDrivenFilters = filters;
             this.fetchContentOnParamChange();
             this.setNoResultMessage();
-            },
+        },
             error => {
                 this.router.navigate(['']);
             }
@@ -73,7 +74,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         this.facets = filters.map(element => element.code);
         const defaultFilters = _.reduce(filters, (collector: any, element) => {
             if (element.code === 'board') {
-            collector.board = _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') || '';
+                collector.board = _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') || '';
             }
             return collector;
         }, {});
@@ -81,23 +82,23 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     }
     private fetchContentOnParamChange() {
         combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
-        .pipe( debounceTime(5),
-            tap(data => this.inView({inview: []})),
-            delay(10),
-            tap(data => this.setTelemetryData()),
-            map(result => ({params: { pageNumber: Number(result[0].pageNumber)}, queryParams: result[1]})),
-            takeUntil(this.unsubscribe$)
-        ).subscribe(({params, queryParams}) => {
-            this.showLoader = true;
-            this.paginationDetails.currentPage = params.pageNumber;
-            this.queryParams = { ...queryParams };
-            this.contentList = [];
-            this.fetchContents();
-        });
+            .pipe(debounceTime(5),
+                tap(data => this.inView({ inview: [] })),
+                delay(10),
+                tap(data => this.setTelemetryData()),
+                map(result => ({ params: { pageNumber: Number(result[0].pageNumber) }, queryParams: result[1] })),
+                takeUntil(this.unsubscribe$)
+            ).subscribe(({ params, queryParams }) => {
+                this.showLoader = true;
+                this.paginationDetails.currentPage = params.pageNumber;
+                this.queryParams = { ...queryParams };
+                this.contentList = [];
+                this.fetchContents();
+            });
     }
     private fetchContents() {
         let option;
-        if (this.slug !== 'sunbirdorg') {
+        if (this.slug === 'sbwb') {
             console.log('slug if');
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
@@ -150,7 +151,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                         this.configService.appConfig.SEARCH.PAGE_LIMIT);
                     this.toasterService.error(this.resourceService.messages.fmsg.m0051);
                 });
-        } else {
+        } if (this.slug === 'sunbirdorg') {
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
             const softConstraintData: any = {
@@ -170,9 +171,20 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 query: this.queryParams.key,
                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
+            console.log('explore content component query param = ', this.queryParams);
             option.filters.objectType = 'Asset';
             option.filters.contentType = [];
             option.filters.channel = [];
+            if (this.queryParams.hasOwnProperty('sort_by')) {
+                const sortby = this.queryParams.sort_by;
+                const sorttype = this.queryParams.sortType;
+                if (sortby === 'lastUpdatedOn') {
+                   option.sort_by = { 'lastUpdatedOn' : sorttype};
+                }
+                if (sortby === 'createdOn') {
+                    option.sort_by = { 'createdOn' : sorttype};
+                 }
+            }
             this.frameworkService.channelData$.subscribe((channelData) => {
                 if (!channelData.err) {
                     option.params.framework = 'NCERT';
@@ -195,6 +207,53 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                         this.configService.appConfig.SEARCH.PAGE_LIMIT);
                     this.toasterService.error(this.resourceService.messages.fmsg.m0051);
                 });
+        }
+        if (this.slug === 'space') {
+            let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+            filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+              const softConstraintData = {
+                filters: {
+                    // channel: this.hashTagId,
+                board: []},
+                softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+                mode: 'soft'
+              };
+              const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
+                 'appliedFilters'), softConstraintData );
+             option = {
+                filters: _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters,
+                limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+                pageNumber: this.paginationDetails.currentPage,
+                query: this.queryParams.key,
+                mode: _.get(manipulatedData, 'mode'),
+                // facets: this.facets,
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+            };
+            option.filters.objectType = 'Content';
+            option.filters.status = ['Live'];
+            option.filters.contentType = filters.contentType || ['Resource'];
+            option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
+            this.frameworkService.channelData$.subscribe((channelData) => {
+              if (!channelData.err) {
+                option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+              }
+            });
+            this.searchService.contentSearch(option)
+            .subscribe(data => {
+                this.showLoader = false;
+                this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+                this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+                    this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+                this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
+            }, err => {
+                this.showLoader = false;
+                this.contentList = [];
+                this.facetsList = [];
+                this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
+                    this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+            });
         }
 
 
@@ -241,7 +300,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     }
     public inView(event) {
         _.forEach(event.inview, (elem, key) => {
-            const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier});
+            const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier });
             if (!obj) {
                 this.inViewLogs.push({
                     objid: elem.data.metaData.identifier,
@@ -257,19 +316,21 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             this.telemetryImpression = Object.assign({}, this.telemetryImpression);
         }
     }
-    ngAfterViewInit () {
+    ngAfterViewInit() {
+        sessionStorage.clear();
         setTimeout(() => {
-          this.setTelemetryData();
+            this.setTelemetryData();
         });
     }
     ngOnDestroy() {
+        sessionStorage.clear();
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }
     private setNoResultMessage() {
         this.noResultMessage = {
-          'message': 'messages.stmsg.m0007',
-          'messageText': 'messages.stmsg.m0006'
+            'message': 'messages.stmsg.m0007',
+            'messageText': 'messages.stmsg.m0006'
         };
     }
 }

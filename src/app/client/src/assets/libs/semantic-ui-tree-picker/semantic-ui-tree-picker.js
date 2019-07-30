@@ -1,6 +1,7 @@
 var conceptModal;
 (function () {
   module.exports = function (options) {
+    console.log('tree js picker = ', options);
     var actionButtons, config, count, initialize, initializeNodeList, initializeNodes, loadNodes, modal, nodeClicked, nodeIsPicked, nodes, pickNode, picked, recursiveNodeSearch, renderList, renderTree, showPicked, showSearch, showTree, tabs, unpickNode, updatePickedIds, updatePickedNodes, widget;
     widget = $(this);
     picked = [];
@@ -8,9 +9,8 @@ var conceptModal;
     tabs = {};
     options.noDataMessage = options.noDataMessage ? options.noDataMessage : 'no results';
     $("#" + options.nodeName).length == 0 ? '' : $("#" + options.nodeName).remove();
-
     /*Modal HTML Starts*/
-    modalTemplate = "<div class=\"sb-modal\"><div id=\""+options.nodeName+"\" class=\"ui normal modal visible active sb-treePicker\"><!--Header--><i class=\"close icon js-close-modal\"></i><div class=\"sb-modal-header\">"+options.name+"</div> <!--/Header--><!--Content--><div class=\"sb-modal-content p-0\"><div class=\"sb-treePicker-body\"><!--Selection Section--><div class=\"sb-treePicker-selectionSection\"><!--Search Box--><div class=\"sb-search-box no-btn\"><div class=\"input-div relative\"><i class=\"search icon sb-search-icon\"></i><input class=\"sb-search-input\" type=\"text\" placeholder=\""+options.searchText+"\" /><i class=\"close icon js-clear d-none\"></i></div></div><!--/Search Box--><div class=\"tree-tab\"><div></div></div><div class=\"search-tab\"></div></div><!--/Selection Section--><!--Selected Section--><div class=\"sb-treePicker-selectedSection\"><div class=\"d-flex flex-ai-center\">"+options.selectedText +' '+ options.name +"<span class=\"sb-treePicker-selected-count ml-5\"></span><button class=\"unpick-picked ml-auto sb-btn sb-btn-outline-error sb-btn-xs sb-left-icon-btn\"><i class=\"trash icon\"></i>"+options.removeAllText+"</button></div><div class=\"picked-tab py-15\"></div></div><!--/Selected Section--></div></div><!--/Content--><!--Actions--><div class=\"sb-modal-actions\"><a class=\"pick-search d-none\"><i class=\"checkmark icon\"></i>"+options.chooseAllText+"</a><a class=\"unpick-search d-none\"><i class=\"remove icon\"></i>"+options.removeAllText+"</a><button class=\"sb-btn sb-btn-normal sb-btn-primary accept\">"+options.submitButtonText+"</button><button class=\"sb-btn sb-btn-normal sb-btn-outline-primary close js-close-modal\">"+options.cancelButtonText+"</button></div><!--/Actions--></div></div>";
+    modalTemplate = "<div class=\"sb-modal\"><div id=\""+options.nodeName+"\" class=\"ui normal modal visible active sb-treePicker\"><!--Header--><i class=\"close icon js-close-modal\"></i><div class=\"sb-modal-header\">"+options.name+"</div> <!--/Header--><!--Content--><div class=\"sb-modal-content p-0\"><div class=\"sb-treePicker-body\"><!--Selection Section--><div class=\"sb-treePicker-selectionSection\"><!--Search Box--><div class=\"sb-search-box no-btn\"><div class=\"input-div relative\"><i class=\"search icon sb-search-icon\"></i><input class=\"sb-search-input\" type=\"text\" placeholder=\"Search\" /><i class=\"close icon js-clear d-none\"></i></div></div><!--/Search Box--><div class=\"tree-tab\"><div></div></div><div class=\"search-tab\"></div></div><!--/Selection Section--><!--Selected Section--><div class=\"sb-treePicker-selectedSection\"><div class=\"d-flex flex-ai-center\">Selected"+' '+ options.name +"<span class=\"sb-treePicker-selected-count ml-5\"></span><button class=\"unpick-picked ml-auto sb-btn sb-btn-outline-error sb-btn-xs sb-left-icon-btn\"><i class=\"trash icon\"></i>Remove All</button></div><div class=\"picked-tab py-15\"></div></div><!--/Selected Section--></div></div><!--/Content--><!--Actions--><div class=\"sb-modal-actions\"><a class=\"pick-search d-none\"><i class=\"checkmark icon\"></i>Choose All</a><a class=\"unpick-search d-none\"><i class=\"remove icon\"></i>Remove All</a><button class=\"btn btn-purple accept\">Submit</button><button class=\"btn btn-lightgrey  js-close-modal\" style=\"margin-right:1rem;\">Cancel</button></div><!--/Actions--></div></div>";
     /*Modal HTML Ends*/
 
     modal = $(modalTemplate).modal({
@@ -65,7 +65,16 @@ var conceptModal;
         widget.html(config.displayFormat([]));
       }
       widget.unbind("click");
+      $('.sb-modal .ui.modal.normal').removeClass('active');
+      $('.sb-modal .ui.modal.normal').removeClass('visible');
       widget.on('click', function (e) {
+        if(config.nodeName === 'framework') {
+        $('#framework').addClass('active');
+        $('#framework').addClass('visible');
+        } else {
+          $('#topic').addClass('active');
+          $('#topic').addClass('visible');
+        }
         modal.modal('show');
         if (!nodes.length) {
           if (config.url) {

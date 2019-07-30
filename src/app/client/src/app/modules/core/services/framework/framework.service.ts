@@ -41,7 +41,6 @@ export class FrameworkService {
       this._channelData$.next({ err: null, channelData: channelData });
     } else {
       if (framework && !_.get(this._frameworkData, framework)) {
-
         this.getFrameworkCategories(framework).subscribe(
           (frameworkData: ServerResponse) => {
             this.setFrameWorkData(frameworkData);
@@ -84,6 +83,7 @@ export class FrameworkService {
     const frameworkOptions = {
       url: this.configService.urlConFig.URLS.FRAMEWORK.READ + '/' + framework
     };
+
     return this.publicDataService.get(frameworkOptions);
   }
 

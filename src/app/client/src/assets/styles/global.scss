@@ -5,7 +5,7 @@ body {
 }
 
 body {
-  background: $body-background-color !important;
+  background: #fff !important;
   position: relative;
   font-family: $font-stack-en;
   letter-spacing: 0.2px;
@@ -14,7 +14,7 @@ body {
   padding-bottom: 400px;
   min-height: 100vh;
   &.pushable {
-    background: $body-background-color !important;
+    background: #fff !important;
     &>.pusher {
       background: transparent !important;
       padding-bottom: 400px !important;
@@ -74,3 +74,35 @@ body {
     }
   }
 }
+.btn-purple {
+  background-color: #a8abe3 !important;
+  border-radius: 4px !important;
+  border: none;
+  color: #fff !important;
+  border-radius: 5px;
+  height: 40px;
+  font-family: "Muli",sans-serif;
+  font-size: 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+.btn-lightgrey {
+  background-color: #e4e4e4 !important;
+  border-radius:4px !important;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  font-family: "Muli",sans-serif;
+  font-size: 15px;
+  width: fit-content;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+

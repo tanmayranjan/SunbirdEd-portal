@@ -512,6 +512,9 @@ i.large.icon.limitedPublishingLinkIcon {
   max-height: calc(70vh);
   overflow: auto;
 }
+.ui.modal {
+  height: unset;
+}
 /*concept selector pop up */
 .ui.tree-picker.modal .header .ui.menu {
   margin-top: -12px;

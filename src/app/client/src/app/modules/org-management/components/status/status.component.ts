@@ -152,18 +152,18 @@ export class StatusComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit () {
     setTimeout(() => {
-        this.telemetryImpression = {
-          context: {
-            env: this.activatedRoute.snapshot.data.telemetry.env
-          },
-          edata: {
-            type: this.activatedRoute.snapshot.data.telemetry.type,
-            pageid: 'profile-bulk-upload-check-status',
-            subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
-            uri: this.router.url,
-            duration: this.navigationhelperService.getPageLoadTime()
-          }
-        };
+        // this.telemetryImpression = {
+        //   context: {
+        //     env: this.activatedRoute.snapshot.data.telemetry.env
+        //   },
+        //   edata: {
+        //     type: this.activatedRoute.snapshot.data.telemetry.type,
+        //     pageid: 'profile-bulk-upload-check-status',
+        //     subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
+        //     uri: this.router.url,
+        //     duration: this.navigationhelperService.getPageLoadTime()
+        //   }
+        // };
     });
   }
   setInteractEventData() {

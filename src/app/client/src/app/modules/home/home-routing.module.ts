@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 // Import component
 import { MainHomeComponent } from './component/index';
 import { DetailsPopupComponent } from '@sunbird/announcement';
+import { SpaceMainHomeComponent } from './component/space-main-home/space-main-home.component';
 const telemetryEnv = 'home';
 const objectType = 'home';
 const routes: Routes = [
@@ -15,7 +16,7 @@ const routes: Routes = [
         type: 'view', object: { type: objectType, ver: '1.0' }
       }
     },
-    component: MainHomeComponent,
+    component: SpaceMainHomeComponent,
     children: [
       { path: 'view/:announcementId', component: DetailsPopupComponent,
        data: {

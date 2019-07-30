@@ -82,8 +82,12 @@ module.exports = (app, keycloak) => {
     '/:slug/explore', '/:slug/explore/*',
      '/play/*', 
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
-    '/explore-courses','/explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
-    '/explore-library','/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
+     '/contactUs', '/:slug/contactUs', '/:slug/about', '/about',
+     '/core','/:slug/core', '/:slug/collaborators', '/:slug/policy', '/policy', 
+     '/:slug/termsOfUse' , '/termsOfUse', '/:slug/process','/process',
+     '/framework', '/:slug/framework', 'resource/player/conetnt/:contentId',
+    '/explore-courses',' /explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
+    '/explore-library', '/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
 
   app.all(['*/dial/:dialCode', '/dial/:dialCode'], (req, res) => res.redirect('/get/dial/' + req.params.dialCode))
@@ -91,9 +95,10 @@ module.exports = (app, keycloak) => {
   app.all('/app', (req, res) => res.redirect(envHelper.ANDROID_APP_URL))
 
   app.all(['/announcement', '/announcement/*', '/search', '/search/*',
-    '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*',
+    '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home',
+    '/Workspace','/Workspace/*', '/upForReview', '/upForReview/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
-    '/resources/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
+    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
 
   app.all('/:tenantName', renderTenantPage)
 }

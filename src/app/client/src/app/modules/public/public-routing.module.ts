@@ -2,6 +2,20 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LandingPageComponent } from './components';
 import { LandingpageGuard } from './services';
+import { CommonLicenseComponent } from './components/common-license/common-license.component';
+import { PeopleInvlovedComponent } from './components/people-invloved/people-invloved.component';
+import { AboutUSComponent } from './components/about-us/about-us.component';
+import { BlogComponent } from './components/blog/blog.component';
+import { ExploreAssetComponent } from './components/explore-asset/explore-asset.component';
+import { CoreComponent } from './components/core/core.component';
+import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
+import { FrameworkComponent } from './components/framework/framework.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+// import { WorkspaceComponent } from './components/workspace/workspace.component';
+// import { AdduserComponent } from './components/adduser/adduser.component';
+import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
+// import { ViewuserComponent } from './components/viewuser/viewuser.component';
+import { UserEditComponent } from '../search';
 
 const routes: Routes = [
   {
@@ -17,6 +31,30 @@ const routes: Routes = [
   {
     path: ':slug/explore-library', loadChildren: './module/library-content/library-content.module#LibraryContentModule'
 
+  },
+  // {
+  //   path: ':slug/contactUs', loadChildren:'./module/contact-us/contact-us.module#ContactUsModule'
+  // },
+  // {
+  //   path: 'contactUs', loadChildren:'./module/contact-us/contact-us.module#ContactUsModule'
+  // },
+  {
+    path: ':slug/contactUs' , component: ContactUsComponent
+  },
+  {
+    path: 'contactUs' , component: ContactUsComponent
+  },
+  {
+    path: ':slug/about', component: AboutUSComponent
+  },
+  {
+    path: 'about', component: AboutUSComponent
+  },
+  {
+    path: ':slug/collaborators', component: PeopleInvlovedComponent
+  },
+  {
+    path: 'collaborators', component: PeopleInvlovedComponent
   },
   {
     path: ':slug/explore', loadChildren: './module/explore/explore.module#ExploreModule'
@@ -45,9 +83,38 @@ const routes: Routes = [
   {
     path: 'sign-in/sso', loadChildren: './module/sign-in/sso/sso.module#SsoModule'
   },
+
+  {
+    path: 'process', component: CommonLicenseComponent
+  },
+  {
+    path: ':slug/process', component: CommonLicenseComponent
+  },
+  {
+    path: 'policy', component: BlogComponent
+  },
+  {
+    path: ':slug/policy', component: BlogComponent
+  },
+  {
+    path: 'exploreAsset', component: ExploreAssetComponent
+  },
+  {
+    path: ':slug/core', component: CoreComponent
+  },
+  {
+    path: 'termsOfUse', component: ExploreThinkingComponent
+  },
+  {
+    path: ':slug/termsOfUse', component: ExploreThinkingComponent
+  }
+  , {
+    path: ':slug/framework', component: FrameworkComponent
+  },
   {
     path: 'play', loadChildren: './module/player/player.module#PlayerModule'
-  }];
+  }
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -1,0 +1,83 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+.popup-content{
+    width: 850px !important;
+   }
+   .ui.dropdown:not(.button)>.default.text {
+       color: #cdcccc !important; 
+    display: none;
+     }
+    .ui.inline.dropdown.search-dropdown {
+     margin-left: 5px;
+     box-sizing: border-box;
+     }
+     .btn {
+         height: 3rem;
+     }
+
+     .pad  {
+         padding-top: 2rem;
+     }
+     .upForReviewSearchBox {
+         border-radius: 4px !important;
+     }
+     .ui.segment {
+        position: relative;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.25);
+        // margin: 1rem 0;
+        padding: 20px;
+        border-radius: 4px;
+        border: 1px solid #d8dee2;
+    }
+     .searchicon.ui.icon.input input.upForReviewSearchBox {
+        width: 220px;
+        background: #fdfdfd;
+        border-top-right-radius: 0!important;
+        border-bottom-right-radius: 0!important;
+        border-right-color: transparent!important;
+        border: 1px solid rgba(51,51,51,.33);
+        border-radius: .28571429rem;
+        height: 3rem;
+    }
+     @media screen and(min-width:312px) and (max-width:424px) {
+         .card {
+            width: 85vw !important;         
+        }
+         .prominent-filter {
+            width: 100vw !important;
+         }
+     }
+     @media screen and (min-width: 425px) and(max-width:767px) {
+        .card {
+            width: 89vw !important;         
+        }
+        .prominent-filter {
+            width: 100vw !important;
+         }
+     }
+     @media screen and(min-width: 768px) and (max-width:980px) {
+        .upForReviewSearchBox {
+            margin-left: -4rem !important;
+            margin-top: 0rem !important;
+            height: 6vh;
+        }
+        .input-group-btn 
+        {
+            margin-top: 0rem !important;
+        }
+
+        
+     }
+
+     .btn-light {
+        border-top-left-radius: 0!important;
+        border-bottom-left-radius: 0!important;
+        border: 1px solid rgba(34,36,38,.15);
+        border-radius: .28571429rem;
+    }
+
+    @media not all and (min-width: 765px) {
+        .pad{
+            margin-right: 1rem;
+        } 
+    }

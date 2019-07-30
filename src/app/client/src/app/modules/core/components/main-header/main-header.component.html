@@ -19,7 +19,7 @@
                 <i class="large bars icon link primary-color mobile only" (click)="showSideBar()" tabindex="0"></i>
                 <!--/Hamburger Icon-->
                 <!--Main Menu-->
-                <app-main-menu  class="d-flex computer only ml-auto"></app-main-menu>
+                <app-main-menu [slugInfo]="slug" class="d-flex computer only ml-auto"></app-main-menu>
                 <!--/Main Menu-->
                 <!--Avtar Dropdown-->
                 <a class="profile-avtar computer only p-0 ml-15" *ngIf="userService.loggedIn && !isOffline"
@@ -81,9 +81,9 @@
             <!--/Divider-->
             <!--Search Box-->
             <!--Logged in Pages-->
-            <app-search class="sb-search-box mr-auto" *ngIf="!showExploreHeader && !isOffline"
+            <app-other-search class="sb-search-box mr-auto" [slugInfo]="slug" *ngIf="!showExploreHeader && !isOffline"
                 [ngClass]="{'ml-auto': searchBox.center, 'ml-0': !searchBox.center, 'small': searchBox.smallBox, 'large': searchBox.largeBox, 'medium': searchBox.mediumBox}">
-            </app-search>
+            </app-other-search>
             <!--/Logged in Pages-->
             <!--Explore Pages-->
             <div class="sb-search-box mr-auto" *ngIf="showExploreHeader && !isOffline"

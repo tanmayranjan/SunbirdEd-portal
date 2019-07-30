@@ -216,18 +216,18 @@ export class UserUploadComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   ngAfterViewInit () {
     setTimeout(() => {
-      this.telemetryImpression = {
-        context: {
-          env: this.activatedRoute.snapshot.data.telemetry.env
-        },
-        edata: {
-          type: this.activatedRoute.snapshot.data.telemetry.type,
-          pageid: 'profile-bulk-upload-user-upload',
-          subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
-          uri: this.router.url,
-          duration: this.navigationhelperService.getPageLoadTime()
-        }
-      };
+      // this.telemetryImpression = {
+      //   context: {
+      //     env: this.activatedRoute.snapshot.data.telemetry.env
+      //   },
+      //   edata: {
+      //     type: this.activatedRoute.snapshot.data.telemetry.type,
+      //     pageid: 'profile-bulk-upload-user-upload',
+      //     subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
+      //     uri: this.router.url,
+      //     duration: this.navigationhelperService.getPageLoadTime()
+      //   }
+      // };
     });
   }
   setInteractEventData() {

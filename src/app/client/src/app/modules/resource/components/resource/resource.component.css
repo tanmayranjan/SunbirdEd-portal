@@ -1,0 +1,5 @@
+@media only screen and (min-width: 1200px){
+.ui.container.width {
+    width: 1127px !important;
+}
+}

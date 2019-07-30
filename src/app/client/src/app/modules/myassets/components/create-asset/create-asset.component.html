@@ -1,0 +1,60 @@
+<div class="container mt-5">
+    <h4>Update Asset</h4>
+    <hr>
+    <form class="ui form">
+        <div class="content">
+            <div *ngIf="formFieldProperties && categoryMasterList">
+                <app-update-resoure-form #formData [formFieldProperties]="formFieldProperties"
+                    [categoryMasterList]="categoryMasterList">
+                </app-update-resoure-form>
+            </div>
+            <div *ngIf="enabled" class="mt-10">
+                <!-- <p>
+                    File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
+                </p> -->
+                <p>
+                    File : <span (click)="contentClick()" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
+                </p>
+
+            </div>
+            <div *ngIf="enabled">
+                <!-- <div class="form-group" *ngIf="enabled">
+                    <label for="exampleInputFile"></label>
+                    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"
+                        accept="application/pdf" (change)="basicUploadFile($event)">
+                    <small id="fileHelp" class="form-text text-muted">File accepted - pdf, Max file size - 50 Mb</small>
+                </div> -->
+                <div class="actions mt-10">
+                    <p class="text-align-center pt-20" id="res-align">
+                        <button class="btn btn-default btn-sec mr-5 btn-lg text-light" id="res-btn"
+                            (click)="checkFieldofFile()" type="submit">Update File</button>
+                        <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
+                    </p>
+
+                </div>
+            </div>
+            <div *ngIf="enableContent">
+                <span (click)="contentClick()" class="pdfStyle"><i class="fas fa-edit"></i> Edit Content</span>
+            </div>
+            <div class="actions mt-10" *ngIf="enableContent">
+                <p class="text-align-center pt-20">
+                    <button class="btn btn-default btn-sec mr-5 btn-lg text-light" (click)="checkFieldofFile()"
+                        type="submit">Update Content</button>
+                    <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
+
+                </p>
+
+            </div>
+            <div class="actions mt-10" *ngIf="enableLink">
+                <p class="text-align-center pt-20">
+                    <button class="btn btn-default btn-sec mr-5 btn-lg text-light" (click)="checkFields()"
+                        type="submit">Update</button>
+                    <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
+
+                </p>
+
+            </div>
+
+        </div>
+    </form>
+</div>

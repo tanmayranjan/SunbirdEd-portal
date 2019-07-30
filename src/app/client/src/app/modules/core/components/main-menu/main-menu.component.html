@@ -1,8 +1,8 @@
 <!--Computer-->
 <div class="ui text menu m-0 d-flex flex-jc-center flex-ai-center computer only">
 
-	<!--Logged in user-->
-	<ng-container *ngIf="userService.loggedIn">
+	<!--Logged in user other instance-->
+	<ng-container *ngIf="userService.loggedIn ">
 		<a class="item" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')"
 			appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/resources">
 			{{resourceService?.frmelmnts?.tab?.resources}}
@@ -24,8 +24,9 @@
 	</ng-container>
 	<!--/Logged in user-->
 
+
 	<!--Not Logged in user-->
-	<ng-container *ngIf="!userService.loggedIn && !isOffline">
+	<ng-container *ngIf="!userService.loggedIn && !isOffline ">
 		<button class="ui blue button" *ngIf="router.isActive('', true) && exploreButtonVisibility==='true'"
 			tabindex="0" [routerLink]="'/explore'">
 			{{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}

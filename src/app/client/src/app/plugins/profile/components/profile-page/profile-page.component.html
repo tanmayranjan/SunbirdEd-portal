@@ -1,4 +1,4 @@
-<div [appTelemetryImpression]="telemetryImpression" *ngIf="userProfile">
+<div [appTelemetryImpression]="telemetryImpression" *ngIf="userProfile && slug !== 'space'">
   <section class="pt-30 pb-30 d-flex flex-ai-center flex-dc">
     <div class="ui container">
       <div class="mb-15 d-flex flex-jc-center relative">
@@ -218,7 +218,7 @@
         <div class="ui segment">
           <div class="regular slider pt-10">
             <app-page-section [section]="{ contents: contributions}" (visits)="prepareVisits($event)"
-              (playEvent)="openContent($event)"></app-page-section>
+              (playEvent)="openContent($event)" [slug]= "slug"></app-page-section>
           </div>
         </div>
       </div>
@@ -280,6 +280,163 @@
         </button>
         <button class="ui semi-circular dodger-blue button center-aligned" (click)="toggleCourse(false)"
           *ngIf="!showMoreTrainings">{{resourceService.frmelmnts.lbl.viewless}}
+          <i class="chevron up icon pl-10"></i>
+        </button>
+      </div>
+    </ul>
+  </div>
+  <!-- tarainings attended mobile view ends-->
+</div>
+<!--space profile page-->
+<div [appTelemetryImpression]="telemetryImpression" *ngIf="userProfile && slug === 'space'">
+  <section class="pt-30 pb-30 d-flex flex-ai-center flex-dc">
+    <div class="ui container">
+      <div class="mb-15 d-flex flex-jc-center relative">
+        <ngx-avatar class="my-avatar" [style]="customStyle" [size]="90" initialsSize="1" [textSizeRatio]="2" name="{{userProfile.firstName}} ">
+        </ngx-avatar>
+      </div>
+    </div>
+    <div class="fs-2-5 font-w-bold mb-15 text-ac">{{userProfile.firstName | titlecase}} {{userProfile.lastName |
+      titlecase}}</div>
+    <div class="fs-1-5 font-w-bold mb-10 text-ac" *ngIf=" orgDetails && orgDetails.orgName">{{orgDetails.orgName}}</div>
+    <div class="m-0 pl-0 computer only" *ngIf=" orgDetails && orgDetails.locations">
+      <div class="mb-0 d-flex mb-5 flex-jc-center" *ngIf="getLocationDetails(orgDetails.locations, 'block')">
+        <div class="fs-1-16">{{resourceService.frmelmnts.lbl.block}} :</div>
+        <div class="fs-1-16 font-w-bold ml-5">{{getLocationDetails(orgDetails.locations, 'block')}}</div>
+      </div>
+      <div class="mb-0 d-flex flex-jc-center" *ngIf="getLocationDetails(orgDetails.locations, 'district') && getLocationDetails(orgDetails.locations, 'state') ">
+        <div class="fs-1-16">{{resourceService.frmelmnts.lbl.district}} :</div>
+        <div class="fs-1-16 font-w-bold ml-5">{{getLocationDetails(orgDetails.locations, 'district')}},
+          {{getLocationDetails(orgDetails.locations, 'state')}}</div>
+      </div>
+    </div>
+    <div class="m-0 pl-0 mobile only" *ngIf=" orgDetails && orgDetails.locations">
+      <div class="mb-0 d-flex  m-responsive-flex-dc mt-15" *ngIf="getLocationDetails(orgDetails.locations, 'block')">
+        <span class="fs-1-16 min-w-90 text-ac ">{{resourceService.frmelmnts.lbl.block}} :</span>
+        <span class="fs-1-16 font-w-bold text-ac">{{getLocationDetails(orgDetails.locations, 'block')}}</span>
+      </div>
+      <div class="mb-0 d-flex  m-responsive-flex-dc mt-15" *ngIf="getLocationDetails(orgDetails.locations, 'district') && getLocationDetails(orgDetails.locations, 'state') ">
+        <span class="fs-1-16 min-w-90 text-ac">{{resourceService.frmelmnts.lbl.district}} :</span>
+        <span class="fs-1-16 font-w-bold text-ac">{{getLocationDetails(orgDetails.locations, 'district')}},
+          {{getLocationDetails(orgDetails.locations, 'state')}}</span>
+      </div>
+    </div>
+  </section>
+
+<section>
+    <div class="container mt-5 mb-30">
+        <div class="card">
+            <div class="card-header text-center text-light" style="background: #585858;">
+                <div class="row mt-15">
+                 <div class="ml-15">
+                   <h4>User Information</h4>
+                 </div>
+                </div>
+            </div>
+            <div class="card-body">
+              <p class=""> <span style="font-weight: bold;">First Name: &nbsp;</span> <span> {{userProfile.firstName | titlecase}} {{userProfile.lastName |
+                  titlecase}}</span></p>
+              <p class=""><span style="font-weight: bold;">User Name: &nbsp;</span> <span> {{userProfile.userName}}</span></p>
+              <p class="" *ngIf="userProfile.email"><span style="font-weight: bold;">Email: &nbsp; </span><span>{{userProfile.email}}</span></p>
+              <p class="" *ngIf="userProfile.phone"><span style="font-weight: bold;">Phone No: &nbsp;</span><span>+91 {{userProfile.phone}}</span> </p>
+              <p class="" *ngIf="roles && roles.length > 0" > 
+                <span> Roles: &nbsp;</span>
+                      <span class="ui dodger-blue basic label" *ngFor="let role of roles | slice:0:showMoreRolesLimit">{{role}}</span>
+                     <span *ngIf="roles.length > defaultShowMoreRolesLimit" class="fs-1 color-2 mb-10 font-w-bold cursor-pointer">
+                  <span tabindex="0" *ngIf="showMoreRoles" (click)="toggle(true)">+ {{roles.length -
+                    defaultShowMoreRolesLimit}} {{resourceService.frmelmnts.lbl.more}}
+                    <i class="chevron down icon"></i>
+                  </span>
+                  <span (click)="toggle(false)" *ngIf="!showMoreRoles">{{resourceService.frmelmnts.lbl.showLess}}
+                    <i class="chevron up icon"></i>
+                  </span>
+                     </span>
+                    </p>
+            </div>
+        </div>
+      </div>
+</section>
+
+  <!-- my badges section starts -->
+  <extension-point *ngIf="userProfile.badgeAssertions && userProfile.badgeAssertions.length > 0" [name]="'profile-widget'"></extension-point>
+  <!-- my badges section ends -->
+
+
+  <div class="profile-bg-c-2 pt-30" *ngIf="attendedTraining && attendedTraining.length > 0">
+    <div class="ui container">
+      <!--contributions view starts-->
+      <!-- <div class="fs-1-7 font-w-bold pl-20 mobile only" *ngIf="contributions && contributions.length > 0">{{resourceService.frmelmnts.scttl.contributions}}
+        ({{contributions.length}})&#x200E;</div>
+      <div class="ui divider my-5 mobile only"></div> -->
+      <!--contributions computer view starts-->
+      <!-- <div class="ui segments" *ngIf="contributions && contributions.length > 0">
+        <div class="ui segment computer only">
+          <div class="fs-1-7 pl-10 font-w-bold">{{resourceService.frmelmnts.scttl.contributions}} ({{contributions.length}})&#x200E;</div>
+        </div>
+
+        <div class="ui segment">
+          <div class="regular slider pt-10">
+            <ngx-slick  in-view-container [throttle]="[1000]" [trigger]="item" class="carousel" #slickModal="slick-modal"
+            [config]="slideConfig" (afterChange)="onTelemetryEvent(contributions,$event)"
+              (beforeChange)="beforeContributionSlideChange($event)">
+              <div in-view-item  ngxSlickItem *ngFor="let item of contributions;let i = index;" [id]="i" [data]="item" class="slide">
+                <div>
+                  <app-space-card (clickEvent)="onClickOfMyContributions($event)" [slug]="slug" [data]="item" [customClass]="'pr-20'" class="pr-20 d-block"></app-space-card>
+                </div>
+              </div>
+            </ngx-slick>
+          </div>
+        </div>
+      </div> -->
+      <!--contributions computer view ends-->
+      <!--contributions view ends-->
+
+      <!-- tarainings attended computer view strats-->
+      <table class="ui basic table profile-bg-c-1 mt-20 mb-30 computer only" >
+        <thead>
+          <tr>
+            <th colspan="2" class="fs-1-7 pl-30">{{resourceService.frmelmnts.lbl.trainingAttended}}
+              ({{attendedTraining.length}})&#x200E;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <ul class="pl-30 pr-30">
+              <li class="d-flex flex-jc-space-between mb-20" *ngFor="let data of attendedTraining | slice:0:courseLimit">
+                <span class="fs-1-16 color-3">{{data.courseName}}</span>
+                <span class="fs-1 color-4" *ngIf="data.completedOn">{{data.completedOn | date :'MMMM yyy' }}</span>
+              </li>
+              <div class=" mb-15 d-flex flex-jc-center relative" *ngIf="attendedTraining.length > 3">
+                <button class="ui semi-circular dodger-blue button" *ngIf="showMoreTrainings" (click)="toggleCourse(true)">{{resourceService.frmelmnts.lbl.viewmore}}
+                  <i class="chevron down icon pl-10"></i>
+                </button>
+                <button class="ui semi-circular dodger-blue button" (click)="toggleCourse(false)" *ngIf="!showMoreTrainings">{{resourceService.frmelmnts.lbl.viewless}}
+                  <i class="chevron up icon pl-10"></i>
+                </button>
+              </div>
+            </ul>
+          </tr>
+        </tbody>
+      </table>
+      <!-- tarainings attended computer view ends-->
+    </div>
+  </div>
+
+  <!-- tarainings attended mobile view strats-->
+  <div class="fs-1-7 font-w-bold mt-30 pl-20 mobile only" *ngIf="attendedTraining && attendedTraining.length > 0">
+    {{resourceService.frmelmnts.lbl.trainingAttended}} ({{attendedTraining.length}})&#x200E;</div>
+  <div class="ui divider my-5 mobile only"></div>
+  <div class="profile-bg-c-1 mobile only" *ngIf="attendedTraining && attendedTraining.length > 0">
+    <ul class="px-20">
+      <li class="d-flex flex-dc mb-20" *ngFor="let data of attendedTraining | slice:0:courseLimit">
+        <span class="fs-1-16 color-3">{{data.courseName}}</span>
+        <span class="fs-1 color-4" *ngIf="data.completedOn">{{data.completedOn | date :'MMMM yyy'}}</span>
+      </li>
+      <div class=" mb-15 d-flex flex-jc-center relative" *ngIf="attendedTraining.length > 3">
+        <button class="ui semi-circular dodger-blue button center-aligned" *ngIf="showMoreTrainings" (click)="toggleCourse(true)">{{resourceService.frmelmnts.lbl.viewmore}}
+          <i class="chevron down icon pl-10"></i>
+        </button>
+        <button class="ui semi-circular dodger-blue button center-aligned" (click)="toggleCourse(false)" *ngIf="!showMoreTrainings">{{resourceService.frmelmnts.lbl.viewless}}
           <i class="chevron up icon pl-10"></i>
         </button>
       </div>

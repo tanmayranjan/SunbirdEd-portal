@@ -49,6 +49,7 @@
     </angular2csv> -->
     <input #inputbtn type="file" class="d-none" accept=".csv" id="uploadorgscsv" onclick="this.value = null"
       (change)="uploadOrg($event.target.files)" autofocus required="" />
+      <button class="mr-10 sb-btn sb-btn-normal sb-btn-primary" (click)="modal.deny('denied')">Cancel</button>
   </div>
   <!--/Actions-->
 

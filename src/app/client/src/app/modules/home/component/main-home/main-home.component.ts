@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { CoursesService, UserService, PlayerService } from '@sunbird/core';
-import { ResourceService, ToasterService, ServerResponse, ConfigService, UtilService, NavigationHelperService } from '@sunbird/shared';
+import { CoursesService, UserService, PlayerService, PermissionService } from '@sunbird/core';
+import { ResourceService, ToasterService, ServerResponse, ConfigService, UtilService, IUserData } from '@sunbird/shared';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import * as _ from 'lodash-es';
 /**
@@ -17,12 +17,47 @@ import * as _ from 'lodash-es';
   styleUrls: ['./main-home.component.scss']
 })
 
-export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MainHomeComponent implements OnInit, OnDestroy {
+  public contents = [
+    {
+      role: 'CONTENT_CREATOR',
+      data: [ 'As a Content Creator, you can use the SPace to accomplish the following:',
+      // tslint:disable-next-line:max-line-length
+      ' - Search and Discover Assets: You can discover assets - Knowledge, Process, Software, Hardware, Data - that you would like to leverage for your Mission. Go to Shared Assets.',
+       // tslint:disable-next-line:max-line-length
+      ' - Add an Asset: You can add information about an asset that you like to share with others in the ecosystem. You can also edit, delete and publish your assets. Go to My Assets.'
+     ]
+    },
+    {
+     role: 'CONTENT_REVIEWER',
+     data: [
+       'As a Reviewer , you can use the SPace to accomplish the following:',
+        // tslint:disable-next-line:max-line-length
+       '- Search, Discover and Review Assets: You can discover assets - Knowledge, Process, Software, Hardware, Data - that you would like to Badge. Go to Shared Assets.',
+            ]
+   },
+   {
+     role: 'ORG_ADMIN',
+     data: [
+       'As a Organization Admin, you can use the SPace to accomplish the following:',
+        // tslint:disable-next-line:max-line-length
+       '- Search and Discover Assets: You can discover assets - Knowledge, Process, Software, Hardware, Data - that you would like to leverage for your Mission. Go to Shared Assets.',
+       '- Add User: You can add users and assign required roles to a specific user. Go to Add User.'
+     ]
+   },
+   {
+     role: 'TEACHER_BADGE_ISSUER',
+     data: [
+       'As a Badge Issuer, you can use the SPace to accomplish the following:',
+        // tslint:disable-next-line:max-line-length
+       '- Search, Discover and Badge Assets: You can discover assets - Knowledge, Process, Software, Hardware, Data - that you would like to Badge. Go to Shared Assets.',
+            ]
+   },
+   ];
   /**
   * inviewLogs
  */
   inviewLogs = [];
-  @ViewChild('slickModal') slickModal;
   /**
 	 * telemetryImpression
 	*/
@@ -98,14 +133,14 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       {
-        'breakpoint': 1920,
+        'breakpoint': 2000,
         'settings': {
           'slidesToShow': 4,
-          'slidesToScroll': 3
+          'slidesToScroll': 4
         }
       },
       {
-        'breakpoint': 1440,
+        'breakpoint': 1600,
         'settings': {
           'slidesToShow': 3.5,
           'slidesToScroll': 3
@@ -119,9 +154,9 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       {
-        'breakpoint': 992,
+        'breakpoint': 900,
         'settings': {
-          'slidesToShow': 2.25,
+          'slidesToShow': 2.5,
           'slidesToScroll': 2
         }
       },
@@ -140,21 +175,7 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       {
-        'breakpoint': 600,
-        'settings': {
-          'slidesToShow': 1.5,
-          'slidesToScroll': 1
-        }
-      },
-      {
         'breakpoint': 530,
-        'settings': {
-          'slidesToShow': 1.33,
-          'slidesToScroll': 1
-        }
-      },
-      {
-        'breakpoint': 498,
         'settings': {
           'slidesToShow': 1.25,
           'slidesToScroll': 1
@@ -163,21 +184,24 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         'breakpoint': 450,
         'settings': {
-          'slidesToShow': 1.15,
-          'slidesToScroll': 1
-        }
-      },
-      {
-        'breakpoint': 390,
-        'settings': {
           'slidesToShow': 1,
           'slidesToScroll': 1
         }
       }
-    ]
+    ],
+    infinite: false
   };
   /**The button clicked value for interact telemetry event */
   btnArrow: string;
+
+ workSpaceRole: Array<string>;
+ public userContents = [];
+ userlogged;
+ images = [1, 2, 3].map(() => `../../.../../../../../assets/images/banner_bg.jpg${Math.random()}`);
+ public permissionService: PermissionService;
+ showNavigationArrows = false;
+ showNavigationIndicators = false;
+ userRole: any;
   /**
    * The "constructor"
    *
@@ -187,9 +211,11 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param {ToasterService} iziToast Reference of toasterService.
    */
   constructor(resourceService: ResourceService, private playerService: PlayerService,
-    userService: UserService, courseService: CoursesService, toasterService: ToasterService,
-    route: Router, activatedRoute: ActivatedRoute, configService: ConfigService, utilService: UtilService,
-    public navigationhelperService: NavigationHelperService) {
+    courseService: CoursesService, toasterService: ToasterService,
+    route: Router, activatedRoute: ActivatedRoute, utilService: UtilService,
+    userService: UserService , permissionService: PermissionService,
+   configService: ConfigService
+    ) {
     this.userService = userService;
     this.courseService = courseService;
     this.resourceService = resourceService;
@@ -199,10 +225,32 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.configService = configService;
     this.utilService = utilService;
     this.btnArrow = 'prev-button';
+    this.configService = configService;
+    this.userService = userService;
+    this.permissionService = permissionService;
+    this.workSpaceRole = this.configService.rolesConfig.headerDropdownRoles.workSpaceRole;
   }
   /**
    * This method calls the course API.
    */
+  ngOnInit() {
+    // this.populateUserProfile();
+    console.log('home');
+    this.getUserRoles();
+
+    this.populateEnrolledCourse();
+    this.telemetryImpression = {
+      context: {
+        env: this.activatedRoute.snapshot.data.telemetry.env
+      },
+      edata: {
+        type: this.activatedRoute.snapshot.data.telemetry.type,
+        pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
+        uri: this.activatedRoute.snapshot.data.telemetry.uri,
+        subtype: this.activatedRoute.snapshot.data.telemetry.subtype
+      }
+    };
+  }
   public populateEnrolledCourse() {
     this.courseSubscription = this.courseService.enrolledCourseData$.subscribe(
       data => {
@@ -245,11 +293,34 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
   *This method calls the populateUserProfile and populateCourse to show
   * user details and enrolled courses.
   */
-  ngOnInit() {
-    // this.populateUserProfile();
-    this.populateEnrolledCourse();
-    this.addSlideConfig();
-  }
+
+
+
+
+getUserRoles() {
+this.userService.userData$.subscribe(
+   (user: IUserData) => {
+     if (user && !user.err) {
+       this.userRole = user.userProfile.userRoles;
+     }
+   });
+   this.getContent();
+
+}
+getContent() {
+ this.userRole.forEach(element => {
+    // tslint:disable-next-line:max-line-length
+         if (element === 'CONTENT_CREATOR' || element === 'CONTENT_REVIEWER' || element === 'ORG_ADMIN' || element === 'TEACHER_BADGE_ISSUER') {
+           _.forEach(this.contents, content => {
+             if (element === content.role) {
+               this.userContents.push(content.data);
+             }
+           });
+         }
+       });
+}
+
+
   /**
    *ngOnDestroy unsubscribe the subscription
    */
@@ -261,20 +332,7 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.courseSubscription.unsubscribe();
     }
   }
-  addSlideConfig() {
-    this.resourceService.languageSelected$
-        .subscribe(item => {
-          if (item.value === 'ur') {
-            this.slideConfig['rtl'] = true;
-          } else {
-            this.slideConfig['rtl'] = false;
-          }
-          if (this.slickModal) {
-            this.slickModal.unslick();
-            this.slickModal.initSlick(this.slideConfig);
-          }
-    });
-  }
+
   /**
    * get inview  Data
   */
@@ -356,21 +414,5 @@ export class MainHomeComponent implements OnInit, OnDestroy, AfterViewInit {
       type: 'user',
       ver: '1.0'
     };
-  }
-  ngAfterViewInit () {
-    setTimeout(() => {
-      this.telemetryImpression = {
-        context: {
-          env: this.activatedRoute.snapshot.data.telemetry.env
-        },
-        edata: {
-          type: this.activatedRoute.snapshot.data.telemetry.type,
-          pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-          uri: this.activatedRoute.snapshot.data.telemetry.uri,
-          subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
-          duration: this.navigationhelperService.getPageLoadTime()
-        }
-      };
-    });
   }
 }

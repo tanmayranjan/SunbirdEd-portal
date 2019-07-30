@@ -95,6 +95,7 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
   ngOnInit() {
+    console.log('inside app component');
     this.resourceService.initialize();
     combineLatest(this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
@@ -192,6 +193,7 @@ export class AppComponent implements OnInit {
     if (this.userService.loggedIn) {
       return of(undefined);
     } else {
+      console.log('slug info in app = ', this.activatedRoute);
       return this.router.events.pipe(filter(event => event instanceof NavigationEnd), first(),
         map(data => this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug')));
     }
@@ -202,6 +204,7 @@ export class AppComponent implements OnInit {
   private setUserDetails(): Observable<any> {
     return this.userService.userData$.pipe(first(),
       mergeMap((user: IUserData) => {
+
         if (user.err) {
           return throwError(user.err);
         }
@@ -209,6 +212,7 @@ export class AppComponent implements OnInit {
         this.slug = _.get(this.userProfile, 'rootOrg.slug');
         this.enableTenantHeader = _.get(this.userProfile, 'rootOrg.slug');
         this.channel = this.userService.hashTagId;
+        console.log('user details from app = ', user , this.slug, this.enableTenantHeader);
         return of(user.userProfile);
       }));
   }
@@ -218,7 +222,7 @@ export class AppComponent implements OnInit {
   private setOrgDetails(): Observable<any> {
     return this.orgDetailsService.getOrgDetails(this.slug).pipe(
       tap(data => {
-        console.log('getting org details = ' , data);
+        console.log('getting org details = ' , data, this.slug);
         this.orgDetails = data;
         this.orgName = data.slug;
         this.enableTenantHeader = data.slug;
@@ -309,12 +313,20 @@ export class AppComponent implements OnInit {
     }, err => {
       this.toasterService.warning(this.resourceService.messages.emsg.m0012);
       this.frameWorkPopUp.modal.deny();
-      this.router.navigate(['/resources']);
+      if (this.slug !== 'space') {
+        this.router.navigate(['/resources']);
+      } else {
+        this.router.navigate(['/myassets']);
+      }
       this.cacheService.set('showFrameWorkPopUp', 'installApp');
     });
   }
   viewInBrowser() {
-    this.router.navigate(['/resources']);
+    if (this.slug !== 'space') {
+      this.router.navigate(['/resources']);
+    } else {
+      this.router.navigate(['/myassets']);
+    }
   }
   closeIcon() {
     this.showFrameWorkPopUp = false;

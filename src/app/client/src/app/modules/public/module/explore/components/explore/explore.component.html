@@ -1,13 +1,18 @@
 <div [appTelemetryImpression]="telemetryImpression">
-  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters" [filterEnv]="filterType" [ignoreQuery]="['key']"
+  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug !== 'space'" [filterEnv]="filterType" [ignoreQuery]="['key']"
     [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true
     [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
+  <app-space-prominent-filter  [pageId]="'explore-page'" *ngIf="initFilters && slug === 'space'" [slugInfo]="slug" [filterEnv]="filterType" [ignoreQuery]="['key']"
+  [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true
+  [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-space-prominent-filter>
   <div class="ui container mt-24">
     <div class="ui grid">
       <div class="twelve wide column" *ngFor="let section of pageSections;let last = last"
         [ngClass]="{'last mb-30':last}">
         <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
-          (viewAll)="viewAll($event)"></app-page-section>
+          (viewAll)="viewAll($event)" *ngIf="slug !== 'space'" ></app-page-section>
+          <app-space-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
+          (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
       </div>
       <div class="twelve wide column" *ngIf="showLoader">
         <app-loader [data]='loaderMessage'></app-loader>

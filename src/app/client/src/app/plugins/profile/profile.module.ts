@@ -14,7 +14,10 @@ import { CoreModule } from '@sunbird/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
+import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { AvatarModule } from 'ngx-avatar';
+import { OrgManagementModule } from '../../modules/org-management/org-management.module';
+import { NgInviewModule } from 'angular-inport';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,9 +28,11 @@ import { AvatarModule } from 'ngx-avatar';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    // WebExtensionModule,
+    WebExtensionModule,
     TelemetryModule,
     SlickModule,
+    NgInviewModule,
+    OrgManagementModule,
     AvatarModule,
     SharedFeatureModule
   ],

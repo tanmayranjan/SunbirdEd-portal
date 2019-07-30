@@ -6,6 +6,7 @@ import {
   UserDeleteComponent, OrgSearchComponent, CourseSearchComponent, LibrarySearchComponent
 } from './components';
 import { AuthGuard } from '../core/guard/auth-gard.service';
+import { SpaceResourceSearchComponent } from './components/space-resource-search/space-resource-search.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,17 @@ const routes: Routes = [
   },
   {
     path: 'Library/:pageNumber', component: LibrarySearchComponent,
+    data: {
+      breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Search', url: '' }],
+      telemetry: {
+        env: 'library', pageid: 'library-search', type: 'view', subtype: 'paginate'
+      },
+      softConstraints: {badgeAssertions: 98, board: 99, channel: 100}
+    }
+
+  },
+  {
+    path: 'sharedAssets/:pageNumber', component: SpaceResourceSearchComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Search', url: '' }],
       telemetry: {

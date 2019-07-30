@@ -88,7 +88,25 @@ export class OrgDetailsService {
     this.publicDataService.rootOrgId = this.orgDetails.rootOrgId;
     this.publicDataService.channelId = this.orgDetails.channel;
   }
-
+  searchOrgDetails(hashtagId) {
+    const option = {
+      url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
+      data: {
+        request: {
+          filters: {
+            rootOrgId: hashtagId
+          }
+        }
+      }
+    };
+    console.log('org search filter for space = ', option);
+      return this.publicDataService.post(option).pipe(mergeMap((data: ServerResponse) => {
+        if (data.result.response.count > 0) {
+          this.setOrgDetails(data.result.response);
+          return of(data.result.response);
+        }
+      }));
+  }
   searchOrg() {
     const option = {
       url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
@@ -101,6 +119,7 @@ export class OrgDetailsService {
       }
     };
     const orgDetails: any = this.cacheService.get('orgDetails');
+    console.log('org details = ', orgDetails);
     if (orgDetails) {
       return of(orgDetails);
     } else {

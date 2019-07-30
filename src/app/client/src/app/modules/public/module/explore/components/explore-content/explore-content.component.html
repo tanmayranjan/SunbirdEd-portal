@@ -1,12 +1,23 @@
 
 <div class="ui container">
       <div class="ui grid">
-            <div class="twelve wide column ">
-                <app-sunbird-data-driven-filter [pageId]="'explore-search'" *ngIf="initFilters" [filterEnv]="filterType"
+            <div class="twelve wide column " *ngIf="initFilters && slug === 'sunbirdorg'">
+                <app-sunbird-data-driven-filter [pageId]="'explore-search'"  [filterEnv]="filterType"
                 [enrichFilters]="facetsList" [ignoreQuery]="['key']" [accordionDefaultOpen]=true
                 [isShowFilterLabel]=true [hashTagId]="hashTagId" [showSearchedParam]=true (dataDrivenFilter)="getFilters($event)"></app-sunbird-data-driven-filter>
                 <app-sort-by [sortingOptions]="sortByOption" [url]="activatedRoute.snapshot.params.slug ? '/' + activatedRoute.snapshot.params.slug+ '/explore/1' : '/explore/1'"></app-sort-by>
-            </div>
+              </div>
+                <!-- <div  *ngIf="initFilters && slug === 'space'" > -->
+                  <div class="nine wide column" *ngIf="initFilters && slug === 'space'" >
+                    <app-space-data-driven-filter [pageId]="'explore-search'"[filterEnv]="filterType" *ngIf="initFilters && slug === 'space'" 
+                [enrichFilters]="facetsList" [ignoreQuery]="['key']" [accordionDefaultOpen]=true
+                [isShowFilterLabel]=true [hashTagId]="hashTagId" [showSearchedParam]=true (dataDrivenFilter)="getFilters($event)"></app-space-data-driven-filter>
+                  </div>
+                  <div class="three nine column" *ngIf="initFilters && slug === 'space'"  id="search">
+                    <app-search [slugInfo]="slug" *ngIf="initFilters && slug === 'space'" ></app-search>
+                </div>
+                <!-- </div> -->
+           
       <!-- </div>
 </div> -->
 <!-- <div class="ui container">
@@ -18,8 +29,38 @@
           <h4 class="sb-pageSection-title m-0 mr-5">{{resourceService.frmelmnts?.lbl?.showingResultsFor |
                                 interpolate:'{searchString}':this.queryParams.key}}</h4>
         </div>
+        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'space'"
+        class="ui ml-auto basic icon circular button " [routerLink]="['/space/explore']">
+        <i class="ui remove icon "></i>
+    </h5>
+    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'sunbirdorg'"
+    class="ui ml-auto basic icon circular button " [routerLink]="['/explore/1']">
+    <i class="ui remove icon "></i>
+</h5>
       </div>
     </div>
+
+    <div class="sb-pageSection"
+    *ngIf="!showLoader && !contentList.length">
+    <div class="sb-pageSection-header">
+        <p class="serch-allresult">
+            <span class="lower-case" *ngIf="this.queryParams.key">
+                No results found
+            </span>
+            in "assets"
+        </p>
+   
+    <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'space'"
+        class="ui right ml-auto floated basic icon circular button " [routerLink]="['/space/explore']">
+        <i class="ui remove icon "></i>
+      </h5>
+        <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" *ngIf="slug === 'sunbirdorg'"
+        class="ui ml-auto basic icon circular button " [routerLink]="['/explore/1']">
+        <i class="ui remove icon "></i>
+  
+    </h5>
+  </div>
+</div>
 
     <div [appTelemetryImpression]="telemetryImpression" class="twelve wide column" in-view-container
       (inview)="inView($event)" *ngIf="!showLoader && contentList.length">
@@ -27,11 +68,13 @@
         <div in-view-item [id]="i" [data]="content" class="masonry-item"
           *ngFor="let content of contentList;let i = index;">
           <app-card appContentDirection [data]="content" appTelemetryInteract
-            [telemetryInteractEdata]="cardIntractEdata" *ngIf="slug !== 'sunbirdorg'"
+            [telemetryInteractEdata]="cardIntractEdata" *ngIf="slug === 'sbwb'"
             [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
             (clickEvent)="playContent($event)" [data]="content"></app-card>
             <app-asset-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
             (clickEvent)="playContent($event)" [data]="content" *ngIf="slug === 'sunbirdorg'"></app-asset-card>
+            <app-space-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
+            (clickEvent)="playContent($event)" [data]="content" [slug]="slug" *ngIf="slug === 'space'"></app-space-card>
            
         </div>
       </div>

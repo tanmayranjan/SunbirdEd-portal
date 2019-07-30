@@ -35,6 +35,7 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
   public initFilters = false;
   public loaderMessage;
   public pageSections: Array<ICaraouselData> = [];
+  slug: any;
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -54,6 +55,9 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    sessionStorage.clear();
+    console.log('public course slug = ', this.activatedRoute.snapshot.params.slug);
+    this.slug = this.activatedRoute.snapshot.params.slug;
     combineLatest(
       this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug),
       this.getFrameWork()
@@ -79,6 +83,7 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
+
   public getFilters(filters) {
     const defaultFilters = _.reduce(filters, (collector: any, element) => {
         if (element.code === 'board') {
@@ -214,6 +219,7 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate([sectionUrl, 1], {queryParams: queryParams});
   }
   ngAfterViewInit () {
+    sessionStorage.clear();
     setTimeout(() => {
       this.setTelemetryData();
     });

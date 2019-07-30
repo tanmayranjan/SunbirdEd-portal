@@ -1,0 +1,145 @@
+<div class="container mt-5 mb-50" *ngIf = "!showLoader">
+    <div class="card">
+        <div class="card-header text-center text-light">
+            <div class="row mt-15">
+                <div class="col-md-1">
+                    <button type="button" class="btn text-secondary ml-4" id="style"
+                        (click)="navigateToDetailsPage()"><i class="fa fa-angle-left"></i></button>
+                </div>
+                <div class="col-sm-4">
+                    <!-- <div class="row">
+                            <div class="col"> -->
+                    <h5 *ngIf="assetDetail?.name" class="res-header">{{assetDetail?.name}}</h5>
+                    <!-- </div> -->
+                    <!-- </div>    -->
+
+                </div>
+                <div class="col-sm-7 pr-30 res-para">
+                    <p *ngIf="assetDetail?.gradeLevel" class="float-right">Sector :
+                        <span>
+                            <li *ngFor="let hero of assetDetail?.gradeLevel; let first = first;let last = last">
+                                {{ hero }} <span *ngIf="!last && assetDetail?.gradeLevel.length!=1"> ,</span>
+                            </li>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- <div>
+                <button type="button" class="btn ml-4 text-secondary float-right" id="stylefav"><i
+                        class="far fa-heart"></i></button>
+            </div> -->
+            <div class="row">
+                <div class="col-9">
+
+                </div>
+                <div class="col">
+                    <div *ngIf="assetDetail?.badgeAssertions">
+                        <div *ngFor="let badge of badgeList;let i = index">
+                            <button apptelemetryinteract="" class="ui small basic primary compact button ml-10 mt-10"
+                                *ngIf="i===0">
+                                <img src="{{badge.image}}" class="img"> {{badge.name}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p *ngIf="assetDetail?.board" class="card-text">Asset Type : {{assetDetail?.board}}
+            </p>
+            <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
+                    <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
+                        {{ hero }} <span *ngIf="!last"> ,</span>
+                    </li>
+                </span></p>
+            <p class="card-text" *ngIf="assetDetail?.keywords">Keywords : <span>
+                    <li *ngFor="let hero of assetDetail?.keywords; let first = first;let last = last">
+                        {{ hero | titlecase}} <span *ngIf="!last && assetDetail?.keywords.length!=1"> ,</span>
+                    </li>
+                </span>
+            </p>
+            <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
+            <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">Link: 
+                <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
+            </p>
+             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.link.slice(0,4) !== 'http' ">Link:
+                 <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
+            </p>
+            <p class="card-text">Submitted By : {{assetDetail?.creator}}</p>
+            <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
+
+
+            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
+                <p>
+                    File : <span (click)="navigateToplay()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+                    
+                </p>
+                <!-- <p>
+                    File : <span (click)="contentClick()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+                    
+                </p> -->
+            </div>
+            <div *ngIf="assetDetail?.mimeType === 'application/vnd.ekstep.ecml-archive'" (click)="navigateToplay()">
+                 <p>
+                    View Content <span  class="pdfStyle"></span>
+                    
+                </p>
+            </div>
+            <div class="ui buttons" *ngIf="visible">
+                <button class="ui negative button" (click)="rejectAsset(assetDetail?.identifier)">REJECT</button>
+                <div class="or"></div>
+                <button class="ui positive button" (click)="publishAsset(assetDetail?.identifier)">PUBLISH</button>
+            </div>
+
+       
+        <div *ngIf="!assetDetail?.badgeAssertions">
+            <div *ngFor="let role of user">
+                <div *ngIf="role === 'TEACHER_BADGE_ISSUER'">
+                    <p class="card-text" *ngIf="assetDetail?.status === 'Live' "> Assign Badges:
+                        <span *ngFor="let badge of badgeList;let i = index">
+                            <span class="row">
+                                <span class="col">
+                                    <button apptelemetryinteract=""
+                                        class="ui small basic primary compact button ml-10 mt-10" *ngIf="i === 0"
+                                        (click)="deleteConfirmModal(badge.issuerId,badge.badgeId); $event.stopPropagation()">
+                                        <img src="{{badge.image}}" class="img"> {{badge.name}}</button>
+                                </span>
+                            </span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+   
+    <div class="card-footer text-muted pt-30 pb-0">
+        <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 <span
+                *ngIf="assetDetail?.creators"></span> | Created By :
+            {{assetDetail?.creators | titlecase}} <span *ngIf="assetDetail?.since"> | Created Year :
+                {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region"> | Region(Geography of Re-usability) :
+                {{assetDetail?.region | titlecase}}</span> </p>
+        <p class="float-right"></p>
+    </div>
+</div>
+</div>
+
+<ng-template let-context let-modal="modal" #modalTemplate>
+    <div class="header"> Mark as 'VERIFIED ASSET'</div>
+    <div class="content">
+        <p>Are you sure you want to issue the badge to this content?</p>
+    </div>
+    <div class="actions">
+        <button class="btn btn-purple" (click)="modal.approve('approved')" autofocus>Yes</button>
+        <button class="btn btn-lightgrey ml-10" (click)="modal.deny('denied')">No</button>
+
+    </div>
+</ng-template>
+<!-- <router-outlet></router-outlet> -->
+
+<div class="container mt-20" *ngIf="showLoader ">
+ 
+    <app-loader [data]="loaderMessage"></app-loader>
+
+</div>
