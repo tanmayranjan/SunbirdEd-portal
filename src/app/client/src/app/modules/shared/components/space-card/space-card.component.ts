@@ -25,11 +25,11 @@ export class SpaceCardComponent  {
   public onAction(data, action) {
     console.log('content in space cards = ', data, action);
     // if(this.slug !== 'space' && !(this.userService.loggedIn)){
-    // this.clickEvent.emit({ 'action': action, 'data': data });
+    this.clickEvent.emit({ 'action': action, 'data': data });
     // } else {
-      if (this.slug === 'space') {
-    this.router.navigate(['resources/player/content/', data.identifier]);
-      }
+    //   if (this.slug === 'space') {
+    // this.router.navigate(['resources/player/content/', data.identifier]);
+    //   }
     // }
   }
 

@@ -19,7 +19,7 @@ import { ExploreThinkingComponent } from './components/explore-thinking/explore-
 // import { UserEditComponent } from './components/user-edit/user-edit.component';
 // import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { PublicFooterComponent } from './components/public-footer/public-footer.component';
-import { ExploreDetailPageComponent } from './components/explore-detail-page/explore-detail-page.component';
+// import { ExploreDetailPageComponent } from './components/explore-detail-page/explore-detail-page.component';
 import { UserSearchServicePublicService } from './services/searchService/user-search-service-public.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
@@ -28,6 +28,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TelemetryModule } from '../telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { BadgingModule } from '../badging';
+// import { SpacepdfViewerComponent } from './components/pdf-viewer/spacepdf-viewer.component';
 // import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
 @NgModule({
   imports: [
@@ -51,7 +52,7 @@ import { BadgingModule } from '../badging';
   //  SharedDetailPageComponent,
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
     ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent,
-     ExploreDetailPageComponent,
+    //  ExploreDetailPageComponent, SpacepdfViewerComponent
     //  ResourceViewerComponent,
     //  AdduserComponent, WorkspaceComponent
     ],
