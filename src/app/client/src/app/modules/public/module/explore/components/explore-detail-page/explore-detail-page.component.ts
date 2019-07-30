@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
-import { BadgesService } from '../../../core/services/badges/badges.service';
+import { BadgesService } from '@sunbird/core';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
   ToasterService, ServerResponse ,
@@ -68,6 +68,7 @@ export class ExploreDetailPageComponent implements OnInit {
   public resourceService: ResourceService;
   private toasterService: ToasterService;
   pdfs: any;
+  url: any;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router) {
@@ -131,7 +132,12 @@ export class ExploreDetailPageComponent implements OnInit {
     alert('Badge added Successfully');
   }
   navigateToDetailsPage() {
-    this.route.navigate(['explore']);
+    this.route.navigate(['space/explore']);
+  }
+  navigateToView() {
+    this.url = this.activatedRoute.snapshot.params;
+    console.log('activate route = ', this.activatedRoute, this.url);
+    this.route.navigate(['space/explore/player/content/' + this.url.contentId + '/view']);
   }
   public deleteConfirmModal(issuerId, badgeId) {
     this.add = true;

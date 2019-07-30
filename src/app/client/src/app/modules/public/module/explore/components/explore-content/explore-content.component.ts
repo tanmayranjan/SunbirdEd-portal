@@ -52,6 +52,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         this.filterType = this.configService.appConfig.explore.filterType;
     }
     ngOnInit() {
+        sessionStorage.clear();
         this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
             mergeMap((orgDetails: any) => {
                 console.log('org details for explore component = ', orgDetails.slug);
@@ -317,13 +318,13 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         }
     }
     ngAfterViewInit() {
-        sessionStorage.clear();
+        window.sessionStorage.clear();
         setTimeout(() => {
             this.setTelemetryData();
         });
     }
     ngOnDestroy() {
-        sessionStorage.clear();
+        window.sessionStorage.clear();
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
     }

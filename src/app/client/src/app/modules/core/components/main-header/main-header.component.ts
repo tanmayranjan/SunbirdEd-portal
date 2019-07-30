@@ -1,6 +1,6 @@
 import { filter, first } from 'rxjs/operators';
 import { UserService, PermissionService, TenantService, OrgDetailsService, FormService } from './../../services';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash-es';
@@ -13,7 +13,7 @@ declare var jQuery: any;
   selector: 'app-header',
   templateUrl: './main-header.component.html'
 })
-export class MainHeaderComponent implements OnInit {
+export class MainHeaderComponent implements OnInit, AfterViewInit {
 
   languageFormQuery = {
     formType: 'content',
@@ -83,6 +83,7 @@ export class MainHeaderComponent implements OnInit {
       this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
   }
   ngOnInit() {
+      window.sessionStorage.clear();
     console.log('activated route', this.activatedRoute);
     if (this.userService.loggedIn) {
       this.userService.userData$.pipe(first()).subscribe((user: any) => {
@@ -113,6 +114,8 @@ export class MainHeaderComponent implements OnInit {
   }
   getLanguage(channelId) {
     const isCachedDataExists = this._cacheService.get(this.languageFormQuery.filterEnv + this.languageFormQuery.formAction);
+      window.sessionStorage.clear();
+
     if (isCachedDataExists) {
       this.languages = isCachedDataExists[0].range;
     } else {
@@ -280,5 +283,8 @@ export class MainHeaderComponent implements OnInit {
   }
   showSideBar() {
     jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+  }
+  ngAfterViewInit() {
+    window.sessionStorage.clear();
   }
 }

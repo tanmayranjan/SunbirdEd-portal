@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from '../../services/index';
-import { Component,  Input, EventEmitter, Output } from '@angular/core';
+import { Component,  Input, EventEmitter, Output} from '@angular/core';
 import {ICaraouselData} from '../../interfaces/caraouselData';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash-es';
@@ -37,7 +37,6 @@ export class SpacePageSectionComponent implements OnInit {
   * This is slider setting
   */
 
-  route: Router;
  slideConfig = {
   'slidesToShow': 4,
   'slidesToScroll': 4,
@@ -119,16 +118,26 @@ export class SpacePageSectionComponent implements OnInit {
    * to generate interact telemetry data */
   btnArrow: string;
   pageid: string;
-  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService) {
+  find_user: string;
+  user: string[];
+  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService, public router: Router) {
     this.resourceService = resourceService;
   }
   playContent(event) {
+
     console.log('event =', event);
-    this.playEvent.emit(event);
+    // this.playEvent.emit(event);
+    if (this.user[1] === '/space/explore') {
+      this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+    } else {
+      this.router.navigate(['resources/player/content/', event.data.identifier]);
+    }
     // this.route.navigate(['/play/content', data.identifier]);
   }
   ngOnInit() {
-    console.log('icarousal data = ', this.section);
+    this.find_user =  window.location.href;
+    this.user = this.find_user.split('http://localhost:3000');
+    console.log('icarousal data = ', this.section, this.user);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {
