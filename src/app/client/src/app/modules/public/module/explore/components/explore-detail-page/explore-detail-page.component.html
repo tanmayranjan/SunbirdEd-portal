@@ -27,10 +27,10 @@
             </div>
         </div>
         <div class="card-body">
-            <div>
+            <!-- <div>
                 <button type="button" class="btn ml-4 text-secondary float-right" id="stylefav"><i
                         class="far fa-heart"></i></button>
-            </div>
+            </div> -->
             <p *ngIf="assetDetail?.board" class="card-text">Asset Type : {{assetDetail?.board}}</p>
             <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
