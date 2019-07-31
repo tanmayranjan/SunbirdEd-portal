@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { MyassestPageComponent, AssetDetailPageComponent, CreateAssetComponent, PdfViewerComponent, EditorComponent } from './components';
 import { SpaceDataDrivenComponent } from './components/space-data-driven/space-data-driven.component';
-import { GenericEditorComponent } from '../workspace';
+// import { GenericEditorComponent } from '../workspace';
 
 const routes: Routes = [
     {

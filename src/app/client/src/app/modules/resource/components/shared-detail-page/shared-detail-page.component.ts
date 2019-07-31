@@ -25,6 +25,7 @@ export interface IassessDetail {
   badgeAssertions: Array<any>;
   artifactUrl: string;
   mimeType: string;
+  lastSubmittedOn
 }
 
 @Component({
@@ -63,6 +64,7 @@ export class SharedDetailPageComponent implements OnInit {
     badgeAssertions: [],
     artifactUrl: '',
     mimeType: '',
+    lastSubmittedOn: ''
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
