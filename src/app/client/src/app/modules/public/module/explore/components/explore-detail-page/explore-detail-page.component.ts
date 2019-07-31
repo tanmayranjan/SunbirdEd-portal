@@ -24,6 +24,7 @@ export interface IassessDetail {
   creators: string;
   artifactUrl: string;
   mimeType: string;
+  lastSubmittedOn: string;
 
 }
 
@@ -63,6 +64,7 @@ export class ExploreDetailPageComponent implements OnInit {
     creators: '',
     artifactUrl: '',
     mimeType: '',
+    lastSubmittedOn: ''
 
   };
   public resourceService: ResourceService;

@@ -61,7 +61,7 @@
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
             <p class="card-text" *ngIf="assetDetail?.link && assetDetail?.mimeType === 'text/x-url'">Link: <a
                     href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a></p>
-                    <p class="card-text">Submitted By : {{assetDetail?.creator}}</p>
+                    <p class="card-text">Submitted By : {{assetDetail?.creators}}</p>
                     <p class="card-text">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
