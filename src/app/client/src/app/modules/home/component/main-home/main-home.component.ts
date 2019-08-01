@@ -202,6 +202,7 @@ export class MainHomeComponent implements OnInit, OnDestroy {
  showNavigationArrows = false;
  showNavigationIndicators = false;
  userRole: any;
+  slug: any;
   /**
    * The "constructor"
    *
@@ -302,6 +303,8 @@ this.userService.userData$.subscribe(
    (user: IUserData) => {
      if (user && !user.err) {
        this.userRole = user.userProfile.userRoles;
+       this.slug = user.userProfile.channel;
+       console.log('slug in home = ', this.slug);
      }
    });
    this.getContent();

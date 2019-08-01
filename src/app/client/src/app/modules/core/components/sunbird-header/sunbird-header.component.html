@@ -25,18 +25,18 @@
           <div class="d-flex computer only ml-auto">
             <div class="ui text menu m-0 d-flex flex-jc-center flex-ai-center computer only mt-15">
 
-              <a href="about.html" class="  item color">About Sunbird</a>
-              <a href="/explore/1" class="item color"
+              <a href="/sunbird/about-sunbird" class="  item color">About Sunbird</a>
+              <a href="/sunbird/explore/1" class="item color"
                 [class.active]="router.isActive('/explore/1', false)">Resources</a>
-              <a href="partners.html" class="item color">Collaborators</a>
+              <a href="/sunbird/partners-sunbird" class="item color">Collaborators</a>
             </div>
           </div>
           <div class="d-flex mobile only ml-auto">
             <div class="ui sidebar right vertical menu bgcolour align pr-10">
               <ng-container *ngIf="!userService.loggedIn && !isOffline">
-                <a href="about.html" class="item color">About Sunbird</a>
-                <a href="/explore/1" class="item color">Resources</a>
-                <a href="partners.html" class="item color">Collaborators</a>
+                <a href="/sunbird/about-sunbird" class="item color">About Sunbird</a>
+                <a href="/sunbird/explore/1" class="item color">Resources</a>
+                <a href="/sunbird/partners-sunbird" class="item color">Collaborators</a>
               </ng-container>
             </div>
           </div>

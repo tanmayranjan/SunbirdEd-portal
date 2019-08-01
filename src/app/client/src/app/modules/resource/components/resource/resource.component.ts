@@ -164,7 +164,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         .subscribe(data => {
           this.showLoader = false;
           this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
-          this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+          // this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
           if (!this.carouselMasterData.length) {
             return; // no page section
           }
@@ -177,7 +177,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         }, err => {
           this.showLoader = false;
           this.carouselMasterData = [];
-          this.carouselData = [];
+          // this.carouselData = [];
           this.pageSections = [];
           this.toasterService.error(this.resourceService.messages.fmsg.m0004);
         });

@@ -14,12 +14,7 @@ import { ExploreAssetComponent } from './components/explore-asset/explore-asset.
 import { FrameworkComponent } from './components/framework/framework.component';
 import { CoreComponent } from './components/core/core.component';
 import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
-// import { AdduserComponent } from './components/adduser/adduser.component';
-// import { ViewuserComponent } from './components/viewuser/viewuser.component';
-// import { UserEditComponent } from './components/user-edit/user-edit.component';
-// import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { PublicFooterComponent } from './components/public-footer/public-footer.component';
-// import { ExploreDetailPageComponent } from './components/explore-detail-page/explore-detail-page.component';
 import { UserSearchServicePublicService } from './services/searchService/user-search-service-public.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
@@ -28,8 +23,9 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TelemetryModule } from '../telemetry';
 import { NgInviewModule } from 'angular-inport';
 import { BadgingModule } from '../badging';
-// import { SpacepdfViewerComponent } from './components/pdf-viewer/spacepdf-viewer.component';
-// import { ResourceViewerComponent } from './components/resource-viewer/resource-viewer.component';
+import { AboutSunbirdComponent } from './components/about-sunbird/about-sunbird.component';
+import { PartnersSunbirdComponent } from './components/partners-sunbird/partners-sunbird.component';
+import { SuiModule } from 'ng2-semantic-ui';
 @NgModule({
   imports: [
     CommonModule,
@@ -43,18 +39,14 @@ import { BadgingModule } from '../badging';
     TelemetryModule,
     NgInviewModule,
     DeviceDetectorModule,
-    BadgingModule
+    BadgingModule,
+    SuiModule,
 
   ],
   declarations: [LandingPageComponent,
-    // ViewuserComponent, UserEditComponent,
-   PublicFooterComponent, ContactUsComponent,
-  //  SharedDetailPageComponent,
+   PublicFooterComponent, ContactUsComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
-    ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent,
-    //  ExploreDetailPageComponent, SpacepdfViewerComponent
-    //  ResourceViewerComponent,
-    //  AdduserComponent, WorkspaceComponent
+    ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
     ],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard, UserSearchServicePublicService]
 })
