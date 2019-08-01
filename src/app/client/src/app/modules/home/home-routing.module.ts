@@ -16,7 +16,7 @@ const routes: Routes = [
         type: 'view', object: { type: objectType, ver: '1.0' }
       }
     },
-    component: SpaceMainHomeComponent,
+    component: MainHomeComponent,
     children: [
       { path: 'view/:announcementId', component: DetailsPopupComponent,
        data: {
@@ -26,6 +26,9 @@ const routes: Routes = [
         }
       }
     ]
+  },
+  {
+    path: 'spacehome', component: SpaceMainHomeComponent
   }
 ];
 
