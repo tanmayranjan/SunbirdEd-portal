@@ -4,8 +4,8 @@
     <hr *ngIf="i===3">
     <hr *ngIf="i===4">
     <hr *ngIf="i===5">
-    <div *ngIf="field.inputType==='text' && field.code!='creators' && field.code!='region' && field.code!='link'" class="required field"
-      [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='text' && field.code!='creators' && field.code!='region' && field.code!='link'"
+      class="required field" [ngClass]="{ 'disabled':!field.editable}">
 
       <div class="field required">
         <label>
@@ -85,36 +85,35 @@
         </label>
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})"
-           [placeholder]="'Select'" >
+          [placeholder]="'Select'">
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
         </sui-select>
       </div>
     </div>
     <div *ngIf="field.code!='year' && field.code==='region'" class="field required"
-    [ngClass]="{ 'disabled':!field.editable}">
-    <!-- <label>{{field.name}}</label> -->
-    <div class="required field">
-      <label>
-        {{field.name}}
+      [ngClass]="{ 'disabled':!field.editable}">
+      <!-- <label>{{field.name}}</label> -->
+      <div class="required field">
+        <label>
+          {{field.name}}
 
-      </label>
-      <!-- <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
+        </label>
+        <!-- <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})"
           zeroSelectionText="select" [placeholder]="'Select'" [isSearchable]="true" #searchSelect>
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"></sui-select-option>
         </sui-select> -->
-      <select id={{field.code}} name={{field.code}} class="ui search dropdown" [(ngModel)]="formInputData[field.code]"
-        >
-        <option *ngFor="let option of countryList" [value]="option">{{option}}</option>
-      </select>
+        <select id={{field.code}} name={{field.code}} class="ui search dropdown"
+          [(ngModel)]="formInputData[field.code]">
+          <option *ngFor="let option of countryList" [value]="option">{{option}}</option>
+        </select>
+      </div>
     </div>
-  </div>
     <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
-      <label>{{field.name}}
-      </label>
+      <label>{{field.name}} </label>
       <div class="required field">
         <sui-multi-select id={{field.code}} name={{field.code}} class="selection"
-          [(ngModel)]="formInputData[field.code]"
+          [(ngModel)]="formInputData[field.code]" [hasLabels]="false"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})" #multiSelect>
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"> </sui-select-option>
         </sui-multi-select>
@@ -123,16 +122,16 @@
     <div *ngIf="field.code==='year'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}}</label>
       <div class="field">
-        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" [placeholder]="'Select'">
+        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
+          [placeholder]="'Select'">
           <sui-select-option *ngFor="let option of years" [value]="option"> </sui-select-option>
         </sui-select>
       </div>
     </div>
     <div *ngIf="field.code==='gradeLevel'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
-        <label>{{field.name}}</label>
+      <label>{{field.name}}</label>
       <form class="conceptSelector ui form">
-        <app-space-concept-picker [selectedConcepts]="formInputData[field.code]" [categoryName]="field.name"
-          [key]="key"
+        <app-space-concept-picker [selectedConcepts]="formInputData[field.code]" [categoryName]="field.name" [key]="key"
           [category]="categoryList[field.code]" [conceptPickerClass]="'content-creation-concept-picker'"
           (Concepts)="concepts($event)"></app-space-concept-picker>
       </form>

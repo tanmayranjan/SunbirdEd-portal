@@ -11,8 +11,8 @@
       </div>
     </div>
   </ng-template>-->
-  <!-- If valueField is name it will select name as the valuefield in selected checkboxes -->
-  <!-- <sui-multi-select *ngIf="valueField === 'name'" [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}} defaultSelectionText={{field.label}}
+<!-- If valueField is name it will select name as the valuefield in selected checkboxes -->
+<!-- <sui-multi-select *ngIf="valueField === 'name'" [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}} defaultSelectionText={{field.label}}
     zeroSelectionText={{resourceService.frmelmnts.lbl.Select}} class="ui selection multiselect-square-border" [options]="field.range" [hasLabels]="false"
     valueField="name" (ngModelChange)="selectedOption($event)" #multiSelect>
     <div class=" header template-checkbox cursor-pointer multi-select-dropdown multi-select-padding" (click)="selectAll(field.code)">
@@ -27,8 +27,8 @@
     <sui-select-option *ngFor="let option of multiSelect.filteredOptions" [value]="option" class="multi-select-dropdown multi-select-padding" (click)="checkbox(option.name)" ></sui-select-option>
   </sui-multi-select> -->
 
-  <!-- If valueField is code it will select code as the valuefield in selected checkboxes -->
-  <!-- <sui-multi-select *ngIf="valueField === 'code'" [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}} defaultSelectionText={{field.label}}
+<!-- If valueField is code it will select code as the valuefield in selected checkboxes -->
+<!-- <sui-multi-select *ngIf="valueField === 'code'" [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}} defaultSelectionText={{field.label}}
     zeroSelectionText={{resourceService.frmelmnts.lbl.Select}} class="ui selection multiselect-square-border" [options]="field.range" [hasLabels]="false"
     valueField="code" (ngModelChange)="selectedOption($event)" #multiSelect>
     <div class=" header template-checkbox cursor-pointer multi-select-dropdown multi-select-padding" (click)="selectAll(field.code)">
@@ -45,10 +45,11 @@
 </div> -->
 
 <div *ngIf="refresh">
-  <ng-template let-option #optionTemplate >
-    <div class="field m-0" >
+  <ng-template let-option #optionTemplate>
+    <div class="field m-0">
       <div class="template-checkbox">
-        <div class="p-5 option-text" [ngClass]="{'blue-text-color-sunbird': checkBox[option.name] }" title="{{option.name}}">
+        <div class="p-5 option-text" [ngClass]="{'blue-text-color-sunbird': checkBox[option.name] }"
+          title="{{option.name}}">
           {{option.name}}
         </div>
         <div class="ml-auto">
@@ -57,10 +58,12 @@
       </div>
     </div>
   </ng-template>
-  <sui-multi-select [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}}  
-    class="ui selection multiselect-square-border mr-10" [options]="field.range" [hasLabels]="false"
-    valueField="name" (ngModelChange)="selectedOption($event)" #multiSelect>
-    <div class=" header template-checkbox cursor-pointer multi-select-dropdown multi-select-padding" (click)="selectAll(field.code)">
+  <!-- <label class="multiselectlabel">{{field.label}}</label> -->
+  <sui-multi-select [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}}
+    class="ui selection multiselect-square-border mr-10" [options]="field.range" [hasLabels]="false" valueField="name"
+    (ngModelChange)="selectedOption($event)" #multiSelect>
+    <div class=" header template-checkbox cursor-pointer multi-select-dropdown multi-select-padding"
+      (click)="selectAll(field.code)">
       <div [ngClass]="{'blue-text-color-sunbird': selectAllCheckBox }">
         Select All
       </div>
@@ -69,6 +72,7 @@
       </div>
     </div>
     <div class="divider"></div>
-    <sui-select-option *ngFor="let option of multiSelect.filteredOptions" [value]="option" class="multi-select-dropdown multi-select-padding" (click)="checkbox(option.name)" ></sui-select-option>
+    <sui-select-option *ngFor="let option of multiSelect.filteredOptions" [value]="option"
+      class="multi-select-dropdown multi-select-padding" (click)="checkbox(option.name)"></sui-select-option>
   </sui-multi-select>
 </div>

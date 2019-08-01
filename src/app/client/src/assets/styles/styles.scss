@@ -35,7 +35,13 @@
 @import "./utilities/utilities";
 @import "./components/semantic-ui-tree-picker";
 @import "./components/semantic-ui-topic-picker";
-.ui.grid > .column:not(.row) {
-    padding-top: 16px;
-    padding-bottom: 16px;
+
+.ui.grid>.column:not(.row) {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.multiselectlabel {
+  padding-bottom: 0.7em;
+  font-weight: bold !important;
 }
