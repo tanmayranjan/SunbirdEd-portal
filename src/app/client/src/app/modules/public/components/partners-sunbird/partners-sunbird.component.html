@@ -1,0 +1,100 @@
+
+  <div class="container-fluid partnerWrapper">
+    <div class="content-wrapper">
+      <div class="container">
+        <div class="partnerWithUs">
+          <p class="partnerTitle">Our Collaborators</p>
+          <p class="partnerBody">
+            Institutions and organisations who have joined forces to create digital learning resources, develop, extend,
+            implement, use or manage programs leveraging Sunbird's digital learning infrastructure
+          </p>
+        </div>
+        <div class="container-fluid partnerContainer">
+
+
+          <!-- <div class="partners">
+            <p class="title">Our Partners</p>
+          </div> -->
+
+          <div class="partnerContainerBody">
+            <div class="row imageRow">
+              <div class="box"><img src="./img/partner_logos/NIIT.png" class="p-0"></div>
+              <div class="box"><img src="./img/partner_logos/Central_Square_Foundation_Logo.png"></div>
+              <div class="box"><img src="./img/partner_logos/EY-logo-horizontal.png"></div>
+              <div class="box"><img src="./img/partner_logos/Education.jpg"></div>
+              <div class="box"><img src="./img/partner_logos/sikshalokam.png"></div>
+              <div class="box"><img src="./img/partner_logos/Tarento.png" class="p-0"></div>
+              <div class="box"><img src="./img/partner_logos/Akshara.png"></div>
+              <div class="box"><img src="./img/partner_logos/pwc-logo.jpg"></div>
+              <div class="box"><img src="./img/partner_logos/eDreams.jpg"></div>
+              <div class="box"><img src="./img/partner_logos/infosys-logo-1.png"></div>
+            </div>
+          </div>
+        
+  
+          <div class="allContributions container">
+      <h3 class="contributionText">
+        To view a list of all our collaborators, click <span> <a class="item " (click)="openmodal()">here</a></span>
+      </h3>
+    </div>
+
+  <div *ngIf="modalopen">
+    <sui-modal [mustScroll]="false" [isClosable]="false" [transitionDuration]="0" [size]="'small'" class="sb-modal"
+    (dismissed)="showLoginModal = false" #modal >
+    <div class="sb-modal-content">
+      <div class="ui center aligned segment">
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true" class="close mr-10 mb-10">&times;</span>
+        </button>
+        <div class="listContainer">
+          <ul id="#ul1" type="none">
+            <li>Akshara Foundation</li>
+            <li>Alohomora Foundation</li>
+            <li>Arghyam</li>
+            <li>Aspire Foundation</li>
+            <li>Central Square Foundation</li>
+            <li>DIKSHA</li>
+            <li>eDreams</li>
+            <li>Education Initiatives</li>
+            <li>Enlearn</li>
+            <li>EY - Ernst and Young</li>
+            <li>Framewirk</li>
+            <li>Glen World</li>
+          </ul>
+          <div class="hl"></div>
+          <ul id="#ul2" type="none">
+            <li>GoodWork Labs</li>
+            <li>Gyan Prakash Foundation</li>
+            <li>Hit Shiksha Samiti</li>
+            <li>i - Saksham</li>
+            <li>Infosys</li>
+            <li>Khan Academy</li>
+            <li>LeapForWord</li>
+            <li>Madhi Foundation</li>
+            <li>Mantra Labs</li>
+            <li>Mantra 4 Change</li>
+            <li>NIIT</li>
+            <li>Optit</li>
+          </ul>
+          <div class="hl"></div>
+          <ul id="#ul3" type="none">
+            <li>PhraseApp</li>
+            <li>Price Waterhouse Cooper</li>
+            <li>Qualitrix</li>
+            <li>Save Indian Farmers</li>
+            <li>Shikshalokam</li>
+            <li>Tarento</li>
+            <li>Tata Trusts</li>
+            <li>Tekdi</li>
+            <li>TIBIL</li>
+            <li>Turtle Bowl</li>
+            <li>Zool</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </sui-modal>
+  </div>
+</div>
+</div>
+</div>
