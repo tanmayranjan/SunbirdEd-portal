@@ -16,6 +16,8 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
 // import { ViewuserComponent } from './components/viewuser/viewuser.component';
 import { UserEditComponent } from '../search';
+import { AboutSunbirdComponent } from './components/about-sunbird/about-sunbird.component';
+import { PartnersSunbirdComponent } from './components/partners-sunbird/partners-sunbird.component';
 
 const routes: Routes = [
   {
@@ -32,12 +34,12 @@ const routes: Routes = [
     path: ':slug/explore-library', loadChildren: './module/library-content/library-content.module#LibraryContentModule'
 
   },
-  // {
-  //   path: ':slug/contactUs', loadChildren:'./module/contact-us/contact-us.module#ContactUsModule'
-  // },
-  // {
-  //   path: 'contactUs', loadChildren:'./module/contact-us/contact-us.module#ContactUsModule'
-  // },
+  {
+    path: ':slug/about-sunbird', component: AboutSunbirdComponent
+  },
+  {
+    path: ':slug/partners-sunbird', component: PartnersSunbirdComponent
+  },
   {
     path: ':slug/contactUs' , component: ContactUsComponent
   },

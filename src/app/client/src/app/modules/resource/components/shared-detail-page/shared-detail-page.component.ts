@@ -25,7 +25,7 @@ export interface IassessDetail {
   badgeAssertions: Array<any>;
   artifactUrl: string;
   mimeType: string;
-  lastSubmittedOn
+  lastSubmittedOn;
 }
 
 @Component({

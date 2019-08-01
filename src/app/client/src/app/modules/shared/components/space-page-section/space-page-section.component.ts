@@ -127,7 +127,7 @@ export class SpacePageSectionComponent implements OnInit {
 
     console.log('event =', event);
     // this.playEvent.emit(event);
-    if (this.user[1] === '/space/explore') {
+    if (this.user[4] === 'explore') {
       this.router.navigate(['space/explore/player/content/', event.data.identifier]);
     } else {
       this.router.navigate(['resources/player/content/', event.data.identifier]);
@@ -136,7 +136,7 @@ export class SpacePageSectionComponent implements OnInit {
   }
   ngOnInit() {
     this.find_user =  window.location.href;
-    this.user = this.find_user.split('http://localhost:3000');
+    this.user = this.find_user.split('/');
     console.log('icarousal data = ', this.section, this.user);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');

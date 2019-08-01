@@ -67,8 +67,8 @@ export class DeviceRegisterService  {
         'Content-Type': 'application/json'
       }
     };
-    this.http.post(this.deviceRegisterApi + this.deviceId, data, httpOptions)
-    .subscribe(() => {
-    });
+    // this.http.post(this.deviceRegisterApi + this.deviceId, data, httpOptions)
+    // .subscribe(() => {
+    // });
   }
 }

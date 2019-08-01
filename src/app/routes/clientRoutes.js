@@ -84,8 +84,8 @@ module.exports = (app, keycloak) => {
      '/explore-course','/explore-course/*', '/:slug/explore-course', '/:slug/explore-course/*',
      '/contactUs', '/:slug/contactUs', '/:slug/about', '/about',
      '/core','/:slug/core', '/:slug/collaborators', '/:slug/policy', '/policy', 
-     '/:slug/termsOfUse' , '/termsOfUse', '/:slug/process','/process',
-     '/framework', '/:slug/framework', 'resource/player/conetnt/:contentId',
+     '/:slug/termsOfUse' , '/termsOfUse', '/:slug/process','/process', '/:slug/partners-sunbird',
+     '/framework', '/:slug/framework', 'resource/player/conetnt/:contentId','/:slug/about-sunbird', 
     '/explore-courses',' /explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
     '/explore-library', '/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
     '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
