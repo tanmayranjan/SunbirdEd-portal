@@ -41,7 +41,7 @@
                           <div *ngIf="(field.inputType==='select' || field.inputType === 'multi-select')" class="field large">
                             <label>{{field.label}}</label>
                             <sui-multi-select (ngModelChange)="setFilterInteractData()" id={{field.code}} name={{field.code}}
-                            defaultSelectionText={{field.name}} zeroSelectionText="Select" class="selection filterFieldSearch" 
+                            class="selection filterFieldSearch" 
                               [(ngModel)]="formInputData[field.code]" [options]="options" [hasLabels]="false" #multiSelect>
                               <sui-select-option *ngFor="let option of field.range" [value]="option.name"></sui-select-option>
                             </sui-multi-select>

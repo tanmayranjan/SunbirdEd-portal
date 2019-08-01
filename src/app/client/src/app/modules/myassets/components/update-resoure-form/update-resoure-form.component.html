@@ -63,7 +63,7 @@
         </label>
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})"
-          zeroSelectionText="select" [placeholder]="'Select'" [isSearchable]=true #searchSelect placeholder="Choose">
+          [placeholder]="'Select'" [isSearchable]=true #searchSelect placeholder="Choose">
           <sui-select-option *ngFor="let option of countryList" [value]="option"></sui-select-option>
         </sui-select>
         <!-- <hr>

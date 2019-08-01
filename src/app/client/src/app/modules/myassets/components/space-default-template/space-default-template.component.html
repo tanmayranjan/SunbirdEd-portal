@@ -85,7 +85,7 @@
         </label>
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})"
-          zeroSelectionText="select" [placeholder]="'Select'" >
+           [placeholder]="'Select'" >
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
         </sui-select>
       </div>

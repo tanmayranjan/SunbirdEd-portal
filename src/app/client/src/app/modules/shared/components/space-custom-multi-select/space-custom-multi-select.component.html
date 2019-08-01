@@ -57,8 +57,8 @@
       </div>
     </div>
   </ng-template>
-  <sui-multi-select [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}} defaultSelectionText={{placeholder}} 
-    zeroSelectionText="Select" class="ui selection multiselect-square-border mr-10" [options]="field.range" [hasLabels]="false"
+  <sui-multi-select [(ngModel)]="inputData" [optionTemplate]="optionTemplate" id={{field.code}} name={{field.code}}  
+    class="ui selection multiselect-square-border mr-10" [options]="field.range" [hasLabels]="false"
     valueField="name" (ngModelChange)="selectedOption($event)" #multiSelect>
     <div class=" header template-checkbox cursor-pointer multi-select-dropdown multi-select-padding" (click)="selectAll(field.code)">
       <div [ngClass]="{'blue-text-color-sunbird': selectAllCheckBox }">
