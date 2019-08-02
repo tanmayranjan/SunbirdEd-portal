@@ -119,6 +119,7 @@ export class LibraryComponent implements OnInit, OnDestroy, AfterViewInit {
       params: this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
     option.filters.channel = this.hashTagId;
+    option.filters.slug = [];
     option.filters.organisation = this.activatedRoute.snapshot.params.slug;
     if (_.get(manipulatedData, 'filters')) {
       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');

@@ -196,7 +196,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   navigateToHome() {
     console.log('slug form space header = ' , this.slug);
     if (this.userService.loggedIn) {
-      this.router.navigate(['home']);
+      this.router.navigate(['spacehome']);
     } else {
       window.location.href = this.slug ? this.slug : '';
     }

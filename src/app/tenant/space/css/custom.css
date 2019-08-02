@@ -1137,11 +1137,16 @@ a:hover, a:active {
 a:hover {
 	text-decoration: none !important;
 }
-.col-lg-5 {
+/* .col-lg-5 {
 	width: 39.666667% !important;
-}
+} */
 @media (min-width: 1200px) {
 .col-lg-5 {
     width: 39.666667% !important;
+}
+}
+@media (min-width: 1200px) {
+.col-lg-6 {
+    width: 46%;
 }
 }

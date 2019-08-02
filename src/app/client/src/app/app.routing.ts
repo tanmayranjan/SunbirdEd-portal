@@ -18,6 +18,9 @@ const appRoutes: Routes = [
     path: 'home', loadChildren: 'app/modules/home/home.module#HomeModule'
   },
   {
+    path: 'spacehome', loadChildren: 'app/modules/spacehome/spacehome.module#SpacehomeModule'
+  },
+  {
     path: 'myassets', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
   },
   {

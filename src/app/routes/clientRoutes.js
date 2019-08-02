@@ -95,7 +95,7 @@ module.exports = (app, keycloak) => {
   app.all('/app', (req, res) => res.redirect(envHelper.ANDROID_APP_URL))
 
   app.all(['/announcement', '/announcement/*', '/search', '/search/*',
-    '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home',
+    '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home', '/spacehome',
     '/Workspace','/Workspace/*', '/upForReview', '/upForReview/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
     '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))

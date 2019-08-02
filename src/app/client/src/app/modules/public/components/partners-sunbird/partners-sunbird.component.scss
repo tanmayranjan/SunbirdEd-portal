@@ -1,5 +1,7 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-
+.sb-modal .ui.modal.small {
+  max-width: 1000px !important;
+}
 .partnerTitle {
     text-align: center;
     font-size: 3rem;
