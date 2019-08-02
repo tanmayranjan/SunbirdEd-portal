@@ -202,9 +202,10 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
         };
     }
     public playContent(event) {
-        this.playerService.playContent(event.data.metaData);
+        // this.playerService.playContent(event.data.metaData);
+            this.router.navigate(['resources/player/content/', event.data.identifier]);
     }
-    public inView(event) {
+    public inview(event) {
         _.forEach(event.inview, (elem, key) => {
             const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier });
             if (!obj) {

@@ -146,11 +146,24 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     if (key && key.length) {
       this.queryParam.key = key;
     }
+    console.log('activate route in main header = ', this.activatedRoute, key);
     const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
-   this.slugInfo = route[0].firstChild.children[0].url[0].path;
-    const currRoute = route[0].firstChild.children[0].url[1].path;
+  //  this.slugInfo = route[0].firstChild.children[0].url[0].path;
+    let currRoute = route[0].firstChild.children[0].url[0].path;
+    if (currRoute === 'sbwb') {
+     this.slugInfo = route[0].firstChild.children[0].url[0].path;
+      currRoute = route[0].firstChild.children[0].url[1].path;
+      this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
+    } 
+    if (currRoute === 'explore-course') {
+       currRoute = route[0].firstChild.children[0].url[0].path;
+       this.router.navigate(['/sbwb/explore-courses', 1], { queryParams: this.queryParam });
+       } 
+    if (currRoute === 'play') {
+        currRoute = route[0].firstChild.children[0].url[0].path;
+        this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
+        } 
     console.log('slug info in main header = ', this.slugInfo, route);
-    this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
   }
 
   getSearchButtonInteractEdata(key) {

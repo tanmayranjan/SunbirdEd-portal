@@ -17,6 +17,13 @@
                 <button appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" class="sb-btn sb-btn-xs sb-btn-error ml-auto sb-cls-btn" type="button"  [routerLink]="['/sbwb/explore-course']">Close <i class="close icon"></i></button>
             </div>
         </div>
+        <div class="sb-pageSection" *ngIf="!showLoader && contentList.length === 0">
+                <div  class="sb-pageSection-header">
+                    <h4 class="sb-pageSection-title m-0 mr-5">{{resourceService.frmelmnts?.lbl?.showingResultsFor |
+                            interpolate:'{searchString}':this.queryParams.key}}</h4>
+                    <button appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" class="sb-btn sb-btn-xs sb-btn-error ml-auto sb-cls-btn" type="button"  [routerLink]="['/sbwb/explore-course']">Close <i class="close icon"></i></button>
+                </div>
+            </div>
         
         <div class="twelve wide column" [appTelemetryImpression]="telemetryImpression" in-view-container (inview)="inView($event)" *ngIf="!showLoader && contentList.length">
             <div class="masonry-grid dynamic-section-card ">
