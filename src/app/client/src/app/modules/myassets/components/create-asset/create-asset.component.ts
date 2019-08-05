@@ -185,7 +185,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
         }
       });
       const req = {
-        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
       };
       this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
@@ -194,6 +194,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
           this.enabled = true;
           this.pdf = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
             data.result.content.artifactUrl.lastIndexOf('pdf'));
+            console.log('this.padf = ', this.pdf);
 
         } else if (data.result.content.mimeType === 'application/vnd.ekstep.ecml-archive') {
         this.enableContent = true;
@@ -460,9 +461,11 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
         return;
       }
       if (status === 'draft') { // only draft state contents need to be locked
-        this.workSpaceService.navigateToContent(this.content, this.state);
+        // this.workSpaceService.navigateToContent(this.content, this.state);
+        this.router.navigate(['myassets/update/edit/generic', this.content.identifier, this.state, status]);
       } else {
-        this.workSpaceService.navigateToContent(this.content, this.state);
+        // this.workSpaceService.navigateToContent(this.content, this.state);
+        this.router.navigate(['myassets/update/edit/generic', this.content.identifier, this.state, status]);
       }
     }
   }

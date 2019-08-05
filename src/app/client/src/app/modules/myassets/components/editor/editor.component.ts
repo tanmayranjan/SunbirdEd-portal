@@ -217,7 +217,10 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   redirectToWorkSpace () {
+    this.toasterService.success('Asset created successfully');
+   setTimeout(() => {
     this.navigationHelperService.navigateToWorkSpace('/myassets');
+   }, 1700);
   }
 
   private disableBrowserBackButton() {

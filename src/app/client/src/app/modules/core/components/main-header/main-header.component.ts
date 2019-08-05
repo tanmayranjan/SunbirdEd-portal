@@ -154,15 +154,15 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
      this.slugInfo = route[0].firstChild.children[0].url[0].path;
       currRoute = route[0].firstChild.children[0].url[1].path;
       this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
-    } 
+    }
     if (currRoute === 'explore-course') {
        currRoute = route[0].firstChild.children[0].url[0].path;
        this.router.navigate(['/sbwb/explore-courses', 1], { queryParams: this.queryParam });
-       } 
+       }
     if (currRoute === 'play') {
         currRoute = route[0].firstChild.children[0].url[0].path;
         this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
-        } 
+        }
     console.log('slug info in main header = ', this.slugInfo, route);
   }
 

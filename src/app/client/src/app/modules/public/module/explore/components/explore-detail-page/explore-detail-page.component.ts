@@ -22,6 +22,7 @@ export interface IassessDetail {
   description: string;
   version: string;
   creators: string;
+  creator: string;
   artifactUrl: string;
   mimeType: string;
   lastSubmittedOn: string;
@@ -62,6 +63,7 @@ export class ExploreDetailPageComponent implements OnInit {
     description: '',
     version: '',
     creators: '',
+    creator: '',
     artifactUrl: '',
     mimeType: '',
     lastSubmittedOn: ''

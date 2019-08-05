@@ -3,24 +3,24 @@ import {
   ResourceService,
   IUserData,
   IUserProfile
-} from "@sunbird/shared";
-import { Component, OnInit, Input } from "@angular/core";
-import { UserService, PermissionService } from "../../services";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
-import { IInteractEventObject, IInteractEventEdata } from "@sunbird/telemetry";
-import { CacheService } from "ng2-cache-service";
-import { first, filter } from "rxjs/operators";
-import * as _ from "lodash-es";
-import { environment } from "@sunbird/environment";
+} from '@sunbird/shared';
+import { Component, OnInit, Input } from '@angular/core';
+import { UserService, PermissionService } from '../../services';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
+import { CacheService } from 'ng2-cache-service';
+import { first, filter } from 'rxjs/operators';
+import * as _ from 'lodash-es';
+import { environment } from '@sunbird/environment';
 declare var jQuery: any;
 
 /**
  * Main menu component
  */
 @Component({
-  selector: "app-main-menu",
-  templateUrl: "./main-menu.component.html",
-  styleUrls: ["./main-menu.component.scss"]
+  selector: 'app-main-menu',
+  templateUrl: './main-menu.component.html',
+  styleUrls: ['./main-menu.component.scss']
 })
 export class MainMenuComponent implements OnInit {
   @Input() slugInfo: string;
@@ -91,17 +91,17 @@ export class MainMenuComponent implements OnInit {
   ngOnInit() {
     if (!this.userService.loggedIn) {
       this.slug = this.activatedRoute.firstChild.firstChild.children[0].params[
-        "value"
+        'value'
       ].slug;
-      console.log("slug in main menu = ", this.slug);
+      console.log('slug in main menu = ', this.slug);
     }
     // this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     try {
       this.helpLinkVisibility = (<HTMLInputElement>(
-        document.getElementById("helpLinkVisibility")
+        document.getElementById('helpLinkVisibility')
       )).value;
     } catch (error) {
-      this.helpLinkVisibility = "false";
+      this.helpLinkVisibility = 'false';
     }
     this.setInteractData();
     this.getUrl();
@@ -110,7 +110,7 @@ export class MainMenuComponent implements OnInit {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
         console.log(
-          "user details from main menu = ",
+          'user details from main menu = ',
           user.userProfile,
           this.slug,
           this.slugInfo
@@ -120,63 +120,63 @@ export class MainMenuComponent implements OnInit {
   }
   setInteractData() {
     this.homeMenuIntractEdata = {
-      id: "home-tab",
-      type: "click",
-      pageid: "home"
+      id: 'home-tab',
+      type: 'click',
+      pageid: 'home'
     };
     this.libraryMenuIntractEdata = {
-      id: "library-tab",
-      type: "click",
-      pageid: "library"
+      id: 'library-tab',
+      type: 'click',
+      pageid: 'library'
     };
     this.myLibraryMenuInteractEdata = {
-      id: "myLibrary-tab",
-      type: "click",
-      pageid: "library"
+      id: 'myLibrary-tab',
+      type: 'click',
+      pageid: 'library'
     };
     this.browseEdata = {
-      id: "browse-tab",
-      type: "click",
-      pageid: "browse"
+      id: 'browse-tab',
+      type: 'click',
+      pageid: 'browse'
     };
     this.learnMenuIntractEdata = {
-      id: "learn-tab",
-      type: "click",
-      pageid: "learn"
+      id: 'learn-tab',
+      type: 'click',
+      pageid: 'learn'
     };
     this.workspaceMenuIntractEdata = {
-      id: "workspace-menu-button",
-      type: "click",
-      pageid: "workspace"
+      id: 'workspace-menu-button',
+      type: 'click',
+      pageid: 'workspace'
     };
     this.helpMenuIntractEdata = {
-      id: "help-menu-tab",
-      type: "click",
-      pageid: "help"
+      id: 'help-menu-tab',
+      type: 'click',
+      pageid: 'help'
     };
     this.signInIntractEdata = {
-      id: " signin-tab",
-      type: "click"
+      id: ' signin-tab',
+      type: 'click'
     };
   }
 
   getLogoutInteractEdata() {
     return {
-      id: "logout",
-      type: "click",
-      pageid: this.router.url.split("/")[1]
+      id: 'logout',
+      type: 'click',
+      pageid: this.router.url.split('/')[1]
     };
   }
 
   logout() {
-    window.location.replace("/logoff");
+    window.location.replace('/logoff');
     this.cacheService.removeAll();
   }
 
   showSideBar() {
-    jQuery(".ui.sidebar")
-      .sidebar("setting", "transition", "overlay")
-      .sidebar("toggle");
+    jQuery('.ui.sidebar')
+      .sidebar('setting', 'transition', 'overlay')
+      .sidebar('toggle');
   }
   navigateTo(url) {
     return this.slug ? this.slug + url : url;
@@ -187,28 +187,28 @@ export class MainMenuComponent implements OnInit {
       .subscribe((urlAfterRedirects: NavigationEnd) => {
         this.slug = _.get(
           this.activatedRoute,
-          "snapshot.firstChild.firstChild.params.slug"
+          'snapshot.firstChild.firstChild.params.slug'
         );
-        if (_.includes(urlAfterRedirects.url, "/explore")) {
+        if (_.includes(urlAfterRedirects.url, '/explore')) {
           this.showExploreHeader = true;
-          const url = urlAfterRedirects.url.split("?")[0].split("/");
-          if (url.indexOf("explore") === 2) {
-            this.exploreRoutingUrl = url[1] + "/" + url[2];
+          const url = urlAfterRedirects.url.split('?')[0].split('/');
+          if (url.indexOf('explore') === 2) {
+            this.exploreRoutingUrl = url[1] + '/' + url[2];
           } else {
             this.exploreRoutingUrl = url[1];
           }
-        } else if (_.includes(urlAfterRedirects.url, "/explore-course")) {
+        } else if (_.includes(urlAfterRedirects.url, '/explore-course')) {
           this.showExploreHeader = true;
-          const url = urlAfterRedirects.url.split("?")[0].split("/");
-          if (url.indexOf("explore-course") === 2) {
-            this.exploreRoutingUrl = url[1] + "/" + url[2];
+          const url = urlAfterRedirects.url.split('?')[0].split('/');
+          if (url.indexOf('explore-course') === 2) {
+            this.exploreRoutingUrl = url[1] + '/' + url[2];
           } else {
             this.exploreRoutingUrl = url[1];
           }
         } else {
           this.showExploreHeader = false;
         }
-        this.signInIntractEdata["pageid"] = this.exploreRoutingUrl;
+        this.signInIntractEdata['pageid'] = this.exploreRoutingUrl;
       });
   }
 

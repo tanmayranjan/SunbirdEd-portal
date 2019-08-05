@@ -32,11 +32,11 @@
                         class="far fa-heart"></i></button>
             </div> -->
             <p *ngIf="assetDetail?.board" class="card-text">Asset Type : {{assetDetail?.board}}</p>
-            <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
+            <!-- <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
                         {{ hero }}<span *ngIf="!last">,</span>
                     </li>
-                </span></p>
+                </span></p> -->
             <p class="card-text" *ngIf="assetDetail?.keywords">Keywords : <span>
                     <li *ngFor="let hero of assetDetail?.keywords;  let first = first;let last = last">
                         {{ hero | titlecase}}<span *ngIf="!last && assetDetail?.keywords.length!=1">,</span>
@@ -45,7 +45,7 @@
             </p>
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description | titlecase}}</p>
             <p class="card-text" *ngIf="assetDetail?.link">Link: <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}}</a></p>
-            <p class="card-text">Submitted By : {{assetDetail?.creators}}</p>
+            <p class="card-text">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
             <p class="card-text">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
@@ -86,8 +86,8 @@
         <div class="card-footer text-muted pt-30 pb-0">
             <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 <span
                     *ngIf="assetDetail?.creators"></span> | Created By :
-                {{assetDetail?.creators | titlecase}} <span *ngIf="assetDetail?.since"> | Created Year :
-                    {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region">  | Region(Geography of Re-usability) : {{assetDetail?.region | titlecase}}</span> </p>
+                {{assetDetail?.creators}} <span *ngIf="assetDetail?.since"> | Created Year :
+                    {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region">  | Country : {{assetDetail?.region | titlecase}}</span> </p>
             <p class="float-right"></p>
         </div>
     </div>

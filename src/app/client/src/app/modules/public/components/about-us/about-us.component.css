@@ -74,6 +74,9 @@ p {
     text-align: center;
     font-family: 'Muli', sans-serif;
   }
+  a:hover {
+    text-decoration: none;
+  }
   .cimage{
     background-image: url('../../../../../assets/images/slide-04.png');
     background-size: cover;

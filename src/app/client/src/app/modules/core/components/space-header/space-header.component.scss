@@ -213,6 +213,7 @@ background: #007b5e;
 @media screen and (max-width:374px ) and (min-width: 312px) {
   .primary-header .logo img{
     height:36px !important;
+    width: 225px !important;
   }
   .navbar-padding {
     padding: 3rem !important;
@@ -236,8 +237,9 @@ background: #007b5e;
       padding: 3rem !important;
       // margin-top: -5rem !important;
     }
-    .primary-header[_ngcontent-c2] .logo[_ngcontent-c2] img[_ngcontent-c2]{
+    .primary-header .logo img{
       height:41px !important;
+      width: 18rem !important;
     }
     .main-header {
       width: 100vw !important;
@@ -256,7 +258,7 @@ background: #007b5e;
     padding: 3rem !important;
     // margin-top: -5rem !important;
   }
-  .primary-header[_ngcontent-c2] .logo[_ngcontent-c2] img[_ngcontent-c2]{
+  .primary-header .logo img{
     height:41px !important;
   }
   .main-header {
@@ -304,4 +306,15 @@ background: #007b5e;
   padding-left: 1rem;
   width: 20rem;
   height: auto !important;
+}
+@media (min-width: 992px) {
+.col-lg-9[_ngcontent-c3] {
+    max-width: 79% !important;
+}
+}
+@media only screen and (min-width: 766px) and (max-width: 1024px) {
+  .primary-header[_ngcontent-c3] .logo[_ngcontent-c3] img[_ngcontent-c3] {
+    height: 36px !important;
+width: 15rem !important;
+  }
 }

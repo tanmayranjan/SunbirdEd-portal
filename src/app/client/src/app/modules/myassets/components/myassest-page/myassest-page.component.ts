@@ -308,7 +308,7 @@ ngAfterViewInit() {
   sessionStorage.clear();
   setTimeout(() => {
     this.showLoader = false;
-    this.ngOnInit();
+    // this.ngOnInit();
   }, 500);
 }
 

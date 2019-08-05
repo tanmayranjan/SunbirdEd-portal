@@ -269,7 +269,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   goToCreate() {
     setTimeout(() => {
       this.router.navigate(['/myassets']);
-    }, 100);
+    }, 1700);
   }
 
   /**
@@ -344,19 +344,21 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
 
 
         this.contentId = res.result.content_id;
-        this.toasterService.success('Asset created successfully');
         if (this.uploadLink === 'uploadFile') {
+          this.toasterService.info('Redirected to upload File Page');
           this.routetoediter();
         } else if (this.uploadLink === 'uploadContent') {
+          this.toasterService.success('Asset created successfully');
           this.routeToContentEditor({ identifier: res.result.content_id });
         } else {
+          this.toasterService.success('Asset created successfully');
           this.goToCreate();
         }
       }, err => {
-        this.toasterService.error('asset creation failed');
+        this.toasterService.error('Asset creation failed please check the required fields.');
       });
     } else {
-      this.toasterService.error('asset creation failed ');
+      this.toasterService.error('Asset creation failed');
     }
     // this.goToCreate();
   }
@@ -372,7 +374,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     const state = 'draft';
     const framework = this.framework;
     //  this.goToCreate();
-    this.router.navigate(['myassets/edit/content', content.identifier, state, framework, 'Draft']);
+    this.router.navigate(['myassets/create/edit/content', content.identifier, state, framework, 'Draft']);
   }
 
   redirect() {
@@ -391,7 +393,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.router.navigate(['/myassets']);
     }, 1700);
     setTimeout(() => {
-    this.router.navigate(['myassets/edit/generic', this.contentId, this.status, 'Draft']);
+    this.router.navigate(['myassets/create/edit/generic', this.contentId, this.status, 'Draft']);
   }, 1800);
   }
 

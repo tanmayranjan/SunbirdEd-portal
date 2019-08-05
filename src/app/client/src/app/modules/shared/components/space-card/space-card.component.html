@@ -1,6 +1,6 @@
 
 
-    <div class="card  mb-5"  *ngIf="data">
+    <div class="card  mb-5"  *ngIf="data" (click)="onAction(data,data.action.onImage)">
         <div class="card-header" style="background: #585858" (click)="onAction(data,data.action.onImage)">
             <div class="row">
                 <div class="thick-gray-border sprite knowledgeimg" *ngIf="data?.board === 'Knowledge'">
@@ -25,12 +25,12 @@
             </div>
           
         </div>
-        <div class="card-body">
+        <div class="card-body" >
           <div class="details">
           <!-- <span class="creator" *ngIf="data?.creators !== 'SPace'">Created By : {{data?.creators | titlecase}}</span> -->
           <span class="creator" *ngIf="data?.creators">Created By : {{data?.creators }}</span>
           <span class="creator" *ngIf="data?.link">Link : {{data?.link}}</span>
-          <span class="creator" *ngIf="data?.region ">Region(Geography of Re-usability) : {{data?.region | titlecase}}</span>
+          <!-- <span class="creator" *ngIf="data?.region ">Country : {{data?.region | titlecase}}</span> -->
           <span class="creator" *ngIf="data?.year">Created Year : {{data?.year}}</span>
         </div>
         <hr>

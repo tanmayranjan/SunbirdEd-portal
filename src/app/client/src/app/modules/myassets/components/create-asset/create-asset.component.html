@@ -13,7 +13,8 @@
                     File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                 </p> -->
                 <p>
-                    File : <span (click)="contentClick()" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
+                   Update File : <span (click)="contentClick()" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
+                   <span class="editorStyle" (click)="contentClick()">- (click here)</span>
                 </p>
 
             </div>
@@ -27,7 +28,7 @@
                 <div class="actions mt-10">
                     <p class="text-align-center pt-20" id="res-align">
                         <button class="btn btn-default btn-sec mr-5 btn-lg text-light" id="res-btn"
-                            (click)="checkFieldofFile()" type="submit">Update File</button>
+                            (click)="checkFieldofFile()" type="submit">Update Asset</button>
                         <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
                     </p>
 
