@@ -13,46 +13,80 @@
             <div class="" *ngIf="slug !=='space'">
                     <app-main-menu class="d-flex computer only ml-auto"  [slugInfo]= "slug"></app-main-menu>
             </div>
-            <div class="col-lg" *ngIf="slug ==='space' && userService.loggedIn">
-                    <i class="large bars icon link primary-color mobile only" (click)="showSideBar()" tabindex="0"></i>
+            <i class="large bars icon link primary-color mobile only" (click)="showSideBar()" tabindex="0"></i>
+
+            <div class="col-6" *ngIf="slug ==='space' && userService.loggedIn">
                     <app-space-main-menu class="d-flex computer only ml-auto justify-content-center"  [slugInfo]= "slug"></app-space-main-menu>
             </div>        
-        <a class="profile-avtar item  pr-0 mr-100" *ngIf="userService.loggedIn; else showLoginBtn">
-                <a class="item mr-1">
-                        <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
-                        <i class="fas fa-bell fs-1-5"></i>
-                      </a>
-            <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
-                <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
-                </ngx-avatar>
-                <div class="menu" suiDropdownMenu>
-                    <div *ngIf='userProfile' class="item headerDropdownProfile text">
-                        {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
+    <div class="col-lg" *ngIf="userService.loggedIn">
+            <a class="profile-avtar item  pr-0" >
+                    <a class="items mr-20">
+                            <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
+                            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;" *ngIf="notificationCount === 0" (click)="readContentStatus(content)"></i>
+                            <i class="fas fa-bell fs-1-5 icon-grey badge " style="width: 34.8px;" *ngIf="notificationCount > 0" (click)="readContentStatus(content)"></i>
+                            <ng-template #content let-d="dismiss">
+                                    <div class="modal-header justify-content-center">
+                                        <div class="py-2">
+                                            <p class="fs-1-3 head">Assets Status for Review Submission</p>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="modal-body"> -->
+                                            <table class="table table-striped" *ngIf="reviewAssetData.length > 0">
+                                                    <thead>
+                                                      <tr class="tr">
+                                                        <th>Name of the Asset</th>
+                                                        <th>Status</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                      <tr *ngFor="let content of reviewAssetData">
+                                                        <td>{{content.name}}</td>
+                                                        <td *ngIf="content.status === 'Draft'">Rejected</td>
+                                                        <td *ngIf="content.status === 'Live'">Published</td>
+                                                      </tr>
+                                                    </tbody>
+                                            </table>
+                                            <div class="fs-1-286 mb-15 mt-12 text-align-center text-danger" *ngIf="reviewAssetData.length === 0">
+                                                No Assets send for Review
+                                            </div>
+                                    <!-- </div> -->
+                                    <div class="mb-10 text-align-center">
+                                        <button class="btn btn-purple" (click)="d('Cross click')" >Close</button>
+                                    </div>
+                            </ng-template>
+                          </a>
+                <div suiDropdown [(isOpen)]="isOpen" class="ui floating dropdown right top pointing header-user-container" id="dropdown-menu-list-header">
+                    <ngx-avatar *ngIf='userProfile' [style]="avtarDesktopStyle" [size]="38" initialsSize="1" name="{{userProfile?.firstName}}">
+                    </ngx-avatar>
+                    <div class="menu" suiDropdownMenu>
+                        <div *ngIf='userProfile' class="item headerDropdownProfile text">
+                            {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
+                        </div>
+                        <div *ngIf='userProfile' class="ui divider "></div>
+                        <a class="item text" routerLink="profile">
+                            {{resourceService.frmelmnts?.lnk?.profile}}
+                        </a>
+                        <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard">
+                            {{resourceService.frmelmnts?.lnk?.dashboard}}
+                        </a> -->
+                        <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='announcementRole' routerLink="announcement/outbox/1">
+                            {{resourceService.frmelmnts?.lnk?.announcement}}
+                        </a> -->
+                        <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='myActivityRole' routerLink="myActivity">
+                            {{resourceService.frmelmnts?.lnk?.myactivity}}
+                        </a> -->
+                        <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='orgSetupRole' routerLink="orgType">
+                            {{resourceService.frmelmnts?.lbl?.orgtypes}}
+                        </a>
+                        <a class="item text" (click)="logout()">
+                            {{resourceService.frmelmnts?.lnk?.logout}}
+                        </a>
                     </div>
-                    <div *ngIf='userProfile' class="ui divider "></div>
-                    <a class="item text" routerLink="profile">
-                        {{resourceService.frmelmnts?.lnk?.profile}}
-                    </a>
-                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='adminDashboard' routerLink="orgDashboard">
-                        {{resourceService.frmelmnts?.lnk?.dashboard}}
-                    </a> -->
-                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='announcementRole' routerLink="announcement/outbox/1">
-                        {{resourceService.frmelmnts?.lnk?.announcement}}
-                    </a> -->
-                    <!-- <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='myActivityRole' routerLink="myActivity">
-                        {{resourceService.frmelmnts?.lnk?.myactivity}}
-                    </a> -->
-                    <a class="item text" *ngIf='permissionService.permissionAvailable' appPermission [permission]='orgSetupRole' routerLink="orgType">
-                        {{resourceService.frmelmnts?.lbl?.orgtypes}}
-                    </a>
-                    <a class="item text" (click)="logout()">
-                        {{resourceService.frmelmnts?.lnk?.logout}}
-                    </a>
                 </div>
-            </div>
-        </a>
+            </a>
     </div>
-        <ng-template #showLoginBtn>
+    
+        <div class="col" *ngIf="!userService.loggedIn">
                <div class="col mobile only">
                     <i class="large bars icon link primary-color mobile only float-right" (click)="showSideBar()" tabindex="0"></i>
                </div>
@@ -88,7 +122,8 @@
         </div>
     </div>
 </div>
-        </ng-template>
+</div>
+    </div>
     </div>
     <div class="navbar-bg p-20 navbar-padding" *ngIf="userService.loggedIn" style="background-color:#BABABA">
         <div class="ui mobile-view container d-flex flex-ai-center mx-0 fz">

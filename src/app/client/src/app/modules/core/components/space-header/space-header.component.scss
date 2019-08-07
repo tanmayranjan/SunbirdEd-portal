@@ -318,3 +318,43 @@ background: #007b5e;
 width: 15rem !important;
   }
 }
+*.icon-blue {color: #0088cc}
+*.icon-grey {color: grey}
+i {   
+    width:100px;
+    text-align:center;
+    vertical-align:middle;
+    position: relative;
+}
+.badge:empty {
+   display: unset !important; 
+}
+.badge:after{
+  content: "1";
+  position: absolute;
+  background: green;
+  height: 1.5rem;
+  top: -0.9rem;
+  right: -0.5rem;
+  width: 1.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  border-radius: 50%;
+  color: white;
+  border: 1px solid green;
+}
+.tr {
+  background: dimgrey;
+  color: white;
+}
+// .fa-bell {
+//   width: 59.8px;
+//   height: 1rem;
+// }
+.items {
+  margin-left: 10rem;
+}
+.ui.menu[_ngcontent-c3] .items[_ngcontent-c3] {
+    padding:unset ;
+}

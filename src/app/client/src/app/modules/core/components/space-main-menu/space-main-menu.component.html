@@ -55,7 +55,7 @@
           </ng-template>
     </div>
   </div>
-  <div class="mobile only">
+  <div class="mobile only" *ngIf="userService.loggedIn" style="height:1rem;">
       <div class="ui sidebar right vertical menu" *ngIf="userService.loggedIn">
         <div *ngIf='userProfile' class="item item fs-1 font-weight-bold">
           {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}

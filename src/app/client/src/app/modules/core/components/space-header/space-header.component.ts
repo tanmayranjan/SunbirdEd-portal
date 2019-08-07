@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { UserService, PermissionService, TenantService, LearnerService } from './../../services';
+import { UserService, PermissionService, TenantService, LearnerService, ContentService } from './../../services';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -71,6 +71,9 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   /**
    * reference of resourceService service.
    */
+  public reviewStatus: any;
+
+  public reviewAssetData = [];
   public resourceService: ResourceService;
   avtarMobileStyle = {
     backgroundColor: 'transparent',
@@ -107,13 +110,15 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   pageId: string;
   slug: any;
   modalRef: any;
+  public  notificationCount = 0;
   /*
   * constructor
   */
   constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
-    public learnService: LearnerService, private modalService: NgbModal) {
+    public learnService: LearnerService, private modalService: NgbModal,
+    public contentService: ContentService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -126,6 +131,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setSlug();
+    this.contentStatus();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         let currentRoute = this.activatedRoute.root;
@@ -291,6 +297,53 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         }
 }
 openSm(content) {
+  this.modalRef = this.modalService.open(content,  {centered: true});
+}
+contentStatus() {
+  let mainState;
+  let state;
+  const archive = [];
+   let i = 0, key;
+  const keys = Object.keys(localStorage);
+console.log('this.notificationCount = ', this.notificationCount);
+
+for (; key = keys[i]; i++) {
+  archive.push( key);
+}
+  for (let j = 0; j < archive.length; j++) {
+    console.log( 'j = ', archive[j]);
+  const req = {
+    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}/?mode=edit`,
+  };
+  this.contentService.get(req).subscribe(data => {
+    console.log('data in main header = ', data);
+   mainState = data.result.content.status;
+   state = JSON.parse(localStorage.getItem(archive[j]));
+  console.log('state = ', state, mainState, archive[j]);
+  if (state === 'Review') {
+    if (mainState === 'Live') {
+      this.notificationCount ++;
+      this.reviewAssetData.push(data.result.content);
+      console.log('Asset is published', this.notificationCount);
+      this.reviewStatus = 'published';
+      localStorage.setItem(archive[j], JSON.stringify('Live'));
+    }
+  }
+  if (state === 'Review') {
+    if (mainState === 'Draft') {
+      this.notificationCount ++;
+      this.reviewAssetData.push(data.result.content);
+      console.log('Asset is rejected', this.notificationCount);
+      this.reviewStatus = 'rejected';
+      localStorage.setItem(archive[j], JSON.stringify('Draft'));
+    }
+  }
+});
+}
+}
+readContentStatus(content) {
+  console.log('reviewAssetData = ', this.reviewAssetData);
+  this.notificationCount = 0;
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 }

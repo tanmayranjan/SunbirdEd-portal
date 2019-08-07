@@ -496,7 +496,7 @@ contentSearch(searchParams, pageNumber, limit) {
       .onDeny(result => {
       });
   }
-  public reviewConfirmModal(contentIds) {
+  public reviewConfirmModal(contentIds, status) {
     const config2 = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config2.isClosable = true;
     config2.size = 'mini';
@@ -524,6 +524,24 @@ contentSearch(searchParams, pageNumber, limit) {
 
         this.contentService.post(option).subscribe(
           (data: ServerResponse) => {
+            console.log('data after sending for review = ', data);
+            // var archive = [],
+            // keys = Object.keys(localStorage),
+            // i = 0, key;
+            // for (; key = keys[i]; i++) {
+            //   archive.push( key);
+            // }
+            //   for (let j=0; j < archive.length; j++) {
+            //     console.log( 'j = ', archive[j]);
+            //     if(localStorage.hasOwnProperty(archive[j])) {
+            //       localStorage.removeItem(archive[j]);
+            //     }
+            //   }
+
+            localStorage.setItem(contentIds, JSON.stringify('Review'));
+            const state = JSON.parse(localStorage.getItem(contentIds));
+            console.log('state = ', state);
+
             this.toasterService.success('Your Asset has been sucessfully sent for review');
             setTimeout(() => {
               this.showLoader = false;
