@@ -238,7 +238,7 @@ background: #007b5e;
       // margin-top: -5rem !important;
     }
     .primary-header .logo img{
-      height:41px !important;
+      height:36px !important;
       width: 18rem !important;
     }
     .main-header {
@@ -260,6 +260,7 @@ background: #007b5e;
   }
   .primary-header .logo img{
     height:41px !important;
+  
   }
   .main-header {
     width: 100vw !important;
@@ -297,10 +298,10 @@ background: #007b5e;
   padding-left: 1rem;
   /* margin-top: 1rem; */
 }
-.col-8[_ngcontent-c3] {
+.col-8 {
   max-width: 69.666667% !important;
 }
-.ui.right.sidebar[_ngcontent-c3] {
+.ui.right.sidebar {
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -308,16 +309,21 @@ background: #007b5e;
   height: auto !important;
 }
 @media (min-width: 992px) {
-.col-lg-9[_ngcontent-c3] {
+.col-lg-9 {
     max-width: 79% !important;
 }
 }
 @media only screen and (min-width: 766px) and (max-width: 1024px) {
-  .primary-header[_ngcontent-c3] .logo[_ngcontent-c3] img[_ngcontent-c3] {
+  .primary-header .logo img {
     height: 36px !important;
-width: 15rem !important;
   }
 }
+@media only screen and (min-width: 1024px) and (max-width: 1231px) {
+  .primary-header .logo img {
+width: 18rem !important;
+  }
+}
+
 *.icon-blue {color: #0088cc}
 *.icon-grey {color: grey}
 i {   
@@ -355,6 +361,39 @@ i {
 .items {
   margin-left: 10rem;
 }
-.ui.menu[_ngcontent-c3] .items[_ngcontent-c3] {
+.ui.menu .items {
     padding:unset ;
+}
+@media screen and (max-width: 374px) and (min-width: 312px){
+.profile-avtar {
+    top: -3.7rem;
+    left: 6rem;
+}
+}
+@media screen and (max-width: 374px) and (min-width: 312px){
+.primary-header .logo img {
+    height: 36px !important;
+    width: 156px !important;
+}
+}
+@media screen and (max-width: 1226  px) and (min-width: 1026px){
+.primary-header .logo img {
+  height: 44px !important;
+  width: 17rem !important;
+}
+}
+@media screen and (max-width: 689px) and (min-width: 374px){
+  .profile-avtar {
+    left: -9rem;
+  }
+}
+@media screen and (max-width: 766px) and (min-width: 568px) {
+  .primary-header .logo img { 
+    width: 14rem !important;
+  }
+}
+@media screen and (max-width: 568px) and (min-width: 519px) {
+  .primary-header .logo img { 
+    width: 12rem !important;
+  }
 }

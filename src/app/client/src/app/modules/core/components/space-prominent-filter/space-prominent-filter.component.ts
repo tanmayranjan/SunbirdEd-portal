@@ -232,7 +232,8 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
         const channel = [];
          _.forEach(this.formInputData.channel, (value, key) => {
           const orgDetails = _.find(this.formFieldProperties, {code: 'channel'});
-          const range = _.find(orgDetails['range'], {'identifier': value});
+          const range = _.find(orgDetails['range'], {'name': value});
+          console.log('range = ', range , 'orgdetails = ', orgDetails , 'value = ', value , 'in sapce prominent filter');
           channel.push(range['name']);
          });
          this.formInputData['channel'] =  channel;
