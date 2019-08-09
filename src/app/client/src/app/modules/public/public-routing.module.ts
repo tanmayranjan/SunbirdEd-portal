@@ -28,6 +28,12 @@ const routes: Routes = [
     path: 'explore', loadChildren: './module/explore/explore.module#ExploreModule'
   },
   {
+    path: 'explore-assets', loadChildren: './module/explore/explore.module#ExploreModule'
+  },
+  {
+    path: ':slug/explore-assets', loadChildren: './module/explore/explore.module#ExploreModule'
+  },
+  {
     path: 'explore-library', loadChildren: './module/library-content/library-content.module#LibraryContentModule'
   },
   {
