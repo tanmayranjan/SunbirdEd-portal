@@ -1,9 +1,9 @@
 <div class="ui grid">
   <div *ngFor="let field of formFieldProperties;let i = index"
     class="{{field.renderingHints.semanticColumnWidth || 'twelve'}} wide computer tablet twelve wide mobile column">
+    <hr *ngIf="i===2">
     <hr *ngIf="i===3">
     <hr *ngIf="i===4">
-    <hr *ngIf="i===5">
     <div *ngIf="field.inputType==='text' && field.code!='creators' && field.code!='region' && field.code!='link'"
       class="required field" [ngClass]="{ 'disabled':!field.editable}">
 

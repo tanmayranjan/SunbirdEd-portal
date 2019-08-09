@@ -252,7 +252,9 @@ console.log('content = ', this.assetDetail);
 
         // this.resourceService.messages.smsg.m0004
         this.toasterService.success('Asset has been rejected successfully');
-        // localStorage.setItem(contentId, JSON.stringify('Draft'));
+        if (!localStorage.hasOwnProperty(contentId)) {
+        localStorage.setItem(contentId, JSON.stringify('Review'));
+        }
         setTimeout(() => {
           this.route.navigate(['upForReview']);
           this.ngOnInit();
@@ -297,7 +299,10 @@ console.log('content = ', this.assetDetail);
               this.showLoader = false;
 
               this.toasterService.success('Asset has been sucessfully published');
-              // localStorage.setItem(contentId, JSON.stringify('Live'));
+              if (!localStorage.hasOwnProperty(contentId)) {
+               localStorage.setItem(contentId, JSON.stringify('Review'));
+                }
+
               setTimeout(() => {
                 this.route.navigate(['upForReview']);
                 this.ngOnInit();
