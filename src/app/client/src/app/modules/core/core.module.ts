@@ -38,6 +38,7 @@ import { HttpModule } from '@angular/http';
 import { ConceptPickerComponent } from './components/concept-picker/concept-picker.component';
 import { SpaceConceptPickerComponent } from './components/space-concept-picker/space-concept-picker.component';
 import { SpaceFramworkSelectorComponent } from './components/space-framwork-selector/space-framwork-selector.component';
+import { SunbirdProminentFilterComponent } from './components/sunbird-prominent-filter/sunbird-prominent-filter.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -59,9 +60,9 @@ import { SpaceFramworkSelectorComponent } from './components/space-framwork-sele
     ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective, OtherSearchComponent,
     SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent, ConceptPickerComponent,
      SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent, SpaceDataDrivenFilterComponent,
-      OtherSearchComponent, SpaceMainMenuComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent],
+      OtherSearchComponent, SpaceMainMenuComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent, SunbirdProminentFilterComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective,
-    SunbirdDataDrivenFilterComponent,
+    SunbirdDataDrivenFilterComponent, SunbirdProminentFilterComponent,
     DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent,
      FrameworkPickerComponent, FramworkSelectorComponent,
      SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent,

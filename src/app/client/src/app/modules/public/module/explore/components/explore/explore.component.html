@@ -1,24 +1,54 @@
 <div [appTelemetryImpression]="telemetryImpression">
-  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug !== 'space'" [filterEnv]="filterType" [ignoreQuery]="['key']"
-    [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true
-    [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
-  <app-space-prominent-filter  [pageId]="'explore-page'" *ngIf="initFilters && slug === 'space'" [slugInfo]="slug" [filterEnv]="filterType" [ignoreQuery]="['key']"
-  [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true [isShowFilterLabel]=true
-  [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-space-prominent-filter>
-  <div class="ui container mt-24">
-    <div class="ui grid">
+  <app-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug === 'sbwb'" [filterEnv]="filterType"
+    [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true [showSearchedParam]=true
+    [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)"></app-prominent-filter>
+  <app-space-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug === 'space'" [slugInfo]="slug"
+    [filterEnv]="filterType" [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true
+    [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)">
+  </app-space-prominent-filter>
+  <app-sunbird-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug === 'sunbirdorg'"
+    [filterEnv]="filterType" [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true
+    [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)">
+  </app-sunbird-prominent-filter>
+  <div class="ui container mt-24" *ngIf="slug !== 'sunbirdorg'">
+    <div class="ui grid" >
       <div class="twelve wide column" *ngFor="let section of pageSections;let last = last"
         [ngClass]="{'last mb-30':last}">
-        <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
-          (viewAll)="viewAll($event)" *ngIf="slug !== 'space'" ></app-page-section>
-          <app-space-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
-          (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
+        <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section"
+          [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'sbwb'"></app-page-section>
+        <app-space-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section"
+          [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
       </div>
+
+      <div class="twelve wide column" *ngIf="showLoader">
+          <app-loader [data]='loaderMessage'></app-loader>
+        </div>
+        <div class="twelve wide column" *ngIf="carouselMasterData.length === 0 && !showLoader">
+          <app-no-result [data]="noResultMessage"></app-no-result>
+        </div>
+    </div>
+  </div>
+  <div class="cards1 ui container1 mt-24 " *ngIf="slug === 'sunbirdorg'">
+      <div class="ui grid" >
+          <div class="twelve wide column " in-view-container>
+          <div  class="twelve wide column" in-view-container
+          *ngIf="!showLoader && contentList.length">
+          <div class="masonry-grid dynamic-section-card">
+              <div in-view-item [id]="i" [data]="content" class="masonry-item"
+          *ngFor="let content of contentList;let i = index;">
+          <app-asset-card appContentDirection [data]="content"
+            (clickEvent)="playContent($event)" [data]="content" ></app-asset-card>
+        </div>
+   
+
       <div class="twelve wide column" *ngIf="showLoader">
         <app-loader [data]='loaderMessage'></app-loader>
       </div>
-      <div class="twelve wide column" *ngIf="carouselMasterData.length === 0 && !showLoader">
+      <div class="twelve wide column" *ngIf="contentList.length === 0 && !showLoader">
         <app-no-result [data]="noResultMessage"></app-no-result>
+      </div>
+          </div>
+          </div>
       </div>
     </div>
   </div>

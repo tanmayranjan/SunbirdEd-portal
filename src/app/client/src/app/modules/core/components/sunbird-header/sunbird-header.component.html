@@ -27,8 +27,8 @@
             <div class="ui text menu m-0 d-flex flex-jc-center flex-ai-center computer only mt-15">
 
               <a href="/sunbirdorg/about-sunbird" class="  item color">About Sunbird</a>
-              <a href="/sunbirdorg/explore-assets/1" class="item color"
-                [class.active]="router.isActive('/explore-assets/1', false)">Resources</a>
+              <a href="/sunbirdorg/explore-assets" class="item color"
+                [class.active]="router.isActive('/explore-assets', false)">Resources</a>
               <a href="/sunbirdorg/partners-sunbird" class="item color">Collaborators</a>
             </div>
           </div>
@@ -36,7 +36,7 @@
             <div class="ui sidebar right vertical menu bgcolour align pr-10">
               <ng-container *ngIf="!userService.loggedIn && !isOffline">
                 <a href="/sunbirdorg/about-sunbird" class="item color">About Sunbird</a>
-                <a href="/sunbirdorg/explore-assets/1" class="item color">Resources</a>
+                <a href="/sunbirdorg/explore-assets" class="item color">Resources</a>
                 <a href="/sunbirdorg/partners-sunbird" class="item color">Collaborators</a>
               </ng-container>
             </div>

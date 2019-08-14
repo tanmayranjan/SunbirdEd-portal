@@ -32,6 +32,7 @@ let keycloak = getKeyCloakClient({
   'public-client': true
 })
 const app = express()
+// const encodedRedirectUri = 'http://localhost:3000/space';
 
 app.use(cookieParser())
 app.use(helmet())
@@ -47,11 +48,18 @@ app.use(keycloak.middleware({ admin: '/callback', logout: '/logout' }))
 app.use('/announcement/v1', bodyParser.urlencoded({ extended: false }),
   bodyParser.json({ limit: '10mb' }), require('./helpers/announcement')(keycloak)) // announcement api routes
 
-app.all('/logoff', endSession, (req, res) => {
-  res.cookie('connect.sid', '', { expires: new Date() }); res.redirect('/logout')
+app.all('/logoff', endSession, (req, res, next) => {
+  // console.log("response in server = ", req ,res , envHelper.PORTAL_AUTH_SERVER_URL,"/realms/",envHelper.PORTAL_REALM,"/protocol/openid-connect/logout?redirect_uri='http://localhost:3000/space'");
+  res.cookie('connect.sid', '', { expires: new Date() }); 
+  res.redirect(envHelper.PORTAL_AUTH_SERVER_URL+'/realms/'+envHelper.PORTAL_REALM+'/protocol/openid-connect/logout?redirect_uri='+'http://localhost:3000/space');
 })
 
-app.get('/health', healthService.createAndValidateRequestBody, healthService.checkHealth) // health check api
+app.all('/logoffsbwb', endSession, (req, res, next) => {
+  res.cookie('connect.sid', '', { expires: new Date() }); 
+  res.redirect(envHelper.PORTAL_AUTH_SERVER_URL+'/realms/'+envHelper.PORTAL_REALM+'/protocol/openid-connect/logout?redirect_uri='+'http://localhost:3000/sbwb');
+})
+
+app.get('/health', healthService.createAndValidateRequestBody, healthService.checkHealth) // health check api http%3A%2F%2Flocalhost%3A3000%2Fspace%3F
 
 app.get('/service/health', healthService.createAndValidateRequestBody, healthService.checkSunbirdPortalHealth)
 

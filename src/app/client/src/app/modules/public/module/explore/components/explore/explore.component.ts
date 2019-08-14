@@ -1,6 +1,6 @@
 import { OfflineFileUploaderService } from '../../../../../offline/services';
 import { combineLatest, Subject } from 'rxjs';
-import { PageApiService, OrgDetailsService, UserService } from '@sunbird/core';
+import { PageApiService, OrgDetailsService, UserService, SearchService, FrameworkService } from '@sunbird/core';
 import { PublicPlayerService } from './../../../../services';
 import { Component, OnInit, OnDestroy, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
 import {
@@ -13,6 +13,9 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 import { environment } from '@sunbird/environment';
+import { IPagination } from '@sunbird/announcement';
+import { ICard } from '@sunbird/shared';
+import { PaginationService } from '@sunbird/shared';
 // import { open } from 'fs';
 @Component({
   templateUrl: './explore.component.html',
@@ -51,6 +54,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     'languages',
     'country'
   ];
+  public facetsList: any;
+  public paginationDetails: IPagination;
+  public contentList: Array<ICard> = [];
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -59,14 +65,17 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
-    public offlineFileUploaderService: OfflineFileUploaderService,
-    public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
+    public offlineFileUploaderService: OfflineFileUploaderService, public searchService: SearchService,
+    public paginationService: PaginationService, public resourceService: ResourceService,
+    private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService, public frameworkService: FrameworkService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
+    this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
+
   }
 
   ngOnInit() {
@@ -116,7 +125,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   private fetchPageData() {
-   if (this.slug !== 'space') {
+    let option;
+   if (this.slug === 'sbwb') {
     //  console.log('in explore page');
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
@@ -170,7 +180,66 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pageSections = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
       });
-   } else {
+   } 
+   if (this.slug === 'sunbirdorg') {
+ //  console.log('in explore page');
+ let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+            filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+            const softConstraintData: any = {
+                filters: {
+                    channel: this.hashTagId,
+                },
+                softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+                mode: 'soft'
+            };
+            const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+                'appliedFilters'), softConstraintData);
+            // filters =  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters;
+        option = {
+                filters: _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters,
+                limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+                offset: 0,
+                query: this.queryParams.key,
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+            };
+            console.log('explore content component query param = ', this.queryParams);
+            option.filters.objectType = 'Asset';
+            option.filters.contentType = [];
+            option.filters.channel = [];
+            if (this.queryParams.hasOwnProperty('sort_by')) {
+                const sortby = this.queryParams.sort_by;
+                const sorttype = this.queryParams.sortType;
+                if (sortby === 'lastUpdatedOn') {
+                   option.sort_by = { 'lastUpdatedOn' : sorttype};
+                }
+                if (sortby === 'createdOn') {
+                    option.sort_by = { 'createdOn' : sorttype};
+                 }
+            }
+            this.frameworkService.channelData$.subscribe((channelData) => {
+                if (!channelData.err) {
+                    option.params.framework = 'NCERT';
+                }
+            });
+            console.log('option', option, filters);
+            this.searchService.compositeSearch(option).subscribe(data => {
+                this.showLoader = false;
+                console.log('card data from explore content = ', data);
+                    this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+                    this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+                    this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+                }, err => {
+                    this.showLoader = false;
+                    this.contentList = [];
+                    this.facetsList = [];
+                    this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+                });
+   }
+   if (this.slug === 'space') {
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
         return false;
