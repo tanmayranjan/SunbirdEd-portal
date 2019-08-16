@@ -35,12 +35,14 @@
                                             <table class="table table-striped" *ngIf="reviewAssetData.length > 0">
                                                     <thead>
                                                       <tr class="tr">
+                                                        <th>Asset Id</th>
                                                         <th>Name of the Asset</th>
                                                         <th>Status</th>
                                                       </tr>
                                                     </thead>
                                                     <tbody >
                                                       <tr *ngFor="let content of reviewAssetData">
+                                                        <td>{{content.identifier}}</td>
                                                         <td>{{content.name}}</td>
                                                         <td *ngIf="content.status === 'Draft'">Rejected</td>
                                                         <td *ngIf="content.status === 'Live'">Published</td>
