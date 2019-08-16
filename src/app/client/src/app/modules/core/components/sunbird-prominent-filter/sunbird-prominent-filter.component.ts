@@ -17,7 +17,7 @@ import { first, mergeMap, map, tap, catchError, filter } from 'rxjs/operators';
   templateUrl: './sunbird-prominent-filter.component.html',
   styleUrls: ['./sunbird-prominent-filter.component.scss']
 })
-export class SunbirdProminentFilterComponent implements OnInit {
+export class SunbirdProminentFilterComponent implements OnInit , OnDestroy {
   @Input() filterEnv: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
@@ -105,7 +105,7 @@ export class SunbirdProminentFilterComponent implements OnInit {
   constructor(configService: ConfigService,
     resourceService: ResourceService,
     router: Router,
-    private activatedRoute: ActivatedRoute,
+    public  activatedRoute: ActivatedRoute,
     private _cacheService: CacheService,
     private cdr: ChangeDetectorRef,
     frameworkService: FrameworkService,

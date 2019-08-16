@@ -111,6 +111,8 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   slug: any;
   modalRef: any;
   public  notificationCount = 0;
+  userId: any;
+  creatorId: any;
   /*
   * constructor
   */
@@ -130,8 +132,12 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    this.creatorId = JSON.parse(localStorage.getItem('creator'));
+    this.userId = this.userService.userid;
     this.setSlug();
+    if (this.userId === this.creatorId) {
     this.contentStatus();
+    }
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         let currentRoute = this.activatedRoute.root;
@@ -300,6 +306,7 @@ openSm(content) {
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 contentStatus() {
+
   let mainState;
   let state;
   const archive = [];
@@ -312,6 +319,7 @@ for (; key = keys[i]; i++) {
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
+if (archive[j] !== 'creator') {
   const req = {
     url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}/?mode=edit`,
   };
@@ -341,9 +349,10 @@ for (; key = keys[i]; i++) {
 });
 }
 }
+}
 readContentStatus(content) {
-  console.log('reviewAssetData = ', this.reviewAssetData);
-  this.notificationCount = 0;
+    this.notificationCount = 0;
+  console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 }

@@ -539,8 +539,10 @@ contentSearch(searchParams, pageNumber, limit) {
             //   }
 
             localStorage.setItem(contentIds, JSON.stringify('Review'));
+            localStorage.setItem('creator', JSON.stringify(this.userId));
             const state = JSON.parse(localStorage.getItem(contentIds));
-            console.log('state = ', state);
+            const creatorId = JSON.parse(localStorage.getItem(contentIds));
+            console.log('state = ', state, 'creator id = ', creatorId);
 
             this.toasterService.success('Your Asset has been sucessfully sent for review');
             setTimeout(() => {
@@ -573,13 +575,23 @@ contentSearch(searchParams, pageNumber, limit) {
     this.pageNumber = page;
     this.route.navigate(['myassets/', this.pageNumber], { queryParams: this.queryParams });
   }
-  navigateToDetailsPage(contentId: string, status: string) {
+  navigateToDetailsPage(contentId: string, status: string, event, link) {
+    console.log('event', event, link);
+
+   if (event.target.id === 'link') {
+     if ( link.slice(0, 4) === 'http') {
+      window.open(link);
+     } else {
+      window.open('http://' + link);
+     }
+   } else {
     if (this.route.url === '/upForReview') {
       this.navigateToReviewAssetDetailsPage(contentId);
     } else {
       this.route.navigate(['myassets/detail', contentId, status]);
     }
   }
+   }
 
   navigateToReviewAssetDetailsPage(contentId: string) {
     this.route.navigate(['upForReview/review/detail', contentId]);

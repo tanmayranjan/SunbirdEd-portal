@@ -144,7 +144,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
       softConstraintData);
-    const option = {
+     option = {
       source: 'web',
       name: 'Explore',
       filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
@@ -180,7 +180,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pageSections = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
       });
-   } 
+   }
    if (this.slug === 'sunbirdorg') {
  //  console.log('in explore page');
  let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
@@ -254,7 +254,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
       softConstraintData);
-    const option = {
+     option = {
       source: 'web',
       name: 'Explore',
       // filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),

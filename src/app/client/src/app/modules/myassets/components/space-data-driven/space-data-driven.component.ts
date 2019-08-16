@@ -342,6 +342,11 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
       this.editorService.create(requestData).subscribe(res => {
 
+        localStorage.setItem(res.result.content_id, JSON.stringify('Review'));
+        localStorage.setItem('creator', JSON.stringify(this.userService.userid));
+        const state = JSON.parse(localStorage.getItem(res.result.content_id));
+        const creatorId = JSON.parse(localStorage.getItem(res.result.content_id));
+        console.log('state = ', state, 'creator id = ', creatorId);
 
         this.contentId = res.result.content_id;
         if (this.uploadLink === 'uploadFile') {
