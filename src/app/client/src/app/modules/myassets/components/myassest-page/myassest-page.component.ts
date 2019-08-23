@@ -2,7 +2,7 @@ import { combineLatest as observableCombineLatest, Observable, Subject, Subscrip
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService } from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents,
@@ -229,7 +229,7 @@ modalMessage = '';
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
     public modalServices: SuiModalService, frameworkService: FrameworkService,
-    contentService: ContentService) {
+    contentService: ContentService, public assetService: AssetService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -327,37 +327,37 @@ ngAfterViewInit() {
     } else {
       this.sort = { lastUpdatedOn: this.config.appConfig.WORKSPACE.lastUpdatedOn };
     }
-    const preStatus = ['Draft', 'Review', 'Live'];
+    const preStatus = [];
     const searchParams = {
       filters: {
         status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
-        createdBy: this.userService.userid,
-        contentType: this.config.appConfig.WORKSPACE.contentType,
-        objectType: this.config.appConfig.WORKSPACE.objectType,
-        board: [],
+        // createdBy: this.userService.userid,
+        // contentType: this.config.appConfig.WORKSPACE.contentType,
+        objectType: 'Asset',
+        assetType: [],
         subject: bothParams.queryParams.subject,
         medium: bothParams.queryParams.medium,
-        gradeLevel: bothParams.queryParams.gradeLevel,
+        sector: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
         keywords: bothParams.queryParams.keywords,
         region: [],
         creators: [],
-        languages: [],
+        language: [],
         organisation: [],
-        channel: [],
+        channel: [this.userService.hashTagId],
         topic: [],
-        country: []
+        country: [],
       },
-      limit: limit,
-      offset: (pageNumber - 1) * (limit),
+      // limit: limit,
+      // offset: (pageNumber - 1) * (limit),
       query: '' || bothParams.queryParams.query,
-      sort_by: this.sort
+      // sort_by: this.sort
     };
 console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
         if (bothParams.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
-            searchParams.filters.board.push(bothParams.queryParams[param][0]);
+            searchParams.filters.assetType.push(bothParams.queryParams[param][0]);
           }
           if (param === 'channel') {
             searchParams.filters.creators.push(bothParams.queryParams[param][0]);
@@ -367,13 +367,13 @@ console.log('filter param = ', searchParams);
             searchParams.filters.region.push(bothParams.queryParams[param][0]);
           }
           if (param === 'gradeLevel') {
-            searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
+            searchParams.filters.sector.push(bothParams.queryParams[param][0]);
           }
           if (param === 'topic') {
             searchParams.filters.topic.push(bothParams.queryParams[param][0]);
           }
           if (param === 'languages') {
-            searchParams.filters.languages.push(bothParams.queryParams[param][0]);
+            searchParams.filters.language.push(bothParams.queryParams[param][0]);
           }
           // if (param === 'country') {
           //   searchParams.filters.country = this.queryParams[param];
@@ -393,21 +393,23 @@ contentSearch(searchParams, pageNumber, limit) {
             if (this.route.url === '/upForReview' ) {
                this.noResultsForReview = false;
               const option = {
-                url : '/content/v1/search',
+                url : 'content/composite/v1/search',
                 param : '',
                 filters: {
-                  language: ['English'],
-                  contentType: ['Resource'],
+                  // language: ['English'],
+                  objectType: 'Asset',
                   status: ['Review'],
-                  channel: this.userDetails.organisationIds,
+                  channel: this.userDetails.hashTagId,
                   organisation: this.config.appConfig.Library.orgName
               },
                 sort_by: {me_averageRating: 'desc'}
               };
-              this.contentService.getupForReviewData(option).subscribe(response => {
-
+              delete option.sort_by;
+              this.assetService.getupForAssetReviewData(option).subscribe(response => {
+                console.log(' res param in review page = ', option);
                 if (response.result.count > 0) {
-                  this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
+                  this.upForReviewContent = response.result.Asset.filter(Asset => Asset.createdBy !== this.userId);
+                  console.log('upfor review content = ', this.upForReviewContent, response);
                   if (this.upForReviewContent.length <= 0) {
                     this.noResultsForReview = true;
                     this.showLoader = false;
@@ -434,10 +436,18 @@ contentSearch(searchParams, pageNumber, limit) {
               });
             }
           } else {
-            if (data.result.count && data.result.content.length > 0) {
-              console.log('my asset page content = ', data);
+            if (data.result.count && data.result.Asset.length > 0) {
+           const asset = [];
+        _.map(data.result.Asset, object => {
+          if (object.status !== 'Retired') {
+         asset.push(object);
+          }
+        }
+        );
+
+              console.log('my asset page content = ', asset);
             // this is the tem area
-            this.allContent = data.result.content;
+            this.allContent = asset;
 
             this.totalCount = data.result.count;
             this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
@@ -478,9 +488,17 @@ contentSearch(searchParams, pageNumber, limit) {
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
         };
-        this.delete(contentIds).subscribe(
+        const param = {
+          asset: {
+            identifier: contentIds,
+            status: 'Retired'
+          }
+        };
+        this.workSpaceService.updateAsset(param).subscribe(
           (data: ServerResponse) => {
             this.showLoader = false;
+            // localStorage.setItem(contentIds, JSON.stringify('Retired'));
+            localStorage.removeItem(contentIds);
             this.allContent = this.removeAllMyContent(this.allContent, contentIds);
             if (this.allContent.length === 0) {
               this.ngOnInit();
@@ -518,26 +536,17 @@ contentSearch(searchParams, pageNumber, limit) {
           }
         };
         const option = {
-          url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
-          data: requestBody
+          // url: `${this.config.urlConFig.URLS.CONTENT.updateAsset}/${contentIds}`,
+          // data: requestBody
+          asset: {
+            identifier: contentIds,
+            status: 'Review'
+          }
         };
 
-        this.contentService.post(option).subscribe(
+        this.workSpaceService.updateAsset(option).subscribe(
           (data: ServerResponse) => {
             console.log('data after sending for review = ', data);
-            // var archive = [],
-            // keys = Object.keys(localStorage),
-            // i = 0, key;
-            // for (; key = keys[i]; i++) {
-            //   archive.push( key);
-            // }
-            //   for (let j=0; j < archive.length; j++) {
-            //     console.log( 'j = ', archive[j]);
-            //     if(localStorage.hasOwnProperty(archive[j])) {
-            //       localStorage.removeItem(archive[j]);
-            //     }
-            //   }
-
             localStorage.setItem(contentIds, JSON.stringify('Review'));
             localStorage.setItem('creator', JSON.stringify(this.userId));
             const state = JSON.parse(localStorage.getItem(contentIds));

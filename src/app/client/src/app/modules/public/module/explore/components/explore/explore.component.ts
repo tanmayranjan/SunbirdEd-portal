@@ -230,6 +230,16 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.configService.appConfig.SEARCH.PAGE_LIMIT);
                     const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
                     this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+                    const asset = [];
+                    _.map(this.contentList, object => {
+                      // console.log('obj = ', object);
+                      if (object.creators !== 'SPace') {
+                     asset.push(object);
+                      }
+                    });
+                    this.contentList = asset;
+                    console.log('this.contentList = ', this.contentList, asset);
                 }, err => {
                     this.showLoader = false;
                     this.contentList = [];
@@ -248,7 +258,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     const softConstraintData = {
       filters: {
-        board: []
+        board: [],
+        channel: this.userService.hashTagId
       },
       mode: 'soft'
     };
@@ -261,19 +272,21 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: {
         organisation: this.configService.appConfig.ExplorePage.orgName,
         region: [],
-        contentType: [],
+        objectType: 'Asset',
         status: ['Live'],
         board: [],
         channel: [],
         gradeLevel: [],
         topic: [],
-        languages: [],
+        language: [],
         country: [],
-        creators: []
+        creators: [],
+        sector: [],
+        assetType: [],
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
-      params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      // params: this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
     if (_.get(manipulatedData, 'filters')) {
       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
@@ -288,7 +301,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   this.paramType.forEach(param => {
     if (this.queryParams.hasOwnProperty(param)) {
       if (param === 'board') {
-        option.filters.board = this.queryParams[param];
+        option.filters.assetType = this.queryParams[param];
       }
       if (param === 'organization') {
         option.filters.organisation = this.queryParams[param];
@@ -300,23 +313,58 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         option.filters.region = this.queryParams[param];
       }
       if (param === 'gradeLevel') {
-        option.filters.gradeLevel = this.queryParams[param];
+        option.filters.sector = this.queryParams[param];
       }
       if (param === 'topic') {
         option.filters.topic = this.queryParams[param];
       }
       if (param === 'languages') {
-        option.filters.languages = this.queryParams[param];
+        option.filters.language = this.queryParams[param];
       }
       // if (param === 'country') {
       //   option.filters.country = this.queryParams[param];
       // }
-
-      this.callingPageApi(option);
+      this.contentCompositeSearch(option);
+      // this.callingPageApi(option);
     }
   });
-this.callingPageApi(option);
+  this.contentCompositeSearch(option);
+// this.callingPageApi(option);
    }
+  }
+  contentCompositeSearch(option) {
+    this.searchService.compositeSearch(option).subscribe(data => {
+      this.showLoader = false;
+          // this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+          // this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+          //     this.configService.appConfig.SEARCH.PAGE_LIMIT);
+          const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+          // this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+          this.showLoader = false;
+          this.carouselMasterData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          // this.carouselData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          console.log('card data from resource content = ', data);
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+
+
+      //  this.carouselMasterData = asset;
+      //  this.carouselData = asset;
+          console.log('this.contentList = ', this.carouselMasterData, this.pageSections);
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        // this.carouselData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
   }
   callingPageApi(option) {
     this.pageApiService.getPageData(option)

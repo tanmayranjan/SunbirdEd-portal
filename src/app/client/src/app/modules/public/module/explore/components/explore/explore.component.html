@@ -16,9 +16,11 @@
         [ngClass]="{'last mb-30':last}">
         <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section"
           [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'sbwb'"></app-page-section>
-        <app-space-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section"
+        </div>
+        <div class="twelve wide column">
+        <app-space-page-section (visits)="prepareVisits($event)" [enable]="true" (playEvent)="playContent($event)" [section]="pageSections "
           [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
-      </div>
+        </div>
 
       <div class="twelve wide column" *ngIf="showLoader">
           <app-loader [data]='loaderMessage'></app-loader>

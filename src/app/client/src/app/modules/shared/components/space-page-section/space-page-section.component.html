@@ -1,15 +1,13 @@
 
-<div class="ui grid" *ngIf="slug === 'space' && section.contents && section.contents.length > 0">
-    <div class="ui twelve wide column ">
+<div class="ui grid" *ngIf="enable">
+    <div class="ui twelve wide column " *ngIf="slug === 'space' && section.length > 0">
         <div class="d-flex flex-ai-center">
            
-            <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button>
+            <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section.length >= 10 " type="button" (click)="navigateToViewAll(section)">View More</button>
          </div>
         <div class="row">
-                <div in-view-item *ngFor="let content of section.contents;let i = index; let last = last" class="four wide column">    
+                <div in-view-item *ngFor="let content of section;let i = index; let last = last" class="four wide column">    
                         <app-space-card   appTelemetryInteract 
-                        [telemetryInteractEdata]="cardIntractEdata" 
-                        [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
                         (clickEvent)="playContent($event)"
                         [data]="content" 
                         [customClass]="'mr-20'"
@@ -22,3 +20,29 @@
         <div class="ui divider m-0"></div>
     </div> -->
 </div>
+
+<div class="ui grid" *ngIf="!enable">
+        <div class="ui grid" *ngIf="slug === 'space' && section.contents && section.contents.length > 0">
+                <div class="ui twelve wide column ">
+                    <div class="d-flex flex-ai-center">
+                       
+                        <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button>
+                     </div>
+                    <div class="row">
+                            <div in-view-item *ngFor="let content of section.contents;let i = index; let last = last" class="four wide column">    
+                                    <app-space-card   appTelemetryInteract 
+                                    [telemetryInteractEdata]="cardIntractEdata" 
+                                    [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
+                                    (clickEvent)="playContent($event)"
+                                    [data]="content" 
+                                    [customClass]="'mr-20'"
+                                    [slug]="slug"
+                                    class="pr-20 d-block" [class.last-card]="pr-0" *ngIf="slug === 'space'"></app-space-card>
+                            </div>
+                    </div>
+                </div>
+                <!-- <div class="ui twelve wide column my-5 pageSection-Divider">
+                    <div class="ui divider m-0"></div>
+                </div> -->
+    </div>
+    </div>

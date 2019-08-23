@@ -23,3 +23,4 @@ export * from './device-register/device-register.service';
 export * from './channel/channel.service';
 export * from './otp/otp.service';
 export * from './upload/upload-content.service';
+export * from './asset/asset.service';

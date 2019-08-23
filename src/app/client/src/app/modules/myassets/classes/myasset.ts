@@ -42,7 +42,7 @@ export class MyAsset {
            if (contentList.result.count) {
                const inputParams = {
                    filters: {
-                       resourceId: _.map(contentList.result.content, 'identifier')
+                       resourceId: _.map(contentList.result.Asset, 'identifier')
                    }
                };
                return this.workSpaceService.getContentLockList(inputParams)

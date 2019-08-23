@@ -164,7 +164,7 @@ export class DataService {
    * for making post api calls
    * @param {RequestParam} requestParam interface
   */
-  post(requestParam: RequestParam): Observable<ServerResponse> {
+    post(requestParam: RequestParam): Observable<ServerResponse> {
     const httpOptions: HttpOptions = {
       headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
       params: requestParam.param
@@ -178,7 +178,20 @@ export class DataService {
         return observableOf(data);
       }));
   }
-
+reviewAsset(requestParam: RequestParam): Observable<ServerResponse> {
+  const httpOptions: HttpOptions = {
+    headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
+    params: requestParam.param
+  };
+  return this.http.post( requestParam.url, requestParam.data, httpOptions).pipe(
+    mergeMap((data: ServerResponse) => {
+      console.log('frmaework = ', data);
+      if (data.responseCode !== 'OK') {
+        return observableThrowError(data);
+      }
+      return observableOf(data);
+    }));
+  }
   /**
    * for making patch api calls
    *
@@ -324,4 +337,52 @@ export class DataService {
       return 0;
     }
   }
+  create (requestParam: RequestParam) {
+      const httpOptions: HttpOptions = {
+        headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
+        params: requestParam.param
+    };
+    console.log('base url = ', this.baseUrl, 'request url = ', requestParam.url);
+    return this.http.post( requestParam.url, requestParam.data, httpOptions).pipe(
+      mergeMap((data: ServerResponse) => {
+        console.log('frmaework = ', data);
+        if (data.responseCode !== 'OK') {
+          return observableThrowError(data);
+        }
+        return observableOf(data);
+      }));
+
+  }
+  update (requestParam: RequestParam) {
+    const httpOptions: HttpOptions = {
+      headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
+      params: requestParam.param
+  };
+  console.log('base url = ', this.baseUrl, 'request url = ', requestParam.url);
+  return this.http.patch( requestParam.url, requestParam.data, httpOptions).pipe(
+    mergeMap((data: ServerResponse) => {
+      console.log('frmaework = ', data);
+      if (data.responseCode !== 'OK') {
+        return observableThrowError(data);
+      }
+      return observableOf(data);
+    }));
+
+}
+read (requestParam: RequestParam) {
+  const httpOptions: HttpOptions = {
+    headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
+    params: requestParam.param
+};
+console.log('base url = ', this.baseUrl, 'request url = ', requestParam.url);
+return this.http.get( requestParam.url, httpOptions).pipe(
+  mergeMap((data: ServerResponse) => {
+    console.log('frmaework = ', data);
+    if (data.responseCode !== 'OK') {
+      return observableThrowError(data);
+    }
+    return observableOf(data);
+  }));
+
+}
 }

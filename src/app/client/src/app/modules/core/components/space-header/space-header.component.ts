@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { UserService, PermissionService, TenantService, LearnerService, ContentService } from './../../services';
+import { UserService, PermissionService, TenantService, LearnerService, ContentService, AssetService } from './../../services';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -120,7 +120,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
     public learnService: LearnerService, private modalService: NgbModal,
-    public contentService: ContentService) {
+    public contentService: ContentService, public assetService: AssetService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -320,18 +320,21 @@ for (; key = keys[i]; i++) {
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
 if (archive[j] !== 'creator') {
+  // const req = {
+  //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
+  // };
   const req = {
-    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}/?mode=edit`,
+    url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}`,
   };
-  this.contentService.get(req).subscribe(data => {
+  this.assetService.read(req).subscribe(data => {
     console.log('data in main header = ', data);
-   mainState = data.result.content.status;
+   mainState = data.result.asset.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
   console.log('state = ', state, mainState, archive[j]);
   if (state === 'Review') {
     if (mainState === 'Live') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData.push(data.result.asset);
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
@@ -340,7 +343,7 @@ if (archive[j] !== 'creator') {
   if (state === 'Review') {
     if (mainState === 'Draft') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData.push(data.result.asset);
       console.log('Asset is rejected', this.notificationCount);
       this.reviewStatus = 'rejected';
       localStorage.setItem(archive[j], JSON.stringify('Draft'));

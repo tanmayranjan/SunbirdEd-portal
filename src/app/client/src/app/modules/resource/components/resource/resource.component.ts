@@ -1,5 +1,5 @@
 import { combineLatest, Subject } from 'rxjs';
-import { PageApiService, PlayerService, UserService, ISort } from '@sunbird/core';
+import { PageApiService, PlayerService, UserService, ISort, SearchService } from '@sunbird/core';
 import { Component, OnInit, OnDestroy, EventEmitter, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
 import {
   ResourceService, ToasterService, INoResultMessage, ConfigService, UtilService, ICaraouselData,
@@ -10,6 +10,8 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, delay, tap } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
+import { IPagination } from '@sunbird/announcement';
+import { ICard, PaginationService } from '@sunbird/shared';
 @Component({
   templateUrl: './resource.component.html',
   styleUrls: ['./resource.component.css']
@@ -49,6 +51,9 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     'country'
   ];
   public qparam = [];
+  public facetsList: any;
+  public paginationDetails: IPagination;
+  public contentList: Array<ICard> = [];
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -61,12 +66,15 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService,
     private playerService: PlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService,
+    public searchService: SearchService,
+    public paginationService: PaginationService, ) {
     window.scroll(0, 0);
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.library.filterType;
     this.redirectUrl = this.configService.appConfig.library.inPageredirectUrl;
+    this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
   }
 
   ngOnInit() {
@@ -197,14 +205,14 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         name: 'Resource',
         filters: {
           organisation: this.configService.appConfig.ExplorePage.orgName,
-          channel: [],
+          channel: [this.userService.hashTagId],
           region: [],
-          contentType: [],
+         objectType: ['Asset'],
           status: ['Live'],
-          board: [],
-          gradeLevel: [],
+          assetType: [],
+          sector: [],
           topic: [],
-          languages: [],
+          language: [],
           country: [],
           creators: []
         },
@@ -213,13 +221,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
-      option.filters.contentType = ['Resource'];
+      // option.filters.contentType = ['Resource'];
 
       console.log('query param', this.queryParams);
       this.paramType.forEach(param => {
         if (this.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
-            option.filters.board = this.queryParams[param];
+            option.filters.assetType = this.queryParams[param];
           }
           if (param === 'organization') {
             option.filters.organisation = this.queryParams[param];
@@ -231,24 +239,65 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
             option.filters.region = this.queryParams[param];
           }
           if (param === 'gradeLevel') {
-            option.filters.gradeLevel = this.queryParams[param];
+            option.filters.sector = this.queryParams[param];
           }
           if (param === 'topic') {
             option.filters.topic = this.queryParams[param];
           }
           if (param === 'languages') {
-            option.filters.languages = this.queryParams[param];
+            option.filters.language = this.queryParams[param];
           }
           // if (param === 'country') {
           //   option.filters.country = this.queryParams[param];
           // }
-
-
-          this.contentSearch(option);
+          this.contentCompositeSearch(option);
+          // this.contentSearch(option);
         }
       });
-      this.contentSearch(option);
+      this.contentCompositeSearch(option);
+      // this.contentSearch(option);
     }
+  }
+  contentCompositeSearch(option) {
+    this.searchService.compositeSearch(option).subscribe(data => {
+      this.showLoader = false;
+          // this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+          // this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+          //     this.configService.appConfig.SEARCH.PAGE_LIMIT);
+          const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+          // this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+          this.showLoader = false;
+          this.carouselMasterData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          this.carouselData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          console.log('card data from resource content = ', data, this.carouselData);
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+          this.cdr.detectChanges();
+
+          const asset = [];
+          _.map(this.carouselMasterData, object => {
+            // console.log('obj = ', object);
+            if (object.creators === 'SPace') {
+           asset.push(object);
+            }
+          });
+       this.carouselMasterData = asset;
+       this.carouselData = asset;
+          console.log('this.contentList = ', this.contentList, asset);
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        this.carouselData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
   }
   contentSearch(option) {
     console.log('option = ', option);
@@ -257,6 +306,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showLoader = false;
         this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
         this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+        console.log('serach carousel = ', this.carouselData);
         if (!this.carouselMasterData.length) {
           return; // no page section
         }

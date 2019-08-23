@@ -27,8 +27,8 @@
 <!--space org page section-->
 <div class="ui container width" *ngIf="slug === 'space'">
     <div class="ui grid stackable my-0">
-      <div class="twelve wide column mb-30" *ngFor="let section of carouselData;let last = last" [ngClass]="{'last mb-30':last}">
-        <app-space-page-section *ngIf="slug === 'space'" (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section" [slug]="slug"
+      <div class="twelve wide column mb-30"  [ngClass]="{'last mb-30':last}">
+        <app-space-page-section *ngIf="slug === 'space'" [enable]="true" (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="carouselData" [slug]="slug"
         (viewAll)="viewAll($event)">
         </app-space-page-section>
        </div>

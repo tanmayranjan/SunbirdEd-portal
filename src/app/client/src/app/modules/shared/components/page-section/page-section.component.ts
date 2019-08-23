@@ -52,8 +52,12 @@ export class PageSectionComponent implements OnInit, OnDestroy {
       this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     }
   playContent(event) {
+   if (this.slug !== 'space') {
     event.section = this.section.name;
     this.playEvent.emit(event);
+   } else {
+    this.router.navigate(['resources/player/content/', event.data.identifier]);
+   }
   }
   ngOnInit() {
     const slug1 = this.activatedRoute;

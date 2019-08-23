@@ -13,6 +13,7 @@ import { Router} from '@angular/router';
   styleUrls: ['./space-page-section.component.scss']
 })
 export class SpacePageSectionComponent implements OnInit {
+  @Input() enable: string;
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
   /**
@@ -137,7 +138,7 @@ export class SpacePageSectionComponent implements OnInit {
   ngOnInit() {
     this.find_user =  window.location.href;
     this.user = this.find_user.split('/');
-    console.log('icarousal data = ', this.section, this.user);
+    console.log('icarousal data = ', this.section, this.user, this.enable);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {

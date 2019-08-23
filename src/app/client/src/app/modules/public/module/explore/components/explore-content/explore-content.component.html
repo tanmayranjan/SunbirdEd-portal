@@ -70,11 +70,11 @@
           <app-card appContentDirection [data]="content" appTelemetryInteract
             [telemetryInteractEdata]="cardIntractEdata" *ngIf="slug === 'sbwb'"
             [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
-            (clickEvent)="playContent($event)" [data]="content"></app-card>
+            (clickEvent)="playContent($event)" ></app-card>
             <app-asset-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
-            (clickEvent)="playContent($event)" [data]="content" *ngIf="slug === 'sunbirdorg'"></app-asset-card>
+            (clickEvent)="playContent($event)"  *ngIf="slug === 'sunbirdorg'"></app-asset-card>
             <app-space-card  appContentDirection [data]="content" appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'content',ver:'1.0'}"
-            (clickEvent)="playContent($event)" [data]="content" [slug]="slug" *ngIf="slug === 'space'"></app-space-card>
+            (clickEvent)="playContent($event)" [slug]="slug" *ngIf="slug === 'space'"></app-space-card>
            
         </div>
       </div>

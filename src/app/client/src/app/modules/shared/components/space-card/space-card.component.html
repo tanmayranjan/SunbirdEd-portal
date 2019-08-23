@@ -1,17 +1,17 @@
 
 
-    <div class="card  mb-5"  *ngIf="data" (click)="onAction(data,data.action.onImage)">
-        <div class="card-header" style="background: #585858" (click)="onAction(data,data.action.onImage)">
+    <div class="card  mb-5"  *ngIf="data" (click)="onAction(data,data.action.onImage, $event, data?.source)">
+        <div class="card-header" style="background: #585858" (click)="onAction(data,data.action.onImage, $event, data?.source)">
             <div class="row">
-                <div class="thick-gray-border sprite knowledgeimg" *ngIf="data?.board === 'Knowledge'">
+                <div class="thick-gray-border sprite knowledgeimg" *ngIf="data?.assetType === 'Knowledge'">
                   </div>
-                  <div class="thick-gray-border sprite hardwareimg" *ngIf="data?.board === 'Hardware'">
+                  <div class="thick-gray-border sprite hardwareimg" *ngIf="data?.assetType === 'Hardware'">
                   </div>
-                  <div class="thick-gray-border sprite softwareimg" *ngIf="data?.board === 'Software'">
+                  <div class="thick-gray-border sprite softwareimg" *ngIf="data?.assetType === 'Software'">
                   </div>
-                  <div class="thick-gray-border sprite processimg" *ngIf="data?.board === 'Process'">
+                  <div class="thick-gray-border sprite processimg" *ngIf="data?.assetType === 'Process'">
                   </div>
-                  <div class="thick-gray-border sprite dataimg" *ngIf="data?.board === 'Data'">
+                  <div class="thick-gray-border sprite dataimg" *ngIf="data?.assetType === 'Data'">
                   </div>
                   <div class="col-sm-8">
                      <div class="text-light pt-3">
@@ -25,11 +25,11 @@
             </div>
           
         </div>
-        <div class="card-body" >
+        <div class="card-body" (click)="onAction(data,data.action.onImage, $event, data?.source)">
           <div class="details">
           <!-- <span class="creator" *ngIf="data?.creators !== 'SPace'">Created By : {{data?.creators | titlecase}}</span> -->
           <span class="creator" *ngIf="data?.creators">Created By : {{data?.creators }}</span>
-          <span class="creator" *ngIf="data?.link">Link : {{data?.link}}</span>
+          <span class="creator" *ngIf="data?.source" id="link">Link : {{data?.source}}</span>
           <!-- <span class="creator" *ngIf="data?.region ">Country : {{data?.region | titlecase}}</span> -->
           <span class="creator" *ngIf="data?.year">Created Year : {{data?.year}}</span>
         </div>
