@@ -302,7 +302,7 @@ export class AppComponent implements OnInit {
       this.tenantname= "Sunbird";
   this.tenantService.tenantData$.subscribe(data => {
       if (!data.err) {
-        document.title = this.userService.rootOrgName || this.tenantname;
+        document.title = this.tenantname || this.userService.rootOrgName ;
         document.querySelector('link[rel*=\'icon\']').setAttribute('href', data.tenantData.favicon);
       }
     });
