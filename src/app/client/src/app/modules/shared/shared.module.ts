@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 import {
   AnnouncementInboxCardComponent, PageSectionComponent, NoResultComponent, AppLoaderComponent, CardComponent,
   CardCreationComponent, ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, RedirectComponent,
-  CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, BatchCardComponent
+  CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, BatchCardComponent,
+  OfflineCardComponent, OfflineBannerComponent, OfflineApplicationDownloadComponent, FullPageModalComponent
 } from './components';
 import {
   ConfigService, ResourceService, ToasterService, WindowScrollService, BrowserCacheTtlService,
@@ -24,6 +25,7 @@ import { AssetCardComponent } from './components/asset-card/asset-card.component
 import { SpaceCustomMultiSelectComponent } from './components/space-custom-multi-select/space-custom-multi-select.component';
 import { SpaceCardComponent } from './components/space-card/space-card.component';
 import { SpacePageSectionComponent } from './components/space-page-section/space-page-section.component';
+import { HighlightTextDirective } from './directives/highlight-text/highlight-text.directive';
 
 
 @NgModule({
@@ -38,14 +40,14 @@ import { SpacePageSectionComponent } from './components/space-page-section/space
   declarations: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, PageSectionComponent, AssetCardComponent,
     BatchCardComponent, NoResultComponent, DateFilterXtimeAgoPipe, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
-    InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, SpaceCustomMultiSelectComponent,
+    InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpaceCustomMultiSelectComponent,
     SpaceCardComponent, SpacePageSectionComponent],
-  exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
-    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent
-    , CardCreationComponent, FilterPipe, SpaceCardComponent,
-    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent,
-     CdnprefixPipe, InterpolatePipe, RedirectComponent, SpacePageSectionComponent,
-    CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, SpaceCustomMultiSelectComponent]
+  exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,AssetCardComponent,
+    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent, OfflineCardComponent, CardCreationComponent, FilterPipe,SpaceCardComponent,
+    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent,
+    CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineBannerComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpacePageSectionComponent,SpaceCustomMultiSelectComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

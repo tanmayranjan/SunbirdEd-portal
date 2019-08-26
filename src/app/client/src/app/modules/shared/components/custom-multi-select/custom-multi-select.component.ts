@@ -3,8 +3,7 @@ import { Component, OnInit, ChangeDetectorRef, Input,  EventEmitter, Output, OnC
 import * as _ from 'lodash-es';
 @Component({
   selector: 'app-custom-multi-select',
-  templateUrl: './custom-multi-select.component.html',
-  styleUrls: ['./custom-multi-select.component.scss']
+  templateUrl: './custom-multi-select.component.html'
 })
 export class CustomMultiSelectComponent implements OnInit {
   @Input() inputData: Array<string>;
@@ -54,6 +53,7 @@ export class CustomMultiSelectComponent implements OnInit {
     this.selectedValue.emit(event);
   }
   ngOnInit() {
+    console.log("fields",this.field);
     this.checkBox = {};
     const name = [];
     if (this.inputData) {

@@ -72,7 +72,7 @@ export class MainHomeComponent implements OnInit, OnDestroy {
    * To navigate to other pages
    */
   route: Router;
-
+  @ViewChild('slickModal') slickModal;
   /**
    * To send activatedRoute.snapshot to router navigation
    * service for redirection to parent component
@@ -114,6 +114,8 @@ export class MainHomeComponent implements OnInit, OnDestroy {
   /**
   * Slider setting to display number of cards on the slider.
   */
+  resourceDataSubscription: any;
+
   slideConfig = {
     'slidesToShow': 4,
     'slidesToScroll': 4,
@@ -334,8 +336,24 @@ getContent() {
     if (this.courseSubscription) {
       this.courseSubscription.unsubscribe();
     }
+    if (this.resourceDataSubscription) {
+      this.resourceDataSubscription.unsubscribe();
+    }
   }
-
+  addSlideConfig() {
+    this.resourceDataSubscription = this.resourceService.languageSelected$
+        .subscribe(item => {
+          if (item.value === 'ur') {
+            this.slideConfig['rtl'] = true;
+          } else {
+            this.slideConfig['rtl'] = false;
+          }
+          if (this.slickModal) {
+            this.slickModal.unslick();
+            this.slickModal.initSlick(this.slideConfig);
+          }
+    });
+  }
   /**
    * get inview  Data
   */

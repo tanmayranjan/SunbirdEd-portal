@@ -10,6 +10,8 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 // import { OrgDetailsService , UserService} from '@sunbird/core';
 import { takeUntil, map, mergeMap, first, filter, tap } from 'rxjs/operators';
+import { environment } from '@sunbird/environment';
+
 /**
  * This display a a section
  */
@@ -45,6 +47,7 @@ export class PageSectionComponent implements OnInit, OnDestroy {
 
   maxSlide = 0;
 
+  isOffline: boolean = environment.isOffline;
 
   constructor(public config: ConfigService, public activatedRoute: ActivatedRoute, public resourceService: ResourceService,
     private cdr: ChangeDetectorRef,

@@ -26,6 +26,7 @@ export class UtilService {
     const content: any = {
       name: data.name || data.courseName,
       image: data.appIcon || data.courseLogoUrl,
+      addedToLibrary: data.addedToLibrary || false,
       description: data.description,
       rating: data.me_averageRating || '0',
       subject: data.subject,
@@ -48,7 +49,8 @@ export class UtilService {
       link: data.link,
       year: data.year,
       identifier: data.identifier,
-      version: data.version
+      version: data.version,
+      completionPercentage: data.completionPercentage || 0
     };
 
     // this customization is done for enrolled courses

@@ -18,6 +18,7 @@ import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } fro
 import { UserEditComponent } from '../search';
 import { AboutSunbirdComponent } from './components/about-sunbird/about-sunbird.component';
 import { PartnersSunbirdComponent } from './components/partners-sunbird/partners-sunbird.component';
+import { OfflineApplicationDownloadComponent } from '@sunbird/shared';
 
 const routes: Routes = [
   {
@@ -121,8 +122,13 @@ const routes: Routes = [
   },
   {
     path: 'play', loadChildren: './module/player/player.module#PlayerModule'
-  }
-];
+  },
+  {
+   path: ':slug/download/offlineapp', component: OfflineApplicationDownloadComponent
+  },
+  {
+   path: 'download/offlineapp', component: OfflineApplicationDownloadComponent
+   }];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

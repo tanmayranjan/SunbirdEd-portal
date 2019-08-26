@@ -12,9 +12,11 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
+import { DownloadManagerService } from './../../../../../offline/services';
 import { environment } from '@sunbird/environment';
 // import { open } from 'fs';
 @Component({
+  selector: 'app-explore-component',
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.css']
 })
@@ -51,6 +53,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     'languages',
     'country'
   ];
+  showExportLoader = false;
+  contentName: string;
+  organisationId: string;
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -64,7 +69,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService, public downloadManagerService: DownloadManagerService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
   }
@@ -72,10 +77,10 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug).pipe(
       mergeMap((orgDetails: any) => {
-        console.log('org details form explore component = ', orgDetails);
         this.slug = orgDetails.slug;
         this.hashTagId = orgDetails.hashTagId;
         this.initFilters = true;
+        this.organisationId = orgDetails.id;
         return this.dataDrivenFilterEvent;
       }), first()
     ).subscribe((filters: any) => {
@@ -93,8 +98,13 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       this.offlineFileUploaderService.isUpload.subscribe(() => {
         self.fetchPageData();
       });
+
+      this.downloadManagerService.downloadListEvent.subscribe((data) => {
+        this.updateCardData(data);
+      });
     }
   }
+
   public getFilters(filters) {
     const defaultFilters = _.reduce(filters, (collector: any, element) => {
       if (element.code === 'board') {
@@ -135,6 +145,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
       softConstraintData);
     const option = {
+      organisationId: this.organisationId,
       source: 'web',
       name: 'Explore',
       filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
@@ -297,11 +308,27 @@ this.callingPageApi(option);
     this.telemetryImpression = Object.assign({}, this.telemetryImpression);
   }
   public playContent(event) {
+
+    // For offline environment content will only play when event.action is open
+    if (event.action === 'download' && this.isOffline) {
+      this.startDownload(event.data.metaData.identifier);
+      return false;
+    } else if (event.action === 'export' && this.isOffline) {
+      this.showExportLoader = true;
+      this.contentName = event.data.name;
+      this.exportOfflineContent(event.data.metaData.identifier);
+      return false;
+    }
+
     if (!this.userService.loggedIn && event.data.contentType === 'Course') {
       this.showLoginModal = true;
       this.baseUrl = '/' + 'learn' + '/' + 'course' + '/' + event.data.metaData.identifier;
     } else {
-      this.publicPlayerService.playContent(event);
+      if (_.includes(this.router.url, 'browse') && this.isOffline) {
+        this.publicPlayerService.playContentForOfflineBrowse(event);
+      } else {
+        this.publicPlayerService.playContent(event);
+      }
     }
   }
   public viewAll(event) {
@@ -310,9 +337,11 @@ this.callingPageApi(option);
       board: [this.dataDrivenFilters.board],
       channel: this.hashTagId,
     };
-    searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
-    searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
-    searchQuery.request.filters.exists = searchQuery.request.exists;
+    if (_.includes(this.router.url, 'browse') || !this.isOffline) {
+      searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
+      searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
+      searchQuery.request.filters.exists = searchQuery.request.exists;
+    }
     this.cacheService.set('viewAllQuery', searchQuery.request.filters);
     this.cacheService.set('pageSection', event, { maxAge: this.browserCacheTtlService.browserCacheTtl });
     const queryParams = { ...searchQuery.request.filters, ...this.queryParams };
@@ -348,9 +377,71 @@ this.callingPageApi(option);
     };
   }
   private setNoResultMessage() {
-    this.noResultMessage = {
-      'message': 'messages.stmsg.m0007',
-      'messageText': 'messages.stmsg.m0006'
-    };
+    if (this.isOffline && !(this.router.url.includes('/browse'))) {
+      this.noResultMessage = {
+        'message': 'messages.stmsg.m0007',
+        'messageText': 'messages.stmsg.m0133'
+      };
+    } else {
+      this.noResultMessage = {
+        'message': 'messages.stmsg.m0007',
+        'messageText': 'messages.stmsg.m0006'
+      };
+    }
   }
+
+  startDownload (contentId) {
+    this.downloadManagerService.downloadContentId = contentId;
+    this.downloadManagerService.startDownload({}).subscribe(data => {
+      this.downloadManagerService.downloadContentId = '';
+    }, error => {
+      this.downloadManagerService.downloadContentId = '';
+      _.each(this.pageSections, (pageSection) => {
+        _.each(pageSection.contents, (pageData) => {
+          pageData['addedToLibrary'] = false;
+          pageData['showAddingToLibraryButton'] = false;
+        });
+      });
+      this.toasterService.error(this.resourceService.messages.fmsg.m0090);
+    });
+  }
+
+  exportOfflineContent(contentId) {
+    this.downloadManagerService.exportContent(contentId).subscribe(data => {
+      const link = document.createElement('a');
+      link.href = data.result.response.url;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      this.showExportLoader = false;
+    }, error => {
+      this.showExportLoader = false;
+      this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+    });
+  }
+
+  updateCardData(downloadListdata) {
+    _.each(this.pageSections, (pageSection) => {
+      _.each(pageSection.contents, (pageData) => {
+
+        // If download is completed card should show added to library
+        _.find(downloadListdata.result.response.downloads.completed, (completed) => {
+          if (pageData.metaData.identifier === completed.contentId) {
+            pageData['addedToLibrary'] = true;
+            pageData['showAddingToLibraryButton'] = false;
+          }
+        });
+
+        // If download failed, card should show again add to library
+        _.find(downloadListdata.result.response.downloads.failed, (failed) => {
+          if (pageData.metaData.identifier === failed.contentId) {
+            pageData['addedToLibrary'] = false;
+            pageData['showAddingToLibraryButton'] = false;
+          }
+        });
+      });
+    });
+  }
+
 }
