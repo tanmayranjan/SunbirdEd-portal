@@ -130,3 +130,29 @@
   </div>
   <!--/Actions-->
 </sui-modal>
+<sui-modal [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'small'" class="sb-modal"
+  appBodyScroll (dismissed)="openmodal = false" #modal *ngIf="openmodal">
+
+  <!--Header-->
+  <div class="sb-modal-header" style="background-color: #a8abe3;">
+    <!-- {{resourceService?.frmelmnts?.lbl?.signinenrollTitle}} -->
+    Sign in to view Asset
+  </div>
+  <!--/Header-->
+  <!--Content-->
+  <div class="sb-modal-content">
+    <div class="ui center aligned segment">
+      <p>Please Sign in to view this Asset Detail </p>
+    </div>
+  </div>
+  <!--/Content-->
+
+  <!--Actions-->
+  <!-- <div class="sb-modal-actions">
+    <a class="sb-btn sb-btn-normal sb-btn-primary">
+      Close
+    </a>
+  </div> -->
+  <!--/Actions-->
+</sui-modal>
+

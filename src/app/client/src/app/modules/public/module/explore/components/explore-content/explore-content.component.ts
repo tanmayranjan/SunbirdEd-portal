@@ -12,6 +12,8 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, debounceTime, tap, delay } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
     templateUrl: './explore-content.component.html',
     styleUrls: ['./explore-content.component.css']
@@ -40,6 +42,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     public loaderMessage: ILoaderMessage;
     public sortByOption = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     slug: any;
+    modalRef: any;
+    openmodal = false;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -47,6 +51,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         public configService: ConfigService, public utilService: UtilService, public orgDetailsService: OrgDetailsService,
         public navigationHelperService: NavigationHelperService, private publicPlayerService: PublicPlayerService,
         public userService: UserService, public frameworkService: FrameworkService,
+        private modalService: NgbModal,
         public cacheService: CacheService, public navigationhelperService: NavigationHelperService) {
         this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
         this.filterType = this.configService.appConfig.explore.filterType;
@@ -302,9 +307,13 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             this.publicPlayerService.playContent(event);
         }
      } else {
-        this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+        // this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+        this.openmodal = true ;
      }
     }
+    openSm(content) {
+        this.modalRef = this.modalService.open(content,  {centered: true});
+      }
     public inView(event) {
         _.forEach(event.inview, (elem, key) => {
             const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier });
