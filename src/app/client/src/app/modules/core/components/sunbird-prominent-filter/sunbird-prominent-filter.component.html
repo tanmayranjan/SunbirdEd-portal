@@ -1,0 +1,70 @@
+<div class="data-driven-filter mt-15" *ngIf="showFilters">
+  <sui-accordion [closeOthers]="false" class="container">
+    <sui-accordion-panel [isOpen]="accordionDefaultOpen" [isDisabled]="true">
+      <div *ngIf="isShowFilterLabel" title class="cursor-text filter-title mt-10">
+        <span appTelemetryInteract [telemetryInteractEdata]="filterInteractEdata"
+          [telemetryInteractCdata]="telemetryCdata" (click)="accordionDefaultOpen = !accordionDefaultOpen"
+          class="cursor-pointer primary">
+          <i alt="Filter" class="icon filter primary"></i>
+          {{resourceService.frmelmnts?.lbl?.filters}}
+          <i class="dropdown icon vertical-align-middle primary"></i>
+        </span>
+      </div>
+          <div class="ui active width-100 mt-14" content>
+            <form class="ui form">
+              <div class="ui grid stackable top aligned my-0">
+                <div class="twelve wide tablet twelve wide computer column py-0">
+                  <div class="sb-prominent-filter-container" *ngIf="formFieldProperties">
+                    <ng-container *ngIf="formFieldProperties.length <= 4">
+                      <div class="sb-prominent-filter-field" *ngFor="let field of formFieldProperties">
+                        <!-- <label class="mb-10">{{field.label}}</label> -->
+                        <ng-container *ngIf="field.inputType==='select' || field.inputType==='multi-select'">
+                          <app-sunbird-custom-multi-select [inputData]="formInputData[field.code]" [field]="field"
+                            (selectedValue)="selectedValue($event, field.code);setFilterInteractData()">
+                          </app-sunbird-custom-multi-select>
+                        </ng-container>
+                        <ng-container *ngIf="field.code==='topic'">
+                          <label class="multiselectlabel">{{field.label}}</label>
+                          <app-topic-picker [key]="topic" [selectedTopics]="formInputData[field.code]"
+                            [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()">
+                          </app-topic-picker>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="formFieldProperties.length > 4">
+                      <div class="sb-prominent-filter-field" *ngFor="let field of formFieldProperties">
+                        <!-- <label class="mb-10">{{field.label}}</label> -->
+                        <ng-container *ngIf="field.inputType==='select' || field.inputType==='multi-select'">
+                          <app-sunbird-custom-multi-select [inputData]="formInputData[field.code]" [field]="field"
+                            (selectedValue)="selectedValue($event, field.code);setFilterInteractData()">
+                          </app-sunbird-custom-multi-select>
+                        </ng-container>
+                        <ng-container *ngIf="field.code==='topic'">
+                          <label class="multiselectlabel">{{field.label}}</label>
+                          <app-topic-picker [key]="topic" [selectedTopics]="formInputData[field.code]"
+                            [formTopic]="field" (topicChange)="handleTopicChange($event);setFilterInteractData()">
+                          </app-topic-picker>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                    <div class="sb-prominent-filter-field">
+                      <button class="sb-btn sb-btn-normal btnprimary" (click)="applyFilters()" appTelemetryInteract
+                        [telemetryInteractEdata]="applyFilterInteractEdata">
+                        {{resourceService.frmelmnts?.btn?.apply}}
+                      </button>
+                      <button appTelemetryInteract [telemetryInteractEdata]="resetFilterInteractEdata"
+                        class="sb-btn sb-btn-normal btnoutline ml-10" (click)="resetFilters()">
+                        {{resourceService.frmelmnts?.btn?.reset}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </sui-accordion-panel>
+      </sui-accordion>
+        </div>
+<div class="mr-100">
+  <app-sort-by [sortingOptions]="sortByOption" [url]="activatedRoute.snapshot.params.slug ? '/' + activatedRoute.snapshot.params.slug+ '/explore-assets' : '/explore-assets'"></app-sort-by>
+</div>      

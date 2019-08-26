@@ -14,6 +14,7 @@ export class UtilService {
   }
   getDataForCard(data, staticData, dynamicFields, metaData) {
     const list: Array<ICard> = [];
+    console.log('data in util services = ', data);
     _.forEach(data, (item, key) => {
       const card = this.processContent(item, staticData, dynamicFields, metaData);
       list.push(card);
@@ -37,20 +38,22 @@ export class UtilService {
       topic: this.getTopicSubTopic('topic', data.topic),
       subTopic: this.getTopicSubTopic('subTopic', data.topic),
       metaData: {},
-      creator: data.creator,
+      creator: data.creator || data.submittedBy,
       creators: data.creators,
       createdOn: data.createdOn || undefined,
       lastUpdatedOn: data.lastUpdatedOn,
       source: data.source,
       assetType: data.assetType,
       region: data.region,
-      organization: data.organization,
+      organization: data.organization || data.organisation,
       board: data.board,
       link: data.link,
       year: data.year,
       identifier: data.identifier,
       version: data.version,
-      completionPercentage: data.completionPercentage || 0
+      completionPercentage: data.completionPercentage || 0 ,
+      sector: data.sector,
+      organisation: data.organisation,
     };
 
     // this customization is done for enrolled courses

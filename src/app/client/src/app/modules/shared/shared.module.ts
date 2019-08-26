@@ -26,6 +26,7 @@ import { SpaceCustomMultiSelectComponent } from './components/space-custom-multi
 import { SpaceCardComponent } from './components/space-card/space-card.component';
 import { SpacePageSectionComponent } from './components/space-page-section/space-page-section.component';
 import { HighlightTextDirective } from './directives/highlight-text/highlight-text.directive';
+import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-multi-select/sunbird-custom-multi-select.component';
 
 
 @NgModule({
@@ -42,9 +43,10 @@ import { HighlightTextDirective } from './directives/highlight-text/highlight-te
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
     InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpaceCustomMultiSelectComponent,
-    SpaceCardComponent, SpacePageSectionComponent],
+    SpaceCardComponent, SpacePageSectionComponent,SunbirdCustomMultiSelectComponent],
   exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,AssetCardComponent,
-    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent, OfflineCardComponent, CardCreationComponent, FilterPipe,SpaceCardComponent,
+    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent, OfflineCardComponent, CardCreationComponent,
+     FilterPipe,SpaceCardComponent,SunbirdCustomMultiSelectComponent,
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent,
     CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpacePageSectionComponent,SpaceCustomMultiSelectComponent]

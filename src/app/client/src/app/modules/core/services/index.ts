@@ -24,3 +24,4 @@ export * from './channel/channel.service';
 export * from './otp/otp.service';
 export * from './upload/upload-content.service';
 export * from './certificate/certificate.service';
+export * from './asset/asset.service';

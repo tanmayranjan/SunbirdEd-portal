@@ -271,4 +271,24 @@ export class MyassetsService {
      maxAge: this.browserCacheTtlService.browserCacheTtl
    });
  }
+ createAsset(inputParams) {
+  const option = {
+    url: this.config.urlConFig.URLS.ASSET.CREATEASSET,
+    data: {
+      'request': inputParams
+  }
+};
+  return this.content.create(option);
 }
+updateAsset(inputParams) {
+  const option = {
+    url: `${this.config.urlConFig.URLS.ASSET.UPDATEASSET}/${inputParams.asset.identifier}`,
+    data: {
+      'request': inputParams
+  }
+};
+  return this.content.update(option);
+}
+
+ }
+

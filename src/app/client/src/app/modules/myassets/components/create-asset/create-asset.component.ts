@@ -6,7 +6,7 @@ import {
 } from '@sunbird/shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
-import { SearchService, UserService, FrameworkService, FormService, ContentService } from '@sunbird/core';
+import { SearchService, UserService, FrameworkService, FormService, ContentService, AssetService } from '@sunbird/core';
 import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { DefaultTemplateComponent } from '@sunbird/workspace';
@@ -140,7 +140,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     formService: FormService,
     private _cacheService: CacheService,
     public navigationHelperService: NavigationHelperService,
-    public contentservice: ContentService
+    public contentservice: ContentService,
+    public assetService: AssetService
   ) {
     super(searchService, workSpaceService, userService);
     this.activatedRoute = activatedRoute;
@@ -185,24 +186,24 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
         }
       });
       const req = {
-        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
       };
-      this.contentService.get(req).subscribe(data => {
+      this.assetService.read(req).subscribe(data => {
         console.log('read content', data);
-        this.content = data.result.content;
-        if (data.result.content.mimeType === 'application/pdf') {
+        this.content = data.result.asset;
+        if (data.result.asset.mimeType === 'application/pdf') {
           this.enabled = true;
-          this.pdf = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-            data.result.content.artifactUrl.lastIndexOf('pdf'));
+          this.pdf = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
+            data.result.asset.artifactUrl.lastIndexOf('pdf'));
             console.log('this.padf = ', this.pdf);
 
-        } else if (data.result.content.mimeType === 'application/vnd.ekstep.ecml-archive') {
+        } else if (data.result.asset.mimeType === 'application/vnd.ekstep.ecml-archive') {
         this.enableContent = true;
                } else {
          this.enableLink = true;
                }
-        // this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel)
-        // this.formInputData['versionKey'] = data.result.content.versionKey;
+        // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel)
+        // this.formInputData['versionKey'] = data.result.asset.versionKey;
       });
   }
   ngOnDestroy() {
@@ -290,6 +291,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
     this.showLoader = true;
     const requestData = _.cloneDeep(data);
+    console.log('generate data = ', requestData);
     requestData.name = data.name ? data.name : this.name,
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
@@ -299,11 +301,14 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       requestData.framework = this.framework;
       requestData.keywords = _.uniqWith(requestData.keywords, _.isEqual);
       requestData['tags'] = requestData.keywords;
-      requestData.version = parseFloat(requestData.version);
-    delete requestData.status;
-    if (this.contentType === 'studymaterial' && data.link) {
+      requestData.version = '' + parseFloat(requestData.version);
+      requestData.status = 'Draft';
+    delete requestData.framework;
+    delete requestData.contentType;
+
+    if (this.contentType === 'studymaterial' && data.source) {
       requestData.mimeType = 'text/x-url';
-      requestData['artifactUrl'] = data.link;
+      requestData['artifactUrl'] = data.source;
       // requestData.mimeType = 'application/pdf'
     } else if (this.enableContent) {
       requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
@@ -315,16 +320,19 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     }
     if (!_.isEmpty(this.userProfile.lastName)) {
       requestData.creator = this.userProfile.firstName + ' ' + this.userProfile.lastName;
+      requestData.submittedBy = this.userProfile.firstName + ' ' + this.userProfile.lastName;
     } else {
       requestData.creator = this.userProfile.firstName;
+      requestData.submittedBy = this.userProfile.firstName + ' ' + this.userProfile.lastName;
     }
     return requestData;
   }
   checkFields() {
 
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.gradeLevel && !!data.link) {
+    console.log('data in update form = ', data);
+    if (!!data.name && !!data.description && !!data.sector && !!data.keywords && !!data.creators &&
+      !!data.version && !!data.assetType && !!data.source) {
 
       this.uploadSuccess = true;
       this.updateContent();
@@ -377,13 +385,15 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     }
   }
   updateContent() {
-
+const asset = this.generateData(_.pickBy(this.formData.formInputData));
     const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData)),
-    };
+     asset: this.generateData(_.pickBy(this.formData.formInputData))
+     };
+
+    console.log('request data for update asset = ', requestData);
 
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-      this.editorService.update(requestData, this.activatedRoute.snapshot.params.contentId).subscribe(res => {
+      this.assetService.update(requestData).subscribe(res => {
 
         this.toasterService.success('Asset updated Successfully');
         this.goToCreate();

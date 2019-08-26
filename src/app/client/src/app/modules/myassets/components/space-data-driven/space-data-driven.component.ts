@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {
   ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework,
-  ILoaderMessage, NavigationHelperService , BrowserCacheTtlService
+  ILoaderMessage, NavigationHelperService, BrowserCacheTtlService
 } from '@sunbird/shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
@@ -14,7 +14,7 @@ import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';
 import { MyAsset } from '../../classes/myasset';
 import { MyassetsService } from '../../services';
 import { combineLatest, Subscription, Subject, of, throwError } from 'rxjs';
-import { takeUntil, first, mergeMap, map, tap , filter, catchError} from 'rxjs/operators';
+import { takeUntil, first, mergeMap, map, tap, filter, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-space-data-driven',
@@ -127,6 +127,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   uploadFile = false;
   uploadContent = false;
   uploadLink: string;
+  lang: string;
 
   constructor(
     public searchService: SearchService,
@@ -279,14 +280,19 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
 
     this.showLoader = true;
     const requestData = _.cloneDeep(data);
-    requestData.name = data.name ? data.name : this.name,
+    console.log('request data from asset creation = ', requestData);
+    data.submittedBy = requestData.creator;
+    data.creators = requestData.creators;
+    data.source = requestData.link;
+      requestData.name = data.name ? data.name : this.name,
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
-      requestData.organisation = this.userProfile.organisationNames,
       requestData.createdFor = this.userProfile.organisationIds,
-      requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
-      requestData.framework = this.framework;
-    requestData.version = parseFloat(requestData.version);
+      // requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
+      // requestData.framework = this.framework;
+    requestData.region = [data.region];
+    requestData.version = '' + parseFloat(requestData.version);
+    requestData.organisation = this.userProfile.organisationNames;
 
     if (!!data.link && this.uploadLink === 'link') {
       requestData.mimeType = 'text/x-url';
@@ -297,14 +303,21 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       console.log('file name = ', this.fileList);
       requestData.mimeType = 'application/pdf';
     }
-    if (this.resourceType) {
-      requestData.resourceType = this.resourceType;
-    }
+    // if (this.resourceType) {
+    //   requestData.resourceType = this.resourceType;
+    // }
     if (!_.isEmpty(this.userProfile.lastName)) {
-      requestData.creator = this.userProfile.firstName + ' ' + this.userProfile.lastName;
+      requestData.submittedBy = this.userProfile.firstName + ' ' + this.userProfile.lastName;
     } else {
-      requestData.creator = this.userProfile.firstName;
+      requestData.submittedBy = this.userProfile.firstName;
     }
+    delete requestData.board;
+    // delete requestData.creators;
+    delete requestData.gradeLevel;
+    delete requestData.board;
+    delete requestData.link;
+    delete requestData.languages;
+    console.log('after deleting content properties in asset creation = ', requestData);
     return requestData;
   }
 
@@ -328,29 +341,46 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       && !!data.creators && !!data.version && !!data.gradeLevel
       && !!data.year && !!data.region && !!data.languages) {
       this.uploadSuccess = true;
-      this.createContent();
+      this.createContent(data);
     } else {
       this.toasterService.error('Asset creation failed please provide required fields');
     }
   }
-    createContent() {
+  createContent(data) {
 
     const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData))
+      asset: this.generateData(_.pickBy(this.formData.formInputData))
     };
+    requestData.asset.assetType = data.board;
+    requestData.asset.sector = data.gradeLevel[0];
+    requestData.asset.language = data.languages;
+    requestData.asset.artifactUrl = data.link;
+    requestData.asset.creator = data.creator;
+    requestData.asset.source = data.link;
+    requestData.asset.lastSubmittedOn = data.lastSubmittedOn;
+    requestData.asset.resourceType = 'Learn';
+    requestData.asset.contentType = 'Resource';
 
+    console.log('request param = ', requestData, data.gradeLevel);
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-      this.editorService.create(requestData).subscribe(res => {
+      this.workSpaceService.createAsset(requestData).subscribe(res => {
+        console.log('after creating asset res = ', res);
+        localStorage.setItem(res.result.node_id, JSON.stringify('Review'));
+        localStorage.setItem('creator', JSON.stringify(this.userService.userid));
+        const state = JSON.parse(localStorage.getItem(res.result.node_id));
+        const creatorId = JSON.parse(localStorage.getItem(res.result.node_id));
+        console.log('state = ', state, 'creator id = ', creatorId);
 
-
-        this.contentId = res.result.content_id;
+        this.contentId = res.result.node_id;
         if (this.uploadLink === 'uploadFile') {
+          this.updateAssetStatus(res.result.node_id, 'file');
           this.toasterService.info('Redirected to upload File Page');
           this.routetoediter();
         } else if (this.uploadLink === 'uploadContent') {
           this.toasterService.success('Asset created successfully');
-          this.routeToContentEditor({ identifier: res.result.content_id });
+          this.routeToContentEditor({ identifier: res.result.node_id });
         } else {
+          this.updateAssetStatus(res.result.node_id, 'asset');
           this.toasterService.success('Asset created successfully');
           this.goToCreate();
         }
@@ -361,6 +391,31 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.toasterService.error('Asset creation failed');
     }
     // this.goToCreate();
+  }
+  updateAssetStatus(assetId, state) {
+    let assetStatus;
+    if (state === 'file') {
+      assetStatus = 'Review';
+    } else {
+      assetStatus = 'Draft';
+    }
+    const option = {
+      asset: {
+        identifier: assetId,
+        status: assetStatus
+      }
+    };
+    console.log('updating asset status');
+ this.workSpaceService.updateAsset(option).subscribe(
+  (data: ServerResponse) => {
+    this.showLoader = false;
+    this.toasterService.success('Asset status updated ');
+  },
+  (err: ServerResponse) => {
+    this.showLoader = false;
+    this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+  }
+);
   }
   routeToContentEditor(content) {
     setTimeout(() => {
@@ -383,7 +438,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
 
   basicUploadFile(event) {
     console.log('event while upload file', event);
-     this.fileList = event.target.files[0];
+    this.fileList = event.target.files[0];
   }
 
 
@@ -393,8 +448,8 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.router.navigate(['/myassets']);
     }, 1700);
     setTimeout(() => {
-    this.router.navigate(['myassets/create/edit/generic', this.contentId, this.status, 'Draft']);
-  }, 1800);
+      this.router.navigate(['myassets/create/edit/generic', this.contentId, this.status, 'Draft']);
+    }, 1800);
   }
 
 }

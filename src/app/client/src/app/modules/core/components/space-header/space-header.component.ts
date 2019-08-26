@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { UserService, PermissionService, TenantService, LearnerService, ContentService } from './../../services';
+import { UserService, PermissionService, TenantService, LearnerService, ContentService, AssetService } from './../../services';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -111,6 +111,8 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   slug: any;
   modalRef: any;
   public  notificationCount = 0;
+  userId: any;
+  creatorId: any;
   /*
   * constructor
   */
@@ -118,7 +120,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     permissionService: PermissionService, userService: UserService, tenantService: TenantService,
     public activatedRoute: ActivatedRoute, private cacheService: CacheService,
     public learnService: LearnerService, private modalService: NgbModal,
-    public contentService: ContentService) {
+    public contentService: ContentService, public assetService: AssetService) {
     this.config = config;
     this.resourceService = resourceService;
     this.permissionService = permissionService;
@@ -130,8 +132,12 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    this.creatorId = JSON.parse(localStorage.getItem('creator'));
+    this.userId = this.userService.userid;
     this.setSlug();
+    if (this.userId === this.creatorId) {
     this.contentStatus();
+    }
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         let currentRoute = this.activatedRoute.root;
@@ -300,6 +306,7 @@ openSm(content) {
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 contentStatus() {
+
   let mainState;
   let state;
   const archive = [];
@@ -312,18 +319,22 @@ for (; key = keys[i]; i++) {
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
+if (archive[j] !== 'creator') {
+  // const req = {
+  //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
+  // };
   const req = {
-    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}/?mode=edit`,
+    url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}`,
   };
-  this.contentService.get(req).subscribe(data => {
+  this.assetService.read(req).subscribe(data => {
     console.log('data in main header = ', data);
-   mainState = data.result.content.status;
+   mainState = data.result.asset.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
   console.log('state = ', state, mainState, archive[j]);
   if (state === 'Review') {
     if (mainState === 'Live') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData.push(data.result.asset);
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
@@ -332,7 +343,7 @@ for (; key = keys[i]; i++) {
   if (state === 'Review') {
     if (mainState === 'Draft') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData.push(data.result.asset);
       console.log('Asset is rejected', this.notificationCount);
       this.reviewStatus = 'rejected';
       localStorage.setItem(archive[j], JSON.stringify('Draft'));
@@ -341,9 +352,10 @@ for (; key = keys[i]; i++) {
 });
 }
 }
+}
 readContentStatus(content) {
-  console.log('reviewAssetData = ', this.reviewAssetData);
-  this.notificationCount = 0;
+    this.notificationCount = 0;
+  console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 }

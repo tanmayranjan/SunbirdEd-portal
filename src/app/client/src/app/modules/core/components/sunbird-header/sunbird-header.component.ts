@@ -143,7 +143,8 @@ export class SunbirdHeaderComponent implements OnInit {
     if (key && key.length) {
       this.queryParam.key = key;
     }
-    this.router.navigate(['/explore', 1], { queryParams: this.queryParam });
+    console.log('this.activatedRoute in sunbird heaer = ', this.activatedRoute);
+    this.router.navigate(['/sunbirdorg/explore-assets', 1], { queryParams: this.queryParam });
   }
 
   getUrl() {

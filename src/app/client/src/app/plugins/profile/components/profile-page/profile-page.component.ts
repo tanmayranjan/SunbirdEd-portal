@@ -45,6 +45,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   telemetryInteractObject: IInteractEventObject;
   btnArrow: string;
   telemetryLogs = [];
+  orgId: any;
   constructor(private cacheService: CacheService, public resourceService: ResourceService, public coursesService: CoursesService,
     public toasterService: ToasterService, public profileService: ProfileService, public userService: UserService,
     public configService: ConfigService, public router: Router, public utilService: UtilService, public searchService: SearchService,
@@ -58,6 +59,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
+        this.orgId = this.userProfile.rootOrgId;
         console.log('slug in profile page = ', this.slug);
         this.state = _.get(_.find(this.userProfile.userLocations, { type: 'state' }), 'name');
         this.district = _.get(_.find(this.userProfile.userLocations, { type: 'district' }), 'name');
@@ -108,12 +110,14 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       const searchParams = {
         status: ['Live'],
-        contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
+        // objectType: 'Asset',
+        channel: this.orgId,
+        // contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
         params: { lastUpdatedOn: 'desc' }
       };
       const inputParams = { params: this.configService.appConfig.PROFILE.contentApiQueryParams };
-      this.searchService.searchContentByUserId(searchParams, inputParams).subscribe((data: ServerResponse) => {
-        this.contributions = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
+      this.searchService.searchAssetByUserId(searchParams, inputParams).subscribe((data: ServerResponse) => {
+        this.contributions = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
       });
     }
   }

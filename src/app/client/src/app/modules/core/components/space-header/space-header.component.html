@@ -22,8 +22,9 @@
             <a class="profile-avtar item  pr-0" >
                     <a class="items mr-20">
                             <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
-                            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;" *ngIf="notificationCount === 0" (click)="readContentStatus(content)"></i>
-                            <i class="fas fa-bell fs-1-5 icon-grey badge " style="width: 34.8px;" *ngIf="notificationCount > 0" (click)="readContentStatus(content)"></i>
+                            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;" *ngIf="notificationCount === 0 && creatorId === userId" (click)="readContentStatus(content)" ></i>
+                            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;" *ngIf="creatorId !== userId" ></i>
+                            <i class="fas fa-bell fs-1-5 icon-grey badge " style="width: 34.8px;" *ngIf="notificationCount > 0 && creatorId === userId" (click)="readContentStatus(content)"></i>
                             <ng-template #content let-d="dismiss">
                                     <div class="modal-header justify-content-center">
                                         <div class="py-2">
@@ -34,12 +35,14 @@
                                             <table class="table table-striped" *ngIf="reviewAssetData.length > 0">
                                                     <thead>
                                                       <tr class="tr">
+                                                        <th>Asset Id</th>
                                                         <th>Name of the Asset</th>
                                                         <th>Status</th>
                                                       </tr>
                                                     </thead>
                                                     <tbody >
                                                       <tr *ngFor="let content of reviewAssetData">
+                                                        <td>{{content.identifier}}</td>
                                                         <td>{{content.name}}</td>
                                                         <td *ngIf="content.status === 'Draft'">Rejected</td>
                                                         <td *ngIf="content.status === 'Live'">Published</td>

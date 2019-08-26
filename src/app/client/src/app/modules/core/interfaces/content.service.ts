@@ -168,6 +168,9 @@ export namespace CollectionHierarchyAPI {
     usedByContent?: any[];
     board?: string;
     status?: string;
+    assetType?: string;
+    sector?: string;
+    source?: string;
   }
 
 }

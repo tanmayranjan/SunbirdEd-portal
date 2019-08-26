@@ -85,6 +85,11 @@
       "UPLOADURL": "v3/upload/url",
       "UPLOAD":"v3/upload"
     },
+    "ASSET": {
+      "CREATEASSET":"action/object/asset/v3/create",
+      "UPDATEASSET":"action/object/asset/v3/update",
+      "READASSET":"action/object/asset/v3/read"
+    },
     "DASHBOARD": {
       "ORG_CREATION": "dashboard/v1/creation/org",
       "ORG_CONSUMPTION": "dashboard/v1/consumption/org",

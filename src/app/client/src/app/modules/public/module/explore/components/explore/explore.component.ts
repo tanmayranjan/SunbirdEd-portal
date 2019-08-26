@@ -1,6 +1,6 @@
 import { OfflineFileUploaderService } from '../../../../../offline/services';
 import { combineLatest, Subject } from 'rxjs';
-import { PageApiService, OrgDetailsService, UserService } from '@sunbird/core';
+import { PageApiService, OrgDetailsService, UserService, SearchService, FrameworkService } from '@sunbird/core';
 import { PublicPlayerService } from './../../../../services';
 import { Component, OnInit, OnDestroy, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
 import {
@@ -14,6 +14,9 @@ import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 import { DownloadManagerService } from './../../../../../offline/services';
 import { environment } from '@sunbird/environment';
+import { IPagination } from '@sunbird/announcement';
+import { ICard } from '@sunbird/shared';
+import { PaginationService } from '@sunbird/shared';
 // import { open } from 'fs';
 @Component({
   selector: 'app-explore-component',
@@ -56,6 +59,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   showExportLoader = false;
   contentName: string;
   organisationId: string;
+  public facetsList: any;
+  public paginationDetails: IPagination;
+  public contentList: Array<ICard> = [];
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -64,14 +70,17 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
-    public offlineFileUploaderService: OfflineFileUploaderService,
-    public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
+    public offlineFileUploaderService: OfflineFileUploaderService, public searchService: SearchService,
+    public paginationService: PaginationService, public resourceService: ResourceService,
+    private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService, public downloadManagerService: DownloadManagerService) {
+    public navigationhelperService: NavigationHelperService, public downloadManagerService: DownloadManagerService,public frameworkService : FrameworkService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
+    this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
+
   }
 
   ngOnInit() {
@@ -126,7 +135,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
   private fetchPageData() {
-   if (this.slug !== 'space') {
+    let option;
+   if (this.slug === 'sbwb') {
     //  console.log('in explore page');
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
@@ -181,7 +191,76 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pageSections = [];
         this.toasterService.error(this.resourceService.messages.fmsg.m0004);
       });
-   } else {
+   }
+   if (this.slug === 'sunbirdorg') {
+ //  console.log('in explore page');
+ let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+            filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+            const softConstraintData: any = {
+                filters: {
+                    channel: this.hashTagId,
+                },
+                softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+                mode: 'soft'
+            };
+            const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+                'appliedFilters'), softConstraintData);
+            // filters =  _.get(this.queryParams, 'appliedFilters') ? filters :  manipulatedData.filters;
+        option = {
+                filters: _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters,
+                limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+                offset: 0,
+                query: this.queryParams.key,
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+            };
+            console.log('explore content component query param = ', this.queryParams);
+            option.filters.objectType = 'Asset';
+            option.filters.contentType = [];
+            option.filters.channel = [];
+            if (this.queryParams.hasOwnProperty('sort_by')) {
+                const sortby = this.queryParams.sort_by;
+                const sorttype = this.queryParams.sortType;
+                if (sortby === 'lastUpdatedOn') {
+                   option.sort_by = { 'lastUpdatedOn' : sorttype};
+                }
+                if (sortby === 'createdOn') {
+                    option.sort_by = { 'createdOn' : sorttype};
+                 }
+            }
+            this.frameworkService.channelData$.subscribe((channelData) => {
+                if (!channelData.err) {
+                    option.params.framework = 'NCERT';
+                }
+            });
+            console.log('option', option, filters);
+            this.searchService.compositeSearch(option).subscribe(data => {
+                this.showLoader = false;
+                console.log('card data from explore content = ', data);
+                    this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+                    this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+                    this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+                    const asset = [];
+                    _.map(this.contentList, object => {
+                      // console.log('obj = ', object);
+                      if (object.creators !== 'SPace') {
+                     asset.push(object);
+                      }
+                    });
+                    this.contentList = asset;
+                    console.log('this.contentList = ', this.contentList, asset);
+                }, err => {
+                    this.showLoader = false;
+                    this.contentList = [];
+                    this.facetsList = [];
+                    this.paginationDetails = this.paginationService.getPager(0, this.paginationDetails.currentPage,
+                        this.configService.appConfig.SEARCH.PAGE_LIMIT);
+                    this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+                });
+   }
+   if (this.slug === 'space') {
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
         return false;
@@ -190,32 +269,35 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     const softConstraintData = {
       filters: {
-        board: []
+        board: [],
+        channel: this.userService.hashTagId
       },
       mode: 'soft'
     };
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
       softConstraintData);
-    const option = {
+     option = {
       source: 'web',
       name: 'Explore',
       // filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
       filters: {
         organisation: this.configService.appConfig.ExplorePage.orgName,
         region: [],
-        contentType: [],
+        objectType: 'Asset',
         status: ['Live'],
         board: [],
         channel: [],
         gradeLevel: [],
         topic: [],
-        languages: [],
+        language: [],
         country: [],
-        creators: []
+        creators: [],
+        sector: [],
+        assetType: [],
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
-      params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      // params: this.configService.appConfig.ExplorePage.contentApiQueryParams
     };
     if (_.get(manipulatedData, 'filters')) {
       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
@@ -230,7 +312,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   this.paramType.forEach(param => {
     if (this.queryParams.hasOwnProperty(param)) {
       if (param === 'board') {
-        option.filters.board = this.queryParams[param];
+        option.filters.assetType = this.queryParams[param];
       }
       if (param === 'organization') {
         option.filters.organisation = this.queryParams[param];
@@ -242,23 +324,58 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         option.filters.region = this.queryParams[param];
       }
       if (param === 'gradeLevel') {
-        option.filters.gradeLevel = this.queryParams[param];
+        option.filters.sector = this.queryParams[param];
       }
       if (param === 'topic') {
         option.filters.topic = this.queryParams[param];
       }
       if (param === 'languages') {
-        option.filters.languages = this.queryParams[param];
+        option.filters.language = this.queryParams[param];
       }
       // if (param === 'country') {
       //   option.filters.country = this.queryParams[param];
       // }
-
-      this.callingPageApi(option);
+      this.contentCompositeSearch(option);
+      // this.callingPageApi(option);
     }
   });
-this.callingPageApi(option);
+  this.contentCompositeSearch(option);
+// this.callingPageApi(option);
    }
+  }
+  contentCompositeSearch(option) {
+    this.searchService.compositeSearch(option).subscribe(data => {
+      this.showLoader = false;
+          // this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+          // this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+          //     this.configService.appConfig.SEARCH.PAGE_LIMIT);
+          const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+          // this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+          this.showLoader = false;
+          this.carouselMasterData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          // this.carouselData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          console.log('card data from resource content = ', data);
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+
+
+      //  this.carouselMasterData = asset;
+      //  this.carouselData = asset;
+          console.log('this.contentList = ', this.carouselMasterData, this.pageSections);
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        // this.carouselData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
   }
   callingPageApi(option) {
     this.pageApiService.getPageData(option)

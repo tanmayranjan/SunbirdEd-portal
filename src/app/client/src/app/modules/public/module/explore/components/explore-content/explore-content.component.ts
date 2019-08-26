@@ -14,6 +14,7 @@ import { takeUntil, map, mergeMap, first, filter, debounceTime, tap, delay } fro
 import { CacheService } from 'ng2-cache-service';
 import { environment } from '@sunbird/environment';
 import { DownloadManagerService } from './../../../../../offline/services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     templateUrl: './explore-content.component.html',
@@ -46,6 +47,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     isOffline: boolean = environment.isOffline;
     showExportLoader = false;
     contentName: string;
+    modalRef: any;
+    openmodal = false;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -53,6 +56,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         public configService: ConfigService, public utilService: UtilService, public orgDetailsService: OrgDetailsService,
         public navigationHelperService: NavigationHelperService, private publicPlayerService: PublicPlayerService,
         public userService: UserService, public frameworkService: FrameworkService,
+        private modalService: NgbModal,
         public cacheService: CacheService, public navigationhelperService: NavigationHelperService,
         public downloadManagerService: DownloadManagerService) {
         this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
@@ -183,7 +187,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
                 offset: 0,
                 query: this.queryParams.key,
-                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams,
+                status: ['Live']
             };
             console.log('explore content component query param = ', this.queryParams);
             option.filters.objectType = 'Asset';
@@ -241,25 +246,26 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 query: this.queryParams.key,
                 mode: _.get(manipulatedData, 'mode'),
                 // facets: this.facets,
-                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+                // params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
-            option.filters.objectType = 'Content';
+            option.filters.objectType = 'Asset';
             option.filters.status = ['Live'];
-            option.filters.contentType = filters.contentType || ['Resource'];
+            // option.filters.contentType = filters.contentType || ['Resource'];
             option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-            this.frameworkService.channelData$.subscribe((channelData) => {
-              if (!channelData.err) {
-                option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-              }
-            });
-            this.searchService.contentSearch(option)
+            // this.frameworkService.channelData$.subscribe((channelData) => {
+            //   if (!channelData.err) {
+            //     option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+            //   }
+            // });
+            this.searchService.compositeSearch(option)
             .subscribe(data => {
                 this.showLoader = false;
                 this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
                 this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
                     this.configService.appConfig.SEARCH.PAGE_LIMIT);
                 const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
-                this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
+                this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+                console.log('content list for space = ', this.contentList);
             }, err => {
                 this.showLoader = false;
                 this.contentList = [];
@@ -316,6 +322,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
             return false;
         }
 
+     if (this.slug !== 'space') {
         if (!this.userService.loggedIn && event.data.contentType === 'Course') {
             this.showLoginModal = true;
             this.baseUrl = '/' + 'learn' + '/' + 'course' + '/' + event.data.metaData.identifier;
@@ -326,7 +333,14 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 this.publicPlayerService.playContent(event);
             }
         }
+     } else {
+        // this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+        this.openmodal = true ;
+     }
     }
+    openSm(content) {
+        this.modalRef = this.modalService.open(content,  {centered: true});
+      }
     public inView(event) {
         _.forEach(event.inview, (elem, key) => {
             const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier });
