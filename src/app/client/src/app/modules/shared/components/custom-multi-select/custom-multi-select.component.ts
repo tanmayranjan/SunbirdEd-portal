@@ -53,7 +53,7 @@ export class CustomMultiSelectComponent implements OnInit {
     this.selectedValue.emit(event);
   }
   ngOnInit() {
-    console.log("fields",this.field);
+    console.log('fields', this.field);
     this.checkBox = {};
     const name = [];
     if (this.inputData) {

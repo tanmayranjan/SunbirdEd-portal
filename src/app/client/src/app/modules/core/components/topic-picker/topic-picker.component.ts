@@ -70,7 +70,7 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resourceDataSubscription = this.resourceService.languageSelected$
       .pipe(
         tap(() => {
-          const selectedTopics = _.reduce(this.selectedTopics, (collector, element) => {
+          const selectedTopics2 = _.reduce(this.selectedTopics, (collector, element) => {
             if (typeof element === 'string') {
               collector.unformatted.push(element);
             } else if (_.get(element, 'identifier')) {
@@ -78,9 +78,9 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             return collector;
           }, { formated: [], unformatted: [] });
-          this.formatSelectedTopics(this.formTopic.range, selectedTopics.unformatted, selectedTopics.formated);
-          this.selectedTopics = selectedTopics.formated;
-          this.selectedNodes = { ...selectedTopics.formated };
+          this.formatSelectedTopics(this.formTopic.range, selectedTopics2.unformatted, selectedTopics2.formated);
+          this.selectedTopics = selectedTopics2.formated;
+          this.selectedNodes = { ...selectedTopics2.formated };
           this.topicChange.emit(this.selectedTopics);
         })
       )

@@ -42,14 +42,17 @@ import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-m
     BatchCardComponent, NoResultComponent, DateFilterXtimeAgoPipe, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
     InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
-    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpaceCustomMultiSelectComponent,
-    SpaceCardComponent, SpacePageSectionComponent,SunbirdCustomMultiSelectComponent],
-  exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,AssetCardComponent,
-    PageSectionComponent, BatchCardComponent, NoResultComponent, CardComponent, OfflineCardComponent, CardCreationComponent,
-     FilterPipe,SpaceCardComponent,SunbirdCustomMultiSelectComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent, SpaceCustomMultiSelectComponent,
+    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent],
+  exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
+    PageSectionComponent, BatchCardComponent, NoResultComponent,
+     CardComponent, OfflineCardComponent, CardCreationComponent,
+     FilterPipe, SpaceCardComponent, SunbirdCustomMultiSelectComponent,
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent,
-    CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineBannerComponent,
-    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent,SpacePageSectionComponent,SpaceCustomMultiSelectComponent]
+    CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent,
+    ContentDirectionDirective, OfflineBannerComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective,
+     FullPageModalComponent, SpacePageSectionComponent, SpaceCustomMultiSelectComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

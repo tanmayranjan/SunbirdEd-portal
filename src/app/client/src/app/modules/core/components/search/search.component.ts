@@ -86,7 +86,7 @@ export class SearchComponent implements OnInit, OnDestroy {
      * @param {Router} route Reference of Router
      * @param {ActivatedRoute} activatedRoute Reference of ActivatedRoute
    */
-  @Input() slugInfo : any;
+  @Input() slugInfo: any;
   constructor(route: Router, activatedRoute: ActivatedRoute, userService: UserService,
     resourceService: ResourceService, config: ConfigService,
     private cdr: ChangeDetectorRef) {

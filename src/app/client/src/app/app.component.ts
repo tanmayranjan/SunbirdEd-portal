@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   instance: string;
   public orgName: string;
   public enableTenantHeader: string;
-  tenantname: string = "Sunbird";
+  tenantname = 'Sunbird';
 
   resourceDataSubscription: any;
   shepherdData: Array<any>;
@@ -337,13 +337,14 @@ setFingerPrintTelemetry() {
    * set app title and favicon after getting tenant data
    */
   private setPortalTitleLogo(): void {
-    localStorage.setItem("tenant",this.slug);
-    if (this.slug === 'space')
-      this.tenantname = "SPace";
-    else if (this.slug === 'sbwb')
-      this.tenantname = "World Bank";
-    else if(this.slug === 'sunbirdorg')
-      this.tenantname= "Sunbird";
+    localStorage.setItem('tenant', this.slug);
+    if (this.slug === 'space') {
+      this.tenantname = 'SPace';
+    } else if (this.slug === 'sbwb') {
+       this.tenantname = 'World Bank';
+    } else if (this.slug === 'sunbirdorg') {
+       this.tenantname = 'Sunbird';
+         }
   this.tenantService.tenantData$.subscribe(data => {
       if (!data.err) {
         document.title = this.tenantname || this.userService.rootOrgName ;

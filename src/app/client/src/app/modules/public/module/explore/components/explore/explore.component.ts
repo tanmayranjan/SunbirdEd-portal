@@ -76,7 +76,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService, public downloadManagerService: DownloadManagerService,public frameworkService : FrameworkService) {
+    public navigationhelperService: NavigationHelperService,
+    public downloadManagerService: DownloadManagerService, public frameworkService: FrameworkService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
     this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
@@ -154,7 +155,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
       softConstraintData);
-    const option = {
+     option = {
       organisationId: this.organisationId,
       source: 'web',
       name: 'Explore',

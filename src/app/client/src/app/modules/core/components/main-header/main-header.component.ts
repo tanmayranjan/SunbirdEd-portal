@@ -95,6 +95,8 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
+
+      this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
       this.slugInfo = 'loggedIn';
           this.showExploreHeader = true;
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
@@ -152,7 +154,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     } else if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
-      window.location.href = this.slug ? this.slug + '/explore'  : '/explore';
+      window.location.href = this.slug ? this.slug  : '';
     }
   }
   onEnter(key) {

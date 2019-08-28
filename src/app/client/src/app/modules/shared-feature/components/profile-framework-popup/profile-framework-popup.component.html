@@ -6,7 +6,7 @@
   class="sb-modal"
   #modal 
   (dismissed)="modal.deny();close.emit();"
-  *ngIf="formFieldOptions.length">
+  *ngIf="formFieldOptions.length && slug !== 'space'">
 
 
   <div class="sb-modal-header">
