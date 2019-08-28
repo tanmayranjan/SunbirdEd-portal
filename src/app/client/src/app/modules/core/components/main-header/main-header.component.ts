@@ -137,7 +137,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
-      window.location.href = this.slug ? this.slug : '';
+      window.location.href = this.slug ? this.slug : '/sbwb';
     }
   }
   onEnter(key) {
