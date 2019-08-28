@@ -57,9 +57,9 @@
                 </div>
                 
                 <div class="twelve wide tablet two wide computer right aligned top aligned column filter-button" id="res-searchbtn">
-                  <label class="computer-only ">&nbsp;</label>
+                  <label class="computer-only " style="font-size: 2.8571rem;">&nbsp;</label>
                   <a class="searchfilterbutton ui tiny button" (click)="applyFilters()" appTelemetryInteract [telemetryInteractEdata]="submitIntractEdata">
-                    Apply
+                    {{resourceService.frmelmnts?.btn?.apply}}
                   </a>
                   <a class="ml-10 searchfilterbutton ui tiny basic button" (click)="resetFilters()">
                     {{resourceService.frmelmnts?.btn?.reset}}

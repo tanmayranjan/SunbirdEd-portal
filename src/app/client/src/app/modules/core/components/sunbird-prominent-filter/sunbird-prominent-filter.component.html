@@ -14,9 +14,9 @@
             <form class="ui form">
               <div class="ui grid stackable top aligned my-0">
                 <div class="twelve wide tablet twelve wide computer column py-0">
-                  <div class="sb-prominent-filter-container" *ngIf="formFieldProperties">
+                  <div class="sb-prominent-filter-container abc" *ngIf="formFieldProperties">
                     <ng-container *ngIf="formFieldProperties.length <= 4">
-                      <div class="sb-prominent-filter-field" *ngFor="let field of formFieldProperties">
+                      <div class="sb-prominent-filter-field abcd" *ngFor="let field of formFieldProperties">
                         <!-- <label class="mb-10">{{field.label}}</label> -->
                         <ng-container *ngIf="field.inputType==='select' || field.inputType==='multi-select'">
                           <app-sunbird-custom-multi-select [inputData]="formInputData[field.code]" [field]="field"
@@ -48,6 +48,7 @@
                       </div>
                     </ng-container>
                     <div class="sb-prominent-filter-field">
+                      <label class="computer-only " style="font-size: 2.8571rem;">&nbsp;</label>
                       <button class="sb-btn sb-btn-normal btnprimary" (click)="applyFilters()" appTelemetryInteract
                         [telemetryInteractEdata]="applyFilterInteractEdata">
                         {{resourceService.frmelmnts?.btn?.apply}}
