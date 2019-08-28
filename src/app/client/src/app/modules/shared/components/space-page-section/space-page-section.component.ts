@@ -13,6 +13,7 @@ import { Router} from '@angular/router';
   styleUrls: ['./space-page-section.component.scss']
 })
 export class SpacePageSectionComponent implements OnInit {
+  @Input() enable: string;
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
   /**
@@ -120,6 +121,7 @@ export class SpacePageSectionComponent implements OnInit {
   pageid: string;
   find_user: string;
   user: string[];
+  openmodal = false;
   constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService, public router: Router) {
     this.resourceService = resourceService;
   }
@@ -128,7 +130,8 @@ export class SpacePageSectionComponent implements OnInit {
     console.log('event =', event);
     // this.playEvent.emit(event);
     if (this.user[4] === 'explore') {
-      this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+      this.openmodal = true;
+      // this.router.navigate(['space/explore/player/content/', event.data.identifier]);
     } else {
       this.router.navigate(['resources/player/content/', event.data.identifier]);
     }
@@ -137,7 +140,7 @@ export class SpacePageSectionComponent implements OnInit {
   ngOnInit() {
     this.find_user =  window.location.href;
     this.user = this.find_user.split('/');
-    console.log('icarousal data = ', this.section, this.user);
+    console.log('icarousal data = ', this.section, this.user, this.enable);
     const id = _.get(this.activatedRoute, 'snapshot.data.telemetry.env');
     this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     if (id && this.pageid) {

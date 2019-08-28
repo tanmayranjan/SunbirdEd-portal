@@ -2,9 +2,7 @@
   <app-popup #frameWorkPopUp *ngIf="showFrameWorkPopUp && !isOffline"
     [buttonLabel]="resourceService.frmelmnts.btn.submit" (submit)="updateFrameWork($event)"></app-popup>
   <app-tnc-popup (close)="onAcceptTnc()" #termsAndCondPopUp *ngIf="showTermsAndCondPopUp && !isOffline">
-  </app-tnc-popup>
-
-  <app-install-app (viewInBrowser)="viewInBrowser($event)" *ngIf="showAppPopUp && userService.loggedIn && !isOffline">
+  </app-tnc-popup><app-install-app (viewInBrowser)="viewInBrowser($event)" *ngIf="showAppPopUp && userService.loggedIn && !isOffline">
   </app-install-app>
 
   <div *ngIf=" orgName ==='sunbirdorg' || enableTenantHeader === 'sunbirdorg' ">
@@ -41,10 +39,3 @@
     </a>
   </div>
 </sui-modal>
-<!-- <ng-template #spacefooter>
-    <app-space-footer *ngIf= "enableTenantHeader ==='space' else otherfooter"></app-space-footer>
-</ng-template>
-
-<ng-template #otherfooter>
-    <app-footer></app-footer>
-</ng-template> -->

@@ -15,7 +15,8 @@
     <p class="d-block">{{resourceService.frmelmnts?.lbl?.getUnlimitedAccess}}</p>
   </div>
 </div> -->
-<footer class="footer" *ngIf="showFooter" >
+    <extension-point [name]="'download-manager'" *ngIf="isOffline"></extension-point>
+<footer class="footer" *ngIf="showFooter">
 
     <div class="ui container" *ngIf="!isOffline">
         <div class="ui grid stackable">
@@ -39,25 +40,26 @@
                 </ul>
             </div>
 
-            <div class="download-diksha">
-                <div class="diksha-logo p-15">
-                    <div class="mobile-circles">
-                        <div class="big-box border-round border-r50"></div>
-                        <div class="oval-box border-round ml-20"></div>
-                        <div class="small-box border-round border-r50 ml-20 mr-10"></div>
-                        <div class="small-box border-round border-r50"></div>
-                    </div>
-                    <!-- <label class="d-block pb-10">{{resourceService.frmelmnts?.lbl?.download}}
+      <div class="download-diksha">
+        <div class="diksha-logo p-16">
+          <div class="mobile-circles">
+            <div class="big-box border-round border-r50"></div>
+            <div class="oval-box border-round ml-24"></div>
+            <div class="small-box border-round border-r50 ml-16 mr-8"></div>
+            <div class="small-box border-round border-r50"></div>
+          </div>
+          <!-- <label class="d-block pb-10">{{resourceService.frmelmnts?.lbl?.download}}
             {{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}</label> -->
-                    <label class="d-block pb-10 text-center">{{resourceService?.frmelmnts?.lbl?.downloadDikshaForMobile}}</label>
-                    <div class="d-block app-download">
-                        <img class="playStore-img" src="/assets/images/google_playstore.png" alt="{{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile}}">
-                    </div>
-                    <p class="d-block pt-10">{{resourceService.frmelmnts?.lbl?.getUnlimitedAccess}}</p>
-                </div>
-            </div>
-            <div class="four wide column contantDetails">
-                <label class="d-block mb-10">
+            <label class="d-block text-center">{{resourceService?.frmelmnts?.lbl?.downloadDikshaForMobile | interpolate:'{instance}': instance}}</label>
+          <a class="d-block app-download" (click)="redirectToDikshaApp()">
+            <img class="playStore-img" src="/assets/images/google_playstore.png"
+              alt="{{resourceService.frmelmnts?.lnk?.footerDIKSHAForMobile | interpolate:'{instance}':  instance}}">
+          </a>
+          <p class="d-block pt-10">{{resourceService.frmelmnts?.lbl?.getUnlimitedAccess}}</p>
+        </div>
+      </div>
+      <div class="four wide column contantDetails">
+        <label class="d-block mb-10">
           {{resourceService.frmelmnts?.lnk?.footerContact}}
         </label>
                 <div appTelemetryInteract [telemetryInteractEdata]="setTelemetryInteractEdata('fresh-desk')" class="d-block mb-30">

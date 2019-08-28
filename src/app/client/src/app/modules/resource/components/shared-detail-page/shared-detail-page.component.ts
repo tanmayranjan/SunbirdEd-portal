@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService } from '@sunbird/core';
+import { ContentService, AssetService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
@@ -27,6 +27,10 @@ export interface IassessDetail {
   artifactUrl: string;
   mimeType: string;
   lastSubmittedOn;
+  sector: string;
+  assetType: string;
+  source: string;
+  submittedBy: string;
 }
 
 @Component({
@@ -66,14 +70,19 @@ export class SharedDetailPageComponent implements OnInit {
     badgeAssertions: [],
     artifactUrl: '',
     mimeType: '',
-    lastSubmittedOn: ''
-  };
+    lastSubmittedOn: '',
+    sector: '' ,
+    assetType: '',
+    source: '',
+    submittedBy: ''
+};
   public resourceService: ResourceService;
   private toasterService: ToasterService;
   pdfs: any;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
-    config: ConfigService, contentServe: ContentService , rout: Router) {
+    config: ConfigService, contentServe: ContentService , rout: Router,
+    public assetService: AssetService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[2].path;
@@ -91,13 +100,13 @@ export class SharedDetailPageComponent implements OnInit {
 console.log('param = ', this.activatedRoute.snapshot.params.contentId);
 this.contentId = this.activatedRoute.snapshot.params.contentId;
     const req = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+      url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
-    this.contentService.get(req).subscribe(data => {
+    this.assetService.read(req).subscribe(data => {
 
-      this.assetDetail = data.result.content;
-      this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-      data.result.content.artifactUrl.lastIndexOf('pdf'));
+      this.assetDetail = data.result.asset;
+      this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
+      data.result.asset.artifactUrl.lastIndexOf('pdf'));
     });
 
 

@@ -254,6 +254,7 @@ function checkSunbirdPortalHealth (req, response) {
  * @param {Array} dependancyServices
  */
 function checkDependantServiceHealth (dependancyServices) {
+  console.log('\x1b[36m%s\x1b[0m', "checkDependantsService");
   return function (req, res, next) {
     if (envHelper.sunbird_portal_health_check_enabled === 'false') {
       next()

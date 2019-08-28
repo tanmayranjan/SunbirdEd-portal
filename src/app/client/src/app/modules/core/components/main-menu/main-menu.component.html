@@ -1,8 +1,7 @@
 <!--Computer-->
 <div class="ui text menu m-0 d-flex flex-jc-center flex-ai-center computer only">
-
-	<!--Logged in user other instance-->
-	<ng-container *ngIf="userService.loggedIn ">
+	<!--Logged in user-->
+	<ng-container *ngIf="userService.loggedIn">
 		<a class="item" [class.active]="router.isActive('/search/Library') || router.isActive('/resources')"
 			appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/resources">
 			{{resourceService?.frmelmnts?.tab?.resources}}
@@ -44,7 +43,7 @@
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>
 		<span class="item divider">|</span>
-		<a class="item font-weight-bold sb-color-primary" href="/resources" appTelemetryInteract
+		<a class="item font-weight-bold sb-color-primary pr-0" href="/resources" appTelemetryInteract
 			[telemetryInteractEdata]="signInIntractEdata">
 			{{resourceService.frmelmnts?.btn?.signin}}
 		</a>
@@ -52,16 +51,18 @@
 	<!--/Not Logged in user-->
 	<!-- offline container-->
 	<ng-container *ngIf="isOffline">
-		<a class="item" [routerLink]="'/'" appTelemetryInteract [telemetryInteractEdata]="myLibraryMenuInteractEdata">
-			{{resourceService.frmelmnts?.btn?.myLibrary}}
-		</a>
-		<a class="item" [routerLink]="'/'" appTelemetryInteract [telemetryInteractEdata]="browseEdata">
-			{{resourceService.frmelmnts?.btn?.browse}}
-		</a>
-		<!-- <a class="item" [routerLink]="'/'">
-			{{resourceService.frmelmnts?.btn?.settings}}
-		</a> -->
+			<a class="item tour-2" [routerLink]="'/'" [ngClass]="(router.isActive('/') && !(router.isActive('/browse') || router.isActive('/help-center')) ) ? 'active': ''" appTelemetryInteract
+			 [telemetryInteractEdata]="myLibraryMenuInteractEdata">
+				{{resourceService.frmelmnts?.btn?.myLibrary}}
+			</a>
+			<a class="item tour-3" [ngClass]="router.isActive('/browse')? 'active': ''" [routerLink]="'/browse'" appTelemetryInteract [telemetryInteractEdata]="browseEdata">
+				{{resourceService.frmelmnts?.btn?.browse}}
+			</a>
+			<!-- <a class="item" [ngClass]="router.isActive('/help-center')? 'active': ''" [routerLink]="'/help-center'" appTelemetryInteract [telemetryInteractEdata]="helpCenterEdata">
+				{{resourceService.frmelmnts?.btn?.downloadPdf}}
+			</a> -->
 	</ng-container>
+
 	<!-- offline container-->
 
 </div>

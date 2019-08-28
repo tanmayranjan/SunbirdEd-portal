@@ -32,12 +32,22 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
   private custodianOrgBoard: any = {};
   submitInteractEdata: IInteractEventEdata;
   telemetryInteractObject: IInteractEventObject;
+  slug: any;
+  userProfile: any;
   constructor(private router: Router, private userService: UserService, private frameworkService: FrameworkService,
     private formService: FormService, public resourceService: ResourceService, private cacheService: CacheService,
     private toasterService: ToasterService, private channelService: ChannelService, private orgDetailsService: OrgDetailsService
   ) { }
 
   ngOnInit() {
+    if (this.userService.loggedIn) {
+      this.userService.userData$.pipe(first()).subscribe((user: any) => {
+        if (user && !user.err) {
+          this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
+        }
+      });
+    }
     this.selectedOption = _.cloneDeep(this.formInput) || {}; // clone selected field inputs from parent
     this.unsubscribe = this.isCustodianOrgUser().pipe(
       mergeMap((custodianOrgUser: boolean) => {

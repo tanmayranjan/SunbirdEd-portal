@@ -28,7 +28,7 @@ import { FrameworkPickerComponent } from './components/framework-picker/framewor
 import { FramworkSelectorComponent } from './components/framwork-selector/framwork-selector.component';
 import { LearnerService, TenantService, CopyContentService, AnnouncementService, BadgesService,
    ContentService, CoursesService, PageApiService, FormService, FrameworkService, PlayerService,
-   OrgDetailsService, ChannelService, UploadContentService } from './services';
+   OrgDetailsService, ChannelService, UploadContentService, AssetService } from './services';
 import { ConceptPickerService } from './services/concept-picker/concept-picker.service';
 import { SpaceDataDrivenFilterComponent } from './components/space-data-driven-filter/space-data-driven-filter.component';
 import { OtherSearchComponent } from './components/other-search/other-search.component';
@@ -78,7 +78,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [LearnerService, TenantService, SearchService, CopyContentService,
         AnnouncementService, BadgesService, ContentService, CoursesService, PageApiService,
-        AuthGuard, FrameworkService, FormService, CacheService,
+        AuthGuard, FrameworkService, FormService, CacheService, AssetService,
         ConceptPickerService, PlayerService, OrgDetailsService, UploadContentService ,
         ChannelService]
     };

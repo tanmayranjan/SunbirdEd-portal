@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterContentInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
-import { FormService, FrameworkService, UserService, ContentService } from '@sunbird/core';
+import { FormService, FrameworkService, UserService, ContentService, AssetService } from '@sunbird/core';
 import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
@@ -121,6 +121,7 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     editorService: SpaceEditorService,
     contentservice: ContentService,
     activatedRoute: ActivatedRoute,
+    public assetService: AssetService
 
   ) {
     this.formService = formService;
@@ -195,30 +196,30 @@ this.activatedRoute.url.subscribe(url => {
 });
 if (this.path === 'Live') {
   const req = {
-    url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+    url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
   };
-  this.contentService.get(req).subscribe(data => {
+  this.assetService.read(req).subscribe(data => {
     console.log('read content', data);
-    this.formInputData = data.result.content;
-   if (data.result.content.topic) {
+    this.formInputData = data.result.asset;
+   if (data.result.asset.topic) {
      this.showFramework = true;
    } else {
     this.showFramework = false;
    }
-    // this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel);
-    this.keywords = data.result.content.keywords;
-    // this.formInputData['versionKey'] = data.result.content.versionKey;
+    // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel);
+    this.keywords = data.result.asset.keywords;
+    // this.formInputData['versionKey'] = data.result.asset.versionKey;
   });
 } else {
   const req = {
-    url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+    url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
   };
-  this.contentService.get(req).subscribe(data => {
+  this.assetService.read(req).subscribe(data => {
     console.log('read content', data);
-    this.formInputData = data.result.content;
-    // this.formInputData['gradeLevel'] = this.mutateData(data.result.content.gradeLevel);
-    this.keywords = data.result.content.keywords;
-    // this.formInputData['versionKey'] = data.result.content.versionKey;
+    this.formInputData = data.result.asset;
+    // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel);
+    this.keywords = data.result.asset.keywords;
+    // this.formInputData['versionKey'] = data.result.asset.versionKey;
   });
 }
  // console.log('in upadat', this.formSaveData);
@@ -243,7 +244,7 @@ if (this.path === 'Live') {
     _.forEach(events, (field) => {
       sector.push(field.name);
     });
-    this.formInputData['gradeLevel'] = sector;
+    this.formInputData['sector'] = sector;
 
   }
 

@@ -34,7 +34,7 @@ let envVariables = {
   CACHE_STORE: env.sunbird_cache_store || 'memory',
   CACHE_TTL: env.sunbird_cache_ttl || 1800,
   ANDROID_APP_URL: env.sunbird_android_app_url || 'http://www.sunbird.org',
-  BUILD_NUMBER: env.sunbird_build_number || packageObj.version + '.' + packageObj.buildHash,
+  BUILD_NUMBER: packageObj.version + '.' + packageObj.buildHash,
   TELEMETRY_SERVICE_LOCAL_URL: env.sunbird_telemetry_service_local_url || 'http://telemetry-service:9001/',
   PORTAL_API_CACHE_TTL: env.sunbird_api_response_cache_ttl || '600',
   RESPONSE_CACHE_TTL: env.sunbird_response_cache_ttl || '180', // used in tenant helper to cache the tenant response info
@@ -74,8 +74,25 @@ let envVariables = {
   sunbird_portal_preview_cdn_url: env.sunbird_portal_preview_cdn_url,
   sunbird_processing_kafka_host: process.env.sunbird_processing_kafka_host,
   sunbird_sso_kafka_topic: process.env.sunbird_sso_kafka_topic,
+  sunbird_portal_offline_tenant: env.sunbird_portal_offline_tenant,
+  sunbird_portal_offline_supported_languages: env.sunbird_portal_offline_supported_languages,
+  sunbird_portal_offline_app_release_date: env.sunbird_portal_offline_app_release_date,
+  sunbird_portal_offline_app_version: env.sunbird_portal_offline_app_version,
+  sunbird_portal_offline_app_download_url: env.sunbird_portal_offline_app_download_url,
   sunbird_portal_cdn_blob_url: env.sunbird_portal_cdn_blob_url || '',
-
+  sunbird_portal_log_level: env.sunbird_portal_log_level || 'debug',
+  KEYCLOAK_GOOGLE_ANDROID_CLIENT: {
+    clientId: env.sunbird_google_android_keycloak_client_id,
+    secret: env.sunbird_google_android_keycloak_secret
+  },
+  KEYCLOAK_TRAMPOLINE_ANDROID_CLIENT: {
+    clientId: env.sunbird_trampoline_android_keycloak_client_id,
+    secret: env.sunbird_trampoline_android_keycloak_secret
+  },
+  KEYCLOAK_ANDROID_CLIENT: {
+    clientId: env.sunbird_android_keycloak_client_id || 'android',
+  },
+  LOG_FINGERPRINT_DETAILS: env.sunbird_log_fingerprint_details || 'true'
 }
 
 envVariables.PORTAL_CASSANDRA_URLS = (env.sunbird_cassandra_urls && env.sunbird_cassandra_urls !== '')

@@ -3,6 +3,7 @@ import * as _ from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ResourceService } from '@sunbird/shared';
 import * as  treePicker from './../../../../../assets/libs/semantic-ui-tree-picker/semantic-ui-tree-picker';
+import { tap } from 'rxjs/operators';
 $.fn.treePicker = treePicker;
 interface TopicTreeNode {
   id: string;
@@ -67,10 +68,26 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedNodes = {...selectedTopics.formated};
     this.topicChange.emit(this.selectedTopics);
     this.resourceDataSubscription = this.resourceService.languageSelected$
+      .pipe(
+        tap(() => {
+          const selectedTopics2 = _.reduce(this.selectedTopics, (collector, element) => {
+            if (typeof element === 'string') {
+              collector.unformatted.push(element);
+            } else if (_.get(element, 'identifier')) {
+              collector.formated.push(element);
+            }
+            return collector;
+          }, { formated: [], unformatted: [] });
+          this.formatSelectedTopics(this.formTopic.range, selectedTopics2.unformatted, selectedTopics2.formated);
+          this.selectedTopics = selectedTopics2.formated;
+          this.selectedNodes = { ...selectedTopics2.formated };
+          this.topicChange.emit(this.selectedTopics);
+        })
+      )
       .subscribe(item => {
         this.initTopicPicker(this.formatTopics(this.formTopic.range));
         this.placeHolder = this.selectedTopics.length + ' ' + this.resourceService.frmelmnts.lbl.topics +
-        ' ' + this.resourceService.frmelmnts.lbl.selected;
+          ' ' + this.resourceService.frmelmnts.lbl.selected;
       }
     );
     // this.initTopicPicker(this.formatTopics(this.formTopic.range));
@@ -130,5 +147,8 @@ export class TopicPickerComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
   }
   ngOnDestroy() {
+    if (this.resourceDataSubscription) {
+      this.resourceDataSubscription.unsubscribe();
+    }
   }
 }

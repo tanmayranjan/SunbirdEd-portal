@@ -154,6 +154,7 @@ let PERMISSIONS_HELPER = {
     })
   },
   checkPermission: function () {
+    console.log("Check permission");
     return function (req, res, next) {
       if (enablePermissionCheck && req.session['roles'] && req.session['roles'].length) {
         var roles = module.exports.checkURLMatch(req.originalUrl)

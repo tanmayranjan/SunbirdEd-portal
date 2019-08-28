@@ -16,10 +16,11 @@
                     
                 </div>
                 <div class="col-sm-7 pr-30">
-                    <p *ngIf="assetDetail?.gradeLevel" class="float-right">Sector :
+                    <p *ngIf="assetDetail?.sector" class="float-right">Sector :
                         <span>
-                            <li *ngFor="let hero of assetDetail?.gradeLevel; let first = first;let last = last">
-                                {{ hero }}<span *ngIf="!last && assetDetail?.gradeLevel.length!=1">,</span>
+                            <!-- <li *ngFor="let hero of assetDetail?.sector; let first = first;let last = last"> -->
+                               <li> {{ assetDetail?.gradeLevel }}
+                                <!-- <span *ngIf="!last && assetDetail?.sector.length!=1">,</span> -->
                             </li>
                         </span>
                     </p>
@@ -31,7 +32,7 @@
                 <button type="button" class="btn ml-4 text-secondary float-right" id="stylefav"><i
                         class="far fa-heart"></i></button>
             </div> -->
-            <p *ngIf="assetDetail?.board" class="card-text">Asset Type : {{assetDetail?.board}}</p>
+            <p *ngIf="assetDetail?.assetType" class="card-text">Asset Type : {{assetDetail?.assetType}}</p>
             <!-- <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
                         {{ hero }}<span *ngIf="!last">,</span>
@@ -44,9 +45,13 @@
                 </span>
             </p>
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description | titlecase}}</p>
-            <p class="card-text" *ngIf="assetDetail?.link">Link: <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}}</a></p>
-            <p class="card-text">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
-            <p class="card-text">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
+            <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.source.slice(0,4) === 'http' ">Link: 
+                <a href="{{assetDetail?.source}}" target="_blank">{{assetDetail?.source}} </a>
+            </p>
+             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.source.slice(0,4) !== 'http' ">Link:
+                 <a href="http://{{assetDetail?.source}}" target="_blank">{{assetDetail?.source}} </a>
+            </p>            <p class="card-text">Submitted By : {{ assetDetail?.submittedBy }}@{{ assetDetail?.creators }}</p>
+            <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
                     File : <span (click)="navigateToView()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
@@ -87,7 +92,7 @@
             <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 <span
                     *ngIf="assetDetail?.creators"></span> | Created By :
                 {{assetDetail?.creators}} <span *ngIf="assetDetail?.since"> | Created Year :
-                    {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region">  | Country : {{assetDetail?.region | titlecase}}</span> </p>
+                    {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region">  | Country : {{assetDetail?.region}}</span> </p>
             <p class="float-right"></p>
         </div>
     </div>
