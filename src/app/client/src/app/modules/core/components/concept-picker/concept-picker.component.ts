@@ -57,12 +57,16 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
+   let arrayofselectedConcepts=[];
     this.selectedConcepts = this.selectedConcepts || [];
+    if(this.selectedConcepts.constructor === String){
+       arrayofselectedConcepts.push(this.selectedConcepts);
+    }
     this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
     if (this.contentConcepts.length === 0) {
       this.pickerMessage = 'Select';
     } else if ( this.contentConcepts.length > 0 ) {
-      this.pickerMessage = this.contentConcepts.length + '  selected';
+      this.pickerMessage = arrayofselectedConcepts.length + '  selected';
 
     }
     $('.tree-pickers').val(this.pickerMessage);
@@ -108,7 +112,7 @@ export class ConceptPickerComponent implements OnInit {
       return collector;
     }, { formated: [], unformatted: [] });
     this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
-    this.selectedConcepts =  selectedTopics.formated;
+    //this.selectedConcepts =  selectedTopics.formated;
     }
 
 

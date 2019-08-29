@@ -31,25 +31,25 @@
     </div>
   </div>
   <div class="cards1 ui container1 mt-24 " *ngIf="slug === 'sunbirdorg'">
-      <div class="ui grid" >
-          <div class="twelve wide column " in-view-container>
-          <div  class="twelve wide column" in-view-container
-          *ngIf="!showLoader && contentList.length">
+    <div class="ui grid">
+      <div class="twelve wide column " in-view-container>
+        <div class="twelve wide column" in-view-container *ngIf="!showLoader && contentList.length">
           <div class="masonry-grid dynamic-section-card">
-              <div in-view-item [id]="i" [data]="content" class="masonry-item"
-          *ngFor="let content of contentList;let i = index;">
-          <app-asset-card appContentDirection [data]="content"
-            (clickEvent)="playContent($event)" [data]="content" ></app-asset-card>
-        </div>
-   
-
-      <div class="twelve wide column" *ngIf="showLoader">
-        <app-loader [data]='loaderMessage'></app-loader>
-      </div>
-      <div class="twelve wide column" *ngIf="contentList.length === 0 && !showLoader">
-        <app-no-result [data]="noResultMessage"></app-no-result>
-      </div>
+            <div in-view-item [id]="i" [data]="content" class="masonry-item"
+              *ngFor="let content of contentList;let i = index;">
+              <app-asset-card appContentDirection [data]="content" (clickEvent)="playContent($event)" [data]="content">
+              </app-asset-card>
+            </div>
+  
+  
+            <div class="twelve wide column" *ngIf="showLoader">
+              <app-loader [data]='loaderMessage'></app-loader>
+            </div>
+            
           </div>
+        </div>
+        <div class="twelve wide column" *ngIf="contentList.length === 0 && !showLoader">
+            <app-no-result [data]="noResultMessage"></app-no-result>
           </div>
       </div>
     </div>
