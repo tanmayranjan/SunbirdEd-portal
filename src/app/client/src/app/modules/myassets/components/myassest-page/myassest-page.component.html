@@ -7,7 +7,7 @@
         Asset</button>
     </div>
   </div>
-  <div *ngIf="(noResult && !showLoader) || noResultsForReview === true">
+  <div *ngIf="(allContent.length === 0 && !noResult && !showLoader) || noResultsForReview === true">
       <app-no-result [data]="noResultMessage"></app-no-result>
     </div>
   <div class="row" *ngIf="allContent.length > 0 && !showLoader && !noResult">
@@ -50,7 +50,7 @@
             <div class="d-flex justify-content-center mt-30">
               <button *ngIf="(content?.status==='Draft' || content?.status=== 'DRAFT' || content?.status=== 'LIVE' || content?.status=== 'Live') && route.isActive('myassets')" type="button" class="btn text-secondary" id="style"
                 (click)="deleteConfirmModal(content.identifier); $event.stopPropagation()">
-                <i class="trash large icon"></i>
+                <i class="trash large icon" style="color: #6c757d!important;"></i>
               </button>
 
               <div *ngIf="content?.status==='Draft'">
