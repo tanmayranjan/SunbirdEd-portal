@@ -240,7 +240,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
   }
   ngOnChanges() {
     if (this.formFieldProperties && this.enrichFilters) {
-      this.enrichFiltersOnInputChange();
+     // this.enrichFiltersOnInputChange();
     }
   }
   private enrichFiltersOnInputChange() {

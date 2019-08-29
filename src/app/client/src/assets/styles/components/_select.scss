@@ -38,11 +38,13 @@
 .ui.selection.dropdown>.dropdown.icon,
 .ui.selection.dropdown>.search.icon {
     margin: -.8571429em;
+    top:1.3em;
 }
 
 .ui.multiple.dropdown>.text {
     margin: $sb-multiple-dropdown-text-margin;
     font-size: $sb-multiple-dropdown-text-font-size;
+    padding-top:4px;
 }
 
 .ui.selection.dropdown .menu {
