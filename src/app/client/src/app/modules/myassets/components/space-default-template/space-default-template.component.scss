@@ -14,6 +14,7 @@
     border-radius: 7px;
     height: 42px;
     cursor: pointer;
+    padding: 12px 17px !important;
 }
 .ui.search.dropdown {
     border: 1px solid #e4e4e4 !important;
@@ -86,4 +87,12 @@ sui-select {
     border-radius: 7px;
     height: 42px;
     cursor: pointer;
+}
+
+.ui.multiple.dropdown > .text {
+    position: static;
+    padding: 0;
+    max-width: 100%;
+    margin: .45238095em 0 .45238095em .64285714em;
+    line-height: 0.21428571em;
 }
