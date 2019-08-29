@@ -162,14 +162,28 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;
-    }
+    }debugger;
     console.log('activate route in main header = ', this.activatedRoute, key);
-    const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
+
+    if (this.isOffline) {
+      this.routeToOffline();
+    } else {
+      // const url = this.router.url.split('?')[0];
+      // let redirectUrl;
+      // if (url.indexOf('/explore-course') !== -1) {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-course')) + 'explore-course';
+      // } else {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-library')) + 'explore-library';
+      // }
+      // this.router.navigate([redirectUrl, 1], { queryParams: this.queryParam });
+      const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
   //  this.slugInfo = route[0].firstChild.children[0].url[0].path;
     let currRoute = route[0].firstChild.children[0].url[0].path;
+    console.log('slug info in main header = ', this.slugInfo, route, currRoute);
     if (currRoute === 'sbwb') {
      this.slugInfo = route[0].firstChild.children[0].url[0].path;
-      currRoute = route[0].firstChild.children[0].url[1].path;
+       currRoute = route[0].firstChild.children[0].url[1].path;;
+      console.log('check = ', this.slugInfo, currRoute)
       this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
     }
     if (currRoute === 'explore-course') {
@@ -180,18 +194,6 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
         currRoute = route[0].firstChild.children[0].url[0].path;
         this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
         }
-    console.log('slug info in main header = ', this.slugInfo, route);
-    if (this.isOffline) {
-      this.routeToOffline();
-    } else {
-      const url = this.router.url.split('?')[0];
-      let redirectUrl;
-      if (url.indexOf('/explore-course') !== -1) {
-        redirectUrl = url.substring(0, url.indexOf('explore-course')) + 'explore-course';
-      } else {
-        redirectUrl = url.substring(0, url.indexOf('explore')) + 'explore';
-      }
-      this.router.navigate([redirectUrl, 1], { queryParams: this.queryParam });
     }
   }
 
