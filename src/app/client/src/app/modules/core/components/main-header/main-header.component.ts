@@ -162,7 +162,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;
-    }debugger;
+    }
     console.log('activate route in main header = ', this.activatedRoute, key);
 
     if (this.isOffline) {
@@ -182,8 +182,8 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     console.log('slug info in main header = ', this.slugInfo, route, currRoute);
     if (currRoute === 'sbwb') {
      this.slugInfo = route[0].firstChild.children[0].url[0].path;
-       currRoute = route[0].firstChild.children[0].url[1].path;;
-      console.log('check = ', this.slugInfo, currRoute)
+       currRoute = route[0].firstChild.children[0].url[1].path;
+      console.log('check = ', this.slugInfo, currRoute);
       this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
     }
     if (currRoute === 'explore-course') {
