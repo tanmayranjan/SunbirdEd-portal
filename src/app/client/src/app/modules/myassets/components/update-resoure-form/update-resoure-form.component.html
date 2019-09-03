@@ -144,11 +144,11 @@
         </sui-select>
       </div>
     </div>
-    <div *ngIf="field.code==='gradeLevel'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.code==='gradeLevel'" class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}}</label>
       <form class="conceptSelector ui form">
 
-        <app-concept-picker *ngIf="formInputData['sector']" [selectedConcepts]="formInputData['sector']"
+        <app-concept-picker [selectedConcepts]="formInputData['sector']"
           [categoryName]="field.name" [category]="categoryList[field.code]"
           [conceptPickerClass]="'content-creation-concept-picker'" (Concepts)="concepts($event)"></app-concept-picker>
       </form>
