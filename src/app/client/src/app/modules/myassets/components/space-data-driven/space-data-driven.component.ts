@@ -395,7 +395,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   updateAssetStatus(assetId, state) {
     let assetStatus;
     if (state === 'file') {
-      assetStatus = 'Draft';
+      assetStatus = 'Review';
     } else {
       assetStatus = 'Draft';
     }

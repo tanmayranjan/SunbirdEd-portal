@@ -57,9 +57,9 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
-   let arrayofselectedConcepts=[];
+   const arrayofselectedConcepts = [];
     this.selectedConcepts = this.selectedConcepts || [];
-    if(this.selectedConcepts.constructor === String){
+    if (this.selectedConcepts.constructor === String) {
        arrayofselectedConcepts.push(this.selectedConcepts);
     }
     this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
@@ -112,7 +112,7 @@ export class ConceptPickerComponent implements OnInit {
       return collector;
     }, { formated: [], unformatted: [] });
     this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
-    //this.selectedConcepts =  selectedTopics.formated;
+    // this.selectedConcepts =  selectedTopics.formated;
     }
 
 

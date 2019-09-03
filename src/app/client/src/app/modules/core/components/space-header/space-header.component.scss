@@ -161,7 +161,9 @@ background: #007b5e;
   font-size: 1rem;
   font-weight: bold;
 }
-
+.ui.menu.fixed {
+  border: !important;
+}
 .ui.menu a.item:hover {
   background: none;
 }
@@ -178,7 +180,9 @@ background: #007b5e;
   border-width: 2px;
   margin-right: 10px;
 }
-
+.ui.menu {
+  background: unset !important;
+}
 .ui.icon.button {
   background: #edf4f9;
   padding: 1px 7px 4px 7px;
