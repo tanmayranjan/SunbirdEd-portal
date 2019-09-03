@@ -338,7 +338,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in checking fields = ', data);
     if (!!data.name && !!data.description && !!data.board && !!data.keywords
-      && !!data.creators && !!data.version && !!data.gradeLevel
+      && !!data.creators && !!data.version
       && !!data.year && !!data.region && !!data.languages) {
       this.uploadSuccess = true;
       this.createContent(data);
@@ -352,7 +352,9 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       asset: this.generateData(_.pickBy(this.formData.formInputData))
     };
     requestData.asset.assetType = data.board;
+    if (data.gradeLevel !== undefined) {
     requestData.asset.sector = data.gradeLevel[0];
+    }
     requestData.asset.language = data.languages;
     requestData.asset.artifactUrl = data.link;
     requestData.asset.creator = data.creator;

@@ -8,6 +8,7 @@ import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { IInteractEventEdata } from '@sunbird/telemetry';
 import { first, mergeMap, map, tap , catchError, filter} from 'rxjs/operators';
+import { template } from '@angular/core/src/render3';
 // import {Route} from '@angular/router'
 
 @Component({
@@ -124,6 +125,9 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     // this.formInputData['country']=this.configService.countryConfig.countries;
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
+      let temp;
+      temp = formFieldProperties[2].range;
+      temp.splice(2, 1);
       this.formFieldProperties = formFieldProperties;
       this.prominentFilter.emit(formFieldProperties);
       this.subscribeToQueryParams();

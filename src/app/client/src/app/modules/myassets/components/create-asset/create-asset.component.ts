@@ -331,7 +331,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
-    if (!!data.name && !!data.description && !!data.sector && !!data.keywords && !!data.creators &&
+    if (!!data.name && !!data.description  && !!data.keywords && !!data.creators &&
       !!data.version && !!data.assetType && !!data.source) {
 
       this.uploadSuccess = true;
@@ -343,8 +343,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   }
   checkFieldofFile() {
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.gradeLevel) {
+    if (!!data.name && !!data.description && !!data.assetType && !!data.keywords && !!data.creators &&
+      !!data.version) {
       this.uploadSuccess = true;
       // if (this.fileList) {
       //   if (this.fileList.size < 50000000) {
@@ -389,7 +389,9 @@ const asset = this.generateData(_.pickBy(this.formData.formInputData));
     const requestData = {
      asset: this.generateData(_.pickBy(this.formData.formInputData))
      };
-
+     if (requestData.asset.sector !== undefined && requestData.asset.sector.constructor === Array) {
+      requestData.asset.sector = requestData.asset.sector[0];
+     }
     console.log('request data for update asset = ', requestData);
 
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
