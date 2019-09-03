@@ -15,7 +15,7 @@ import { CacheService } from 'ng2-cache-service';
 
 @Component({
     templateUrl: './explore-course.component.html',
-    styleUrls:['./explore-course.component.scss']
+    styleUrls: ['./explore-course.component.scss']
 })
 export class ExploreCourseComponent implements OnInit, OnDestroy, AfterViewInit {
     public showLoader = true;

@@ -67,6 +67,9 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
       console.log('form filed properties = ', formFieldProperties);
+      let temp;
+      temp = formFieldProperties[2].range;
+      temp.splice(2, 1);
       this.formFieldProperties = formFieldProperties;
       this.filtersDetails = _.cloneDeep(formFieldProperties);
       this.dataDrivenFilter.emit(formFieldProperties);
