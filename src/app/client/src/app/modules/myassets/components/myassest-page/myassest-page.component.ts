@@ -448,8 +448,7 @@ contentSearch(searchParams, pageNumber, limit) {
               console.log('my asset page content = ', asset);
             // this is the tem area
             this.allContent = asset;
-            if(this.allContent.length === 0)
-            {
+            if (this.allContent.length === 0) {
               this.noResultMessage = {
                 'messageText' : this.resourceService.messages.stmsg.m0006
               };
