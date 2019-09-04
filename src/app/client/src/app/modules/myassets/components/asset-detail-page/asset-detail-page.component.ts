@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService, UserService, AssetService } from '@Sumit Nautiyal - Sunbird/core';
-import { ConfigService } from '@Sumit Nautiyal - Sunbird/shared';
+import { ContentService, UserService, AssetService } from '@sunbird/core';
+import { ConfigService } from '@sunbird/shared';
 import { Location } from '@angular/common';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
   ToasterService, ServerResponse,
   ResourceService, IUserData
-} from '@Sumit Nautiyal - Sunbird/shared';
+} from '@sunbird/shared';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import * as _ from 'lodash-es';
 export interface IassessDetail {

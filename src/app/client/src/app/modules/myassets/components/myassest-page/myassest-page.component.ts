@@ -2,20 +2,20 @@ import { combineLatest as observableCombineLatest, Observable, Subject, Subscrip
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@Sumit Nautiyal - Sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents,
-} from '@Sumit Nautiyal - Sunbird/shared';
+} from '@sunbird/shared';
 import { Ibatch, IStatusOption } from '../../../workspace/interfaces/';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
-import { IPagination } from '@Sumit Nautiyal - Sunbird/announcement';
+import { IPagination } from '@sunbird/announcement';
 import * as _ from 'lodash-es';
-import { IImpressionEventInput } from '@Sumit Nautiyal - Sunbird/telemetry';
+import { IImpressionEventInput } from '@sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import { ICard } from '../../../shared/interfaces/card';
 import { BadgesService } from '../../../core/services/badges/badges.service';
-import { IUserData } from '@Sumit Nautiyal - Sunbird/shared';
+import { IUserData } from '@sunbird/shared';
 import { Location } from '@angular/common';
 
 
