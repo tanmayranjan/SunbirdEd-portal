@@ -112,7 +112,7 @@
     <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}} </label>
       <div class="required field">
-        <sui-multi-select id={{field.code}} name={{field.code}} class="selection"
+        <sui-multi-select style="padding: 8px 17px !important" id={{field.code}} name={{field.code}} class="selection"
           [(ngModel)]="formInputData[field.code]" [hasLabels]="false"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})" #multiSelect>
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"> </sui-select-option>
