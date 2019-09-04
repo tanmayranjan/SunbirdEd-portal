@@ -2,21 +2,19 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { UserService, PermissionService, TenantService, LearnerService, ContentService, AssetService } from './../../services';
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
+import { ConfigService, ResourceService, IUserProfile, IUserData } from '@Sumit Nautiyal - Sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash-es';
-import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
+import { IInteractEventObject, IInteractEventEdata } from '@Sumit Nautiyal - Sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var jQuery: any;
-
 @Component({
   selector: 'app-space-header',
   templateUrl: './space-header.component.html',
   styleUrls: ['./space-header.component.scss']
 })
 export class SpaceHeaderComponent implements OnInit, OnDestroy {
-
 /**
    * reference of tenant service.
    */
@@ -72,7 +70,6 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
    * reference of resourceService service.
    */
   public reviewStatus: any;
-
   public reviewAssetData = [];
   public resourceService: ResourceService;
   avtarMobileStyle = {
@@ -130,12 +127,12 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.workSpaceRole = this.config.rolesConfig.headerDropdownRoles.workSpaceRole;
     this.upForReviewRole = this.config.rolesConfig.headerDropdownRoles.upForReviewRole;
    }
-
   ngOnInit() {
     this.creatorId = JSON.parse(localStorage.getItem('creator'));
     this.userId = this.userService.userid;
     this.setSlug();
-    if (this.userId === this.creatorId) {
+    console.log('permission = ', this.permissionService.permissionAvailable , this.upForReviewRole)
+    if (this.userId === this.creatorId || this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
     this.contentStatus();
     }
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -191,7 +188,6 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       });
     this.setInteractEventData();
         // this.selectToGo();
-
   }
   private setSlug() {
     if (!this.userService.loggedIn) {
@@ -226,7 +222,6 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       queryParams: this.queryParam
     });
   }
-
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
       if (_.includes(urlAfterRedirects.url, '/explore')) {
@@ -250,7 +245,6 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   closeQrModalEvent(event) {
     this.showQrmodal = false;
   }
@@ -271,12 +265,10 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       pageid: 'explore'
     };
   }
-
   logout() {
     window.location.replace('/logoff');
     this.cacheService.removeAll();
   }
-
   ngOnDestroy() {
     if (this.tenantDataSubscription) {
       this.tenantDataSubscription.unsubscribe();
@@ -306,20 +298,18 @@ openSm(content) {
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 contentStatus() {
-
   let mainState;
   let state;
   const archive = [];
    let i = 0, key;
   const keys = Object.keys(localStorage);
 console.log('this.notificationCount = ', this.notificationCount);
-
 for (; key = keys[i]; i++) {
   archive.push( key);
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
-if (archive[j] !== 'creator') {
+if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
   // const req = {
   //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
   // };
@@ -330,8 +320,8 @@ if (archive[j] !== 'creator') {
     console.log('data in main header = ', data);
    mainState = data.result.asset.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
-  console.log('state = ', state, mainState, archive[j]);
-  if (state === 'Review') {
+  console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
+  if (state === 'Review' && this.userId === this.creatorId ) {
     if (mainState === 'Live') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.asset);
@@ -340,7 +330,7 @@ if (archive[j] !== 'creator') {
       localStorage.setItem(archive[j], JSON.stringify('Live'));
     }
   }
-  if (state === 'Review') {
+  if (state === 'Review' && this.userId === this.creatorId ) {
     if (mainState === 'Draft') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.asset);
@@ -349,15 +339,31 @@ if (archive[j] !== 'creator') {
       localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
   }
+  // if (state === 'Review') {
+  //   if (mainState === 'Review') {
+  //     this.notificationCount ++;
+  //     this.reviewAssetData.push(data.result.asset);
+  //     console.log('Asset is in Review State', this.notificationCount);
+  //     this.reviewStatus = 'review';
+  //     // localStorage.setItem(archive[j], JSON.stringify('Draft'));
+  //   }
+  // }
+    if (state === 'Review' && mainState === 'Review' && this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
+      this.notificationCount ++;
+      this.reviewAssetData.push(data.result.asset);
+      console.log('Asset is in Review State', this.notificationCount);
+      this.reviewStatus = 'review';
+      
+      // localStorage.setItem(archive[j], JSON.stringify('Draft'));
+    }
 });
 }
 }
 }
 readContentStatus(content) {
     this.notificationCount = 0;
+    // this.reviewAssetData = [];  
   console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 }
-
-

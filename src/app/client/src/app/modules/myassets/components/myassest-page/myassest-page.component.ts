@@ -2,20 +2,20 @@ import { combineLatest as observableCombineLatest, Observable, Subject, Subscrip
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@Sumit Nautiyal - Sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents,
-} from '@sunbird/shared';
+} from '@Sumit Nautiyal - Sunbird/shared';
 import { Ibatch, IStatusOption } from '../../../workspace/interfaces/';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
-import { IPagination } from '@sunbird/announcement';
+import { IPagination } from '@Sumit Nautiyal - Sunbird/announcement';
 import * as _ from 'lodash-es';
-import { IImpressionEventInput } from '@sunbird/telemetry';
+import { IImpressionEventInput } from '@Sumit Nautiyal - Sunbird/telemetry';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import { ICard } from '../../../shared/interfaces/card';
 import { BadgesService } from '../../../core/services/badges/badges.service';
-import { IUserData } from '@sunbird/shared';
+import { IUserData } from '@Sumit Nautiyal - Sunbird/shared';
 import { Location } from '@angular/common';
 
 
@@ -424,6 +424,12 @@ contentSearch(searchParams, pageNumber, limit) {
                   }
 
                   this.allContent = this.upForReviewContent;
+                  this.allContent.forEach(element => {
+                    console.log('assign state in review');
+                    if (!localStorage.hasOwnProperty(element.identifier)) {
+                      localStorage.setItem(element.identifier, JSON.stringify('Review'));
+                    } 
+                  });
 
                 } else {
                   this.showLoader = false;

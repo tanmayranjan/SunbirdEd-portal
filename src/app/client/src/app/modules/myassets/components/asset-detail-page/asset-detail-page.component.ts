@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService, UserService, AssetService } from '@sunbird/core';
-import { ConfigService } from '@sunbird/shared';
+import { ContentService, UserService, AssetService } from '@Sumit Nautiyal - Sunbird/core';
+import { ConfigService } from '@Sumit Nautiyal - Sunbird/shared';
 import { Location } from '@angular/common';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
   ToasterService, ServerResponse,
   ResourceService, IUserData
-} from '@sunbird/shared';
+} from '@Sumit Nautiyal - Sunbird/shared';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import * as _ from 'lodash-es';
-
 export interface IassessDetail {
   name: string;
   link: string;
@@ -38,7 +37,6 @@ export interface IassessDetail {
   templateUrl: './asset-detail-page.component.html',
   styleUrls: ['./asset-detail-page.component.scss']
 })
-
 export class AssetDetailPageComponent implements OnInit {
   @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
@@ -48,7 +46,6 @@ export class AssetDetailPageComponent implements OnInit {
   success = false;
   user: any;
   state: string;
-
   public userService: UserService;
   public activatedRoute: ActivatedRoute;
   public configService: ConfigService;
@@ -85,14 +82,11 @@ export class AssetDetailPageComponent implements OnInit {
   loaderMessage: {};
   reasons: Array<string>;
   userId: any;
-
   // capture previous url state for publish visibility
   visible = false;
-
   pdfs: string;
   path: string;
   lockPopupData: object;
-
   /**
    * To show content locked modal
   */
@@ -118,7 +112,6 @@ export class AssetDetailPageComponent implements OnInit {
     this.userService = userService;
     this.state = 'allcontent';
   }
-
   ngOnInit() {
     if (this.route.url.indexOf('review/detail') > -1) {
       this.visible = true;
@@ -126,7 +119,6 @@ export class AssetDetailPageComponent implements OnInit {
       this.visible = false;
     }
     this.activatedRoute.url.subscribe(url => {
-
       this.path = url[2].path;
     });
     if (this.path === 'Draft' || this.path === 'Review') {
@@ -143,9 +135,7 @@ export class AssetDetailPageComponent implements OnInit {
         this.showLoader = false;
         this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
           data.result.asset.artifactUrl.lastIndexOf('pdf'));
-
       });
-
     } else {
       // const req = {
       //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
@@ -160,20 +150,16 @@ export class AssetDetailPageComponent implements OnInit {
         this.showLoader = false;
         this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
           data.result.asset.artifactUrl.lastIndexOf('pdf'));
-
       });
     }
-
     this.userService.userData$.subscribe(
       (user: IUserData) => {
         this.user = user.userProfile.userRoles;
         this.orgId = user.userProfile.rootOrgId;
         this.userId = this.userService.userid;
-
         this.user.forEach(element => {
           if (element === 'TEACHER_BADGE_ISSUER') {
             this.role = element;
-
           }
         });
       });
@@ -188,15 +174,12 @@ export class AssetDetailPageComponent implements OnInit {
       }
     };
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
-
       this.badgeList = data.result.badges;
     });
     const link = this.assetDetail.source.slice(0, 4);
     console.log('check link = ', link, this.assetDetail);
-
   }
   assignBadge(issuerId, badgeId) {
-
     this.success = true;
     const req = {
       request: {
@@ -205,10 +188,8 @@ export class AssetDetailPageComponent implements OnInit {
         issuerId: issuerId,
         badgeId: badgeId
       }
-
     };
     this.badgeService.createAssertion(req).subscribe((data) => {
-
     });
     this.callAlert();
   }
@@ -237,10 +218,8 @@ export class AssetDetailPageComponent implements OnInit {
             issuerId: issuerId,
             badgeId: badgeId
           }
-
         };
         this.badgeService.createAssertion(req).subscribe((data) => {
-
           this.showLoader = false;
           this.verified = !true;
           this.toasterService.success('Badge Added successfully');
@@ -255,7 +234,6 @@ export class AssetDetailPageComponent implements OnInit {
       .onDeny(result => {
       });
   }
-
   rejectAsset(contentId) {
     const option = {
       asset: {
@@ -266,12 +244,11 @@ export class AssetDetailPageComponent implements OnInit {
     this.assetService.update(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
-
         // this.resourceService.messages.smsg.m0004
         this.toasterService.success('Asset has been rejected successfully');
         if (!localStorage.hasOwnProperty(contentId)) {
           localStorage.setItem(contentId, JSON.stringify('Review'));
-        }
+        } 
         setTimeout(() => {
           this.route.navigate(['upForReview']);
           this.ngOnInit();
@@ -320,18 +297,15 @@ export class AssetDetailPageComponent implements OnInit {
     this.assetService.update(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
-
         this.toasterService.success('Asset has been sucessfully published');
         if (!localStorage.hasOwnProperty(contentId)) {
           localStorage.setItem(contentId, JSON.stringify('Review'));
         }
-
         setTimeout(() => {
           this.route.navigate(['upForReview']);
           this.ngOnInit();
         }, 1800);
       }, (err) => {
-
         this.showLoader = false;
         this.toasterService.error('An error occured while publishing the asset.');
       });
@@ -351,7 +325,6 @@ export class AssetDetailPageComponent implements OnInit {
       this.route.navigate(['upForReview/play/', this.id, this.status]);
     }
   }
-
   contentClick() {
     if (_.size(this.content.lockInfo)) {
       this.lockPopupData = this.content;
