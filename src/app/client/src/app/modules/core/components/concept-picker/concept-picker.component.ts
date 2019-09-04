@@ -1,14 +1,14 @@
 import { Subscription } from 'rxjs';
 import { IConceptData } from './../../interfaces';
 import { ConceptPickerService } from './../../services';
-import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
 @Component({
   selector: 'app-concept-picker',
   templateUrl: './concept-picker.component.html',
   styleUrls: ['./concept-picker.component.css']
 })
-export class ConceptPickerComponent implements OnInit {
+export class ConceptPickerComponent implements OnInit, OnChanges {
   private conceptPickerService: ConceptPickerService;
   /**
    * concept Data
@@ -123,6 +123,12 @@ export class ConceptPickerComponent implements OnInit {
           this.showLoader = false;
     }
 
+    }
+
+    ngOnChanges(): void {
+      if (this.selectedConcepts) {
+            this.initConceptBrowser();
+      }
     }
     private formatSelectedTopics(topics, unformatted, formated) {
       _.forEach(topics, (topic) => {

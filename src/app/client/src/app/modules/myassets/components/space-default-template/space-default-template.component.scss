@@ -91,7 +91,7 @@ sui-select {
 
 .ui.multiple.dropdown > .text {
     position: static;
-    padding: 0;
+    padding: 0 !important;
     max-width: 100%;
     margin: .45238095em 0 .45238095em .64285714em;
     line-height: 0.21428571em;
