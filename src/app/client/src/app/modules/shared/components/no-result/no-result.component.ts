@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import {INoResultMessage} from '../../interfaces/noresult';
 import { ResourceService } from '../../services/index';
 import { Subscription, Subject } from 'rxjs';
@@ -15,7 +15,8 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './no-result.component.html',
   styleUrls: ['./no-result.component.scss']
 })
-export class NoResultComponent implements OnInit, OnDestroy {
+export class NoResultComponent implements OnInit, OnDestroy, OnChanges {
+  
   /**
    * input for NoResultMessage
   */
@@ -49,6 +50,12 @@ export class NoResultComponent implements OnInit, OnDestroy {
 
     this.messageText = _.has(this.data, 'messageText') ? (_.get(this.resourceService, this.data.messageText) ||
       _.get(this.resourceService, 'messages.stmsg.m0006')) : '';
+  }
+
+  ngOnChanges(): void {
+    if(this.data){
+      this.ngOnInit();
+    }
   }
 
   ngOnDestroy() {
