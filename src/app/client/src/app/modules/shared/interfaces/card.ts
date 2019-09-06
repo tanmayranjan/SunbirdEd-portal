@@ -1,7 +1,7 @@
 export interface ICard {
     name: string;
     image?: string;
-    addedToLibrary?: boolean;
+   // addedToLibrary?: boolean;
     imageVisibility?: boolean;
     description?: string;
     subject?: string;
@@ -15,10 +15,10 @@ export interface ICard {
     progress?: number;
     board?: string;
     identifier?: string;
-    sector?: string;
-    assetTtpe?: string;
-    submittedBy?: string;
-    source?: string;
+   // sector?: string;
+   // assetTtpe?: string;
+   // submittedBy?: string;
+   // source?: string;
     ribbon?: {
         right?: { class: string, name: string }
         left?: { class: string, name: string , image: string }
@@ -42,5 +42,5 @@ export interface ICard {
             eventName: string
         };
     };
-  completionPercentage?: number;
+ // completionPercentage?: number;
 }

@@ -2,7 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ResourceService } from '../../services/index';
 import { Component,  Input, EventEmitter, Output} from '@angular/core';
 import {ICaraouselData} from '../../interfaces/caraouselData';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash-es';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { Router} from '@angular/router';
@@ -12,7 +12,7 @@ import { Router} from '@angular/router';
   templateUrl: './space-page-section.component.html',
   styleUrls: ['./space-page-section.component.scss']
 })
-export class SpacePageSectionComponent implements OnInit {
+export class SpacePageSectionComponent implements OnInit, OnChanges {
   @Input() enable: string;
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
@@ -208,5 +208,11 @@ export class SpacePageSectionComponent implements OnInit {
   }
   navigateToViewAll(section) {
     this.viewAll.emit(section);
+  }
+  ngOnChanges(){
+  if(this.section)
+  {
+    this.ngOnInit();
+  }
   }
 }

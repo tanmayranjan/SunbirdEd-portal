@@ -1,5 +1,5 @@
 import { ResourceService } from '../../services/index';
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { ICard } from '../../interfaces';
 import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry';
 import {Router} from '@angular/router';
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   templateUrl: './space-card.component.html',
   styleUrls: ['./space-card.component.scss']
 })
-export class SpaceCardComponent  {
+export class SpaceCardComponent implements OnChanges {
   @Input() slug: string;
   @Input() data: ICard;
   @Input() customClass: string;
@@ -41,6 +41,13 @@ export class SpaceCardComponent  {
     // this.router.navigate(['resources/player/content/', data.identifier]);
     //   }
     // }
+  }
+
+  ngOnChanges()
+  {
+    if(this.data){
+      this.data=this.data;
+    }
   }
 
 }
