@@ -27,10 +27,6 @@ export interface IassessDetail {
   artifactUrl: string;
   mimeType: string;
   badgeAssertions: Array<any>;
-  source: string;
-  submittedBy: string;
-  assetType: string;
-  sector: string;
 }
 @Component({
   selector: 'app-asset-detail-page',
@@ -68,11 +64,7 @@ export class AssetDetailPageComponent implements OnInit {
     creators: '',
     artifactUrl: '',
     mimeType: '',
-    badgeAssertions: [],
-    submittedBy: '',
-    source: '',
-    assetType: '',
-    sector: ''
+    badgeAssertions: []
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
@@ -176,7 +168,7 @@ export class AssetDetailPageComponent implements OnInit {
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
       this.badgeList = data.result.badges;
     });
-    const link = this.assetDetail.source.slice(0, 4);
+    const link = this.assetDetail.link.slice(0, 4);
     console.log('check link = ', link, this.assetDetail);
   }
   assignBadge(issuerId, badgeId) {
@@ -281,14 +273,14 @@ export class AssetDetailPageComponent implements OnInit {
         }
       }
     };
-    // const option = {
-    //   url: `${this.configService.urlConFig.URLS.CONTENT.PUBLISH}/${contentId}`,
-    //   data: requestBody
-    // };
-    const option = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}` ,
-      data: requestBody
+     const option = {
+       url: `${this.configService.urlConFig.URLS.CONTENT.PUBLISH}/${contentId}`,
+       data: requestBody
      };
+  //  const option = {
+   //   url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}` ,
+   //   data: requestBody
+   //  };
     this.contentService.post(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;

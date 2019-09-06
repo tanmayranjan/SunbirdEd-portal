@@ -60,11 +60,11 @@
                 </span>
             </p>
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
-            <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.source.slice(0,4) === 'http' ">Link: 
-                <a href="{{assetDetail?.source}}" target="_blank">{{assetDetail?.source}} </a>
+            <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">Link: 
+                <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
             </p>
-             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.source.slice(0,4) !== 'http' ">Link:
-                 <a href="http://{{assetDetail?.source}}" target="_blank">{{assetDetail?.source}} </a>
+             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.link.slice(0,4) !== 'http' ">Link:
+                 <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
             </p>
             <p class="card-text">Submitted By : {{ assetDetail?.submittedBy }}@{{ assetDetail?.creators }}</p>
             <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
