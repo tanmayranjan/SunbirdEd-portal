@@ -99,15 +99,15 @@ export class SharedDetailPageComponent implements OnInit {
   ngOnInit() {
 console.log('param = ', this.activatedRoute.snapshot.params.contentId);
 this.contentId = this.activatedRoute.snapshot.params.contentId;
-    const req = {
-      url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-    };
-    this.assetService.read(req).subscribe(data => {
+const req = {
+  url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+};
+this.contentService.get(req).subscribe(data => {
 
-      this.assetDetail = data.result.asset;
-      this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
-      data.result.asset.artifactUrl.lastIndexOf('pdf'));
-    });
+  this.assetDetail = data.result.content;
+  this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
+  data.result.content.artifactUrl.lastIndexOf('pdf'));
+});
 
 
     const request = {

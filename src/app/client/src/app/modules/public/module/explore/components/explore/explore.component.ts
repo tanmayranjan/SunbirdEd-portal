@@ -271,7 +271,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     const softConstraintData = {
       filters: {
         board: [],
-        channel: this.userService.hashTagId
+      //  channel: this.userService.hashTagId
       },
       mode: 'soft'
     };
@@ -284,17 +284,17 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: {
         organisation: this.configService.appConfig.ExplorePage.orgName,
         region: [],
-        objectType: 'Asset',
+         contentType: [],
         status: ['Live'],
         board: [],
         channel: [],
         gradeLevel: [],
         topic: [],
-        language: [],
+        languages: [],
         country: [],
         creators: [],
-        sector: [],
-        assetType: [],
+       // sector: [],
+       // assetType: [],
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
@@ -313,7 +313,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   this.paramType.forEach(param => {
     if (this.queryParams.hasOwnProperty(param)) {
       if (param === 'board') {
-        option.filters.assetType = this.queryParams[param];
+        option.filters.board = this.queryParams[param];
       }
       if (param === 'organization') {
         option.filters.organisation = this.queryParams[param];
@@ -325,23 +325,23 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         option.filters.region = this.queryParams[param];
       }
       if (param === 'gradeLevel') {
-        option.filters.sector = this.queryParams[param];
+        option.filters.gradeLevel = this.queryParams[param];
       }
       if (param === 'topic') {
         option.filters.topic = this.queryParams[param];
       }
       if (param === 'languages') {
-        option.filters.language = this.queryParams[param];
+        option.filters.languages = this.queryParams[param];
       }
       // if (param === 'country') {
       //   option.filters.country = this.queryParams[param];
       // }
-      this.contentCompositeSearch(option);
-      // this.callingPageApi(option);
+     // this.contentCompositeSearch(option);
+       this.callingPageApi(option);
     }
   });
-  this.contentCompositeSearch(option);
-// this.callingPageApi(option);
+//  this.contentCompositeSearch(option);
+ this.callingPageApi(option);
    }
   }
   contentCompositeSearch(option) {

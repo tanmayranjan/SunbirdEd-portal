@@ -230,13 +230,16 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         if (this.slug === 'space') {
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-              const softConstraintData = {
+              const softConstraintData : any = {
                 filters: {
-                    // channel: this.hashTagId,
-                board: []},
+                     channel: this.hashTagId,
+                },
                 softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
                 mode: 'soft'
               };
+              if (this.dataDrivenFilters.board) {
+                softConstraintData['board'] = [this.dataDrivenFilters.board];
+            }
               const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
                  'appliedFilters'), softConstraintData );
              option = {
@@ -245,26 +248,27 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 pageNumber: this.paginationDetails.currentPage,
                 query: this.queryParams.key,
                 mode: _.get(manipulatedData, 'mode'),
-                // facets: this.facets,
-                // params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+                 facets: this.facets,
+                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
-            option.filters.objectType = 'Asset';
-            option.filters.status = ['Live'];
-            // option.filters.contentType = filters.contentType || ['Resource'];
-            option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-            // this.frameworkService.channelData$.subscribe((channelData) => {
-            //   if (!channelData.err) {
-            //     option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-            //   }
-            // });
-            this.searchService.compositeSearch(option)
+            option.filters.contentType = filters.contentType ||
+            ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
+        if (manipulatedData.filters) {
+            option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
+        }
+        this.frameworkService.channelData$.subscribe((channelData) => {
+            if (!channelData.err) {
+                option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+            }
+        });
+            this.searchService.contentSearch(option)
             .subscribe(data => {
                 this.showLoader = false;
                 this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
                 this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
                     this.configService.appConfig.SEARCH.PAGE_LIMIT);
                 const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
-                this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+                this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
                 console.log('content list for space = ', this.contentList);
             }, err => {
                 this.showLoader = false;

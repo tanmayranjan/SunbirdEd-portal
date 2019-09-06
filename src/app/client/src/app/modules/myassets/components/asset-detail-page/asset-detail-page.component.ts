@@ -122,34 +122,34 @@ export class AssetDetailPageComponent implements OnInit {
       this.path = url[2].path;
     });
     if (this.path === 'Draft' || this.path === 'Review') {
-      // const req = {
-      //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
-      // };
-      const req = {
-        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-      };
-      this.assetService.read(req).subscribe(data => {
+       const req = {
+         url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+       };
+     // const req = {
+     //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+     // };
+      this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
-        this.content = data.result.asset;
-        this.assetDetail = data.result.asset;
+        this.content = data.result.content;
+        this.assetDetail = data.result.content;
         this.showLoader = false;
-        this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
-          data.result.asset.artifactUrl.lastIndexOf('pdf'));
+        this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
+          data.result.content.artifactUrl.lastIndexOf('pdf'));
       });
     } else {
-      // const req = {
-      //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
-      // };
-      const req = {
-        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-      };
-      this.assetService.read(req).subscribe(data => {
+       const req = {
+         url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+       };
+   //   const req = {
+     //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+     // };
+      this.contentService.get(req).subscribe(data => {
         console.log('content = ', this.assetDetail);
-        this.assetDetail = data.result.asset;
-        this.content = data.result.asset;
+        this.assetDetail = data.result.content;
+        this.content = data.result.content;
         this.showLoader = false;
-        this.pdfs = data.result.asset.artifactUrl.substring(data.result.asset.artifactUrl.lastIndexOf('/'),
-          data.result.asset.artifactUrl.lastIndexOf('pdf'));
+        this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
+          data.result.content.artifactUrl.lastIndexOf('pdf'));
       });
     }
     this.userService.userData$.subscribe(
@@ -236,12 +236,9 @@ export class AssetDetailPageComponent implements OnInit {
   }
   rejectAsset(contentId) {
     const option = {
-      asset: {
-        identifier: contentId,
-        status: 'Draft'
-      }
-    };
-    this.assetService.update(option).subscribe(
+      url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}`
+     };
+    this.contentService.post(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
         // this.resourceService.messages.smsg.m0004
@@ -289,12 +286,10 @@ export class AssetDetailPageComponent implements OnInit {
     //   data: requestBody
     // };
     const option = {
-      asset: {
-        identifier: contentId,
-        status: 'Live'
-      }
-    };
-    this.assetService.update(option).subscribe(
+      url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}` ,
+      data: requestBody
+     };
+    this.contentService.post(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
         this.toasterService.success('Asset has been sucessfully published');

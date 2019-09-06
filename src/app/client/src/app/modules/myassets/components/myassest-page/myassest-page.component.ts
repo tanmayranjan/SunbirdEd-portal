@@ -327,7 +327,7 @@ ngAfterViewInit() {
     } else {
       this.sort = { lastUpdatedOn: this.config.appConfig.WORKSPACE.lastUpdatedOn };
     }
-    const preStatus = [];
+  /*  const preStatus = [];
     const searchParams = {
       filters: {
         status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
@@ -353,11 +353,38 @@ ngAfterViewInit() {
       query: '' || bothParams.queryParams.query,
       // sort_by: this.sort
     };
+    */
+   const preStatus = ['Draft', 'Review', 'Live'];
+   const searchParams = {
+     filters: {
+       status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
+       createdBy: this.userService.userid,
+       contentType: this.config.appConfig.WORKSPACE.contentType,
+       objectType: this.config.appConfig.WORKSPACE.objectType,
+       board: [],
+       subject: bothParams.queryParams.subject,
+       medium: bothParams.queryParams.medium,
+       gradeLevel: bothParams.queryParams.gradeLevel,
+       resourceType: bothParams.queryParams.resourceType,
+       keywords: bothParams.queryParams.keywords,
+       region: [],
+       creators: [],
+       languages: [],
+       organisation: [],
+       channel: [],
+       topic: [],
+       country: []
+     },
+     limit: limit,
+     offset: (pageNumber - 1) * (limit),
+     query: '' || bothParams.queryParams.query,
+     sort_by: this.sort
+   };
 console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
         if (bothParams.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
-            searchParams.filters.assetType.push(bothParams.queryParams[param][0]);
+            searchParams.filters.board.push(bothParams.queryParams[param][0]);
           }
           if (param === 'channel') {
             searchParams.filters.creators.push(bothParams.queryParams[param][0]);
@@ -367,13 +394,13 @@ console.log('filter param = ', searchParams);
             searchParams.filters.region.push(bothParams.queryParams[param][0]);
           }
           if (param === 'gradeLevel') {
-            searchParams.filters.sector.push(bothParams.queryParams[param][0]);
+            searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
           }
           if (param === 'topic') {
             searchParams.filters.topic.push(bothParams.queryParams[param][0]);
           }
           if (param === 'languages') {
-            searchParams.filters.language.push(bothParams.queryParams[param][0]);
+            searchParams.filters.languages.push(bothParams.queryParams[param][0]);
           }
           // if (param === 'country') {
           //   searchParams.filters.country = this.queryParams[param];
@@ -392,24 +419,24 @@ contentSearch(searchParams, pageNumber, limit) {
           if (this.route.url === '/upForReview' ) {
             if (this.route.url === '/upForReview' ) {
                this.noResultsForReview = false;
-              const option = {
-                url : 'content/composite/v1/search',
+               const option = {
+                url : '/content/v1/search',
                 param : '',
                 filters: {
-                  // language: ['English'],
-                  objectType: 'Asset',
+                  language: ['English'],
+                  contentType: ['Resource'],
                   status: ['Review'],
-                  channel: this.userDetails.hashTagId,
+                  channel: this.userDetails.organisationIds,
                   organisation: this.config.appConfig.Library.orgName
               },
                 sort_by: {me_averageRating: 'desc'}
               };
-              delete option.sort_by;
-              this.assetService.getupForAssetReviewData(option).subscribe(response => {
-                console.log(' res param in review page = ', option);
+           //   delete option.sort_by;
+           this.contentService.getupForReviewData(option).subscribe(response => {
+             //   console.log(' res param in review page = ', option);
                 if (response.result.count > 0) {
-                  this.upForReviewContent = response.result.Asset.filter(Asset => Asset.createdBy !== this.userId);
-                  console.log('upfor review content = ', this.upForReviewContent, response);
+                  this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
+                 // console.log('upfor review content = ', this.upForReviewContent, response);
                   if (this.upForReviewContent.length <= 0) {
                     this.noResultsForReview = true;
                     this.showLoader = false;
@@ -424,13 +451,13 @@ contentSearch(searchParams, pageNumber, limit) {
                   }
 
                   this.allContent = this.upForReviewContent;
-                  this.allContent.forEach(element => {
+           /*       this.allContent.forEach(element => {
                     console.log('assign state in review');
                     if (!localStorage.hasOwnProperty(element.identifier)) {
                       localStorage.setItem(element.identifier, JSON.stringify('Review'));
                     } 
                   });
-
+            */
                 } else {
                   this.showLoader = false;
                   // set the no results template if no assets is present
@@ -442,23 +469,8 @@ contentSearch(searchParams, pageNumber, limit) {
               });
             }
           } else {
-            if (data.result.count && data.result.Asset.length > 0) {
-           const asset = [];
-        _.map(data.result.Asset, object => {
-          if (object.status !== 'Retired') {
-         asset.push(object);
-          }
-        }
-        );
-
-              console.log('my asset page content = ', asset);
-            // this is the tem area
-            this.allContent = asset;
-            if (this.allContent.length === 0) {
-              this.noResultMessage = {
-                'messageText' : this.resourceService.messages.stmsg.m0006
-              };
-            }
+            if (data.result.count && data.result.content.length > 0) {
+            this.allContent = data.result.content;
             this.totalCount = data.result.count;
             this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
             this.showLoader = false;
@@ -481,49 +493,41 @@ contentSearch(searchParams, pageNumber, limit) {
         }
       );
 }
-  public deleteConfirmModal(contentIds) {
-    this.deleteAsset = true;
-    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
-    config.isClosable = true;
-    config.size = 'mini';
-    config.context = {
-      data: 'delete'
-      };
-      this.modalMessage = 'Do you want to delete this asset ?';
+public deleteConfirmModal(contentIds) {
+  this.deleteAsset = true;
+  const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+  config.isClosable = true;
+  config.size = 'mini';
+  config.context = {
+    data: 'delete'
+    };
+    this.modalMessage = 'Do you want to delete this asset ?';
 
-    this.modalService
-      .open(config)
-      .onApprove(result => {
-        this.showLoader = true;
-        this.loaderMessage = {
-          'loaderMessage': this.resourceService.messages.stmsg.m0034,
-        };
-        const param = {
-          asset: {
-            identifier: contentIds,
-            status: 'Retired'
+  this.modalService
+    .open(config)
+    .onApprove(result => {
+      this.showLoader = true;
+      this.loaderMessage = {
+        'loaderMessage': this.resourceService.messages.stmsg.m0034,
+      };
+      this.delete(contentIds).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentIds);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
           }
-        };
-        this.workSpaceService.updateAsset(param).subscribe(
-          (data: ServerResponse) => {
-            this.showLoader = false;
-            // localStorage.setItem(contentIds, JSON.stringify('Retired'));
-            localStorage.removeItem(contentIds);
-            this.allContent = this.removeAllMyContent(this.allContent, contentIds);
-            if (this.allContent.length === 0) {
-              this.ngOnInit();
-            }
-            this.toasterService.success('Asset deleted successfully');
-          },
-          (err: ServerResponse) => {
-            this.showLoader = false;
-            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
-          }
-        );
-      })
-      .onDeny(result => {
-      });
-  }
+          this.toasterService.success('Asset deleted successfully');
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+        }
+      );
+    })
+    .onDeny(result => {
+    });
+}
   public reviewConfirmModal(contentIds, status) {
     const config2 = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config2.isClosable = true;
@@ -546,15 +550,11 @@ contentSearch(searchParams, pageNumber, limit) {
           }
         };
         const option = {
-          // url: `${this.config.urlConFig.URLS.CONTENT.updateAsset}/${contentIds}`,
-          // data: requestBody
-          asset: {
-            identifier: contentIds,
-            status: 'Review'
-          }
+           url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
+           data: requestBody
         };
 
-        this.workSpaceService.updateAsset(option).subscribe(
+        this.contentService.post(option).subscribe(
           (data: ServerResponse) => {
             console.log('data after sending for review = ', data);
             localStorage.setItem(contentIds, JSON.stringify('Review'));

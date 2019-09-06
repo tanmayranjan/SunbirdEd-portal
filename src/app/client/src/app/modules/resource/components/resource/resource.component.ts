@@ -209,7 +209,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         name: 'Resource',
         filters: {
           organisation: this.configService.appConfig.ExplorePage.orgName,
-          channel: [this.userService.hashTagId],
+          channel: [],
           region: [],
          objectType: ['Asset'],
           status: ['Live'],
@@ -225,13 +225,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
-      // option.filters.contentType = ['Resource'];
+       option.filters.contentType = ['Resource'];
 
       console.log('query param', this.queryParams);
       this.paramType.forEach(param => {
         if (this.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
-            option.filters.assetType = this.queryParams[param];
+            option.filters.board = this.queryParams[param];
           }
           if (param === 'organization') {
             option.filters.organisation = this.queryParams[param];
@@ -243,22 +243,22 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
             option.filters.region = this.queryParams[param];
           }
           if (param === 'gradeLevel') {
-            option.filters.sector = this.queryParams[param];
+            option.filters.gradeLevel = this.queryParams[param];
           }
           if (param === 'topic') {
             option.filters.topic = this.queryParams[param];
           }
           if (param === 'languages') {
-            option.filters.language = this.queryParams[param];
+            option.filters.languages = this.queryParams[param];
           }
           // if (param === 'country') {
           //   option.filters.country = this.queryParams[param];
           // }
-          this.contentCompositeSearch(option);
+          this.contentSearch(option);
           // this.contentSearch(option);
         }
       });
-      this.contentCompositeSearch(option);
+      this.contentSearch(option);
       // this.contentSearch(option);
     }
   }

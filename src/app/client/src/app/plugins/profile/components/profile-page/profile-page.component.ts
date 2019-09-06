@@ -111,13 +111,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       const searchParams = {
         status: ['Live'],
         // objectType: 'Asset',
-        channel: this.orgId,
-        // contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
+       // channel: this.orgId,
+         contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
         params: { lastUpdatedOn: 'desc' }
       };
       const inputParams = { params: this.configService.appConfig.PROFILE.contentApiQueryParams };
-      this.searchService.searchAssetByUserId(searchParams, inputParams).subscribe((data: ServerResponse) => {
-        this.contributions = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+      this.searchService.searchContentByUserId(searchParams, inputParams).subscribe((data: ServerResponse) => {
+        this.contributions = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
       });
     }
   }

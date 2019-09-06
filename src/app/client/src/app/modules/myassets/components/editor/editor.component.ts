@@ -85,7 +85,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     const allowedEditStatus = this.routeParams.contentStatus ? ['draft'].includes(this.routeParams.contentStatus.toLowerCase()) : false;
     if (_.isEmpty(lockInfo) && allowedEditState && allowedEditStatus) {
       return combineLatest(this.tenantService.tenantData$, this.getContentDetails(),
-      this.editorService.getOwnershipType(), this.lockContent()).
+      this.editorService.getOwnershipType(),this.lockContent()).
       pipe(map(data => ({ tenantDetails: data[0].tenantData,
         collectionDetails: data[1], ownershipType: data[2] })));
     } else {
@@ -115,6 +115,21 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
   private getContentDetails() {
     if (this.routeParams.contentId) {
+    return this.editorService.getContent(this.routeParams.contentId).
+      pipe(map((data) => {
+        if (data) {
+          this.contentDetails = data.result.content;
+          return of(data);
+        } else  {
+          return throwError(data);
+        }
+      }));
+    } else {
+      return of({});
+    }
+  }
+ /* private getContentDetails() {
+    if (this.routeParams.contentId) {
       const req = {
         url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.routeParams.contentId}`,
       };
@@ -130,7 +145,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     } else {
       return of({});
     }
-  }
+  } */
   /**
    *Launch Generic Editor in the modal
    */
