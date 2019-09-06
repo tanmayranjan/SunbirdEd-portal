@@ -1,5 +1,5 @@
 
-<div class="ui grid" *ngIf="enable">
+<div class="ui grid" *ngIf="!enable">
     <div class="ui twelve wide column " *ngIf="slug === 'space' && section.length > 0">
         <div class="d-flex flex-ai-center">
            
@@ -21,15 +21,15 @@
     </div> -->
 </div>
 
-<div class="ui grid" *ngIf="!enable">
-        <div class="ui grid" *ngIf="slug === 'space' && section.contents && section.contents.length > 0">
+<div class="ui grid" *ngIf="enable">
+        <div class="ui grid" *ngIf="slug === 'space' && section[0]?.contents && section[0]?.contents.length > 0">
                 <div class="ui twelve wide column ">
                     <div class="d-flex flex-ai-center">
                        
-                        <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button>
+                        <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section[0]?.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button>
                      </div>
                     <div class="row">
-                            <div in-view-item *ngFor="let content of section.contents;let i = index; let last = last" class="four wide column">    
+                            <div in-view-item *ngFor="let content of section[0]?.contents;let i = index; let last = last" class="four wide column">    
                                     <app-space-card   appTelemetryInteract 
                                     [telemetryInteractEdata]="cardIntractEdata" 
                                     [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"

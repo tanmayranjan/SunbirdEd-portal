@@ -10,14 +10,14 @@ import {Router} from '@angular/router';
   templateUrl: './space-card.component.html',
   styleUrls: ['./space-card.component.scss']
 })
-export class SpaceCardComponent implements OnChanges {
+export class SpaceCardComponent  {
   @Input() slug: string;
   @Input() data: ICard;
   @Input() customClass: string;
   @Output() clickEvent = new EventEmitter<any>();
   url: string;
   constructor(public resourceService: ResourceService, public router: Router) {
-    console.log('content in space cards = ', this.data);
+    alert('content in space cards = ');
     this.resourceService = resourceService;
   }
 
@@ -41,13 +41,6 @@ export class SpaceCardComponent implements OnChanges {
     // this.router.navigate(['resources/player/content/', data.identifier]);
     //   }
     // }
-  }
-
-  ngOnChanges()
-  {
-    if(this.data){
-      this.data=this.data;
-    }
   }
 
 }
