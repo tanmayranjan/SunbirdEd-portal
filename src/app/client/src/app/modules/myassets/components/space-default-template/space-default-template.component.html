@@ -103,7 +103,7 @@
           zeroSelectionText="select" [placeholder]="'Select'" [isSearchable]="true" #searchSelect>
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"></sui-select-option>
         </sui-select> -->
-        <select id={{field.code}} name={{field.code}} class="ui search dropdown"
+        <select id={{field.code}} name={{field.code}} class="ui search dropdown country"
           [(ngModel)]="formInputData[field.code]">
           <option *ngFor="let option of countryList" [value]="option">{{option}}</option>
         </select>

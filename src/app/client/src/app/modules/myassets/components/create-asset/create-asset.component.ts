@@ -190,7 +190,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       };
       this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
-        this.content = data.result.asset;
+        this.content = data.result.content;
         if (data.result.content.mimeType === 'application/pdf') {
           this.enabled = true;
           this.pdf = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),

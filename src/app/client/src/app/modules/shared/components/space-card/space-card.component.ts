@@ -23,7 +23,7 @@ export class SpaceCardComponent  {
 
   public onAction(data, action, event, link) {
  this.url = link;
-    console.log('content in space cards = ', data, action, event, this.url.slice(0, 5));
+   // console.log('content in space cards = ', data, action, event, this.url.slice(0, 5));
     // if(this.slug !== 'space' && !(this.userService.loggedIn)){
 
       if (event.target.id === 'link') {

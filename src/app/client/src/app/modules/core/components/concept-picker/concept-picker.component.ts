@@ -62,8 +62,8 @@ export class ConceptPickerComponent implements OnInit, OnChanges {
    /* if (this.selectedConcepts.constructor === String) {
        arrayofselectedConcepts.push(this.selectedConcepts);
     } */
-  //  this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
-  this.contentConcepts=this.selectedConcepts;
+    this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
+ // this.contentConcepts=this.selectedConcepts;
     if (this.contentConcepts.length === 0) {
       this.pickerMessage = 'Select';
     } else if ( this.contentConcepts.length > 0 ) {
@@ -128,7 +128,7 @@ export class ConceptPickerComponent implements OnInit, OnChanges {
 
     ngOnChanges(): void {
       if (this.selectedConcepts) {
-            this.initConceptBrowser();
+            this.ngOnInit();
       }
     }
     private formatSelectedTopics(topics, unformatted, formated) {
