@@ -196,29 +196,29 @@ this.activatedRoute.url.subscribe(url => {
 });
 if (this.path === 'Live') {
   const req = {
-    url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+    url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
   };
-  this.assetService.read(req).subscribe(data => {
+  this.contentService.get(req).subscribe(data => {
     console.log('read content', data);
-    this.formInputData = data.result.asset;
-   if (data.result.asset.topic) {
+    this.formInputData = data.result.content;
+   if (data.result.content.topic) {
      this.showFramework = true;
    } else {
     this.showFramework = false;
    }
     // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel);
-    this.keywords = data.result.asset.keywords;
+    this.keywords = data.result.content.keywords;
     // this.formInputData['versionKey'] = data.result.asset.versionKey;
   });
 } else {
   const req = {
-    url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+    url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
   };
-  this.assetService.read(req).subscribe(data => {
+  this.contentService.get(req).subscribe(data => {
     console.log('read content', data);
-    this.formInputData = data.result.asset;
+    this.formInputData = data.result.content;
     // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel);
-    this.keywords = data.result.asset.keywords;
+    this.keywords = data.result.content.keywords;
     // this.formInputData['versionKey'] = data.result.asset.versionKey;
   });
 }
@@ -244,7 +244,7 @@ if (this.path === 'Live') {
     _.forEach(events, (field) => {
       sector.push(field.name);
     });
-    this.formInputData['sector'] = sector;
+    this.formInputData['gradeLevel'] = sector;
 
   }
 

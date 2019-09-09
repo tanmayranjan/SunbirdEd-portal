@@ -80,6 +80,16 @@
                     
                 </p> -->
             </div>
+         <!--   <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/x-youtube'">
+                <p>
+                    Video : <span (click)="navigateToplay()" class="pdfStyle">{{assetDetail?.artifactUrl}}</span>
+                    
+                </p>
+                <!-- <p>
+                    File : <span (click)="contentClick()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+                    
+                </p> 
+            </div>  -->
             <div *ngIf="assetDetail?.mimeType === 'application/vnd.ekstep.ecml-archive'" (click)="navigateToplay()">
                  <p>
                     View Content <span  class="pdfStyle"></span>

@@ -131,9 +131,10 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
             sort_by: { [this.queryParams.sort_by]: this.queryParams.sortType },
             mode: _.get(manipulatedData, 'mode'),
             //   facets: this.facets,
-            // params: this.configService.appConfig.Library.contentApiQueryParams
+             params: this.configService.appConfig.Library.contentApiQueryParams
         };
-        option.filters.contentType = [];
+        option.filters.contentType = filters.contentType ||
+        ['Resource'];
         //   option.filters.channel = this.orgId;
         //   option.filters.organisation = this.orgName;
 
@@ -141,22 +142,22 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
         //       option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
         //     }
         option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-        option.filters.objectType = 'Asset';
+        option.filters.objectType = 'Content';
         option.filters.status = ['Live'];
-        // this.frameworkService.channelData$.subscribe((channelData) => {
-        //     if (!channelData.err) {
-        //         option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-        //     }
-        // });
-       delete option.filters.contentType;
-        this.searchService.compositeSearch(option)
+         this.frameworkService.channelData$.subscribe((channelData) => {
+             if (!channelData.err) {
+                 option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+             }
+         });
+      // delete option.filters.contentType;
+        this.searchService.contentSearch(option)
             .subscribe(data => {
                 this.showLoader = false;
                 this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
                 this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
                     this.configService.appConfig.SEARCH.PAGE_LIMIT);
                 const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
-                this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+                this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
             }, err => {
                 this.showLoader = false;
                 this.contentList = [];

@@ -332,7 +332,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
     if (!!data.name && !!data.board && !!data.description  && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.gradeLevel && !!data.link) {
+      !!data.version && !!data.link) {
 
       this.uploadSuccess = true;
       this.updateContent();

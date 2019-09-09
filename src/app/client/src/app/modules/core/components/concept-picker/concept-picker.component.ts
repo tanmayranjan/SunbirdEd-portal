@@ -57,16 +57,17 @@ export class ConceptPickerComponent implements OnInit, OnChanges {
    * call tree picker
    */
   initConceptBrowser() {
-   const arrayofselectedConcepts = [];
+  // const arrayofselectedConcepts = [];
     this.selectedConcepts = this.selectedConcepts || [];
-    if (this.selectedConcepts.constructor === String) {
+   /* if (this.selectedConcepts.constructor === String) {
        arrayofselectedConcepts.push(this.selectedConcepts);
-    }
-    this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
+    } */
+  //  this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
+  this.contentConcepts=this.selectedConcepts;
     if (this.contentConcepts.length === 0) {
       this.pickerMessage = 'Select';
     } else if ( this.contentConcepts.length > 0 ) {
-      this.pickerMessage = arrayofselectedConcepts.length + '  selected';
+      this.pickerMessage = this.contentConcepts.length + '  selected';
 
     }
     $('.tree-pickers').val(this.pickerMessage);
@@ -74,7 +75,7 @@ export class ConceptPickerComponent implements OnInit, OnChanges {
 
       $('.tree-pickers').treePicker({
         data: this.conceptData,
-        name: 'sector',
+        name: 'Sector',
         picked: this.contentConcepts,
         onSubmit: (nodes) => {
           $('.tree-pickers').val(nodes.length + ' selected');
@@ -112,7 +113,7 @@ export class ConceptPickerComponent implements OnInit, OnChanges {
       return collector;
     }, { formated: [], unformatted: [] });
     this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
-    // this.selectedConcepts =  selectedTopics.formated;
+     this.selectedConcepts =  selectedTopics.formated;
     }
 
 

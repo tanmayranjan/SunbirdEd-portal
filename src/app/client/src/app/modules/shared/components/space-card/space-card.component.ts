@@ -17,7 +17,6 @@ export class SpaceCardComponent  {
   @Output() clickEvent = new EventEmitter<any>();
   url: string;
   constructor(public resourceService: ResourceService, public router: Router) {
-    alert('content in space cards = ');
     this.resourceService = resourceService;
   }
 

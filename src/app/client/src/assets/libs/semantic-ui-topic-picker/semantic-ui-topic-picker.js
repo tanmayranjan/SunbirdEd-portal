@@ -2,7 +2,7 @@ var topicModal;
 /* istanbul ignore next */
 (function() {
     $.fn.topicTreePicker = function(options) {
-        console.log('tree js = ', options);
+        console.log('topic js = ', options);
         var actionButtons, config, count, initialize, initializeNodeList, initializeNodes, loadNodes, modal, nodeClicked, nodeIsPicked, nodes, pickNode, picked, recursiveNodeSearch, renderList, renderTree, showPicked, showSearch, showTree, tabs, unpickNode, updatePickedIds, updatePickedNodes, widget;
         widget = $(this);
         picked = [];

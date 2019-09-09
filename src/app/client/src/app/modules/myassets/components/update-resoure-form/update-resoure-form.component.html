@@ -120,22 +120,22 @@
         <label>
           {{field.name}}
         </label>
-        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData['assetType']"
-          (ngModelChange)="updateForm({index:i, field:field, value:formInputData['assetType']})">
+        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
+          (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
         </sui-select>
       </div>
     </div>
     <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
-      <label>{{field.name}}</label>
-      <div class="required field">
-        <sui-multi-select id={{field.code}} name={{field.code}} class="selection"
-          [(ngModel)]="formInputData['language']"
-          (ngModelChange)="updateForm({index:i, field:field, value:formInputData['language']})" #multiSelect>
-          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"> </sui-select-option>
-        </sui-multi-select>
+        <label>{{field.name}}</label>
+        <div class="required field">
+          <sui-multi-select id={{field.code}} name={{field.code}} class="selection"
+            [(ngModel)]="formInputData[field.code]"
+            (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})" #multiSelect>
+            <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option"> </sui-select-option>
+          </sui-multi-select>
+        </div>
       </div>
-    </div>
     <div *ngIf="field.code==='year' && field.code!='region'" class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}}</label>
       <div class="field">
@@ -148,7 +148,7 @@
       <label>{{field.name}}</label>
       <form class="conceptSelector ui form">
 
-        <app-concept-picker [selectedConcepts]="formInputData['sector']"
+        <app-concept-picker [selectedConcepts]="formInputData[field.code]"
           [categoryName]="field.name" [category]="categoryList[field.code]"
           [conceptPickerClass]="'content-creation-concept-picker'" (Concepts)="concepts($event)"></app-concept-picker>
       </form>
