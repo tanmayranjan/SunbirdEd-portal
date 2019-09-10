@@ -11,6 +11,8 @@ import { CoreComponent } from './components/core/core.component';
 import { ExploreThinkingComponent } from './components/explore-thinking/explore-thinking.component';
 import { FrameworkComponent } from './components/framework/framework.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import {LicensepolicyComponent} from './components/licensepolicy/licensepolicy.component';
+import { AssetguidelinesComponent} from './components/assetguidelines/assetguidelines.component';
 // import { WorkspaceComponent } from './components/workspace/workspace.component';
 // import { AdduserComponent } from './components/adduser/adduser.component';
 import { OrganizationUploadComponent, UserUploadComponent, StatusComponent } from '../org-management';
@@ -104,6 +106,18 @@ const routes: Routes = [
   },
   {
     path: ':slug/policy', component: BlogComponent
+  },
+  {
+    path: 'licensepolicy', component: LicensepolicyComponent
+  },
+  {
+    path: ':slug/licensepolicy', component: LicensepolicyComponent
+  },
+  {
+    path: 'assetguidelines', component: AssetguidelinesComponent
+  },
+  {
+    path: ':slug/assetguidelines', component: AssetguidelinesComponent
   },
   {
     path: 'exploreAsset', component: ExploreAssetComponent

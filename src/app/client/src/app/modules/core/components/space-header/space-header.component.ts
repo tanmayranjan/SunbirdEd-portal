@@ -314,17 +314,17 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
   //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
   // };
   const req = {
-    url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}`,
+    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}`,
   };
-  this.assetService.read(req).subscribe(data => {
+  this.contentService.get(req).subscribe(data => {
     console.log('data in main header = ', data);
-   mainState = data.result.asset.status;
+   mainState = data.result.content.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
   console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
   if (state === 'Review' && this.userId === this.creatorId ) {
     if (mainState === 'Live') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.asset);
+      this.reviewAssetData.push(data.result.content);
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
@@ -333,7 +333,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
   if (state === 'Review' && this.userId === this.creatorId ) {
     if (mainState === 'Draft') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.asset);
+      this.reviewAssetData.push(data.result.content);
       console.log('Asset is rejected', this.notificationCount);
       this.reviewStatus = 'rejected';
       localStorage.setItem(archive[j], JSON.stringify('Draft'));
@@ -350,7 +350,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
   // }
     if (state === 'Review' && mainState === 'Review' && this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
       this.notificationCount ++;
-      this.reviewAssetData.push(data.result.asset);
+      this.reviewAssetData.push(data.result.content);
       console.log('Asset is in Review State', this.notificationCount);
       this.reviewStatus = 'review';
       

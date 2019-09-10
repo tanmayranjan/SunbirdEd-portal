@@ -216,6 +216,8 @@
 										 <p class="p"><a onclick="footer('policy')">Data and Privacy Policy </a> </p>
 										 <p class="p"> <a onclick="footer('termsOfUse')" >Terms of Use </a> </p>
 										 <p class="p"> <a onclick="footer('process')">Grievance Redressal Process </a> </p>
+										 <p class="p"> <a onclick="footer('licensepolicy')">License Policy </a> </p>
+										 <p class="p"> <a onclick="footer('assetguidelines')">Asset Guidelines </a> </p>
                   </div>
               </div>
 					</div>
@@ -293,6 +295,7 @@ function gotoContact(key) {
     }
 }
 function footer(key) {
+	debugger;
 	if ( key === 'policy') {
     window.location.href = '/space/'+key;
     }
@@ -301,7 +304,13 @@ function footer(key) {
 		}
 		if ( key === 'termsOfUse') {
 		window.location.href = '/space/'+key;
-    }
+	}
+	if( key === 'licensepolicy') {
+        window.location.href = '/space/'+key;
+      }
+      if( key === 'assetguidelines') {
+        window.location.href = '/space/'+key;
+      }
 }
 	</script>
 </body>
