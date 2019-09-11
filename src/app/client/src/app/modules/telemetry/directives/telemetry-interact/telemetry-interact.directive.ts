@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, HostListener } from '@angular/core
 import { IInteractEventInput, IInteractEventObject, IInteractEventEdata } from '../../interfaces';
 import { TelemetryService } from '../../services';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 /**
  * TelemetryInteract Directive
  */
@@ -21,6 +21,8 @@ export class TelemetryInteractDirective {
 
   @Input() telemetryInteractEdata: IInteractEventEdata;
 
+  @Input() telemetryInteractCdata: Array<{}>;
+
   @HostListener('click', ['$event'])
 
   private onClick(e) {
@@ -31,10 +33,15 @@ export class TelemetryInteractDirective {
           env: _.get(this.activatedRoute, 'snapshot.root.firstChild.data.telemetry.env') ||
           _.get(this.activatedRoute, 'snapshot.data.telemetry.env') ||
           _.get(this.activatedRoute.snapshot.firstChild, 'children[0].data.telemetry.env') ,
+          cdata: this.telemetryInteractCdata || [],
         },
         edata: this.telemetryInteractEdata
       };
       if (this.telemetryInteractObject) {
+        if (this.telemetryInteractObject.ver) {
+          this.telemetryInteractObject.ver = _.isNumber(this.telemetryInteractObject.ver) ?
+          _.toString(this.telemetryInteractObject.ver) : this.telemetryInteractObject.ver;
+        }
         this.appTelemetryInteractData.object = this.telemetryInteractObject;
       }
       this.telemetryService.interact(this.appTelemetryInteractData);

@@ -7,9 +7,12 @@ import { Injectable } from '@angular/core';
 import {
   ConfigService, ServerResponse, ContentDetails, PlayerConfig, ContentData, NavigationHelperService
 } from '@sunbird/shared';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
+import { environment } from '@sunbird/environment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PublicPlayerService {
   /**
    * stores content details
@@ -19,9 +22,12 @@ export class PublicPlayerService {
    * stores collection/course details
   */
   collectionData: ContentData;
+  previewCdnUrl: string;
   constructor(public userService: UserService, private orgDetailsService: OrgDetailsService,
     public configService: ConfigService, public router: Router,
     public publicDataService: PublicDataService, public navigationHelperService: NavigationHelperService) {
+      this.previewCdnUrl = (<HTMLInputElement>document.getElementById('previewCdnUrl'))
+      ? (<HTMLInputElement>document.getElementById('previewCdnUrl')).value : undefined;
   }
 
   /**
@@ -30,13 +36,13 @@ export class PublicPlayerService {
    * @param {string} id
    * @returns {Observable<{contentId: string, contentData: ContentData }>}
    */
-  getConfigByContent(id: string,  option: any = { }): Observable<PlayerConfig> {
+  getConfigByContent(id: string, option: any = {}): Observable<PlayerConfig> {
     return this.getContent(id).pipe(
       mergeMap((contentDetails) => {
         return observableOf(this.getConfig({
           contentId: contentDetails.result.content.identifier,
           contentData: contentDetails.result.content
-        }, option ));
+        }, option));
       }));
   }
 
@@ -57,30 +63,47 @@ export class PublicPlayerService {
       return response;
     }));
   }
+  private getRollUpData(data: Array<string> = []) {
+    const rollUp = {};
+    data.forEach((element, index) => rollUp['l' + (index + 1)] = element);
+    return rollUp;
+  }
   /**
    * returns player config details.
    * @param {ContentDetails} contentDetails
    * @memberof PlayerService
    */
-  getConfig(contentDetails: ContentDetails,  option: any = { }): PlayerConfig {
-    const configuration: any = this.configService.appConfig.PLAYER_CONFIG.playerConfig;
+  getConfig(contentDetails: ContentDetails, option: any = {}): PlayerConfig {
+    const configuration: any = _.cloneDeep(this.configService.appConfig.PLAYER_CONFIG.playerConfig);
     configuration.context.contentId = contentDetails.contentId;
     configuration.context.sid = this.userService.anonymousSid;
     configuration.context.uid = 'anonymous';
+    configuration.context.timeDiff = this.orgDetailsService.getServerTimeDiff;
     const buildNumber = (<HTMLInputElement>document.getElementById('buildNumber'));
     configuration.context.pdata.ver = buildNumber && buildNumber.value ?
-    buildNumber.value.slice(0, buildNumber.value.lastIndexOf('.')) : '1.0';
+      buildNumber.value.slice(0, buildNumber.value.lastIndexOf('.')) : '1.0';
     configuration.context.channel = _.get(this.orgDetailsService.orgDetails, 'hashTagId');
     configuration.context.pdata.id = this.userService.appId;
+    const deviceId = (<HTMLInputElement>document.getElementById('deviceId'));
+    configuration.context.did = deviceId ? deviceId.value : '';
     configuration.metadata = contentDetails.contentData;
+    configuration.context.contextRollup = this.getRollUpData([_.get(this.orgDetailsService.orgDetails, 'hashTagId')]);
     configuration.data = contentDetails.contentData.mimeType !== this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.ecmlContent ?
       {} : contentDetails.contentData.body;
+    if (!_.includes(this.router.url, 'browse') && environment.isOffline) {
+      configuration.data = '';
+    }
+
+    if (environment.isOffline) {
+      configuration.metadata = _.omit(configuration.metadata, ['streamingUrl']);
+    }
     if (option.dialCode) {
       configuration.context.cdata = [{
         id: option.dialCode,
-        type: 'dialCode'
+        type: 'DialCode'
       }];
     }
+    configuration.config.previewCdnUrl = this.previewCdnUrl;
     return configuration;
   }
   public getCollectionHierarchy(identifier: string, option: any = { params: {} }): Observable<CollectionHierarchyAPI.Get> {
@@ -94,6 +117,28 @@ export class PublicPlayerService {
     }));
   }
 
+  /**
+   * This method accepts content details and help to play the content player in offline desktop app browse page
+   *
+   * @param {object} event
+   */
+  public playContentForOfflineBrowse(event) {
+    this.navigationHelperService.storeResourceCloseUrl();
+    setTimeout(() => {
+      if (event.data.metaData.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.collection) {
+        if (event.data.contentType === 'Course') {
+          this.router.navigate(['browse/play/learn/course', event.data.metaData.identifier]);
+        } else {
+          this.router.navigate(['browse/play/collection', event.data.metaData.identifier],
+            { queryParams: { contentType: event.data.metaData.contentType } });
+        }
+      } else {
+        this.router.navigate(['browse/play/content', event.data.metaData.identifier],
+          { queryParams: { contentType: event.data.metaData.contentType } });
+      }
+    }, 0);
+  }
+
   public playContent(event) {
     this.navigationHelperService.storeResourceCloseUrl();
     setTimeout(() => {
@@ -101,10 +146,23 @@ export class PublicPlayerService {
         if (event.data.contentType === 'Course') {
           this.router.navigate(['learn/course', event.data.metaData.identifier]);
         } else {
-          this.router.navigate(['play/collection', event.data.metaData.identifier]);
+          this.router.navigate(['play/collection', event.data.metaData.identifier],
+          {queryParams: {contentType: event.data.metaData.contentType}});
         }
       } else {
-        this.router.navigate(['play/content', event.data.metaData.identifier]);
+        this.router.navigate(['play/content', event.data.metaData.identifier],
+        {queryParams: {contentType: event.data.metaData.contentType}});
+      }
+    }, 0);
+  }
+
+  public playExploreCourse(courseId) {
+    this.navigationHelperService.storeResourceCloseUrl();
+    setTimeout(() => {
+      if (this.userService.loggedIn) {
+        this.router.navigate(['learn/course', courseId]);
+      } else {
+        this.router.navigate(['explore-course/course', courseId]);
       }
     }, 0);
   }

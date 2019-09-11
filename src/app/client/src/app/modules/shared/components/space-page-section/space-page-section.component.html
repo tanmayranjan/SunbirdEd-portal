@@ -1,0 +1,73 @@
+
+<div class="ui grid" *ngIf="!enable">
+    <div class="ui twelve wide column " *ngIf="slug === 'space' && section.length > 0">
+        <div class="d-flex flex-ai-center">
+           
+            <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section.length >= 10 " type="button" (click)="navigateToViewAll(section)">View More</button>
+         </div>
+        <div class="row">
+                <div in-view-item *ngFor="let content of section;let i = index; let last = last" class="four wide column">    
+                        <app-space-card   appTelemetryInteract 
+                        (clickEvent)="playContent($event)"
+                        [data]="content" 
+                        [customClass]="'mr-20'"
+                        [slug]="slug"
+                        class="pr-20 d-block" [class.last-card]="pr-0" *ngIf="slug === 'space'"></app-space-card>
+                </div>
+        </div>
+    </div>
+    <!-- <div class="ui twelve wide column my-5 pageSection-Divider">
+        <div class="ui divider m-0"></div>
+    </div> -->
+</div>
+
+<div class="ui grid" *ngIf="enable">
+        <div class="ui grid" *ngIf="slug === 'space' && section[0]?.contents && section[0]?.contents.length > 0">
+                <div class="ui twelve wide column ">
+                    <div class="d-flex flex-ai-center">
+                       
+                        <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section[0]?.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button>
+                     </div>
+                    <div class="row">
+                            <div in-view-item *ngFor="let content of section[0]?.contents;let i = index; let last = last" class="four wide column">    
+                                    <app-space-card   appTelemetryInteract 
+                                    [telemetryInteractEdata]="cardIntractEdata" 
+                                    [telemetryInteractObject]="{id:content.metaData.identifier || content.metaData.courseId,type:content.metaData.contentType || 'Course',ver:'1.0'}"
+                                    (clickEvent)="playContent($event)"
+                                    [data]="content" 
+                                    [customClass]="'mr-20'"
+                                    [slug]="slug"
+                                    class="pr-20 d-block" [class.last-card]="pr-0" *ngIf="slug === 'space'"></app-space-card>
+                            </div>
+                    </div>
+                </div>
+                <!-- <div class="ui twelve wide column my-5 pageSection-Divider">
+                    <div class="ui divider m-0"></div>
+                </div> -->
+    </div>
+    </div>
+    <sui-modal [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'small'" class="sb-modal"
+  appBodyScroll (dismissed)="openmodal = false" #modal *ngIf="openmodal">
+
+  <!--Header-->
+  <div class="sb-modal-header" style="background-color: #a8abe3 !important;">
+    <!-- {{resourceService?.frmelmnts?.lbl?.signinenrollTitle}} -->
+    Sign in to view Asset
+  </div>
+  <!--/Header-->
+  <!--Content-->
+  <div class="sb-modal-content">
+    <div class="ui center aligned segment">
+      <p>Please Sign in to view this Asset Detail </p>
+    </div>
+  </div>
+  <!--/Content-->
+
+  <!--Actions-->
+  <!-- <div class="sb-modal-actions">
+    <a class="sb-btn sb-btn-normal sb-btn-primary">
+      Close
+    </a>
+  </div> -->
+  <!--/Actions-->
+</sui-modal>

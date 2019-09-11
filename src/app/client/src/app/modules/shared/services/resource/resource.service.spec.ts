@@ -14,9 +14,6 @@ describe('ResourceService', () => {
     });
   });
 
- it('should be created', inject([ResourceService, CacheService], (service: ResourceService, cacheService: CacheService) => {
-    expect(service).toBeTruthy();
-  }));
   it('should call get resource method   when resourcebundle is not cached',
    inject([ResourceService, CacheService, HttpClient ],
     (resourceService: ResourceService , cacheService: CacheService, http ) => {
@@ -39,4 +36,16 @@ describe('ResourceService', () => {
     expect(resourceService.frmelmnts).toBeDefined();
     expect(resourceService.messages).toBeDefined();
   }));
+  it('should  emit languageSelected when portalLanguage and resourcebundlesearch is cached ',
+  inject([ResourceService, CacheService, HttpClient ],
+   (resourceService: ResourceService , cacheService: CacheService, http ) => {
+   cacheService.set('resourcebundlesearch', mockRes.cachedResourcebundleSearch.value , { maxAge: 10 * 60});
+   cacheService.set('portalLanguage', mockRes.cachedPortalLanguage.value , { maxAge: 10 * 60});
+   spyOn(resourceService, 'initialize').and.callThrough();
+   spyOn(resourceService, 'getLanguageChange').and.callThrough();
+   resourceService.getResource();
+   resourceService.initialize();
+   expect(resourceService.frmelmnts).toBeDefined();
+   expect(resourceService.messages).toBeDefined();
+ }));
 });

@@ -106,7 +106,7 @@ var getRedirectUrl = function (requestUrl, urlMap, cb) {
 }
 
 module.exports = function (app) {
-  app.all(csLocalProxyURI + '*', function (req, res, next) {
+   app.all(csLocalProxyURI + '*', function (req, res, next) {
     var urlAfterBU = req.url.split(csLocalProxyURI)[1]
     getRedirectUrl(urlAfterBU, contentServiceApi, function (actualUrl, redirectUrl) {
       req.url = req.url.replace(actualUrl, redirectUrl)

@@ -1,0 +1,168 @@
+@import '../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+  .thick-gray-border {
+    border-color: gray;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 50%;
+    height: 63px;
+    margin-left: 1rem; 
+    background: white;
+    width: fit-content; 
+    margin-top: 1rem
+  }
+
+  .smaller-image {
+    width: 21px;
+    padding-top: 12px;
+  }
+  .card-text, .card-title{
+    min-height: 45px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-family: 'Muli', sans-serif;
+  }
+  .card-text1{
+    min-height: 30px;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+ .card-img-top{
+background-color: #585858;
+  background-repeat: no-repeat;
+   width: 100%; height: 20vh;
+   background-position: 11% 75%;
+ }
+ .card-img-overlay {
+   height: fit-content;
+ }
+ .details {
+  display: block;
+  height: 112px;
+ }
+ .card {
+   height: auto;
+   width: 350px;
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+   font-family: 'Muli', sans-serif;
+   cursor: pointer;
+ }
+ .card-header {
+   cursor: pointer;
+ }
+ .col-sm-8 {
+   height: fit-content;
+ }
+ #badge {
+   background-color: #a7aae5;
+      border-radius: 4rem;
+
+ }
+ .ui.mini.modal {
+   height: fit-content !important;
+ }
+ 
+ #styletick {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+ }
+ i.fas.fa-database.fa-lg {
+  padding: 1em 0.1em;
+  text-align: center;
+  font-size: 1.6em;
+}
+ .badgedisplay {
+  width: 58px;
+  position: absolute;
+  height: 59px;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-position: -18px -739px;
+  /* background-size: 100%; */
+  /* border-radius: 50%; */
+  background-origin: 0;
+}
+.sprite {
+  width: 63px;
+  height:63px;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-origin: 0;
+}
+
+.badgesprite{
+  width: 63px;
+  height:63px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-origin: 0;
+}
+.knowledgeimg {
+  background-position: -12px -491px !important;
+}
+.hardwareimg {
+  background-position: -12px -610px;
+}
+.processimg {
+  background-position: -12px -430px;
+}
+.dataimg {
+  background-position: -12px -610px;
+}
+.softwareimg {
+  background-position: -12px -368px;
+}
+.badgeimg{
+  background-position: -12px 900px;
+}
+
+.card-title {
+  text-transform: capitalize !important;
+}
+
+.creator {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    color: #686F7A;
+    padding-bottom: 6px;
+}
+
+@media not all and (min-width: 575px) {
+  .card {
+    width: 300px !important
+  }
+  .col-sm-8 {
+    // text-align: center;
+    width: 13rem !important;
+  }
+}
+
+hr {
+  margin-bottom: 2px;
+  margin-top: 2px;
+}

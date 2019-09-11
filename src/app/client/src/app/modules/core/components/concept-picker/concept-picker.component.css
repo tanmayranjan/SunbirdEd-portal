@@ -1,0 +1,19 @@
+input {
+    border: 1px solid #f6f6f6;
+    background: #f6f6f6;
+}
+
+.conceptSelector.ui.form .treepicker-parent input {
+    background: #f6f6f6;
+}
+
+#treePicker {
+    border: 1px solid #e4e4e4;
+    background:#f6f6f6;
+    border-radius: 7px;
+    height: 42px;
+    cursor: pointer;
+}
+.name {
+    font-size: 14px !important;
+}

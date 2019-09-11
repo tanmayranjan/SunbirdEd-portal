@@ -3,7 +3,7 @@ import { LearnerService } from './../learner/learner.service';
 import { UserService } from '../user/user.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { RolesAndPermissions, Roles } from './../../interfaces';
 
 /**
@@ -148,9 +148,11 @@ export class PermissionService {
   getWorkspaceAuthRoles() {
     const authRoles = _.find(this.config.rolesConfig.WORKSPACEAUTHGARDROLES, (role, key) => {
       if (this.checkRolesPermissions(role.roles)) {
+        console.log('role = ', role);
         return role;
       }
     });
+    console.log('authrole = ', authRoles);
     return authRoles;
   }
 }

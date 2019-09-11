@@ -1,9 +1,9 @@
-import { ContentService, PublicDataService, UserService } from '@sunbird/core';
+import { ContentService, PublicDataService, UserService, UploadContentService} from '@sunbird/core';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ConfigService, ServerResponse } from '@sunbird/shared';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { WorkSpaceService } from './../work-space/workspace.service';
 
 /**
@@ -27,11 +27,14 @@ export class EditorService {
      * reference of lerner service.
      */
     public publicDataService: PublicDataService;
+
+    public uploadService: UploadContentService;
     /**
      * constructor
      * @param {ConfigService} config ConfigService reference
      */
     constructor(configService: ConfigService, contentService: ContentService, publicDataService: PublicDataService,
+        public uploadservice: UploadContentService,
         public workspaceService: WorkSpaceService, public userService: UserService) {
         this.configService = configService;
         this.contentService = contentService;
@@ -44,6 +47,16 @@ export class EditorService {
      * @param req OBJECT
      */
     create(req): Observable<ServerResponse> {
+      if (_.get(req, 'content.subject') && !_.isArray(_.get(req, 'content.subject'))) {
+        const subject = [];
+        subject.push(req.content.subject);
+        req.content.subject = subject;
+      }
+      if (_.get(req, 'content.medium') && !_.isArray(_.get(req, 'content.medium'))) {
+        const medium = [];
+        medium.push(req.content.medium);
+        req.content.medium = medium;
+      }
         const option = {
             url: this.configService.urlConFig.URLS.CONTENT.CREATE,
             data: {
@@ -65,7 +78,36 @@ export class EditorService {
             return response;
         }));
     }
-
+    uploadUrl(req, contentId: string): Observable<ServerResponse> {
+        const option = {
+            url: `${this.configService.urlConFig.URLS.CONTENT.UPLOADURL}/${contentId}`,
+            data: {
+                'request': req
+            }
+           };
+           console.log('option ', option);
+           return this.uploadService.post(option);
+    }
+    update(req, contentId: string): Observable<ServerResponse> {
+        const option = {
+         url: `${this.configService.urlConFig.URLS.CONTENT.UPDATE}/${contentId}`,
+         data: {
+             'request': req
+         }
+        };
+        return this.contentService.patch(option);
+    }
+    upload(req, contentId: string): Observable<ServerResponse> {
+        const formdata = new FormData();
+      formdata.append('fileUrl', req);
+      formdata.append('mimeType', 'application/pdf');
+        const option = {
+            url: `${this.configService.urlConFig.URLS.CONTENT.UPLOAD}/${contentId}`,
+            // formdata: formdata
+           };
+           console.log('option ', option);
+           return this.uploadService.posting(option, formdata);
+    }
     getOwnershipType() {
         const formServiceInputParams = {
             formType: 'content',

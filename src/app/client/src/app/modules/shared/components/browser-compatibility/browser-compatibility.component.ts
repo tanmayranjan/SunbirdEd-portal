@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ResourceService } from '../../services/index';
 @Component({
   selector: 'app-browser-compatibility',
   templateUrl: './browser-compatibility.component.html',
-  styleUrls: ['./browser-compatibility.component.css']
+  styleUrls: ['./browser-compatibility.component.scss']
 })
 export class BrowserCompatibilityComponent implements OnInit {
   @ViewChild('modal') modal;
+  @Input() showModal = false;
   browserCompatible: boolean;
   isChrome = false;
   showBrowserMsg: boolean;
   deviceInfo: any;
   hideFooter = true;
 
-  constructor(private _deviceDetectorService: DeviceDetectorService) { }
+  constructor(public resourceService: ResourceService, private _deviceDetectorService: DeviceDetectorService) {
+    this.resourceService = resourceService;
+  }
 
   ngOnInit() {
     this.showCompatibilityModal();
@@ -30,13 +34,16 @@ export class BrowserCompatibilityComponent implements OnInit {
 
   showCompatibilityModal() {
     this.deviceInfo = this._deviceDetectorService.getDeviceInfo();
-    if ( this.deviceInfo.browser !== 'chrome') {
-      this.showBrowserMsg = true;
-      if ((localStorage.getItem('BrowserIncompatibleModel') !== 'shown')) {
-        this.browserCompatible = true;
-      }
+    const browser = (this.deviceInfo.browser).toLowerCase();
+    if ((browser !== 'chrome' && browser !== 'firefox') || (this.showModal && browser === 'firefox')) {
+      this.modalHandler();
     }
-
   }
 
+  modalHandler() {
+    this.showBrowserMsg = true;
+    if ((localStorage.getItem('BrowserIncompatibleModel') !== 'shown')) {
+      this.browserCompatible = true;
+    }
+  }
 }

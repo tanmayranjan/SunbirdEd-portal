@@ -1,19 +1,20 @@
+import { ResourceService } from './../../services/resource/resource.service';
 import { Component, OnInit, ChangeDetectorRef, Input,  EventEmitter, Output, OnChanges } from '@angular/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 @Component({
   selector: 'app-custom-multi-select',
-  templateUrl: './custom-multi-select.component.html',
-  styleUrls: ['./custom-multi-select.component.scss']
+  templateUrl: './custom-multi-select.component.html'
 })
 export class CustomMultiSelectComponent implements OnInit {
   @Input() inputData: Array<string>;
   @Input() field: object;
+  @Input() valueField = 'name';
   checkBox: object;
   selectAllCheckBox = false;
   refresh = true;
   @Output() selectedValue = new EventEmitter<any>();
 
-  constructor( private cdr: ChangeDetectorRef) { }
+  constructor( private cdr: ChangeDetectorRef, public resourceService: ResourceService) { }
   checkbox(name) {
     if (this.checkBox[name]) {
       this.checkBox[name] = false;
@@ -52,6 +53,7 @@ export class CustomMultiSelectComponent implements OnInit {
     this.selectedValue.emit(event);
   }
   ngOnInit() {
+    console.log('fields', this.field);
     this.checkBox = {};
     const name = [];
     if (this.inputData) {

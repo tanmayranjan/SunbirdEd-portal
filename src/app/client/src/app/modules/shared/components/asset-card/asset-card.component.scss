@@ -1,0 +1,56 @@
+.thick-gray-border {
+  border-color: gray;
+  border-width: 5px;
+  border-style: solid;
+  border-radius: 50%;
+  height: 57px;
+  background: white;
+  width: fit-content;
+  margin-right: 1rem;
+  margin-bottom: 1rem
+
+}
+
+.header {
+    color: white !important
+}
+
+.details {
+  display: block;
+  height: 112px;
+ }
+
+
+.card-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  color: #686F7A;
+  padding-bottom: 6px;
+}
+#des {
+  display: block;
+  font-size: 15px;
+  color: #686F7A;
+  padding-bottom: 6px;
+  line-height: 1.8rem;
+    text-align: justify;
+}
+
+.ui.card {
+  box-shadow: 0 9px 5px rgba(0,0,0,.25), 0 3px 10px rgba(0,0,0,.22);
+  max-width: 292px;
+}
+#contentBackground {
+  background: #024f9d;
+}
+.extras {
+  display: none;
+}
+#des:hover .extras{
+  display: inline-block;
+}
+
+

@@ -1,0 +1,89 @@
+<div class="ui text menu m-0 flex-jc-center d-flex computer only" *ngIf="userService.loggedIn">
+    <!-- <a class="item" appTelemetryInteract [telemetryInteractEdata]="homeMenuIntractEdata" [class.active]="router.isActive('/search/All') || router.isActive('/home')" routerLink="/home">
+      {{resourceService?.frmelmnts?.tab?.home}}
+    </a> -->
+    <a class="item " routerLink="/space/about">About</a>
+    <a class="item " routerLink="/space/collaborators">Collaborators</a>
+    <!-- <a class="item link" appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata" routerLink="/contactUs"
+    routerLinkActive="active">
+      Contact
+    </a> -->
+    <a class="item " (click)="openSm(content)">Feedback</a>
+   
+    <div>
+        <ng-template #content let-d="dismiss">
+            <div class="modal-header">
+                <div class="text-center py-2">
+                    <p class="head">Any suggestions? Please share</p>
+                </div>
+            </div>
+          
+            <form [formGroup]="registerForm1" (ngSubmit)="onSubmit()">
+                    <div class="card rounded-0" style="width: 36.rem; height: auto;">
+                        <div class="card-body p-3">
+                            <div class="row">
+                              <div class="col">
+                                  <div class="form-group">
+                                      <div class="input-group mb-2">
+                                          <input type="text" class="form-control" formControlName="email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="email" name="email" [(ngModel)]="userEmail" [value]="userEmail"  placeholder="Email Id*" >		
+                                          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                              <div *ngIf="f.email.errors.required">Email is required</div>
+                                              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                          </div>														
+                                       </div>
+                                  </div>   
+                                </div>																			 
+                              </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" formControlName="message"  [ngClass]="{ 'is-invalid': submitted && f.message.errors }"  id="message" name="message" placeholder="Message" rows="3"></textarea>
+                                    <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+                                        <div *ngIf="f.message.errors.required">Feedback is required</div>
+                                    </div>	
+                                  </div>
+                                  <div class="form-group>">
+                                      <button [disabled]="loading" id="close" class="btn btn-purple float-lg-right mr-10 text-center py-2" >	SEND </button>										
+  
+                                  </div>
+                                <input type="submit" value="CLOSE" id="close" (click)="d('Cross click')"  class="btn btn-lightgrey text-center mr-10 float-lg-right py-2">
+      
+                        </div>
+          
+                    </div>  
+                </form>	
+                
+      
+          </ng-template>
+    </div>
+  </div>
+  <div class="mobile only" *ngIf="userService.loggedIn" style="height:1rem;">
+      <div class="ui sidebar right vertical menu" *ngIf="userService.loggedIn">
+        <div *ngIf='userProfile' class="item item fs-1 font-weight-bold">
+          {{userProfile?.firstName}}&nbsp;{{userProfile?.lastName}}
+        </div>
+        <i class="close link icon side-bar-close-icon" (click)="showSideBar()"></i>
+        <div *ngIf='userProfile' class="ui divider mt-0"></div>
+        <a class="item" (click)="showSideBar()"
+          [class.active]="router.isActive('/about')" routerLink="/about">
+        About
+        </a>
+        <a class="item" (click)="showSideBar()" 
+          [class.active]="router.isActive('/collaborators') " routerLink="/collaborators">
+          Collaborators
+        </a>
+        <!-- <a class="item" 
+        (click)="openSm(content)">
+        Feedback
+      </a> -->
+        <a class="item" (click)="showSideBar()" routerLink="profile"
+          [class.active]="router.isActive('/search/profile') || router.isActive('/profile')" routerLink="/profile">
+          {{resourceService.frmelmnts?.lnk?.profile}}
+        </a>
+        <a class="item fixed-logout-btn" (click)="logout()">
+          {{resourceService.frmelmnts?.lnk?.logout}}
+        </a>
+      </div>
+      <div class="pusher dimmer">
+        <!-- Site content !-->
+      </div>
+      </div>
+  

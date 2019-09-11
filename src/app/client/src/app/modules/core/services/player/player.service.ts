@@ -10,13 +10,15 @@ import {
   ContentDetails, PlayerConfig, ContentData, NavigationHelperService
 } from '@sunbird/shared';
 import { CollectionHierarchyAPI } from '../../interfaces';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { environment } from '@sunbird/environment';
 import { PublicDataService } from './../public-data/public-data.service';
 /**
  * helper services to fetch content details and preparing content player config
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PlayerService {
   /**
    * stores content details
@@ -26,9 +28,12 @@ export class PlayerService {
    * stores collection/course details
    */
   collectionData: ContentData;
+  previewCdnUrl: string;
   constructor(public userService: UserService, public contentService: ContentService,
     public configService: ConfigService, public router: Router, public navigationHelperService: NavigationHelperService,
     public publicDataService: PublicDataService) {
+      this.previewCdnUrl = (<HTMLInputElement>document.getElementById('previewCdnUrl'))
+      ? (<HTMLInputElement>document.getElementById('previewCdnUrl')).value : undefined;
   }
 
   /**
@@ -47,8 +52,8 @@ export class PlayerService {
         if (option.courseId) {
           contentDetails.courseId = option.courseId;
         }
-        if (option.courseId && option.batchHashTagId) {
-          contentDetails.batchHashTagId = option.batchHashTagId;
+        if (option.courseId && option.batchId) {
+          contentDetails.batchId = option.batchId;
         }
         return observableOf(this.getConfig(contentDetails));
       }));
@@ -77,11 +82,15 @@ export class PlayerService {
    * @memberof PlayerService
    */
   getConfig(contentDetails: ContentDetails): PlayerConfig {
-    const configuration: any = this.configService.appConfig.PLAYER_CONFIG.playerConfig;
+    const configuration: any = _.cloneDeep(this.configService.appConfig.PLAYER_CONFIG.playerConfig);
     configuration.context.contentId = contentDetails.contentId;
     configuration.context.sid = this.userService.sessionId;
     configuration.context.uid = this.userService.userid;
+    configuration.context.timeDiff = this.userService.getServerTimeDiff;
+    configuration.context.contextRollup = this.getRollUpData(this.userService.userProfile.hashTagIds);
     configuration.context.channel = this.userService.channel;
+    const deviceId = (<HTMLInputElement>document.getElementById('deviceId'));
+    configuration.context.did = deviceId ? deviceId.value : '';
     const buildNumber = (<HTMLInputElement>document.getElementById('buildNumber'));
     configuration.context.pdata.ver = buildNumber && buildNumber.value ?
     buildNumber.value.slice(0, buildNumber.value.lastIndexOf('.')) : '1.0';
@@ -90,8 +99,8 @@ export class PlayerService {
     } else {
       const cloneDims = _.cloneDeep(this.userService.dims) || [];
       cloneDims.push(contentDetails.courseId);
-      if (contentDetails.batchHashTagId) {
-        cloneDims.push(contentDetails.batchHashTagId);
+      if (contentDetails.batchId) {
+        cloneDims.push(contentDetails.batchId);
       }
       configuration.context.dims = cloneDims;
     }
@@ -99,13 +108,8 @@ export class PlayerService {
     _.forEach(this.userService.userProfile.organisations, (org) => {
       if (org.hashTagId) {
         tags.push(org.hashTagId);
-      } else if (org.organisationId) {
-        tags.push(org.organisationId);
       }
     });
-    if (this.userService.channel) {
-      tags.push(this.userService.channel);
-    }
     configuration.context.tags = tags;
     configuration.context.app = [this.userService.channel];
     if (contentDetails.courseId) {
@@ -113,13 +117,32 @@ export class PlayerService {
         id: contentDetails.courseId,
         type: 'course'
       }];
+      if (contentDetails.batchId) {
+        configuration.context.cdata.push({ type: 'batch',
+        id: contentDetails.batchId} );
+      }
     }
     configuration.context.pdata.id = this.userService.appId;
     configuration.metadata = contentDetails.contentData;
     configuration.data = contentDetails.contentData.mimeType !== this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.ecmlContent ?
       {} : contentDetails.contentData.body;
     configuration.config.enableTelemetryValidation = environment.enableTelemetryValidation; // telemetry validation
+    configuration.config.previewCdnUrl = this.previewCdnUrl;
     return configuration;
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @param {Array<string>} [data=[]]
+   * @returns
+   * @memberof TelemetryService
+   */
+  private getRollUpData(data: Array<string> = []) {
+    const rollUp = {};
+    data.forEach((element, index) => rollUp['l' + (index + 1)] = element);
+    return rollUp;
   }
 
   public getCollectionHierarchy(identifier: string, option: any = { params: {} }): Observable<CollectionHierarchyAPI.Get> {
@@ -133,14 +156,52 @@ export class PlayerService {
     }));
   }
 
+  updateContentBodyForReviewer(data) {
+    // data object is body of the content after JSON.parse()
+    let parsedData;
+    try {
+      parsedData = JSON.parse(data);
+    } catch {
+      parsedData = null;
+    }
+    if (!parsedData) {
+      return data;
+    }
+    const questionSetPluginId = 'org.ekstep.questionset';
+    const questionPluginId = 'org.ekstep.question';
+    // checking content has questionset plugin dependency
+    const isQuestionSetPluginExist = parsedData.theme['plugin-manifest']['plugin'].filter((plugin) => {
+        return plugin.id !== questionSetPluginId;
+    });
+
+    if (isQuestionSetPluginExist) {
+        // checking each stage for questionset plugin
+        parsedData.theme['stage'].forEach((stage) =>  {
+            if (stage[questionSetPluginId]) {
+                // checking each questionset plugin inside a stage
+                stage[questionSetPluginId].forEach( (questionSetData) => {
+                    const questionSetConfigData = JSON.parse(questionSetData.config.__cdata);
+                    const actualNumberOfQuestions = questionSetData[questionPluginId].length;
+                    // ensuring total items (display items ) always equval to number of questions inside question set
+                    questionSetConfigData.total_items = actualNumberOfQuestions;
+                    // ensuring shuffle is always off for the reviewer
+                    questionSetConfigData.shuffle_questions = false;
+                    questionSetData.config.__cdata = JSON.stringify(questionSetConfigData);
+                });
+            }
+        });
+    }
+    return JSON.stringify(parsedData);
+  }
+
   playContent(content) {
     this.navigationHelperService.storeResourceCloseUrl();
     setTimeout(() => { // setTimeOut is used to trigger telemetry interact event as changeDetectorRef.detectChanges() not working.
       if (content.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.collection) {
         if (content.contentType !== this.configService.appConfig.PLAYER_CONFIG.contentType.Course) {
-          this.router.navigate(['/resources/play/collection', content.identifier]);
+          this.router.navigate(['/resources/play/collection', content.identifier], {queryParams: {contentType: content.contentType}});
         } else if (content.batchId) {
-          this.router.navigate(['/learn/course', content.courseId, 'batch', content.batchId]);
+          this.router.navigate(['/learn/course', content.courseId || content.identifier, 'batch', content.batchId]);
         } else {
           this.router.navigate(['/learn/course', content.identifier]);
         }

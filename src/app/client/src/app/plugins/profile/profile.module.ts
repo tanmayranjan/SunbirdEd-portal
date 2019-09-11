@@ -6,35 +6,37 @@ import { SharedModule } from '@sunbird/shared';
 import { SlickModule } from 'ngx-slick';
 import { ProfileRoutingModule } from './profile-routing.module';
 import {
-  ProfilePageComponent, ProfileBadgeComponent
+  ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent
 } from './components';
-import { SuiModule } from 'ng2-semantic-ui';
+import { SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule,
+  SuiProgressModule, SuiRatingModule, SuiCollapseModule } from 'ng2-semantic-ui';
 import { CoreModule } from '@sunbird/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OrgManagementModule } from '@sunbird/org-management';
-import { WebExtensionModule } from '@project-sunbird/web-extensions';
-import { NgInviewModule } from 'angular-inport';
+// import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { TelemetryModule } from '@sunbird/telemetry';
+import { WebExtensionModule } from '@project-sunbird/web-extensions';
 import { AvatarModule } from 'ngx-avatar';
+import { OrgManagementModule } from '../../modules/org-management/org-management.module';
+import { NgInviewModule } from 'angular-inport';
 @NgModule({
   imports: [
     CommonModule,
     ProfileRoutingModule,
     SharedModule,
-    SuiModule,
+    SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule,
+    SuiProgressModule, SuiRatingModule, SuiCollapseModule,
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    OrgManagementModule,
     WebExtensionModule,
-    NgInviewModule,
     TelemetryModule,
     SlickModule,
+    NgInviewModule,
+    OrgManagementModule,
     AvatarModule,
     SharedFeatureModule
   ],
-  declarations: [ProfilePageComponent, ProfileBadgeComponent],
-  providers: [ProfileService],
-  entryComponents: [ProfileBadgeComponent]
+  declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent],
+  providers: []
 })
 export class ProfileModule { }

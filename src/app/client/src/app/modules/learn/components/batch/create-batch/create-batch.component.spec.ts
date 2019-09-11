@@ -23,7 +23,7 @@ import { LearnModule, UpdateCourseBatchComponent, CourseBatchService,
 class RouterStub {
   navigate = jasmine.createSpy('navigate');
 }
-
+let originalTimeout;
 const resourceServiceMockData = {
   messages: {
     imsg: { m0027: 'Something went wrong' },
@@ -53,6 +53,7 @@ const fakeActivatedRoute = {
       ],
       data: {
         telemetry: {
+          object: {}
         }
       }
     }
@@ -63,10 +64,12 @@ describe('CreateBatchComponent', () => {
   let fixture: ComponentFixture<CreateBatchComponent>;
 
   beforeEach(async(() => {
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     TestBed.configureTestingModule({
       declarations: [],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [SharedModule.forRoot(), CoreModule.forRoot(), SuiModule, RouterTestingModule,
+      imports: [SharedModule.forRoot(), CoreModule, SuiModule, RouterTestingModule,
         HttpClientTestingModule, LearnModule],
       providers: [CourseBatchService, ToasterService, ResourceService, UserService, CourseConsumptionService,
         CourseProgressService, TelemetryService, { provide: Router, useClass: RouterStub },
@@ -78,6 +81,9 @@ describe('CreateBatchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateBatchComponent);
     component = fixture.componentInstance;
+  });
+  afterEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
   it('should fetch batch details and show update Form model', () => {
     const courseBatchService = TestBed.get(CourseBatchService);
@@ -137,5 +143,29 @@ describe('CreateBatchComponent', () => {
     expect(component.createBatchForm).toBeDefined();
     expect(component.showCreateModal).toBeTruthy();
     expect(toasterService.error).toHaveBeenCalledWith('error');
+  });
+
+  it('should create batch with enrollment date and return success message ', () => {
+    const courseBatchService = TestBed.get(CourseBatchService);
+    const courseConsumptionService = TestBed.get(CourseConsumptionService);
+    const toasterService = TestBed.get(ToasterService);
+    const userService = TestBed.get(UserService);
+    userService._userProfile = { organisationIds: [] };
+    spyOn(courseBatchService, 'getUserList').and.returnValue(observableOf(getUserList));
+    spyOn(courseConsumptionService, 'getCourseHierarchy').and.
+    returnValue(observableOf({createdBy: 'b2479136-8608-41c0-b3b1-283f38c338ed'}));
+    spyOn(courseBatchService, 'createBatch').and.returnValue(observableOf(updateBatchDetails));
+    spyOn(toasterService, 'success');
+    const resourceService = TestBed.get(ResourceService);
+    resourceService.messages = resourceServiceMockData.messages;
+    resourceService.frmelmnts = resourceServiceMockData.frmelmnts;
+    fixture.detectChanges();
+    component.createBatchForm.value.startDate = new Date('10 april 2019');
+    component.createBatchForm.value.enrollmentType = 'open';
+    component.createBatchForm.value.enrollmentEndDate = new Date('9 april 2019');
+    component.createBatch();
+    expect(component.createBatchForm).toBeDefined();
+    expect(component.showCreateModal).toBeTruthy();
+    expect(toasterService.success).toHaveBeenCalledWith('success');
   });
 });

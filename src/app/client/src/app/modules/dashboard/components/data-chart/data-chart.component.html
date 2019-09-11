@@ -1,0 +1,83 @@
+<div class="graph-filters">
+  <form [formGroup]="filtersFormGroup" class="ui form">
+    <div class="d-flex flex-w-wrap reset-filter-section" *ngIf="showFilters">
+      <div class="d-flex flex-ai-center">{{resourceService?.frmelmnts?.lbl?.graphStat }}: <sui-checkbox
+          class="toggle ml-8" appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
+          [telemetryInteractEdata]="setTelemetryInteractEdata('graph-statistics')"
+          [telemetryInteractCdata]="telemetryCdata" (checkChange)="showStats = $event; "></sui-checkbox>
+      </div>
+      <div class="mr-8" *ngIf="chartType === 'bar' || chartType === 'line'">
+        <sui-select class="selection" [placeholder]="'Select ChartType'"
+          (selectedOptionChange)="changeChartType($event)">
+          <sui-select-option appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
+            [telemetryInteractEdata]="setTelemetryInteractEdata('chart-type-filter')"
+            [telemetryInteractCdata]="telemetryCdata" *ngFor="let option of availableChartTypeOptions" [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </div>
+      <div class="field">
+        <button appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
+          [telemetryInteractEdata]="setTelemetryInteractEdata('reset-filters')"
+          [telemetryInteractCdata]="telemetryCdata" class="sb-btn sb-btn-outline-primary sb-btn-normal"
+          *ngIf="filters.length" (click)="resetFilter()">
+          {{resourceService?.frmelmnts?.btn?.reset}} {{resourceService?.frmelmnts?.lbl?.filters  }}
+        </button>
+      </div>
+    </div>
+    <sui-accordion class="styled fluid" [closeOthers]="false" *ngIf="showFilters">
+      <sui-accordion-panel [isOpen]="true">
+        <div title>
+          <i class="dropdown icon"></i>
+          {{resourceService?.frmelmnts?.lbl?.filters }}
+        </div>
+        <div content>
+
+              <ng-container *ngIf="showLabelsFilter">
+                <div class="field">
+                  <div class="multiselectlabel">{{field.label}}</div>
+                  <sui-multi-select class="selection"
+                    [placeholder]="resourceService?.frmelmnts?.lbl?.Select + ' ' + labelString"
+                    formControlName="labels">
+                    <sui-select-option *ngFor="let label of chartData.labels" [value]="label">
+                    </sui-select-option>
+                  </sui-multi-select>
+                </div>
+              </ng-container>
+
+              <div class="field" *ngIf="chart.datasets.length>1">
+                <div class="multiselectlabel">{{field.label}}</div>
+                <sui-multi-select class="selection" [placeholder]="resourceService?.frmelmnts?.lbl?.Select +  ' Chart'"
+                  [options]="chart.datasets" labelField="label" formControlName="dataSet" #multiSelect>
+                  <sui-select-option *ngFor="let option of multiSelect.filteredOptions" [value]="option">
+                  </sui-select-option>
+                </sui-multi-select>
+              </div>
+
+              <div class="field">
+                <button class="ui large primary button" (click)="resetFilter()">
+                  {{resourceService?.frmelmnts?.btn?.reset}} {{resourceService?.frmelmnts?.lbl?.filters  }}
+                </button>
+              </div>
+            </div>
+      </sui-accordion-panel>
+    </sui-accordion>
+  </form>
+  <div *ngIf="showStats">
+    <div _ngcontent-c14="" class="graph-statistics py-16" *ngFor="let stat of loadash.keys(resultStatistics)">
+      {{stat}} <div class="sb-label sb-label-table sb-label-primary-100 mr-4"
+        *ngFor="let op of loadash.keys(resultStatistics[stat])"> {{op}} : {{resultStatistics[stat][op]}}
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-filter-label pt-16 pb-8" *ngIf="selectedFilters">
+    <div *ngFor="let key of loadash.keys(selectedFilters)" class="d-inline-flex flex-w-wrap"><span
+        class="sb-label-name mb-4">{{key}}:</span><span class="sb-label-value"
+        *ngFor="let val of selectedFilters[key]">{{val}}
+        <!-- <i class="close icon mr-0 pl-4"></i> -->
+      </span>
+    </div>
+  </div>
+  <canvas baseChart [datasets]="datasets" [labels]="chartLabels" [options]="chartOptions" [chartType]="chartType"
+    [legend]="legend" [colors]="chartColors"></canvas>
+</div>

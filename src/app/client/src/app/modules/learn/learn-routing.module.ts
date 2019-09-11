@@ -11,14 +11,14 @@ import { FlagContentComponent, AuthGuard } from '@sunbird/core';
 import { CourseProgressComponent } from '@sunbird/dashboard';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/shared-feature';
-const telemetryEnv = 'course';
-const objectType = 'course';
+const telemetryEnv = 'Course';
+const objectType = 'Course';
 const routes: Routes = [
   {
     path: '', component: LearnPageComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Courses', url: '' }],
-      telemetry: { env: telemetryEnv, pageid: 'learn', type: 'view' },
+      telemetry: { env: telemetryEnv, pageid: 'learn', type: 'view', subtype: 'paginate' },
       baseUrl: 'learn'
     }
   },
@@ -65,7 +65,7 @@ const routes: Routes = [
             path: 'update/batch/:batchId', component: UpdateCourseBatchComponent, canActivate: [AuthGuard],
             data: {
               telemetry: { env: telemetryEnv, pageid: 'batch-edit', type: 'view', object: { ver: '1.0', type: 'batch' } },
-              roles: 'coursebacthesRole'
+              roles: 'courseBatchRoles'
             }
           },
           {
@@ -75,7 +75,7 @@ const routes: Routes = [
                 env: telemetryEnv, pageid: 'batch-create', type: 'view', mode: 'create',
                 object: { ver: '1.0', type: 'batch' }
               },
-              roles: 'coursebacthesRole'
+              roles: 'courseBatchRoles'
             }
           }
         ]
@@ -83,7 +83,7 @@ const routes: Routes = [
       {
         path: ':courseId/dashboard', component: CourseProgressComponent, canActivate: [AuthGuard],
         data: {
-          roles: 'coursebacthesRole',
+          roles: 'courseBatchRoles',
           telemetry: { env: telemetryEnv, pageid: 'course-stats', type: 'view', object: { ver: '1.0', type: 'course' } }
         }
       },

@@ -8,9 +8,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserSearchService } from './services';
 import { OrderModule } from 'ngx-order-pipe';
 import { CourseSearchComponent, UserFilterComponent, UserEditComponent, UserDeleteComponent, HomeSearchComponent,
-   OrgSearchComponent, OrgFilterComponent, UserProfileComponent, UserSearchComponent, LibrarySearchComponent } from './components';
+  OrgSearchComponent, OrgFilterComponent, UserProfileComponent, UserSearchComponent, LibrarySearchComponent } from './components';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { NgInviewModule } from 'angular-inport';
+import { AvatarModule } from 'ngx-avatar';
+import {SharedFeatureModule} from '@sunbird/shared-feature';
+import { SpaceResourceSearchComponent } from './components/space-resource-search/space-resource-search.component';
+// import { Angular2CsvModule } from 'angular2-csv'; Angular2CsvModule removed TODO: use Blob object to generate csv file
 
 @NgModule({
   imports: [
@@ -22,11 +26,14 @@ import { NgInviewModule } from 'angular-inport';
     CoreModule,
     OrderModule,
     TelemetryModule,
-    NgInviewModule
+    NgInviewModule,
+    AvatarModule,
+    SharedFeatureModule,
+    ReactiveFormsModule
   ],
   declarations: [ UserSearchComponent, CourseSearchComponent, LibrarySearchComponent,
   UserFilterComponent, UserEditComponent, UserDeleteComponent, OrgSearchComponent, OrgFilterComponent,
-   UserProfileComponent, HomeSearchComponent ],
+  UserProfileComponent, HomeSearchComponent, SpaceResourceSearchComponent ],
   providers: [UserSearchService]
 })
 export class SearchModule { }

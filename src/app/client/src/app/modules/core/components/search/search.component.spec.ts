@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ResourceService, ConfigService, BrowserCacheTtlService } from '@sunbird/shared';
+import { ResourceService, ConfigService, BrowserCacheTtlService, SharedModule } from '@sunbird/shared';
 import { SuiModule } from 'ng2-semantic-ui';
 import { async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -35,7 +35,7 @@ describe('SearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchComponent ],
-      imports: [SuiModule, FormsModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [SharedModule.forRoot(), SuiModule, FormsModule, RouterTestingModule, HttpClientTestingModule],
       providers: [ResourceService, ConfigService, CacheService, BrowserCacheTtlService, UserService, LearnerService,
       ContentService, { provide: Router, useClass: MockRouter},
          { provide: ActivatedRoute, useValue: {queryParams: {
@@ -71,28 +71,38 @@ describe('SearchComponent', () => {
   });
   it('should hide users search from dropdown if loggedin user is not rootorgadmin', ( ) => {
     const userService = TestBed.get(UserService);
+    const resourceService = TestBed.get(ResourceService);
     const route = TestBed.get(Router);
     userService._userData$.next({ err: null, userProfile: mockResponse.userMockData.userProfile });
+    resourceService._languageSelected.next({ 'value': 'en', 'name': 'English', 'dir': 'ltr' });
     component.searchDropdownValues = ['All', 'Courses', 'Library'];
     component.ngOnInit();
     expect(component.searchDropdownValues).not.toContain('Users');
   });
   it('should show users search from dropdown if loggedin user is rootorgadmin', ( ) => {
     const userService = TestBed.get(UserService);
+    const resourceService = TestBed.get(ResourceService);
     mockResponse.userMockData.userProfile.rootOrgAdmin = true;
     userService._userData$.next({ err: null, userProfile: mockResponse.userMockData.userProfile });
+    resourceService._languageSelected.next({ 'value': 'en', 'name': 'English', 'dir': 'ltr' });
+    component.searchDisplayValueMappers = {
+      'All': 'all',
+      'Library': 'resources',
+      'Courses': 'courses',
+      'Users': 'users'
+    };
     component.searchDropdownValues = ['All', 'Courses', 'Library'];
     component.ngOnInit();
     expect(component.searchDropdownValues).toContain('Users');
   });
-  it('search dropdown selected value should be ALL when non rootorgadmin user lands to profile page', ( ) => {
+  xit('search dropdown selected value should be ALL when non rootorgadmin user lands to profile page', ( ) => {
     const userService = TestBed.get(UserService);
     mockResponse.userMockData.userProfile.rootOrgAdmin = false;
     userService._userData$.next({ err: null, userProfile: mockResponse.userMockData.userProfile });
     component.ngOnInit();
     expect(component.selectedOption).toEqual('All');
   });
-  it('search dropdown selected value should be Users when rootorgadmin user lands to profile page', ( ) => {
+  xit('search dropdown selected value should be Users when rootorgadmin user lands to profile page', ( ) => {
     const userService = TestBed.get(UserService);
     mockResponse.userMockData.userProfile.rootOrgAdmin = true;
     userService._userData$.next({ err: null, userProfile: mockResponse.userMockData.userProfile });

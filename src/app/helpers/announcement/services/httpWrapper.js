@@ -20,7 +20,6 @@ class HttpWrapper {
     return new Promise((resolve, reject) => {
       try {
         if (!options) reject('options required!')
-
         let token = options.token || ''
         options.headers = options.headers || this.getRequestHeader(token)
 

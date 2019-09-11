@@ -1,23 +1,31 @@
-import { LearnerService } from './../learner/learner.service';
-import { throwError as observableThrowError, of as observableOf, Observable, BehaviorSubject } from 'rxjs';
-import { mergeMap, catchError } from 'rxjs/operators';
+import { throwError, of, Observable, BehaviorSubject } from 'rxjs';
+import { mergeMap, map, catchError, skipWhile } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConfigService, ServerResponse, ToasterService, ResourceService, BrowserCacheTtlService } from '@sunbird/shared';
 import { Router } from '@angular/router';
 import { ContentService } from './../content/content.service';
 import { PublicDataService } from './../public-data/public-data.service';
 import { CacheService } from 'ng2-cache-service';
-import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
+import { LearnerService } from './../learner/learner.service';
+import * as _ from 'lodash-es';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OrgDetailsService {
 
   orgDetails: any;
-  orgInfo: any ;
+  orgInfo: any;
+  timeDiff: any;
 
   private _orgDetails$ = new BehaviorSubject<any>(undefined);
+  /**
+   * Contains root org id
+   */
+  public _rootOrgId: string;
 
-  public readonly orgDetails$: Observable<any> = this._orgDetails$.asObservable();
+  public readonly orgDetails$: Observable<any> = this._orgDetails$.asObservable()
+  .pipe(skipWhile(data => data === undefined || data === null));
 
   constructor(public configService: ConfigService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService,
@@ -38,29 +46,35 @@ export class OrgDetailsService {
       }
     };
     if (this.orgDetails) {
-      return observableOf(this.orgDetails);
+      return of(this.orgDetails);
     } else {
-      return this.publicDataService.post(option).pipe(mergeMap((data: ServerResponse) => {
+      return this.publicDataService.postWithHeaders(option).pipe(mergeMap((data: ServerResponse) => {
+        if (data.ts) {
+          // data.ts is taken from header and not from api response ts, and format in IST
+          this.timeDiff = data.ts;
+        }
         if (data.result.response.count > 0) {
           this.orgDetails = data.result.response.content[0];
+          this._rootOrgId = this.orgDetails.rootOrgId;
           this.setOrgDetailsToRequestHeaders();
           this._orgDetails$.next({ err: null, orgDetails: this.orgDetails });
-          return observableOf(data.result.response.content[0]);
+          return of(data.result.response.content[0]);
         } else {
           option.data.request.filters.slug = (<HTMLInputElement>document.getElementById('defaultTenant')).value;
           return this.publicDataService.post(option).pipe(mergeMap((responseData: ServerResponse) => {
             if (responseData.result.response.count > 0) {
               this.orgDetails = responseData.result.response.content[0];
+              this._rootOrgId = this.orgDetails.rootOrgId;
               this.setOrgDetailsToRequestHeaders();
               this._orgDetails$.next({ err: null, orgDetails: this.orgDetails });
-              return observableOf(responseData.result.response.content[0]);
+              return of(responseData.result.response.content[0]);
             } else {
               this._orgDetails$.next({ err: responseData, orgDetails: this.orgDetails });
-              observableThrowError(responseData);
+              throwError(responseData);
             }
           }), catchError((err) => {
             this._orgDetails$.next({ err: err, orgDetails: this.orgDetails });
-            return observableThrowError(err);
+            return throwError(err);
           }));
         }
       }));
@@ -74,7 +88,25 @@ export class OrgDetailsService {
     this.publicDataService.rootOrgId = this.orgDetails.rootOrgId;
     this.publicDataService.channelId = this.orgDetails.channel;
   }
-
+  searchOrgDetails(hashtagId) {
+    const option = {
+      url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
+      data: {
+        request: {
+          filters: {
+            rootOrgId: hashtagId
+          }
+        }
+      }
+    };
+    console.log('org search filter for space = ', option);
+      return this.publicDataService.post(option).pipe(mergeMap((data: ServerResponse) => {
+        if (data.result.response.count > 0) {
+          this.setOrgDetails(data.result.response);
+          return of(data.result.response);
+        }
+      }));
+  }
   searchOrg() {
     const option = {
       url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
@@ -87,13 +119,14 @@ export class OrgDetailsService {
       }
     };
     const orgDetails: any = this.cacheService.get('orgDetails');
+    console.log('org details = ', orgDetails);
     if (orgDetails) {
-      return observableOf(orgDetails);
+      return of(orgDetails);
     } else {
       return this.publicDataService.post(option).pipe(mergeMap((data: ServerResponse) => {
         if (data.result.response.count > 0) {
           this.setOrgDetails(data.result.response);
-          return observableOf(data.result.response);
+          return of(data.result.response);
         }
       }));
     }
@@ -106,11 +139,83 @@ export class OrgDetailsService {
   }
   public setOrg(orgdata) {
     this.orgInfo = orgdata;
-}
+  }
 
-public getOrg(): void {
+  public getOrg(): void {
     return this.orgInfo;
-}
+  }
+
+  getCustodianOrg() {
+    const systemSetting = {
+      url: this.configService.urlConFig.URLS.SYSTEM_SETTING.CUSTODIAN_ORG,
+    };
+    return this.learnerService.get(systemSetting);
+  }
+
+  /**
+   * orgids should be ordered by preference based on comming soon obj will be returned
+   */
+  getCommingSoonMessage(orgids) {
+    if (!orgids) {
+      return of({});
+    }
+    const contentComingSoon: any = this.cacheService.get('contentComingSoon');
+    if (contentComingSoon) {
+      return of(this.getCommingSoonMessageObj(contentComingSoon, orgids));
+    } else {
+      const systemSetting = {
+        url: this.configService.urlConFig.URLS.SYSTEM_SETTING.COMMING_SOON_MESSAGE,
+      };
+      return this.learnerService.get(systemSetting).pipe(map((data: ServerResponse) => {
+        if (_.has(data, 'result.response')) {
+          let commingSoonData = {};
+          try {
+            commingSoonData = JSON.parse(data.result.response.value);
+          } catch (e) {}
+          this.cacheService.set('contentComingSoon', commingSoonData, {
+            maxAge: this.browserCacheTtlService.browserCacheTtl
+          });
+          return this.getCommingSoonMessageObj(commingSoonData, orgids);
+        } else {
+          return {};
+        }
+      }), catchError((err) => {
+        return of({});
+      }));
+    }
+  }
+
+  getCommingSoonMessageObj (data, orgids) {
+    let commingSoonMessageObj = {};
+    if (data && data.length) {
+      _.forEach(orgids, (eachrootorg) => {
+        commingSoonMessageObj = _.find(data, {rootOrgId: eachrootorg});
+        if (commingSoonMessageObj) {
+          return false;
+        }
+      });
+    }
+    return commingSoonMessageObj;
+  }
+
+  get getServerTimeDiff() {
+    return this.timeDiff;
+  }
+
+  get getRootOrgId() {
+    return this._rootOrgId;
+  }
+
+  fetchOrgs(filters) {
+    const option = {
+      url: this.configService.urlConFig.URLS.ADMIN.ORG_SEARCH,
+      data: {
+        request: filters
+      }
+    };
+
+    return this.publicDataService.post(option);
+  }
 }
 
 

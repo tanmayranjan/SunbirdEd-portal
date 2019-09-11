@@ -5,6 +5,7 @@ const permissionsHelper = require('../helpers/permissionsHelper.js')
 const envHelper = require('../helpers/environmentVariablesHelper.js')
 const contentProxyUrl = envHelper.CONTENT_PROXY_URL
 const contentServiceBaseUrl = envHelper.CONTENT_URL
+const logger = require('sb_logger_util_v2')
 
 module.exports = function (app) {
     const proxyReqPathResolverMethod = function (req) {
@@ -12,11 +13,7 @@ module.exports = function (app) {
     }
 
     app.use('/api/*', permissionsHelper.checkPermission(), proxy(contentProxyUrl, {
-        proxyReqOptDecorator: proxyHeaders.decorateRequestHeaders(),
-        proxyReqPathResolver: proxyReqPathResolverMethod,
-        userResDecorator: (proxyRes, proxyResData, req, res) => {
-            if(req.method === 'GET' && proxyRes.statusCode === 404) res.redirect('/')
-            return proxyResData;
-        }
+        proxyReqPathResolver: proxyReqPathResolverMethod
     }))
 }
+

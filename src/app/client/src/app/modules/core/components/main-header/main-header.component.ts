@@ -1,74 +1,35 @@
-import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { UserService, PermissionService, TenantService } from './../../services';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { filter, first } from 'rxjs/operators';
+import { UserService, PermissionService, TenantService, OrgDetailsService, FormService } from './../../services';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
-/**
- * Main header component
- */
+import { environment } from '@sunbird/environment';
+declare var jQuery: any;
+
 @Component({
   selector: 'app-header',
-  templateUrl: './main-header.component.html',
-  styleUrls: ['./main-header.component.css']
+  templateUrl: './main-header.component.html'
 })
-export class MainHeaderComponent implements OnInit, OnDestroy {
-  /**
-   * reference of tenant service.
-   */
-  public tenantService: TenantService;
-  /**
-   * organization log
-   */
+export class MainHeaderComponent implements OnInit, AfterViewInit {
+
+  languageFormQuery = {
+    formType: 'content',
+    formAction: 'search',
+    filterEnv: 'resourcebundle'
+  };
   exploreButtonVisibility: string;
-  logo: string;
-  key: string;
   queryParam: any = {};
   showExploreHeader = false;
   showQrmodal = false;
-  /**
-   * tenant name
-   */
-  tenantName: string;
-  /**
-   * user profile details.
-   */
+  tenantInfo: any = {};
   userProfile: IUserProfile;
-  /**
-   * Sui dropdown initiator
-   */
-  isOpen: boolean;
-  /**
-   * Admin Dashboard access roles
-   */
   adminDashboard: Array<string>;
-  /**
-   * Announcement access roles
-   */
   announcementRole: Array<string>;
-  /**
-   * MyActivity access roles
-   */
   myActivityRole: Array<string>;
-  /**
-   * Organization Setup access roles
-   */
   orgSetupRole: Array<string>;
-  /**
-   * reference of UserService service.
-   */
-  public userService: UserService;
-  /**
-   * reference of config service.
-   */
-  public config: ConfigService;
-  /**
-   * reference of resourceService service.
-   */
-  public resourceService: ResourceService;
   avtarMobileStyle = {
     backgroundColor: 'transparent',
     color: '#AAAAAA',
@@ -91,137 +52,213 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     height: '38px',
     width: '38px'
   };
-  /**
-   * reference of permissionService service.
-   */
-  public permissionService: PermissionService;
   public signUpInteractEdata: IInteractEventEdata;
   public enterDialCodeInteractEdata: IInteractEventEdata;
   public telemetryInteractObject: IInteractEventObject;
-  tenantDataSubscription: Subscription;
-  userDataSubscription: Subscription;
-
-  /**
-  * value to enable and disable signUp button
-  */
-  enableSignup = true;
-  exploreRoutingUrl: string;
   pageId: string;
-  /*
-  * constructor
-  */
-  constructor(config: ConfigService, resourceService: ResourceService, public router: Router,
-    permissionService: PermissionService, userService: UserService, tenantService: TenantService,
-    public activatedRoute: ActivatedRoute, private cacheService: CacheService) {
-    this.config = config;
-    this.resourceService = resourceService;
-    this.permissionService = permissionService;
-    this.userService = userService;
-    this.tenantService = tenantService;
-   }
+  searchBox = {
+    'center': false,
+    'smallBox': false,
+    'mediumBox': false,
+    'largeBox': false
+  };
+  slug: string;
+  isOffline: boolean = environment.isOffline;
+  languages: Array<any>;
+  slugInfo: any;
+  showOfflineHelpCentre = false;
+  exploreRoutingUrl: string;
 
-  ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(event => {
-        let currentRoute = this.activatedRoute.root;
-        if (currentRoute.children) {
-          while (currentRoute.children.length > 0) {
-            const child: ActivatedRoute[] = currentRoute.children;
-            child.forEach(route => {
-              currentRoute = route;
-              if (route.snapshot.data.telemetry) {
-                if (route.snapshot.data.telemetry.pageid) {
-                  this.pageId = route.snapshot.data.telemetry.pageid;
-                } else {
-                  this.pageId = route.snapshot.data.telemetry.env;
-                }
-              }
-            });
-          }
-        }
-      });
-    try {
-      this.exploreButtonVisibility = (<HTMLInputElement>document.getElementById('exploreButtonVisibility')).value;
-    } catch (error) {
-      this.exploreButtonVisibility = 'false';
-    }
-    this.getUrl();
-    if (!this.userService.loggedIn) {
-      this.getCacheLanguage();
-    }
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      this.queryParam = { ...queryParams };
-      this.key = this.queryParam['key'];
-    });
-    this.adminDashboard = this.config.rolesConfig.headerDropdownRoles.adminDashboard;
-    this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
-    this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
-    this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
-    this.tenantDataSubscription = this.tenantService.tenantData$.subscribe(
-      data => {
-        if (data && !data.err) {
-          this.logo = data.tenantData.logo;
-          this.tenantName = data.tenantData.titleName;
-        }
+  constructor(public config: ConfigService, public resourceService: ResourceService, public router: Router,
+    public permissionService: PermissionService, public userService: UserService, public tenantService: TenantService,
+    public orgDetailsService: OrgDetailsService, private _cacheService: CacheService, public formService: FormService,
+    public activatedRoute: ActivatedRoute, private cacheService: CacheService, private cdr: ChangeDetectorRef) {
+      try {
+        this.exploreButtonVisibility = (<HTMLInputElement>document.getElementById('exploreButtonVisibility')).value;
+      } catch (error) {
+        this.exploreButtonVisibility = 'false';
       }
-    );
-    this.userDataSubscription = this.userService.userData$.subscribe(
-      (user: IUserData) => {
+      this.adminDashboard = this.config.rolesConfig.headerDropdownRoles.adminDashboard;
+      this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
+      this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
+      this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
+  }
+  ngOnInit() {
+      window.sessionStorage.clear();
+    console.log('activated route', this.activatedRoute);
+    if (this.userService.loggedIn) {
+      this.userService.userData$.pipe(first()).subscribe((user: any) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
+          this.slugInfo = this.userProfile.channel;
+            this.getLanguage(this.userService.channel);
         }
       });
+    } else {
+
+      this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+      this.slugInfo = 'loggedIn';
+          this.showExploreHeader = true;
+      this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
+        if (data && !data.err) {
+          this.getLanguage(data.orgDetails.hashTagId);
+        }
+      });
+    }
+    this.getUrl();
+    this.activatedRoute.queryParams.subscribe(queryParams => this.queryParam = { ...queryParams });
+    this.tenantService.tenantData$.subscribe(({tenantData}) => {
+      this.tenantInfo.logo = tenantData ? tenantData.logo : undefined;
+      this.tenantInfo.titleName = tenantData ? tenantData.titleName.toUpperCase() : undefined;
+    });
     this.setInteractEventData();
-    try {
-      const enableSignupButton: string = (<HTMLInputElement>document.getElementById('enableSignup')) ?
-        (<HTMLInputElement>document.getElementById('enableSignup')).value : 'true';
-      this.enableSignup = (enableSignupButton.toLowerCase() === 'true');
-    } catch {
-      console.log('error while fetching enableSignup');
+    this.cdr.detectChanges();
+    this.setWindowConfig();
+
+    // This subscription is only for offline and it checks whether the page is offline
+    // help centre so that it can load its own header/footer
+    if (this.isOffline) {
+      this.router.events.subscribe((val) => {
+        if (_.includes(this.router.url, 'help-center')) {
+          this.showOfflineHelpCentre = true;
+        } else {
+          this.showOfflineHelpCentre = false;
+        }
+      });
     }
   }
+  getLanguage(channelId) {
+    const isCachedDataExists = this._cacheService.get(this.languageFormQuery.filterEnv + this.languageFormQuery.formAction);
+      window.sessionStorage.clear();
 
-  getCacheLanguage() {
-    const isCachedDataExists = this.cacheService.exists('portalLanguage');
     if (isCachedDataExists) {
-      const data: any | null = this.cacheService.get('portalLanguage');
-      this.resourceService.getResource(data);
+      this.languages = isCachedDataExists[0].range;
+    } else {
+      const formServiceInputParams = {
+        formType: this.languageFormQuery.formType,
+        formAction: this.languageFormQuery.formAction,
+        contentType: this.languageFormQuery.filterEnv
+      };
+      this.formService.getFormConfig(formServiceInputParams, channelId).subscribe((data: any) => {
+        this.languages = data[0].range;
+        this._cacheService.set(this.languageFormQuery.filterEnv + this.languageFormQuery.formAction, data,
+          { maxAge: this.config.appConfig.cacheServiceConfig.setTimeInMinutes * this.config.appConfig.cacheServiceConfig.setTimeInSeconds});
+      }, (err: any) => {
+        this.languages = [{ 'value': 'en', 'label': 'English', 'dir': 'ltr' }];
+      });
     }
   }
   navigateToHome() {
-    if (this.userService.loggedIn) {
-      this.router.navigate(['home']);
-    } else {
+    if (this.isOffline) {
       this.router.navigate(['']);
+    } else if (this.userService.loggedIn) {
+      this.router.navigate(['resources']);
+    } else {
+      window.location.href = this.slug ? this.slug  : '';
     }
   }
   onEnter(key) {
-    this.key = key;
+
     this.queryParam = {};
-    this.queryParam['key'] = this.key;
-    if (this.key && this.key.length > 0) {
-      this.queryParam['key'] = this.key;
-    } else {
-      delete this.queryParam['key'];
+    if (key && key.length) {
+      this.queryParam.key = key;
     }
-    this.router.navigate([this.exploreRoutingUrl, 1], {
-      queryParams: this.queryParam
-    });
+    console.log('activate route in main header = ', this.activatedRoute, key);
+
+    if (this.isOffline) {
+      this.routeToOffline();
+    } else {
+      // const url = this.router.url.split('?')[0];
+      // let redirectUrl;
+      // if (url.indexOf('/explore-course') !== -1) {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-course')) + 'explore-course';
+      // } else {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-library')) + 'explore-library';
+      // }
+      // this.router.navigate([redirectUrl, 1], { queryParams: this.queryParam });
+      const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
+  //  this.slugInfo = route[0].firstChild.children[0].url[0].path;
+    let currRoute = route[0].firstChild.children[0].url[0].path;
+    console.log('slug info in main header = ', this.slugInfo, route, currRoute);
+    if (currRoute === 'sbwb') {
+     this.slugInfo = route[0].firstChild.children[0].url[0].path;
+       currRoute = route[0].firstChild.children[0].url[1].path;
+      console.log('check = ', this.slugInfo, currRoute);
+      this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
+    }
+    if (currRoute === 'explore-course') {
+       currRoute = route[0].firstChild.children[0].url[0].path;
+       this.router.navigate(['/sbwb/explore-courses', 1], { queryParams: this.queryParam });
+       }
+    if (currRoute === 'play') {
+        currRoute = route[0].firstChild.children[0].url[0].path;
+        this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
+        }
+    }
+  }
+
+  /* This method searches only for offline module*/
+  routeToOffline() {
+    if (_.includes(this.router.url, 'browse')) {
+      this.router.navigate(['browse', 1], { queryParams: this.queryParam });
+    } else {
+      this.router.navigate(['search', 1], { queryParams: this.queryParam });
+    }
+  }
+
+  getSearchButtonInteractEdata(key) {
+    const searchInteractEdata = {
+      id: `search-button`,
+      type: 'click',
+      pageid: this.router.url.split('/')[1]
+    };
+    if (key) {
+      searchInteractEdata['extra'] = {
+        query: key
+      };
+    }
+    return searchInteractEdata;
   }
 
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
+      let currentRoute = this.activatedRoute.root;
+      console.log('getting url');
+      if (currentRoute.children) {
+        while (currentRoute.children.length > 0) {
+          const child: ActivatedRoute[] = currentRoute.children;
+          child.forEach(route => {
+            currentRoute = route;
+            if (route.snapshot.data.telemetry) {
+              if (route.snapshot.data.telemetry.pageid) {
+                this.pageId = route.snapshot.data.telemetry.pageid;
+              } else {
+                this.pageId = route.snapshot.data.telemetry.env;
+              }
+            }
+          });
+        }
+      }
+      this.slug = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.params.slug');
+      console.log('main header if',  urlAfterRedirects.url);
       if (_.includes(urlAfterRedirects.url, '/explore')) {
+        console.log('main header if',  urlAfterRedirects.url);
         this.showExploreHeader = true;
-        const url  = urlAfterRedirects.url.split('?')[0].split('/');
-        if (url.indexOf('explore') === 2) {
+        const url = urlAfterRedirects.url.split('?')[0].split('/');
+        console.log('url', url);
+        if (url.indexOf('explore-library') === 2) {
           this.exploreRoutingUrl = url[1] + '/' + url[2];
+          console.log('else', this.exploreRoutingUrl);
+        } else if (url.indexOf('explore-courses') === 2) {
+          this.exploreRoutingUrl = url[1] + '/' + url[2];
+          console.log('else', this.exploreRoutingUrl);
         } else {
           this.exploreRoutingUrl = url[1];
         }
       } else if (_.includes(urlAfterRedirects.url, '/explore-course')) {
+        console.log('main header else',  urlAfterRedirects.url);
         this.showExploreHeader = true;
-        const url  = urlAfterRedirects.url.split('?')[0].split('/');
+        const url = urlAfterRedirects.url.split('?')[0].split('/');
         if (url.indexOf('explore-course') === 2) {
           this.exploreRoutingUrl = url[1] + '/' + url[2];
         } else {
@@ -233,9 +270,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  closeQrModalEvent(event) {
-    this.showQrmodal = false;
-  }
   setInteractEventData() {
     this.signUpInteractEdata = {
       id: 'signup',
@@ -254,17 +288,56 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     };
   }
 
-  logout() {
-    window.location.replace('/logoff');
-    this.cacheService.removeAll();
+  getLogoutInteractEdata() {
+    return {
+      id: 'logout',
+      type: 'click',
+      pageid: this.router.url.split('/')[1]
+    };
   }
 
-  ngOnDestroy() {
-    if (this.tenantDataSubscription) {
-      this.tenantDataSubscription.unsubscribe();
+  logout() {
+    window.location.replace('/logoffsbwb');
+    this.cacheService.removeAll();
+  }
+  setWindowConfig() {
+    if (window.innerWidth <= 1023 && window.innerWidth > 548) {
+      this.searchBox.center = true;
+      this.searchBox.largeBox = true;
+      this.searchBox.smallBox = false;
+      this.searchBox.mediumBox = false;
+    } else if (window.innerWidth <= 548) {
+      this.searchBox.smallBox = true;
+      this.searchBox.largeBox = false;
+      this.searchBox.mediumBox = false;
+    } else {
+      this.searchBox.center = false;
+      this.searchBox.smallBox = false;
+      this.searchBox.largeBox = false;
+      this.searchBox.mediumBox = true;
     }
-    if (this.userDataSubscription) {
-      this.userDataSubscription.unsubscribe();
-    }
+    window.onresize = (e) => {
+      if (window.innerWidth <= 1023 && window.innerWidth > 548) {
+        this.searchBox.center = true;
+        this.searchBox.largeBox = true;
+        this.searchBox.smallBox = false;
+        this.searchBox.mediumBox = false;
+      } else if (window.innerWidth <= 548) {
+        this.searchBox.largeBox = false;
+        this.searchBox.mediumBox = false;
+        this.searchBox.smallBox = true;
+      } else {
+        this.searchBox.center = false;
+        this.searchBox.smallBox = false;
+        this.searchBox.largeBox = false;
+        this.searchBox.mediumBox = true;
+      }
+    };
+  }
+  showSideBar() {
+    jQuery('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+  }
+  ngAfterViewInit() {
+    window.sessionStorage.clear();
   }
 }

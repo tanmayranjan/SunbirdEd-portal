@@ -1,0 +1,215 @@
+@import "../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+i.fas.fa-database.fa-lg {
+  padding: 0.6em 0em;
+  font-size: 2em;
+}
+  .thick-gray-border {
+    border-color: gray;
+    border-width: 5px;
+    border-style: solid;
+    border-radius: 50%;
+    height: 63px;
+    margin-left: 1rem; 
+    background: white;
+    width: fit-content; 
+    margin-top: 1rem
+  }
+.card-text{
+  height: 43px;
+  min-height: 42px;
+  text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+}
+.card-header {
+  cursor: pointer;
+  background: #585858
+}
+.creator {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #686F7A;
+  padding-bottom: 6px;
+}
+ #style {
+   border-radius: 50%;
+    background: gainsboro;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 2px 2px;
+ }
+ #stylefav {
+  border-radius: 50%;
+  background: gainsboro;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 2px 2px;
+  margin-top: -32px;
+ }
+ #pub {
+  background-color: #a8abe3 !important;
+   border-radius: 4rem;
+   font-family: "Muli",sans-serif;
+   color: white ;
+ }
+ .card {
+   height: auto;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  font-family: 'Muli', sans-serif;
+  cursor: pointer;
+ }
+ .col-sm-8 {
+   height: fit-content;
+ }
+ #badge {
+   background-color: #a7aae5;
+      border-radius: 4rem;
+ }
+ .ui.mini.modal {
+   height: fit-content !important;
+ }
+ 
+ #styletick {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+ }
+ i.fas.fa-database.fa-lg {
+  padding: 1em 0.1em;
+  text-align: center;
+  font-size: 1.6em;
+}
+ .badgedisplay {
+  width: 58px;
+  position: absolute;
+  height: 59px;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-position: -18px -739px;
+  /* background-size: 100%; */
+  /* border-radius: 50%; */
+  background-origin: 0;
+}
+.sprite {
+  width: 63px;
+  height:63px;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-origin: 0;
+}
+.badgesprite{
+  width: 63px;
+  height:63px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../../../assets/images/Sprite-image.png');
+  background-origin: 0;
+}
+.knowledgeimg {
+  background-position: -12px -491px !important;
+}
+.hardwareimg {
+  background-position: -12px -610px;
+}
+.processimg {
+  background-position: -12px -430px;
+}
+.dataimg {
+  background-position: -12px -610px;
+}
+.softwareimg {
+  background-position: -14px -368px;
+}
+.badgeimg{
+  background-position: -12px 900px;
+}
+.card-title {
+  text-transform: capitalize !important;
+  min-height: 35px;
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 10px;
+  line-clamp: 3;
+  line-height: 1.5rem;
+  height: 3rem
+  
+}
+.cardsdist{
+  margin:1.2em;
+}
+.card-text1{
+  min-height: 46px;
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  font-weight: 600;
+  font-size: 15px;
+  color: #686F7A;
+  margin-bottom: 8px;
+  line-clamp: 2;
+  line-height: 2rem;
+  height: 3.6rem
+  
+}
+.card-body {
+  height: 17rem;
+}
+.btn-sec {
+  background-color: #a8abe3 !important;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  font-family: "Muli",sans-serif;
+  font-size: 15px;
+  width: 135px;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+.modal {
+  height: unset !important;
+}
+.ui.modal {
+  height: unset !important;
+}
+.ui.mini.modal {
+  height: unset !important;
+}
+@media only screen and (min-width: 1200px) {
+.ui.mini.modal {
+  height: unset !important;
+}
+}
+@media not all and (min-width: 801px) {
+  .card {
+    // width: 300px;
+    height: auto;
+  }
+  .col-sm-8 {
+    // text-align: center;
+    width: 14rem;
+  }
+}
+a:hover {
+  text-decoration: none;
+}

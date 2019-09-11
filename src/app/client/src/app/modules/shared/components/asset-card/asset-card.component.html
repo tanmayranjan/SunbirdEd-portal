@@ -1,0 +1,38 @@
+<div (click)="openLink(data.source)" class="ui card" *ngIf="data" appTelemetryInteract
+  [telemetryInteractObject]="{id:data.metaData.identifier,type:data.telemetryObjectType,ver:data.metaData.pkgVersion ? data.metaData.pkgVersion.toString():'1.0'}"
+  [telemetryInteractEdata]="data.telemetryInteractEdata" [telemetryInteractCdata]="telemetryCdata" tabindex="0">
+  <div class="content" id="contentBackground">
+    <div class="thick-gray-border left floated">
+      <i *ngIf="data?.assetType==='Data'" class="database icon fs-2-57 text-gray"></i>
+      <i *ngIf="data?.assetType==='Knowledge'" class="book icon fs-2-57 text-gray"></i>
+      <i *ngIf="data?.assetType==='Process'" class="cogs icon fs-2-57 text-gray"></i>
+      <i *ngIf="data?.assetType==='Software'" class="bullseye icon fs-2-57 text-gray"></i>
+      <i *ngIf="data?.assetType==='Hardware'" class="server icon fs-2-57 text-gray"></i>
+    </div>
+
+    <div class="header pt-5">{{data?.name | slice:0:15}}<span
+        *ngIf="data.name && data.name.length > 15">...</span>
+      <p class="text-light pt-10" *ngIf="data?.assetType">{{data?.assetType | titlecase}}</p>
+    </div>
+  </div>
+  <div class="content">
+    <div class="details">
+
+      <!-- <span class="card-text" *ngIf="data?.focusArea">Focus Areas : {{data?.focusArea | titlecase}}</span>
+     <span class="card-text" *ngIf="data?.creator">Created By : {{data?.creator | titlecase}}</span>
+     <span class="card-text" *ngIf="data?.region">Region : {{convertToString(data?.region) | titlecase}}</span> -->
+      <!-- <span class="card-text" *ngIf="data?.source">Link: <a href="{{data?.source}}"
+          target="blank">{{data?.source}}</a></span> -->
+      <p *ngIf="data?.description" id="des" suiPopup popupText="{{data?.description}}" [popupPlacement]="'right'">
+        {{data?.description | titlecase | slice:0:120}}<span
+          *ngIf="data.description && data.description.length > 70" id="desmore">...</span></p>
+      <br *ngIf="!data?.description">
+
+      <!-- | titlecase | slice:0:33}}</span> <span *ngIf="data.description && data.description.length > 35" id="desmore">...</span><span class="extras" *ngIf="data.description && data.description.length > 35">{{data?.description | titlecase | slice:35}}</span> -->
+    </div>
+  </div>
+  <div class="extra content">
+    <span class="card-text" *ngIf="data?.organization">{{data?.organization}}</span>
+
+  </div>
+</div>

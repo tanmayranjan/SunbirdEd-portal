@@ -1,3 +1,274 @@
-.todo-heading{
-    font-size: 1.143rem !important;
-}
+
+/* @import "variables"; */
+
+.app-landing-page {
+    background-image: url('../../../../../assets/images/banner_bg.jpg');
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 6.9rem;
+    left: 0;
+    right: 0;
+    margin-bottom: 6rem;
+ }
+ .landing-page-section {
+     background-color: #ffffff;
+     border-bottom: 1px solid rgba(206, 197, 197, 0.79);
+     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.075);
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.075);
+ }
+ .landing-page-image {
+     margin: 40px 0 40px 0;
+ }
+ .landing-page-image img {
+     border-radius: 0.65em;
+ }
+ .landing-page-description {
+     padding-top: 3em;
+ }
+ .landing-page-description p {
+     margin: 0;
+     font-size: 14px;
+ }
+ .ui.card>.card-opacity {
+     opacity: 0.2;
+ }
+ .ui.card .article-header-padding {
+     padding: 0 0 1em 1em;   
+     font-weight: bold;
+     font-size: 1.25em;
+ }
+ .thumbnail {
+     position: relative;
+     margin-bottom: 0;
+     border: 0;
+     border-color: transparent;
+     padding: 0 !important
+     /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+   }
+   .img-fluid{
+     /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+       height: 41rem !important;
+   }
+   .green1 {
+     background-color:#BDD49C !important;
+     color: #343434 !important;
+     border-radius: 25px !important;
+   }
+   .caption {
+     position: absolute;
+     top: 21%;
+     left: 0;
+     width: 100%;
+     color: #FFFFFF;
+   }
+   .caption-1{
+     position: absolute;
+     top: 9%;
+     left: 0;
+     width: 100%;
+     color:black;
+   } 
+   .text {
+     width: 54rem;
+     margin: auto;
+     display: block;
+     font-size: 17px;
+     font-family: 'Muli', sans-serif;
+   }
+   .fa{
+     font-size: 31.87px;
+     font-family: 'Muli', sans-serif ,Bold;
+ }
+ .fax{
+   margin-top: 3rem;
+     font-size: 41px;
+     font-family: 'Muli', sans-serif , Bold;
+ }
+ .fax2{
+ 
+     margin-top: 5rem;
+       font-size: 41px;
+       font-family: 'Muli', sans-serif , Bold;
+   
+ }
+ .text-c{
+     width: 54rem;
+     margin: auto;
+     display: block;
+     font-size: 17px;
+     font-family: 'Muli', sans-serif;
+     margin-bottom: 1rem !important;
+ }
+ .fa-1{
+ font-size: 32px;
+ font-weight: bold;
+ font-family: 'Muli', sans-serif , Bold;
+ margin-bottom: 0 !important
+ }
+ .text-1{
+     font-size: 24px;
+     font-style: italic;
+     font-family: 'Muli', sans-serif;
+ }
+ .text-2{
+     font-size: 25px;    
+     font-family: 'Muli', sans-serif;
+ }
+ hr{
+     border: none !important;
+     border-left: 1px solid hsla(200, 10%, 50%,100) !important;
+     height: 3rem !important;
+     width: 1px !important;
+ }
+ .carousel-indicators{
+     padding-left: 8rem !important;
+ }
+ .carousel-control-next, .carousel-control-prev {
+     display: none !important;
+ 
+ }
+ .carousel-control-next-icon {
+   cursor: pointer; }
+ .carousel-indicators li{
+     background-color:#BDD49C !important;
+     margin-top: -13rem !important;
+ }
+ .carousal {
+   top: 6rem !important;
+ }
+ 
+ .carousel-item {
+     /* Force to always be block */
+     display: block !important;
+     z-index: 1;
+     position: absolute;
+     transform: translateX(100%);
+     opacity: 0;
+     transition:all  0.2s;
+     visibility: hidden;
+   }
+   
+   .carousel-item .active {
+     position: relative;
+     transform: translateX(0);
+     visibility: visible ;
+     opacity: 1;
+   }
+   .atagcolor {
+     color: darkblue;
+   }
+   .link {
+     cursor: pointer;
+ }
+ @media screen and (max-width:766px ) and (min-width: 312px) {
+ .fax2 {
+   font-size: 20px;
+ }
+ .fax {
+   font-size: 20px !important;
+ }
+ .text {
+   font-size: 14px;
+   display: contents;
+ 
+ }
+ .fa-1 {
+   font-size: 16px;
+ }
+ .caption {
+   top: 4%;
+ }
+ .app-landing-page[_ngcontent-c8] {
+   height: 83vh;
+   width: 99vw;
+ 
+ }
+ .carousal[_ngcontent-c8] {
+   top: 4rem !important;
+ }
+ .explore {
+   margin-top: 3rem;
+ } 
+ .fax[_ngcontent-c8] {
+   margin-top: 5rem;
+ }
+ .img-fluid{
+   /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+     height: 34rem !important;
+ }
+ .footer1[_ngcontent-c4] {
+   margin-top: -4rem;
+ }
+ .img-fluid-login {
+   height: 60rem !important;
+ }
+ .text-c {
+   width: 21rem !important;
+   font-size: 13px;
+ }
+ .text-1 {
+   margin-bottom: -1rem;
+   font-size: 15px !important;
+ }
+ .userloggedin {
+   width: 100vw !important;
+ }
+   } 
+   @media screen and (max-width:980px ) and (min-width: 767px) {
+     .app-landing-page[_ngcontent-c8] {
+     width: 100vw !important;
+     }
+   }
+   @media screen and (min-width: 1700px) and (max-width:1800px) {
+   .fax {
+     font-size:54px;
+   }
+   .fax2 {
+     font-size:54px;
+   }
+   .img-fluid{
+     /* background-image: url('../../../../../assets/images/banner_bg.jpg'); */
+       height: 49rem !important;
+   }
+   .text {
+     font-size: 23px;
+   }
+   .explore {
+     width: 17vw !important;
+     font-size: 23px !important;
+     height: 9vh !important;
+   }
+   .container {
+     max-width: 127rem;
+ }
+ .font {
+   font-size: 20px !important;
+ }
+ .footer__right__content {
+   font-size: 20px !important;
+ }
+ .footer__title {
+   font-size: 33px !important;
+ }
+   }
+   @media screen and (min-width: 1801px) and (max-width:2560px) {
+     .fax {
+       font-size:60px;
+     }
+     .fax2 {
+       font-size:60px;
+     }
+     .img-fluid{
+         height: 54rem !important;
+     }
+     .text{
+       font-size: 26px;
+     }
+     .explore {
+       width: 17vw !important;
+       font-size: 23px !important;
+       height: 9vh !important;
+     }
+ 
+     }

@@ -1,42 +1,38 @@
-<div [appTelemetryImpression]="telemetryImpression" class=" ui grid">
-  <div class="one wide column"></div>
-  <div class="ten wide column">
-      <app-data-driven-filter (dataDrivenFilter)="getFilters($event)" [pageId]="'home-page'" 
-          [accordionDefaultOpen]=false [isShowFilterLabel]=true *ngIf="filterType" [filterEnv]="filterType"></app-data-driven-filter>
-    <div class=" ui clearing segment content-player-header search-content-header" *ngIf="!showLoader && !noResult">
-      <div class="ui left floated header  ">
-        <p class="serch-allresult">Showing results
-          <span class="lower-case" *ngIf="this.queryParams.key">
-            for {{this.queryParams.key}}
-          </span>
-          in "all"
-        </p>
-      </div>
-      <h5 appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata" class="ui right floated basic icon circular button " [routerLink]="['/home']">
-        <i class="ui remove icon "></i>
-      </h5>
+<app-data-driven-filter (dataDrivenFilter)="getFilters($event)" [pageId]="'home-page'" [ignoreQuery]="['key']" [accordionDefaultOpen]=false
+  [isShowFilterLabel]=true *ngIf="initFilters" [filterEnv]="filterType"></app-data-driven-filter>
+
+<div class="ui container mt-16">
+  <div class="content-grid">
+    <div class="sb-pageSection" *ngIf="!showLoader && contentList.length">
+        <div  class="sb-pageSection-header">
+                <h4 class="sb-pageSection-title m-0 mr-5"> {{resourceService.frmelmnts?.lbl?.showingResults}}
+                    <span class="text-lowercase" *ngIf="this.queryParams.key" appHighlightText [config]="{'resourcePath': 'frmelmnts.lbl.forSearch', 'key': '{searchString}', 'value': queryParams?.key}"></span>
+                      {{resourceService.frmelmnts?.lbl?.inAll}}
+                </h4>
+            <button appTelemetryInteract [telemetryInteractEdata]="closeIntractEdata"  class="sb-btn sb-btn-normal sb-btn-error ml-auto sb-cls-btn" type="button"  [routerLink]="['/profile']">
+              {{resourceService?.frmelmnts?.btn?.close}} <i class="close icon"></i></button>
+        </div>
     </div>
-    <div in-view-container (inview)="inview($event)" [throttle]="[1000]" [trigger]="searchList" *ngIf="!showLoader && !noResult" class="ui stackable four column grid dynamic-section-card ">
-      <div in-view-item [id]="i" [data]="content" class="column py-5 pl-10" *ngFor="let content of searchList;let i = index;">
-        <app-card appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" 
-        [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType||'content',ver:'1.0'}"
-        [data]="content" (clickEvent)="playContent($event)" ></app-card>
+    <div class="twelve wide column">
+      <div [appTelemetryImpression]="telemetryImpression" in-view-container (inview)="inView($event)" *ngIf="!showLoader && contentList.length"
+        class="masonry-grid dynamic-section-card ">
+        <div in-view-item [id]="index" [data]="content" class="masonry-item" *ngFor="let content of contentList;let i = index;">
+          <app-card appContentDirection appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType||'Content',ver:'1.0'}"
+            [data]="content" (clickEvent)="playContent($event)"></app-card>
+        </div>
       </div>
     </div>
-    <div *ngIf="noResult && !showLoader">
+    <div class="twelve wide column" [appTelemetryImpression]="telemetryImpression" *ngIf="contentList.length === 0 && !showLoader">
       <app-no-result [data]="noResultMessage"></app-no-result>
     </div>
-    <div class="ui grid">
-      <div class="two wide column"></div>
-      <div class="ten wide column pt-0">
-        <div class="pb-10" *ngIf="searchList && totalCount > config.appConfig.SEARCH.PAGE_LIMIT && !showLoader && !noResult">
-          <div class="ui pagination menu mt-10 right-floated pt-0" *ngIf="pager.pages.length">
-            <a [ngClass]="{disabled:pager.currentPage===1 }" class="item " (click)="navigateToPage(1) ">First</a>
-            <a [ngClass]="{disabled:pager.currentPage===1 }" class="item " (click)="navigateToPage(pager.currentPage - 1)">Previous</a>
-            <a *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage===page}" (click)="navigateToPage(page)" class="item">{{page}}</a>
-            <a [ngClass]="{disabled:pager.currentPage=== pager.totalPages}" (click)="navigateToPage(pager.currentPage + 1)" class="item">Next</a>
-            <a [ngClass]="{disabled:pager.currentPage=== pager.totalPages}" (click)="navigateToPage(pager.totalPages)" class="item ">Last</a>
-          </div>
+    <div class="twelve wide column right aligned" *ngIf="paginationDetails.totalItems > configService.appConfig.SEARCH.PAGE_LIMIT && !showLoader">
+      <div class="sb-pagination-container flex-jc-flex-end" *ngIf="paginationDetails.pages.length">
+        <div class="sb-pagination my-0">
+            <a [ngClass]="{disabled:paginationDetails.currentPage===1 }" class="sb-item " (click)="navigateToPage(1) ">&laquo;</a>
+            <a [ngClass]="{disabled:paginationDetails.currentPage===1 }" class="sb-item " (click)="navigateToPage(paginationDetails.currentPage - 1)">&lt;</a>
+            <a *ngFor="let page of paginationDetails.pages" [ngClass]="{active:paginationDetails.currentPage===page}" (click)="navigateToPage(page)" class="sb-item">{{page}}</a>
+            <a [ngClass]="{disabled:paginationDetails.currentPage=== paginationDetails.totalPages}" (click)="navigateToPage(paginationDetails.currentPage + 1)" class="sb-item">&gt;</a>
+            <a [ngClass]="{disabled:paginationDetails.currentPage=== paginationDetails.totalPages}" (click)="navigateToPage(paginationDetails.totalPages)" class="sb-item ">&raquo;</a>
         </div>
       </div>
     </div>
@@ -44,5 +40,5 @@
       <app-loader [data]='loaderMessage'></app-loader>
     </div>
   </div>
-  <div class="one wide column"></div>
 </div>
+<app-batch-info *ngIf="showBatchInfo" [enrolledBatchInfo]="selectedCourseBatches" (modelClose)="showBatchInfo = false"></app-batch-info>

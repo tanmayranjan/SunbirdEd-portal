@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/co
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 // Modules
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import { SuiModule } from 'ng2-semantic-ui';
 import { FormsModule } from '@angular/forms';
 import { SharedModule, ConfigService, ResourceService, ToasterService } from '@sunbird/shared';
@@ -32,7 +32,8 @@ describe('OrganisationComponent', () => {
           env: 'profile', pageid: 'org-admin-dashboard', type: 'view',
           object: { type: 'profile', ver: '1.0' }
         }
-      }
+      },
+      params: {}
     }
   };
 
@@ -41,7 +42,7 @@ describe('OrganisationComponent', () => {
   }
   const creationDataset = 'creation';
   const consumptionDataset = 'consumption';
-  const dashboardBaseUrl = 'orgDashboard/organization';
+  const dashboardBaseUrl = 'dashBoard/organization';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -1,0 +1,32 @@
+
+
+<div class="ui container">
+    <div class="ui stackable grid mt-30">
+      <div class="three wide column pt-0">
+<div class="publicmenusection ui secondary vertical menu">
+    <a class="item" [routerLink]= "['addUser']" *ngIf='userProfile?.rootOrgAdmin || !(userProfile?.rootOrgAdmin)' 
+    routerLinkActive="active">
+  Add User
+  </a>
+  <a class="item" routerLink="viewuser"  *ngIf='userProfile?.rootOrgAdmin || !(userProfile?.rootOrgAdmin)' routerLinkActive="active" >
+      View User
+      </a>
+  <a class="item" [routerLink]= "['addOrganisation', 1]"  *ngIf='userProfile?.rootOrgAdmin' routerLinkActive="active"
+  >
+  Add Organisations
+  </a>
+  <a class="item"  [routerLink]= "['addMultipleUsers', 1]" *ngIf='userProfile?.rootOrgAdmin || !(userProfile?.rootOrgAdmin)' routerLinkActive="active"
+  >
+  Add Multiple Users
+  </a>
+  <a class="item" [routerLink]= "['checkUploadStatus', 1]" *ngIf='userProfile?.rootOrgAdmin || !(userProfile?.rootOrgAdmin)' routerLinkActive="active"
+  >
+  Check Upload Status
+  </a>
+  </div>
+      </div>
+      <div class="nine wide column workspacesegment">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

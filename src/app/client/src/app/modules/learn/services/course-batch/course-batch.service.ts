@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Injectable, Input, EventEmitter } from '@angular/core';
 import { ConfigService, ServerResponse } from '@sunbird/shared';
 import { SearchParam, LearnerService, UserService, ContentService, SearchService } from '@sunbird/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 @Injectable()
 export class CourseBatchService {
@@ -21,6 +21,7 @@ export class CourseBatchService {
   batchSearch(requestParam: SearchParam): Observable<ServerResponse> {
     const option = {
       url: this.configService.urlConFig.URLS.BATCH.GET_BATCHS,
+      param : {...requestParam.params},
       data: {
         request: {
           filters: requestParam.filters,
@@ -45,6 +46,9 @@ export class CourseBatchService {
           }
         }
       };
+      if (requestParam.limit) {
+        option.data.request['limit'] = requestParam.limit;
+      }
       const mentorOrg = this.userService.userProfile.roleOrgMap['COURSE_MENTOR'];
       if (mentorOrg && mentorOrg.includes(this.userService.rootOrgId)) {
         option.data.request.filters['rootOrgId'] = this.userService.rootOrgId;
@@ -89,6 +93,17 @@ export class CourseBatchService {
       }));
     }
   }
+
+  getParticipantList(data) {
+    const options = {
+      url: this.configService.urlConFig.URLS.BATCH.GET_PARTICIPANT_LIST,
+      data: data
+    };
+    return this.learnerService.post(options).pipe(map((response: any) => {
+      return _.get(response, 'result.batch.participants') || [];
+    }));
+  }
+
   enrollToCourse(data) {
     const options = {
       url: this.configService.urlConFig.URLS.COURSE.ENROLL_USER_COURSE,
@@ -127,6 +142,14 @@ export class CourseBatchService {
       data: {
         request: request
       }
+    };
+    return this.learnerService.post(option);
+  }
+
+  removeUsersFromBatch(batchId, request) {
+    const option = {
+      url: this.configService.urlConFig.URLS.BATCH.REMOVE_USERS + '/' + batchId,
+      data: request
     };
     return this.learnerService.post(option);
   }

@@ -1,0 +1,10 @@
+{
+    "subject": "Feedback for SPace" ,
+    "body": "You have received some Feedback. Here are the details:" ,
+    "OrgImgUrl":  "https://societal-sunbird.stackroute.com/assets/images/sunbird_logo.png" ,
+    "actionName": "Test Action",
+    "actionUrl": "https://societal-sunbird.stackroute.com/",
+    "template": "acceptFlag",
+    "email": ["space@societalplatform.org"],
+    "fromEmail": "space@societalplatform.org"
+}

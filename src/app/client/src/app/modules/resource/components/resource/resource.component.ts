@@ -1,279 +1,409 @@
-
-import {combineLatest as observableCombineLatest,  Observable,  SubscriptionLike as ISubscription  } from 'rxjs';
-import { PageApiService, PlayerService, ISort, UserService,  } from '@sunbird/core';
-import { Component, OnInit , OnDestroy } from '@angular/core';
-import { ResourceService, ServerResponse, ToasterService, INoResultMessage, ConfigService, UtilService,
-  BrowserCacheTtlService} from '@sunbird/shared';
-import { ICaraouselData, IAction } from '@sunbird/shared';
+import { combineLatest, Subject } from 'rxjs';
+import { PageApiService, PlayerService, UserService, ISort, SearchService } from '@sunbird/core';
+import { Component, OnInit, OnDestroy, EventEmitter, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
+import {
+  ResourceService, ToasterService, INoResultMessage, ConfigService, UtilService, ICaraouselData,
+  BrowserCacheTtlService, NavigationHelperService, IUserData
+} from '@sunbird/shared';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
-import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
+import * as _ from 'lodash-es';
+import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
+import { takeUntil, map, mergeMap, first, filter, delay, tap } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
-
-/**
- * This component contains 2 sub components
- * 1)PageSection: It displays carousal data.
- * 2)ContentCard: It displays resource data.
- */
+import { IPagination } from '@sunbird/announcement';
+import { ICard, PaginationService } from '@sunbird/shared';
 @Component({
-  selector: 'app-resource',
   templateUrl: './resource.component.html',
   styleUrls: ['./resource.component.css']
 })
-export class ResourceComponent implements OnInit, OnDestroy {
-  /**
-  * inviewLogs
-  */
-  inviewLogs = [];
-  /**
-   * telemetryImpression
-  */
-  telemetryImpression: IImpressionEventInput;
-  sortIntractEdata: IInteractEventEdata;
-  /**
- * To show toaster(error, success etc) after any API calls
- */
-  private toasterService: ToasterService;
-  /**
-   * To call resource service which helps to use language constant
-   */
-  public resourceService: ResourceService;
-   /**
-   * To get user details.
-   */
-  private userService: UserService;
-  /**
-  * To call get resource data.
-  */
-  private pageSectionService: PageApiService;
-  /**
-   * This variable hepls to show and hide page loader.
-   * It is kept true by default as at first when we comes
-   * to a page the loader should be displayed before showing
-   * any data
-   */
-  showLoader = true;
-    /**
-    * To show / hide no result message when no result found
-   */
-  noResult = false;
-   /**
-   * no result  message
-  */
-  noResultMessage: INoResultMessage;
-  userSubscription: ISubscription;
-  /**
-  * Contains result object returned from getPageData API.
-  */
-  caraouselData: Array<ICaraouselData> = [];
-  public config: ConfigService;
+export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  public showLoader = true;
+  public baseUrl: string;
+  public noResultMessage: INoResultMessage;
+  public carouselData: Array<ICaraouselData> = [];
+  public carouselMasterData: Array<ICaraouselData> = [];
   public filterType: string;
-  public filters: any;
+  public hashTagId: string;
+  public sortingOptions: Array<ISort>;
   public queryParams: any;
-  private router: Router;
-  public redirectUrl: string;
-  sortingOptions: Array<ISort>;
-  contents: any;
-  framework: any;
-  dataDrivenFilters: object;
-  /**
-   * The "constructor"
-   *
-   * @param {PageApiService} pageSectionService Reference of pageSectionService.
-   * @param {ToasterService} iziToast Reference of toasterService.
-   */
-  constructor(pageSectionService: PageApiService, toasterService: ToasterService, private playerService: PlayerService,
-    resourceService: ResourceService, config: ConfigService, private activatedRoute: ActivatedRoute, router: Router,
-  public utilService: UtilService, private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService,
-  userService: UserService) {
-    this.pageSectionService = pageSectionService;
-    this.toasterService = toasterService;
-    this.resourceService = resourceService;
-    this.config = config;
-    this.router = router;
+  public unsubscribe$ = new Subject<void>();
+  public telemetryImpression: IImpressionEventInput;
+  public inViewLogs = [];
+  public sortIntractEdata: IInteractEventEdata;
+  public dataDrivenFilters: any = {};
+  public frameworkData: object;
+  public dataDrivenFilterEvent = new EventEmitter();
+  public initFilters = false;
+  public loaderMessage;
+  public redirectUrl;
+  public pageSections: Array<ICaraouselData> = [];
+  userProfile: any;
+  slug: any;
+  public paramType = [
+    'board',
+    'channel',
+    'organization',
+    'region',
+    'gradeLevel',
+    'topic',
+    'languages',
+    'country'
+  ];
+  public qparam = [];
+  public facetsList: any;
+  public paginationDetails: IPagination;
+  public contentList: Array<ICard> = [];
+
+  @HostListener('window:scroll', []) onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
+      && this.pageSections.length < this.carouselMasterData.length) {
+      this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
+    }
+  }
+  constructor(private pageApiService: PageApiService, private toasterService: ToasterService, private cdr: ChangeDetectorRef,
+    public resourceService: ResourceService, private configService: ConfigService, private activatedRoute: ActivatedRoute,
+    public router: Router, private utilService: UtilService,
+    private playerService: PlayerService, private cacheService: CacheService,
+    private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
+    public searchService: SearchService,
+    public paginationService: PaginationService,
+    public navigationhelperService: NavigationHelperService) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+    this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     this.router.onSameUrlNavigation = 'reload';
-    this.sortingOptions = this.config.dropDownConfig.FILTER.RESOURCES.sortingOptions;
-    this.userService = userService;
+    this.filterType = this.configService.appConfig.library.filterType;
+    this.redirectUrl = this.configService.appConfig.library.inPageredirectUrl;
+    this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
   }
-  /**
-  * Subscribe to getPageData api.
-  */
-  populatePageData() {
-    this.showLoader = true;
-    this.noResult = false;
-    let softConstraints = {};
-    const filters = _.pickBy(this.filters, value => value.length > 0);
-      if (_.isEmpty(this.queryParams)) {
-        filters.board = this.dataDrivenFilters['board'];
-        softConstraints = {board: 100 };
-    }
-    const option = {
-      source: 'web',
-      name: 'Resource',
-      filters: filters,
-      softConstraints : softConstraints,
-      mode: 'soft',
-      exists: [],
-      params: this.config.appConfig.Library.contentApiQueryParams
-    };
-    if (this.queryParams.sort_by) {
-      option['sort_by'] = {[this.queryParams.sort_by]: this.queryParams.sortType  };
-    }
-    this.pageSectionService.getPageData(option).subscribe(
-      (apiResponse) => {
-        if (apiResponse && apiResponse.sections ) {
-          let noResultCounter = 0;
-          this.showLoader = false;
-          this.caraouselData = apiResponse.sections;
-          _.forEach(this.caraouselData, (value, index) => {
-              if (this.caraouselData[index].contents && this.caraouselData[index].contents.length > 0) {
-                const constantData = this.config.appConfig.Library.constantData;
-                const metaData = this.config.appConfig.Library.metaData;
-                const dynamicFields = this.config.appConfig.Library.dynamicFields;
-                this.caraouselData[index].contents = this.utilService.getDataForCard(this.caraouselData[index].contents,
-                  constantData, dynamicFields, metaData);
-              }
-          });
-          if (this.caraouselData.length > 0) {
-            _.forIn(this.caraouselData, (value, key) => {
-              if (this.caraouselData[key].contents === null) {
-                noResultCounter++;
-              } else if (this.caraouselData[key].contents === undefined) {
-                noResultCounter++;
-              }
-            });
-          }
-          if (noResultCounter === this.caraouselData.length) {
-            this.noResult = true;
-            this.noResultMessage = {
-              'message': this.resourceService.messages.stmsg.m0007,
-              'messageText': this.resourceService.messages.stmsg.m0006
-            };
-          }
-        }
-      },
-      err => {
-        this.noResult = true;
-        this.noResultMessage = {
-          'message': this.resourceService.messages.stmsg.m0007,
-          'messageText': this.resourceService.messages.stmsg.m0006
-        };
-        this.showLoader = false;
-        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
-      }
-    );
-  }
-  /**
- *This method calls the populatePageData
- */
+
   ngOnInit() {
-    this.dataDrivenFilters = {};
-    this.filterType = this.config.appConfig.library.filterType;
-    this.redirectUrl = this.config.appConfig.library.inPageredirectUrl;
-    this.telemetryImpression = {
-      context: {
-        env: this.activatedRoute.snapshot.data.telemetry.env
-      },
-      edata: {
-        type: this.activatedRoute.snapshot.data.telemetry.type,
-        pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-        uri: this.router.url,
-        subtype: this.activatedRoute.snapshot.data.telemetry.subtype
-      }
-    };
-    this.sortIntractEdata = {
-      id: 'sort',
-      type: 'click',
-      pageid: 'resource-page'
-    };
-    this.userSubscription = this.userService.userData$.subscribe(
-      user => {
-        if (user && !user.err) {
-          this.framework = user.userProfile.framework;
-        }
-      }
-    );
-  }
-  prepareVisits(event) {
-    _.forEach(event, (inview, index) => {
-      if (inview.metaData.identifier) {
-        this.inviewLogs.push({
-          objid: inview.metaData.identifier,
-          objtype: inview.metaData.contentType,
-          index: index,
-          section: inview.section,
-        });
+    this.userService.userData$.subscribe(userData => {
+      if (userData && !userData.err) {
+        this.frameworkData = _.get(userData.userProfile, 'framework');
       }
     });
-    this.telemetryImpression.edata.visits = this.inviewLogs;
-    this.telemetryImpression.edata.subtype = 'pageexit';
-    this.telemetryImpression = Object.assign({}, this.telemetryImpression);
-  }
-  /**
-   *  to get query parameters
-   */
-  getQueryParams() {
-    observableCombineLatest(
-        this.activatedRoute.params,
-        this.activatedRoute.queryParams,
-        (params: any, queryParams: any) => {
-          return {
-            params: params,
-            queryParams: queryParams
-          };
-        })
-      .subscribe(bothParams => {
-        this.filters = {};
-        this.queryParams = { ...bothParams.queryParams };
-        _.forIn(this.queryParams, (value, key) => {
-          if (key !== 'sort_by' && key !== 'sortType') {
-            this.filters[key] = value;
-          }
-        });
-        this.caraouselData = [];
-        if (this.queryParams.sort_by && this.queryParams.sortType) {
-               this.queryParams.sortType = this.queryParams.sortType.toString();
-              }
-        this.populatePageData();
+    this.userService.userData$.pipe(first()).subscribe(
+      (user: IUserData) => {
+        if (user && !user.err) {
+          this.userProfile = user.userProfile;
+          this.slug = this.userProfile.channel;
+          console.log('user details from resource page = ', user.userProfile, this.slug);
+
+        }
+      });
+    this.initFilters = true;
+    this.hashTagId = this.userService.hashTagId;
+    this.dataDrivenFilterEvent.pipe(first())
+      .subscribe((filters: any) => {
+        this.dataDrivenFilters = filters;
+        this.fetchContentOnParamChange();
+        this.setNoResultMessage();
       });
   }
-  playContent(event) {
-    this.playerService.playContent(event.data.metaData);
+  public getFilters(filters) {
+    const defaultFilters = _.reduce(filters, (collector: any, element) => {
+      if (element.code === 'board') {
+        collector.board = _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') || '';
+      }
+      return collector;
+    }, {});
+    this.dataDrivenFilterEvent.emit(defaultFilters);
   }
-
-  viewAll(event) {
-    const query = JSON.parse(event.searchQuery);
-    const queryParams = {};
-    _.forIn(query.request.filters, (value, index) => {
-      queryParams[index] = value;
-    });
-    queryParams['defaultSortBy'] = JSON.stringify(query.request.sort_by);
-    queryParams['exists'] = query.request.exists;
-    this.cacheService.set('viewAllQuery', queryParams, {
-      maxAge: this.browserCacheTtlService.browserCacheTtl
-    });
-    _.forIn(this.filters, (value, index) => {
-      queryParams[index] = value;
-    });
-      const sectionUrl = 'resources/view-all/' + event.name.replace(/\s/g, '-');
-    this.router.navigate([sectionUrl, 1], {queryParams: queryParams});
+  private fetchContentOnParamChange() {
+    combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
+      .pipe(
+        tap(data => this.prepareVisits([])), // trigger pageexit if last filter resulted 0 contents
+        delay(1), // to trigger telemetry pageexit event
+        tap(data => {
+          this.showLoader = true;
+          this.setTelemetryData();
+        }),
+        takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        this.queryParams = { ...result[0], ...result[1] };
+        this.carouselMasterData = [];
+        this.carouselData = [];
+        this.pageSections = [];
+        this.fetchPageData();
+      });
   }
+  private fetchPageData() {
+    let option;
+    if (this.slug !== 'space') {
+      const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
+        if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
+          return false;
+        }
+        return value.length;
+      });
+      const softConstraintData = {
+        filters: {
+          channel: this.userService.hashTagId,
+          board: [this.dataDrivenFilters.board]
+        },
+        softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+        mode: 'soft'
+      };
+      const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
+        softConstraintData, this.frameworkData);
+      option = {
+        source: 'web',
+        name: 'Resource',
+        filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
+        mode: _.get(manipulatedData, 'mode'),
+        exists: [],
+        params: this.configService.appConfig.Library.contentApiQueryParams
+      };
+      if (_.get(manipulatedData, 'filters')) {
+        option.softConstraints = _.get(manipulatedData, 'softConstraints');
+      }
+      /*
+      adding channel code in the filters to show relevant courses only
 
-  getFilters(filters) {
-    _.forEach(filters, (value) => {
-      if (value.code === 'board') {
-        value.range = _.orderBy(value.range, ['index'], ['asc']);
-        this.dataDrivenFilters['board'] = _.get(value, 'range[0].name') ? _.get(value, 'range[0].name') : [];
+      change made by RISHABH KALRA, NIIT LTD on 12-06-2019
+      */
+      option.filters['channel'] = [this.hashTagId];
+
+      if (this.queryParams.sort_by) {
+        option.sort_by = { [this.queryParams.sort_by]: this.queryParams.sortType };
+      }
+      this.pageApiService.getPageData(option)
+        .subscribe(data => {
+          this.showLoader = false;
+          this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+          // this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+          this.cdr.detectChanges();
+        }, err => {
+          this.showLoader = false;
+          this.carouselMasterData = [];
+          // this.carouselData = [];
+          this.pageSections = [];
+          this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+        });
+    } else {
+      let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
+      filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+      const softConstraintData = {
+        softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+        mode: 'soft'
+      };
+      const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams,
+        'appliedFilters'), softConstraintData);
+      console.log('resoiurce page filter qparams = ', this.queryParams,
+        _.get(this.queryParams, 'appliedFilters') ? filters : manipulatedData.filters);
+      option = {
+        source: 'web',
+        name: 'Resource',
+        filters: {
+          organisation: this.configService.appConfig.ExplorePage.orgName,
+          channel: [],
+          region: [],
+         objectType: ['Asset'],
+          status: ['Live'],
+          assetType: [],
+          sector: [],
+          topic: [],
+          language: [],
+          country: [],
+          creators: []
+        },
+        limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+        query: '',
+        mode: _.get(manipulatedData, 'mode'),
+        params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+      };
+       option.filters.contentType = ['Resource'];
+
+      console.log('query param', this.queryParams);
+      this.paramType.forEach(param => {
+        if (this.queryParams.hasOwnProperty(param)) {
+          if (param === 'board') {
+            option.filters.board = this.queryParams[param];
+          }
+          if (param === 'organization') {
+            option.filters.organisation = this.queryParams[param];
+          }
+          if (param === 'channel') {
+            option.filters.creators = this.queryParams[param];
+          }
+          if (param === 'country') {
+            option.filters.region = this.queryParams[param];
+          }
+          if (param === 'gradeLevel') {
+            option.filters.gradeLevel = this.queryParams[param];
+          }
+          if (param === 'topic') {
+            option.filters.topic = this.queryParams[param];
+          }
+          if (param === 'languages') {
+            option.filters.languages = this.queryParams[param];
+          }
+          // if (param === 'country') {
+          //   option.filters.country = this.queryParams[param];
+          // }
+          this.contentSearch(option);
+          // this.contentSearch(option);
+        }
+      });
+      this.contentSearch(option);
+      // this.contentSearch(option);
+    }
+  }
+  contentCompositeSearch(option) {
+    this.searchService.compositeSearch(option).subscribe(data => {
+      this.showLoader = false;
+          // this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+          // this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+          //     this.configService.appConfig.SEARCH.PAGE_LIMIT);
+          const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
+          // this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+
+          this.showLoader = false;
+          this.carouselMasterData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          this.carouselData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          console.log('card data from resource content = ', data, this.carouselData);
+          if (!this.carouselMasterData.length) {
+            return; // no page section
+          }
+          if (this.carouselMasterData.length >= 2) {
+            this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+          } else if (this.carouselMasterData.length >= 1) {
+            this.pageSections = [this.carouselMasterData[0]];
+          }
+          this.cdr.detectChanges();
+
+          const asset = [];
+          _.map(this.carouselMasterData, object => {
+            // console.log('obj = ', object);
+            if (object.creators === 'SPace') {
+           asset.push(object);
+            }
+          });
+       this.carouselMasterData = asset;
+       this.carouselData = asset;
+          console.log('this.contentList = ', this.contentList, asset);
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        this.carouselData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
+  }
+  contentSearch(option) {
+    console.log('option = ', option);
+    this.pageApiService.getPageData(option)
+      .subscribe(data => {
+        this.showLoader = false;
+        this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+        this.carouselData = this.prepareCarouselData(_.get(data, 'sections'));
+        console.log('serach carousel = ', this.carouselData);
+        if (!this.carouselMasterData.length) {
+          return; // no page section
+        }
+        if (this.carouselMasterData.length >= 2) {
+          this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+        } else if (this.carouselMasterData.length >= 1) {
+          this.pageSections = [this.carouselMasterData[0]];
+        }
+        this.cdr.detectChanges();
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        this.carouselData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
+  }
+  private prepareCarouselData(sections = []) {
+    const { constantData, metaData, dynamicFields, slickSize } = this.configService.appConfig.Library;
+    const carouselData = _.reduce(sections, (collector, element) => {
+      const contents = _.slice(_.get(element, 'contents'), 0, slickSize) || [];
+      element.contents = this.utilService.getDataForCard(contents, constantData, dynamicFields, metaData);
+      if (element.contents && element.contents.length) {
+        collector.push(element);
+      }
+      return collector;
+    }, []);
+    return carouselData;
+  }
+  public prepareVisits(event) {
+    _.forEach(event, (inView, index) => {
+      if (inView.metaData.identifier) {
+        this.inViewLogs.push({
+          objid: inView.metaData.identifier,
+          objtype: inView.metaData.contentType,
+          index: index,
+          section: inView.section,
+        });
       }
     });
-    this.getQueryParams();
+    if (this.telemetryImpression) {
+      this.telemetryImpression.edata.visits = this.inViewLogs;
+      this.telemetryImpression.edata.subtype = 'pageexit';
+      this.telemetryImpression = Object.assign({}, this.telemetryImpression);
+    }
+  }
+  public playContent(event) {
+    this.playerService.playContent(event.data.metaData);
+  }
+  public viewAll(event) {
+    const searchQuery = JSON.parse(event.searchQuery);
+    const softConstraintsFilter = {
+      board: [this.dataDrivenFilters.board],
+      channel: this.hashTagId,
+    };
+    searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
+    searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
+    searchQuery.request.filters.exists = searchQuery.request.exists;
+    this.cacheService.set('viewAllQuery', searchQuery.request.filters);
+    this.cacheService.set('pageSection', event, { maxAge: this.browserCacheTtlService.browserCacheTtl });
+    const queryParams = { ...searchQuery.request.filters, ...this.queryParams }; // , ...this.queryParams
+    const sectionUrl = 'resources/view-all/' + event.name.replace(/\s/g, '-');
+    this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
+  }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+  private setTelemetryData() {
+    this.inViewLogs = []; // set to empty every time filter or page changes
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.telemetryImpression = {
+        context: {
+          env: this.activatedRoute.snapshot.data.telemetry.env
+        },
+        edata: {
+          type: this.activatedRoute.snapshot.data.telemetry.type,
+          pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
+          uri: this.router.url,
+          subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+    });
+  }
 
-  ngOnDestroy() {
-    this.utilService.toggleAppPopup();
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
+  private setNoResultMessage() {
+    this.noResultMessage = {
+      'message': 'messages.stmsg.m0007',
+      'messageText': 'messages.stmsg.m0006'
+    };
   }
 }

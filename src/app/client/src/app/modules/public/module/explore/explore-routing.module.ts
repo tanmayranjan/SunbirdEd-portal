@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ExploreContentComponent, ExploreComponent } from './components';
+import { ExploreContentComponent, ExploreComponent, ExploreDetailPageComponent, SpacepdfViewerComponent } from './components';
 import {ViewAllComponent} from '@sunbird/shared-feature';
 const routes: Routes = [
   {
     path: '', component: ExploreComponent, data: {
       telemetry: {
         env: 'explore', pageid: 'explore', type: 'view', subtype: 'paginate'
-      }
+      },
+      softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 }
     }
   },
   {
@@ -17,16 +18,25 @@ const routes: Routes = [
         env: 'explore', pageid: 'view-all', type: 'view', subtype: 'paginate'
       },
       filterType: 'explore',
-      softConstraints: {badgeAssertions: 98, board: 99, channel: 100}
+      softConstraints: {badgeAssertions: 98, board: 99, channel: 100},
+      applyMode: true
     }
   },
     {
       path: ':pageNumber', component: ExploreContentComponent, data: {
         telemetry: {
           env: 'explore', pageid: 'explore-search', type: 'view', subtype: 'paginate'
-        }
+        },
+        softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 }
       }
-    }
+    },
+    {
+      path: 'player/content/:contentId', component: ExploreDetailPageComponent
+    },
+    {
+      path: 'player/content/:contentId/view', component: SpacepdfViewerComponent
+    },
+
   ];
   @NgModule({
     imports: [RouterModule.forChild(routes)],

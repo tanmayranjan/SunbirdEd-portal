@@ -1,12 +1,5 @@
-import { ProfileModule, ProfilePlugin } from './plugins/profile';
-
 export const WebExtensionsConfig = {
-  plugins: [{
-    'id': 'profile',
-    'ver': '1.0.0',
-    'module': ProfileModule,
-    'main': ProfilePlugin
-  }]
+  plugins: []
 };
 
-export const PluginModules = [ ProfileModule ];
+export const PluginModules = [ ];

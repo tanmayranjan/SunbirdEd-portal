@@ -6,7 +6,7 @@
       <div class=" ui clearing segment content-player-header search-content-header" *ngIf="!showLoader && !noResult">
         <div class="ui left floated header  ">
           <p class="serch-allresult">Showing results
-            <span class="lower-case" *ngIf="this.queryParams.key">
+            <span class="text-lowercase" *ngIf="this.queryParams.key">
                for {{this.queryParams.key}}
             </span>
              in "organisations"
@@ -19,9 +19,9 @@
       </div>
 
       <div *ngIf="!showLoader && !noResult && config.appConfig.SEARCH.ORGANISATION.DOWNLOAD_BUTTON_VISIBILITY === 'TRUE'">
-        <div class="ui right floated primary button" appTelemetryInteract [telemetryInteractEdata]="orgDownLoadIntractEdata" (click)="downloadOrganisation();">
-          {{resourceService.frmelmnts?.btn?.download}}
-        </div>
+        <!-- <angular2csv class="ui right floated primary button" [data]="downloadOrganisation()" filename="Users" [options]="csvOptions" appTelemetryInteract [telemetryInteractEdata]="orgDownLoadIntractEdata">
+          {{resourceService.frmelmnts?.btn?.download}} TODO: use Blob object to generate csv file
+        </angular2csv> -->
       </div>
 
       <div in-view-container (inview)="inview($event)" [throttle]="[1000]" [trigger]="searchList" class="ui divided searchListInfo items" *ngIf="!showLoader && !noResult">

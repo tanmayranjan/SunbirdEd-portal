@@ -1,52 +1,64 @@
-import { SuiModule } from 'ng2-semantic-ui/dist';
+import { SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule,
+  SuiProgressModule, SuiRatingModule, SuiCollapseModule } from 'ng2-semantic-ui';
 import { SlickModule } from 'ngx-slick';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
-   AnnouncementInboxCardComponent, ContentCreditsComponent,
-  PageSectionComponent, NoResultComponent, AppLoaderComponent, PlayerComponent,
-  CollectionTreeComponent, FancyTreeComponent, CardComponent, CardCreationComponent, ShareLinkComponent, CollectionPlayerMetadataComponent,
-  BrowserCompatibilityComponent, QrCodeModalComponent, RedirectComponent, CustomMultiSelectComponent,
-  InstallAppComponent
+  AnnouncementInboxCardComponent, PageSectionComponent, NoResultComponent, AppLoaderComponent, CardComponent,
+  CardCreationComponent, ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, RedirectComponent,
+  CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent, BatchCardComponent,
+  OfflineCardComponent, OfflineBannerComponent, OfflineApplicationDownloadComponent, FullPageModalComponent
 } from './components';
 import {
-  ConfigService, ResourceService, FileUploadService, ToasterService, WindowScrollService, BrowserCacheTtlService,
+  ConfigService, ResourceService, ToasterService, WindowScrollService, BrowserCacheTtlService,
   PaginationService, RouterNavigationService, NavigationHelperService, UtilService, ContentUtilsServiceService, ExternalUrlPreviewService
 } from './services';
+import { ContentDirectionDirective } from './directives';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DateFormatPipe, DateFilterXtimeAgoPipe, FilterPipe, InterpolatePipe } from './pipes';
-import { Ng2IzitoastService } from 'ng2-izitoast';
 import { CacheService } from 'ng2-cache-service';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TelemetryModule } from '@sunbird/telemetry';
-import { NgInviewModule } from 'angular-inport';
 import { CdnprefixPipe } from './pipes/cdnprefix.pipe';
+import { AssetCardComponent } from './components/asset-card/asset-card.component';
+import { SpaceCustomMultiSelectComponent } from './components/space-custom-multi-select/space-custom-multi-select.component';
+import { SpaceCardComponent } from './components/space-card/space-card.component';
+import { SpacePageSectionComponent } from './components/space-page-section/space-page-section.component';
+import { HighlightTextDirective } from './directives/highlight-text/highlight-text.directive';
+import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-multi-select/sunbird-custom-multi-select.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
-    SuiModule,
+    SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
+    SuiRatingModule, SuiCollapseModule,
     SlickModule,
     FormsModule,
-    TelemetryModule,
-    NgInviewModule
+    TelemetryModule
   ],
-  declarations: [AppLoaderComponent, ContentCreditsComponent, AnnouncementInboxCardComponent,
-    DateFormatPipe, PageSectionComponent, NoResultComponent, DateFilterXtimeAgoPipe,
-    CollectionTreeComponent, FancyTreeComponent, PlayerComponent, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
-    ShareLinkComponent, CollectionPlayerMetadataComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe,
-    RedirectComponent, CustomMultiSelectComponent, InstallAppComponent],
-  exports: [AppLoaderComponent, ContentCreditsComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe,
-    PageSectionComponent, NoResultComponent, CollectionTreeComponent, FancyTreeComponent,
-    PlayerComponent, CardComponent, CardCreationComponent, FilterPipe, ShareLinkComponent, CollectionPlayerMetadataComponent,
-    BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent, CustomMultiSelectComponent,
-    InstallAppComponent]
+  declarations: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, PageSectionComponent, AssetCardComponent,
+    BatchCardComponent, NoResultComponent, DateFilterXtimeAgoPipe, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,
+    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
+    InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent, SpaceCustomMultiSelectComponent,
+    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent],
+  exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
+    PageSectionComponent, BatchCardComponent, NoResultComponent,
+     CardComponent, OfflineCardComponent, CardCreationComponent,
+     FilterPipe, SpaceCardComponent, SunbirdCustomMultiSelectComponent,
+    ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, InterpolatePipe, RedirectComponent,
+    CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent,
+    ContentDirectionDirective, OfflineBannerComponent,
+    OfflineApplicationDownloadComponent, HighlightTextDirective,
+     FullPageModalComponent, SpacePageSectionComponent, SpaceCustomMultiSelectComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [ResourceService, ConfigService, FileUploadService, ToasterService, Ng2IzitoastService, PaginationService,
+      providers: [ResourceService, ConfigService, ToasterService, PaginationService,
         RouterNavigationService, WindowScrollService, NavigationHelperService, CacheService, UtilService, ContentUtilsServiceService,
         DeviceDetectorModule, DeviceDetectorService, BrowserCacheTtlService, ExternalUrlPreviewService]
     };

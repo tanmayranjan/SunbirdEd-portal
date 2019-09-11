@@ -3,17 +3,66 @@ import { ErrorPageComponent, AuthGuard } from '@sunbird/core';
 import { RouterModule, Routes } from '@angular/router';
 const appRoutes: Routes = [
   {
-    path: '',
-    loadChildren: './private/private.module#PrivateModule', canLoad: [AuthGuard] // load private module only if logged in
+    path: 'learn', loadChildren: 'app/modules/learn/learn.module#LearnModule'
   },
   {
-    path: 'error',
-    component: ErrorPageComponent
+    path: 'resources', loadChildren: 'app/modules/resource/resource.module#ResourceModule'
   },
   {
-    path: '**',
-    redirectTo: ''
+    path: 'search', loadChildren: 'app/modules/search/search.module#SearchModule'
+  },
+  {
+    path: 'workspace', loadChildren: 'app/modules/workspace/workspace.module#WorkspaceModule'
+  },
+  {
+    path: 'home', loadChildren: 'app/modules/home/home.module#HomeModule'
+  },
+  {
+    path: 'spacehome', loadChildren: 'app/modules/spacehome/spacehome.module#SpacehomeModule'
+  },
+  {
+    path: 'myassets', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
+  },
+  {
+    path: 'Workspace', loadChildren: 'app/modules/space-workspace/space-workspace.module#SpaceWorkspaceModule'
+  },
+  {
+    path: 'upForReview', loadChildren: 'app/modules/myassets/myassets.module#MyassetsModule'
+  },
+  {
+    path: 'announcement', loadChildren: 'app/modules/announcement/announcement.module#AnnouncementModule'
+  },
+  {
+    path: 'org', loadChildren: 'app/modules/org-management/org-management.module#OrgManagementModule'
+  },
+  {
+    path: 'dashBoard', loadChildren: 'app/modules/dashboard/dashboard.module#DashboardModule'
+  },
+  {
+    path: 'profile', loadChildren: 'app/plugins/profile/profile.module#ProfileModule'
+  },
+  {
+    path: 'certs', loadChildren: 'app/modules/certificate/certificate.module#CertificateModule'
+  },
+  {
+    path: 'recover', loadChildren: 'app/modules/recover-account/recover-account.module#RecoverAccountModule'
+  },
+  {
+    path: ':slug/get', loadChildren: 'app/modules/dial-code-search/dial-code-search.module#DialCodeSearchModule'
+  },
+  {
+    path: 'get', loadChildren: 'app/modules/dial-code-search/dial-code-search.module#DialCodeSearchModule'
+  },
+  {
+    path: '', loadChildren: 'app/modules/public/public.module#PublicModule'
+  },
+  {
+    path: 'error', component: ErrorPageComponent
+  },
+  {
+    path: '**', redirectTo: ''
   }
+
 ];
 
 @NgModule({

@@ -3,11 +3,13 @@ import { LearnerService } from './../learner/learner.service';
 import { Injectable } from '@angular/core';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 import { UUID } from 'angular2-uuid';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 /**
  * Service to fetch badges
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BadgesService {
   /**
    * BehaviorSubject Containing badges.
@@ -43,6 +45,13 @@ export class BadgesService {
   /**
    * method to fetch badges from server.
   */
+ public createAssertion(req) {
+  const option = {
+    url: this.config.urlConFig.URLS.BADGE.CREATE,
+    data: req
+  };
+  return this.learner.post(option);
+}
   public getAllBadgeList(req) {
     const option = {
       url: this.config.urlConFig.URLS.BADGE.BADGE_CLASS_SEARCH,

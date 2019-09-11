@@ -1,28 +1,21 @@
 
 import { filter } from 'rxjs/operators';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { UserService } from './../../services';
 import { ResourceService, ConfigService, IUserProfile } from '@sunbird/shared';
-
+import { environment } from '@sunbird/environment';
+import { Subscription } from 'rxjs';
+import * as _ from 'lodash-es';
 /**
  * Main menu component
  */
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styles: [ `
-  .disableIcon {
-    pointer-events: none;
-    opacity: 0.45;
-  }
-
-  ::ng-deep .ui.floating.main-header-search-dropdown.dropdown .menu {
-      top:25px;
-  }
-  `]
+  styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Sui dropdown initiator
    */
@@ -43,6 +36,8 @@ export class SearchComponent implements OnInit {
    */
   key: string;
   resourceService: ResourceService;
+  resourceDataSubscription: Subscription;
+
 
   /**
    * option selected on dropdown
@@ -62,8 +57,13 @@ export class SearchComponent implements OnInit {
   searchUrl: object;
   config: ConfigService;
   userProfile: IUserProfile;
+  isOffline: boolean = environment.isOffline;
 
   searchDropdownValues: Array<string> = ['All', 'Courses', 'Library'];
+
+  searchPlaceHolderValue: string;
+
+  searchDisplayValueMappers: object;
 
   /**
    * reference of UserService service.
@@ -73,6 +73,7 @@ export class SearchComponent implements OnInit {
   /**
    * To navigate to other pages
    */
+
   private route: Router;
   /**
   * To send activatedRoute.snapshot to router navigation
@@ -85,6 +86,7 @@ export class SearchComponent implements OnInit {
      * @param {Router} route Reference of Router
      * @param {ActivatedRoute} activatedRoute Reference of ActivatedRoute
    */
+  @Input() slugInfo: any;
   constructor(route: Router, activatedRoute: ActivatedRoute, userService: UserService,
     resourceService: ResourceService, config: ConfigService,
     private cdr: ChangeDetectorRef) {
@@ -93,9 +95,16 @@ export class SearchComponent implements OnInit {
     this.resourceService = resourceService;
     this.config = config;
     this.userService = userService;
+    this.searchDisplayValueMappers = {
+      'All': 'all',
+      'Library': 'resources',
+      'Courses': 'courses',
+      'Users': 'users'
+    };
   }
 
   ngOnInit() {
+    console.log('slug info in search = ', this.slugInfo);
     this.activatedRoute.queryParams.subscribe(queryParams => {
       this.queryParam = { ...queryParams };
       this.key = this.queryParam['key'];
@@ -114,7 +123,13 @@ export class SearchComponent implements OnInit {
         });
     });
     this.showSuiSelectDropdown = true;
+    this.resourceDataSubscription = this.resourceService.languageSelected$
+      .subscribe(item => {
+        this.setSearchPlaceHolderValue();
+      }
+    );
   }
+
   /**
    * on changing dropdown option
    * it navigate
@@ -122,11 +137,25 @@ export class SearchComponent implements OnInit {
   onChange() {
     this.route.navigate([this.search[this.selectedOption], 1]);
   }
+  ngOnDestroy() {
+    if (this.resourceDataSubscription) {
+      this.resourceDataSubscription.unsubscribe();
+    }
+  }
+  /**
+   * search input box placeholder value
+   */
+  setSearchPlaceHolderValue () {
+    const keyName = this.searchDisplayValueMappers[this.selectedOption];
+    this.searchPlaceHolderValue = this.resourceService.frmelmnts['tab'] ? this.resourceService.frmelmnts.tab[keyName]  : '';
+  }
+
   /**
    * on entering keyword
    * it navigate
    */
   onEnter(key) {
+    console.log('key = ', key, this.search, this.selectedOption);
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;
@@ -135,9 +164,21 @@ export class SearchComponent implements OnInit {
     } else {
       delete this.queryParam['key'];
     }
-    this.route.navigate([this.search[this.selectedOption], 1], {
-      queryParams: this.queryParam
-    });
+    if (this.userService.loggedIn) {
+      this.route.navigate(['/search/sharedAssets', 1], {
+        queryParams: this.queryParam
+      });
+     } else  {
+     if (this.slugInfo !== 'space') {
+      this.route.navigate(['explore', 1], {
+        queryParams: this.queryParam
+      });
+     } else {
+      this.route.navigate(['space/explore', 1], {
+        queryParams: this.queryParam
+      });
+     }
+     }
   }
 
   setFilters() {
@@ -152,6 +193,7 @@ export class SearchComponent implements OnInit {
       this.setDropdownSelectedOption(this.value[2]);
     } else {
       this.selectedOption = 'All';
+      this.setSearchPlaceHolderValue();
       this.showInput = false;
     }
   }
@@ -169,6 +211,22 @@ export class SearchComponent implements OnInit {
     } else {
       this.selectedOption = value;
     }
+    this.setSearchPlaceHolderValue();
     this.showInput = true;
+  }
+
+
+  getInteractEdata(key) {
+    const searchInteractEdata = {
+      id: `search-${_.lowerCase(this.searchPlaceHolderValue)}-button`,
+      type: 'click',
+      pageid: this.route.url.split('/')[1]
+    };
+    if (key) {
+      searchInteractEdata['extra'] = {
+        query: key
+      };
+    }
+    return searchInteractEdata;
   }
 }

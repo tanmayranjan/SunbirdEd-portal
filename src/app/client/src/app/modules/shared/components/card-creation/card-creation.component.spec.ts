@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ResourceService, ConfigService } from '../../services';
@@ -6,14 +7,17 @@ import { By } from '@angular/platform-browser';
 import { Response } from './card-creation.component.spec.data';
 import { CardCreationComponent } from './card-creation.component';
 import { CdnprefixPipe } from '../../pipes/cdnprefix.pipe';
+import { SharedModule } from '@sunbird/shared';
+import { TelemetryModule } from '@sunbird/telemetry';
+
 describe('CardCreationComponent', () => {
   let component: CardCreationComponent;
   let fixture: ComponentFixture<CardCreationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [ CardCreationComponent, CdnprefixPipe ],
+      imports: [ RouterTestingModule, HttpClientTestingModule, SharedModule.forRoot(), TelemetryModule.forRoot()],
+      declarations: [ ],
       providers: [ResourceService, ConfigService],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -51,5 +55,13 @@ describe('CardCreationComponent', () => {
     expect(fixture.nativeElement.querySelector('div .text-cencapitalize').innerText).toContain('Official Textbook');
     const badgesElm = fixture.nativeElement.querySelector('div .avatar');
     expect(badgesElm.src).toContain(Response.librarySearchData.ribbon.left.image);
+  });
+  it('should call onAction ', () => {
+    component.data = Response.cardData;
+    spyOn(component, 'onAction').and.callThrough();
+    spyOn(component.clickEvent, 'emit');
+    component.onAction(component.data, component.data.action.right);
+    expect(component.onAction).toHaveBeenCalledWith(Response.cardData, Response.cardData.action.right);
+    expect(component.clickEvent.emit).toHaveBeenCalledWith(Response.emitData);
   });
 });

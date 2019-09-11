@@ -1,16 +1,16 @@
 
-import {of as observableOf, throwError as observableThrowError,  Observable } from 'rxjs';
+import {of as observableOf, throwError as observableThrowError,  Observable, BehaviorSubject } from 'rxjs';
 
 import {mergeMap} from 'rxjs/operators';
 import { BrowserCacheTtlService } from './../browser-cache-ttl/browser-cache-ttl.service';
 import { HttpOptions, RequestParam, ServerResponse } from './../../interfaces';
 import { ConfigService } from './../config/config.service';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UUID } from 'angular2-uuid';
 import * as moment from 'moment';
 import { CacheService } from 'ng2-cache-service';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 /**
  * Service to fetch resource bundle
  */
@@ -38,13 +38,17 @@ export class ResourceService {
    * Contains instance name
    */
   private _instance: string;
+  // Observable navItem source
+  private _languageSelected = new BehaviorSubject<any>({});
+  // Observable navItem stream
+  languageSelected$ = this._languageSelected.asObservable();
 
   /**
    * constructor
    * @param {ConfigService} config ConfigService reference
    * @param {HttpClient} http LearnerService reference
    */
-  constructor(config: ConfigService, http: HttpClient,
+  constructor(config: ConfigService, http: HttpClient, private _cacheService: CacheService,
     private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService) {
     if (!ResourceService.singletonInstance) {
       this.http = http;
@@ -59,16 +63,18 @@ export class ResourceService {
     return ResourceService.singletonInstance;
   }
   public initialize() {
-    this.getResource();
+    const range  = {value: 'en', label: 'English', dir: 'ltr'};
+    this.getResource(this._cacheService.get('portalLanguage') || 'en', range);
   }
   /**
    * method to fetch resource bundle
   */
-  public getResource(language = 'en'): void {
+  public getResource(language = 'en', range: any = {}): void {
     const resourcebundles: any | null = this.cacheService.get('resourcebundles' + language);
     if (resourcebundles) {
       this.messages = resourcebundles.messages;
       this.frmelmnts = resourcebundles.frmelmnts;
+      this.getLanguageChange(range);
     } else {
       const option = {
         url: this.config.urlConFig.URLS.RESOURCEBUNDLES.ENG + '/' + language
@@ -83,6 +89,7 @@ export class ResourceService {
           }, {
               maxAge: this.browserCacheTtlService.browserCacheTtl
             });
+          this.getLanguageChange(range);
         },
         (err: ServerResponse) => {
         }
@@ -118,6 +125,10 @@ export class ResourceService {
  * get method to fetch instance.
  */
   get instance(): string {
-    return this._instance;
+    return _.upperCase(this._instance);
+  }
+
+  getLanguageChange(language) {
+    this._languageSelected.next(language);
   }
 }
