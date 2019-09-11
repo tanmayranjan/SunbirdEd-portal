@@ -41,9 +41,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   editProfileInteractEdata: IInteractEventEdata;
   editMobileInteractEdata: IInteractEventEdata;
   editEmailInteractEdata: IInteractEventEdata;
+  downloadCertificateEData: IInteractEventEdata;
   telemetryInteractObject: IInteractEventObject;
   btnArrow: string;
   telemetryLogs = [];
+  orgId: any;
   constructor(private cacheService: CacheService, public resourceService: ResourceService, public coursesService: CoursesService,
     public toasterService: ToasterService, public profileService: ProfileService, public userService: UserService,
     public configService: ConfigService, public router: Router, public utilService: UtilService, public searchService: SearchService,
@@ -57,10 +59,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
+        this.orgId = this.userProfile.rootOrgId;
         console.log('slug in profile page = ', this.slug);
         this.state = _.get(_.find(this.userProfile.userLocations, { type: 'state' }), 'name');
         this.district = _.get(_.find(this.userProfile.userLocations, { type: 'district' }), 'name');
-        this.userFrameWork =  this.userProfile.framework ? _.cloneDeep(this.userProfile.framework) : {};
+        this.userFrameWork = this.userProfile.framework ? _.cloneDeep(this.userProfile.framework) : {};
         this.getOrgDetails();
       }
     });
@@ -78,7 +81,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       _.forEach(org.roles, (value, key) => {
         if (value !== 'PUBLIC') {
-          const roleName = _.find(this.userProfile.roleList, {id: value});
+          const roleName = _.find(this.userProfile.roleList, { id: value });
           if (roleName) {
             this.roles.push(roleName['name']);
           }
@@ -101,13 +104,15 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getContribution(): void {
     const response = this.searchService.searchedContentList;
-    const { constantData, metaData, dynamicFields }  = this.configService.appConfig.Course.otherCourse;
+    const { constantData, metaData, dynamicFields } = this.configService.appConfig.Course.otherCourse;
     if (response) {
       this.contributions = this.utilService.getDataForCard(response.content, constantData, dynamicFields, metaData);
     } else {
       const searchParams = {
         status: ['Live'],
-        contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
+        // objectType: 'Asset',
+       // channel: this.orgId,
+         contentType: ['Collection', 'TextBook', 'Course', 'LessonPlan', 'Resource'],
         params: { lastUpdatedOn: 'desc' }
       };
       const inputParams = { params: this.configService.appConfig.PROFILE.contentApiQueryParams };
@@ -119,7 +124,25 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getTrainingAttended() {
     this.coursesService.enrolledCourseData$.pipe(first()).subscribe(data => {
-      this.attendedTraining = _.filter(data.enrolledCourses, {status: 2}) || [];
+      this.attendedTraining = _.filter(data.enrolledCourses, { status: 2 }) || [];
+    });
+  }
+
+  downloadCert(certificates) {
+    _.forEach(certificates, (value, key) => {
+      if (value && value.name === '100PercentCompletionCertificate') {
+        const request = {
+          request: {
+            pdfUrl: _.get(value, 'url')
+          }
+        };
+        this.profileService.downloadCertificates(request).subscribe((apiResponse) => {
+          const signedPdfUrl = _.get(apiResponse, 'result.signedUrl');
+          if (signedPdfUrl) { window.open(signedPdfUrl, '_blank'); }
+        }, (err) => {
+          this.toasterService.error('download certificate failed');
+        });
+      }
     });
   }
 
@@ -144,7 +167,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateProfile(data) {
-    this.profileService.updateProfile({framework: data}).subscribe(res => {
+    this.profileService.updateProfile({ framework: data }).subscribe(res => {
       this.userProfile.framework = data;
       this.toasterService.success(this.resourceService.messages.smsg.m0046);
       this.profileModal.modal.deny();
@@ -153,7 +176,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showEdit = false;
       this.toasterService.warning(this.resourceService.messages.emsg.m0012);
       this.profileModal.modal.deny();
-      this.cacheService.set('showFrameWorkPopUp', 'installApp' );
+      this.cacheService.set('showFrameWorkPopUp', 'installApp');
     });
   }
 
@@ -207,6 +230,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       type: 'User',
       ver: '1.0'
     };
+    this.downloadCertificateEData = {
+      id: 'profile-download-certificate',
+      type: 'click',
+      pageid: 'profile-read'
+    };
   }
   beforeContributionSlideChange(event) {
     if (event.currentSlide === 0 && event.nextSlide === 0) {
@@ -241,7 +269,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.telemetryImpression = Object.assign({}, this.telemetryImpression);
   }
 
-  ngAfterViewInit () {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.telemetryImpression = {
         context: {

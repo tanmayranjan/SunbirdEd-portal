@@ -1,14 +1,14 @@
 import { Subscription } from 'rxjs';
 import { IConceptData } from './../../interfaces';
 import { ConceptPickerService } from './../../services';
-import { Component, OnInit, Output, Input, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
 @Component({
   selector: 'app-concept-picker',
   templateUrl: './concept-picker.component.html',
   styleUrls: ['./concept-picker.component.css']
 })
-export class ConceptPickerComponent implements OnInit {
+export class ConceptPickerComponent implements OnInit, OnChanges {
   private conceptPickerService: ConceptPickerService;
   /**
    * concept Data
@@ -57,8 +57,13 @@ export class ConceptPickerComponent implements OnInit {
    * call tree picker
    */
   initConceptBrowser() {
+  // const arrayofselectedConcepts = [];
     this.selectedConcepts = this.selectedConcepts || [];
+   /* if (this.selectedConcepts.constructor === String) {
+       arrayofselectedConcepts.push(this.selectedConcepts);
+    } */
     this.contentConcepts = _.map(this.selectedConcepts, 'identifier');
+ // this.contentConcepts=this.selectedConcepts;
     if (this.contentConcepts.length === 0) {
       this.pickerMessage = 'Select';
     } else if ( this.contentConcepts.length > 0 ) {
@@ -70,7 +75,7 @@ export class ConceptPickerComponent implements OnInit {
 
       $('.tree-pickers').treePicker({
         data: this.conceptData,
-        name: 'sector',
+        name: 'Sector',
         picked: this.contentConcepts,
         onSubmit: (nodes) => {
           $('.tree-pickers').val(nodes.length + ' selected');
@@ -108,7 +113,7 @@ export class ConceptPickerComponent implements OnInit {
       return collector;
     }, { formated: [], unformatted: [] });
     this.formatSelectedTopics(this.conceptData, selectedTopics.unformatted, selectedTopics.formated);
-    this.selectedConcepts =  selectedTopics.formated;
+     this.selectedConcepts =  selectedTopics.formated;
     }
 
 
@@ -119,6 +124,12 @@ export class ConceptPickerComponent implements OnInit {
           this.showLoader = false;
     }
 
+    }
+
+    ngOnChanges(): void {
+      if (this.selectedConcepts) {
+            this.ngOnInit();
+      }
     }
     private formatSelectedTopics(topics, unformatted, formated) {
       _.forEach(topics, (topic) => {

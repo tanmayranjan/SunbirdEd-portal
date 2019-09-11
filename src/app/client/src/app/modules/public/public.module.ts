@@ -26,6 +26,8 @@ import { BadgingModule } from '../badging';
 import { AboutSunbirdComponent } from './components/about-sunbird/about-sunbird.component';
 import { PartnersSunbirdComponent } from './components/partners-sunbird/partners-sunbird.component';
 import { SuiModule } from 'ng2-semantic-ui';
+import { LicensepolicyComponent } from './components/licensepolicy/licensepolicy.component';
+import { AssetguidelinesComponent } from './components/assetguidelines/assetguidelines.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -46,7 +48,9 @@ import { SuiModule } from 'ng2-semantic-ui';
   declarations: [LandingPageComponent,
    PublicFooterComponent, ContactUsComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
-    ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
+    ExploreAssetComponent, FrameworkComponent, CoreComponent,
+    ExploreThinkingComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
+    LicensepolicyComponent, AssetguidelinesComponent,
     ],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard, UserSearchServicePublicService]
 })

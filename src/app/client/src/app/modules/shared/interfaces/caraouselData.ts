@@ -13,7 +13,7 @@ export interface ICaraouselData {
     /**
     * CaraouselData length
     */
-    length: number;
+    // length: number;
     /**
      * CaraouselData content can be of
      * IContents or ICourses

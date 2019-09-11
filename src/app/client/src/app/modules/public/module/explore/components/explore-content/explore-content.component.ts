@@ -12,6 +12,10 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, debounceTime, tap, delay } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
+import { environment } from '@sunbird/environment';
+import { DownloadManagerService } from './../../../../../offline/services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
     templateUrl: './explore-content.component.html',
     styleUrls: ['./explore-content.component.css']
@@ -40,6 +44,11 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     public loaderMessage: ILoaderMessage;
     public sortByOption = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
     slug: any;
+    isOffline: boolean = environment.isOffline;
+    showExportLoader = false;
+    contentName: string;
+    modalRef: any;
+    openmodal = false;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -47,7 +56,9 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         public configService: ConfigService, public utilService: UtilService, public orgDetailsService: OrgDetailsService,
         public navigationHelperService: NavigationHelperService, private publicPlayerService: PublicPlayerService,
         public userService: UserService, public frameworkService: FrameworkService,
-        public cacheService: CacheService, public navigationhelperService: NavigationHelperService) {
+        private modalService: NgbModal,
+        public cacheService: CacheService, public navigationhelperService: NavigationHelperService,
+        public downloadManagerService: DownloadManagerService) {
         this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
         this.filterType = this.configService.appConfig.explore.filterType;
     }
@@ -70,6 +81,12 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 this.router.navigate(['']);
             }
         );
+
+        if (this.isOffline) {
+            this.downloadManagerService.downloadListEvent.subscribe((data) => {
+                this.updateCardData(data);
+            });
+        }
     }
     public getFilters(filters) {
         this.facets = filters.map(element => element.code);
@@ -170,7 +187,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
                 offset: 0,
                 query: this.queryParams.key,
-                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+                params: this.configService.appConfig.ExplorePage.contentApiQueryParams,
+                status: ['Live']
             };
             console.log('explore content component query param = ', this.queryParams);
             option.filters.objectType = 'Asset';
@@ -212,13 +230,16 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         if (this.slug === 'space') {
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-              const softConstraintData = {
+              const softConstraintData: any = {
                 filters: {
-                    // channel: this.hashTagId,
-                board: []},
+                     channel: this.hashTagId,
+                },
                 softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
                 mode: 'soft'
               };
+              if (this.dataDrivenFilters.board) {
+                softConstraintData['board'] = [this.dataDrivenFilters.board];
+            }
               const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams,
                  'appliedFilters'), softConstraintData );
              option = {
@@ -227,18 +248,19 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                 pageNumber: this.paginationDetails.currentPage,
                 query: this.queryParams.key,
                 mode: _.get(manipulatedData, 'mode'),
-                // facets: this.facets,
-                params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+                 facets: this.facets,
+                 params: this.configService.appConfig.ExplorePage.contentApiQueryParams
             };
-            option.filters.objectType = 'Content';
-            option.filters.status = ['Live'];
-            option.filters.contentType = filters.contentType || ['Resource'];
-            option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
-            this.frameworkService.channelData$.subscribe((channelData) => {
-              if (!channelData.err) {
+            option.filters.contentType = filters.contentType ||
+            ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
+        if (manipulatedData.filters) {
+            option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
+        }
+        this.frameworkService.channelData$.subscribe((channelData) => {
+            if (!channelData.err) {
                 option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-              }
-            });
+            }
+        });
             this.searchService.contentSearch(option)
             .subscribe(data => {
                 this.showLoader = false;
@@ -247,6 +269,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
                     this.configService.appConfig.SEARCH.PAGE_LIMIT);
                 const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
                 this.contentList = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
+                console.log('content list for space = ', this.contentList);
             }, err => {
                 this.showLoader = false;
                 this.contentList = [];
@@ -266,8 +289,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         const url = this.router.url.split('?')[0].replace(/[^\/]+$/, page.toString());
         this.router.navigate([url], { queryParams: this.queryParams });
         window.scroll({
-            top: 100,
-            left: 100,
+            top: 0,
+            left: 0,
             behavior: 'smooth'
         });
     }
@@ -292,13 +315,36 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         };
     }
     public playContent(event) {
+        // For offline environment content will only play when event.action is open
+        if (event.action === 'download' && this.isOffline) {
+            this.startDownload(event.data.metaData.identifier);
+            return false;
+        } else if (event.action === 'export' && this.isOffline) {
+            this.showExportLoader = true;
+            this.contentName = event.data.name;
+            this.exportOfflineContent(event.data.metaData.identifier);
+            return false;
+        }
+
+     if (this.slug !== 'space') {
         if (!this.userService.loggedIn && event.data.contentType === 'Course') {
             this.showLoginModal = true;
             this.baseUrl = '/' + 'learn' + '/' + 'course' + '/' + event.data.metaData.identifier;
         } else {
-            this.publicPlayerService.playContent(event);
+            if (_.includes(this.router.url, 'browse') && this.isOffline) {
+                this.publicPlayerService.playContentForOfflineBrowse(event);
+            } else {
+                this.publicPlayerService.playContent(event);
+            }
         }
+     } else {
+        // this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+        this.openmodal = true ;
+     }
     }
+    openSm(content) {
+        this.modalRef = this.modalService.open(content,  {centered: true});
+      }
     public inView(event) {
         _.forEach(event.inview, (elem, key) => {
             const obj = _.find(this.inViewLogs, { objid: elem.data.metaData.identifier });
@@ -329,9 +375,66 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         this.unsubscribe$.complete();
     }
     private setNoResultMessage() {
-        this.noResultMessage = {
-            'message': 'messages.stmsg.m0007',
-            'messageText': 'messages.stmsg.m0006'
-        };
+        if (this.isOffline && !(this.router.url.includes('/browse'))) {
+            this.noResultMessage = {
+              'message': 'messages.stmsg.m0007',
+              'messageText': 'messages.stmsg.m0133'
+            };
+          } else {
+            this.noResultMessage = {
+              'message': 'messages.stmsg.m0007',
+              'messageText': 'messages.stmsg.m0006'
+            };
+          }
+    }
+
+    startDownload(contentId) {
+        this.downloadManagerService.downloadContentId = contentId;
+        this.downloadManagerService.startDownload({}).subscribe(data => {
+            this.downloadManagerService.downloadContentId = '';
+        }, error => {
+            this.downloadManagerService.downloadContentId = '';
+            _.each(this.contentList, (contents) => {
+                contents['addedToLibrary'] = false;
+                contents['showAddingToLibraryButton'] = false;
+            });
+            this.toasterService.error(this.resourceService.messages.fmsg.m0090);
+        });
+    }
+
+    exportOfflineContent(contentId) {
+        this.downloadManagerService.exportContent(contentId).subscribe(data => {
+            const link = document.createElement('a');
+            link.href = data.result.response.url;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            this.showExportLoader = false;
+        }, error => {
+            this.showExportLoader = false;
+            this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+        });
+    }
+
+    updateCardData(downloadListdata) {
+        _.each(this.contentList, (contents) => {
+
+            // If download is completed card should show added to library
+            _.find(downloadListdata.result.response.downloads.completed, (completed) => {
+                if (contents.metaData.identifier === completed.contentId) {
+                    contents['addedToLibrary'] = true;
+                    contents['showAddingToLibraryButton'] = false;
+                }
+            });
+
+            // If download failed, card should show again add to library
+            _.find(downloadListdata.result.response.downloads.failed, (failed) => {
+                if (contents.metaData.identifier === failed.contentId) {
+                    contents['addedToLibrary'] = false;
+                    contents['showAddingToLibraryButton'] = false;
+                }
+            });
+        });
     }
 }

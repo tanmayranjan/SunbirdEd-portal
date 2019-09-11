@@ -89,7 +89,7 @@ module.exports = (app, keycloak) => {
      '/framework', '/:slug/framework', 'resource/player/conetnt/:contentId','/:slug/about-sunbird', 
     '/explore-courses',' /explore-courses/*', '/:slug/explore-courses', '/:slug/explore-courses/*',
     '/explore-library', '/explore-library/*', '/:slug/explore-library', '/:slug/explore-library/*',
-    '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*'], indexPage(false))
+    '/:slug/signup', '/signup', '/:slug/sign-in/*', '/sign-in/*', '/:slug/licensepolicy', '/licensepolicy', '/:slug/assetguidelines', '/assetguidelines'], indexPage(false))
 
   app.all(['*/dial/:dialCode', '/dial/:dialCode'], (req, res) => res.redirect('/get/dial/' + req.params.dialCode))
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService } from '@sunbird/core';
+import { ContentService, AssetService } from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
 import { BadgesService } from '@sunbird/core';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
@@ -26,6 +26,10 @@ export interface IassessDetail {
   artifactUrl: string;
   mimeType: string;
   lastSubmittedOn: string;
+  sector: string;
+  assetType: string;
+  source: string;
+  submittedBy: string;
 
 }
 
@@ -66,7 +70,11 @@ export class ExploreDetailPageComponent implements OnInit {
     creator: '',
     artifactUrl: '',
     mimeType: '',
-    lastSubmittedOn: ''
+    lastSubmittedOn: '',
+    sector: '',
+    assetType: '',
+    source: '',
+    submittedBy: ''
 
   };
   public resourceService: ResourceService;
@@ -75,7 +83,8 @@ export class ExploreDetailPageComponent implements OnInit {
   url: any;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
-    config: ConfigService, contentServe: ContentService , rout: Router) {
+    config: ConfigService, contentServe: ContentService , rout: Router,
+    public assetService: AssetService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;

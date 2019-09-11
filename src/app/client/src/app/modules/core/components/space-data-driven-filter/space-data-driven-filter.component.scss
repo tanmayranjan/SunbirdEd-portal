@@ -22,7 +22,7 @@
     border: none;
     width: fit-content;
     border-radius: 5px;
-    height: 40px;
+    // height: 40px;
     font-family: "Muli",sans-serif;
     font-size: 15px;
     text-transform: uppercase;
@@ -42,4 +42,12 @@
     .ui.column.grid>[class*="three wide"].column, .ui.grid>.column.row>[class*="three wide"].column, .ui.grid>.row>[class*="three wide"].column, .ui.grid>[class*="three wide"].column {
         width: 25% !important;
     }
+}
+.searchfilterbutton
+{
+    font-size: 0.94rem !important;
+}
+.filter-button
+{
+    padding-top: 6px;
 }

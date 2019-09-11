@@ -55,7 +55,6 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   public signUpInteractEdata: IInteractEventEdata;
   public enterDialCodeInteractEdata: IInteractEventEdata;
   public telemetryInteractObject: IInteractEventObject;
-  exploreRoutingUrl: string;
   pageId: string;
   searchBox = {
     'center': false,
@@ -67,6 +66,8 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   isOffline: boolean = environment.isOffline;
   languages: Array<any>;
   slugInfo: any;
+  showOfflineHelpCentre = false;
+  exploreRoutingUrl: string;
 
   constructor(public config: ConfigService, public resourceService: ResourceService, public router: Router,
     public permissionService: PermissionService, public userService: UserService, public tenantService: TenantService,
@@ -94,6 +95,8 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
+
+      this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
       this.slugInfo = 'loggedIn';
           this.showExploreHeader = true;
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
@@ -111,6 +114,18 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     this.setInteractEventData();
     this.cdr.detectChanges();
     this.setWindowConfig();
+
+    // This subscription is only for offline and it checks whether the page is offline
+    // help centre so that it can load its own header/footer
+    if (this.isOffline) {
+      this.router.events.subscribe((val) => {
+        if (_.includes(this.router.url, 'help-center')) {
+          this.showOfflineHelpCentre = true;
+        } else {
+          this.showOfflineHelpCentre = false;
+        }
+      });
+    }
   }
   getLanguage(channelId) {
     const isCachedDataExists = this._cacheService.get(this.languageFormQuery.filterEnv + this.languageFormQuery.formAction);
@@ -134,10 +149,12 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     }
   }
   navigateToHome() {
-    if (this.userService.loggedIn) {
+    if (this.isOffline) {
+      this.router.navigate(['']);
+    } else if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
-      window.location.href = this.slug ? this.slug : '';
+      window.location.href = this.slug ? this.slug  : '';
     }
   }
   onEnter(key) {
@@ -147,12 +164,26 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
       this.queryParam.key = key;
     }
     console.log('activate route in main header = ', this.activatedRoute, key);
-    const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
+
+    if (this.isOffline) {
+      this.routeToOffline();
+    } else {
+      // const url = this.router.url.split('?')[0];
+      // let redirectUrl;
+      // if (url.indexOf('/explore-course') !== -1) {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-course')) + 'explore-course';
+      // } else {
+      //   redirectUrl = url.substring(0, url.indexOf('explore-library')) + 'explore-library';
+      // }
+      // this.router.navigate([redirectUrl, 1], { queryParams: this.queryParam });
+      const route  = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.pathFromRoot');
   //  this.slugInfo = route[0].firstChild.children[0].url[0].path;
     let currRoute = route[0].firstChild.children[0].url[0].path;
+    console.log('slug info in main header = ', this.slugInfo, route, currRoute);
     if (currRoute === 'sbwb') {
      this.slugInfo = route[0].firstChild.children[0].url[0].path;
-      currRoute = route[0].firstChild.children[0].url[1].path;
+       currRoute = route[0].firstChild.children[0].url[1].path;
+      console.log('check = ', this.slugInfo, currRoute);
       this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
     }
     if (currRoute === 'explore-course') {
@@ -163,7 +194,16 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
         currRoute = route[0].firstChild.children[0].url[0].path;
         this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
         }
-    console.log('slug info in main header = ', this.slugInfo, route);
+    }
+  }
+
+  /* This method searches only for offline module*/
+  routeToOffline() {
+    if (_.includes(this.router.url, 'browse')) {
+      this.router.navigate(['browse', 1], { queryParams: this.queryParam });
+    } else {
+      this.router.navigate(['search', 1], { queryParams: this.queryParam });
+    }
   }
 
   getSearchButtonInteractEdata(key) {
@@ -257,7 +297,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    window.location.replace('/logoff');
+    window.location.replace('/logoffsbwb');
     this.cacheService.removeAll();
   }
   setWindowConfig() {

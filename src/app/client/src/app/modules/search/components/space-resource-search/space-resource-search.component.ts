@@ -114,7 +114,7 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
         filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
         const softConstraintData = {
             filters: {
-                // channel: this.hashTagId,
+                channel: this.hashTagId,
                 // board: [this.dataDrivenFilters.board]
             },
             softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
@@ -131,10 +131,10 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
             sort_by: { [this.queryParams.sort_by]: this.queryParams.sortType },
             mode: _.get(manipulatedData, 'mode'),
             //   facets: this.facets,
-            params: this.configService.appConfig.Library.contentApiQueryParams
+             params: this.configService.appConfig.Library.contentApiQueryParams
         };
         option.filters.contentType = filters.contentType ||
-            ['Resource'];
+        ['Resource'];
         //   option.filters.channel = this.orgId;
         //   option.filters.organisation = this.orgName;
 
@@ -144,11 +144,12 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
         option.filters.organisation = this.configService.appConfig.ExplorePage.orgName;
         option.filters.objectType = 'Content';
         option.filters.status = ['Live'];
-        this.frameworkService.channelData$.subscribe((channelData) => {
-            if (!channelData.err) {
-                option.params.framework = _.get(channelData, 'channelData.defaultFramework');
-            }
-        });
+         this.frameworkService.channelData$.subscribe((channelData) => {
+             if (!channelData.err) {
+                 option.params.framework = _.get(channelData, 'channelData.defaultFramework');
+             }
+         });
+      // delete option.filters.contentType;
         this.searchService.contentSearch(option)
             .subscribe(data => {
                 this.showLoader = false;

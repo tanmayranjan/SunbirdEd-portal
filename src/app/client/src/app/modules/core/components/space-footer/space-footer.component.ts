@@ -59,6 +59,12 @@ this.padding = true;
       if ( value === 'termsOfUse') {
         this.router.navigate(['/space/' + value]);
         }
+      if ( value === 'licensepolicy') {
+        this.router.navigate(['/space/' + value]);
+      }
+      if ( value === 'assetguidelines') {
+        this.router.navigate(['/space/' + value]);
+      }
   // }
 }
 }

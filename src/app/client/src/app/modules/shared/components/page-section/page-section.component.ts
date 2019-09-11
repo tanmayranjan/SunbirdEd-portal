@@ -10,6 +10,8 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 // import { OrgDetailsService , UserService} from '@sunbird/core';
 import { takeUntil, map, mergeMap, first, filter, tap } from 'rxjs/operators';
+import { environment } from '@sunbird/environment';
+
 /**
  * This display a a section
  */
@@ -45,6 +47,7 @@ export class PageSectionComponent implements OnInit, OnDestroy {
 
   maxSlide = 0;
 
+  isOffline: boolean = environment.isOffline;
 
   constructor(public config: ConfigService, public activatedRoute: ActivatedRoute, public resourceService: ResourceService,
     private cdr: ChangeDetectorRef,
@@ -52,8 +55,12 @@ export class PageSectionComponent implements OnInit, OnDestroy {
       this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
     }
   playContent(event) {
+   if (this.slug !== 'space') {
     event.section = this.section.name;
     this.playEvent.emit(event);
+   } else {
+    this.router.navigate(['resources/player/content/', event.data.identifier]);
+   }
   }
   ngOnInit() {
     const slug1 = this.activatedRoute;

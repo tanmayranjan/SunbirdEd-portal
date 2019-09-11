@@ -3,7 +3,7 @@ import * as  iziModal from 'izimodal/js/iziModal';
 import { NavigationHelperService, ResourceService, ToasterService, ConfigService, IUserProfile, ServerResponse } from '@sunbird/shared';
 import { TelemetryService, IInteractEventEdata } from '@sunbird/telemetry';
 import { combineLatest, of, throwError } from 'rxjs';
-import { UserService, TenantService } from '@sunbird/core';
+import { UserService, TenantService, AssetService } from '@sunbird/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@sunbird/environment';
 import { SpaceEditorService, MyassetsService } from '../../services';
@@ -36,7 +36,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     private tenantService: TenantService, private telemetryService: TelemetryService, private router: Router,
     private navigationHelperService: NavigationHelperService, public workspaceService: MyassetsService,
     private configService: ConfigService, private editorService: SpaceEditorService, private toasterService: ToasterService,
-    private resourceService: ResourceService) {
+    private resourceService: ResourceService, public assetService: AssetService) {
     const buildNumber = (<HTMLInputElement>document.getElementById('buildNumber'));
     this.buildNumber = buildNumber ? buildNumber.value : '1.0';
     const deviceId = (<HTMLInputElement>document.getElementById('deviceId'));
@@ -128,6 +128,24 @@ export class EditorComponent implements OnInit, OnDestroy {
       return of({});
     }
   }
+ /* private getContentDetails() {
+    if (this.routeParams.contentId) {
+      const req = {
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.routeParams.contentId}`,
+      };
+    return this.assetService.read(req).
+      pipe(map((data) => {
+        if (data) {
+          this.contentDetails = data.result.asset;
+          return of(data);
+        } else  {
+          return throwError(data);
+        }
+      }));
+    } else {
+      return of({});
+    }
+  } */
   /**
    *Launch Generic Editor in the modal
    */
@@ -205,13 +223,15 @@ export class EditorComponent implements OnInit, OnDestroy {
   }
 
   retireLock () {
-    const inputData = {'resourceId': window.context.contentId || this.routeParams.contentId, 'resourceType': 'Content'};
+    const inputData = {'resourceId': this.routeParams.contentId, 'resourceType': 'Content'};
     this.workspaceService.retireLock(inputData).subscribe(
       (data: ServerResponse) => {
         this.redirectToWorkSpace();
       },
       (err: ServerResponse) => {
-        this.redirectToWorkSpace();
+        console.log('err in retire lock = ', err);
+        // this.redirectToWorkSpace();
+        this.toasterService.error('Something went wrong');
       }
     );
   }

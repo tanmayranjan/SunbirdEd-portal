@@ -95,6 +95,36 @@ export class SearchService {
         return data;
       }));
   }
+  searchAssetByUserId(requestParam: SearchParam, options: any = { params: {} }): Observable<ServerResponse> {
+    const option = {
+      url: this.config.urlConFig.URLS.COMPOSITE.SEARCH,
+      param: options.params,
+      data: {
+        request: {
+          filters: {
+            status: requestParam.status || ['Live'],
+            createdBy: requestParam.params.userId ? requestParam.params.userId : this.user.userid,
+            // contentType: requestParam.contentType || ['Course'],
+            mimeType: requestParam.mimeType,
+            objectType: 'Asset',
+            channel: requestParam.channel,
+            // concept: requestParam.concept
+          },
+          limit: requestParam.limit,
+          offset: (requestParam.pageNumber - 1) * requestParam.limit,
+          query: requestParam.query,
+          sort_by: {
+            lastUpdatedOn: requestParam.params.lastUpdatedOn || 'desc'
+          }
+        }
+      }
+    };
+    return this.content.post(option).pipe(
+      map((data: ServerResponse) => {
+        this._searchedContentList = data.result;
+        return data;
+      }));
+  }
   /**
    * Get searched content list
    */
@@ -268,18 +298,44 @@ export class SearchService {
     }
     return this.publicDataService.post(option);
   }
+  assetSearch(requestParam: SearchParam, addDefaultContentTypesInRequest: boolean = true):
+    Observable<ServerResponse> {
+    const option = {
+      url: this.config.urlConFig.URLS.CONTENT.SEARCH,
+      param: { ...requestParam.params },
+      data: {
+        request: {
+          filters: requestParam.filters,
+          limit: requestParam.limit,
+          query: requestParam.query,
+          sort_by: requestParam.sort_by,
+          exists: requestParam.exists,
+          softConstraints: requestParam.softConstraints,
+          mode: requestParam.mode,
+          facets: requestParam.facets && requestParam.facets
+        }
+      }
+    };
+    if (requestParam['pageNumber'] && requestParam['limit']) {
+      option.data.request['offset'] = (requestParam.pageNumber - 1) * requestParam.limit;
+    }
+
+    return this.publicDataService.post(option);
+  }
   /**
   * Batch Search.
   *
   * @param {SearchParam} requestParam api request data
  */
   batchSearch(requestParam: SearchParam): Observable<ServerResponse> {
+    const offset = (requestParam.offset === 0 ||  requestParam.offset)
+      ? requestParam.offset : (requestParam.pageNumber - 1) * requestParam.limit;
     const option = {
       url: this.config.urlConFig.URLS.BATCH.GET_BATCHS,
       data: {
         request: {
           filters: requestParam.filters,
-          offset: (requestParam.pageNumber - 1) * requestParam.limit,
+          offset,
           limit: requestParam.limit,
           sort_by: requestParam.sort_by
         }

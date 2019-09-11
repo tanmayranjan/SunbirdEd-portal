@@ -28,7 +28,7 @@ import { FrameworkPickerComponent } from './components/framework-picker/framewor
 import { FramworkSelectorComponent } from './components/framwork-selector/framwork-selector.component';
 import { LearnerService, TenantService, CopyContentService, AnnouncementService, BadgesService,
    ContentService, CoursesService, PageApiService, FormService, FrameworkService, PlayerService,
-   OrgDetailsService, ChannelService, UploadContentService } from './services';
+   OrgDetailsService, ChannelService, UploadContentService, AssetService } from './services';
 import { ConceptPickerService } from './services/concept-picker/concept-picker.service';
 import { SpaceDataDrivenFilterComponent } from './components/space-data-driven-filter/space-data-driven-filter.component';
 import { OtherSearchComponent } from './components/other-search/other-search.component';
@@ -38,6 +38,7 @@ import { HttpModule } from '@angular/http';
 import { ConceptPickerComponent } from './components/concept-picker/concept-picker.component';
 import { SpaceConceptPickerComponent } from './components/space-concept-picker/space-concept-picker.component';
 import { SpaceFramworkSelectorComponent } from './components/space-framwork-selector/space-framwork-selector.component';
+import { SunbirdProminentFilterComponent } from './components/sunbird-prominent-filter/sunbird-prominent-filter.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -59,9 +60,10 @@ import { SpaceFramworkSelectorComponent } from './components/space-framwork-sele
     ProminentFilterComponent, TopicPickerComponent, StickyHeaderDirective, OtherSearchComponent,
     SunbirdDataDrivenFilterComponent, SpaceHeaderComponent, SpaceFooterComponent, ConceptPickerComponent,
      SpaceProminentFilterComponent, FrameworkPickerComponent, FramworkSelectorComponent, SpaceDataDrivenFilterComponent,
-      OtherSearchComponent, SpaceMainMenuComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent],
+      OtherSearchComponent, SpaceMainMenuComponent, SpaceConceptPickerComponent, SpaceFramworkSelectorComponent,
+      SunbirdProminentFilterComponent],
   exports: [MainHeaderComponent, MainFooterComponent, PermissionDirective, BodyScrollDirective,
-    SunbirdDataDrivenFilterComponent,
+    SunbirdDataDrivenFilterComponent, SunbirdProminentFilterComponent,
     DataDrivenFilterComponent, SortByComponent, FlagContentComponent, SunbirdFooterComponent,
      FrameworkPickerComponent, FramworkSelectorComponent,
      SunbirdHeaderComponent, SpaceHeaderComponent, SpaceDataDrivenFilterComponent,
@@ -76,7 +78,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [LearnerService, TenantService, SearchService, CopyContentService,
         AnnouncementService, BadgesService, ContentService, CoursesService, PageApiService,
-        AuthGuard, FrameworkService, FormService, CacheService,
+        AuthGuard, FrameworkService, FormService, CacheService, AssetService,
         ConceptPickerService, PlayerService, OrgDetailsService, UploadContentService ,
         ChannelService]
     };

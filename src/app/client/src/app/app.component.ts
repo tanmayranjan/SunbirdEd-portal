@@ -5,7 +5,7 @@ import {
   UtilService, ResourceService, ToasterService, IUserData, IUserProfile,
   NavigationHelperService, ConfigService, BrowserCacheTtlService
 } from '@sunbird/shared';
-import { Component, HostListener, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Inject, OnDestroy, AfterViewInit } from '@angular/core';
 import { UserService, PermissionService, CoursesService, TenantService, OrgDetailsService, DeviceRegisterService,
   SessionExpiryInterceptor } from '@sunbird/core';
 import * as _ from 'lodash-es';
@@ -14,6 +14,12 @@ import { Observable, of, throwError, combineLatest } from 'rxjs';
 import { first, filter, mergeMap, tap, map } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 import { DOCUMENT } from '@angular/platform-browser';
+import { debug } from 'util';
+import { ShepherdService } from 'angular-shepherd';
+import {builtInButtons, defaultStepOptions} from './shepherd-data';
+
+
+
 
 /**
  * main app component
@@ -22,7 +28,7 @@ import { DOCUMENT } from '@angular/platform-browser';
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('frameWorkPopUp') frameWorkPopUp;
   /**
    * user profile details.
@@ -71,7 +77,12 @@ export class AppComponent implements OnInit {
   instance: string;
   public orgName: string;
   public enableTenantHeader: string;
+  tenantname = 'Sunbird';
 
+  resourceDataSubscription: any;
+  shepherdData: Array<any>;
+  private fingerprintInfo: any;
+  hideHeaderNFooter = true;
   constructor(private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService,
     public userService: UserService, private navigationHelperService: NavigationHelperService,
     private permissionService: PermissionService, public resourceService: ResourceService,
@@ -79,7 +90,8 @@ export class AppComponent implements OnInit {
     private telemetryService: TelemetryService, public router: Router, private configService: ConfigService,
     private orgDetailsService: OrgDetailsService, private activatedRoute: ActivatedRoute,
     private profileService: ProfileService, private toasterService: ToasterService, public utilService: UtilService,
-    @Inject(DOCUMENT) private _document: any, public sessionExpiryInterceptor: SessionExpiryInterceptor) {
+    @Inject(DOCUMENT) private _document: any, public sessionExpiryInterceptor: SessionExpiryInterceptor,
+    private shepherdService: ShepherdService) {
       this.instance = (<HTMLInputElement>document.getElementById('instance'))
         ? (<HTMLInputElement>document.getElementById('instance')).value : 'sunbird';
   }
@@ -94,8 +106,14 @@ export class AppComponent implements OnInit {
   handleLogin() {
     window.location.reload();
   }
+  handleHeaderNFooter() {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(data => {
+      this.hideHeaderNFooter = _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.data.hideHeaderNFooter') ||
+        _.get(this.activatedRoute, 'snapshot.firstChild.firstChild.firstChild.data.hideHeaderNFooter');
+    });
+  }
   ngOnInit() {
-    console.log('inside app component');
+    this.handleHeaderNFooter();
     this.resourceService.initialize();
     combineLatest(this.setSlug(), this.setDeviceId()).pipe(
       mergeMap(data => {
@@ -115,13 +133,40 @@ export class AppComponent implements OnInit {
         this.setPortalTitleLogo();
         this.telemetryService.initialize(this.getTelemetryContext());
         this.logCdnStatus();
+        this.setFingerPrintTelemetry();
         this.checkTncAndFrameWorkSelected();
         this.initApp = true;
       }, error => {
         this.initApp = true;
       });
+
     this.changeLanguageAttribute();
+    if (this.isOffline) {
+      document.body.classList.add('sb-offline');
+    }
+}
+
+setFingerPrintTelemetry() {
+  const printFingerprintDetails  = (<HTMLInputElement>document.getElementById('logFingerprintDetails'))
+  ? (<HTMLInputElement>document.getElementById('logFingerprintDetails')).value : 'false';
+    if (printFingerprintDetails !== 'true') {
+      return;
+    }
+
+    if (this.fingerprintInfo) {
+      const event = {
+        context: {
+          env : 'app'
+        },
+        edata : {
+          type : 'fingerprint_info',
+          data : JSON.stringify(this.fingerprintInfo)
+        }
+      };
+      this.telemetryService.exData(event);
+    }
   }
+
   logCdnStatus() {
     const isCdnWorking  = (<HTMLInputElement>document.getElementById('cdnWorking'))
     ? (<HTMLInputElement>document.getElementById('cdnWorking')).value : 'no';
@@ -179,7 +224,8 @@ export class AppComponent implements OnInit {
    * fetch device id using fingerPrint2 library.
    */
   public setDeviceId(): Observable<string> {
-    return new Observable(observer => this.telemetryService.getDeviceId(deviceId => {
+    return new Observable(observer => this.telemetryService.getDeviceId((deviceId, components, version) => {
+        this.fingerprintInfo = {deviceId, components, version};
         (<HTMLInputElement>document.getElementById('deviceId')).value = deviceId;
         this.deviceRegisterService.initialize();
         observer.next(deviceId);
@@ -291,9 +337,17 @@ export class AppComponent implements OnInit {
    * set app title and favicon after getting tenant data
    */
   private setPortalTitleLogo(): void {
-    this.tenantService.tenantData$.subscribe(data => {
+    localStorage.setItem('tenant', this.slug);
+    if (this.slug === 'space') {
+      this.tenantname = 'SPace';
+    } else if (this.slug === 'sbwb') {
+       this.tenantname = 'World Bank';
+    } else if (this.slug === 'sunbirdorg') {
+       this.tenantname = 'Sunbird';
+         }
+  this.tenantService.tenantData$.subscribe(data => {
       if (!data.err) {
-        document.title = this.userService.rootOrgName || data.tenantData.titleName;
+        document.title = this.tenantname || this.userService.rootOrgName ;
         document.querySelector('link[rel*=\'icon\']').setAttribute('href', data.tenantData.favicon);
       }
     });
@@ -333,7 +387,7 @@ export class AppComponent implements OnInit {
     this.cacheService.set('showFrameWorkPopUp', 'installApp');
   }
   changeLanguageAttribute() {
-    this.resourceService.languageSelected$.subscribe(item => {
+    this.resourceDataSubscription = this.resourceService.languageSelected$.subscribe(item => {
       if (item.value && item.dir) {
           this._document.documentElement.lang = item.value;
           this._document.documentElement.dir = item.dir;
@@ -342,5 +396,91 @@ export class AppComponent implements OnInit {
           this._document.documentElement.dir = 'ltr';
         }
     });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.initializeShepherdData();
+      if (this.isOffline) {
+        this.shepherdService.defaultStepOptions = defaultStepOptions;
+        this.shepherdService.disableScroll = true;
+        this.shepherdService.modal = true;
+        this.shepherdService.confirmCancel = false;
+        this.shepherdService.addSteps(this.shepherdData);
+        if ((localStorage.getItem('TakeOfflineTour') !== 'show')) {
+          localStorage.setItem('TakeOfflineTour', 'show');
+          this.shepherdService.start();
+        }
+      }
+    }, 1000);
+  }
+
+  initializeShepherdData() {
+    this.shepherdData = [
+      {
+      id: this.resourceService.frmelmnts.instn.t0086,
+      useModalOverlay: true,
+      options: {
+          attachTo: '.tour-1 bottom',
+          buttons: [
+              builtInButtons.skip,
+              builtInButtons.next],
+          classes: 'sb-guide-text-area',
+          title: this.resourceService.frmelmnts.instn.t0086,
+          text: [ this.interpolateInstance(this.resourceService.frmelmnts.instn.t0090)]
+      }
+    },
+    {
+      id: this.resourceService.frmelmnts.instn.t0087,
+      useModalOverlay: true,
+      options: {
+          attachTo: '.tour-2 bottom',
+          buttons: [
+              builtInButtons.skip,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'sb-guide-text-area',
+          title: this.resourceService.frmelmnts.instn.t0087,
+          text: [this.resourceService.frmelmnts.instn.t0091]
+      }
+    },
+    {
+      id:  this.interpolateInstance(this.resourceService.frmelmnts.instn.t0088),
+      useModalOverlay: true,
+      options: {
+          attachTo: '.tour-3 bottom',
+          buttons: [
+              builtInButtons.skip,
+              builtInButtons.back,
+              builtInButtons.next,
+          ],
+          classes: 'sb-guide-text-area',
+          title:  this.interpolateInstance(this.resourceService.frmelmnts.instn.t0088),
+          text: [this.interpolateInstance(this.resourceService.frmelmnts.instn.t0092)]
+      }
+    },
+    {
+      id:  this.interpolateInstance(this.resourceService.frmelmnts.instn.t0089),
+      useModalOverlay: true,
+      options: {
+          attachTo: '.tour-4 bottom',
+          buttons: [
+              builtInButtons.back,
+              builtInButtons.cancel,
+          ],
+          classes: 'sb-guide-text-area',
+          title: this.interpolateInstance(this.resourceService.frmelmnts.instn.t0089),
+          text: [ this.interpolateInstance(this.resourceService.frmelmnts.instn.t0093)]
+      }
+    }];
+  }
+  ngOnDestroy() {
+    if (this.resourceDataSubscription) {
+      this.resourceDataSubscription.unsubscribe();
+    }
+  }
+  interpolateInstance(message) {
+    return message.replace('{instance}', _.upperCase(this.instance));
   }
 }

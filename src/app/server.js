@@ -24,6 +24,7 @@ const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const { frameworkAPI } = require('@project-sunbird/ext-framework-server/api');
 const frameworkConfig = require('./framework.config.js');
 const cookieParser = require('cookie-parser')
+const logger = require('sb_logger_util_v2');
 let keycloak = getKeyCloakClient({
   'realm': envHelper.PORTAL_REALM,
   'auth-server-url': envHelper.PORTAL_AUTH_SERVER_URL,
@@ -31,7 +32,16 @@ let keycloak = getKeyCloakClient({
   'resource': envHelper.PORTAL_AUTH_SERVER_CLIENT,
   'public-client': true
 })
+const logLevel = envHelper.sunbird_portal_log_level;
+
+logger.init({
+  logLevel
+})
+
+logger.debug({ msg: `logger initialized with LEVEL= ${logLevel}` })
+
 const app = express()
+// const encodedRedirectUri = 'http://localhost:3000/space';
 
 app.use(cookieParser())
 app.use(helmet())
@@ -47,17 +57,26 @@ app.use(keycloak.middleware({ admin: '/callback', logout: '/logout' }))
 app.use('/announcement/v1', bodyParser.urlencoded({ extended: false }),
   bodyParser.json({ limit: '10mb' }), require('./helpers/announcement')(keycloak)) // announcement api routes
 
-app.all('/logoff', endSession, (req, res) => {
-  res.cookie('connect.sid', '', { expires: new Date() }); res.redirect('/logout')
+app.all('/logoff', endSession, (req, res, next) => {
+  // console.log("response in server = ", req ,res , envHelper.PORTAL_AUTH_SERVER_URL,"/realms/",envHelper.PORTAL_REALM,"/protocol/openid-connect/logout?redirect_uri='http://localhost:3000/space'");
+  res.cookie('connect.sid', '', { expires: new Date() }); 
+  res.redirect(envHelper.PORTAL_AUTH_SERVER_URL+'/realms/'+envHelper.PORTAL_REALM+'/protocol/openid-connect/logout?redirect_uri='+'http://localhost:3000/space');
 })
 
-app.get('/health', healthService.createAndValidateRequestBody, healthService.checkHealth) // health check api
+app.all('/logoffsbwb', endSession, (req, res, next) => {
+  res.cookie('connect.sid', '', { expires: new Date() }); 
+  res.redirect(envHelper.PORTAL_AUTH_SERVER_URL+'/realms/'+envHelper.PORTAL_REALM+'/protocol/openid-connect/logout?redirect_uri='+'http://localhost:3000/sbwb');
+})
+
+app.get('/health', healthService.createAndValidateRequestBody, healthService.checkHealth) // health check api http%3A%2F%2Flocalhost%3A3000%2Fspace%3F
 
 app.get('/service/health', healthService.createAndValidateRequestBody, healthService.checkSunbirdPortalHealth)
 
 require('./routes/googleSignInRoutes.js')(app, keycloak) // google sign in routes
 
 require('./routes/ssoRoutes.js')(app, keycloak) // sso routes
+
+require('./routes/refreshTokenRoutes.js')(app, keycloak) // refresh token routes
 
 require('./routes/clientRoutes.js')(app, keycloak) // client app routes
 
@@ -118,8 +137,8 @@ function endSession(request, response, next) {
 }
 
 if (!process.env.sunbird_environment || !process.env.sunbird_instance) {
-  console.error('please set environment variable sunbird_environment, ' +
-    'sunbird_instance  start service Eg: sunbird_environment = dev, sunbird_instance = sunbird')
+  logger.error({msg: `please set environment variable sunbird_environment,sunbird_instance
+  start service Eg: sunbird_environment = dev, sunbird_instance = sunbird`})
   process.exit(1)
 }
 function runApp() {
@@ -130,8 +149,9 @@ function runApp() {
   fetchDefaultChannelDetails((channelError, channelRes, channelData) => {
     portal.server = app.listen(envHelper.PORTAL_PORT, () => {
       envHelper.defaultChannelId = _.get(channelData, 'result.response.content[0].hashTagId'); // needs to be added in envVariable file
-      console.log('app running on port ' + envHelper.PORTAL_PORT)
+      logger.info({msg: `app running on port ${envHelper.PORTAL_PORT}`})
     })
+    portal.server.keepAliveTimeout = 60000 * 5;
   })
 }
 const fetchDefaultChannelDetails = (callback) => {
@@ -164,5 +184,9 @@ telemetry.init({
   authtoken: 'Bearer ' + envHelper.PORTAL_API_AUTH_TOKEN
 })
 
-process.on('unhandledRejection', (reason, p) => console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason));
+process.on('unhandledRejection', (reason, p) => console.log('Unhandled Rejection', p, reason));
+process.on('uncaughtException', (err) => {
+  console.log('Uncaught Exception', error)
+  process.exit(1);
+});
 exports.close = () => portal.server.close()

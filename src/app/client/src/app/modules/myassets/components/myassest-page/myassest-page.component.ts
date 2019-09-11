@@ -2,7 +2,7 @@ import { combineLatest as observableCombineLatest, Observable, Subject, Subscrip
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService } from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents,
@@ -229,7 +229,7 @@ modalMessage = '';
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
     public modalServices: SuiModalService, frameworkService: FrameworkService,
-    contentService: ContentService) {
+    contentService: ContentService, public assetService: AssetService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -327,32 +327,59 @@ ngAfterViewInit() {
     } else {
       this.sort = { lastUpdatedOn: this.config.appConfig.WORKSPACE.lastUpdatedOn };
     }
-    const preStatus = ['Draft', 'Review', 'Live'];
+  /*  const preStatus = [];
     const searchParams = {
       filters: {
         status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
-        createdBy: this.userService.userid,
-        contentType: this.config.appConfig.WORKSPACE.contentType,
-        objectType: this.config.appConfig.WORKSPACE.objectType,
-        board: [],
+        // createdBy: this.userService.userid,
+        // contentType: this.config.appConfig.WORKSPACE.contentType,
+        objectType: 'Asset',
+        assetType: [],
         subject: bothParams.queryParams.subject,
         medium: bothParams.queryParams.medium,
-        gradeLevel: bothParams.queryParams.gradeLevel,
+        sector: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
         keywords: bothParams.queryParams.keywords,
         region: [],
         creators: [],
-        languages: [],
+        language: [],
         organisation: [],
-        channel: [],
+        channel: [this.userService.hashTagId],
         topic: [],
-        country: []
+        country: [],
       },
-      limit: limit,
-      offset: (pageNumber - 1) * (limit),
+      // limit: limit,
+      // offset: (pageNumber - 1) * (limit),
       query: '' || bothParams.queryParams.query,
-      sort_by: this.sort
+      // sort_by: this.sort
     };
+    */
+   const preStatus = ['Draft', 'Review', 'Live'];
+   const searchParams = {
+     filters: {
+       status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
+       createdBy: this.userService.userid,
+       contentType: this.config.appConfig.WORKSPACE.contentType,
+       objectType: this.config.appConfig.WORKSPACE.objectType,
+       board: [],
+       subject: bothParams.queryParams.subject,
+       medium: bothParams.queryParams.medium,
+       gradeLevel: bothParams.queryParams.gradeLevel,
+       resourceType: bothParams.queryParams.resourceType,
+       keywords: bothParams.queryParams.keywords,
+       region: [],
+       creators: [],
+       languages: [],
+       organisation: [],
+       channel: [],
+       topic: [],
+       country: []
+     },
+     limit: limit,
+     offset: (pageNumber - 1) * (limit),
+     query: '' || bothParams.queryParams.query,
+     sort_by: this.sort
+   };
 console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
         if (bothParams.queryParams.hasOwnProperty(param)) {
@@ -392,7 +419,7 @@ contentSearch(searchParams, pageNumber, limit) {
           if (this.route.url === '/upForReview' ) {
             if (this.route.url === '/upForReview' ) {
                this.noResultsForReview = false;
-              const option = {
+               const option = {
                 url : '/content/v1/search',
                 param : '',
                 filters: {
@@ -404,10 +431,12 @@ contentSearch(searchParams, pageNumber, limit) {
               },
                 sort_by: {me_averageRating: 'desc'}
               };
-              this.contentService.getupForReviewData(option).subscribe(response => {
-
+           //   delete option.sort_by;
+           this.contentService.getupForReviewData(option).subscribe(response => {
+             //   console.log(' res param in review page = ', option);
                 if (response.result.count > 0) {
                   this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
+                 // console.log('upfor review content = ', this.upForReviewContent, response);
                   if (this.upForReviewContent.length <= 0) {
                     this.noResultsForReview = true;
                     this.showLoader = false;
@@ -422,7 +451,13 @@ contentSearch(searchParams, pageNumber, limit) {
                   }
 
                   this.allContent = this.upForReviewContent;
-
+           /*       this.allContent.forEach(element => {
+                    console.log('assign state in review');
+                    if (!localStorage.hasOwnProperty(element.identifier)) {
+                      localStorage.setItem(element.identifier, JSON.stringify('Review'));
+                    }
+                  });
+            */
                 } else {
                   this.showLoader = false;
                   // set the no results template if no assets is present
@@ -435,10 +470,7 @@ contentSearch(searchParams, pageNumber, limit) {
             }
           } else {
             if (data.result.count && data.result.content.length > 0) {
-              console.log('my asset page content = ', data);
-            // this is the tem area
             this.allContent = data.result.content;
-
             this.totalCount = data.result.count;
             this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
             this.showLoader = false;
@@ -461,41 +493,41 @@ contentSearch(searchParams, pageNumber, limit) {
         }
       );
 }
-  public deleteConfirmModal(contentIds) {
-    this.deleteAsset = true;
-    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
-    config.isClosable = true;
-    config.size = 'mini';
-    config.context = {
-      data: 'delete'
-      };
-      this.modalMessage = 'Do you want to delete this asset ?';
+public deleteConfirmModal(contentIds) {
+  this.deleteAsset = true;
+  const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+  config.isClosable = true;
+  config.size = 'mini';
+  config.context = {
+    data: 'delete'
+    };
+    this.modalMessage = 'Do you want to delete this asset ?';
 
-    this.modalService
-      .open(config)
-      .onApprove(result => {
-        this.showLoader = true;
-        this.loaderMessage = {
-          'loaderMessage': this.resourceService.messages.stmsg.m0034,
-        };
-        this.delete(contentIds).subscribe(
-          (data: ServerResponse) => {
-            this.showLoader = false;
-            this.allContent = this.removeAllMyContent(this.allContent, contentIds);
-            if (this.allContent.length === 0) {
-              this.ngOnInit();
-            }
-            this.toasterService.success('Asset deleted successfully');
-          },
-          (err: ServerResponse) => {
-            this.showLoader = false;
-            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+  this.modalService
+    .open(config)
+    .onApprove(result => {
+      this.showLoader = true;
+      this.loaderMessage = {
+        'loaderMessage': this.resourceService.messages.stmsg.m0034,
+      };
+      this.delete(contentIds).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentIds);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
           }
-        );
-      })
-      .onDeny(result => {
-      });
-  }
+          this.toasterService.success('Asset deleted successfully');
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+        }
+      );
+    })
+    .onDeny(result => {
+    });
+}
   public reviewConfirmModal(contentIds, status) {
     const config2 = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config2.isClosable = true;
@@ -518,29 +550,18 @@ contentSearch(searchParams, pageNumber, limit) {
           }
         };
         const option = {
-          url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
-          data: requestBody
+           url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
+           data: requestBody
         };
 
         this.contentService.post(option).subscribe(
           (data: ServerResponse) => {
             console.log('data after sending for review = ', data);
-            // var archive = [],
-            // keys = Object.keys(localStorage),
-            // i = 0, key;
-            // for (; key = keys[i]; i++) {
-            //   archive.push( key);
-            // }
-            //   for (let j=0; j < archive.length; j++) {
-            //     console.log( 'j = ', archive[j]);
-            //     if(localStorage.hasOwnProperty(archive[j])) {
-            //       localStorage.removeItem(archive[j]);
-            //     }
-            //   }
-
             localStorage.setItem(contentIds, JSON.stringify('Review'));
+            localStorage.setItem('creator', JSON.stringify(this.userId));
             const state = JSON.parse(localStorage.getItem(contentIds));
-            console.log('state = ', state);
+            const creatorId = JSON.parse(localStorage.getItem(contentIds));
+            console.log('state = ', state, 'creator id = ', creatorId);
 
             this.toasterService.success('Your Asset has been sucessfully sent for review');
             setTimeout(() => {
@@ -573,13 +594,23 @@ contentSearch(searchParams, pageNumber, limit) {
     this.pageNumber = page;
     this.route.navigate(['myassets/', this.pageNumber], { queryParams: this.queryParams });
   }
-  navigateToDetailsPage(contentId: string, status: string) {
+  navigateToDetailsPage(contentId: string, status: string, event, link) {
+    console.log('event', event, link);
+
+   if (event.target.id === 'link') {
+     if ( link.slice(0, 4) === 'http') {
+      window.open(link);
+     } else {
+      window.open('http://' + link);
+     }
+   } else {
     if (this.route.url === '/upForReview') {
       this.navigateToReviewAssetDetailsPage(contentId);
     } else {
       this.route.navigate(['myassets/detail', contentId, status]);
     }
   }
+   }
 
   navigateToReviewAssetDetailsPage(contentId: string) {
     this.route.navigate(['upForReview/review/detail', contentId]);
