@@ -33,7 +33,8 @@ export class SpaceCardComponent  {
          window.open('http://' + link);
         }
       } else {
-    this.clickEvent.emit({ 'action': action, 'data': data });
+        this.router.navigate(['space/explore/player/content/', data.identifier]);
+    // this.clickEvent.emit({ 'action': action, 'data': data });
       }
     // } else {
     //   if (this.slug === 'space') {

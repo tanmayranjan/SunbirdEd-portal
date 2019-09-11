@@ -4,7 +4,7 @@ import {
   ConfigService, ResourceService, Framework, ToasterService, ServerResponse, UtilService,
   BrowserCacheTtlService
 } from '@sunbird/shared';
-import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ApplicationRef, ChangeDetectorRef, OnDestroy, OnChanges, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FrameworkService, FormService, PermissionService, OrgDetailsService } from './../../services';
 import * as _ from 'lodash-es';
