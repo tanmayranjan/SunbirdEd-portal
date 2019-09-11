@@ -302,7 +302,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       requestData.keywords = _.uniqWith(requestData.keywords, _.isEqual);
       requestData['tags'] = requestData.keywords;
       requestData.version =  parseFloat(requestData.version);
-     delete requestData.status 
+     delete requestData.status;
    // delete requestData.framework;
    // delete requestData.contentType;
 
@@ -344,7 +344,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   checkFieldofFile() {
     const data = _.pickBy(this.formData.formInputData);
     if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators &&
-      !!data.version &&!!data.gradeLevel) {
+      !!data.version && !!data.gradeLevel) {
       this.uploadSuccess = true;
       // if (this.fileList) {
       //   if (this.fileList.size < 50000000) {
@@ -389,7 +389,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       content: this.generateData(_.pickBy(this.formData.formInputData)),
     };
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-      this.editorService.update(requestData,this.activatedRoute.snapshot.params.contentId).subscribe(res => {
+      this.editorService.update(requestData, this.activatedRoute.snapshot.params.contentId).subscribe(res => {
 
         this.toasterService.success('Asset updated Successfully');
         this.goToCreate();

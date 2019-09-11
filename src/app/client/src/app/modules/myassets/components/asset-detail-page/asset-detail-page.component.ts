@@ -237,7 +237,7 @@ export class AssetDetailPageComponent implements OnInit {
         this.toasterService.success('Asset has been rejected successfully');
         if (!localStorage.hasOwnProperty(contentId)) {
           localStorage.setItem(contentId, JSON.stringify('Review'));
-        } 
+        }
         setTimeout(() => {
           this.route.navigate(['upForReview']);
           this.ngOnInit();
