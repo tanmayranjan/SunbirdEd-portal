@@ -1,28 +1,49 @@
-import { PublicPlayerService } from '@sunbird/public';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { combineLatest, Subject } from 'rxjs';
+import { PublicPlayerService } from "@sunbird/public";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { combineLatest, Subject } from "rxjs";
 import {
-  ServerResponse, PaginationService, ResourceService, ConfigService, ToasterService, INoResultMessage,
-  ILoaderMessage, UtilService, ICard, BrowserCacheTtlService, NavigationHelperService
-} from '@sunbird/shared';
-import { SearchService, CoursesService, ISort, PlayerService, OrgDetailsService, UserService, FormService } from '@sunbird/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IPagination } from '@sunbird/announcement';
-import * as _ from 'lodash-es';
-import { takeUntil, first, mergeMap, map, tap, filter } from 'rxjs/operators';
-import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
-import { CacheService } from 'ng2-cache-service';
-import { environment } from '@sunbird/environment';
-import { DownloadManagerService } from './../../../offline/services';
+  ServerResponse,
+  PaginationService,
+  ResourceService,
+  ConfigService,
+  ToasterService,
+  INoResultMessage,
+  ILoaderMessage,
+  UtilService,
+  ICard,
+  BrowserCacheTtlService,
+  NavigationHelperService
+} from "@sunbird/shared";
+import {
+  SearchService,
+  CoursesService,
+  ISort,
+  PlayerService,
+  OrgDetailsService,
+  UserService,
+  FormService
+} from "@sunbird/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { IPagination } from "@sunbird/announcement";
+import * as _ from "lodash-es";
+import { takeUntil, first, mergeMap, map, tap, filter } from "rxjs/operators";
+import {
+  IInteractEventObject,
+  IInteractEventEdata,
+  IImpressionEventInput
+} from "@sunbird/telemetry";
+import { CacheService } from "ng2-cache-service";
+import { environment } from "@sunbird/environment";
+import { DownloadManagerService } from "./../../../offline/services";
 
 @Component({
-  selector: 'app-view-all',
-  templateUrl: './view-all.component.html'
+  selector: "app-view-all",
+  templateUrl: "./view-all.component.html"
 })
 export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
-	 * telemetryImpression
-	*/
+   * telemetryImpression
+   */
   public telemetryImpression: IImpressionEventInput;
   public closeIntractEdata: IInteractEventEdata;
   public cardIntractEdata: IInteractEventEdata;
@@ -32,16 +53,16 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private searchService: SearchService;
   /**
-  * To call resource service which helps to use language constant
-  */
+   * To call resource service which helps to use language constant
+   */
   private resourceService: ResourceService;
   /**
    * To get url, app configs
    */
   public configService: ConfigService;
   /**
-  * To show toaster(error, success etc) after any API calls
-  */
+   * To show toaster(error, success etc) after any API calls
+   */
   private toasterService: ToasterService;
   /**
    * Contains list of published course(s) of logged-in user
@@ -52,41 +73,41 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   public router: Router;
   /**
-  * To send activatedRoute.snapshot to router navigation
-  * service for redirection to parent component
-  */
+   * To send activatedRoute.snapshot to router navigation
+   * service for redirection to parent component
+   */
   private activatedRoute: ActivatedRoute;
   /**
    * For showing pagination on inbox list
    */
   private paginationService: PaginationService;
   /**
-  * To get enrolled courses details.
-  */
+   * To get enrolled courses details.
+   */
   coursesService: CoursesService;
   /**
-  * Refrence of UserService
-  */
+   * Refrence of UserService
+   */
   private userService: UserService;
   /**
-    * To show / hide no result message when no result found
+   * To show / hide no result message when no result found
    */
   noResult = false;
   /**
    * no result  message
-  */
+   */
   noResultMessage: INoResultMessage;
   /**
-    * totalCount of the list
-  */
+   * totalCount of the list
+   */
   totalCount: Number;
   /**
    * Current page number of inbox list
    */
   pageNumber: number;
   /**
-	 * Contains page limit of outbox list
-	 */
+   * Contains page limit of outbox list
+   */
   pageLimit: number;
   /**
    * This variable hepls to show and hide page loader.
@@ -96,12 +117,12 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   showLoader = true;
   /**
-  *baseUrl;
-  */
+   *baseUrl;
+   */
   public baseUrl: string;
   /**
-     * loader message
-    */
+   * loader message
+   */
   loaderMessage: ILoaderMessage;
   /**
    * Contains returned object of the pagination service
@@ -113,15 +134,15 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   queryParams: any;
   /**
- *search filters
- */
+   *search filters
+   */
   filters: any;
   hashTagId: string;
   formAction: string;
   showFilter = false;
   /**
-  * To show / hide login popup on click of content
-  */
+   * To show / hide login popup on click of content
+   */
   showLoginModal = false;
   public showBatchInfo = false;
   public selectedCourseBatches: any;
@@ -140,12 +161,26 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   showExportLoader = false;
   contentName: string;
 
-  constructor(searchService: SearchService, router: Router, private playerService: PlayerService, private formService: FormService,
-    activatedRoute: ActivatedRoute, paginationService: PaginationService, private _cacheService: CacheService,
-    resourceService: ResourceService, toasterService: ToasterService, private publicPlayerService: PublicPlayerService,
-    configService: ConfigService, coursesService: CoursesService, public utilService: UtilService,
-    private orgDetailsService: OrgDetailsService, userService: UserService, private browserCacheTtlService: BrowserCacheTtlService,
-    public navigationhelperService: NavigationHelperService, public downloadManagerService: DownloadManagerService) {
+  constructor(
+    searchService: SearchService,
+    router: Router,
+    private playerService: PlayerService,
+    private formService: FormService,
+    activatedRoute: ActivatedRoute,
+    paginationService: PaginationService,
+    private _cacheService: CacheService,
+    resourceService: ResourceService,
+    toasterService: ToasterService,
+    private publicPlayerService: PublicPlayerService,
+    configService: ConfigService,
+    coursesService: CoursesService,
+    public utilService: UtilService,
+    private orgDetailsService: OrgDetailsService,
+    userService: UserService,
+    private browserCacheTtlService: BrowserCacheTtlService,
+    public navigationhelperService: NavigationHelperService,
+    public downloadManagerService: DownloadManagerService
+  ) {
     this.searchService = searchService;
     this.router = router;
     this.activatedRoute = activatedRoute;
@@ -155,7 +190,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     this.configService = configService;
     this.coursesService = coursesService;
     this.userService = userService;
-    this.router.onSameUrlNavigation = 'reload';
+    this.router.onSameUrlNavigation = "reload";
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
 
@@ -166,93 +201,119 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showFilter = true;
       this.userService.userData$.subscribe(userData => {
         if (userData && !userData.err) {
-          this.frameworkData = _.get(userData.userProfile, 'framework');
+          this.frameworkData = _.get(userData.userProfile, "framework");
         }
       });
     }
-    this.formAction = _.get(this.activatedRoute.snapshot, 'data.formAction');
-    this.filterType = _.get(this.activatedRoute.snapshot, 'data.filterType');
+    this.formAction = _.get(this.activatedRoute.snapshot, "data.formAction");
+    this.filterType = _.get(this.activatedRoute.snapshot, "data.filterType");
     this.pageLimit = this.configService.appConfig.ViewAll.PAGE_LIMIT;
-    combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams).pipe(
-      map(results => ({ params: results[0], queryParams: results[1] })),
-      filter(res => this.pageNumber !== Number(res.params.pageNumber) || !_.isEqual(this.queryParams, res.queryParams)),
-      tap(res => {
-        this.showLoader = true;
-        this.queryParams = res.queryParams;
-        const route = this.router.url.split('/view-all');
-        this.closeUrl = '/' + route[0].toString();
-        this.sectionName = res.params.section.replace(/\-/g, ' ');
-        this.pageNumber = Number(res.params.pageNumber);
-      }),
-      tap((data) => {
-        this.getframeWorkData();
-        this.manipulateQueryParam(data.queryParams);
-        this.setInteractEventData();
-      }),
-      takeUntil(this.unsubscribe)
-    ).subscribe((response: any) => {
-        this.getContents(response);
-    }, (error) => {
-      this.showLoader = false;
-      this.noResult = true;
-      this.noResultMessage = {
-        'messageText': 'messages.fmsg.m0077'
-      };
-      this.toasterService.error(this.resourceService.messages.fmsg.m0051);
-    });
-
+    combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
+      .pipe(
+        map(results => ({ params: results[0], queryParams: results[1] })),
+        filter(
+          res =>
+            this.pageNumber !== Number(res.params.pageNumber) ||
+            !_.isEqual(this.queryParams, res.queryParams)
+        ),
+        tap(res => {
+          this.showLoader = true;
+          this.queryParams = res.queryParams;
+          const route = this.router.url.split("/view-all");
+          this.closeUrl = "/" + route[0].toString();
+          this.sectionName = res.params.section.replace(/\-/g, " ");
+          this.pageNumber = Number(res.params.pageNumber);
+        }),
+        tap(data => {
+          this.getframeWorkData();
+          this.manipulateQueryParam(data.queryParams);
+          this.setInteractEventData();
+        }),
+        takeUntil(this.unsubscribe)
+      )
+      .subscribe(
+        (response: any) => {
+          this.getContents(response);
+        },
+        error => {
+          this.showLoader = false;
+          this.noResult = true;
+          this.noResultMessage = {
+            messageText: "messages.fmsg.m0077"
+          };
+          this.toasterService.error(this.resourceService.messages.fmsg.m0051);
+        }
+      );
 
     if (this.isOffline) {
-      this.downloadManagerService.downloadListEvent.subscribe((data) => {
+      this.downloadManagerService.downloadListEvent.subscribe(data => {
         this.updateCardData(data);
       });
     }
   }
   getContents(data) {
-    this.getContentList(data).subscribe((response: any) => {
-      this.showLoader = false;
-      if (response.contentData.result.count && response.contentData.result.content) {
-        this.noResult = false;
-        this.totalCount = response.contentData.result.count;
-        this.pager = this.paginationService.getPager(response.contentData.result.count, this.pageNumber, this.pageLimit);
-        this.searchList = this.formatSearchresults(response);
-      } else {
+    this.getContentList(data).subscribe(
+      (response: any) => {
+        this.showLoader = false;
+        if (
+          response.contentData.result.count &&
+          response.contentData.result.content
+        ) {
+          this.noResult = false;
+          this.totalCount = response.contentData.result.count;
+          this.pager = this.paginationService.getPager(
+            response.contentData.result.count,
+            this.pageNumber,
+            this.pageLimit
+          );
+          this.searchList = this.formatSearchresults(response);
+        } else {
+          this.noResult = true;
+          this.noResultMessage = {
+            message: "messages.stmsg.m0007",
+            messageText: "messages.stmsg.m0006"
+          };
+        }
+      },
+      error => {
+        this.showLoader = false;
         this.noResult = true;
         this.noResultMessage = {
-          'message': 'messages.stmsg.m0007',
-          'messageText': 'messages.stmsg.m0006'
+          messageText: "messages.fmsg.m0077"
         };
+        this.toasterService.error(this.resourceService.messages.fmsg.m0051);
       }
-    }, (error) => {
-      this.showLoader = false;
-      this.noResult = true;
-      this.noResultMessage = {
-        'messageText': 'messages.fmsg.m0077'
-      };
-      this.toasterService.error(this.resourceService.messages.fmsg.m0051);
-    });
+    );
   }
   setInteractEventData() {
     this.closeIntractEdata = {
-      id: 'close',
-      type: 'click',
-      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid'),
+      id: "close",
+      type: "click",
+      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
     };
     this.cardIntractEdata = {
-      id: 'content-card',
-      type: 'click',
-      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid'),
+      id: "content-card",
+      type: "click",
+      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
     };
     this.sortIntractEdata = {
-      id: 'sort',
-      type: 'click',
-      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid'),
+      id: "sort",
+      type: "click",
+      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
     };
   }
   private manipulateQueryParam(results) {
     this.filters = {};
-    const queryFilters = _.omit(results, ['key', 'softConstraintsFilter', 'appliedFilters',
-      'sort_by', 'sortType', 'defaultSortBy', 'exists', 'dynamic']);
+    const queryFilters = _.omit(results, [
+      "key",
+      "softConstraintsFilter",
+      "appliedFilters",
+      "sort_by",
+      "sortType",
+      "defaultSortBy",
+      "exists",
+      "dynamic"
+    ]);
     if (!_.isEmpty(queryFilters)) {
       _.forOwn(queryFilters, (queryValue, queryKey) => {
         this.filters[queryKey] = queryValue;
@@ -268,46 +329,74 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getContentList(request) {
     const softConstraintData = {
-      filters: _.get(request.queryParams, 'softConstraintsFilter') ? JSON.parse(request.queryParams.softConstraintsFilter) : {},
-      softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-      mode: 'soft'
+      filters: _.get(request.queryParams, "softConstraintsFilter")
+        ? JSON.parse(request.queryParams.softConstraintsFilter)
+        : {},
+      softConstraints: _.get(
+        this.activatedRoute.snapshot,
+        "data.softConstraints"
+      ),
+      mode: "soft"
     };
     let manipulatedData = {};
-    if (_.get(this.activatedRoute.snapshot, 'data.applyMode')) {
-      manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
-        softConstraintData, this.frameworkData);
+    if (_.get(this.activatedRoute.snapshot, "data.applyMode")) {
+      manipulatedData = this.utilService.manipulateSoftConstraint(
+        _.get(this.queryParams, "appliedFilters"),
+        softConstraintData,
+        this.frameworkData
+      );
     }
-    const requestParams = {
-      filters: _.get(this.queryParams, 'appliedFilters') ? this.filters : { ..._.get(manipulatedData, 'filters'), ...this.filters },
+    let requestParams = {
+      filters: _.get(this.queryParams, "appliedFilters")
+        ? this.filters
+        : { ..._.get(manipulatedData, "filters"), ...this.filters },
       limit: this.pageLimit,
       pageNumber: Number(request.params.pageNumber),
-      mode: _.get(manipulatedData, 'mode'),
+      mode: _.get(manipulatedData, "mode"),
       params: this.configService.appConfig.ViewAll.contentApiQueryParams
     };
-    if (!this.isOffline || _.includes(this.router.url, 'browse')) {
-      requestParams['exists'] = request.queryParams.exists,
-      requestParams['sort_by'] = request.queryParams.sortType ?
-      { [request.queryParams.sort_by]: request.queryParams.sortType } : JSON.parse(request.queryParams.defaultSortBy);
+
+    if (!this.isOffline || _.includes(this.router.url, "browse")) {
+      (requestParams["exists"] = request.queryParams.exists),
+        (requestParams["sort_by"] = request.queryParams.sortType
+          ? { [request.queryParams.sort_by]: request.queryParams.sortType }
+          : JSON.parse(request.queryParams.defaultSortBy));
     }
-    if (_.get(manipulatedData, 'filters')) {
-      requestParams['softConstraints'] = _.get(manipulatedData, 'softConstraints');
+    if (_.get(manipulatedData, "filters")) {
+      requestParams["softConstraints"] = _.get(
+        manipulatedData,
+        "softConstraints"
+      );
     }
-    if (_.get(this.activatedRoute.snapshot, 'data.baseUrl') === 'learn') {
+    requestParams.filters["channel"] = [this.userService.hashTagId];
+    if (_.get(this.activatedRoute.snapshot, "data.baseUrl") === "learn") {
       return combineLatest(
         this.searchService.contentSearch(requestParams),
-        this.coursesService.enrolledCourseData$).pipe(map(data => ({ contentData: data[0], enrolledCourseData: data[1] })));
+        this.coursesService.enrolledCourseData$
+      ).pipe(
+        map(data => ({ contentData: data[0], enrolledCourseData: data[1] }))
+      );
     } else {
-      return this.searchService.contentSearch(requestParams).pipe(map(data => ({ contentData: data })));
+      return this.searchService
+        .contentSearch(requestParams)
+        .pipe(map(data => ({ contentData: data })));
     }
   }
 
   private formatSearchresults(response) {
     _.forEach(response.contentData.result.content, (value, index) => {
-      const constantData = this.configService.appConfig.ViewAll.otherCourses.constantData;
+      const constantData = this.configService.appConfig.ViewAll.otherCourses
+        .constantData;
       const metaData = this.configService.appConfig.ViewAll.metaData;
       const dynamicFields = this.configService.appConfig.ViewAll.dynamicFields;
-      response.contentData.result.content[index] = this.utilService.processContent(response.contentData.result.content[index],
-        constantData, dynamicFields, metaData);
+      response.contentData.result.content[
+        index
+      ] = this.utilService.processContent(
+        response.contentData.result.content[index],
+        constantData,
+        dynamicFields,
+        metaData
+      );
     });
     return response.contentData.result.content;
   }
@@ -316,36 +405,42 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
-    const url = decodeURI(this.router.url.split('?')[0].replace(/[^\/]+$/, page.toString()));
-    this.router.navigate([url], { queryParams: this.queryParams, relativeTo: this.activatedRoute });
+    const url = decodeURI(
+      this.router.url.split("?")[0].replace(/[^\/]+$/, page.toString())
+    );
+    this.router.navigate([url], {
+      queryParams: this.queryParams,
+      relativeTo: this.activatedRoute
+    });
     window.scroll({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: "smooth"
     });
   }
 
   playContent(event) {
-
     // For offline environment content will only play when event.action is open
-    if (event.action === 'download' && this.isOffline) {
+    if (event.action === "download" && this.isOffline) {
       this.startDownload(event.data.metaData.identifier);
       return false;
-    } else if (event.action === 'export' && this.isOffline) {
+    } else if (event.action === "export" && this.isOffline) {
       this.showExportLoader = true;
       this.contentName = event.data.name;
       this.exportOfflineContent(event.data.metaData.identifier);
       return false;
     }
 
-    if (!this.userService.loggedIn && event.data.contentType === 'Course') {
-      this.publicPlayerService.playExploreCourse(event.data.metaData.identifier);
+    if (!this.userService.loggedIn && event.data.contentType === "Course") {
+      this.publicPlayerService.playExploreCourse(
+        event.data.metaData.identifier
+      );
     } else {
-      const url = this.router.url.split('/');
-      if (url[1] === 'learn' || url[1] === 'resources') {
+      const url = this.router.url.split("/");
+      if (url[1] === "learn" || url[1] === "resources") {
         this.handleCourseRedirection(event);
       } else {
-        if (_.includes(this.router.url, 'browse') && this.isOffline) {
+        if (_.includes(this.router.url, "browse") && this.isOffline) {
           this.publicPlayerService.playContentForOfflineBrowse(event);
         } else {
           this.publicPlayerService.playContent(event);
@@ -355,47 +450,60 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   handleCourseRedirection({ data }) {
     const { metaData } = data;
-    const {onGoingBatchCount, expiredBatchCount, openBatch, inviteOnlyBatch} = this.coursesService.findEnrolledCourses(metaData.identifier);
+    const {
+      onGoingBatchCount,
+      expiredBatchCount,
+      openBatch,
+      inviteOnlyBatch
+    } = this.coursesService.findEnrolledCourses(metaData.identifier);
 
-    if (!expiredBatchCount && !onGoingBatchCount) { // go to course preview page, if no enrolled batch present
+    if (!expiredBatchCount && !onGoingBatchCount) {
+      // go to course preview page, if no enrolled batch present
       return this.playerService.playContent(metaData);
     }
 
-    if (onGoingBatchCount === 1) { // play course if only one open batch is present
-      metaData.batchId = openBatch.ongoing.length ? openBatch.ongoing[0].batchId : inviteOnlyBatch.ongoing[0].batchId;
+    if (onGoingBatchCount === 1) {
+      // play course if only one open batch is present
+      metaData.batchId = openBatch.ongoing.length
+        ? openBatch.ongoing[0].batchId
+        : inviteOnlyBatch.ongoing[0].batchId;
       return this.playerService.playContent(metaData);
     }
-    this.selectedCourseBatches = { onGoingBatchCount, expiredBatchCount, openBatch, inviteOnlyBatch, courseId: metaData.identifier };
+    this.selectedCourseBatches = {
+      onGoingBatchCount,
+      expiredBatchCount,
+      openBatch,
+      inviteOnlyBatch,
+      courseId: metaData.identifier
+    };
     this.showBatchInfo = true;
   }
   getChannelId() {
-    this.orgDetailsService.getOrgDetails()
-      .subscribe(
-        (apiResponse: any) => {
-          this.hashTagId = apiResponse.hashTagId;
-          this.showFilter = true;
-        },
-        err => {
-
-        }
-      );
+    this.orgDetailsService.getOrgDetails().subscribe(
+      (apiResponse: any) => {
+        this.hashTagId = apiResponse.hashTagId;
+        this.showFilter = true;
+      },
+      err => {}
+    );
   }
   private getframeWorkData() {
-    if (_.get(this.activatedRoute.snapshot, 'data.frameworkName')) {
-      const framework = this._cacheService.get('framework' + 'search');
+    if (_.get(this.activatedRoute.snapshot, "data.frameworkName")) {
+      const framework = this._cacheService.get("framework" + "search");
       if (framework) {
         this.frameWorkName = framework;
       } else {
         const formServiceInputParams = {
-          formType: 'framework',
-          formAction: 'search',
-          contentType: 'framework-code',
+          formType: "framework",
+          formAction: "search",
+          contentType: "framework-code"
         };
         this.formService.getFormConfig(formServiceInputParams).subscribe(
           (data: ServerResponse) => {
-            this.frameWorkName = _.find(data, 'framework').framework;
-            this._cacheService.set('framework' + 'search', this.frameWorkName,
-              { maxAge: this.browserCacheTtlService.browserCacheTtl });
+            this.frameWorkName = _.find(data, "framework").framework;
+            this._cacheService.set("framework" + "search", this.frameWorkName, {
+              maxAge: this.browserCacheTtlService.browserCacheTtl
+            });
           },
           (err: ServerResponse) => {
             this.toasterService.error(this.resourceService.messages.emsg.m0005);
@@ -404,7 +512,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-  ngAfterViewInit () {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.setTelemetryImpressionData();
     });
@@ -412,13 +520,13 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   setTelemetryImpressionData() {
     this.telemetryImpression = {
       context: {
-        env: _.get(this.activatedRoute.snapshot, 'data.telemetry.env')
+        env: _.get(this.activatedRoute.snapshot, "data.telemetry.env")
       },
       edata: {
-        type: _.get(this.activatedRoute.snapshot, 'data.telemetry.type'),
-        pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid'),
+        type: _.get(this.activatedRoute.snapshot, "data.telemetry.type"),
+        pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid"),
         uri: this.router.url,
-        subtype: _.get(this.activatedRoute.snapshot, 'data.telemetry.subtype'),
+        subtype: _.get(this.activatedRoute.snapshot, "data.telemetry.subtype"),
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };
@@ -431,51 +539,59 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     this.showLoginModal = false;
   }
 
-  startDownload (contentId) {
+  startDownload(contentId) {
     this.downloadManagerService.downloadContentId = contentId;
-    this.downloadManagerService.startDownload({}).subscribe(data => {
-      this.downloadManagerService.downloadContentId = '';
-    }, error => {
-      this.downloadManagerService.downloadContentId = '';
-      _.each(this.searchList, (contents) => {
-        contents['addedToLibrary'] = false;
-        contents['showAddingToLibraryButton'] = false;
-      });
-      this.toasterService.error(this.resourceService.messages.fmsg.m0090);
-    });
+    this.downloadManagerService.startDownload({}).subscribe(
+      data => {
+        this.downloadManagerService.downloadContentId = "";
+      },
+      error => {
+        this.downloadManagerService.downloadContentId = "";
+        _.each(this.searchList, contents => {
+          contents["addedToLibrary"] = false;
+          contents["showAddingToLibraryButton"] = false;
+        });
+        this.toasterService.error(this.resourceService.messages.fmsg.m0090);
+      }
+    );
   }
 
   exportOfflineContent(contentId) {
-    this.downloadManagerService.exportContent(contentId).subscribe(data => {
-      const link = document.createElement('a');
-      link.href = data.result.response.url;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      this.showExportLoader = false;
-    }, error => {
-      this.showExportLoader = false;
-      this.toasterService.error(this.resourceService.messages.fmsg.m0091);
-    });
+    this.downloadManagerService.exportContent(contentId).subscribe(
+      data => {
+        const link = document.createElement("a");
+        link.href = data.result.response.url;
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.showExportLoader = false;
+      },
+      error => {
+        this.showExportLoader = false;
+        this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+      }
+    );
   }
 
   updateCardData(downloadListdata) {
-    _.each(this.searchList, (contents) => {
-
+    _.each(this.searchList, contents => {
       // If download is completed card should show added to library
-      _.find(downloadListdata.result.response.downloads.completed, (completed) => {
-        if (contents.metaData.identifier === completed.contentId) {
-          contents['addedToLibrary'] = true;
-          contents['showAddingToLibraryButton'] = false;
+      _.find(
+        downloadListdata.result.response.downloads.completed,
+        completed => {
+          if (contents.metaData.identifier === completed.contentId) {
+            contents["addedToLibrary"] = true;
+            contents["showAddingToLibraryButton"] = false;
+          }
         }
-      });
+      );
 
       // If download failed, card should show again add to library
-      _.find(downloadListdata.result.response.downloads.failed, (failed) => {
+      _.find(downloadListdata.result.response.downloads.failed, failed => {
         if (contents.metaData.identifier === failed.contentId) {
-          contents['addedToLibrary'] = false;
-          contents['showAddingToLibraryButton'] = false;
+          contents["addedToLibrary"] = false;
+          contents["showAddingToLibraryButton"] = false;
         }
       });
     });
