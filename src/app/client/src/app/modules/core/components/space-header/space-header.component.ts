@@ -131,7 +131,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.creatorId = JSON.parse(localStorage.getItem('creator'));
     this.userId = this.userService.userid;
     this.setSlug();
-    console.log('permission = ', this.permissionService.permissionAvailable , this.upForReviewRole)
+    console.log('permission = ', this.permissionService.permissionAvailable , this.upForReviewRole);
     if (this.userId === this.creatorId || this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
     this.contentStatus();
     }
@@ -353,7 +353,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
       this.reviewAssetData.push(data.result.content);
       console.log('Asset is in Review State', this.notificationCount);
       this.reviewStatus = 'review';
-      
+
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
 });
@@ -362,7 +362,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
 }
 readContentStatus(content) {
     this.notificationCount = 0;
-    // this.reviewAssetData = [];  
+    // this.reviewAssetData = [];
   console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
   this.modalRef = this.modalService.open(content,  {centered: true});
 }

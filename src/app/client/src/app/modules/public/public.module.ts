@@ -48,7 +48,9 @@ import { AssetguidelinesComponent } from './components/assetguidelines/assetguid
   declarations: [LandingPageComponent,
    PublicFooterComponent, ContactUsComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
    CommonLicenseComponent, PeopleInvlovedComponent, AboutUSComponent, BlogComponent,
-    ExploreAssetComponent, FrameworkComponent, CoreComponent, ExploreThinkingComponent, AboutSunbirdComponent, PartnersSunbirdComponent, LicensepolicyComponent, AssetguidelinesComponent,
+    ExploreAssetComponent, FrameworkComponent, CoreComponent,
+    ExploreThinkingComponent, AboutSunbirdComponent, PartnersSunbirdComponent,
+    LicensepolicyComponent, AssetguidelinesComponent,
     ],
   providers: [PublicPlayerService, DeviceDetectorService, LandingpageGuard, UserSearchServicePublicService]
 })

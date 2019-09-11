@@ -317,7 +317,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     } else {
       requestData.submittedBy = this.userProfile.firstName;
     }
-    
+
     delete requestData.board;
     // delete requestData.creators;
     delete requestData.gradeLevel;
@@ -327,7 +327,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     console.log('after deleting content properties in asset creation = ', requestData);
     */
     return requestData;
-    
+
   }
 
 

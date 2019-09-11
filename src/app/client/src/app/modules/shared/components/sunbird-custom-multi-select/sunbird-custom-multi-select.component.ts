@@ -1,5 +1,5 @@
 import { ResourceService } from './../../services/resource/resource.service';
-import { Component, OnInit, ChangeDetectorRef, Input,  EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input,  EventEmitter, Output, OnChanges, DoCheck } from '@angular/core';
 import * as _ from 'lodash-es';
 
 @Component({
@@ -7,7 +7,7 @@ import * as _ from 'lodash-es';
   templateUrl: './sunbird-custom-multi-select.component.html',
   styleUrls: ['./sunbird-custom-multi-select.component.scss']
 })
-export class SunbirdCustomMultiSelectComponent implements OnInit {
+export class SunbirdCustomMultiSelectComponent implements OnInit, OnChanges, DoCheck {
   @Input() inputData: Array<string>;
   @Input() field: object;
   @Input() valueField = 'name';
@@ -69,4 +69,11 @@ export class SunbirdCustomMultiSelectComponent implements OnInit {
       });
     }
   }
+  ngOnChanges() {
+    console.log('Sunbird custom multiselect onchanges');
+    }
+
+    ngDoCheck() {
+      console.log('Sunbird custom docheck');
+    }
 }

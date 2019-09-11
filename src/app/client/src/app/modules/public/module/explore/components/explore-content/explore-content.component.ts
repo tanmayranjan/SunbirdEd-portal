@@ -230,7 +230,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         if (this.slug === 'space') {
             let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
             filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
-              const softConstraintData : any = {
+              const softConstraintData: any = {
                 filters: {
                      channel: this.hashTagId,
                 },

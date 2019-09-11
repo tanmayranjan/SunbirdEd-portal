@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./no-result.component.scss']
 })
 export class NoResultComponent implements OnInit, OnDestroy, OnChanges {
-  
+
   /**
    * input for NoResultMessage
   */
@@ -53,7 +53,7 @@ export class NoResultComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(): void {
-    if(this.data){
+    if (this.data) {
       this.ngOnInit();
     }
   }

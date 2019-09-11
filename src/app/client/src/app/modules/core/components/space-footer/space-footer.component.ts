@@ -59,10 +59,10 @@ this.padding = true;
       if ( value === 'termsOfUse') {
         this.router.navigate(['/space/' + value]);
         }
-      if( value === 'licensepolicy'){
+      if ( value === 'licensepolicy') {
         this.router.navigate(['/space/' + value]);
       }
-      if( value === 'assetguidelines'){
+      if ( value === 'assetguidelines') {
         this.router.navigate(['/space/' + value]);
       }
   // }

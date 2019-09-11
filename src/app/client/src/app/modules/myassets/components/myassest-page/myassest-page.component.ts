@@ -455,7 +455,7 @@ contentSearch(searchParams, pageNumber, limit) {
                     console.log('assign state in review');
                     if (!localStorage.hasOwnProperty(element.identifier)) {
                       localStorage.setItem(element.identifier, JSON.stringify('Review'));
-                    } 
+                    }
                   });
             */
                 } else {
