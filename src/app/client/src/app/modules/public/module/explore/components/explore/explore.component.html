@@ -6,11 +6,13 @@
     [filterEnv]="filterType" [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true
     [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)">
   </app-space-prominent-filter>
-  <app-sunbird-prominent-filter [pageId]="'explore-page'" *ngIf="initFilters && slug === 'sunbirdorg'"
-    [filterEnv]="filterType" [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true
-    [showSearchedParam]=true [isShowFilterLabel]=true [hashTagId]="hashTagId" (prominentFilter)="getFilters($event)">
-  </app-sunbird-prominent-filter>
-  <div class="ui container mt-24" *ngIf="slug !== 'sunbirdorg'">
+  <div *ngIf="slug === 'sunbirdorg'">
+    <app-sunbird-data-driven-filter [pageId]="'explore-search'" [filterEnv]="filterType" [enrichFilters]="facetsList"
+      [ignoreQuery]="['key']" [accordionDefaultOpen]=true [isShowFilterLabel]=true [hashTagId]="hashTagId"
+      [showSearchedParam]=true (dataDrivenFilter)="getFilters($event)"></app-sunbird-data-driven-filter>
+      <app-sort-by [sortingOptions]="sortByOption" [url]="activatedRoute.snapshot.params.slug ? '/' + activatedRoute.snapshot.params.slug+ '/explore-assets' : '/explore-assets'"></app-sort-by>
+  </div>
+                <div class="ui container mt-24" *ngIf="slug !== 'sunbirdorg'">
     <div class="ui grid" >
       <div class="twelve wide column" *ngFor="let section of pageSections;let last = last"
         [ngClass]="{'last mb-30':last}">

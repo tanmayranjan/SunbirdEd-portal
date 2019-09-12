@@ -56,6 +56,15 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     'languages',
     'country'
   ];
+  public sortByOption = [
+    {
+        'field': 'lastUpdatedOn',
+        'name': 'Modified On'
+    },
+    {
+        'field': 'createdOn',
+        'name': 'Created On'
+    }];
   showExportLoader = false;
   contentName: string;
   organisationId: string;

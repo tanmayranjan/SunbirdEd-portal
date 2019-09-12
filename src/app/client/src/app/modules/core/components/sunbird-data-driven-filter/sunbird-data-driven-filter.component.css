@@ -22,3 +22,22 @@
 .primary {
     color: #1185bf;
 }
+
+.cursor-text,.optnselected{
+    margin-left: 2rem !important;
+}
+.ui.grid{
+    margin-left: 0px !important;
+}
+
+.ui.form .field>.selection.dropdown {
+    width: 88%;
+}
+.custombtn{
+    margin-top:20px
+}
+
+::ng-deep .dropdown-content
+{
+    padding: .5em 4em;
+}
