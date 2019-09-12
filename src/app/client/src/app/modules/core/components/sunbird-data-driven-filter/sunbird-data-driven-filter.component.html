@@ -89,7 +89,7 @@
       <div content>
         <div *ngIf="filtersDetails && formInputData && showSearchedParam" class="twelve wide column content mb-15">
           <span *ngFor="let field of filtersDetails">
-            <span class="padded chip mt-5 mr-10"
+            <span class="padded chip mt-5 mr-10 optnselected"
               *ngIf='formInputData[field.code] && formInputData[field.code].length > 0'>
               {{field.label}}:
               <span *ngFor="let item of formInputData[field.code]">
@@ -145,11 +145,11 @@
                 </div>
               </div>
 
-              <div class="twelve wide tablet two wide computer left aligned top aligned column filter-button">
+              <div class="custombtn twelve wide tablet two wide computer left aligned top aligned column filter-button">
                 <button class="sb-btn sb-btn-normal btnprimary" (click)="applyFilters()" appTelemetryInteract
                   [telemetryInteractEdata]="applyFilterInteractEdata">{{resourceService.frmelmnts?.btn?.apply}}</button>
                 <button appTelemetryInteract [telemetryInteractEdata]="resetFilterInteractEdata"
-                  class="sb-btn sb-btn-normal btnoutline ml-10"
+                  class="sb-btn sb-btn-normal btnoutline ml-15"
                   (click)="resetFilters()">{{resourceService.frmelmnts?.btn?.reset}}</button>
               </div>
             </div>
