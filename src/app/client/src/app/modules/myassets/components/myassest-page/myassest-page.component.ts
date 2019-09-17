@@ -212,6 +212,7 @@ modalMessage = '';
   copystate: any;
   copycontentid: string;
   copied = {};
+  channelname: any;
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -284,6 +285,7 @@ modalMessage = '';
     this.userService.userData$.subscribe(
       (user: IUserData) => {
         this.userDetails = user.userProfile;
+        this.channelname=user.userProfile.channel;
         this.user = user.userProfile.userRoles;
         this.orgId = user.userProfile.rootOrgId;
         this.user.forEach(element => {
@@ -429,7 +431,7 @@ contentSearch(searchParams, pageNumber, limit) {
                   language: ['English'],
                   contentType: ['Resource'],
                   status: ['Review'],
-                  channel: this.userDetails.organisationIds,
+                  channel: [this.userDetails.organisationIds[0],this.channelname],
                   organisation: this.config.appConfig.Library.orgName
               },
                 sort_by: {me_averageRating: 'desc'}
