@@ -180,19 +180,19 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   //  this.slugInfo = route[0].firstChild.children[0].url[0].path;
     let currRoute = route[0].firstChild.children[0].url[0].path;
     console.log('slug info in main header = ', this.slugInfo, route, currRoute);
-    if (currRoute === 'sbwb') {
+    if (currRoute === this.slug) {
      this.slugInfo = route[0].firstChild.children[0].url[0].path;
        currRoute = route[0].firstChild.children[0].url[1].path;
       console.log('check = ', this.slugInfo, currRoute);
-      this.router.navigate(['/' + this.slugInfo + '/' + currRoute, 1], { queryParams: this.queryParam });
+      this.router.navigate(['/' + this.slug + '/' + currRoute, 1], { queryParams: this.queryParam });
     }
     if (currRoute === 'explore-course') {
        currRoute = route[0].firstChild.children[0].url[0].path;
-       this.router.navigate(['/sbwb/explore-courses', 1], { queryParams: this.queryParam });
+       this.router.navigate(['/'+this.slug+'/explore-courses', 1], { queryParams: this.queryParam });
        }
     if (currRoute === 'play') {
         currRoute = route[0].firstChild.children[0].url[0].path;
-        this.router.navigate(['/sbwb/explore-library', 1], { queryParams: this.queryParam });
+        this.router.navigate(['/'+this.slugInfo+'/explore-library', 1], { queryParams: this.queryParam });
         }
     }
   }
@@ -297,7 +297,10 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    window.location.replace('/sbwb/logoff');
+    if(this.slugInfo === 'MHRD'){
+      this.slugInfo='sunbirded';
+    }
+    window.location.replace(`/${this.slugInfo}/logoff`);
     this.cacheService.removeAll();
   }
   setWindowConfig() {

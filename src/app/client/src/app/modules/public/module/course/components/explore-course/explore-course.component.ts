@@ -41,6 +41,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public frameWorkName: string;
     pageid: any;
+    slug: any;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -54,6 +55,7 @@ export class ExploreCourseComponent implements OnInit, OnDestroy, AfterViewInit 
     }
     ngOnInit() {
         this.pageid = _.get(this.activatedRoute, 'snapshot.data.telemetry.pageid');
+        this.slug=this.activatedRoute.snapshot.params.slug;
         console.log('pageid in explore-course', this.pageid);
         combineLatest(
             this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug),

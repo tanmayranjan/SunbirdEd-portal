@@ -378,7 +378,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
 
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
-    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER' && this.userId != this.creatorId) {
+    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER' && this.userId != this.creatorId && copiedstate != 'Reject') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
       this.reviewAssetData2[data.result.content.identifier]=data.result.content;
