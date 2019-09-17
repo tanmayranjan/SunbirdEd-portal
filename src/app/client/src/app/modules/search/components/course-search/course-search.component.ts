@@ -101,15 +101,17 @@ export class CourseSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   private fetchContents() {
     let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
     filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
+    filters.channel = this
     const option = {
         filters: filters,
         limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         pageNumber: this.paginationDetails.currentPage,
         query: this.queryParams.key,
         sort_by: {[this.queryParams.sort_by]: this.queryParams.sortType},
-        facets: this.facets,
+     //   facets: this.facets,
         params: this.configService.appConfig.Course.contentApiQueryParams
     };
+    option.filters.channel= this.userService.hashTagId;
     if (this.frameWorkName) {
       option.params.framework = this.frameWorkName;
     }

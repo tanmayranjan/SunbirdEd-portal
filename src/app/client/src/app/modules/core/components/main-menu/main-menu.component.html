@@ -31,14 +31,14 @@
 			{{resourceService.frmelmnts?.lbl?.explore}} {{resourceService.instance}}
 		</button>
 		<a class="item"
-			[class.active]="router.isActive('/search/explore') || router.isActive('/sbwb/explore-library')"
-			*ngIf="!router.isActive('', true)" [routerLink]="['/sbwb/explore-library']"
+			[class.active]="router.isActive('/search/explore') || router.isActive( '/' + slug + '/explore-library')"
+			*ngIf="!router.isActive('', true)" [routerLink]="['/' + slug + '/explore-library']"
 			appTelemetryInteract [telemetryInteractEdata]="libraryMenuIntractEdata">
 			{{resourceService?.frmelmnts?.tab?.resources}}
 		</a>
 		<a class="item"
-			[class.active]="router.isActive('/search/explore-course') || router.isActive('/sbwb/explore-courses')"
-			*ngIf="!router.isActive('', true)" [routerLink]="['/sbwb/explore-courses']"
+			[class.active]="router.isActive('/search/explore-course') || router.isActive('/'+ slug + '/explore-courses')"
+			*ngIf="!router.isActive('', true)" [routerLink]="['/'+ slug + '/explore-courses']"
 			appTelemetryInteract [telemetryInteractEdata]="learnMenuIntractEdata">
 			{{resourceService?.frmelmnts?.tab?.courses}}
 		</a>

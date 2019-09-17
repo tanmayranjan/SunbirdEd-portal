@@ -100,13 +100,13 @@ export class LibrarySearchComponent implements OnInit, OnDestroy, AfterViewInit 
         let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
         filters = _.omit(filters, ['key', 'sort_by', 'sortType', 'appliedFilters']);
         const softConstraintData = {
-            filters: {channel: this.userService.hashTagId,
-            board: [this.dataDrivenFilters.board]},
-            softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+            filters: {channel: this.userService.hashTagId},
+        //    board: [this.dataDrivenFilters.board]},
+         //   softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
             mode: 'soft'
           };
           const manipulatedData = this.utilService.manipulateSoftConstraint( _.get(this.queryParams, 'appliedFilters'),
-          softConstraintData, this.frameworkData );
+          softConstraintData );
         const option = {
             filters: _.get(this.queryParams, 'appliedFilters') ?  filters :
             (_.get(manipulatedData, 'filters') ? _.get(manipulatedData, 'filters') : {}),
@@ -115,19 +115,24 @@ export class LibrarySearchComponent implements OnInit, OnDestroy, AfterViewInit 
             query: this.queryParams.key,
             sort_by: { [this.queryParams.sort_by]: this.queryParams.sortType },
             mode: _.get(manipulatedData, 'mode'),
-            facets: this.facets,
+          //  facets: this.facets,
             params: this.configService.appConfig.Library.contentApiQueryParams
         };
+        if(this.pageid === 'library-search'){
+            option.filters.contentType = filters.contentType ||
+            ['Resource', 'TextBook']     
+        }else{
         option.filters.contentType = filters.contentType ||
         ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
-        if (_.get(manipulatedData, 'filters')) {
+        }
+    /*    if (_.get(manipulatedData, 'filters')) {
             option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
           }
         this.frameworkService.channelData$.subscribe((channelData) => {
             if (!channelData.err) {
                option.params.framework = _.get(channelData, 'channelData.defaultFramework');
             }
-        });
+        }); */
         this.searchService.contentSearch(option)
             .subscribe(data => {
                 this.showLoader = false;
