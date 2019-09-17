@@ -297,7 +297,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    window.location.replace('/logoffsbwb');
+    window.location.replace('/sbwb/logoff');
     this.cacheService.removeAll();
   }
   setWindowConfig() {

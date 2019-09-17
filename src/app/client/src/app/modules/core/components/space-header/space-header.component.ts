@@ -267,7 +267,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     };
   }
   logout() {
-    window.location.replace('/logoff');
+    window.location.replace('/space/logoff');
     this.cacheService.removeAll();
   }
   ngOnDestroy() {
