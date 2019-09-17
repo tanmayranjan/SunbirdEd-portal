@@ -332,10 +332,10 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: _.get(request.queryParams, "softConstraintsFilter")
         ? JSON.parse(request.queryParams.softConstraintsFilter)
         : {},
-      softConstraints: _.get(
-        this.activatedRoute.snapshot,
-        "data.softConstraints"
-      ),
+      // softConstraints: _.get(
+        // this.activatedRoute.snapshot,
+       // "data.softConstraints"
+      // ),
       mode: "soft"
     };
     let manipulatedData = {};
@@ -368,7 +368,12 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         "softConstraints"
       );
     }
-    requestParams.filters["channel"] = [this.userService.hashTagId];
+    if (this.userService.hashTagId) {
+      requestParams.filters["channel"] = [this.userService.hashTagId]
+    }
+    if (requestParams.filters['slug']) {
+      delete requestParams.filters['slug'];
+    }
     if (_.get(this.activatedRoute.snapshot, "data.baseUrl") === "learn") {
       return combineLatest(
         this.searchService.contentSearch(requestParams),

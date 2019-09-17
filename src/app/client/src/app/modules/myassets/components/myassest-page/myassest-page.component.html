@@ -44,15 +44,14 @@
              <p class="creator mb-0">Created By : {{content?.creators}}</p>
              <!-- <p class="creator mb-0">Country : {{content?.region}}</p> -->
              <p class="creator mb-0"> Created Year: {{content?.year}}</p>
-             <p class="creator mb-0" id="link" *ngIf="content?.link">Link : {{content?.link}}</p>
+             <p class="creator contentlink mb-0" id="link" *ngIf="content?.link">Link : {{content?.link}}</p>
             <div class="card-text1">{{content?.description | titlecase | slice:0:60}}<span *ngIf="content?.description && content.description?.length > 60">...</span></div>
             
             <div class="d-flex justify-content-center mt-30">
-              <button *ngIf="(content?.status==='Draft' || content?.status=== 'DRAFT' || content?.status=== 'LIVE' || content?.status=== 'Live') && route.isActive('myassets')" type="button" class="btn text-secondary" id="style"
+              <button *ngIf="(content?.status==='Draft' || content?.status=== 'DRAFT' || content?.status=== 'LIVE' || content?.status=== 'Live') && copied[content['versionKey']] && route.isActive('myassets')" type="button" class="btn text-secondary" id="style"
                 (click)="deleteConfirmModal(content.identifier); $event.stopPropagation()">
                 <i class="trash large icon" style="color: #6c757d!important;"></i>
               </button>
-
               <div *ngIf="content?.status==='Draft'">
                 <button type="button" class="btn ml-4" id="pub" (click)="reviewConfirmModal(content.identifier, content.status); $event.stopPropagation()"><i class="fas fa-upload"></i>&nbsp; SEND FOR REVIEW</button>
               </div>

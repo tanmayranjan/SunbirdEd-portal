@@ -230,6 +230,9 @@ export class AssetDetailPageComponent implements OnInit {
     const option = {
       url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}`
      };
+     if(localStorage.getItem('CopiedContent'+contentId)){
+     localStorage.setItem('CopiedContent'+contentId,'Reject');
+     }
     this.contentService.post(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
@@ -285,6 +288,7 @@ export class AssetDetailPageComponent implements OnInit {
       (data: ServerResponse) => {
         this.showLoader = false;
         this.toasterService.success('Asset has been sucessfully published');
+        localStorage.removeItem('CopiedContent'+contentId);
         if (!localStorage.hasOwnProperty(contentId)) {
           localStorage.setItem(contentId, JSON.stringify('Review'));
         }

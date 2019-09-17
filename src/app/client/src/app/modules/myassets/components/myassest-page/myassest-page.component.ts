@@ -34,7 +34,7 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
     */
 
   state: string;
-
+  mainState: any;
   /**
    * To store the content available for upForReview
    */
@@ -209,6 +209,9 @@ modalMessage = '';
     'country'
   ];
   public qparam = [];
+  copystate: any;
+  copycontentid: string;
+  copied = {};
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -471,7 +474,30 @@ contentSearch(searchParams, pageNumber, limit) {
           } else {
             if (data.result.count && data.result.content.length > 0) {
             this.allContent = data.result.content;
-            this.totalCount = data.result.count;
+            console.log("Data in myasset",this.allContent);
+              this.totalCount = data.result.count;
+              let i;
+              for (i = 0; i < this.totalCount; i++) {
+                if (this.allContent[i]['status'] === 'Draft') {
+                  const req = {
+                    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${this.allContent[i].identifier}`,
+                  };
+                  this.copied[this.allContent[i]['versionKey']]=false;
+                  this.contentService.get(req).subscribe(data => {
+                    this.copystate = data.result.content.status;
+                    if (this.copystate === 'Live') {
+                      this.copied[data.result.content.versionKey] = true;
+                    }
+                    else {
+                      this.copied[data.result.content.versionKey] = true;
+                    }
+                  });
+                }
+                else {
+                  this.copied[this.allContent[i]['versionKey']] = true;
+                }
+              }
+          console.log("Copied content object",this.copied);
             this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
             this.showLoader = false;
             this.noResult = false;
@@ -549,6 +575,16 @@ public deleteConfirmModal(contentIds) {
             }
           }
         };
+        const req = {
+          url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentIds}`,
+        };
+        this.contentService.get(req).subscribe(data => {
+         this.mainState = data.result.content.status;
+         if(this.mainState==='Live'){
+          localStorage.setItem('CopiedContent'+contentIds,'Review');
+        } 
+        });
+           
         const option = {
            url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
            data: requestBody

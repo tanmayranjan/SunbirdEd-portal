@@ -52,7 +52,8 @@
                     <!-- <td>{{content.identifier}}</td> -->
                     <td>{{content.name}}</td>
                     <td *ngIf="content.status === 'Draft'">Rejected</td>
-                    <td *ngIf="content.status === 'Live'">Published</td>
+                    <td *ngIf="content.status === 'Live' && !reviewAssetData2[content['identifier']]">Published</td>
+                    <td *ngIf="content.status === 'Live' && reviewAssetData2[content['identifier']] != null">{{reviewAssetData2[content['identifier']].message}}</td>
                     <td *ngIf="content.status === 'Review'">Yet to Review</td>
                   </tr>
                 </tbody>

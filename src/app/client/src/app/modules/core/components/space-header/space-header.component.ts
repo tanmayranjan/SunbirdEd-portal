@@ -110,6 +110,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   public  notificationCount = 0;
   userId: any;
   creatorId: any;
+  reviewAssetData2= {};
   /*
   * constructor
   */
@@ -300,6 +301,7 @@ openSm(content) {
 contentStatus() {
   let mainState;
   let state;
+  let copiedstate;
   const archive = [];
    let i = 0, key;
   const keys = Object.keys(localStorage);
@@ -309,7 +311,7 @@ for (; key = keys[i]; i++) {
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
-if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
+if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent'+archive[j])) {
   // const req = {
   //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
   // };
@@ -320,14 +322,34 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
     console.log('data in main header = ', data);
    mainState = data.result.content.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
+   copiedstate=localStorage.getItem('CopiedContent'+archive[j]);
   console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
   if (state === 'Review' && this.userId === this.creatorId ) {
-    if (mainState === 'Live') {
+    if (mainState === 'Live' && copiedstate===null) {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
+      if(this.reviewAssetData2){
+        this.reviewAssetData2={};
+      }
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
+    }
+    else if(copiedstate != null){
+      if(copiedstate === 'Review'){
+      this.reviewAssetData=[];
+      this.notificationCount=0;
+      }
+      else if(copiedstate === 'Reject')
+      {
+        this.notificationCount ++;
+      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData2[data.result.content.identifier]=data.result.content;
+        this.reviewAssetData2[data.result.content.identifier].message='Rejected';
+        localStorage.setItem(archive[j], JSON.stringify('Draft'));
+        this.reviewStatus = 'rejected';
+        localStorage.removeItem('CopiedContent'+archive[j]);
+      }
     }
   }
   if (state === 'Review' && this.userId === this.creatorId ) {
@@ -354,6 +376,16 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
       console.log('Asset is in Review State', this.notificationCount);
       this.reviewStatus = 'review';
 
+      // localStorage.setItem(archive[j], JSON.stringify('Draft'));
+    }
+    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER' && this.userId != this.creatorId) {
+      this.notificationCount ++;
+      this.reviewAssetData.push(data.result.content);
+      this.reviewAssetData2[data.result.content.identifier]=data.result.content;
+      if(copiedstate === 'Review'){
+      this.reviewAssetData2[data.result.content.identifier].message='Yet to review';
+      }
+      
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
 });
