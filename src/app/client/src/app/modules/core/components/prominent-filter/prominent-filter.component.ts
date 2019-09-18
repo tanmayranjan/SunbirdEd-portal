@@ -199,6 +199,7 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
           return true;
         });
         formFieldProperties = _.sortBy(_.uniqBy(formFieldProperties, 'code'), 'index');
+        this.resourceService.setpopupvalue(true);
         return formFieldProperties;
       }));
   }

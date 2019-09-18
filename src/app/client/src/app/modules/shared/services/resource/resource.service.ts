@@ -43,6 +43,8 @@ export class ResourceService {
   // Observable navItem stream
   languageSelected$ = this._languageSelected.asObservable();
 
+  public _showpopup = new BehaviorSubject<boolean>(false);
+  showpopup$ = this._showpopup.asObservable();
   /**
    * constructor
    * @param {ConfigService} config ConfigService reference
@@ -130,5 +132,9 @@ export class ResourceService {
 
   getLanguageChange(language) {
     this._languageSelected.next(language);
+  }
+
+public setpopupvalue(flag){
+    this._showpopup.next(flag);
   }
 }
