@@ -7,6 +7,7 @@ import { ResourceService, ConfigService, IUserProfile } from '@sunbird/shared';
 import { environment } from '@sunbird/environment';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash-es';
+import { TelemetryService } from '../../../../modules/telemetry'
 /**
  * Main menu component
  */
@@ -89,7 +90,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Input() slugInfo: any;
   constructor(route: Router, activatedRoute: ActivatedRoute, userService: UserService,
     resourceService: ResourceService, config: ConfigService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef, public telemetryService: TelemetryService) {
     this.route = route;
     this.activatedRoute = activatedRoute;
     this.resourceService = resourceService;
@@ -156,6 +157,19 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   onEnter(key) {
     console.log('key = ', key, this.search, this.selectedOption);
+    /*telemetry impementation for space*/
+    this.telemetryService.search({
+      context:{
+        env: 'myassets'
+      },
+      edata: {
+        type: 'asset',
+        query: key,
+        size: 0,
+        topn: []
+      }
+    });
+    /*telemetry impementation for space*/
     this.key = key;
     this.queryParam = {};
     this.queryParam['key'] = this.key;

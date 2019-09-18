@@ -279,7 +279,8 @@ setFingerPrintTelemetry() {
   /**
    * returns telemetry context based on user loggedIn
    */
-  private getTelemetryContext(): ITelemetryContext {
+
+  private  getTelemetryContext(): ITelemetryContext {
     const buildNumber = (<HTMLInputElement>document.getElementById('buildNumber'));
     const version = buildNumber && buildNumber.value ? buildNumber.value.slice(0, buildNumber.value.lastIndexOf('.')) : '1.0';
     if (this.userService.loggedIn) {
@@ -288,7 +289,11 @@ setFingerPrintTelemetry() {
           userId: this.userProfile.userId,
           rootOrgId: this.userProfile.rootOrgId,
           rootOrg: this.userProfile.rootOrg,
-          organisationIds: this.userProfile.hashTagIds
+          organisationIds: this.userProfile.hashTagIds,
+          orgId: this.userProfile.organisations[0].hashTagId, //added orgid,username,rootorgname,orgname for space
+          userName: this.userProfile.userName,
+          rootOrgName: this.userProfile.rootOrgName,
+          orgName:this.userProfile.organisations[0].orgName
         },
         config: {
           pdata: {

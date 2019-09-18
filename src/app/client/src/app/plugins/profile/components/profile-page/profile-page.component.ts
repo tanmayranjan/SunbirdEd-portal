@@ -282,7 +282,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         edata: {
           type: this.activatedRoute.snapshot.data.telemetry.type,
-          pageid: 'profile-read',
+          pageid: 'profile-details',
           subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
           uri: this.router.url,
           duration: this.navigationhelperService.getPageLoadTime()

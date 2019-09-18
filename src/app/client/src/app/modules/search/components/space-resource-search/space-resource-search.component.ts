@@ -177,11 +177,11 @@ export class SpaceResourceSearchComponent implements OnInit, OnDestroy {
     private setTelemetryData() {
         this.telemetryImpression = {
             context: {
-                env: this.activatedRoute.snapshot.data.telemetry.env
+                env: 'myassets'
             },
             edata: {
                 type: this.activatedRoute.snapshot.data.telemetry.type,
-                pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
+                pageid: 'shared-asset-search',
                 uri: this.router.url,
                 subtype: this.activatedRoute.snapshot.data.telemetry.subtype
             }
