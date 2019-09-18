@@ -11,7 +11,8 @@ import {
 } from '@sunbird/core';
 import { SignupService } from '../../../public/module/signup/services';
 import { Subscription } from 'rxjs';
-import { IUserData, IUserProfile } from '@sunbird/shared';
+import { IUserData, IUserProfile, NavigationHelperService } from '@sunbird/shared';
+import { IImpressionEventInput } from '@sunbird/telemetry';
 
 @Component({
   selector: 'app-adduser',
@@ -38,6 +39,7 @@ export class AdduserComponent implements OnInit {
   orgId: any;
   userDataSubscription: Subscription;
  userProfile: IUserProfile;
+ telemetryImpression: IImpressionEventInput;
   constructor(
     public configService: ConfigService,
     public userService: UserService,
@@ -46,7 +48,8 @@ export class AdduserComponent implements OnInit {
     public publicdataservice: PublicDataService,
     public toasterService: ToasterService,
     public learnerService: LearnerService,
-    route: Router
+    route: Router,
+    public navigationhelperService: NavigationHelperService
   ) {
     this.route = route;
   }
@@ -58,6 +61,20 @@ export class AdduserComponent implements OnInit {
           this.userProfile = user.userProfile;
         }
       });
+      /*telemetry inplementation for space*/
+      this.telemetryImpression = {
+        context: {
+          env: "workspace"
+        },
+        edata: {
+          type: "view",
+          pageid: "add-user-workspace",
+          uri: this.route.url,
+          subtype: "paginate",
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+      /*telemetry inplementation for space*/
   }
   disableViewUser(event) {
     if (event.target.name === 'adduser') {

@@ -5,7 +5,7 @@ import { ISelectFilter } from '../../../workspace/interfaces/selectfilter';
 import * as _ from 'lodash-es';
 import { Subject , Observable, of} from 'rxjs';
 import { debounceTime, distinctUntilChanged, delay, flatMap } from 'rxjs/operators';
-import { IInteractEventEdata } from '@sunbird/telemetry';
+import { IInteractEventEdata, TelemetryService } from '@sunbird/telemetry';
 
 @Component({
   selector: 'app-content-filter',
@@ -76,7 +76,7 @@ export class ContentFilterComponent implements OnInit {
  */
   constructor(resourceService: ResourceService, config: ConfigService,
     activatedRoute: ActivatedRoute,
-    route: Router) {
+    route: Router, public telemetryService: TelemetryService) {
     this.route = route;
     this.activatedRoute = activatedRoute;
     this.resourceService = resourceService;
@@ -141,5 +141,19 @@ export class ContentFilterComponent implements OnInit {
       this.queryParams[filterType].splice(itemIndex, 1);
     }
     this.route.navigate(['myassets'], { queryParams: this.queryParams  });
+  }
+  /*telemetry implementation for space, function for getting query on hitting enter*/
+  onEnter(query) {
+    this.telemetryService.search({
+      context: {
+        env: 'myassets'
+      },
+      edata: {
+        type: 'asset',
+        query: query,
+        size: 0,
+        topn: []
+      }
+    });
   }
 }

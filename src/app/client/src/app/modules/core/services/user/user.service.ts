@@ -9,6 +9,7 @@ import * as _ from 'lodash-es';
 import { HttpClient } from '@angular/common/http';
 import { PublicDataService } from './../public-data/public-data.service';
 import { skipWhile } from 'rxjs/operators';
+import { TelemetryService } from '@sunbird/telemetry';
 
 /**
  * Service to fetch user details from server
@@ -93,6 +94,8 @@ export class UserService {
    * Reference of public data service.
    */
   public publicDataService: PublicDataService;
+
+  public allOrgNames = new BehaviorSubject<any>([]);
 
   /**
   * constructor

@@ -10,7 +10,7 @@ import { SearchService, UserService, FrameworkService, FormService } from '@sunb
 import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { SpaceDefaultTemplateComponent } from '../space-default-template/space-default-template.component';
-import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';
+import { IInteractEventInput, IImpressionEventInput, TelemetryService } from '@sunbird/telemetry';
 import { MyAsset } from '../../classes/myasset';
 import { MyassetsService } from '../../services';
 import { combineLatest, Subscription, Subject, of, throwError } from 'rxjs';
@@ -142,7 +142,8 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     configService: ConfigService,
     formService: FormService,
     private _cacheService: CacheService,
-    public navigationHelperService: NavigationHelperService
+    public navigationHelperService: NavigationHelperService,
+    public telemetryService: TelemetryService
   ) {
     super(searchService, workSpaceService, userService);
     this.activatedRoute = activatedRoute;
@@ -182,18 +183,20 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
           this.userProfile = user.userProfile;
         }
       });
-
-    // this.telemetryImpression = {
-    //   context: {
-    //     env: this.activatedRoute.snapshot.data.telemetry.env
-    //   },
-    //   edata: {
-    //     type: this.activatedRoute.snapshot.data.telemetry.type,
-    //     pageid: this.activatedRoute.snapshot.data.telemetry.pageid,
-    //     subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
-    //     uri: this.activatedRoute.snapshot.data.telemetry.uri
-    //   }
-    // };
+      /*telemetry implementation for space*/
+     this.telemetryImpression = {
+       context: {
+         env: "assetcreate"
+       },
+       edata: {
+        type: "view",
+        pageid: "asset-creation-page",
+        uri: this.router.url,
+        subtype: "paginate",
+        duration: this.navigationHelperService.getPageLoadTime()
+       }
+     };
+     /*telemetry implementation for space*/
   }
   ngOnDestroy() {
     if (this.modal && this.modal.deny) {
@@ -447,6 +450,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
 
         this.contentId = res.result.content_id;
         if (this.uploadLink === 'uploadFile') {
+          this.callInteractEvent(); /*telemetry implementation for space*/
           this.toasterService.info('Redirected to upload File Page');
           this.routetoediter();
         } else if (this.uploadLink === 'uploadContent') {
@@ -454,6 +458,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
           this.routeToContentEditor({ identifier: res.result.content_id });
         } else {
           this.toasterService.success('Asset created successfully');
+          this.callInteractEvent(); /*telemetry implementation for space*/
           this.goToCreate();
         }
       }, err => {
@@ -498,5 +503,20 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       this.router.navigate(['myassets/create/edit/generic', this.contentId, this.status, 'Draft']);
     }, 1800);
   }
-
+/*telemetry implementation for space, function for calling interact event on successful asset craeion*/
+  callInteractEvent() {
+   let interactEdata: IInteractEventInput = {
+     context: {
+       env: 'asset-create',
+       cdata: []
+     },
+     edata: {
+       id:'save-asset-btn',
+       type:'click',
+       subtype: 'new asset created',
+       pageid: 'asset-creation-page'
+     }
+   }
+  this.telemetryService.interact(interactEdata); 
+  }
 }

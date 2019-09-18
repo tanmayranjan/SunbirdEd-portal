@@ -1,11 +1,11 @@
 import {
   ConfigService, ResourceService, IUserData, IUserProfile,
-  ToasterService, ServerResponse
+  ToasterService, ServerResponse, NavigationHelperService
 } from '@sunbird/shared';
 import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { UserService, PermissionService, LearnerService } from '../../services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
+import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput, TelemetryService } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { first, filter } from 'rxjs/operators';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
@@ -84,14 +84,16 @@ loading: any;
   registerForm1: FormGroup;
   submitted = false;
   modalRef: any;
+  feedbackSubmitInteractEdata: IInteractEventEdata;
+  feedbackCloseInteractEdata: IInteractEventEdata;
   /*
   * constructor
   */
   constructor(resourceService: ResourceService, userService: UserService, router: Router,
     public modalServices: SuiModalService, toasterService: ToasterService, public learnService: LearnerService,
     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService,
-     public publicDataService: PublicDataService, private formBuilder: FormBuilder,
-    public dataService: ConfigureService, private modalService: NgbModal) {
+     public publicDataService: PublicDataService, private formBuilder: FormBuilder, public telemetryService:TelemetryService,
+    public dataService: ConfigureService, private modalService: NgbModal, public navigationhelperService:NavigationHelperService) {
     this.resourceService = resourceService;
     this.userService = userService;
     this.permissionService = permissionService;
@@ -163,6 +165,18 @@ loading: any;
       type: 'click',
       pageid: 'workspace'
     };
+    /*telemetry implementation for space*/
+    this.feedbackSubmitInteractEdata = {
+      id: 'feedback-send-btn',
+      type: 'click',
+      pageid: 'feedback'
+    }
+    this.feedbackCloseInteractEdata = {
+      id: 'feedback-close-btn',
+      type: 'click',
+      pageid: 'feedback'
+    }
+    /*telemetry implementation for space*/
   }
 
   logout() {
@@ -242,6 +256,21 @@ console.log('data config info in main menu = ', this.dataService.dataConfig);
         });
     }
   openSm(content) {
+    /*telemetry implementation for space*/
+    let telemetryImpression = {
+      context: {
+        env: 'space'
+      },
+      edata: {
+        type: "view",
+        pageid: 'feedback',
+        uri: this.router.url,
+        subtype: "paginate",
+        duration: this.navigationhelperService.getPageLoadTime()
+      } 
+    }
+    /*telemetry implementation for space*/
+    this.telemetryService.impression(telemetryImpression);
     this.modalRef = this.modalService.open(content,  {centered: true});
   }
 

@@ -8,7 +8,8 @@ import {Router, ActivatedRoute} from '@angular/router';
 import { UserSearchServicePublicService  } from '../../services/searchservices/user-search-service-public.service';
 import { element, componentRefresh } from '@angular/core/src/render3/instructions';
 import { Subscription } from 'rxjs';
-import { IUserProfile } from '@sunbird/shared';
+import { IUserProfile, NavigationHelperService } from '@sunbird/shared';
+import { IImpressionEventInput } from '@sunbird/telemetry';
 @Component({
   selector: 'app-viewuser',
   templateUrl: './viewuser.component.html',
@@ -48,6 +49,7 @@ export class ViewuserComponent implements OnInit {
   ref: HTMLElement;
   userDataSubscription: Subscription;
   userProfile: IUserProfile;
+  telemetryImpression: IImpressionEventInput;
   constructor(
     public configService: ConfigService,
     public userService: UserService,
@@ -58,7 +60,8 @@ export class ViewuserComponent implements OnInit {
     public router: Router,
     public userSearchService: UserSearchServicePublicService,
     public resourceService: ResourceService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public navigationhelperService: NavigationHelperService
   ) {}
   receiveMessage($event) {
     this.update = $event;
@@ -75,7 +78,20 @@ export class ViewuserComponent implements OnInit {
           this.userProfile = user.userProfile;
         }
       });
-
+      /*telemetry inplementation for space*/
+      this.telemetryImpression = {
+        context: {
+          env: "workspace"
+        },
+        edata: {
+          type: "view",
+          pageid: "viewuser-workspace",
+          uri: this.router.url,
+          subtype: "paginate",
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+      /*telemetry inplementation for space*/
   }
   editRoles(role, userRoles, event, userId) {
  userRoles.forEach((element1, value) => {

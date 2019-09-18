@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService, AssetService } from '@sunbird/core';
-import { ConfigService } from '@sunbird/shared';
+import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '@sunbird/core';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
@@ -9,6 +9,7 @@ import {
   ResourceService, IUserData
 } from '@sunbird/shared';
 import { UserService } from '@sunbird/core';
+import { IImpressionEventInput, TelemetryObject } from '@sunbird/telemetry';
 export interface IassessDetail {
   name: string;
   link: string;
@@ -81,10 +82,12 @@ export class ExploreDetailPageComponent implements OnInit {
   private toasterService: ToasterService;
   pdfs: any;
   url: any;
+  public telemetryImpression: IImpressionEventInput;
+  public telemetryImpressionObject: TelemetryObject;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router,
-    public assetService: AssetService) {
+    public assetService: AssetService,public navigationhelperService: NavigationHelperService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -106,6 +109,29 @@ export class ExploreDetailPageComponent implements OnInit {
       this.assetDetail = data.result.content;
       this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
       data.result.content.artifactUrl.lastIndexOf('pdf'));
+      /*telemetry inplementation for space*/
+      this.telemetryImpressionObject = {
+        id: this.assetDetail['identifier'],
+        type: "asset",
+        rollup: {
+          name: this.assetDetail['name'],
+          resource:'asset',
+          assetType : this.assetDetail['contentType']
+      }
+      };
+      this.telemetryImpression = {
+        context: {
+          env: "sharedassets"
+        },object: this.telemetryImpressionObject,
+        edata: {
+          type: "view",
+          pageid: "explore-details-page",
+          uri: this.route.url,
+          subtype: "paginate",
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+      /*telemetry inplementation for space*/
     });
 
     const request = {

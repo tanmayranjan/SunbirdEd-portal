@@ -267,6 +267,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
   }
   selectedValue(event, code) {
     this.formInputData[code] = event;
+    this.setInteractData(this.formInputData); //telemetry implementaton for space,calls the function whenever the assettype selected is modified
   }
 
   /**
@@ -348,6 +349,36 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     if (this.frameworkDataSubscription) {
       this.frameworkDataSubscription.unsubscribe();
     }
+  }
+  /*telemetry implementation for space, setting asset type selection*/
+  setInteractData(data) {
+    this.submitIntractEdata = {
+      id: 'asset-filter-apply',
+      type: 'click',
+      subtype: 'filter-apply',
+      pageid: this.pageId,
+      extra: {filter : data}
+    };
+      let assetObj:Object = {}
+      let assetType = {
+        K: 0,
+        P: 0,
+        S: 0,
+        H: 0,
+        D: 0
+      };
+      assetObj = data;
+      if(typeof assetObj === 'object') {
+        if(assetObj.hasOwnProperty('board')) {
+          let assetTypeSelected: Array<any> = assetObj['board'];
+
+          assetTypeSelected.forEach((types: string)=> {
+            let firstChar = types.charAt(0);
+            assetType[firstChar] = 1;
+          });
+          this.submitIntractEdata['extra']['filter']['assetType'] = assetType;
+        }
+      }
   }
 }
 

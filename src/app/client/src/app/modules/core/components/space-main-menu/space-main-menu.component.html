@@ -41,10 +41,10 @@
                                     </div>	
                                   </div>
                                   <div class="form-group>">
-                                      <button [disabled]="loading" id="close" class="btn btn-purple float-lg-right mr-10 text-center py-2" >	SEND </button>										
-  
+                                      <button [disabled]="loading" id="close" class="btn btn-purple float-lg-right mr-10 text-center py-2" appTelemetryInteract
+                                      [telemetryInteractEdata]="feedbackSubmitInteractEdata">	SEND </button>										
                                   </div>
-                                <input type="submit" value="CLOSE" id="close" (click)="d('Cross click')"  class="btn btn-lightgrey text-center mr-10 float-lg-right py-2">
+                                <input type="submit" value="CLOSE" id="close" (click)="d('Cross click')"  class="btn btn-lightgrey text-center mr-10 float-lg-right py-2" appTelemetryInteract [telemetryInteractEdata]="feedbackCloseInteractEdata">
       
                         </div>
           

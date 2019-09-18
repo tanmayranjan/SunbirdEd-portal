@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { IImpressionEventInput } from '../../interfaces';
+import { IImpressionEventInput, IInteractEventObject } from '../../interfaces';
 import { TelemetryService } from '../../services';
 
 /**
