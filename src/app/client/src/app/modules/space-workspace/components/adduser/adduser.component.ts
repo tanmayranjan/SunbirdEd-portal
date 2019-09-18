@@ -64,13 +64,13 @@ export class AdduserComponent implements OnInit {
       /*telemetry inplementation for space*/
       this.telemetryImpression = {
         context: {
-          env: "workspace"
+          env: 'workspace'
         },
         edata: {
-          type: "view",
-          pageid: "add-user-workspace",
+          type: 'view',
+          pageid: 'add-user-workspace',
           uri: this.route.url,
-          subtype: "paginate",
+          subtype: 'paginate',
           duration: this.navigationhelperService.getPageLoadTime()
         }
       };

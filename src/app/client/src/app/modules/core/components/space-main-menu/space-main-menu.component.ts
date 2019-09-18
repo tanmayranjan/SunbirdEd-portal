@@ -92,8 +92,8 @@ loading: any;
   constructor(resourceService: ResourceService, userService: UserService, router: Router,
     public modalServices: SuiModalService, toasterService: ToasterService, public learnService: LearnerService,
     permissionService: PermissionService, config: ConfigService, private cacheService: CacheService,
-     public publicDataService: PublicDataService, private formBuilder: FormBuilder, public telemetryService:TelemetryService,
-    public dataService: ConfigureService, private modalService: NgbModal, public navigationhelperService:NavigationHelperService) {
+     public publicDataService: PublicDataService, private formBuilder: FormBuilder, public telemetryService: TelemetryService,
+    public dataService: ConfigureService, private modalService: NgbModal, public navigationhelperService: NavigationHelperService) {
     this.resourceService = resourceService;
     this.userService = userService;
     this.permissionService = permissionService;
@@ -170,12 +170,12 @@ loading: any;
       id: 'feedback-send-btn',
       type: 'click',
       pageid: 'feedback'
-    }
+    };
     this.feedbackCloseInteractEdata = {
       id: 'feedback-close-btn',
       type: 'click',
       pageid: 'feedback'
-    }
+    };
     /*telemetry implementation for space*/
   }
 
@@ -257,18 +257,18 @@ console.log('data config info in main menu = ', this.dataService.dataConfig);
     }
   openSm(content) {
     /*telemetry implementation for space*/
-    let telemetryImpression = {
+    const telemetryImpression = {
       context: {
         env: 'space'
       },
       edata: {
-        type: "view",
+        type: 'view',
         pageid: 'feedback',
         uri: this.router.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
-      } 
-    }
+      }
+    };
     /*telemetry implementation for space*/
     this.telemetryService.impression(telemetryImpression);
     this.modalRef = this.modalService.open(content,  {centered: true});

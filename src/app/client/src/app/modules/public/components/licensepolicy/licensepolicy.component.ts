@@ -18,13 +18,13 @@ export class LicensepolicyComponent implements OnInit {
     /*telemetry inplementation for space*/
     this.telemetryImpression = {
       context: {
-        env: "license-policy"
+        env: 'license-policy'
       },
       edata: {
-        type: "view",
-        pageid: "license-policy",
+        type: 'view',
+        pageid: 'license-policy',
         uri: this.route.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };

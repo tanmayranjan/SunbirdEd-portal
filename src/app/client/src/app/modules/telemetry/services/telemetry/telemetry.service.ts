@@ -3,7 +3,8 @@ import * as _ from 'lodash-es';
 import {
   ITelemetryEvent, ITelemetryContextData, TelemetryObject,
   IStartEventInput, IImpressionEventInput, IExDataEventInput,
-  IInteractEventInput, IShareEventInput, IErrorEventInput, IEndEventInput, ILogEventInput, ITelemetryContext, IFeedBackEventInput, ISearchEventData
+  IInteractEventInput, IShareEventInput, IErrorEventInput, IEndEventInput,
+   ILogEventInput, ITelemetryContext, IFeedBackEventInput, ISearchEventData
 } from './../../interfaces/telemetry';
 
  export const TELEMETRY_PROVIDER = new InjectionToken('telemetryProvider');
@@ -63,7 +64,7 @@ export class TelemetryService {
     this.context = _.cloneDeep(context);
     this.telemetryProvider.initialize(this.context.config);
     this.isInitialized = true;
-    console.log('Telemetry is initialized ',context);
+    console.log('Telemetry is initialized ', context);
   }
   getDeviceId(callback) {
     EkTelemetry.getFingerPrint(callback);
@@ -253,11 +254,11 @@ export class TelemetryService {
       uid: this.context.config.uid,
       cdata: eventInput.context.cdata || [],
       rollup: this.getRollUpData(this.context.userOrgDetails.organisationIds),
-      username:this.context.userOrgDetails.userName || 'anonymous',
-      rootOrgName:this.context.userOrgDetails.rootOrgName || '',
-      orgName:this.context.userOrgDetails.orgName || '',
-      orgId:this.context.userOrgDetails.orgId || '',
-      rootOrgId:this.context.userOrgDetails.rootOrgId || ''
+      username: this.context.userOrgDetails.userName || 'anonymous',
+      rootOrgName: this.context.userOrgDetails.rootOrgName || '',
+      orgName: this.context.userOrgDetails.orgName || '',
+      orgId: this.context.userOrgDetails.orgId || '',
+      rootOrgId: this.context.userOrgDetails.rootOrgId || ''
     };
     return eventContextData;
   }

@@ -188,11 +188,11 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     }
     if (currRoute === 'explore-course') {
        currRoute = route[0].firstChild.children[0].url[0].path;
-       this.router.navigate(['/'+this.slug+'/explore-courses', 1], { queryParams: this.queryParam });
+       this.router.navigate(['/' + this.slug + '/explore-courses', 1], { queryParams: this.queryParam });
        }
     if (currRoute === 'play') {
         currRoute = route[0].firstChild.children[0].url[0].path;
-        this.router.navigate(['/'+this.slugInfo+'/explore-library', 1], { queryParams: this.queryParam });
+        this.router.navigate(['/' + this.slugInfo + '/explore-library', 1], { queryParams: this.queryParam });
         }
     }
   }
@@ -297,8 +297,8 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    if(this.slugInfo === 'MHRD'){
-      this.slugInfo='sunbirded';
+    if (this.slugInfo === 'MHRD') {
+      this.slugInfo = 'sunbirded';
     }
     window.location.replace(`/${this.slugInfo}/logoff`);
     this.cacheService.removeAll();

@@ -7,7 +7,7 @@ import { ResourceService, ConfigService, IUserProfile } from '@sunbird/shared';
 import { environment } from '@sunbird/environment';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash-es';
-import { TelemetryService } from '../../../../modules/telemetry'
+import { TelemetryService } from '../../../../modules/telemetry';
 /**
  * Main menu component
  */
@@ -159,7 +159,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     console.log('key = ', key, this.search, this.selectedOption);
     /*telemetry impementation for space*/
     this.telemetryService.search({
-      context:{
+      context: {
         env: 'myassets'
       },
       edata: {

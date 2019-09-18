@@ -87,7 +87,7 @@ export class ExploreDetailPageComponent implements OnInit {
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router,
-    public assetService: AssetService,public navigationhelperService: NavigationHelperService) {
+    public assetService: AssetService, public navigationhelperService: NavigationHelperService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -112,22 +112,22 @@ export class ExploreDetailPageComponent implements OnInit {
       /*telemetry inplementation for space*/
       this.telemetryImpressionObject = {
         id: this.assetDetail['identifier'],
-        type: "asset",
+        type: 'asset',
         rollup: {
           name: this.assetDetail['name'],
-          resource:'asset',
+          resource: 'asset',
           assetType : this.assetDetail['contentType']
       }
       };
       this.telemetryImpression = {
         context: {
-          env: "sharedassets"
-        },object: this.telemetryImpressionObject,
+          env: 'sharedassets'
+        }, object: this.telemetryImpressionObject,
         edata: {
-          type: "view",
-          pageid: "explore-details-page",
+          type: 'view',
+          pageid: 'explore-details-page',
           uri: this.route.url,
-          subtype: "paginate",
+          subtype: 'paginate',
           duration: this.navigationhelperService.getPageLoadTime()
         }
       };

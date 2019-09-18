@@ -207,7 +207,7 @@ setFingerPrintTelemetry() {
       this.showFrameWorkPopUp = false;
     } else {
       if (this.userService.loggedIn && _.isEmpty(_.get(this.userProfile, 'framework'))) {
-        this.resourceService.showpopup$.subscribe(data=>this.showFrameWorkPopUp=data);
+        this.resourceService.showpopup$.subscribe(data => this.showFrameWorkPopUp = data);
       }
     }
   }
@@ -290,10 +290,10 @@ setFingerPrintTelemetry() {
           rootOrgId: this.userProfile.rootOrgId,
           rootOrg: this.userProfile.rootOrg,
           organisationIds: this.userProfile.hashTagIds,
-          orgId: this.userProfile.organisations[0].hashTagId, //added orgid,username,rootorgname,orgname for space
+          orgId: this.userProfile.organisations[0].hashTagId, // added orgid,username,rootorgname,orgname for space
           userName: this.userProfile.userName,
           rootOrgName: this.userProfile.rootOrgName,
-          orgName:this.userProfile.organisations[0].orgName
+          orgName: this.userProfile.organisations[0].orgName
         },
         config: {
           pdata: {

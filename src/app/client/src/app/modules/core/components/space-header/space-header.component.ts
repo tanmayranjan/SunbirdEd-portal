@@ -110,7 +110,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   public  notificationCount = 0;
   userId: any;
   creatorId: any;
-  reviewAssetData2= {};
+  reviewAssetData2 = {};
   /*
   * constructor
   */
@@ -311,7 +311,7 @@ for (; key = keys[i]; i++) {
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
-if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent'+archive[j])) {
+if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) {
   // const req = {
   //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
   // };
@@ -322,33 +322,30 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
     console.log('data in main header = ', data);
    mainState = data.result.content.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
-   copiedstate=localStorage.getItem('CopiedContent'+archive[j]);
+   copiedstate = localStorage.getItem('CopiedContent' + archive[j]);
   console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
   if (state === 'Review' && this.userId === this.creatorId ) {
-    if (mainState === 'Live' && copiedstate===null) {
+    if (mainState === 'Live' && copiedstate === null) {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
-      if(this.reviewAssetData2){
-        this.reviewAssetData2={};
+      if (this.reviewAssetData2) {
+        this.reviewAssetData2 = {};
       }
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
-    }
-    else if(copiedstate != null){
-      if(copiedstate === 'Review'){
-      this.reviewAssetData=[];
-      this.notificationCount=0;
-      }
-      else if(copiedstate === 'Reject')
-      {
+    } else if (copiedstate != null) {
+      if (copiedstate === 'Review') {
+      this.reviewAssetData = [];
+      this.notificationCount = 0;
+      } else if (copiedstate === 'Reject') {
         this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
-      this.reviewAssetData2[data.result.content.identifier]=data.result.content;
-        this.reviewAssetData2[data.result.content.identifier].message='Rejected';
+      this.reviewAssetData2[data.result.content.identifier] = data.result.content;
+        this.reviewAssetData2[data.result.content.identifier].message = 'Rejected';
         localStorage.setItem(archive[j], JSON.stringify('Draft'));
         this.reviewStatus = 'rejected';
-        localStorage.removeItem('CopiedContent'+archive[j]);
+        localStorage.removeItem('CopiedContent' + archive[j]);
       }
     }
   }
@@ -378,14 +375,15 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
 
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
-    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER' && this.userId != this.creatorId && copiedstate != 'Reject') {
+    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER'
+    && this.userId !== this.creatorId && copiedstate !== 'Reject') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
-      this.reviewAssetData2[data.result.content.identifier]=data.result.content;
-      if(copiedstate === 'Review'){
-      this.reviewAssetData2[data.result.content.identifier].message='Yet to review';
+      this.reviewAssetData2[data.result.content.identifier] = data.result.content;
+      if (copiedstate === 'Review') {
+      this.reviewAssetData2[data.result.content.identifier].message = 'Yet to review';
       }
-      
+
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
     }
 });

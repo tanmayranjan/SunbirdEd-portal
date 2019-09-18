@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { NavigationHelperService } from '@sunbird/shared';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explore-thinking',
@@ -19,13 +19,13 @@ export class ExploreThinkingComponent implements OnInit {
     /*telemetry inplementation for space*/
     this.telemetryImpression = {
       context: {
-        env: "terms of use"
+        env: 'terms of use'
       },
       edata: {
-        type: "view",
-        pageid: "terms-of-use",
+        type: 'view',
+        pageid: 'terms-of-use',
         uri: this.route.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };

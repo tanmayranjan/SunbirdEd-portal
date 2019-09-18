@@ -45,7 +45,7 @@ export class SortByComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("SOrting options",this.sortingOptions);
+    console.log('SOrting options', this.sortingOptions);
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.queryParams = { ...params };

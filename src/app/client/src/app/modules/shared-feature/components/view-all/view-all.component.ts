@@ -1,6 +1,6 @@
-import { PublicPlayerService } from "@sunbird/public";
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
-import { combineLatest, Subject } from "rxjs";
+import { PublicPlayerService } from '@sunbird/public';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { combineLatest, Subject } from 'rxjs';
 import {
   ServerResponse,
   PaginationService,
@@ -13,7 +13,7 @@ import {
   ICard,
   BrowserCacheTtlService,
   NavigationHelperService
-} from "@sunbird/shared";
+} from '@sunbird/shared';
 import {
   SearchService,
   CoursesService,
@@ -22,23 +22,23 @@ import {
   OrgDetailsService,
   UserService,
   FormService
-} from "@sunbird/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { IPagination } from "@sunbird/announcement";
-import * as _ from "lodash-es";
-import { takeUntil, first, mergeMap, map, tap, filter } from "rxjs/operators";
+} from '@sunbird/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IPagination } from '@sunbird/announcement';
+import * as _ from 'lodash-es';
+import { takeUntil, first, mergeMap, map, tap, filter } from 'rxjs/operators';
 import {
   IInteractEventObject,
   IInteractEventEdata,
   IImpressionEventInput
-} from "@sunbird/telemetry";
-import { CacheService } from "ng2-cache-service";
-import { environment } from "@sunbird/environment";
-import { DownloadManagerService } from "./../../../offline/services";
+} from '@sunbird/telemetry';
+import { CacheService } from 'ng2-cache-service';
+import { environment } from '@sunbird/environment';
+import { DownloadManagerService } from './../../../offline/services';
 
 @Component({
-  selector: "app-view-all",
-  templateUrl: "./view-all.component.html"
+  selector: 'app-view-all',
+  templateUrl: './view-all.component.html'
 })
 export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
@@ -190,7 +190,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     this.configService = configService;
     this.coursesService = coursesService;
     this.userService = userService;
-    this.router.onSameUrlNavigation = "reload";
+    this.router.onSameUrlNavigation = 'reload';
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
 
@@ -201,12 +201,12 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showFilter = true;
       this.userService.userData$.subscribe(userData => {
         if (userData && !userData.err) {
-          this.frameworkData = _.get(userData.userProfile, "framework");
+          this.frameworkData = _.get(userData.userProfile, 'framework');
         }
       });
     }
-    this.formAction = _.get(this.activatedRoute.snapshot, "data.formAction");
-    this.filterType = _.get(this.activatedRoute.snapshot, "data.filterType");
+    this.formAction = _.get(this.activatedRoute.snapshot, 'data.formAction');
+    this.filterType = _.get(this.activatedRoute.snapshot, 'data.filterType');
     this.pageLimit = this.configService.appConfig.ViewAll.PAGE_LIMIT;
     combineLatest(this.activatedRoute.params, this.activatedRoute.queryParams)
       .pipe(
@@ -219,9 +219,9 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         tap(res => {
           this.showLoader = true;
           this.queryParams = res.queryParams;
-          const route = this.router.url.split("/view-all");
-          this.closeUrl = "/" + route[0].toString();
-          this.sectionName = res.params.section.replace(/\-/g, " ");
+          const route = this.router.url.split('/view-all');
+          this.closeUrl = '/' + route[0].toString();
+          this.sectionName = res.params.section.replace(/\-/g, ' ');
           this.pageNumber = Number(res.params.pageNumber);
         }),
         tap(data => {
@@ -239,7 +239,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
           this.showLoader = false;
           this.noResult = true;
           this.noResultMessage = {
-            messageText: "messages.fmsg.m0077"
+            messageText: 'messages.fmsg.m0077'
           };
           this.toasterService.error(this.resourceService.messages.fmsg.m0051);
         }
@@ -270,8 +270,8 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.noResult = true;
           this.noResultMessage = {
-            message: "messages.stmsg.m0007",
-            messageText: "messages.stmsg.m0006"
+            message: 'messages.stmsg.m0007',
+            messageText: 'messages.stmsg.m0006'
           };
         }
       },
@@ -279,7 +279,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showLoader = false;
         this.noResult = true;
         this.noResultMessage = {
-          messageText: "messages.fmsg.m0077"
+          messageText: 'messages.fmsg.m0077'
         };
         this.toasterService.error(this.resourceService.messages.fmsg.m0051);
       }
@@ -287,32 +287,32 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   setInteractEventData() {
     this.closeIntractEdata = {
-      id: "close",
-      type: "click",
-      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
+      id: 'close',
+      type: 'click',
+      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid')
     };
     this.cardIntractEdata = {
-      id: "content-card",
-      type: "click",
-      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
+      id: 'content-card',
+      type: 'click',
+      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid')
     };
     this.sortIntractEdata = {
-      id: "sort",
-      type: "click",
-      pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid")
+      id: 'sort',
+      type: 'click',
+      pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid')
     };
   }
   private manipulateQueryParam(results) {
     this.filters = {};
     const queryFilters = _.omit(results, [
-      "key",
-      "softConstraintsFilter",
-      "appliedFilters",
-      "sort_by",
-      "sortType",
-      "defaultSortBy",
-      "exists",
-      "dynamic"
+      'key',
+      'softConstraintsFilter',
+      'appliedFilters',
+      'sort_by',
+      'sortType',
+      'defaultSortBy',
+      'exists',
+      'dynamic'
     ]);
     if (!_.isEmpty(queryFilters)) {
       _.forOwn(queryFilters, (queryValue, queryKey) => {
@@ -329,52 +329,52 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getContentList(request) {
     const softConstraintData = {
-      filters: _.get(request.queryParams, "softConstraintsFilter")
+      filters: _.get(request.queryParams, 'softConstraintsFilter')
         ? JSON.parse(request.queryParams.softConstraintsFilter)
         : {},
       // softConstraints: _.get(
         // this.activatedRoute.snapshot,
        // "data.softConstraints"
       // ),
-      mode: "soft"
+      mode: 'soft'
     };
     let manipulatedData = {};
-    if (_.get(this.activatedRoute.snapshot, "data.applyMode")) {
+    if (_.get(this.activatedRoute.snapshot, 'data.applyMode')) {
       manipulatedData = this.utilService.manipulateSoftConstraint(
-        _.get(this.queryParams, "appliedFilters"),
+        _.get(this.queryParams, 'appliedFilters'),
         softConstraintData,
         this.frameworkData
       );
     }
-    let requestParams = {
-      filters: _.get(this.queryParams, "appliedFilters")
+    const requestParams = {
+      filters: _.get(this.queryParams, 'appliedFilters')
         ? this.filters
-        : { ..._.get(manipulatedData, "filters"), ...this.filters },
+        : { ..._.get(manipulatedData, 'filters'), ...this.filters },
       limit: this.pageLimit,
       pageNumber: Number(request.params.pageNumber),
-      mode: _.get(manipulatedData, "mode"),
+      mode: _.get(manipulatedData, 'mode'),
       params: this.configService.appConfig.ViewAll.contentApiQueryParams
     };
 
-    if (!this.isOffline || _.includes(this.router.url, "browse")) {
-      (requestParams["exists"] = request.queryParams.exists),
-        (requestParams["sort_by"] = request.queryParams.sortType
+    if (!this.isOffline || _.includes(this.router.url, 'browse')) {
+      (requestParams['exists'] = request.queryParams.exists),
+        (requestParams['sort_by'] = request.queryParams.sortType
           ? { [request.queryParams.sort_by]: request.queryParams.sortType }
           : JSON.parse(request.queryParams.defaultSortBy));
     }
-    if (_.get(manipulatedData, "filters")) {
-      requestParams["softConstraints"] = _.get(
+    if (_.get(manipulatedData, 'filters')) {
+      requestParams['softConstraints'] = _.get(
         manipulatedData,
-        "softConstraints"
+        'softConstraints'
       );
     }
     if (this.userService.hashTagId) {
-      requestParams.filters["channel"] = [this.userService.hashTagId]
+      requestParams.filters['channel'] = [this.userService.hashTagId];
     }
     if (requestParams.filters['slug']) {
       delete requestParams.filters['slug'];
     }
-    if (_.get(this.activatedRoute.snapshot, "data.baseUrl") === "learn") {
+    if (_.get(this.activatedRoute.snapshot, 'data.baseUrl') === 'learn') {
       return combineLatest(
         this.searchService.contentSearch(requestParams),
         this.coursesService.enrolledCourseData$
@@ -411,7 +411,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const url = decodeURI(
-      this.router.url.split("?")[0].replace(/[^\/]+$/, page.toString())
+      this.router.url.split('?')[0].replace(/[^\/]+$/, page.toString())
     );
     this.router.navigate([url], {
       queryParams: this.queryParams,
@@ -420,32 +420,32 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     window.scroll({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: 'smooth'
     });
   }
 
   playContent(event) {
     // For offline environment content will only play when event.action is open
-    if (event.action === "download" && this.isOffline) {
+    if (event.action === 'download' && this.isOffline) {
       this.startDownload(event.data.metaData.identifier);
       return false;
-    } else if (event.action === "export" && this.isOffline) {
+    } else if (event.action === 'export' && this.isOffline) {
       this.showExportLoader = true;
       this.contentName = event.data.name;
       this.exportOfflineContent(event.data.metaData.identifier);
       return false;
     }
 
-    if (!this.userService.loggedIn && event.data.contentType === "Course") {
+    if (!this.userService.loggedIn && event.data.contentType === 'Course') {
       this.publicPlayerService.playExploreCourse(
         event.data.metaData.identifier
       );
     } else {
-      const url = this.router.url.split("/");
-      if (url[1] === "learn" || url[1] === "resources") {
+      const url = this.router.url.split('/');
+      if (url[1] === 'learn' || url[1] === 'resources') {
         this.handleCourseRedirection(event);
       } else {
-        if (_.includes(this.router.url, "browse") && this.isOffline) {
+        if (_.includes(this.router.url, 'browse') && this.isOffline) {
           this.publicPlayerService.playContentForOfflineBrowse(event);
         } else {
           this.publicPlayerService.playContent(event);
@@ -493,20 +493,20 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
   private getframeWorkData() {
-    if (_.get(this.activatedRoute.snapshot, "data.frameworkName")) {
-      const framework = this._cacheService.get("framework" + "search");
+    if (_.get(this.activatedRoute.snapshot, 'data.frameworkName')) {
+      const framework = this._cacheService.get('framework' + 'search');
       if (framework) {
         this.frameWorkName = framework;
       } else {
         const formServiceInputParams = {
-          formType: "framework",
-          formAction: "search",
-          contentType: "framework-code"
+          formType: 'framework',
+          formAction: 'search',
+          contentType: 'framework-code'
         };
         this.formService.getFormConfig(formServiceInputParams).subscribe(
           (data: ServerResponse) => {
-            this.frameWorkName = _.find(data, "framework").framework;
-            this._cacheService.set("framework" + "search", this.frameWorkName, {
+            this.frameWorkName = _.find(data, 'framework').framework;
+            this._cacheService.set('framework' + 'search', this.frameWorkName, {
               maxAge: this.browserCacheTtlService.browserCacheTtl
             });
           },
@@ -525,13 +525,13 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   setTelemetryImpressionData() {
     this.telemetryImpression = {
       context: {
-        env: _.get(this.activatedRoute.snapshot, "data.telemetry.env")
+        env: _.get(this.activatedRoute.snapshot, 'data.telemetry.env')
       },
       edata: {
-        type: _.get(this.activatedRoute.snapshot, "data.telemetry.type"),
-        pageid: _.get(this.activatedRoute.snapshot, "data.telemetry.pageid"),
+        type: _.get(this.activatedRoute.snapshot, 'data.telemetry.type'),
+        pageid: _.get(this.activatedRoute.snapshot, 'data.telemetry.pageid'),
         uri: this.router.url,
-        subtype: _.get(this.activatedRoute.snapshot, "data.telemetry.subtype"),
+        subtype: _.get(this.activatedRoute.snapshot, 'data.telemetry.subtype'),
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };
@@ -548,13 +548,13 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     this.downloadManagerService.downloadContentId = contentId;
     this.downloadManagerService.startDownload({}).subscribe(
       data => {
-        this.downloadManagerService.downloadContentId = "";
+        this.downloadManagerService.downloadContentId = '';
       },
       error => {
-        this.downloadManagerService.downloadContentId = "";
+        this.downloadManagerService.downloadContentId = '';
         _.each(this.searchList, contents => {
-          contents["addedToLibrary"] = false;
-          contents["showAddingToLibraryButton"] = false;
+          contents['addedToLibrary'] = false;
+          contents['showAddingToLibraryButton'] = false;
         });
         this.toasterService.error(this.resourceService.messages.fmsg.m0090);
       }
@@ -564,9 +564,9 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   exportOfflineContent(contentId) {
     this.downloadManagerService.exportContent(contentId).subscribe(
       data => {
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = data.result.response.url;
-        link.style.display = "none";
+        link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -586,8 +586,8 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         downloadListdata.result.response.downloads.completed,
         completed => {
           if (contents.metaData.identifier === completed.contentId) {
-            contents["addedToLibrary"] = true;
-            contents["showAddingToLibraryButton"] = false;
+            contents['addedToLibrary'] = true;
+            contents['showAddingToLibraryButton'] = false;
           }
         }
       );
@@ -595,8 +595,8 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       // If download failed, card should show again add to library
       _.find(downloadListdata.result.response.downloads.failed, failed => {
         if (contents.metaData.identifier === failed.contentId) {
-          contents["addedToLibrary"] = false;
-          contents["showAddingToLibraryButton"] = false;
+          contents['addedToLibrary'] = false;
+          contents['showAddingToLibraryButton'] = false;
         }
       });
     });

@@ -1,4 +1,4 @@
-import { combineLatest, of, Subject } from "rxjs";
+import { combineLatest, of, Subject } from 'rxjs';
 import {
   PageApiService,
   CoursesService,
@@ -6,7 +6,7 @@ import {
   PlayerService,
   FormService,
   UserService
-} from "@sunbird/core";
+} from '@sunbird/core';
 import {
   Component,
   OnInit,
@@ -14,7 +14,7 @@ import {
   EventEmitter,
   AfterViewInit,
   HostListener
-} from "@angular/core";
+} from '@angular/core';
 import {
   ResourceService,
   ServerResponse,
@@ -26,11 +26,11 @@ import {
   BrowserCacheTtlService,
   NavigationHelperService,
   IUserData
-} from "@sunbird/shared";
-import * as _ from "lodash-es";
-import { Router, ActivatedRoute } from "@angular/router";
-import { IInteractEventEdata, IImpressionEventInput } from "@sunbird/telemetry";
-import { CacheService } from "ng2-cache-service";
+} from '@sunbird/shared';
+import * as _ from 'lodash-es';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
+import { CacheService } from 'ng2-cache-service';
 import {
   takeUntil,
   map,
@@ -40,10 +40,10 @@ import {
   catchError,
   tap,
   delay
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
 @Component({
-  templateUrl: "./learn-page.component.html"
+  templateUrl: './learn-page.component.html'
 })
 export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public showLoader = true;
@@ -90,13 +90,13 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     window.scroll({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: 'smooth'
     });
     this.redirectUrl = this.configService.appConfig.courses.inPageredirectUrl;
     this.filterType = this.configService.appConfig.courses.filterType;
     this.sortingOptions = this.configService.dropDownConfig.FILTER.RESOURCES.sortingOptions;
   }
-  @HostListener("window:scroll", []) onScroll(): void {
+  @HostListener('window:scroll', []) onScroll(): void {
     if (
       window.innerHeight + window.scrollY >=
         (document.body.offsetHeight * 2) / 3 &&
@@ -111,7 +111,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
         console.log(
-          "user details from learn page = ",
+          'user details from learn page = ',
           user.userProfile,
           this.slug
         );
@@ -165,15 +165,15 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     const filters = _.pickBy(
       this.queryParams,
       (value: Array<string> | string, key) => {
-        if (_.includes(["sort_by", "sortType", "appliedFilters"], key)) {
+        if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
           return false;
         }
         return value.length;
       }
     );
-    let option: any = {
-      source: "web",
-      name: "Course",
+    const option: any = {
+      source: 'web',
+      name: 'Course',
       filters: filters,
       params: this.configService.appConfig.CoursePageSection
         .contentApiQueryParams
@@ -183,7 +183,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
         [this.queryParams.sort_by]: this.queryParams.sortType
       };
     }
-    option.filters["channel"] = [this.userService.hashTagId];
+    option.filters['channel'] = [this.userService.hashTagId];
     this.pageApiService
       .getPageData(option)
       .pipe(takeUntil(this.unsubscribe$))
@@ -191,7 +191,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
         data => {
           this.showLoader = false;
           this.carouselMasterData = this.prepareCarouselData(
-            _.get(data, "sections")
+            _.get(data, 'sections')
           );
           if (!this.carouselMasterData.length) {
             return; // no page section
@@ -229,7 +229,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       sections,
       (collector, element) => {
         const contents =
-          _.slice(_.get(element, "contents"), 0, slickSize) || [];
+          _.slice(_.get(element, 'contents'), 0, slickSize) || [];
         element.contents = _.map(contents, content =>
           this.utilService.processContent(
             content,
@@ -251,10 +251,10 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     const defaultFilters = _.reduce(
       filters,
       (collector: any, element) => {
-        if (element.code === "board") {
+        if (element.code === 'board') {
           collector.board =
-            _.get(_.orderBy(element.range, ["index"], ["asc"]), "[0].name") ||
-            "";
+            _.get(_.orderBy(element.range, ['index'], ['asc']), '[0].name') ||
+            '';
         }
         return collector;
       },
@@ -263,21 +263,21 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataDrivenFilterEvent.emit(defaultFilters);
   }
   private getFrameWork() {
-    const framework = this.cacheService.get("framework" + "search");
+    const framework = this.cacheService.get('framework' + 'search');
     if (framework) {
       return of(framework);
     } else {
       const formServiceInputParams = {
-        formType: "framework",
-        formAction: "search",
-        contentType: "framework-code"
+        formType: 'framework',
+        formAction: 'search',
+        contentType: 'framework-code'
       };
       return this.formService
         .getFormConfig(formServiceInputParams, this.hashTagId)
         .pipe(
           map((data: ServerResponse) => {
-            const frameWork = _.find(data, "framework").framework;
-            this.cacheService.set("framework" + "search", frameWork, {
+            const frameWork = _.find(data, 'framework').framework;
+            this.cacheService.set('framework' + 'search', frameWork, {
               maxAge: this.browserCacheTtlService.browserCacheTtl
             });
             return frameWork;
@@ -293,7 +293,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       map(({ enrolledCourses, err }) => {
         this.enrolledCourses = enrolledCourses;
         const enrolledSection = {
-          name: "My Courses",
+          name: 'My Courses',
           length: 0,
           count: 0,
           contents: []
@@ -315,8 +315,8 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
             metaData
           );
           formatedContent.metaData.mimeType =
-            "application/vnd.ekstep.content-collection"; // to route to course page
-          formatedContent.metaData.contentType = "Course"; // to route to course page
+            'application/vnd.ekstep.content-collection'; // to route to course page
+          formatedContent.metaData.contentType = 'Course'; // to route to course page
           return formatedContent;
         });
         enrolledSection.count = enrolledSection.contents.length;
@@ -330,20 +330,20 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
         objid: content.metaData.courseId
           ? content.metaData.courseId
           : content.metaData.identifier,
-        objtype: "course",
+        objtype: 'course',
         index: index,
         section: content.section
       })
     );
     if (this.telemetryImpression) {
       this.telemetryImpression.edata.visits = this.inViewLogs;
-      this.telemetryImpression.edata.subtype = "pageexit";
+      this.telemetryImpression.edata.subtype = 'pageexit';
       this.telemetryImpression = Object.assign({}, this.telemetryImpression);
     }
   }
   public playContent({ section, data }) {
     const { metaData } = data;
-    if (section === "My Courses") {
+    if (section === 'My Courses') {
       // play course if course is in My course section
       return this.playerService.playContent(metaData);
     }
@@ -391,17 +391,17 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       searchQuery.request.sort_by
     );
     searchQueryParams.exists = searchQuery.request.exists;
-    this.cacheService.set("viewAllQuery", searchQueryParams, {
+    this.cacheService.set('viewAllQuery', searchQueryParams, {
       maxAge: this.browserCacheTtlService.browserCacheTtl
     });
     const queryParams = { ...searchQueryParams, ...this.queryParams };
-    this.cacheService.set("pageSection", event, {
+    this.cacheService.set('pageSection', event, {
       maxAge: this.browserCacheTtlService.browserCacheTtl
     });
     const sectionUrl =
-      this.router.url.split("?")[0] +
-      "/view-all/" +
-      event.name.replace(/\s/g, "-");
+      this.router.url.split('?')[0] +
+      '/view-all/' +
+      event.name.replace(/\s/g, '-');
     this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
   }
   ngOnDestroy() {
@@ -411,9 +411,9 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
   private setTelemetryData() {
     this.inViewLogs = [];
     this.sortIntractEdata = {
-      id: "sort",
-      type: "click",
-      pageid: "course-page"
+      id: 'sort',
+      type: 'click',
+      pageid: 'course-page'
     };
   }
   ngAfterViewInit() {
@@ -434,8 +434,8 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private setNoResultMessage() {
     this.noResultMessage = {
-      message: "messages.stmsg.m0007",
-      messageText: "messages.stmsg.m0006"
+      message: 'messages.stmsg.m0007',
+      messageText: 'messages.stmsg.m0006'
     };
   }
 }

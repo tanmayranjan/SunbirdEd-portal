@@ -160,13 +160,13 @@ export class DataDrivenComponent extends WorkSpace implements OnInit, OnDestroy,
     } else {
       /**
      * fetchFrameworkMetaData is called to config the form data and framework data
-     
+
       this.fetchFrameworkMetaData();
     }
     /***
  * Call User service to get user data
  */
- if(this.contentType){
+ if (this.contentType) {
    this.fetchFrameworkMetaData();
  }
     this.userService.userData$.subscribe(

@@ -75,12 +75,12 @@ export interface ITelemetryContextData {
   'did'?: string;
   'cdata'?: Array<{}>;
   'rollup'?: {};
-  'username'?:string;
-  'organisationNames'?:any;
-  'rootOrgName'?:string;
-  'orgName'?:string;
-  'orgId'?:string;
-  'rootOrgId'?:string;
+  'username'?: string;
+  'organisationNames'?: any;
+  'rootOrgName'?: string;
+  'orgName'?: string;
+  'orgId'?: string;
+  'rootOrgId'?: string;
 }
 export interface TelemetryObject {
   'id': string;
@@ -253,10 +253,10 @@ export interface IUserOrgDetails {
   'rootOrg'?: IUserProfile['rootOrg'];
   'organisationIds': IUserProfile['organisationIds'];
   'organisationNames'?: IUserProfile['organisationNames'];
-  'userName'?:IUserProfile['userName'];
-  'rootOrgName'?:string;
-  'orgName'?:string;
-  'orgId'?:string;
+  'userName'?: IUserProfile['userName'];
+  'rootOrgName'?: string;
+  'orgName'?: string;
+  'orgId'?: string;
 }
 
 export interface ITelemetryContext {
@@ -265,13 +265,13 @@ export interface ITelemetryContext {
 }
 
 export interface ISearchEventData {
-  'context':{
-    'env':string
-  }
+  'context': {
+    'env': string
+  };
  'edata': {
  'type': string;
  'query': string;
- 'size':number;
- 'topn':Array<any>;
-}
+ 'size': number;
+ 'topn': Array<any>;
+};
 }

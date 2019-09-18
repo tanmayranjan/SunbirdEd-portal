@@ -5,7 +5,7 @@ import { MyAsset } from '../../classes/myasset';
 import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
-  ResourceService, ILoaderMessage, INoResultMessage, IContents,NavigationHelperService
+  ResourceService, ILoaderMessage, INoResultMessage, IContents, NavigationHelperService
 } from '@sunbird/shared';
 import { Ibatch, IStatusOption } from '../../../workspace/interfaces/';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
@@ -286,7 +286,7 @@ modalMessage = '';
     this.userService.userData$.subscribe(
       (user: IUserData) => {
         this.userDetails = user.userProfile;
-        this.channelname=user.userProfile.channel;
+        this.channelname = user.userProfile.channel;
         this.user = user.userProfile.userRoles;
         this.orgId = user.userProfile.rootOrgId;
         this.user.forEach(element => {
@@ -313,10 +313,10 @@ modalMessage = '';
         env: this.getRouteDetail()
       },
       edata: {
-        type: "view",
+        type: 'view',
         pageid: this.getRouteDetail(),
         uri: this.route.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };
@@ -446,7 +446,7 @@ contentSearch(searchParams, pageNumber, limit) {
                   language: ['English'],
                   contentType: ['Resource'],
                   status: ['Review'],
-                  channel: [this.userDetails.organisationIds[0],this.channelname],
+                  channel: [this.userDetails.organisationIds[0], this.channelname],
                   organisation: this.config.appConfig.Library.orgName
               },
                 sort_by: {me_averageRating: 'desc'}
@@ -491,7 +491,7 @@ contentSearch(searchParams, pageNumber, limit) {
           } else {
             if (data.result.count && data.result.content.length > 0) {
             this.allContent = data.result.content;
-            console.log("Data in myasset",this.allContent);
+            console.log('Data in myasset', this.allContent);
               this.totalCount = data.result.count;
               let i;
               for (i = 0; i < this.totalCount; i++) {
@@ -499,22 +499,20 @@ contentSearch(searchParams, pageNumber, limit) {
                   const req = {
                     url: `${this.config.urlConFig.URLS.CONTENT.GET}/${this.allContent[i].identifier}`,
                   };
-                  this.copied[this.allContent[i]['versionKey']]=false;
-                  this.contentService.get(req).subscribe(data => {
-                    this.copystate = data.result.content.status;
+                  this.copied[this.allContent[i]['versionKey']] = false;
+                  this.contentService.get(req).subscribe(data2 => {
+                    this.copystate = data2.result.content.status;
                     if (this.copystate === 'Live') {
-                      this.copied[data.result.content.versionKey] = true;
-                    }
-                    else {
-                      this.copied[data.result.content.versionKey] = true;
+                      this.copied[data2.result.content.versionKey] = true;
+                    } else {
+                      this.copied[data2.result.content.versionKey] = true;
                     }
                   });
-                }
-                else {
+                } else {
                   this.copied[this.allContent[i]['versionKey']] = true;
                 }
               }
-          console.log("Copied content object",this.copied);
+          console.log('Copied content object', this.copied);
             this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
             this.showLoader = false;
             this.noResult = false;
@@ -597,11 +595,11 @@ public deleteConfirmModal(contentIds) {
         };
         this.contentService.get(req).subscribe(data => {
          this.mainState = data.result.content.status;
-         if(this.mainState==='Live'){
-          localStorage.setItem('CopiedContent'+contentIds,'Review');
-        } 
+         if (this.mainState === 'Live') {
+          localStorage.setItem('CopiedContent' + contentIds, 'Review');
+        }
         });
-           
+
         const option = {
            url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
            data: requestBody
@@ -724,11 +722,10 @@ public deleteConfirmModal(contentIds) {
   /*telemetry implementation for space, function for getting route*/
   getRouteDetail(): string {
     let pageid;
-    if(this.route.url === '/upForReview') {
-      pageid = 'upforreview'
-    }
-    else {
-      pageid = 'myassets'
+    if (this.route.url === '/upForReview') {
+      pageid = 'upforreview';
+    } else {
+      pageid = 'myassets';
     }
     return pageid;
   }

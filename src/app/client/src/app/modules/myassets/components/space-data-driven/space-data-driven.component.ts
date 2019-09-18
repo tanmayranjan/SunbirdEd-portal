@@ -186,13 +186,13 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       /*telemetry implementation for space*/
      this.telemetryImpression = {
        context: {
-         env: "assetcreate"
+         env: 'assetcreate'
        },
        edata: {
-        type: "view",
-        pageid: "asset-creation-page",
+        type: 'view',
+        pageid: 'asset-creation-page',
         uri: this.router.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationHelperService.getPageLoadTime()
        }
      };
@@ -505,18 +505,18 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   }
 /*telemetry implementation for space, function for calling interact event on successful asset craeion*/
   callInteractEvent() {
-   let interactEdata: IInteractEventInput = {
+   const interactEdata: IInteractEventInput = {
      context: {
        env: 'asset-create',
        cdata: []
      },
      edata: {
-       id:'save-asset-btn',
-       type:'click',
+       id: 'save-asset-btn',
+       type: 'click',
        subtype: 'new asset created',
        pageid: 'asset-creation-page'
      }
-   }
-  this.telemetryService.interact(interactEdata); 
+   };
+  this.telemetryService.interact(interactEdata);
   }
 }

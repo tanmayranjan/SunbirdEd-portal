@@ -318,9 +318,9 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     }
   }
   /*telemetry implementation for space, setting asset type selection*/
-  getAssettype(data:Object) {
-      let assetObj = {};
-      let assetType = {
+  getAssettype(data) {
+      let assetObj;
+      const assetType = {
         K: 0,
         P: 0,
         S: 0,
@@ -329,20 +329,19 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
       };
       assetObj = data;
 
-      if(typeof assetObj === 'object') {
+      if (typeof assetObj === 'object') {
         setTimeout(() => {
-          if(assetObj.hasOwnProperty('board')) {
-            let assetTypeSelected: Array<any> = assetObj['board'];
-  
-            assetTypeSelected.forEach((types: string)=> {
-              let firstChar = types.charAt(0);
+          if (assetObj.hasOwnProperty('board')) {
+            const assetTypeSelected: Array<any> = assetObj['board'];
+
+            assetTypeSelected.forEach((types: string) => {
+              const firstChar = types.charAt(0);
               assetType[firstChar] = 1;
             });
             this.submitIntractEdata['extra']['filter']['assetType'] = assetType;
           }
         }, 10);
-      }
-      else {
+      } else {
       }
   }
 }

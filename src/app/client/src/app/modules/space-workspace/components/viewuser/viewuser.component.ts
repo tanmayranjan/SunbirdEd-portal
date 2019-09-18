@@ -81,13 +81,13 @@ export class ViewuserComponent implements OnInit {
       /*telemetry inplementation for space*/
       this.telemetryImpression = {
         context: {
-          env: "workspace"
+          env: 'workspace'
         },
         edata: {
-          type: "view",
-          pageid: "viewuser-workspace",
+          type: 'view',
+          pageid: 'viewuser-workspace',
           uri: this.router.url,
-          subtype: "paginate",
+          subtype: 'paginate',
           duration: this.navigationhelperService.getPageLoadTime()
         }
       };

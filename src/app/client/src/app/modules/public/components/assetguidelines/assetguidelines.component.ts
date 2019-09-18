@@ -19,13 +19,13 @@ export class AssetguidelinesComponent implements OnInit {
     /*telemetry inplementation for space*/
     this.telemetryImpression = {
       context: {
-        env: "asset-guidelines"
+        env: 'asset-guidelines'
       },
       edata: {
-        type: "view",
-        pageid: "asset-guidelines",
+        type: 'view',
+        pageid: 'asset-guidelines',
         uri: this.route.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };

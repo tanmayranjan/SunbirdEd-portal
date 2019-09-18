@@ -22,7 +22,7 @@ export class WorkspaceComponent implements OnInit {
  telemetryImpression: IImpressionEventInput;
   constructor(permissionService: PermissionService, userService: UserService,
     private modalService: NgbModal,
-     public router: Router,  
+     public router: Router,
     public navigationhelperService: NavigationHelperService
     ) {
     this.permissionService = permissionService;
@@ -39,13 +39,13 @@ export class WorkspaceComponent implements OnInit {
       /*telemetry inplementation for space*/
       this.telemetryImpression = {
         context: {
-          env: "workspace"
+          env: 'workspace'
         },
         edata: {
-          type: "view",
-          pageid: "workspace",
+          type: 'view',
+          pageid: 'workspace',
           uri: this.router.url,
-          subtype: "paginate",
+          subtype: 'paginate',
           duration: this.navigationhelperService.getPageLoadTime()
         }
       };

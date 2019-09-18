@@ -94,7 +94,7 @@ export class AssetDetailPageComponent implements OnInit {
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
     badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService, rout: Router, private location: Location,
-    public workSpaceService: MyassetsService, public assetService: AssetService, public navigationhelperService:NavigationHelperService) {
+    public workSpaceService: MyassetsService, public assetService: AssetService, public navigationhelperService: NavigationHelperService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -134,23 +134,23 @@ export class AssetDetailPageComponent implements OnInit {
         this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
           data.result.content.artifactUrl.lastIndexOf('pdf'));
           this.telemetryImpressionObject = {
-            id:this.assetDetail['identifier'],
-            type:"asset",
+            id: this.assetDetail['identifier'],
+            type: 'asset',
             rollup: {
               name: this.assetDetail['name'],
-              resource:'asset',
+              resource: 'asset',
               assetType : this.assetDetail['contentType']
           }
           };
           this.telemetryImpression = {
             context: {
               env: this.pageid
-            },object: this.telemetryImpressionObject,
+            }, object: this.telemetryImpressionObject,
             edata: {
-              type: "view",
+              type: 'view',
               pageid: this.pageid,
               uri: this.route.url,
-              subtype: "paginate",
+              subtype: 'paginate',
               duration: this.navigationhelperService.getPageLoadTime()
             }
           };
@@ -171,23 +171,23 @@ export class AssetDetailPageComponent implements OnInit {
           data.result.content.artifactUrl.lastIndexOf('pdf'));
 
           this.telemetryImpressionObject = {
-            id:this.assetDetail['identifier'],
-            type:"asset",
-            rollup:{
+            id: this.assetDetail['identifier'],
+            type: 'asset',
+            rollup: {
               name: this.assetDetail['name'],
-              resource:'asset',
+              resource: 'asset',
               assetType : this.assetDetail['contentType']
           }
           };
           this.telemetryImpression = {
             context: {
               env: this.pageid
-            },object: this.telemetryImpressionObject,
+            }, object: this.telemetryImpressionObject,
             edata: {
-              type: "view",
+              type: 'view',
               pageid: this.pageid,
               uri: this.route.url,
-              subtype: "paginate",
+              subtype: 'paginate',
               duration: this.navigationhelperService.getPageLoadTime()
             }
           };
@@ -279,8 +279,8 @@ export class AssetDetailPageComponent implements OnInit {
     const option = {
       url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}`
      };
-     if(localStorage.getItem('CopiedContent'+contentId)){
-     localStorage.setItem('CopiedContent'+contentId,'Reject');
+     if (localStorage.getItem('CopiedContent' + contentId)) {
+     localStorage.setItem('CopiedContent' + contentId, 'Reject');
      }
     this.contentService.post(option).subscribe(
       (data: ServerResponse) => {
@@ -337,7 +337,7 @@ export class AssetDetailPageComponent implements OnInit {
       (data: ServerResponse) => {
         this.showLoader = false;
         this.toasterService.success('Asset has been sucessfully published');
-        localStorage.removeItem('CopiedContent'+contentId);
+        localStorage.removeItem('CopiedContent' + contentId);
         if (!localStorage.hasOwnProperty(contentId)) {
           localStorage.setItem(contentId, JSON.stringify('Review'));
         }

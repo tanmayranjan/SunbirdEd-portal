@@ -134,7 +134,7 @@ export class ResourceService {
     this._languageSelected.next(language);
   }
 
-public setpopupvalue(flag){
+public setpopupvalue(flag) {
     this._showpopup.next(flag);
   }
 }

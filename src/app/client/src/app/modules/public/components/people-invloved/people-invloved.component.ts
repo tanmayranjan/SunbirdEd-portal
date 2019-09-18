@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationHelperService } from '@sunbird/shared';
 import { IImpressionEventInput } from '@sunbird/telemetry';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-people-invloved',
@@ -21,13 +21,13 @@ export class PeopleInvlovedComponent implements OnInit {
     /*telemetry inplementation for space*/
     this.telemetryImpression = {
       context: {
-        env: "collaborators"
+        env: 'collaborators'
       },
       edata: {
-        type: "view",
-        pageid: "collaborators",
+        type: 'view',
+        pageid: 'collaborators',
         uri: this.route.url,
-        subtype: "paginate",
+        subtype: 'paginate',
         duration: this.navigationhelperService.getPageLoadTime()
       }
     };

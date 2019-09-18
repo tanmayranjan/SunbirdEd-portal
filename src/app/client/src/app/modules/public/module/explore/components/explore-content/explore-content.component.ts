@@ -233,7 +233,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
               const softConstraintData: any = {
                 filters: {
                    //  channel: this.hashTagId,
-                   board:[]
+                   board: []
                 },
                 softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
                 mode: 'soft'

@@ -118,10 +118,10 @@ export class LibrarySearchComponent implements OnInit, OnDestroy, AfterViewInit 
           //  facets: this.facets,
             params: this.configService.appConfig.Library.contentApiQueryParams
         };
-        if(this.pageid === 'library-search'){
+        if (this.pageid === 'library-search') {
             option.filters.contentType = filters.contentType ||
-            ['Resource', 'TextBook']     
-        }else{
+            ['Resource', 'TextBook'];
+        } else {
         option.filters.contentType = filters.contentType ||
         ['Collection', 'TextBook', 'LessonPlan', 'Resource'];
         }
