@@ -6,9 +6,10 @@ import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
 import {
   ToasterService, ServerResponse ,
-  ResourceService, IUserData
+  ResourceService, IUserData,NavigationHelperService
 } from '@sunbird/shared';
 import { UserService } from '@sunbird/core';
+import { IImpressionEventInput, TelemetryObject } from '@sunbird/telemetry';
 export interface IassessDetail {
   name: string;
   link: string;
@@ -79,10 +80,12 @@ export class SharedDetailPageComponent implements OnInit {
   public resourceService: ResourceService;
   private toasterService: ToasterService;
   pdfs: any;
+  telemetryImpression: IImpressionEventInput;
+  telemetryImpressionObject: TelemetryObject;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router,
-    public assetService: AssetService) {
+    public assetService: AssetService, public navigationhelperService:NavigationHelperService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[2].path;
@@ -107,9 +110,29 @@ this.contentService.get(req).subscribe(data => {
   this.assetDetail = data.result.content;
   this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
   data.result.content.artifactUrl.lastIndexOf('pdf'));
-});
 
-
+  this.telemetryImpressionObject = {
+    id:this.assetDetail['identifier'],
+    type:"asset",
+    rollup: {
+      name: this.assetDetail['name'],
+      resource:'asset',
+      assetType : this.assetDetail['contentType']
+  }
+  };
+  this.telemetryImpression = {
+    context: {
+      env: "sharedassets"
+    },object: this.telemetryImpressionObject,
+    edata: {
+      type: "view",
+      pageid: "shared-asset-detail-page",
+      uri: this.route.url,
+      subtype: "paginate",
+      duration: this.navigationhelperService.getPageLoadTime()
+    }
+  };
+});   
     const request = {
       request: {
         filters: {

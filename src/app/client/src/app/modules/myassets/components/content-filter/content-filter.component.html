@@ -7,7 +7,7 @@
               {{resourceService?.frmelmnts?.lbl?.showFilters}}
               <i class="dropdown icon"  appTelemetryInteract [telemetryInteractEdata]="filterIntractEdata"></i>
             </span> -->
-            <app-space-data-driven-filter [pageId]="'all-my-content-page'"[ignoreQuery]="['key']" *ngIf="filterType" [filterEnv]="filterType"
+            <app-space-data-driven-filter [pageId]="'myassets'"[ignoreQuery]="['key']" *ngIf="filterType" [filterEnv]="filterType"
               [accordionDefaultOpen]=true [isShowFilterLabel]=false [showSearchedParam]=false></app-space-data-driven-filter>
               <!-- <hr> -->
           </div>
@@ -18,7 +18,7 @@
                 <div class="searchfilterinput ui search">
                   <div class="searchicon ui icon input ">
                     <input class="upForReviewSearchBox" type="text" name="filter_search" 
-                      [(ngModel)]="query" (keyup)="keyup(query)"
+                      [(ngModel)]="query" (keyup)="keyup(query)" (keyup.enter)="onEnter(query)"
                       placeholder="Search by keywords"
                       title="Search" autocomplete="off" spellcheck="false" dir="auto" />
                       <div class="input-group-btn">

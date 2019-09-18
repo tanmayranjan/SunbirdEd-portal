@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContentService, UserService, AssetService } from '@sunbird/core';
-import { ConfigService } from '@sunbird/shared';
+import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { Location } from '@angular/common';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semantic-ui';
@@ -9,6 +9,7 @@ import {
   ToasterService, ServerResponse,
   ResourceService, IUserData
 } from '@sunbird/shared';
+import { IImpressionEventInput, TelemetryObject } from '@sunbird/telemetry';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import * as _ from 'lodash-es';
 export interface IassessDetail {
@@ -49,6 +50,8 @@ export class AssetDetailPageComponent implements OnInit {
   badgeService: BadgesService;
   public contentId;
   public route: Router;
+  telemetryImpression: IImpressionEventInput;
+  telemetryImpressionObject: TelemetryObject;
   public assetDetail: IassessDetail = {
     name: '',
     link: '',
@@ -87,10 +90,11 @@ export class AssetDetailPageComponent implements OnInit {
   status: string;
   urlPath: string;
   id: string;
+  pageid: string;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
     badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService, rout: Router, private location: Location,
-    public workSpaceService: MyassetsService, public assetService: AssetService) {
+    public workSpaceService: MyassetsService, public assetService: AssetService, public navigationhelperService:NavigationHelperService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -107,8 +111,10 @@ export class AssetDetailPageComponent implements OnInit {
   ngOnInit() {
     if (this.route.url.indexOf('review/detail') > -1) {
       this.visible = true;
+      this.pageid = 'review-asset-detail-page';
     } else {
       this.visible = false;
+      this.pageid = 'my-asset-detail-page';
     }
     this.activatedRoute.url.subscribe(url => {
       this.path = url[2].path;
@@ -127,6 +133,27 @@ export class AssetDetailPageComponent implements OnInit {
         this.showLoader = false;
         this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
           data.result.content.artifactUrl.lastIndexOf('pdf'));
+          this.telemetryImpressionObject = {
+            id:this.assetDetail['identifier'],
+            type:"asset",
+            rollup: {
+              name: this.assetDetail['name'],
+              resource:'asset',
+              assetType : this.assetDetail['contentType']
+          }
+          };
+          this.telemetryImpression = {
+            context: {
+              env: this.pageid
+            },object: this.telemetryImpressionObject,
+            edata: {
+              type: "view",
+              pageid: this.pageid,
+              uri: this.route.url,
+              subtype: "paginate",
+              duration: this.navigationhelperService.getPageLoadTime()
+            }
+          };
       });
     } else {
        const req = {
@@ -142,6 +169,28 @@ export class AssetDetailPageComponent implements OnInit {
         this.showLoader = false;
         this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
           data.result.content.artifactUrl.lastIndexOf('pdf'));
+
+          this.telemetryImpressionObject = {
+            id:this.assetDetail['identifier'],
+            type:"asset",
+            rollup:{
+              name: this.assetDetail['name'],
+              resource:'asset',
+              assetType : this.assetDetail['contentType']
+          }
+          };
+          this.telemetryImpression = {
+            context: {
+              env: this.pageid
+            },object: this.telemetryImpressionObject,
+            edata: {
+              type: "view",
+              pageid: this.pageid,
+              uri: this.route.url,
+              subtype: "paginate",
+              duration: this.navigationhelperService.getPageLoadTime()
+            }
+          };
       });
     }
     this.userService.userData$.subscribe(

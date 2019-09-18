@@ -5,7 +5,7 @@ import { MyAsset } from '../../classes/myasset';
 import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
-  ResourceService, ILoaderMessage, INoResultMessage, IContents,
+  ResourceService, ILoaderMessage, INoResultMessage, IContents,NavigationHelperService
 } from '@sunbird/shared';
 import { Ibatch, IStatusOption } from '../../../workspace/interfaces/';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
@@ -17,6 +17,7 @@ import { ICard } from '../../../shared/interfaces/card';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { IUserData } from '@sunbird/shared';
 import { Location } from '@angular/common';
+import { getPluralCategory } from '@angular/common/src/i18n/localization';
 
 
 @Component({
@@ -229,7 +230,7 @@ modalMessage = '';
     paginationService: PaginationService,
     activatedRoute: ActivatedRoute,
     route: Router, userService: UserService,
-    permissionService: PermissionService,
+    permissionService: PermissionService, public navigationhelperService: NavigationHelperService,
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
     public modalServices: SuiModalService, frameworkService: FrameworkService,
@@ -306,6 +307,20 @@ modalMessage = '';
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
       this.badgeList = data.result.content;
     });
+/*telemetry implementation for space*/
+    this.telemetryImpression = {
+      context: {
+        env: this.getRouteDetail()
+      },
+      edata: {
+        type: "view",
+        pageid: this.getRouteDetail(),
+        uri: this.route.url,
+        subtype: "paginate",
+        duration: this.navigationhelperService.getPageLoadTime()
+      }
+    };
+    /*telemetry implementation for space*/
   }
 
 ngAfterViewInit() {
@@ -705,5 +720,16 @@ public deleteConfirmModal(contentIds) {
   }
   navigateToEditPage(contentId: string, status: string) {
     this.route.navigate(['myassets/update', contentId, status]);
+  }
+  /*telemetry implementation for space, function for getting route*/
+  getRouteDetail(): string {
+    let pageid;
+    if(this.route.url === '/upForReview') {
+      pageid = 'upforreview'
+    }
+    else {
+      pageid = 'myassets'
+    }
+    return pageid;
   }
 }
