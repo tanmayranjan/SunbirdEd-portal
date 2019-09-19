@@ -465,6 +465,7 @@ contentSearch(searchParams, pageNumber, limit) {
                     };
                   } else {
                     // recieved some result
+                    this.contentService.getMyassetPageData(this.upForReviewContent);
                     this.noResultsForReview = false;
                      this.showLoader = false;
                       this.noResult = false;
