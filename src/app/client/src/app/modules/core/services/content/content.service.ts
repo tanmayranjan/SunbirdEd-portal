@@ -25,8 +25,6 @@ export class ContentService extends DataService {
   /**
    * reference of lerner service.
    */
-  public _myassetdata = new BehaviorSubject<any>({});
-  myassetdata$ = this._myassetdata.asObservable();
   public http: HttpClient;
   /**
    * constructor
@@ -55,9 +53,4 @@ export class ContentService extends DataService {
     // send the actual request
     return this.publicService.post(option);
   }
-
-  getMyassetPageData(data){
-   this._myassetdata.next(data); 
-  }
-
 }
