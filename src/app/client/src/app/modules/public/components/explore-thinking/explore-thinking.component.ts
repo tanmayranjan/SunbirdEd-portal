@@ -16,6 +16,8 @@ export class ExploreThinkingComponent implements OnInit {
     public navigationhelperService: NavigationHelperService) { }
 
   ngOnInit() {
+document.body.scrollTop = 0;
+document.documentElement.scrollTop = 0;
     /*telemetry inplementation for space*/
     this.telemetryImpression = {
       context: {

@@ -21,6 +21,12 @@
     display: block;
     font-size: 17px;
     font-family: 'Muli', sans-serif;
+    line-height: 2em;
+  }
+  ol li {
+    line-height: 2em;
+    font-family: 'Muli', sans-serif;
+    font-size: 14px;
   }
   .cimage{
     background-image: url('../../../../../assets/images/slide-04.png');
