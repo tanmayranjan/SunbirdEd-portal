@@ -264,6 +264,7 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     }
     this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
     this.hardRefreshFilter();
+    this.setInteractData({board: []});
   }
   selectedValue(event, code) {
     this.formInputData[code] = event;

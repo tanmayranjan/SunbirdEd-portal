@@ -207,6 +207,7 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     }
     this.router.navigate([], { relativeTo: this.activatedRoute.parent, queryParams: this.formInputData });
     this.hardRefreshFilter();
+    this.getAssettype({board: []});
   }
 
   public applyFilters() {
