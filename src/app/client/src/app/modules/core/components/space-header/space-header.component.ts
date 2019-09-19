@@ -305,7 +305,6 @@ contentStatus() {
   const archive = [];
    let i = 0, key;
   const keys = Object.keys(localStorage);
-console.log('this.notificationCount = ', this.notificationCount);
 for (; key = keys[i]; i++) {
   archive.push( key);
 }
@@ -323,7 +322,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
           }
         }
         if(flag>1){
-           for(let l=0;l<index.length;l++){
+           for(let l=0;l<flag;l++){
              if(contentlist[index[l]].prevState === 'Review' && contentlist[index[l]].status === 'Review'){
               this.notificationCount ++;
               this.reviewAssetData.push(contentlist[index[index[l]]]);
@@ -336,10 +335,11 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
               };
               this.contentService.get(req).subscribe(originalcontent => {
                 this.reviewAssetData.push(originalcontent);
-              });            
-               this.reviewAssetData2[contentlist[index[l]].identifier]=contentlist[index[l]];
+                this.reviewAssetData2[contentlist[index[l]].identifier]=contentlist[index[l]];
                this.reviewAssetData2[contentlist.result.content.identifier].message = 'Rejected';
+               localStorage.setItem(contentlist[index[l]].identifier,'Draft');
                localStorage.removeItem('CopiedContent' + contentlist[index[l]].identifier);
+              });            
              }
            }
         }
@@ -349,6 +349,7 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
   });
   let mainState;
   let state;
+  let copiedstate;
   const archive = [];
    let i = 0, key;
   const keys = Object.keys(localStorage);
@@ -369,9 +370,10 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
     console.log('data in main header = ', data);
    mainState = data.result.content.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
+   copiedstate = localStorage.getItem('CopiedContent' + archive[j]);
   console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
   if (state === 'Review' && this.userId === this.creatorId ) {
-    if (mainState === 'Live') {
+    if (mainState === 'Live' && copiedstate === null) {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
       console.log('Asset is published', this.notificationCount);
