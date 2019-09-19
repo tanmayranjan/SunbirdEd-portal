@@ -67,9 +67,6 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
       console.log('form filed properties = ', formFieldProperties);
-      let temp;
-      temp = formFieldProperties[2].range;
-      temp.splice(2, 1);
       this.formFieldProperties = formFieldProperties;
       this.filtersDetails = _.cloneDeep(formFieldProperties);
       this.dataDrivenFilter.emit(formFieldProperties);
@@ -106,11 +103,9 @@ export class SpaceDataDrivenFilterComponent implements OnInit, OnChanges {
             return false;
           }
           if (formFieldCategory.code === 'channel') {
-            formFieldCategory.range = _.map(formData.channelData, (value) => {
+            formFieldCategory.range = _.map(formData.formData[2].range, (value) => {
               return {
-                category: 'channel',
-                identifier: value.hashTagId,
-                name: value.orgName,
+                name: value
               };
             });
           } else if (formFieldCategory.code === 'languages') {

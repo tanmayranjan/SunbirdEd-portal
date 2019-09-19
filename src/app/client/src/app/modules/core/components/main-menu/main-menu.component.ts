@@ -4,7 +4,7 @@ import {
   IUserData,
   IUserProfile
 } from '@sunbird/shared';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { UserService, PermissionService } from '../../services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
@@ -22,7 +22,7 @@ declare var jQuery: any;
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss']
 })
-export class MainMenuComponent implements OnInit {
+export class MainMenuComponent implements OnInit, OnChanges {
   @Input() slugInfo: string;
   /**
    * Workspace access roles
@@ -119,6 +119,11 @@ export class MainMenuComponent implements OnInit {
       }
     });
   }
+   ngOnChanges() {
+    if(this.slug === undefined) {
+      this.slug = localStorage.getItem("tenant");
+    }
+  } 
   setInteractData() {
     this.homeMenuIntractEdata = {
       id: 'home-tab',

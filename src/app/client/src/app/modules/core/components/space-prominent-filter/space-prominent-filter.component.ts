@@ -125,9 +125,6 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
     // this.formInputData['country']=this.configService.countryConfig.countries;
     this.frameworkService.initialize(this.frameworkName, this.hashTagId);
     this.getFormatedFilterDetails().subscribe((formFieldProperties) => {
-      let temp;
-      temp = formFieldProperties[2].range;
-      temp.splice(2, 1);
       this.formFieldProperties = formFieldProperties;
       this.prominentFilter.emit(formFieldProperties);
       this.subscribeToQueryParams();
@@ -169,10 +166,9 @@ export class SpaceProminentFilterComponent implements OnInit, OnDestroy {
         console.log('form data in map = ', formData);
         let formFieldProperties = _.filter(formData.formData, (formFieldCategory) => {
           if (formFieldCategory.code === 'channel') {
-            formFieldCategory.range = _.map(formData.channelData, (value) => {
-              return {category: 'channel',
-              identifier: value.hashTagId,
-              name: value.orgName,
+             formFieldCategory.range = _.map(formData.formData[2].range, (value) => {
+              return {
+              name: value
             };
             });
           } else if (formFieldCategory.code === 'languages') {
