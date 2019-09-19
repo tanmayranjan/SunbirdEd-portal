@@ -293,7 +293,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: {
         organisation: this.configService.appConfig.ExplorePage.orgName,
         region: [],
-         contentType: [],
+         contentType: ['Resource'],
         status: ['Live'],
         board: [],
         channel: [],
