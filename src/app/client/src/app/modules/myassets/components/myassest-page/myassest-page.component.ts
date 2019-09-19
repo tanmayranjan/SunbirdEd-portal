@@ -490,7 +490,6 @@ contentSearch(searchParams, pageNumber, limit) {
             }
           } else {
             if (data.result.count && data.result.content.length > 0) {
-              this.contentService.getMyassetPageData(data.result.content);
             this.allContent = data.result.content;
             console.log('Data in myasset', this.allContent);
               this.totalCount = data.result.count;
@@ -597,7 +596,7 @@ public deleteConfirmModal(contentIds) {
         this.contentService.get(req).subscribe(data => {
          this.mainState = data.result.content.status;
          if (this.mainState === 'Live') {
-          localStorage.setItem('CopiedContent' + contentIds, 'Review');
+          localStorage.setItem('CopiedContent' + contentIds, JSON.stringify('Review'));
         }
         });
 
