@@ -490,6 +490,7 @@ contentSearch(searchParams, pageNumber, limit) {
             }
           } else {
             if (data.result.count && data.result.content.length > 0) {
+              this.contentService.getMyassetPageData(data.result.content);
             this.allContent = data.result.content;
             console.log('Data in myasset', this.allContent);
               this.totalCount = data.result.count;

@@ -299,9 +299,9 @@ openSm(content) {
   this.modalRef = this.modalService.open(content,  {centered: true});
 }
 contentStatus() {
-  let mainState;
-  let state;
-  let copiedstate;
+
+  this.contentService.myassetdata$.subscribe((contentlist)=>{
+    console.log("Content search api success",contentlist);
   const archive = [];
    let i = 0, key;
   const keys = Object.keys(localStorage);
@@ -311,7 +311,54 @@ for (; key = keys[i]; i++) {
 }
   for (let j = 0; j < archive.length; j++) {
     console.log( 'j = ', archive[j]);
-if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) {
+if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) 
+  {
+    let flag=0;
+    let index=[];
+        for( let k=0;k<contentlist.length;k++)
+        {
+          if(archive[j] === contentlist[k].identifier){
+            index[flag].push(k)
+            flag++;
+          }
+        }
+        if(flag>1){
+           for(let l=0;l<index.length;l++){
+             if(contentlist[index[l]].prevState === 'Review' && contentlist[index[l]].status === 'Review'){
+              this.notificationCount ++;
+              this.reviewAssetData.push(contentlist[index[index[l]]]);
+              this.reviewStatus = 'review';
+             }
+             if(contentlist[index[l]].prevState === 'Review' && contentlist[index[l]].status === 'Draft' && localStorage.getItem('CopiedContent' + contentlist[index[l]].identifier)){
+               this.notificationCount ++;
+               const req = {
+                url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentlist[index[l].identifier]}`,
+              };
+              this.contentService.get(req).subscribe(originalcontent => {
+                this.reviewAssetData.push(originalcontent);
+              });            
+               this.reviewAssetData2[contentlist[index[l]].identifier]=contentlist[index[l]];
+               this.reviewAssetData2[contentlist.result.content.identifier].message = 'Rejected';
+               localStorage.removeItem('CopiedContent' + contentlist[index[l]].identifier);
+             }
+           }
+        }
+        
+  }
+}
+  });
+  let mainState;
+  let state;
+  const archive = [];
+   let i = 0, key;
+  const keys = Object.keys(localStorage);
+console.log('this.notificationCount = ', this.notificationCount);
+for (; key = keys[i]; i++) {
+  archive.push( key);
+}
+  for (let j = 0; j < archive.length; j++) {
+    console.log( 'j = ', archive[j]);
+if (archive[j] !== 'creator' && archive[j] !== 'tenant') {
   // const req = {
   //   url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${archive[j]}/?mode=edit`,
   // };
@@ -322,31 +369,14 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
     console.log('data in main header = ', data);
    mainState = data.result.content.status;
    state = JSON.parse(localStorage.getItem(archive[j]));
-   copiedstate = localStorage.getItem('CopiedContent' + archive[j]);
   console.log('state = ', state, mainState, archive[j], this.userId === this.creatorId);
   if (state === 'Review' && this.userId === this.creatorId ) {
-    if (mainState === 'Live' && copiedstate === null) {
+    if (mainState === 'Live') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
-      if (this.reviewAssetData2) {
-        this.reviewAssetData2 = {};
-      }
       console.log('Asset is published', this.notificationCount);
       this.reviewStatus = 'published';
       localStorage.setItem(archive[j], JSON.stringify('Live'));
-    } else if (copiedstate != null) {
-      if (copiedstate === 'Review') {
-      this.reviewAssetData = [];
-      this.notificationCount = 0;
-      } else if (copiedstate === 'Reject') {
-        this.notificationCount ++;
-      this.reviewAssetData.push(data.result.content);
-      this.reviewAssetData2[data.result.content.identifier] = data.result.content;
-        this.reviewAssetData2[data.result.content.identifier].message = 'Rejected';
-        localStorage.setItem(archive[j], JSON.stringify('Draft'));
-        this.reviewStatus = 'rejected';
-        localStorage.removeItem('CopiedContent' + archive[j]);
-      }
     }
   }
   if (state === 'Review' && this.userId === this.creatorId ) {
@@ -367,24 +397,19 @@ if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('Copi
   //     // localStorage.setItem(archive[j], JSON.stringify('Draft'));
   //   }
   // }
-    if (state === 'Review' && mainState === 'Review' && this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
+   /* if (state === 'Review' && mainState === 'Review' && this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
       console.log('Asset is in Review State', this.notificationCount);
       this.reviewStatus = 'review';
 
       // localStorage.setItem(archive[j], JSON.stringify('Draft'));
-    }
-    if (state === 'Review' && mainState === 'Live' && this.upForReviewRole[0] === 'CONTENT_REVIEWER'
-    && this.userId !== this.creatorId && copiedstate !== 'Reject') {
+    } */
+    if(mainState === 'Review' && data.result.content.prevState === 'Draft'){
       this.notificationCount ++;
       this.reviewAssetData.push(data.result.content);
-      this.reviewAssetData2[data.result.content.identifier] = data.result.content;
-      if (copiedstate === 'Review') {
-      this.reviewAssetData2[data.result.content.identifier].message = 'Yet to review';
-      }
-
-      // localStorage.setItem(archive[j], JSON.stringify('Draft'));
+      console.log('Asset is in Review State', this.notificationCount);
+      this.reviewStatus = 'review';
     }
 });
 }

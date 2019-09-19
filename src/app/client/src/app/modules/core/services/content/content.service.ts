@@ -2,7 +2,7 @@ import { ConfigService } from '@sunbird/shared';
 import { DataService } from './../data/data.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CollectionHierarchyAPI } from '../../interfaces';
 import { PublicDataService } from './../public-data/public-data.service';
 
@@ -25,6 +25,8 @@ export class ContentService extends DataService {
   /**
    * reference of lerner service.
    */
+  public _myassetdata = new BehaviorSubject<any>({});
+  myassetdata$ = this._myassetdata.asObservable();
   public http: HttpClient;
   /**
    * constructor
@@ -52,6 +54,10 @@ export class ContentService extends DataService {
     };
     // send the actual request
     return this.publicService.post(option);
+  }
+
+  getMyassetPageData(data){
+   this._myassetdata.next(data); 
   }
 
 }
