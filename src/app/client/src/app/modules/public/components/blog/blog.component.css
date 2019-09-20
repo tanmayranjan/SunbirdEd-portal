@@ -24,10 +24,11 @@
   }
   .text p {
     line-height: 2em;
+    font-size: 17px;
   }
   li {
     line-height: 2em;
-    font-size: 14px;
+    font-size: 17px;
   }
   .cimage{
     background-image: url('../../../../../assets/images/slide-04.png');
