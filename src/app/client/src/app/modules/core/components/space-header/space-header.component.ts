@@ -590,6 +590,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.notificationCount = 0;
     // this.reviewAssetData = [];
     console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
+    console.log('reviewassetdata2',this.reviewAssetData2);
     this.modalRef = this.modalService.open(content, { centered: true });
   }
 }

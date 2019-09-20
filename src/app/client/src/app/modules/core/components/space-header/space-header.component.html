@@ -50,7 +50,8 @@
                 <tbody>
                   <tr *ngFor="let content of reviewAssetData">
                     <!-- <td>{{content.identifier}}</td> -->
-                    <td>{{content.name}}</td>
+                    <td *ngIf="reviewAssetData2[content['identifier']]">{{reviewAssetData2[content['identifier']].name}}</td>
+                    <td *ngIf="!reviewAssetData2[content['identifier']]">{{content.name}}</td>
                     <td *ngIf="content.status === 'Draft'">Rejected</td>
                     <td *ngIf="content.status === 'Live' && !reviewAssetData2[content['identifier']]">Published</td>
                     <td *ngIf="content.status === 'Live' && reviewAssetData2[content['identifier']] != null">{{reviewAssetData2[content['identifier']].message}}</td>

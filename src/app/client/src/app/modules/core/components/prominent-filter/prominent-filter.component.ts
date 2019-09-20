@@ -16,7 +16,7 @@ import { first, mergeMap, map, tap, catchError, filter } from 'rxjs/operators';
   templateUrl: './prominent-filter.component.html',
   styleUrls: ['./prominent-filter.component.css']
 })
-export class ProminentFilterComponent implements OnInit, OnDestroy {
+export class ProminentFilterComponent implements OnInit, OnDestroy, OnChanges {
   @Input() filterEnv: string;
   @Input() accordionDefaultOpen: boolean;
   @Input() isShowFilterLabel: boolean;
@@ -140,6 +140,11 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
     });
     this.setFilterInteractData();
   }
+  ngOnChanges(){
+    if(this.frameworkName!== undefined){
+      this.ngOnInit();
+    }
+  }
   private setFilterInteractData() {
     setTimeout(() => { // wait for model to change
       const filters = _.pickBy(this.formInputData, (val, key) =>
@@ -165,7 +170,7 @@ export class ProminentFilterComponent implements OnInit, OnDestroy {
     return this.fetchFrameWorkDetails().pipe(
       mergeMap((frameworkDetails: any) => {
         this.categoryMasterList = frameworkDetails.categoryMasterList;
-        this.framework = frameworkDetails.code;
+        this.framework = frameworkDetails.framework;
         return this.getFormDetails();
       }),
       mergeMap((formData: any) => {
