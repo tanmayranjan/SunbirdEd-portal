@@ -358,15 +358,26 @@ i {
   background: dimgrey;
   color: white;
 }
-// .fa-bell {
-//   width: 59.8px;
-//   height: 1rem;
-// }
+
+.fa-bell {
+  font-size: 1.5rem;  
+}
 .items {
   margin-left: 10rem;
 }
 .ui.menu .items {
     padding:unset ;
+}
+.numeric {
+  position: absolute;
+    top: -17px;
+    width: 21px;
+    font-size: .7em;
+    background: green;
+    left: 16px;
+    border-radius: 50%;
+    color: white;
+    padding: 5px;
 }
 @media screen and (max-width: 374px) and (min-width: 312px){
 .profile-avtar {

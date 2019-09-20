@@ -21,17 +21,25 @@
         <a class="profile-avtar item  pr-0">
           <a class="items mr-20">
             <!-- <img src="{{'assets/images/notification.png'}}" class="notification-icon"> -->
-            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;"
+            <i class="fas fa-bell " style="width: 34.8px;"
               *ngIf="notificationCount === 0 && creatorId === userId && this.upForReviewRole[0] !== 'CONTENT_REVIEWER'"
-              (click)="readContentStatus(content)"></i>
-            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;"
+              (click)="readContentStatus(content)">
+            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            </i>
+            <i class="fas fa-bell " style="width: 34.8px;"
               *ngIf="notificationCount === 0 && this.upForReviewRole[0] === 'CONTENT_REVIEWER'"
-              (click)="readContentStatus(content)"></i>
-            <i class="fas fa-bell fs-1-5 " style="width: 34.8px;"
-              *ngIf="creatorId !== userId && this.upForReviewRole[0] !== 'CONTENT_REVIEWER'"></i>
-            <i class="fas fa-bell fs-1-5 icon-grey badge " style="width: 34.8px;"
+              (click)="readContentStatus(content)">
+            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            </i>
+            <i class="fas fa-bell " style="width: 34.8px;"
+              *ngIf="creatorId !== userId && this.upForReviewRole[0] !== 'CONTENT_REVIEWER'">
+              <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            </i>
+            <i class="fas fa-bell" style="width: 34.8px"
               *ngIf="notificationCount > 0 && this.upForReviewRole[0] === 'CONTENT_REVIEWER'"
-              (click)="readContentStatus(content)"></i>
+              (click)="readContentStatus(content)">
+            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            </i>
             <ng-template #content let-d="dismiss">
               <div class="modal-header justify-content-center">
                 <div class="py-2">

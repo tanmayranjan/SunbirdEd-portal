@@ -141,7 +141,8 @@ body {
 // don't delete this
 .iziModal-isAttached{
   body{
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 

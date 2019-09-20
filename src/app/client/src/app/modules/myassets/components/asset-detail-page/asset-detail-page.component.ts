@@ -119,7 +119,7 @@ export class AssetDetailPageComponent implements OnInit {
     this.activatedRoute.url.subscribe(url => {
       this.path = url[2].path;
     });
-    if (this.path === 'Draft' || this.path === 'Review') {
+    if (this.path === 'Draft' || this.path === 'Review' || this.path === 'Live') {
        const req = {
          url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
        };
@@ -162,16 +162,26 @@ export class AssetDetailPageComponent implements OnInit {
    //   const req = {
      //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
      // };
-      this.contentService.get(req).subscribe(data => {
-        console.log('content = ', this.assetDetail);
-        this.assetDetail = data.result.content;
+     const option = {
+      url : '/content/v1/search',
+      param : '',
+      filters: {
+        language: ['English'],
+        contentType: ['Resource'],
+        status: ['Review'],
+        identifier: [this.path]
+    },
+      sort_by: {me_averageRating: 'desc'}
+    };
+    this.contentService.getupForReviewData(option).subscribe(data => {
+        console.log('read content', data);
         this.content = data.result.content;
+        this.assetDetail = data.result.content[0];
         this.showLoader = false;
         this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
           data.result.content.artifactUrl.lastIndexOf('pdf'));
-
           this.telemetryImpressionObject = {
-            id: this.assetDetail['identifier'],
+            id: this.assetDetail['identifier'], 
             type: 'asset',
             rollup: {
               name: this.assetDetail['name'],
@@ -191,7 +201,7 @@ export class AssetDetailPageComponent implements OnInit {
               duration: this.navigationhelperService.getPageLoadTime()
             }
           };
-      });
+    })
     }
     this.userService.userData$.subscribe(
       (user: IUserData) => {
