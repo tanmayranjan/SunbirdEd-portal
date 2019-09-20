@@ -41,7 +41,7 @@ import {
   tap,
   delay
 } from 'rxjs/operators';
-
+import {FrameworkService} from './../../../core/services/framework/framework.service'
 @Component({
   templateUrl: './learn-page.component.html'
 })
@@ -85,7 +85,8 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private browserCacheTtlService: BrowserCacheTtlService,
     public formService: FormService,
     public navigationhelperService: NavigationHelperService,
-    public userService: UserService
+    public userService: UserService,
+    public frameworkservice: FrameworkService
   ) {
     window.scroll({
       top: 0,
@@ -110,14 +111,17 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (user && !user.err) {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
+        this.hashTagId=this.userProfile.rootOrgId;
         console.log(
           'user details from learn page = ',
           user.userProfile,
           this.slug
         );
+        this.getFrameWork(this.hashTagId)
       }
+      
     });
-    combineLatest(this.fetchEnrolledCoursesSection(), this.getFrameWork())
+    combineLatest(this.fetchEnrolledCoursesSection())
       .pipe(
         first(),
         mergeMap((data: Array<any>) => {
@@ -262,18 +266,30 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
     );
     this.dataDrivenFilterEvent.emit(defaultFilters);
   }
-  private getFrameWork() {
+  private getFrameWork(hashTagId) {
     const framework = this.cacheService.get('framework' + 'search');
     if (framework) {
+      this.frameWorkName=framework;
+       this.initFilters = true;
       return of(framework);
-    } else {
+    }else if(this.slug === 'sunbirded'){
+       this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata)=>{
+        console.log("Framework data of sunbirded",frameworkdata);
+        const dfframeWork =frameworkdata.result.channel.defaultFramework;
+      this.cacheService.set('framework' + 'search', dfframeWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});
+       this.frameWorkName=_.cloneDeep(dfframeWork);
+       this.initFilters = true;
+      return dfframeWork;
+      })
+    }
+    else {
       const formServiceInputParams = {
         formType: 'framework',
         formAction: 'search',
         contentType: 'framework-code'
       };
       return this.formService
-        .getFormConfig(formServiceInputParams, this.hashTagId)
+        .getFormConfig(formServiceInputParams, hashTagId)
         .pipe(
           map((data: ServerResponse) => {
             const frameWork = _.find(data, 'framework').framework;

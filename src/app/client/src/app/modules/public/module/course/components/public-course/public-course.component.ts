@@ -11,7 +11,7 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { PublicPlayerService } from './../../../../services';
 import { takeUntil, map, mergeMap, first, filter, catchError } from 'rxjs/operators';
-
+import { FrameworkService } from './../../../../../core/services/framework/framework.service'
 @Component({
   templateUrl: './public-course.component.html'
 })
@@ -48,7 +48,7 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService, public formService: FormService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService, public frameworkservice: FrameworkService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.exploreCourse.filterType;
     this.setTelemetryData();
@@ -60,10 +60,11 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
     this.slug = this.activatedRoute.snapshot.params.slug;
     combineLatest(
       this.orgDetailsService.getOrgDetails(this.activatedRoute.snapshot.params.slug),
-      this.getFrameWork()
     ).pipe(
       mergeMap((data: any) => {
         this.hashTagId = data[0].hashTagId;
+        this.getFrameWork(this.hashTagId);
+        
         if (data[1]) {
           this.initFilters = true;
           this.frameWorkName = data[1];
@@ -93,17 +94,27 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
       }, {});
     this.dataDrivenFilterEvent.emit(defaultFilters);
   }
-  private getFrameWork() {
+  private getFrameWork(hashTagId) {
     const framework = this.cacheService.get('framework' + 'search');
     if (framework) {
       return of(framework);
-    } else {
+    }else if(this.slug === 'sunbirded'){
+            this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata)=>{
+              console.log("Framework data of sunbirded",frameworkdata);
+              const frameWork =frameworkdata.result.channel.defaultFramework;
+            this.cacheService.set('framework' + 'search', frameWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});
+            this.frameWorkName=_.cloneDeep(frameWork);
+            this.initFilters = true;
+            return frameWork;
+            })
+    }
+     else {
       const formServiceInputParams = {
         formType: 'framework',
         formAction: 'search',
         contentType: 'framework-code',
       };
-      return this.formService.getFormConfig(formServiceInputParams, this.hashTagId)
+      return this.formService.getFormConfig(formServiceInputParams, hashTagId)
         .pipe(map((data: ServerResponse) => {
             const frameWork = _.find(data, 'framework').framework;
             this.cacheService.set('framework' + 'search', frameWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});

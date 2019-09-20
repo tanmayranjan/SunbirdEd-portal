@@ -73,7 +73,7 @@ export class FrameworkService {
       }
     }
   }
-  private getDefaultFrameWork(hashTagId) {
+  public getDefaultFrameWork(hashTagId) {
     const channelOptions = {
       url: this.configService.urlConFig.URLS.CHANNEL.READ + '/' + hashTagId
     };
