@@ -24,21 +24,21 @@
             <i class="fas fa-bell " style="width: 34.8px;"
               *ngIf="notificationCount === 0 && creatorId === userId && this.upForReviewRole[0] !== 'CONTENT_REVIEWER'"
               (click)="readContentStatus(content)">
-            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            <span class="numeric"  *ngIf="notificationCount > 0">{{reviewAssetData.length}}</span>
             </i>
             <i class="fas fa-bell " style="width: 34.8px;"
               *ngIf="notificationCount === 0 && this.upForReviewRole[0] === 'CONTENT_REVIEWER'"
               (click)="readContentStatus(content)">
-            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            <span class="numeric"  *ngIf="notificationCount > 0">{{reviewAssetData.length}}</span>
             </i>
             <i class="fas fa-bell " style="width: 34.8px;"
               *ngIf="creatorId !== userId && this.upForReviewRole[0] !== 'CONTENT_REVIEWER'">
-              <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+              <span class="numeric"  *ngIf="notificationCount > 0">{{reviewAssetData.length}}</span>
             </i>
             <i class="fas fa-bell" style="width: 34.8px"
               *ngIf="notificationCount > 0 && this.upForReviewRole[0] === 'CONTENT_REVIEWER'"
               (click)="readContentStatus(content)">
-            <span class="numeric"  *ngIf="notificationCount > 0">{{notificationCount}}</span>
+            <span class="numeric"  *ngIf="notificationCount > 0">{{reviewAssetData.length}}</span>
             </i>
             <ng-template #content let-d="dismiss">
               <div class="modal-header justify-content-center">
