@@ -395,7 +395,7 @@ ngAfterViewInit() {
        topic: [],
        country: []
      },
-     limit: limit,
+    // limit: limit,
      offset: (pageNumber - 1) * (limit),
      query: '' || bothParams.queryParams.query,
      sort_by: this.sort
