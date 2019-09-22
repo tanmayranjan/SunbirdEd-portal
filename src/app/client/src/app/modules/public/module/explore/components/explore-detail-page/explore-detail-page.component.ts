@@ -9,6 +9,7 @@ import {
   ResourceService, IUserData
 } from '@sunbird/shared';
 import { UserService } from '@sunbird/core';
+import { Location } from '@angular/common';
 import { IImpressionEventInput, TelemetryObject } from '@sunbird/telemetry';
 export interface IassessDetail {
   name: string;
@@ -87,7 +88,8 @@ export class ExploreDetailPageComponent implements OnInit {
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router,
-    public assetService: AssetService, public navigationhelperService: NavigationHelperService) {
+    public assetService: AssetService, public navigationhelperService: NavigationHelperService,
+    private location: Location) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -171,7 +173,8 @@ export class ExploreDetailPageComponent implements OnInit {
     alert('Badge added Successfully');
   }
   navigateToDetailsPage() {
-    this.route.navigate(['space/explore']);
+    //this.route.navigate(['space/explore']);
+    this.location.back();
   }
   navigateToView() {
     this.url = this.activatedRoute.snapshot.params;
