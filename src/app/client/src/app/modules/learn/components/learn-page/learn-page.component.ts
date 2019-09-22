@@ -312,6 +312,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
           name: 'My Courses',
           length: 0,
           count: 0,
+          display: "{\"name\":{\"en\":\"My Courses\", \"es\":\"Mis cursos\",\"hi\":\"मेरे पाठ्यक्रम\"}}",
           contents: []
         };
         if (err) {
