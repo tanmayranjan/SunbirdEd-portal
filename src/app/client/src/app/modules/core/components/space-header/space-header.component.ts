@@ -223,6 +223,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   }
   onEnter(key) {
     this.key = key;
+    if(this.key.length > 0){
     this.queryParam = {};
     this.queryParam['key'] = this.key;
     if (this.key && this.key.length > 0) {
@@ -233,6 +234,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.router.navigate([this.exploreRoutingUrl, 1], {
       queryParams: this.queryParam
     });
+  }
   }
   getUrl() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {

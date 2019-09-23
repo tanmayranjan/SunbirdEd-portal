@@ -146,7 +146,7 @@ export class OtherSearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
-    if (key !== undefined) {
+    if (key.length > 0) {
     console.log('key = ', key);
     this.key = key;
     this.queryParam = {};
