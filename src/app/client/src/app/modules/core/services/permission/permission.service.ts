@@ -148,11 +148,11 @@ export class PermissionService {
   getWorkspaceAuthRoles() {
     const authRoles = _.find(this.config.rolesConfig.WORKSPACEAUTHGARDROLES, (role, key) => {
       if (this.checkRolesPermissions(role.roles)) {
-        //console.log('role = ', role);
+        // console.log('role = ', role);
         return role;
       }
     });
-    //console.log('authrole = ', authRoles);
+    // console.log('authrole = ', authRoles);
     return authRoles;
   }
 }

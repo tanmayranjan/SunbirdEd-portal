@@ -139,7 +139,7 @@ export class SunbirdHeaderComponent implements OnInit {
     }
   }
   onEnter(key) {
-    if(key !== undefined){
+    if (key !== undefined) {
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;

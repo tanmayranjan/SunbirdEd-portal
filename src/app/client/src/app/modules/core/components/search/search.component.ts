@@ -158,7 +158,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   onEnter(key) {
     /*telemetry impementation for space*/
     this.key = key;
-    if(this.key !== undefined){
+    if (this.key !== undefined) {
     this.telemetryService.search({
       context: {
         env: 'myassets'
@@ -170,7 +170,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         topn: []
       }
     });
-    /*telemetry impementation for space*/    
+    /*telemetry impementation for space*/
     this.queryParam = {};
     this.queryParam['key'] = this.key;
     if (this.key && this.key.length > 0) {

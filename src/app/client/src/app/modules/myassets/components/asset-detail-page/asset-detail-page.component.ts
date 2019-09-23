@@ -181,7 +181,7 @@ export class AssetDetailPageComponent implements OnInit {
         this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
           data.result.content.artifactUrl.lastIndexOf('pdf'));
           this.telemetryImpressionObject = {
-            id: this.assetDetail['identifier'], 
+            id: this.assetDetail['identifier'],
             type: 'asset',
             rollup: {
               name: this.assetDetail['name'],
@@ -201,7 +201,7 @@ export class AssetDetailPageComponent implements OnInit {
               duration: this.navigationhelperService.getPageLoadTime()
             }
           };
-    })
+    });
     }
     this.userService.userData$.subscribe(
       (user: IUserData) => {
