@@ -146,6 +146,7 @@ export class OtherSearchComponent implements OnInit {
    * it navigate
    */
   onEnter(key) {
+    if(key !== undefined){
     console.log('key = ', key);
     this.key = key;
     this.queryParam = {};
@@ -170,6 +171,7 @@ export class OtherSearchComponent implements OnInit {
       });
      }
      }
+    }
   }
 
   setFilters() {
