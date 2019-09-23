@@ -343,8 +343,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   }
   checkFieldofFile() {
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name && !!data.description && !!data.board && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.gradeLevel) {
+    if (!!data.name && !!data.board && !!data.description  && !!data.keywords && !!data.creators &&
+      !!data.version && !!data.artifactUrl) {
       this.uploadSuccess = true;
       // if (this.fileList) {
       //   if (this.fileList.size < 50000000) {
