@@ -139,6 +139,7 @@ export class SunbirdHeaderComponent implements OnInit {
     }
   }
   onEnter(key) {
+    if(key !== undefined){
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;
@@ -146,6 +147,7 @@ export class SunbirdHeaderComponent implements OnInit {
     console.log('this.activatedRoute in sunbird heaer = ', this.activatedRoute);
     this.router.navigate(['/sunbirdorg/explore-assets', 1], { queryParams: this.queryParam });
   }
+}
 
   getUrl() {
 

@@ -158,7 +158,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     }
   }
   onEnter(key) {
-
+if(key !== undefined){
     this.queryParam = {};
     if (key && key.length) {
       this.queryParam.key = key;
@@ -195,6 +195,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/' + this.slugInfo + '/explore-library', 1], { queryParams: this.queryParam });
         }
     }
+  }
   }
 
   /* This method searches only for offline module*/
