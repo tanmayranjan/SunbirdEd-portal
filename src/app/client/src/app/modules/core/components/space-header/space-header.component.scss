@@ -360,8 +360,10 @@ i {
 }
 
 .fa-bell {
-  font-size: 1.5rem; 
-  margin-top: 10px; 
+  font-size: 1.5rem;  
+}
+div.ui.menu.bs-0.main-header.d-block   {
+  margin: 0 !important;
 }
 .items {
   margin-left: 10rem;
