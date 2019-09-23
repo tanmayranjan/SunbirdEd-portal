@@ -743,7 +743,7 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
       .onApprove(result => {
         this.showLoader = true;
         this.loaderMessage = {
-          'loaderMessage': 'Editing live content',
+          'loaderMessage': 'Enabling editing of live content',
         };
         const req = {
           url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentId}`,
