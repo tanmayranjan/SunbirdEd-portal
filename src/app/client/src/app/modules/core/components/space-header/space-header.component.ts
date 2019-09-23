@@ -223,7 +223,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
   }
   onEnter(key) {
     this.key = key;
-    if(this.key.length > 0){
+    if (this.key.length > 0) {
     this.queryParam = {};
     this.queryParam['key'] = this.key;
     if (this.key && this.key.length > 0) {

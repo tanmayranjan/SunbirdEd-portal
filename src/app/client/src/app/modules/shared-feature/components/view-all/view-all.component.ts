@@ -238,6 +238,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         error => {
           this.showLoader = false;
           this.noResult = true;
+          this.totalCount = 0;
           this.noResultMessage = {
             messageText: 'messages.fmsg.m0077'
           };
@@ -269,6 +270,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
           this.searchList = this.formatSearchresults(response);
         } else {
           this.noResult = true;
+          this.totalCount = 0;
           this.noResultMessage = {
             message: 'messages.stmsg.m0007',
             messageText: 'messages.stmsg.m0006'
@@ -277,6 +279,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error => {
         this.showLoader = false;
+        this.totalCount = 0;
         this.noResult = true;
         this.noResultMessage = {
           messageText: 'messages.fmsg.m0077'
@@ -346,6 +349,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         this.frameworkData
       );
     }
+    this.hashTagId = softConstraintData.filters.channel;
     const requestParams = {
       filters: _.get(this.queryParams, 'appliedFilters')
         ? this.filters
@@ -370,6 +374,9 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.userService.hashTagId) {
       requestParams.filters['channel'] = [this.userService.hashTagId];
+    }
+    if (this.hashTagId) {
+      requestParams.filters['channel'] = [this.hashTagId];
     }
     if (requestParams.filters['slug']) {
       delete requestParams.filters['slug'];
