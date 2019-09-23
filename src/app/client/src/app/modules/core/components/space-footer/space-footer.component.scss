@@ -26,9 +26,10 @@ footer{
         /* padding: 4.57rem 0; */
         font-size: 14px;
         padding-top: 3rem;
-        position: absolute;
-        margin-left: 150px;
-        margin-right: 150px;
+        //position: absolute;
+        //margin-left: 150px;
+        //margin-right: 150px;
+        width: 100%;
     }
 .font{
 // font-size: 12px;
@@ -105,7 +106,7 @@ a:hover, a:active {
 @media screen and(min-width: 425px ) and (max-width:767px) {
     .footer1 {
         margin-top: -4rem !important;
-        width: 77vw !important;
+        width: 97vw !important;
         margin-left: 1rem !important;
     }
 }
@@ -123,6 +124,7 @@ a:hover, a:active {
 @media screen and (min-width:1024px) and (max-width: 1699px) {
     .footer1 {
         margin-top: 2rem !important;
+        max-width: 95%;
     }
 }
  @media screen and (min-width: 1700px) and (max-width:1800px) {
@@ -151,5 +153,8 @@ a:hover, a:active {
     }
     .footer__title {
       font-size: 33px !important;
+    }
+    .footer1 {
+        max-width: 95%;
     }
 }
