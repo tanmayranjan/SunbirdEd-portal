@@ -2,7 +2,7 @@ import { combineLatest as observableCombineLatest, Observable, Subject, Subscrip
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyAsset } from '../../classes/myasset';
-import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService} from '@sunbird/core';
+import { SearchService, UserService, ISort, FrameworkService, PermissionService, ContentService, AssetService } from '@sunbird/core';
 import {
   ServerResponse, PaginationService, ConfigService, ToasterService,
   ResourceService, ILoaderMessage, INoResultMessage, IContents, NavigationHelperService
@@ -18,8 +18,7 @@ import { BadgesService } from '../../../core/services/badges/badges.service';
 import { IUserData } from '@sunbird/shared';
 import { Location } from '@angular/common';
 import { getPluralCategory } from '@angular/common/src/i18n/localization';
-
-
+import { SpaceEditorService } from '../../services/space-editor/space-editor.service'
 @Component({
   selector: 'app-myassest-page',
   templateUrl: './myassest-page.component.html',
@@ -74,7 +73,7 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
 
   /**
   Modal message stores the message to display in the generic modal template */
-modalMessage = '';
+  modalMessage = '';
   /**
    * To show / hide no result message when no result found
   */
@@ -234,7 +233,7 @@ modalMessage = '';
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
     public modalServices: SuiModalService, frameworkService: FrameworkService,
-    contentService: ContentService, public assetService: AssetService) {
+    contentService: ContentService, public assetService: AssetService, public editorService: SpaceEditorService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -256,7 +255,7 @@ modalMessage = '';
   }
 
   ngOnInit() {
-   console.log('myasset page');
+    console.log('myasset page');
     this.userId = this.userService.userid;
     this.lessonRole = this.config.rolesConfig.workSpaceRole.lessonRole;
 
@@ -291,7 +290,8 @@ modalMessage = '';
         this.orgId = user.userProfile.rootOrgId;
         this.user.forEach(element => {
           if (element === 'TEACHER_BADGE_ISSUER') {
-            this.role = element;          }
+            this.role = element;
+          }
         });
       });
     const request = {
@@ -307,7 +307,7 @@ modalMessage = '';
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
       this.badgeList = data.result.content;
     });
-/*telemetry implementation for space*/
+    /*telemetry implementation for space*/
     this.telemetryImpression = {
       context: {
         env: this.getRouteDetail()
@@ -323,14 +323,14 @@ modalMessage = '';
     /*telemetry implementation for space*/
   }
 
-ngAfterViewInit() {
-  console.log('after view in it');
-  sessionStorage.clear();
-  setTimeout(() => {
-    this.showLoader = false;
-    // this.ngOnInit();
-  }, 500);
-}
+  ngAfterViewInit() {
+    console.log('after view in it');
+    sessionStorage.clear();
+    setTimeout(() => {
+      this.showLoader = false;
+      // this.ngOnInit();
+    }, 500);
+  }
 
   /**
   * This method sets the make an api call to get all UpForReviewContent with page No and offset
@@ -347,116 +347,116 @@ ngAfterViewInit() {
     } else {
       this.sort = { lastUpdatedOn: this.config.appConfig.WORKSPACE.lastUpdatedOn };
     }
-  /*  const preStatus = [];
+    /*  const preStatus = [];
+      const searchParams = {
+        filters: {
+          status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
+          // createdBy: this.userService.userid,
+          // contentType: this.config.appConfig.WORKSPACE.contentType,
+          objectType: 'Asset',
+          assetType: [],
+          subject: bothParams.queryParams.subject,
+          medium: bothParams.queryParams.medium,
+          sector: bothParams.queryParams.gradeLevel,
+          resourceType: bothParams.queryParams.resourceType,
+          keywords: bothParams.queryParams.keywords,
+          region: [],
+          creators: [],
+          language: [],
+          organisation: [],
+          channel: [this.userService.hashTagId],
+          topic: [],
+          country: [],
+        },
+        // limit: limit,
+        // offset: (pageNumber - 1) * (limit),
+        query: '' || bothParams.queryParams.query,
+        // sort_by: this.sort
+      };
+      */
+    const preStatus = ['Draft', 'Review', 'Live'];
     const searchParams = {
       filters: {
         status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
-        // createdBy: this.userService.userid,
-        // contentType: this.config.appConfig.WORKSPACE.contentType,
-        objectType: 'Asset',
-        assetType: [],
+        createdBy: this.userService.userid,
+        contentType: this.config.appConfig.WORKSPACE.contentType,
+        objectType: this.config.appConfig.WORKSPACE.objectType,
+        board: [],
         subject: bothParams.queryParams.subject,
         medium: bothParams.queryParams.medium,
-        sector: bothParams.queryParams.gradeLevel,
+        gradeLevel: bothParams.queryParams.gradeLevel,
         resourceType: bothParams.queryParams.resourceType,
         keywords: bothParams.queryParams.keywords,
         region: [],
         creators: [],
-        language: [],
+        languages: [],
         organisation: [],
-        channel: [this.userService.hashTagId],
+        channel: [],
         topic: [],
-        country: [],
+        country: []
       },
       // limit: limit,
-      // offset: (pageNumber - 1) * (limit),
+      offset: (pageNumber - 1) * (limit),
       query: '' || bothParams.queryParams.query,
-      // sort_by: this.sort
+      sort_by: this.sort
     };
-    */
-   const preStatus = ['Draft', 'Review', 'Live'];
-   const searchParams = {
-     filters: {
-       status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
-       createdBy: this.userService.userid,
-       contentType: this.config.appConfig.WORKSPACE.contentType,
-       objectType: this.config.appConfig.WORKSPACE.objectType,
-       board: [],
-       subject: bothParams.queryParams.subject,
-       medium: bothParams.queryParams.medium,
-       gradeLevel: bothParams.queryParams.gradeLevel,
-       resourceType: bothParams.queryParams.resourceType,
-       keywords: bothParams.queryParams.keywords,
-       region: [],
-       creators: [],
-       languages: [],
-       organisation: [],
-       channel: [],
-       topic: [],
-       country: []
-     },
-    // limit: limit,
-     offset: (pageNumber - 1) * (limit),
-     query: '' || bothParams.queryParams.query,
-     sort_by: this.sort
-   };
-console.log('filter param = ', searchParams);
+    console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
-        if (bothParams.queryParams.hasOwnProperty(param)) {
-          if (param === 'board') {
-            searchParams.filters.board.push(bothParams.queryParams[param][0]);
-          }
-          if (param === 'channel') {
-            searchParams.filters.creators.push(bothParams.queryParams[param][0]);
-            // searchParams.filters.channel.push(bothParams.queryParams[param][0]);
-          }
-          if (param === 'country') {
-            searchParams.filters.region.push(bothParams.queryParams[param][0]);
-          }
-          if (param === 'gradeLevel') {
-            searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
-          }
-          if (param === 'topic') {
-            searchParams.filters.topic.push(bothParams.queryParams[param][0]);
-          }
-          if (param === 'languages') {
-            searchParams.filters.languages.push(bothParams.queryParams[param][0]);
-          }
-          // if (param === 'country') {
-          //   searchParams.filters.country = this.queryParams[param];
-          // }
+      if (bothParams.queryParams.hasOwnProperty(param)) {
+        if (param === 'board') {
+          searchParams.filters.board.push(bothParams.queryParams[param][0]);
+        }
+        if (param === 'channel') {
+          searchParams.filters.creators.push(bothParams.queryParams[param][0]);
+          // searchParams.filters.channel.push(bothParams.queryParams[param][0]);
+        }
+        if (param === 'country') {
+          searchParams.filters.region.push(bothParams.queryParams[param][0]);
+        }
+        if (param === 'gradeLevel') {
+          searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
+        }
+        if (param === 'topic') {
+          searchParams.filters.topic.push(bothParams.queryParams[param][0]);
+        }
+        if (param === 'languages') {
+          searchParams.filters.languages.push(bothParams.queryParams[param][0]);
+        }
+        // if (param === 'country') {
+        //   searchParams.filters.country = this.queryParams[param];
+        // }
 
-console.log('check query param = ', bothParams.queryParams[param][0], searchParams);
-this.contentSearch(searchParams, pageNumber, limit);
-    }
-  });
-  this.contentSearch(searchParams, pageNumber, limit);
+        console.log('check query param = ', bothParams.queryParams[param][0], searchParams);
+        this.contentSearch(searchParams, pageNumber, limit);
+      }
+    });
+    this.contentSearch(searchParams, pageNumber, limit);
   }
-contentSearch(searchParams, pageNumber, limit) {
-  this.orgDetailsUnsubscribe = this.searchContentWithLockStatus(searchParams)
+  contentSearch(searchParams, pageNumber, limit) {
+    this.orgDetailsUnsubscribe = this.searchContentWithLockStatus(searchParams)
       .subscribe(
         (data: ServerResponse) => {
-          if (this.route.url === '/upForReview' ) {
-            if (this.route.url === '/upForReview' ) {
-               this.noResultsForReview = false;
-               const option = {
-                url : '/content/v1/search',
-                param : '',
+          if (this.route.url === '/upForReview') {
+            if (this.route.url === '/upForReview') {
+              this.noResultsForReview = false;
+              const option = {
+                url: '/content/v1/search',
+                param: '',
                 filters: {
                   language: ['English'],
                   contentType: ['Resource'],
                   status: ['Review'],
                   channel: [this.userDetails.organisationIds[0], this.channelname],
                   organisation: this.config.appConfig.Library.orgName
-              },
-                sort_by: {me_averageRating: 'desc'}
+                },
+                sort_by: { me_averageRating: 'desc' }
               };
-           //   delete option.sort_by;
-           this.contentService.getupForReviewData(option).subscribe(response => {
-             //   console.log(' res param in review page = ', option);
+              //   delete option.sort_by;
+              this.contentService.getupForReviewData(option).subscribe(response => {
+                //   console.log(' res param in review page = ', option);
                 if (response.result.count > 0) {
                   this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
-                 // console.log('upfor review content = ', this.upForReviewContent, response);
+                  // console.log('upfor review content = ', this.upForReviewContent, response);
                   if (this.upForReviewContent.length <= 0) {
                     this.noResultsForReview = true;
                     this.showLoader = false;
@@ -466,18 +466,18 @@ contentSearch(searchParams, pageNumber, limit) {
                   } else {
                     // recieved some result
                     this.noResultsForReview = false;
-                     this.showLoader = false;
-                      this.noResult = false;
+                    this.showLoader = false;
+                    this.noResult = false;
                   }
 
                   this.allContent = this.upForReviewContent;
-           /*       this.allContent.forEach(element => {
-                    console.log('assign state in review');
-                    if (!localStorage.hasOwnProperty(element.identifier)) {
-                      localStorage.setItem(element.identifier, JSON.stringify('Review'));
-                    }
-                  });
-            */
+                  /*       this.allContent.forEach(element => {
+                           console.log('assign state in review');
+                           if (!localStorage.hasOwnProperty(element.identifier)) {
+                             localStorage.setItem(element.identifier, JSON.stringify('Review'));
+                           }
+                         });
+                   */
                 } else {
                   this.showLoader = false;
                   // set the no results template if no assets is present
@@ -490,8 +490,8 @@ contentSearch(searchParams, pageNumber, limit) {
             }
           } else {
             if (data.result.count && data.result.content.length > 0) {
-            this.allContent = data.result.content;
-            console.log('Data in myasset', this.allContent);
+              this.allContent = data.result.content;
+              console.log('Data in myasset', this.allContent);
               this.totalCount = data.result.count;
               let i;
               for (i = 0; i < this.totalCount; i++) {
@@ -512,18 +512,18 @@ contentSearch(searchParams, pageNumber, limit) {
                   this.copied[this.allContent[i]['versionKey']] = true;
                 }
               }
-          console.log('Copied content object', this.copied);
-            this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
-            this.showLoader = false;
-            this.noResult = false;
-          } else {
-            this.showError = false;
-            this.noResult = true;
-            this.showLoader = false;
-            this.noResultMessage = {
-              'messageText': this.resourceService.messages.stmsg.m0125
-            };
-          }
+              console.log('Copied content object', this.copied);
+              this.pager = this.paginationService.getPager(data.result.count, pageNumber, limit);
+              this.showLoader = false;
+              this.noResult = false;
+            } else {
+              this.showError = false;
+              this.noResult = true;
+              this.showLoader = false;
+              this.noResultMessage = {
+                'messageText': this.resourceService.messages.stmsg.m0125
+              };
+            }
           }
         },
         (err: ServerResponse) => {
@@ -533,50 +533,50 @@ contentSearch(searchParams, pageNumber, limit) {
           this.toasterService.error(this.resourceService.messages.fmsg.m0081);
         }
       );
-}
-public deleteConfirmModal(contentIds) {
-  this.deleteAsset = true;
-  const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
-  config.isClosable = true;
-  config.size = 'mini';
-  config.context = {
-    data: 'delete'
+  }
+  public deleteConfirmModal(contentIds) {
+    this.deleteAsset = true;
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'mini';
+    config.context = {
+      data: 'delete'
     };
     this.modalMessage = 'Do you want to delete this asset ?';
 
-  this.modalService
-    .open(config)
-    .onApprove(result => {
-      this.showLoader = true;
-      this.loaderMessage = {
-        'loaderMessage': this.resourceService.messages.stmsg.m0034,
-      };
-      this.delete(contentIds).subscribe(
-        (data: ServerResponse) => {
-          this.showLoader = false;
-          this.allContent = this.removeAllMyContent(this.allContent, contentIds);
-          if (this.allContent.length === 0) {
-            this.ngOnInit();
+    this.modalService
+      .open(config)
+      .onApprove(result => {
+        this.showLoader = true;
+        this.loaderMessage = {
+          'loaderMessage': this.resourceService.messages.stmsg.m0034,
+        };
+        this.delete(contentIds).subscribe(
+          (data: ServerResponse) => {
+            this.showLoader = false;
+            this.allContent = this.removeAllMyContent(this.allContent, contentIds);
+            if (this.allContent.length === 0) {
+              this.ngOnInit();
+            }
+            this.toasterService.success('Asset deleted successfully');
+          },
+          (err: ServerResponse) => {
+            this.showLoader = false;
+            this.toasterService.error(this.resourceService.messages.fmsg.m0022);
           }
-          this.toasterService.success('Asset deleted successfully');
-        },
-        (err: ServerResponse) => {
-          this.showLoader = false;
-          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
-        }
-      );
-    })
-    .onDeny(result => {
-    });
-}
+        );
+      })
+      .onDeny(result => {
+      });
+  }
   public reviewConfirmModal(contentIds, status) {
     const config2 = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config2.isClosable = true;
     config2.size = 'mini';
     config2.context = {
       data: 'Review'
-      };
-      this.modalMessage = 'Do you want to send this asset for review?';
+    };
+    this.modalMessage = 'Do you want to send this asset for review?';
     this.modalServices
       .open(config2)
       .onApprove(result => {
@@ -594,15 +594,15 @@ public deleteConfirmModal(contentIds) {
           url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentIds}`,
         };
         this.contentService.get(req).subscribe(data => {
-         this.mainState = data.result.content.status;
-         if (this.mainState === 'Live') {
-          localStorage.setItem('CopiedContent' + contentIds, JSON.stringify('Review'));
-        }
+          this.mainState = data.result.content.status;
+          if (this.mainState === 'Live') {
+            localStorage.setItem('CopiedContent' + contentIds, JSON.stringify('Review'));
+          }
         });
 
         const option = {
-           url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
-           data: requestBody
+          url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
+          data: requestBody
         };
 
         this.contentService.post(option).subscribe(
@@ -648,20 +648,20 @@ public deleteConfirmModal(contentIds) {
   navigateToDetailsPage(contentId: string, status: string, event, link) {
     console.log('event', event, link);
 
-   if (event.target.id === 'link') {
-     if ( link.slice(0, 4) === 'http') {
-      window.open(link);
-     } else {
-      window.open('http://' + link);
-     }
-   } else {
-    if (this.route.url === '/upForReview') {
-      this.navigateToReviewAssetDetailsPage(contentId);
+    if (event.target.id === 'link') {
+      if (link.slice(0, 4) === 'http') {
+        window.open(link);
+      } else {
+        window.open('http://' + link);
+      }
     } else {
-      this.route.navigate(['myassets/detail', contentId, status]);
+      if (this.route.url === '/upForReview') {
+        this.navigateToReviewAssetDetailsPage(contentId);
+      } else {
+        this.route.navigate(['myassets/detail', contentId, status]);
+      }
     }
   }
-   }
 
   navigateToReviewAssetDetailsPage(contentId: string) {
     this.route.navigate(['upForReview/review/detail', contentId]);
@@ -728,5 +728,80 @@ public deleteConfirmModal(contentIds) {
       pageid = 'myassets';
     }
     return pageid;
+  }
+  navigateToMyAssetPage(contentId: string) {
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'mini';
+    config.context = {
+      data: 'edit'
+    };
+    this.modalMessage = 'Do you want to update this Published Asset ?';
+
+    this.modalService
+      .open(config)
+      .onApprove(result => {
+        this.showLoader = true;
+        this.loaderMessage = {
+          'loaderMessage': 'Enabling editing of live content',
+        };
+        const req = {
+          url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentId}`,
+        };
+        this.contentService.get(req).subscribe(data => {
+          console.log("this is live data ", data)
+          const requestData = {
+            content: this.generateData(_.pickBy(data.result.content)),
+          };
+          this.editorService.update(requestData, contentId).subscribe(res => {
+            setTimeout(()=>{
+                
+            this.showLoader=false;
+            this.ngOnInit();
+            },1500);
+
+          });
+        });
+      })
+      .onDeny(result => {
+      });
+  }
+  generateData(data) {
+
+    this.showLoader = true;
+    const requestData = _.cloneDeep(data);
+    requestData.name = data.name ? data.name : null,
+      requestData.description = data.description ? data.description : null ,
+      requestData.createdBy = data.createBy,
+      requestData.organisation = this.userDetails.organisationNames,
+      requestData.createdFor = data.createdFor,
+      requestData.contentType = data.contentType,
+      requestData.framework = data.framework;
+    requestData.keywords = _.uniqWith(requestData.keywords, _.isEqual);
+    requestData['tags'] = requestData.keywords;
+    requestData.version = parseFloat(requestData.version);
+    delete requestData.status;
+
+    if (data.contentType === 'studymaterial' && data.link) {
+      requestData.mimeType = 'text/x-url';
+      requestData['artifactUrl'] = data.link;
+      // requestData.mimeType = 'application/pdf'
+    } else if (data.mimeType === 'application/vnd.ekstep.ecml-archive') {
+      requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
+    } else {
+      requestData.mimeType = 'application/pdf';
+    }
+    if (data.resourceType) {
+      requestData.resourceType = data.resourceType;
+    }
+    if (!_.isEmpty(this.userDetails.lastName)) {
+      requestData.creator = this.userDetails.firstName + ' ' + this.userDetails.lastName;
+      //  requestData.submittedBy = this.userDetails.firstName + ' ' + this.userDetails.lastName;
+    } else {
+      requestData.creator = this.userDetails.firstName;
+      // requestData.submittedBy = this.userDetails.firstName + ' ' + this.userDetails.lastName;
+    }
+    return requestData;
+
   }
 }

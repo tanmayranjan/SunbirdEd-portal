@@ -156,8 +156,9 @@ export class SearchComponent implements OnInit, OnDestroy {
    * it navigate
    */
   onEnter(key) {
-    console.log('key = ', key, this.search, this.selectedOption);
     /*telemetry impementation for space*/
+    this.key = key;
+    if(this.key !== undefined){
     this.telemetryService.search({
       context: {
         env: 'myassets'
@@ -169,8 +170,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         topn: []
       }
     });
-    /*telemetry impementation for space*/
-    this.key = key;
+    /*telemetry impementation for space*/    
     this.queryParam = {};
     this.queryParam['key'] = this.key;
     if (this.key && this.key.length > 0) {
@@ -193,6 +193,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
      }
      }
+    }
   }
 
   setFilters() {

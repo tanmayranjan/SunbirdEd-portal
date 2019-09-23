@@ -65,8 +65,19 @@
               <!-- <div *ngIf="content?.status==='Live'">
                   <button type="button" class="btn ml-4 text-light" id="badge">VERIFY</button>
               </div> -->
-              <button *ngIf="(content?.status==='Draft' || content?.status=== 'DRAFT' || content?.status=== 'LIVE' || content?.status=== 'Live') && route.isActive('myassets')" type="button" class="btn text-secondary ml-4" id="style" (click)="navigateToEditPage(content?.identifier, content?.status)"><i
-                  class="fas fa-pencil-alt"></i></button>
+              <button
+                *ngIf="(content?.status==='Draft' || content?.status=== 'DRAFT') && route.isActive('myassets')"
+                type="button" class="btn text-secondary ml-4" id="style"
+                (click)="navigateToEditPage(content?.identifier, content?.status)">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+
+              <button
+                *ngIf="(content?.status=== 'LIVE' || content?.status=== 'Live') && route.isActive('myassets')"
+                type="button" class="btn text-secondary ml-4" id="style"
+                (click)="navigateToMyAssetPage(content?.identifier); $event.stopPropagation()">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
 
             </div>
             <!-- <div *ngIf="content?.status==='Live'" class="badgedisplay">
