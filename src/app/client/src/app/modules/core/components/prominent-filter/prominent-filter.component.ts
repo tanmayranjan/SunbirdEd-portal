@@ -140,8 +140,8 @@ export class ProminentFilterComponent implements OnInit, OnDestroy, OnChanges {
     });
     this.setFilterInteractData();
   }
-  ngOnChanges(){
-    if(this.frameworkName!== undefined){
+  ngOnChanges() {
+    if (this.frameworkName !== undefined) {
       this.ngOnInit();
     }
   }

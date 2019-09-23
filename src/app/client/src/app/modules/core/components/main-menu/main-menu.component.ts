@@ -120,10 +120,10 @@ export class MainMenuComponent implements OnInit, OnChanges {
     });
   }
    ngOnChanges() {
-    if(this.slug === undefined) {
-      this.slug = localStorage.getItem("tenant");
+    if (this.slug === undefined) {
+      this.slug = localStorage.getItem('tenant');
     }
-  } 
+  }
   setInteractData() {
     this.homeMenuIntractEdata = {
       id: 'home-tab',

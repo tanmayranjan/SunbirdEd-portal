@@ -18,7 +18,7 @@ import { BadgesService } from '../../../core/services/badges/badges.service';
 import { IUserData } from '@sunbird/shared';
 import { Location } from '@angular/common';
 import { getPluralCategory } from '@angular/common/src/i18n/localization';
-import { SpaceEditorService } from '../../services/space-editor/space-editor.service'
+import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
 @Component({
   selector: 'app-myassest-page',
   templateUrl: './myassest-page.component.html',
@@ -749,16 +749,16 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
           url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentId}`,
         };
         this.contentService.get(req).subscribe(data => {
-          console.log("this is live data ", data)
+          console.log('this is live data ', data);
           const requestData = {
             content: this.generateData(_.pickBy(data.result.content)),
           };
           this.editorService.update(requestData, contentId).subscribe(res => {
-            setTimeout(()=>{
-                
-            this.showLoader=false;
+            setTimeout(() => {
+
+            this.showLoader = false;
             this.ngOnInit();
-            },1500);
+            }, 1500);
 
           });
         });

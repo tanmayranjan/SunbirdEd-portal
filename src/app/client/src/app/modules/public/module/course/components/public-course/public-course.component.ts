@@ -11,7 +11,7 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { PublicPlayerService } from './../../../../services';
 import { takeUntil, map, mergeMap, first, filter, catchError } from 'rxjs/operators';
-import { FrameworkService } from './../../../../../core/services/framework/framework.service'
+import { FrameworkService } from './../../../../../core/services/framework/framework.service';
 @Component({
   templateUrl: './public-course.component.html'
 })
@@ -64,7 +64,7 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
       mergeMap((data: any) => {
         this.hashTagId = data[0].hashTagId;
         this.getFrameWork(this.hashTagId);
-        
+
         if (data[1]) {
           this.initFilters = true;
           this.frameWorkName = data[1];
@@ -98,17 +98,16 @@ export class PublicCourseComponent implements OnInit, OnDestroy, AfterViewInit {
     const framework = this.cacheService.get('framework' + 'search');
     if (framework) {
       return of(framework);
-    }else if(this.slug === 'sunbirded' || this.slug === 'sbwb'){
-            this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata)=>{
-              console.log("Framework data of sunbirded",frameworkdata);
-              const frameWork =frameworkdata.result.channel.defaultFramework;
+    } else if (this.slug === 'sunbirded' || this.slug === 'sbwb') {
+            this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata) => {
+              console.log('Framework data of sunbirded', frameworkdata);
+              const frameWork = frameworkdata.result.channel.defaultFramework;
             this.cacheService.set('framework' + 'search', frameWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});
-            this.frameWorkName=_.cloneDeep(frameWork);
+            this.frameWorkName = _.cloneDeep(frameWork);
             this.initFilters = true;
             return of(frameWork);
-            })
-    }
-     else {
+            });
+    } else {
       const formServiceInputParams = {
         formType: 'framework',
         formAction: 'search',

@@ -1,6 +1,9 @@
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { UserService, PermissionService, TenantService, LearnerService, ContentService, AssetService, SearchService } from './../../services';
+import {
+  UserService, PermissionService, TenantService, LearnerService, ContentService,
+  AssetService, SearchService
+} from './../../services';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -312,28 +315,28 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
       const params = {
         filters: {
           contentType: [
-            "Collection",
-            "TextBook",
-            "Course",
-            "LessonPlan",
-            "Resource"
+            'Collection',
+            'TextBook',
+            'Course',
+            'LessonPlan',
+            'Resource'
           ],
           status: [
-            "Draft",
-            "Review",
-            "Live"
+            'Draft',
+            'Review',
+            'Live'
           ],
-          objectType: "content",
+          objectType: 'content',
           createdBy: this.userId
 
         },
         sort_by: {
-          "me_averageRating": "desc"
+          'me_averageRating': 'desc'
         }
 
-      }
+      };
       this.searchService.compositeSearch(params).subscribe((result) => {
-        let contentlist = result.result.content;
+        const contentlist = result.result.content;
         this.reviewAssetData = [];
         this.reviewAssetData2 = [];
         let mainState;
@@ -349,14 +352,14 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
             console.log('j = ', archive[j]);
             if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) {
               let flag = 0;
-              let index = [];
-              let tempobj = {};
+              const index = [];
+              const tempobj = {};
               for (let k = 0; k < contentlist.length; k++) {
                 if (archive[j] === contentlist[k].identifier) {
                   if (JSON.parse(localStorage.getItem('CopiedContent' + contentlist[k].identifier))) {
                     tempobj[contentlist[k].identifier] = contentlist[k].versionKey;
                   }
-                  index.push(k)
+                  index.push(k);
                   flag++;
                 }
               }
@@ -365,16 +368,15 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                   mainState = contentlist[m].status;
                   maincontentstate = JSON.parse(localStorage.getItem(archive[j]));
 
-                  if (mainState === 'Live' && maincontentstate === 'Review' && JSON.parse(localStorage.getItem('CopiedContent' + contentlist[m].identifier))) {
+                  if (mainState === 'Live' && maincontentstate === 'Review' &&
+                    JSON.parse(localStorage.getItem('CopiedContent' + contentlist[m].identifier))) {
                     if (!tempobj[contentlist[m].identifier]) {
                       this.notificationCount++;
                       this.reviewAssetData.push(contentlist[m]);
                       this.reviewStatus = 'published';
                       localStorage.setItem(archive[j], JSON.stringify('Live'));
 
-                    }
-
-                    else {
+                    } else {
                       if (contentlist[m].versionKey === tempobj[contentlist[m].identifier]) {
                         let c = 0;
                         for (let n = 0; n < contentlist.length; n++) {
@@ -382,7 +384,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                             c++;
                           }
                         }
-                        if (c == 1) {
+                        if (c === 1) {
                           this.notificationCount++;
                           this.reviewAssetData.push(contentlist[m]);
                           this.reviewStatus = 'published';
@@ -395,7 +397,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                       }
                     }
                   }
-                  
+
                   maincontentstate = JSON.parse(localStorage.getItem(archive[j]));
                   if (mainState === 'Live' && maincontentstate === 'Review' &&
                     !JSON.parse(localStorage.getItem('CopiedContent' + contentlist[m].identifier))) {
@@ -406,46 +408,48 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
 
 
                   }
-                  if (mainState === 'Draft' && maincontentstate === 'Review' && contentlist[m].versionKey !== tempobj[contentlist[m].identifier]) {
-                    let copyofcontent=JSON.parse(localStorage.getItem('CopiedContent' + contentlist[m].identifier));
-                     if(copyofcontent === 'Review')
-                     {
+                  if (mainState === 'Draft' && maincontentstate === 'Review' &&
+                    contentlist[m].versionKey !== tempobj[contentlist[m].identifier]) {
+                    const copyofcontent = JSON.parse(localStorage.getItem('CopiedContent' + contentlist[m].identifier));
+                    if (copyofcontent === 'Review') {
 
-                     }else{
-                    this.notificationCount++;
-                    this.reviewAssetData.push(contentlist[m]);
-                    this.reviewStatus = 'rejected';
-                    localStorage.setItem(archive[j], JSON.stringify('Draft'));
-                     }
+                    } else {
+                      this.notificationCount++;
+                      this.reviewAssetData.push(contentlist[m]);
+                      this.reviewStatus = 'rejected';
+                      localStorage.setItem(archive[j], JSON.stringify('Draft'));
+                    }
                   }
-                  if (mainState === 'Review' && maincontentstate === 'Review' && contentlist[m].versionKey !== tempobj[contentlist[m].identifier]) {
+                  if (mainState === 'Review' && maincontentstate === 'Review' &&
+                  contentlist[m].versionKey !== tempobj[contentlist[m].identifier]) {
                     this.notificationCount++;
                     this.reviewAssetData.push(contentlist[m]);
                     this.reviewStatus = 'Review';
                   }
 
 
-                  console.log("Index array", index)
+                  console.log('Index array', index);
                   if (flag > 1) {
                     for (let l = 0; l < flag; l++) {
-                      let copycontent=JSON.parse(localStorage.getItem('CopiedContent' + contentlist[index[l]].identifier));
-                      if (contentlist[index[l]].prevState === 'Review' && contentlist[index[l]].status === 'Draft' && copycontent === 'Review') {
+                      const copycontent = JSON.parse(localStorage.getItem('CopiedContent' + contentlist[index[l]].identifier));
+                      if (contentlist[index[l]].prevState === 'Review' && contentlist[index[l]].status === 'Draft'
+                        && copycontent === 'Review') {
                         this.notificationCount++;
-                        let contentid = contentlist[index[l]].identifier;
+                        const contentid = contentlist[index[l]].identifier;
                         const req = {
                           url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentid}`,
                         };
                         this.contentService.get(req).subscribe((originalcontent) => {
-                          if(this.reviewAssetData2[contentlist[index[l]].identifier] === undefined){
-                          this.reviewAssetData.push(originalcontent.result.content);
-                          this.reviewAssetData2[contentlist[index[l]].identifier] = contentlist[index[l]];
-                          this.reviewAssetData2[contentlist[index[l]].identifier].message = 'Rejected';
-                          localStorage.setItem(contentlist[index[l]].identifier, JSON.stringify('Draft'));
-                          localStorage.removeItem('CopiedContent' + contentlist[index[l]].identifier);
+                          if (this.reviewAssetData2[contentlist[index[l]].identifier] === undefined) {
+                            this.reviewAssetData.push(originalcontent.result.content);
+                            this.reviewAssetData2[contentlist[index[l]].identifier] = contentlist[index[l]];
+                            this.reviewAssetData2[contentlist[index[l]].identifier].message = 'Rejected';
+                            localStorage.setItem(contentlist[index[l]].identifier, JSON.stringify('Draft'));
+                            localStorage.removeItem('CopiedContent' + contentlist[index[l]].identifier);
                           }
                         });
                       }
-                    
+
                     }
                   }
                 }
@@ -516,7 +520,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                   this.reviewStatus = 'published';
                   localStorage.setItem(archive[j], JSON.stringify('Live'));
                 }
-                
+
               }
               if (state === 'Review' && this.userId === this.creatorId) {
                 if (mainState === 'Draft') {
@@ -541,9 +545,9 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                  this.reviewAssetData.push(data.result.content);
                  console.log('Asset is in Review State', this.notificationCount);
                  this.reviewStatus = 'review';
-           
+
                  // localStorage.setItem(archive[j], JSON.stringify('Draft'));
-               } 
+               }
               if (mainState === 'Review' && data.result.content.prevState === 'Draft') {
                 this.notificationCount++;
                 this.reviewAssetData.push(data.result.content);
@@ -590,7 +594,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.notificationCount = 0;
     // this.reviewAssetData = [];
     console.log('reviewAssetData = ', this.reviewAssetData, this.notificationCount);
-    console.log('reviewassetdata2',this.reviewAssetData2);
+    console.log('reviewassetdata2', this.reviewAssetData2);
     this.modalRef = this.modalService.open(content, { centered: true });
   }
 }

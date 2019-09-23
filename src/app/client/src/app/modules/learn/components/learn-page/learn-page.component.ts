@@ -41,7 +41,7 @@ import {
   tap,
   delay
 } from 'rxjs/operators';
-import {FrameworkService} from './../../../core/services/framework/framework.service'
+import {FrameworkService} from './../../../core/services/framework/framework.service';
 @Component({
   templateUrl: './learn-page.component.html'
 })
@@ -111,15 +111,15 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (user && !user.err) {
         this.userProfile = user.userProfile;
         this.slug = this.userProfile.channel;
-        this.hashTagId=this.userProfile.rootOrgId;
+        this.hashTagId = this.userProfile.rootOrgId;
         console.log(
           'user details from learn page = ',
           user.userProfile,
           this.slug
         );
-        this.getFrameWork(this.hashTagId)
+        this.getFrameWork(this.hashTagId);
       }
-      
+
     });
     combineLatest(this.fetchEnrolledCoursesSection())
       .pipe(
@@ -269,20 +269,19 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
   private getFrameWork(hashTagId) {
     const framework = this.cacheService.get('framework' + 'search');
     if (framework) {
-      this.frameWorkName=framework;
+      this.frameWorkName = framework;
        this.initFilters = true;
       return of(framework);
-    }else if(this.slug === 'sunbirded'|| this.slug === 'sbwb'){
-       this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata)=>{
-        console.log("Framework data of sunbirded",frameworkdata);
-        const dfframeWork =frameworkdata.result.channel.defaultFramework;
+    } else if (this.slug === 'sunbirded' || this.slug === 'sbwb') {
+       this.frameworkservice.getDefaultFrameWork(hashTagId).subscribe((frameworkdata) => {
+        console.log('Framework data of sunbirded', frameworkdata);
+        const dfframeWork = frameworkdata.result.channel.defaultFramework;
       this.cacheService.set('framework' + 'search', dfframeWork, { maxAge: this.browserCacheTtlService.browserCacheTtl});
-       this.frameWorkName=_.cloneDeep(dfframeWork);
+       this.frameWorkName = _.cloneDeep(dfframeWork);
        this.initFilters = true;
       return of(dfframeWork);
-      })
-    }
-    else {
+      });
+    } else {
       const formServiceInputParams = {
         formType: 'framework',
         formAction: 'search',
@@ -312,7 +311,7 @@ export class LearnPageComponent implements OnInit, OnDestroy, AfterViewInit {
           name: 'My Courses',
           length: 0,
           count: 0,
-          display: "{\"name\":{\"en\":\"My Courses\", \"es\":\"Mis cursos\",\"hi\":\"मेरे पाठ्यक्रम\"}}",
+          display: '{"name":{"en":"My Courses", "es":"Mis cursos","hi":"मेरे पाठ्यक्रम"}}',
           contents: []
         };
         if (err) {
