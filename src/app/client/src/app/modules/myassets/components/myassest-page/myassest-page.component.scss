@@ -17,6 +17,8 @@ i.fas.fa-database.fa-lg {
 .card-text{
   height: 43px;
   min-height: 42px;
+  font-weight: 600;
+  font-size: 15px;
   text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
@@ -160,7 +162,7 @@ i.fas.fa-database.fa-lg {
   text-overflow: ellipsis;
   white-space: normal;
   overflow: hidden;
-  display: -webkit-box !important;
+  //display: -webkit-box !important;
   -webkit-line-clamp: 2;
   font-weight: 600;
   font-size: 15px;
@@ -194,6 +196,10 @@ i.fas.fa-database.fa-lg {
 }
 .ui.mini.modal {
   height: unset !important;
+}
+.desc1 {
+  font-size: 14px;
+  color: #686F7A;
 }
 @media only screen and (min-width: 1200px) {
 .ui.mini.modal {
