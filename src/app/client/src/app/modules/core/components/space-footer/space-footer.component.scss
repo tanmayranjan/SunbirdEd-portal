@@ -1,4 +1,7 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+body {
+    padding-bottom: 10px !important;
+}
 .ft-copyright {
     background-color: white;
     border-top: 1px solid white;
@@ -124,7 +127,7 @@ a:hover, a:active {
 @media screen and (min-width:1024px) and (max-width: 1699px) {
     .footer1 {
         margin-top: 2rem !important;
-        max-width: 95%;
+        max-width: 100%;
     }
 }
  @media screen and (min-width: 1700px) and (max-width:1800px) {
@@ -155,6 +158,6 @@ a:hover, a:active {
       font-size: 33px !important;
     }
     .footer1 {
-        max-width: 95%;
+        max-width: 100%;
     }
 }
