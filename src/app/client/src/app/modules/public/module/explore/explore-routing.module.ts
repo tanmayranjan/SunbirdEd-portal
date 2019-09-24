@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '', component: ExploreComponent, data: {
       telemetry: {
-        env: 'explore', pageid: 'explore', type: 'view', subtype: 'paginate'
+        env: 'explore', pageid: 'explore-assets', type: 'view', subtype: 'paginate'
       },
       softConstraints: { badgeAssertions: 98, board: 99,  channel: 100 }
     }

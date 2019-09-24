@@ -140,9 +140,11 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.creatorId = JSON.parse(localStorage.getItem('creator'));
     this.userId = this.userService.userid;
     this.setSlug();
-    this.userRole = this.userService.userProfile.userRoles;
-    this.org = this.userService.userProfile.organisationIds[0];
-    this.slug = this.userService.userProfile.channel;
+    if(this.userService.userProfile) {
+      this.userRole = this.userService.userProfile.userRoles;
+      this.org = this.userService.userProfile.organisationIds[0];
+      this.slug = this.userService.userProfile.channel;
+    }
     // console.log('permission = ', this.permissionService.permissionAvailable, this.upForReviewRole);
     if (this.userId === this.creatorId || this.upForReviewRole[0] === 'CONTENT_REVIEWER') {
       this.contentStatus();
@@ -462,7 +464,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-    } else if (this.userRole[1] === 'CONTENT_REVIEWER') {
+    } else if (this.userRole !== undefined && this.userRole[1] === 'CONTENT_REVIEWER') {
       const option = {
         url: '/content/v1/search',
         param: '',

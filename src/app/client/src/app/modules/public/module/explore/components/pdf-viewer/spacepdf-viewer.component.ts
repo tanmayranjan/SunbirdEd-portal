@@ -53,6 +53,18 @@ export class SpacepdfViewerComponent implements OnInit {
       this.showLoader = false;
     });
     this.checkForPreviousRouteForRedirect();
+    this.telemetryImpression = {
+      context: {
+        env: 'space'
+      },
+      edata: {
+        type: 'view',
+        pageid: 'exploreassets-details-pdfviewer',
+        uri: this.route.url,
+        subtype: 'paginate',
+        duration: this.navigationHelperService.getPageLoadTime()
+      }
+    };
 
     this.userService.userData$.subscribe((user) => {
       this.telemetryImpression = {
