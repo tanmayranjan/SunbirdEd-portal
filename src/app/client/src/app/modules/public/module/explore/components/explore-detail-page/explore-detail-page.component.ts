@@ -56,6 +56,7 @@ export class ExploreDetailPageComponent implements OnInit {
   badgeService: BadgesService;
   public contentId;
   public route: Router;
+  counterVar = false;
   public assetDetail: IassessDetail = {
     name: '',
     link: '',
@@ -121,6 +122,9 @@ export class ExploreDetailPageComponent implements OnInit {
           assetType : this.assetDetail['contentType']
       }
       };
+      if(this.counterVar === false) {
+        this.setTelemetryData(this.telemetryImpressionObject);
+      }
       this.userService.userData$.subscribe(
         (user: IUserData) => {
           this.user = user.userProfile.userRoles;
@@ -206,6 +210,7 @@ if (this.user) {
    }
 
    setTelemetryData(assetObj) {
+     this.counterVar = true;
      if (this.user) {
       this.telemetryImpression = {
         context: {
@@ -226,7 +231,7 @@ if (this.user) {
         }, object: assetObj,
         edata: {
           type: 'view',
-          pageid: 'explore-details-page',
+          pageid: 'exploreassets-details-page',
           uri: this.route.url,
           subtype: 'paginate',
           duration: this.navigationhelperService.getPageLoadTime()
