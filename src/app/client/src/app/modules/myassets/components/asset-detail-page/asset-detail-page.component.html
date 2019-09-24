@@ -72,7 +72,7 @@
 
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
-                    File : <span (click)="navigateToplay()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+                    File : <span (click)="navigateToplay()" class="pdfStyle">{{assetDetail?.artifactUrl}}</span>
                     
                 </p>
                 <!-- <p>
