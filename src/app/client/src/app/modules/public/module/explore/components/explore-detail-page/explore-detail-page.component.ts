@@ -174,11 +174,10 @@ export class ExploreDetailPageComponent implements OnInit {
   }
   navigateToDetailsPage() {
 
-if(this.user) {
+if (this.user) {
   this.route.navigate(['/resources']);
-}
-else {
-  this.route.navigate(['space/explore'])
+} else {
+  this.route.navigate(['space/explore']);
 }
   }
   navigateToView() {
