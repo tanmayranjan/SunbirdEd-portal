@@ -121,18 +121,11 @@ export class ExploreDetailPageComponent implements OnInit {
           assetType : this.assetDetail['contentType']
       }
       };
-      this.telemetryImpression = {
-        context: {
-          env: 'sharedassets'
-        }, object: this.telemetryImpressionObject,
-        edata: {
-          type: 'view',
-          pageid: 'explore-details-page',
-          uri: this.route.url,
-          subtype: 'paginate',
-          duration: this.navigationhelperService.getPageLoadTime()
-        }
-      };
+      this.userService.userData$.subscribe(
+        (user: IUserData) => {
+          this.user = user.userProfile.userRoles;
+          this.setTelemetryData(this.telemetryImpressionObject);
+      });
       /*telemetry inplementation for space*/
     });
 
@@ -148,10 +141,6 @@ export class ExploreDetailPageComponent implements OnInit {
     };
     this.badgeService.getAllBadgeList(request).subscribe((data) => {
       this.badgeList = data.result.badges;
-    });
-    this.userService.userData$.subscribe(
-      (user: IUserData) => {
-        this.user = user.userProfile.userRoles;
     });
   }
   assignBadge(issuerId, badgeId) {
@@ -216,4 +205,33 @@ if (this.user) {
        });
    }
 
+   setTelemetryData(assetObj) {
+     if (this.user) {
+      this.telemetryImpression = {
+        context: {
+          env: 'sharedassets'
+        }, object: assetObj,
+        edata: {
+          type: 'view',
+          pageid: 'sharedassets-details-page',
+          uri: this.route.url,
+          subtype: 'paginate',
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+     } else {
+      this.telemetryImpression = {
+        context: {
+          env: 'sharedassets'
+        }, object: assetObj,
+        edata: {
+          type: 'view',
+          pageid: 'explore-details-page',
+          uri: this.route.url,
+          subtype: 'paginate',
+          duration: this.navigationhelperService.getPageLoadTime()
+        }
+      };
+     }
+   }
 }
