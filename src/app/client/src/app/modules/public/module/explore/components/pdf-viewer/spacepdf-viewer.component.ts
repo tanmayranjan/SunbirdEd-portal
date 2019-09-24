@@ -5,6 +5,7 @@ import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '@sunbird/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IImpressionEventInput } from '@sunbird/telemetry';
+import { UserService } from '@sunbird/core';
 
 @Component({
   selector: 'app-spacepdf-viewer',
@@ -17,6 +18,7 @@ export class SpacepdfViewerComponent implements OnInit {
   public contentService: ContentService;
   public contentId;
   public route: Router;
+  public userService: UserService;
   assetDetail: any;
   sanitizer: any;
   showLoader = true;
@@ -24,7 +26,7 @@ export class SpacepdfViewerComponent implements OnInit {
   path: string;
   status: any;
   telemetryImpression: IImpressionEventInput;
-  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer,
+  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
   ) {
     this.activatedRoute = activated;
@@ -36,6 +38,7 @@ export class SpacepdfViewerComponent implements OnInit {
     this.sanitizer = sanitizers;
     this.showLoader = true;
     this.route = router;
+    this.userService = userService;
 
   }
 
@@ -51,18 +54,20 @@ export class SpacepdfViewerComponent implements OnInit {
     });
     this.checkForPreviousRouteForRedirect();
 
-    this.telemetryImpression = {
-      context: {
-        env: 'space'
-      },
-      edata: {
-        type: 'view',
-        pageid: 'sharedassets-details-pdfviewer',
-        uri: this.route.url,
-        subtype: 'paginate',
-        duration: this.navigationHelperService.getPageLoadTime()
-      }
-    };
+    this.userService.userData$.subscribe((user) => {
+      this.telemetryImpression = {
+        context: {
+          env: 'space'
+        },
+        edata: {
+          type: 'view',
+          pageid: 'sharedassets-details-pdfviewer',
+          uri: this.route.url,
+          subtype: 'paginate',
+          duration: this.navigationHelperService.getPageLoadTime()
+        }
+      };
+    });
   }
   checkForPreviousRouteForRedirect() {
     const previousUrlObj = this.navigationHelperService.getPreviousUrl();
