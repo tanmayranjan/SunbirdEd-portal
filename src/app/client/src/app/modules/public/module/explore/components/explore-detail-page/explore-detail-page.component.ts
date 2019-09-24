@@ -173,8 +173,12 @@ export class ExploreDetailPageComponent implements OnInit {
     alert('Badge added Successfully');
   }
   navigateToDetailsPage() {
-    // this.route.navigate(['space/explore']);
-    this.location.back();
+
+if (this.user) {
+  this.route.navigate(['/resources']);
+} else {
+  this.route.navigate(['space/explore']);
+}
   }
   navigateToView() {
     this.url = this.activatedRoute.snapshot.params;

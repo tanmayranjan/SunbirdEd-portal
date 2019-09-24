@@ -4,6 +4,7 @@ import { ContentService } from '@sunbird/core';
 import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IImpressionEventInput } from '@sunbird/telemetry';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -22,6 +23,7 @@ export class PdfViewerComponent implements OnInit {
   loaderMessage = 'Loading pdf please wait';
   path: string;
   status: any;
+  telemetryImpression: IImpressionEventInput;
   constructor(activated: ActivatedRoute, sanitizers: DomSanitizer,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
   ) {
@@ -48,6 +50,18 @@ export class PdfViewerComponent implements OnInit {
       this.showLoader = false;
     });
     this.checkForPreviousRouteForRedirect();
+    this.telemetryImpression = {
+      context: {
+        env: 'space'
+      },
+      edata: {
+        type: 'view',
+        pageid: 'myassets-details-pdfviewer',
+        uri: this.route.url,
+        subtype: 'paginate',
+        duration: this.navigationHelperService.getPageLoadTime()
+      }
+    };
   }
   checkForPreviousRouteForRedirect() {
     const previousUrlObj = this.navigationHelperService.getPreviousUrl();
