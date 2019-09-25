@@ -556,9 +556,17 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
             this.showLoader = false;
             this.allContent = this.removeAllMyContent(this.allContent, contentIds);
             if (this.allContent.length === 0) {
-              this.ngOnInit();
+             // this.ngOnInit();
+            
+             this.toasterService.success('Asset deleted successfully');
+             setTimeout(()=>{
+                
+              document.location.reload();
+            },1000);
             }
+            else{
             this.toasterService.success('Asset deleted successfully');
+            }
           },
           (err: ServerResponse) => {
             this.showLoader = false;
