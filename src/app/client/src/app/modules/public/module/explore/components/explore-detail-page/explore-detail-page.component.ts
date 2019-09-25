@@ -105,6 +105,7 @@ export class ExploreDetailPageComponent implements OnInit {
    }
 
   ngOnInit() {
+    //this.activatedRoute.queryParams()
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
@@ -166,12 +167,13 @@ export class ExploreDetailPageComponent implements OnInit {
     alert('Badge added Successfully');
   }
   navigateToDetailsPage() {
-
+    this.location.back();
+/* 
 if (this.user) {
   this.route.navigate(['/resources']);
 } else {
   this.route.navigate(['space/explore']);
-}
+} */
   }
   navigateToView() {
     this.url = this.activatedRoute.snapshot.params;
