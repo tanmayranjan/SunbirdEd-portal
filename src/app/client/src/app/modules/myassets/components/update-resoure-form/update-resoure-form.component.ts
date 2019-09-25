@@ -36,6 +36,16 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     */
   showLoader = true;
 
+  flagboard: boolean = false;
+  flagdescription: boolean = false;
+  flagkeywords: boolean = false;
+  flaglanguages: boolean = false;
+  flaglink: boolean = false;
+  flagname: boolean = false;
+  flagregion: boolean = false;
+  flagversion: boolean = false;
+  flagyear: boolean = false;
+  flagcreators : boolean = false;
   /**
 * To show toaster(error, success etc) after any API calls
 */
@@ -390,5 +400,70 @@ if (this.path === 'Live') {
       years.push(i);
     }
     return years;
+  }
+  validatingfields(data){
+    console.log("data in space default on submit",data);
+    if (!!!data.board) {
+      this.flagboard = true;
+    } else {
+      this.flagboard = false;
+    }
+    if (!!!data.description) {
+      this.flagdescription = true;
+    } else {
+      this.flagdescription = false;
+    }
+    if (!!!data.keywords || data.keywords.length === 0) {
+      this.flagkeywords = true;
+    } else {
+      this.flagkeywords = false;
+    }
+    if (!!!data.languages || data.languages.length === 0) {
+      this.flaglanguages = true;
+    } else {
+      this.flaglanguages = false;
+    }
+    if (!!!data.name) {
+      this.flagname = true;
+    } else {
+      this.flagname = false;
+    }
+    if (!!!data.region) {
+      this.flagregion = true;
+    } else {
+      this.flagregion = false;
+    }
+    if (!!!data.version) {
+      this.flagversion = true;
+    } else {
+      this.flagversion = false;
+    }
+    if (!!!data.link) {
+      this.flaglink = true;
+    } else {
+      this.flaglink = false;
+    }
+    if (!!!data.year) {
+      this.flagyear = true;
+    } else {
+      this.flagyear = false;
+    }
+    if (!!!data.creators) {
+      this.flagcreators = true;
+    } else {
+      this.flagcreators = false;
+    }
+  }
+  removingerrorclass(){
+    this.flagboard = false;
+  this.flagdescription = false;
+  this.flagkeywords = false;
+  this.flaglanguages = false;
+  this.flaglink= false;
+  this.flagname = false;
+  this.flagregion = false;
+  this.flagversion = false;
+  this.flagyear= false;
+  this.flagcreators=false;
   }
 }

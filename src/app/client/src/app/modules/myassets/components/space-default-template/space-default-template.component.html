@@ -4,8 +4,20 @@
     <hr *ngIf="i===2">
     <hr *ngIf="i===3">
     <hr *ngIf="i===4">
-    <div *ngIf="field.inputType==='text' && field.code!='creators' && field.code!='region' && field.code!='link'"
-      class="required field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='text' && field.code ==='name'"
+      class="required field" [ngClass]="{ 'disabled':!field.editable,'error':flagname}">
+
+      <div class="field required">
+        <label>
+          {{field.name}}
+        </label>
+        <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]" id="style"
+          placeholder={{field.placeholder}}>
+
+      </div>
+    </div>
+    <div *ngIf="field.inputType==='text' && field.code ==='description'"
+      class="required field" [ngClass]="{ 'disabled':!field.editable,'error':flagdescription}">
 
       <div class="field required">
         <label>
@@ -17,7 +29,7 @@
       </div>
     </div>
     <div *ngIf="field.inputType==='text' && field.code==='creators'" class="required field"
-      [ngClass]="{ 'disabled':!field.editable}">
+      [ngClass]="{ 'disabled':!field.editable, 'error':flagcreators}">
 
       <div class="field required">
         <label>
@@ -40,7 +52,7 @@
 
       </div>
     </div> -->
-    <div *ngIf="field.inputType==='number'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='number'" class="required field" [ngClass]="{ 'disabled':!field.editable,'error':flagversion}">
       <label>
         {{field.name}}
       </label>
@@ -59,24 +71,23 @@
           placeholder={{field.placeholder}} id="style">
       </div>
     </div>
-    <div *ngIf="field.inputType==='keywordsuggestion'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='keywordsuggestion'" class="field required" [ngClass]="{ 'disabled':!field.editable,'error':flagkeywords}">
       <label>
         {{field.name}}
       </label>
       <div class="field">
-        <!-- <sui-multi-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})"
-          #multiSelect>
-          <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"> </sui-select-option>
-        </sui-multi-select> -->
-        <select name="{{field.code}}" id={{field.code}} multiple="" class="ui search fluid dropdown"
+
+        <select name="{{field.code}}" id={{field.code}} multiple="" class="ui search fluid dropdown multiple"
           [(ngModel)]="formInputData[field.code]"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
+          <option *ngFor="let option of keywords" selected="selected">{{option}}</option>
 
         </select>
+
       </div>
     </div>
     <div *ngIf="field.inputType==='select' && field.code!='year' && field.code!='region'" class="field required"
-      [ngClass]="{ 'disabled':!field.editable}">
+      [ngClass]="{ 'disabled':!field.editable,'error':flagboard}">
       <!-- <label>{{field.name}}</label> -->
       <div class="required field">
         <label>
@@ -91,7 +102,7 @@
       </div>
     </div>
     <div *ngIf="field.code!='year' && field.code==='region'" class="field required"
-      [ngClass]="{ 'disabled':!field.editable}">
+      [ngClass]="{ 'disabled':!field.editable,'error':flagregion}">
       <!-- <label>{{field.name}}</label> -->
       <div class="required field">
         <label>
@@ -109,7 +120,7 @@
         </select>
       </div>
     </div>
-    <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable,'error':flaglanguages}">
       <label>{{field.name}} </label>
       <div class="required field">
         <sui-multi-select style="padding: 8px 17px !important" id={{field.code}} name={{field.code}} class="selection"
@@ -119,7 +130,7 @@
         </sui-multi-select>
       </div>
     </div>
-    <div *ngIf="field.code==='year'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.code==='year'" class="field required" [ngClass]="{ 'disabled':!field.editable, 'error':flagyear}">
       <label>{{field.name}}</label>
       <div class="field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
