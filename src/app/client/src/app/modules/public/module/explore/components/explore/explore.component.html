@@ -14,11 +14,13 @@
   </div>
                 <div class="ui container mt-24" *ngIf="slug !== 'sunbirdorg'">
     <div class="ui grid" >
+      <div *ngIf="slug==='sbwb'">
       <div class="twelve wide column" *ngFor="let section of pageSections;let last = last"
         [ngClass]="{'last mb-30':last}">
         <app-page-section (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="section"
           [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'sbwb'"></app-page-section>
         </div>
+      </div>
         <div class="twelve wide column">
         <app-space-page-section (visits)="prepareVisits($event)" [enable]="true" (playEvent)="playContent($event)" [section]="pageSections "
           [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
