@@ -349,9 +349,9 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     this.formData.formInputData['link'] = this.link;
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in checking fields = ', data);
-    if (!!data.name && !!data.description && !!data.board && !!data.keywords
+    if (!!data.name && !!data.description && !!data.board && (!!data.keywords && data.keywords.length > 0)
       && !!data.creators && !!data.version
-      && !!data.year && !!data.region && !!data.languages) {
+      && !!data.year && !!data.region && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       this.createContent();
      // this.createContent(data);
