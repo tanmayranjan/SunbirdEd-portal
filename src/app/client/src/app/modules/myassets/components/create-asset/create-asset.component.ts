@@ -14,6 +14,7 @@ import { IInteractEventInput, IImpressionEventInput } from '@sunbird/telemetry';
 import { MyAsset } from '../../classes/myasset';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import { publish } from 'rxjs/operators';
+import { UpdateResoureFormComponent } from '../update-resoure-form/update-resoure-form.component';
 
 @Component({
   selector: 'app-create-asset',
@@ -22,6 +23,7 @@ import { publish } from 'rxjs/operators';
 })
 export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   @ViewChild('formData') formData: DefaultTemplateComponent;
+  @ViewChild('updateform') updateform: UpdateResoureFormComponent;
   @ViewChild('modal') modal;
 
   /**
@@ -331,21 +333,26 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
-    if (!!data.name && !!data.board && !!data.description  && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.link) {
+    if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+      !!data.version && !!data.link && (!!data.languages && data.languages.length > 0)) {
 
       this.uploadSuccess = true;
+       this.updateform.removingerrorclass();
       this.updateContent();
     } else {
       this.showMessage = true;
+      this.updateform.validatingfields(data);
       this.toasterService.error('Asset updation failed please provide required fields');
     }
   }
   checkFieldofFile() {
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name && !!data.board && !!data.description  && !!data.keywords && !!data.creators &&
-      !!data.version && !!data.artifactUrl) {
+    console.log(data);
+    if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+      !!data.version && !!data.artifactUrl && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
+      
+      this.updateform.removingerrorclass();
       // if (this.fileList) {
       //   if (this.fileList.size < 50000000) {
       //     this.updateContentFile();
@@ -359,6 +366,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       // }
 
     } else {
+      
+      this.updateform.validatingfields(data);
       this.toasterService.error('Asset creation failed please provide required fields');
     }
   }

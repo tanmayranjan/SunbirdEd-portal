@@ -88,7 +88,16 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
  */
   private editorService: SpaceEditorService;
   orgname: string;
-
+  flagboard: boolean = false;
+  flagdescription: boolean = false;
+  flagkeywords: boolean = false;
+  flaglanguages: boolean = false;
+  flaglink: boolean = false;
+  flagname: boolean = false;
+  flagregion: boolean = false;
+  flagversion: boolean = false;
+  flagyear: boolean = false;
+  flagcreators : boolean = false;
   constructor(
     formService: FormService,
     private _cacheService: CacheService,
@@ -113,6 +122,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   setFormConfig() {
     const DROPDOWN_INPUT_TYPES = ['select', 'multiSelect'];
     _.forEach(this.formFieldProperties, (field) => {
+      console.log("here is formfieldprop",this.formFieldProperties);
       if (_.includes(DROPDOWN_INPUT_TYPES, field.inputType)) {
         if (field.depends && field.depends.length) {
           this.getAssociations(this.categoryMasterList[field.code],
@@ -330,6 +340,66 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       years.push(i);
     }
     return years;
+  }
+  validatingfields(data){
+    console.log("data in space default on submit",data);
+    if (!!!data.board) {
+      this.flagboard = true;
+    } else {
+      this.flagboard = false;
+    }
+    if (!!!data.description) {
+      this.flagdescription = true;
+    } else {
+      this.flagdescription = false;
+    }
+    if (!!!data.keywords || data.keywords.length === 0) {
+      this.flagkeywords = true;
+    } else {
+      this.flagkeywords = false;
+    }
+    if (!!!data.languages || data.languages.length === 0) {
+      this.flaglanguages = true;
+    } else {
+      this.flaglanguages = false;
+    }
+    if (!!!data.name) {
+      this.flagname = true;
+    } else {
+      this.flagname = false;
+    }
+    if (!!!data.region) {
+      this.flagregion = true;
+    } else {
+      this.flagregion = false;
+    }
+    if (!!!data.version) {
+      this.flagversion = true;
+    } else {
+      this.flagversion = false;
+    }
+    if (!!!data.year) {
+      this.flagyear = true;
+    } else {
+      this.flagyear = false;
+    }
+    if (!!!data.creators) {
+      this.flagcreators = true;
+    } else {
+      this.flagcreators = false;
+    }
+  }
+  removingerrorclass(){
+    this.flagboard = false;
+  this.flagdescription = false;
+  this.flagkeywords = false;
+  this.flaglanguages = false;
+  this.flaglink= false;
+  this.flagname = false;
+  this.flagregion = false;
+  this.flagversion = false;
+  this.flagyear= false;
+  this.flagcreators=false;
   }
 }
 

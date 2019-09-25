@@ -44,7 +44,7 @@
             <div *ngIf="uploadLink==='link'">
                 <div *ngFor="let fields of formFieldProperties;let i = index">
                     <div *ngIf="fields.inputType==='text' && fields.code==='link'" class="required field"
-                        [ngClass]="{ 'disabled':!fields.editable}">
+                        [ngClass]="{ 'disabled':!fields.editable,'error':flaglink}">
 
                         <div class="field required">
                             <label>
