@@ -334,7 +334,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
     if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
-      !!data.version && !!data.link && (!!data.languages && data.languages.length > 0)) {
+      !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
 
       this.uploadSuccess = true;
        this.updateform.removingerrorclass();
@@ -347,9 +347,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   }
   checkFieldofFile() {
     const data = _.pickBy(this.formData.formInputData);
-    console.log(data);
     if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
-      !!data.version && !!data.artifactUrl && (!!data.languages && data.languages.length > 0)) {
+      !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       
       this.updateform.removingerrorclass();

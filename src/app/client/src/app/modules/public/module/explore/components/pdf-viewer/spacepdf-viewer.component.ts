@@ -6,6 +6,7 @@ import { BadgesService } from '@sunbird/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { UserService } from '@sunbird/core';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-spacepdf-viewer',
@@ -26,7 +27,7 @@ export class SpacepdfViewerComponent implements OnInit {
   path: string;
   status: any;
   telemetryImpression: IImpressionEventInput;
-  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService,
+  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService,public location: Location,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
   ) {
     this.activatedRoute = activated;
@@ -89,11 +90,12 @@ export class SpacepdfViewerComponent implements OnInit {
   }
 
   navigateToDetailsPage() {
-    this.activatedRoute.url.subscribe(url => {
+    history.back();
+    /* this.activatedRoute.url.subscribe(url => {
       console.log('url = ',  url);
       this.path = url[2 ].path;
       this.route.navigate(['space/explore/player/content/' + this.path]);
-    });
+    }); */
   }
       // if (this.path === 'pdfReview') {
       //   this.contentId = url[1].path;
