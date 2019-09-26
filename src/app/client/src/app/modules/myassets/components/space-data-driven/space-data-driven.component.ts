@@ -306,6 +306,9 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       console.log('file name = ', this.fileList);
       requestData.mimeType = 'application/pdf';
     }
+    else if(!!data.mimeType){
+      requestData.mimeType= data.mimeType;
+    }
      if (this.resourceType) {
        requestData.resourceType = this.resourceType;
      }
@@ -351,7 +354,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     console.log('data in checking fields = ', data);
     if (!!data.name && !!data.description && !!data.board && !!data.keywords
       && !!data.creators && !!data.version
-      && !!data.year && !!data.region && !!data.languages) {
+      && !!data.year && !!data.region && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       this.createContent();
      // this.createContent(data);

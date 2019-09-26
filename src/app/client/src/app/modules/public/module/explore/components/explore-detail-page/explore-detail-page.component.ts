@@ -86,6 +86,7 @@ export class ExploreDetailPageComponent implements OnInit {
   url: any;
   public telemetryImpression: IImpressionEventInput;
   public telemetryImpressionObject: TelemetryObject;
+  contentuploaded: any;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService , public modalService: SuiModalService,
     badgeService: BadgesService,  toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService , rout: Router,
@@ -110,8 +111,10 @@ export class ExploreDetailPageComponent implements OnInit {
     };
     this.contentService.get(req).subscribe(data => {
       this.assetDetail = data.result.content;
-      this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-      data.result.content.artifactUrl.lastIndexOf('pdf'));
+      if (data.result.content.artifactUrl && data.result.content.mimeType !=='video/x-youtube') {
+        
+      this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+      }
       /*telemetry inplementation for space*/
       this.telemetryImpressionObject = {
         id: this.assetDetail['identifier'],

@@ -91,6 +91,7 @@ export class AssetDetailPageComponent implements OnInit {
   urlPath: string;
   id: string;
   pageid: string;
+  contentuploaded: any;
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
     badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService, rout: Router, private location: Location,
@@ -131,9 +132,10 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content;
         this.showLoader = false;
-        this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-          data.result.content.artifactUrl.lastIndexOf('pdf'));
-          this.telemetryImpressionObject = {
+        if (data.result.content.artifactUrl && data.result.content.mimeType !=='video/x-youtube') {
+        this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+        }
+        this.telemetryImpressionObject = {
             id: this.assetDetail['identifier'],
             type: 'asset',
             rollup: {
@@ -178,8 +180,9 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content[0];
         this.showLoader = false;
-        this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-          data.result.content.artifactUrl.lastIndexOf('pdf'));
+        if (data.result.content[0].artifactUrl && data.result.content[0].mimeType !=='video/x-youtube') {
+          this.contentuploaded = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/')).slice(1);
+          }
           this.telemetryImpressionObject = {
             id: this.assetDetail['identifier'],
             type: 'asset',

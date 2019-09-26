@@ -58,10 +58,34 @@
         {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
       <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
         <p>
-          File : <span (click)="navigateToView()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+          File : <span (click)="navigateToView()" class="pdfStyle">{{contentuploaded}}</span>
         </p>
 
       </div>
+      <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
+        <p>
+            File : <span (click)="navigateToView()" class="pdfStyle">{{contentuploaded}}</span>
+            
+        </p>
+    </div>
+<div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/x-youtube'">
+        <p>
+            Video : <span (click)="navigateToView()" class="pdfStyle">{{assetDetail?.artifactUrl}}</span>
+            
+        </p>
+    </div> 
+    <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/mp4'">
+        <p>
+            Video : <span (click)="navigateToView()" class="pdfStyle">{{contentuploaded}}</span>
+            
+        </p>
+    </div> 
+    <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/webm'">
+        <p>
+            Video : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
+            
+        </p>
+    </div>
       <div *ngFor="let role of user">
         <div *ngIf="role === 'TEACHER_BADGE_ISSUER'">
           <p class="card-text" *ngIf="assetDetail?.status === 'Live'"> Assign Badges:
