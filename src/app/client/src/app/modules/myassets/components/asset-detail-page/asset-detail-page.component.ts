@@ -370,7 +370,7 @@ export class AssetDetailPageComponent implements OnInit {
       this.route.navigate(['myassets/play/', this.contentId, this.status]);
     }
     if (this.urlPath === 'review') {
-      this.status = 'pdfReview';
+      this.status = 'Review';
       this.route.navigate(['upForReview/play/', this.id, this.status]);
     }
   }

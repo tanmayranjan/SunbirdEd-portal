@@ -18,6 +18,13 @@
                 </p>
 
             </div>
+            <div *ngIf="content?.artifactUrl && content?.mimeType === 'video/x-youtube'">
+                <p>
+                    Video : <span (click)="contentClick()" class="pdfStyle">{{content?.artifactUrl}}</span>
+                    <span class="editorStyle" (click)="contentClick()">- (click here)</span>
+                    
+                </p>
+            </div>
             <div *ngIf="enabled">
                 <!-- <div class="form-group" *ngIf="enabled">
                     <label for="exampleInputFile"></label>

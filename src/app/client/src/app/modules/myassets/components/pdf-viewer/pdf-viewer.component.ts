@@ -41,6 +41,26 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit() {
 
+    if(this.activatedRoute.params['value'].status === 'Review'){
+      const option = {
+        url : '/content/v1/search',
+        param : '',
+        filters: {
+          language: ['English'],
+          contentType: ['Resource'],
+          status: ['Review'],
+          identifier: [this.activatedRoute.snapshot.params.contentId]
+      },
+        sort_by: {me_averageRating: 'desc'}
+      };
+      this.contentService.getupForReviewData(option).subscribe(data => {
+          console.log('read content', data);
+          this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content[0].artifactUrl);
+          this.showLoader = false;
+      
+    });
+  }
+  else{
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
@@ -49,6 +69,7 @@ export class PdfViewerComponent implements OnInit {
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
       this.showLoader = false;
     });
+  }
     this.checkForPreviousRouteForRedirect();
     this.telemetryImpression = {
       context: {
@@ -75,7 +96,7 @@ export class PdfViewerComponent implements OnInit {
       console.log('url = ',  url);
       this.path = url[2 ].path;
 
-      if (this.path === 'pdfReview') {
+      if (this.path === 'Review') {
         this.contentId = url[1].path;
       } else {
         this.contentId = url[1].path;

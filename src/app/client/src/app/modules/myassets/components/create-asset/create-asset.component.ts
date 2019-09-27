@@ -311,8 +311,11 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       // requestData.mimeType = 'application/pdf'
     } else if (this.enableContent) {
       requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
-    } else {
-      requestData.mimeType = 'application/pdf';
+    } else if(data.mimeType){
+      requestData.mimeType = data.mimeType;
+    }
+    else{
+      requestData.mimeType='application/pdf'
     }
     if (this.resourceType) {
       requestData.resourceType = this.resourceType;
