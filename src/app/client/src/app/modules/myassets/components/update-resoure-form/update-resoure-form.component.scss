@@ -41,7 +41,14 @@ sui-select {
     border: 1px solid #707070;
     background: #707070;
 }
+.ui.grid > .column:not(.row) {
+    padding-top: 6px;
+    padding-bottom: 10px;
+}
 
+td{
+    font-size: 12px;
+}
 
     label 
         { float: left; width: 10em; margin-right: 1em;

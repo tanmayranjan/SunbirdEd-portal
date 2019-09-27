@@ -1,5 +1,5 @@
 <div class="ui grid">
-  <div *ngFor="let field of formFieldProperties;let i = index"
+       <div *ngFor="let field of formFieldProperties;let i = index"
     class="{{field.renderingHints.semanticColumnWidth || 'twelve'}} wide computer tablet twelve wide mobile column">
     <hr *ngIf="i===2">
     <hr *ngIf="i===3">
@@ -145,5 +145,75 @@
           (Framework)="conceptspFramework($event)"></app-space-framwork-selector>
       </form>
     </div>
+    <div *ngIf="i === 4" class="required field">
+         <label>Asset Format</label>
+            <div class="field">
+                  <sui-select [(ngModel)]="assetformat" class="selection" [placeholder]="'Select'" (ngModelChange)=removedisabledattribute()>
+                       <sui-select-option *ngFor="let assetformat of allassetformat" [value]="assetformat"> {{ assetformat }} </sui-select-option>
+                  </sui-select>
+                </div>
+    </div>
+    <div *ngIf="i === 4" class="required field">
+         <label>License Type</label>
+                <button style="background-color: transparent;border:transparent" [disabled]="disableprop" (click)='showall()'><i class="fas fa-info-circle"></i></button>
+                <div class="field" id="licencetype" >
+                  <sui-select [(ngModel)]="licensetype"  class="selection" [placeholder]="'Select'" id="licensetypefield" [disabled]="disableprop">
+                      <sui-select-option *ngFor="let licensetype of alllicensetype" [value]="licensetype"> {{ licensetype }} </sui-select-option>
+                  </sui-select>
+                </div>
+         
+    </div>
   </div>
 </div>
+
+ <!--Modal for showing table-->
+
+<ng-template let-context let-modal="modal" #modalTemplate>
+   
+  <div *ngIf="assetformat === 'Content'">
+      <table class="ui celled table">
+          <thead>
+            <tr>
+            <th>License Type</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Attribution Required</th>
+              <th>Allows Commercial Use</th>
+              <th>Allows Derivatives</th>
+              <th>Allows Derivatives Under Different License Terms</th>
+            <th>License Link</th>
+          </tr></thead>
+          <tbody>
+            <tr *ngFor="let data of contentlicenses;let i=index">
+              <td *ngFor="let content of data[i]">{{content}}</td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <div *ngIf="assetformat === 'Software Code'">
+      <table class="ui celled table">
+          <thead>
+            <tr>
+            <th>License Type</th>
+            <th>Author</th>
+            <th>Distribution to Third Parties</th>
+            <th>Modification</th>
+              <th>Licensing Modified Code Under Different License Terms</th>
+              <th>Linking of Licensed Code with Code Licensed Under Different Licenses</th>
+              <th>Private Use</th>
+            <th>Use of Trademark Associated with Licensed Code or its Contributors</th>
+            <th>Protection of Licensees and Code Contributors from Patent Claims Filed by Each Other</th>
+            <th>License Link</th>
+            
+          </tr></thead>
+          <tbody>
+            <tr *ngFor="let data of softwarelicenses;let i=index">
+              <td *ngFor="let content of data[i]">{{content}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="actions">
+      <button class="ui btn btn-lightgrey" (click)="modal.deny('denied')">Close</button>
+    </div>
+  </ng-template>

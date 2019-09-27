@@ -96,6 +96,9 @@
           *ngIf="assetDetail?.creators"></span> | Created By :
         {{assetDetail?.creators}} <span *ngIf="assetDetail?.since"> | Created Year :
           {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region"> | Country : {{assetDetail?.region}}</span>
+          <span *ngIf="assetDetail?.assetformat"> | Asset Format :
+              {{assetDetail?.assetformat }}</span> <span *ngIf="assetDetail?.licensetype"> | License Type :
+                      {{assetDetail?.licensetype }}</span>
       </p>
       <p class="float-right"></p>
     </div>

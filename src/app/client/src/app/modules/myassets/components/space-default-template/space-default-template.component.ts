@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService } from '@sunbird/core';
@@ -6,6 +6,7 @@ import * as _ from 'lodash-es';
 import { CacheService } from 'ng2-cache-service';
 import { Router } from '@angular/router';
 import { SpaceEditorService } from '../../services/space-editor/space-editor.service';
+import { TemplateModalConfig, ModalTemplate, SuiModalService } from 'ng2-semantic-ui';
 
 @Component({
   selector: 'app-space-default-template',
@@ -17,6 +18,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   @Input() categoryMasterList: any;
   @Input() submited: boolean;
   @Input() org: string;
+  
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -71,6 +73,12 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
    * formInputData is to take input data's from form
    */
   public formInputData = {};
+  
+
+   // Modal
+   @ViewChild('modalTemplate')
+  public modalTemplate: ModalTemplate<{ data: string }, string, string>;
+  
   /**
    * categoryList is category list of dropdown values
    */
@@ -79,6 +87,62 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
    * masterList is master copy of framework data
    */
   public masterList: {};
+
+  // boolean variable for licensetype field
+  disableprop : boolean = true;
+
+  // data of dropdown of asset format and license type
+  private map = new Map<string, string[]>([
+    ['Content', ['CC0', 'CC BY (4.0)','CC BY-SA (4.0)', 'CC BY-ND (4.0)','CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)','CC BY-NC-ND (4.0)', 'Other']],
+    ['Software Code', ['MIT License', 'Apache License', 'Other']],
+  ])
+
+// data of table of Content
+
+  contentlicenses = [{
+    0: ['CC0', 'Creative Commons', 'Freeing content globally without restrictions',
+      'No', 'Yes', 'Yes', 'Yes', 'https://creativecommons.org/share-your-work/public-domain/cc0/']
+  },
+  {
+    1: ['CC BY (4.0)', 'Creative Commons', 'Attribution alone',
+      'Yes', 'Yes', 'Yes', 'Yes', 'https://creativecommons.org/licenses/by/4.0/']
+  },
+  {
+    2: ['CC BY-SA (4.0)', 'Creative Commons', 'Attribution + ShareAlike',
+      'Yes', 'Yes', 'Yes', 'No', 'https://creativecommons.org/licenses/by-sa/4.0/']
+  },
+  {
+    3: ['CC BY-ND (4.0)', 'Creative Commons', 'Attribution + NoDerivatives',
+      'Yes', 'Yes', 'No', '', 'https://creativecommons.org/licenses/by-nd/4.0/']
+  },
+  {
+    4: ['CC BY-NC (4.0)', 'Creative Commons', 'Attribution + NonCommercial',
+      'Yes', 'No', 'Yes', 'Yes', 'https://creativecommons.org/licenses/by-nc/4.0/']
+  },
+  {
+    5: ['CC BY-NC-SA (4.0)', 'Creative Commons', 'Attribution + NonCommercial + ShareAlike',
+      'Yes', 'No', 'Yes', 'No', 'https://creativecommons.org/licenses/by-nc-sa/4.0/']
+  },
+  {
+    6: ['CC BY-NC-ND (4.0)', 'Creative Commons', 'Attribution + NonCommercial + NoDerivatives',
+      'Yes', 'No', 'No', '', 'https://creativecommons.org/licenses/by-nc-nd/4.0/']
+
+
+  }]
+
+  softwarelicenses = [{
+    0: ['Apache License', 'Apache Software Foundation', 'Permissive',
+      'Permissive', 'Permissive', 'Permissive', 'Yes',
+       'No', 'Yes', 'https://www.apache.org/licenses/']
+  },
+  {
+    1: ['MIT License', 'MIT', 'Permissive',
+      'Permissive', 'Permissive', 'Permissive', 'Yes',
+       'Manually', 'Manually', 'http://opensource.org/licenses/MIT']
+  }]
+
+  assetformat : string;
+  licensetype : string;
   /**
    * years is used to get years from getYearsForCreateTextBook
    */
@@ -88,6 +152,9 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
  */
   private editorService: SpaceEditorService;
   orgname: string;
+  modalMessage: string;
+  loaderMessage: { 'loaderMessage': any; };
+  previousval: string = '';
 
   constructor(
     formService: FormService,
@@ -98,7 +165,8 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
     toasterService: ToasterService,
     userService: UserService,
     configService: ConfigService,
-    editorService: SpaceEditorService
+    editorService: SpaceEditorService,
+    public modalService: SuiModalService
   ) {
     this.formService = formService;
     this.resourceService = resourceService;
@@ -330,6 +398,37 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       years.push(i);
     }
     return years;
+  }
+  removedisabledattribute(){
+    this.disableprop=false;
+    if(this.previousval !== this.assetformat){
+      this.licensetype=undefined;
+    }
+    this.previousval=this.assetformat;
+  }
+  get allassetformat(): string[] {
+    return Array.from(this.map.keys());
+  }
+
+  get alllicensetype(): string[] | undefined {
+    return this.map.get(this.assetformat);
+  }
+
+  showall(){
+    const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
+    config.isClosable = true;
+    config.size = 'large';
+    config.context = {
+      data: 'show'
+    };
+    this.modalService
+      .open(config)
+      .onApprove(result => {
+      })
+    .onDeny(result =>{
+
+    });
+   
   }
 }
 

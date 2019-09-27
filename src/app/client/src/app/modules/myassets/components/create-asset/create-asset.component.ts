@@ -293,6 +293,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     const requestData = _.cloneDeep(data);
     console.log('generate data = ', requestData);
     requestData.name = data.name ? data.name : this.name,
+    requestData.assetformat=data.assetformat ? data.assetformat : null;
+    requestData.licensetype=data.licensetype ? data.licensetype : null ;
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
       requestData.organisation = this.userProfile.organisationNames,
@@ -328,10 +330,12 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     return requestData;
   }
   checkFields() {
-
+    
+    this.formData.formInputData['assetformat']=this.formData['assetformat'];
+    this.formData.formInputData['licensetype']=this.formData['licensetype'];
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
-    if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+    if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
 
       this.uploadSuccess = true;
@@ -342,8 +346,11 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     }
   }
   checkFieldofFile() {
+    
+   this.formData.formInputData['assetformat']=this.formData['assetformat'];
+   this.formData.formInputData['licensetype']=this.formData['licensetype'];
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+    if (!!data.name &&  !!data.assetformat && !!data.licensetype &&!!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       // if (this.fileList) {
