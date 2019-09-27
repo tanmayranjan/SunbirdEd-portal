@@ -155,12 +155,12 @@ export class StatusComponent implements OnInit, OnDestroy, AfterViewInit {
       /*telemetry implementation for space*/
          this.telemetryImpression = {
            context: {
-             env: this.activatedRoute.snapshot.data.telemetry.env
+             env: 'workspace'
            },
            edata: {
-             type: this.activatedRoute.snapshot.data.telemetry.type,
+             type: 'view',
              pageid: 'check-upload-status-workspace',
-             subtype: this.activatedRoute.snapshot.data.telemetry.subtype,
+             subtype: 'paginate',
              uri: this.router.url,
              duration: this.navigationhelperService.getPageLoadTime()
            }

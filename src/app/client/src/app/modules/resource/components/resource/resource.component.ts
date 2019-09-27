@@ -220,7 +220,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           country: [],
           creators: []
         },
-        limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+       // limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         query: '',
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
@@ -352,9 +352,9 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     if (this.telemetryImpression) {
-      this.telemetryImpression.edata.visits = this.inViewLogs;
+      /* this.telemetryImpression.edata.visits = this.inViewLogs;
       this.telemetryImpression.edata.subtype = 'pageexit';
-      this.telemetryImpression = Object.assign({}, this.telemetryImpression);
+      this.telemetryImpression = Object.assign({}, this.telemetryImpression); */
     }
   }
   public playContent(event) {
