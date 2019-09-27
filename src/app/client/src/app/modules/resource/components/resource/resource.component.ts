@@ -220,7 +220,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           country: [],
           creators: []
         },
-        limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
+       // limit: this.configService.appConfig.SEARCH.PAGE_LIMIT,
         query: '',
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
