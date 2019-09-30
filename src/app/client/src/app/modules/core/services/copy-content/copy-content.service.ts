@@ -94,7 +94,7 @@ export class CopyContentService {
           creator: creator,
           createdFor: userData.organisationIds,
           createdBy: userData.userId,
-          organisation: userData.organisationNames,
+          organization: userData.organisationNames,
           framework: '',
           mimeType: contentData.mimeType,
           contentType: contentData.contentType
