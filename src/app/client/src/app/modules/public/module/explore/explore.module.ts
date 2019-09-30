@@ -11,6 +11,7 @@ import {SharedFeatureModule} from '@sunbird/shared-feature';
 import { SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
   SuiRatingModule, SuiCollapseModule, SuiDimmerModule } from 'ng2-semantic-ui';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
+import { PlayerHelperModule } from '../../../../modules/player-helper';
 
 @NgModule({
   imports: [
@@ -21,8 +22,10 @@ import { WebExtensionModule } from '@project-sunbird/web-extensions';
     NgInviewModule,
     ExploreRoutingModule,
     SharedFeatureModule,
-    SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
-    SuiRatingModule, SuiCollapseModule, SuiDimmerModule, WebExtensionModule
+    SuiSelectModule, SuiModalModule, SuiAccordionModule,
+     SuiPopupModule, SuiDropdownModule, SuiProgressModule,
+    SuiRatingModule, SuiCollapseModule, SuiDimmerModule, WebExtensionModule,
+    PlayerHelperModule
   ],
   declarations: [ ExploreContentComponent, ExploreComponent, ExploreDetailPageComponent, SpacepdfViewerComponent],
   exports: [ExploreComponent]
