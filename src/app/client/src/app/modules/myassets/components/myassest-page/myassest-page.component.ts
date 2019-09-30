@@ -558,10 +558,10 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
             if (this.allContent.length === 0) {
               // this.ngOnInit();
               this.toasterService.success('Asset deleted successfully');
-             setTimeout(()=>{
-                
+             setTimeout(() => {
+
               document.location.reload();
-            },1000);
+            }, 1000);
             }
             this.toasterService.success('Asset deleted successfully');
           },

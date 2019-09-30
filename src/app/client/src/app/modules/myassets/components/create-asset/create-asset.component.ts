@@ -192,7 +192,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
         this.content = data.result.content;
-        if (data.result.content.artifactUrl && data.result.content.mimeType !=='video/x-youtube') {
+        if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
           this.enabled = true;
           this.uploadedcontent = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
 
@@ -311,11 +311,10 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       // requestData.mimeType = 'application/pdf'
     } else if (this.enableContent) {
       requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
-    } else if(data.mimeType){
+    } else if (data.mimeType) {
       requestData.mimeType = data.mimeType;
-    }
-    else{
-      requestData.mimeType='application/pdf'
+    } else {
+      requestData.mimeType = 'application/pdf';
     }
     if (this.resourceType) {
       requestData.resourceType = this.resourceType;

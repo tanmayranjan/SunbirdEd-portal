@@ -120,7 +120,43 @@ export class AssetDetailPageComponent implements OnInit {
     this.activatedRoute.url.subscribe(url => {
       this.path = url[2].path;
     });
-    if (this.path === 'Draft' || this.path === 'Review' || this.path === 'Live') {
+    if (this.path === 'Live') {
+      const req = {
+        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+      };
+    // const req = {
+    //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+    // };
+     this.contentService.get(req).subscribe(data => {
+       this.content = data.result.content;
+       this.assetDetail = data.result.content;
+       this.showLoader = false;
+       if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
+       this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+       }
+       this.telemetryImpressionObject = {
+           id: this.assetDetail['identifier'],
+           type: 'asset',
+           rollup: {
+             name: this.assetDetail['name'],
+             resource: 'asset',
+             assetType : this.assetDetail['contentType']
+         }
+         };
+         this.telemetryImpression = {
+           context: {
+             env: this.pageid
+           }, object: this.telemetryImpressionObject,
+           edata: {
+             type: 'view',
+             pageid: this.pageid,
+             uri: this.route.url,
+             subtype: 'paginate',
+             duration: this.navigationhelperService.getPageLoadTime()
+           }
+         };
+     });
+   } else if (this.path === 'Draft' || this.path === 'Review' ) {
        const req = {
          url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
        };
@@ -132,7 +168,7 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content;
         this.showLoader = false;
-        if (data.result.content.artifactUrl && data.result.content.mimeType !=='video/x-youtube') {
+        if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
         this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
         }
         this.telemetryImpressionObject = {
@@ -158,9 +194,7 @@ export class AssetDetailPageComponent implements OnInit {
           };
       });
     } else {
-       const req = {
-         url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
-       };
+
    //   const req = {
      //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
      // };
@@ -180,7 +214,7 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content[0];
         this.showLoader = false;
-        if (data.result.content[0].artifactUrl && data.result.content[0].mimeType !=='video/x-youtube') {
+        if (data.result.content[0].artifactUrl && data.result.content[0].mimeType !== 'video/x-youtube') {
           this.contentuploaded = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/')).slice(1);
           }
           this.telemetryImpressionObject = {

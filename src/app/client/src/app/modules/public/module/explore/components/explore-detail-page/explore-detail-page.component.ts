@@ -106,14 +106,14 @@ export class ExploreDetailPageComponent implements OnInit {
    }
 
   ngOnInit() {
-    //this.activatedRoute.queryParams()
+    // this.activatedRoute.queryParams()
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
     this.contentService.get(req).subscribe(data => {
       this.assetDetail = data.result.content;
-      if (data.result.content.artifactUrl && data.result.content.mimeType !=='video/x-youtube') {
-        
+      if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
+
       this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
       }
       /*telemetry inplementation for space*/
@@ -126,7 +126,7 @@ export class ExploreDetailPageComponent implements OnInit {
           assetType : this.assetDetail['contentType']
       }
       };
-      if(this.counterVar === false) {
+      if (this.counterVar === false) {
         this.setTelemetryData(this.telemetryImpressionObject);
       }
       this.userService.userData$.subscribe(
@@ -171,7 +171,7 @@ export class ExploreDetailPageComponent implements OnInit {
   }
   navigateToDetailsPage() {
     this.location.back();
-/* 
+/*
 if (this.user) {
   this.route.navigate(['/resources']);
 } else {

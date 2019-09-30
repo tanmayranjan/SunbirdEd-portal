@@ -41,7 +41,7 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.activatedRoute.params['value'].status === 'Review'){
+    if (this.activatedRoute.params['value'].status === 'Review') {
       const option = {
         url : '/content/v1/search',
         param : '',
@@ -57,10 +57,9 @@ export class PdfViewerComponent implements OnInit {
           console.log('read content', data);
           this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content[0].artifactUrl);
           this.showLoader = false;
-      
+
     });
-  }
-  else{
+  } else {
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
