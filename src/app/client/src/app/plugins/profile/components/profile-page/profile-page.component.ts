@@ -191,9 +191,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
       section: content.section,
     }));
     if (this.telemetryImpression) {
-      this.telemetryImpression.edata.visits = inViewLogs;
+      /* this.telemetryImpression.edata.visits = inViewLogs;
       this.telemetryImpression.edata.subtype = 'pageexit';
-      this.telemetryImpression = Object.assign({}, this.telemetryImpression);
+      this.telemetryImpression = Object.assign({}, this.telemetryImpression); */
     }
   }
   private getCustodianOrgUser() {
@@ -264,9 +264,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
     });
-    this.telemetryImpression.edata.visits = this.telemetryLogs;
+    /* this.telemetryImpression.edata.visits = this.telemetryLogs;
     this.telemetryImpression.edata.subtype = 'pageexit';
-    this.telemetryImpression = Object.assign({}, this.telemetryImpression);
+    this.telemetryImpression = Object.assign({}, this.telemetryImpression); 
+    */
   }
 
   ngAfterViewInit() {

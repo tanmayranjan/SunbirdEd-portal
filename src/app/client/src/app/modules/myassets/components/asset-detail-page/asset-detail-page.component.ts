@@ -178,8 +178,8 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content[0];
         this.showLoader = false;
-        this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-          data.result.content.artifactUrl.lastIndexOf('pdf'));
+        this.pdfs = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/'),
+          data.result.content[0].artifactUrl.lastIndexOf('pdf'));
           this.telemetryImpressionObject = {
             id: this.assetDetail['identifier'],
             type: 'asset',
