@@ -160,6 +160,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   isOffline: boolean = environment.isOffline;
   showExportLoader = false;
   contentName: string;
+  slug: any;
 
   constructor(
     searchService: SearchService,
@@ -195,12 +196,14 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    this.slug=this.activatedRoute.params['value'].slug;
     if (!this.userService.loggedIn) {
       this.getChannelId();
     } else {
       this.showFilter = true;
       this.userService.userData$.subscribe(userData => {
         if (userData && !userData.err) {
+          this.slug=userData.userProfile.channel;
           this.frameworkData = _.get(userData.userProfile, 'framework');
         }
       });

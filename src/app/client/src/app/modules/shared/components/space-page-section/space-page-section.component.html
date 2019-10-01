@@ -26,8 +26,8 @@
                 <div class="ui twelve wide column ">
                     <div class="d-flex flex-ai-center">
                        
-                      <!--   <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section[0]?.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section)">View More</button> -->
-                     </div>
+                 <button class="ui button small bs-1 mb-24 ml-auto" *ngIf="section[0]?.contents.length >= 10 && section.name != 'My Courses' " type="button" (click)="navigateToViewAll(section[0])">View More</button>
+                  </div>
                     <div class="row">
                             <div in-view-item *ngFor="let content of section[0]?.contents;let i = index; let last = last" class="four wide column">    
                                     <app-space-card   appTelemetryInteract 
