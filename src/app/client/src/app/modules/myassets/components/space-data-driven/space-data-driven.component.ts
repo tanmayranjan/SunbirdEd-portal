@@ -210,10 +210,16 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   */
   fetchFrameworkMetaData() {
 
+    if(this._cacheService.exists('SpaceCategoryMasterList') && this._cacheService.exists(this.contentType + this.formAction)) {
+      this.categoryMasterList = this._cacheService.get('SpaceCategoryMasterList');
+      this.formFieldProperties = this._cacheService.get(this.contentType + this.formAction);
+    }
+
     this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
 
       if (!frameworkData.err) {
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
+        this._cacheService.set('SpaceCategoryMasterList',this.categoryMasterList);
         this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
