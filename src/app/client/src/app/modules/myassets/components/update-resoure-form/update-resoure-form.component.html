@@ -168,5 +168,75 @@
         </app-framwork-selector>
       </form>
     </div>
+    <div class="licensedropdowns">
+        <div *ngIf="i === 5" class="field type1 required">
+          
+            <label>Asset Format</label>
+            <div class="field">
+                  <sui-select [(ngModel)]="assetformat" class="selection" [placeholder]="'Select'" (ngModelChange)=resetattribute()>
+                       <sui-select-option *ngFor="let assetformat of allassetformat" [value]="assetformat"></sui-select-option>
+                  </sui-select>
+                </div>
+        </div>
+        <div *ngIf="i === 5" class="field type2 required">
+                <label>License Type</label>
+                <button style="background-color: transparent;border:transparent" (click)='showall()'><i class="fas fa-info-circle"></i></button>
+                <div class="field">
+                  <sui-select [(ngModel)]="licensetype"  class="selection" [placeholder]="'Select'" id="licensetypefield">
+                    <sui-select-option *ngFor="let licensetype of alllicensetype" [value]="licensetype"></sui-select-option>
+                  </sui-select>
+                </div>
+         </div>
+        </div>
   </div>
 </div>
+
+<ng-template let-context let-modal="modal" #modalTemplate>
+   
+    <div *ngIf="assetformat === 'Content'">
+        <table class="ui celled table">
+            <thead>
+              <tr>
+              <th>License Type</th>
+              <th>Author</th>
+              <th>Description</th>
+              <th>Attribution Required</th>
+                <th>Allows Commercial Use</th>
+                <th>Allows Derivatives</th>
+                <th>Allows Derivatives Under Different License Terms</th>
+              <th>License Link</th>
+            </tr></thead>
+            <tbody>
+              <tr *ngFor="let data of contentlicenses;let i=index">
+                <td *ngFor="let content of data[i]">{{content}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div *ngIf="assetformat === 'Software Code'">
+        <table class="ui celled table">
+            <thead>
+              <tr>
+              <th>License Type</th>
+              <th>Author</th>
+              <th>Distribution to Third Parties</th>
+              <th>Modification</th>
+                <th>Licensing Modified Code Under Different License Terms</th>
+                <th>Linking of Licensed Code with Code Licensed Under Different Licenses</th>
+                <th>Private Use</th>
+              <th>Use of Trademark Associated with Licensed Code or its Contributors</th>
+              <th>Protection of Licensees and Code Contributors from Patent Claims Filed by Each Other</th>
+              <th>License Link</th>
+              
+            </tr></thead>
+            <tbody>
+              <tr *ngFor="let data of softwarelicenses;let i=index">
+                <td *ngFor="let content of data[i]">{{content}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <div class="actions">
+        <button class="ui btn btn-lightgrey" (click)="modal.deny('denied')">Close</button>
+      </div>
+    </ng-template>
