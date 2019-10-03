@@ -140,7 +140,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     this.creatorId = JSON.parse(localStorage.getItem('creator'));
     this.userId = this.userService.userid;
     this.setSlug();
-    if(this.userService.userProfile) {
+    if (this.userService.userProfile) {
       this.userRole = this.userService.userProfile.userRoles;
       this.org = this.userService.userProfile.organisationIds[0];
       this.slug = this.userService.userProfile.channel;

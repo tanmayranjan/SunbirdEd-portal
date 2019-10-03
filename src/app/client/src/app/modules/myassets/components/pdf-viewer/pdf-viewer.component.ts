@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService } from '@sunbird/core';
+import { ContentService,PlayerService } from '@sunbird/core';
 import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -24,8 +24,11 @@ export class PdfViewerComponent implements OnInit {
   path: string;
   status: any;
   telemetryImpression: IImpressionEventInput;
+  playerConfig: any;
+  epub = false;
   constructor(activated: ActivatedRoute, sanitizers: DomSanitizer,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
+   public playerservice: PlayerService
   ) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
@@ -41,14 +44,46 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit() {
 
+    if (this.activatedRoute.params['value'].status === 'Review') {
+      const option = {
+        url : '/content/v1/search',
+        param : '',
+        filters: {
+          language: ['English'],
+          contentType: ['Resource'],
+          status: ['Review'],
+          identifier: [this.activatedRoute.snapshot.params.contentId]
+      },
+        sort_by: {me_averageRating: 'desc'}
+      };
+      this.contentService.getupForReviewData(option).subscribe(data => {
+          console.log('read content', data);
+          if(data.result.content[0].mimeType === 'application/epub'){
+            this.epub=true;
+            var newobj={'contentData':data.result.content[0],'contentId':data.result.content[0].identifier};
+           this.playerConfig = this.playerservice.getConfig(newobj);
+          
+          }
+          this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content[0].artifactUrl);
+          this.showLoader = false;
+
+    });
+  } else {
     const req = {
       url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
     this.contentService.get(req).subscribe(data => {
       console.log('data in pdf = ', data);
+    if(data.result.content['mimeType'] === 'application/epub'){
+      this.epub=true;
+      var newobj={'contentData':data.result.content,'contentId':data.result.content.identifier};
+     this.playerConfig = this.playerservice.getConfig(newobj);
+    
+    }
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
       this.showLoader = false;
     });
+  }
     this.checkForPreviousRouteForRedirect();
     this.telemetryImpression = {
       context: {
@@ -75,7 +110,7 @@ export class PdfViewerComponent implements OnInit {
       console.log('url = ',  url);
       this.path = url[2 ].path;
 
-      if (this.path === 'pdfReview') {
+      if (this.path === 'Review') {
         this.contentId = url[1].path;
       } else {
         this.contentId = url[1].path;

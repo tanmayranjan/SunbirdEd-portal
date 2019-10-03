@@ -307,6 +307,8 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     } else if (this.uploadLink === 'uploadFile') {
       console.log('file name = ', this.fileList);
       requestData.mimeType = 'application/pdf';
+    } else if (!!data.mimeType) {
+      requestData.mimeType = data.mimeType;
     }
      if (this.resourceType) {
        requestData.resourceType = this.resourceType;

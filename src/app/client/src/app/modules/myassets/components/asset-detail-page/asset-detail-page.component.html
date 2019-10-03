@@ -72,7 +72,7 @@
 
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
                 <p>
-                    File : <span (click)="navigateToplay()" class="pdfStyle">{{assetDetail?.artifactUrl}}</span>
+                    File : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
                     
                 </p>
                 <!-- <p>
@@ -80,16 +80,30 @@
                     
                 </p> -->
             </div>
-         <!--   <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/x-youtube'">
+            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
+                <p>
+                    File : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
+                    
+                </p>
+            </div>
+        <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/x-youtube'">
                 <p>
                     Video : <span (click)="navigateToplay()" class="pdfStyle">{{assetDetail?.artifactUrl}}</span>
                     
                 </p>
-                <!-- <p>
-                    File : <span (click)="contentClick()" class="pdfStyle">{{pdfs | titlecase | slice: 1}}pdf</span>
+            </div> 
+            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/mp4'">
+                <p>
+                    Video : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
                     
-                </p> 
-            </div>  -->
+                </p>
+            </div> 
+            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'video/webm'">
+                <p>
+                    Video : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
+                    
+                </p>
+            </div>
             <div *ngIf="assetDetail?.mimeType === 'application/vnd.ekstep.ecml-archive'" (click)="navigateToplay()">
                  <p>
                     View Content <span  class="pdfStyle"></span>

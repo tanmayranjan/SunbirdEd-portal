@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService } from '@sunbird/core';
+import { ContentService,PlayerService } from '@sunbird/core';
 import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '@sunbird/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { UserService } from '@sunbird/core';
-import { Location } from '@angular/common'
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-spacepdf-viewer',
@@ -27,8 +27,11 @@ export class SpacepdfViewerComponent implements OnInit {
   path: string;
   status: any;
   telemetryImpression: IImpressionEventInput;
-  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService,public location: Location,
+  epub: boolean;
+  playerConfig: any;
+  constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService, public location: Location,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
+    public playerservice: PlayerService
   ) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
@@ -50,6 +53,13 @@ export class SpacepdfViewerComponent implements OnInit {
     };
     this.contentService.get(req).subscribe(data => {
       console.log('data in pdf = ', data);
+      if(data.result.content['mimeType'] === 'application/epub'){
+        this.epub=true;
+        var newobj={'contentData':data.result.content,'contentId':data.result.content.identifier};
+       this.playerConfig = this.playerservice.getConfig(newobj);
+      
+      }
+     
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
       this.showLoader = false;
     });

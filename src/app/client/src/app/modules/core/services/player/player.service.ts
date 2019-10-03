@@ -87,7 +87,6 @@ export class PlayerService {
     configuration.context.sid = this.userService.sessionId;
     configuration.context.uid = this.userService.userid;
     configuration.context.timeDiff = this.userService.getServerTimeDiff;
-    configuration.context.contextRollup = this.getRollUpData(this.userService.userProfile.hashTagIds);
     configuration.context.channel = this.userService.channel;
     const deviceId = (<HTMLInputElement>document.getElementById('deviceId'));
     configuration.context.did = deviceId ? deviceId.value : '';
@@ -105,11 +104,14 @@ export class PlayerService {
       configuration.context.dims = cloneDims;
     }
     const tags = [];
-    _.forEach(this.userService.userProfile.organisations, (org) => {
-      if (org.hashTagId) {
-        tags.push(org.hashTagId);
+    if(this.userService.loggedIn){
+      configuration.context.contextRollup =  this.getRollUpData(this.userService.userProfile.hashTagIds);
+      _.forEach(this.userService.userProfile.organisations, (org) => {
+        if (org.hashTagId) {
+          tags.push(org.hashTagId);
+        }
+      });
       }
-    });
     configuration.context.tags = tags;
     configuration.context.app = [this.userService.channel];
     if (contentDetails.courseId) {
