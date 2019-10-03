@@ -232,13 +232,15 @@ console.log('data config info in main menu = ', this.dataService.dataConfig);
 
         body: this.dataService.dataConfig.default.body + '<br>' + this.userData,
 
-        orgImgUrl: this.dataService.dataConfig.default.orgImgUrl,
+        orgImageUrl: this.dataService.dataConfig.default.orgImageUrl,
 
         emailTemplateType: this.dataService.dataConfig.default.template,
 
         fromEmail: this.dataService.dataConfig.default.fromEmail,
 
-        recipientEmails: this.dataService.dataConfig.default.email
+        recipientEmails: this.dataService.dataConfig.default.email,
+
+        orgName: this.dataService.dataConfig.default.orgName
 
     }
      };
