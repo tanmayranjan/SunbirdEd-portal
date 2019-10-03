@@ -35,7 +35,7 @@
                 <div class="actions mt-10">
                     <p class="text-align-center pt-20" id="res-align">
                         <button class="btn btn-default btn-sec mr-5 btn-lg text-light" id="res-btn"
-                            (click)="checkFieldofFile()" type="submit">Update Asset</button>
+                        [disabled]="updatebtnStatus" (click)="checkFieldofFile()" type="submit">Update Asset</button>
                         <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
                     </p>
 

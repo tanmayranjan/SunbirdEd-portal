@@ -127,6 +127,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   enableContent = false;
   enableLink = false;
   uploadedcontent: any;
+  updatebtnStatus = false;
   constructor(
     public searchService: SearchService,
     public workSpaceService: MyassetsService,
@@ -354,6 +355,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     if (!!data.name &&  !!data.assetformat && !!data.licensetype &&!!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
+      this.updatebtnStatus = true;
       // if (this.fileList) {
       //   if (this.fileList.size < 50000000) {
       //     this.updateContentFile();
@@ -403,10 +405,11 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
         this.goToCreate();
       }, err => {
         this.toasterService.error('Asset updation failed please try after some time');
-
+        this.updatebtnStatus =  false;
       });
     } else {
       this.toasterService.error('Asset updation failed please try after ');
+      this.updatebtnStatus =  false;
     }
   }
 

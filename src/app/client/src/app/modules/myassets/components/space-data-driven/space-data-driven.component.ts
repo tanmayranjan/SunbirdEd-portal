@@ -128,6 +128,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   uploadContent = false;
   uploadLink: string;
   lang: string;
+  uploadbtnStatus = false;
 
   constructor(
     public searchService: SearchService,
@@ -359,6 +360,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       && !!data.creators && !!data.version
       && !!data.year && !!data.region && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
+      this.uploadbtnStatus = true;
       this.createContent();
      // this.createContent(data);
     } else {
@@ -469,9 +471,11 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
         }
       }, err => {
         this.toasterService.error('Asset creation failed please check the required fields.');
+        this.uploadbtnStatus = false;
       });
     } else {
       this.toasterService.error('Asset creation failed');
+      this.uploadbtnStatus = false;
     }
     // this.goToCreate();
   }
