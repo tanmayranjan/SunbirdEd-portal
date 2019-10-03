@@ -6,7 +6,7 @@ import { OnInit, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import * as _ from 'lodash-es';
 import { IInteractEventObject, IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { Router} from '@angular/router';
-
+import {UserstatusService} from '../../services/userstatus.service';
 @Component({
   selector: 'app-space-page-section',
   templateUrl: './space-page-section.component.html',
@@ -122,7 +122,8 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
   find_user: string;
   user: string[];
   openmodal = false;
-  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService, public router: Router) {
+  flag: boolean;
+  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService, public router: Router,public userstatus:UserstatusService) {
     this.resourceService = resourceService;
   }
   playContent(event) {
@@ -138,6 +139,9 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
     // this.route.navigate(['/play/content', data.identifier]);
   }
   ngOnInit() {
+    this.userstatus.checklogginstatus$.subscribe((data)=>{
+      this.flag=data;
+    })
     this.find_user =  window.location.href;
     this.user = this.find_user.split('/');
     console.log('icarousal data = ', this.section, this.user, this.enable);

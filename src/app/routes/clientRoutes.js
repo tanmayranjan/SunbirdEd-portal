@@ -99,7 +99,7 @@ module.exports = (app, keycloak) => {
     '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home', '/spacehome',
     '/Workspace','/Workspace/*', '/upForReview', '/upForReview/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
-    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*'], keycloak.protect(), indexPage(true))
+    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*','/:slug/shared/*'], keycloak.protect(), indexPage(true))
 
   app.all('/:tenantName', renderTenantPage)
 }
@@ -136,7 +136,9 @@ function getLocals(req) {
 }
 
 const indexPage = (loggedInRoute) => {
+  console.log('\x1b[36m%s\x1b[0m',"indexpage" + loggedInRoute);
   return function(req, res){
+    console.log('\x1b[36m%s\x1b[0m',"Request path"+req.path);
     if (envHelper.DEFAULT_CHANNEL && req.path === '/') {
       renderTenantPage(req, res)
     } else {

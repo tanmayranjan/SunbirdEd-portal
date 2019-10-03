@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ErrorPageComponent, AuthGuard } from '@sunbird/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExploreDetailPageComponent } from './modules/public/module/explore';
 const appRoutes: Routes = [
   {
     path: 'learn', loadChildren: 'app/modules/learn/learn.module#LearnModule'
@@ -58,6 +59,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'error', component: ErrorPageComponent
+  },
+  {
+    path: ':slug/shared', loadChildren: 'app/modules/public/module/explore/explore.module#ExploreModule'
   },
   {
     path: '**', redirectTo: ''

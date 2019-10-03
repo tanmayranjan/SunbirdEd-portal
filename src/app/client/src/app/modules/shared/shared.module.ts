@@ -27,6 +27,7 @@ import { SpaceCardComponent } from './components/space-card/space-card.component
 import { SpacePageSectionComponent } from './components/space-page-section/space-page-section.component';
 import { HighlightTextDirective } from './directives/highlight-text/highlight-text.directive';
 import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-multi-select/sunbird-custom-multi-select.component';
+import { SpaceCardLoggedinComponent } from './components/space-card-loggedin/space-card-loggedin/space-card-loggedin.component';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-m
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
     InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent, SpaceCustomMultiSelectComponent,
-    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent],
+    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent, SpaceCardLoggedinComponent],
   exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
     PageSectionComponent, BatchCardComponent, NoResultComponent,
      CardComponent, OfflineCardComponent, CardCreationComponent,

@@ -12,6 +12,7 @@ import { takeUntil, map, mergeMap, first, filter, delay, tap } from 'rxjs/operat
 import { CacheService } from 'ng2-cache-service';
 import { IPagination } from '@sunbird/announcement';
 import { ICard, PaginationService } from '@sunbird/shared';
+import { UserstatusService } from '../../../shared/services/userstatus.service';
 @Component({
   templateUrl: './resource.component.html',
   styleUrls: ['./resource.component.css']
@@ -68,7 +69,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
     public searchService: SearchService,
     public paginationService: PaginationService,
-    public navigationhelperService: NavigationHelperService) {
+    public navigationhelperService: NavigationHelperService,public userstatus: UserstatusService) {
     window.scroll({
       top: 0,
       left: 0,
@@ -84,6 +85,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.userService.userData$.subscribe(userData => {
       if (userData && !userData.err) {
+         this.userstatus.setloggin(this.userService.loggedIn);
         this.frameworkData = _.get(userData.userProfile, 'framework');
       }
     });

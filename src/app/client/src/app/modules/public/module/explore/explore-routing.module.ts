@@ -31,6 +31,9 @@ const routes: Routes = [
       }
     },
     {
+      path: 'details/content/:contentId', component: ExploreDetailPageComponent
+    },
+    {
       path: 'player/content/:contentId', component: ExploreDetailPageComponent
     },
     {
