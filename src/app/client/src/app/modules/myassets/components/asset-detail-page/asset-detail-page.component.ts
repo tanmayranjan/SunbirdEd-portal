@@ -214,14 +214,9 @@ export class AssetDetailPageComponent implements OnInit {
         this.content = data.result.content;
         this.assetDetail = data.result.content[0];
         this.showLoader = false;
-<<<<<<< HEAD
-        this.pdfs = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/'),
-          data.result.content[0].artifactUrl.lastIndexOf('pdf'));
-=======
         if (data.result.content[0].artifactUrl && data.result.content[0].mimeType !== 'video/x-youtube') {
           this.contentuploaded = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/')).slice(1);
           }
->>>>>>> sb2-content-v2-upload
           this.telemetryImpressionObject = {
             id: this.assetDetail['identifier'],
             type: 'asset',
