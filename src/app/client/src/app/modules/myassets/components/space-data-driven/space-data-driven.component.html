@@ -59,7 +59,7 @@
                 <div class="actions mt-10">
                     <p class="text-align-center pt-20">
                         <button class="btn btn-default btn-sec mr-5 btn-lg text-light" id="res-btn" (click)="checkFields()"
-                            type="button">Save Asset</button>
+                        [disabled]="uploadbtnStatus" type="button">Save Asset</button>
                         <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
 
                     </p>
@@ -76,7 +76,7 @@
                 <div class="actions mt-10">
                     <p class="text-align-center pt-20">
                         <button class="btn btn-default btn-sec mr-5 btn-lg text-light" 
-                            type="button" (click)="checkFields()">Upload File</button>
+                            [disabled]="uploadbtnStatus" type="button" (click)="checkFields()">Upload File</button>
                         <button type="button" class="btn btn-outline btn-lg" (click)="goToCreate()">Cancel</button>
 
                     </p>
