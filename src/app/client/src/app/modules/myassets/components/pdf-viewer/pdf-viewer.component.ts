@@ -117,7 +117,7 @@ export class PdfViewerComponent implements OnInit {
       }
 
     });
-    if (this.path === 'pdfReview') {
+     if (this.path === 'pdfReview' || this.route.url.indexOf('upForReview') > -1) {
       this.status = 'Review';
       this.route.navigate(['upForReview/review/detail', this.contentId]);
     } else {
