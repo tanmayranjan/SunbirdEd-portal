@@ -193,7 +193,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
         this.content = data.result.content;
-        if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
+        if (data.result.content.artifactUrl && (data.result.content.mimeType !== 'video/x-youtube' || data.result.content.mimeType !== 'text/x-url')) {
           this.enabled = true;
           this.uploadedcontent = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
 
@@ -351,6 +351,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     
    this.formData.formInputData['assetformat']=this.formData['assetformat'];
    this.formData.formInputData['licensetype']=this.formData['licensetype'];
+   this.formData.formInputData['artifactUrl']=this.content.artifactUrl;
+   this.formData.formInputData['link']=this.content.artifactUrl;
     const data = _.pickBy(this.formData.formInputData);
     if (!!data.name &&  !!data.assetformat && !!data.licensetype &&!!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
