@@ -266,7 +266,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     /* this.telemetryImpression.edata.visits = this.telemetryLogs;
     this.telemetryImpression.edata.subtype = 'pageexit';
-    this.telemetryImpression = Object.assign({}, this.telemetryImpression); 
+    this.telemetryImpression = Object.assign({}, this.telemetryImpression);
     */
   }
 

@@ -193,7 +193,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       this.contentService.get(req).subscribe(data => {
         console.log('read content', data);
         this.content = data.result.content;
-        if (data.result.content.artifactUrl && (data.result.content.mimeType !== 'video/x-youtube' || data.result.content.mimeType !== 'text/x-url')) {
+        if (data.result.content.artifactUrl && (data.result.content.mimeType !== 'video/x-youtube'
+        || data.result.content.mimeType !== 'text/x-url')) {
           this.enabled = true;
           this.uploadedcontent = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
 
@@ -216,7 +217,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   */
   fetchFrameworkMetaData() {
 
-    if(this._cacheService.exists(this.contentType + this.formAction) && this._cacheService.exists('SpaceCategoryMasterListforLiveContentUpdate')) {
+    if (this._cacheService.exists(this.contentType + this.formAction) &&
+    this._cacheService.exists('SpaceCategoryMasterListforLiveContentUpdate')) {
       this.categoryMasterList = this._cacheService.get('SpaceCategoryMasterListforLiveContentUpdate');
       this.formFieldProperties = this._cacheService.get(this.contentType + this.formAction);
     }
@@ -226,7 +228,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       if (!frameworkData.err) {
 
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
-        this._cacheService.set('SpaceCategoryMasterListforLiveContentUpdate',this.categoryMasterList);
+        this._cacheService.set('SpaceCategoryMasterListforLiveContentUpdate', this.categoryMasterList);
         // this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
@@ -247,7 +249,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
             (data: ServerResponse) => {
 
               this.formFieldProperties = data;
-              this._cacheService.set(this.contentType + this.formAction,this.formFieldProperties);
+              this._cacheService.set(this.contentType + this.formAction, this.formFieldProperties);
               this.getFormConfig();
             },
             (err: ServerResponse) => {
@@ -300,8 +302,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     const requestData = _.cloneDeep(data);
     console.log('generate data = ', requestData);
     requestData.name = data.name ? data.name : this.name,
-    requestData.assetformat=data.assetformat ? data.assetformat : null;
-    requestData.licensetype=data.licensetype ? data.licensetype : null ;
+    requestData.assetformat = data.assetformat ? data.assetformat : null;
+    requestData.licensetype = data.licensetype ? data.licensetype : null ;
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
       requestData.organisation = this.userProfile.organisationNames,
@@ -339,12 +341,13 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     return requestData;
   }
   checkFields() {
-    
-    this.formData.formInputData['assetformat']=this.formData['assetformat'];
-    this.formData.formInputData['licensetype']=this.formData['licensetype'];
+
+    this.formData.formInputData['assetformat'] = this.formData['assetformat'];
+    this.formData.formInputData['licensetype'] = this.formData['licensetype'];
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
-    if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+    if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.board && !!data.description
+      && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
 
       this.uploadSuccess = true;
@@ -355,13 +358,14 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     }
   }
   checkFieldofFile() {
-    
-   this.formData.formInputData['assetformat']=this.formData['assetformat'];
-   this.formData.formInputData['licensetype']=this.formData['licensetype'];
-   this.formData.formInputData['artifactUrl']=this.content.artifactUrl;
-   this.formData.formInputData['link']=this.content.artifactUrl;
+
+   this.formData.formInputData['assetformat'] = this.formData['assetformat'];
+   this.formData.formInputData['licensetype'] = this.formData['licensetype'];
+   this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
+   this.formData.formInputData['link'] = this.content.artifactUrl;
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name &&  !!data.assetformat && !!data.licensetype &&!!data.board && !!data.description  && (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
+    if (!!data.name &&  !!data.assetformat && !!data.licensetype && !!data.board && !!data.description  &&
+       (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       this.updatebtnStatus = true;

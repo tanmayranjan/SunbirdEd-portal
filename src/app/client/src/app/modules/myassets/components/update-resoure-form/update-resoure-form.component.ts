@@ -113,11 +113,12 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
    // Modal
    @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
-  
+
   private map = new Map<string, string[]>([
-    ['Content', ['CC0', 'CC BY (4.0)','CC BY-SA (4.0)', 'CC BY-ND (4.0)','CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)','CC BY-NC-ND (4.0)', 'Other']],
+    ['Content', ['CC0', 'CC BY (4.0)', 'CC BY-SA (4.0)', 'CC BY-ND (4.0)', 'CC BY-NC (4.0)',
+    'CC BY-NC-SA (4.0)', 'CC BY-NC-ND (4.0)', 'Other']],
     ['Software Code', ['MIT License', 'Apache License', 'Other']],
-  ])
+  ]);
 
 // data of table of Content
 
@@ -150,7 +151,7 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
       'Yes', 'No', 'No', '', 'https://creativecommons.org/licenses/by-nc-nd/4.0/']
 
 
-  }]
+  }];
 
   softwarelicenses = [{
     0: ['Apache License', 'Apache Software Foundation', 'Permissive',
@@ -161,12 +162,12 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
     1: ['MIT License', 'MIT', 'Permissive',
       'Permissive', 'Permissive', 'Permissive', 'Yes',
        'Manually', 'Manually', 'http://opensource.org/licenses/MIT']
-  }]
+  }];
 
-  assetformat : string;
-  licensetype : string;
-  previousval: string ='';
- 
+  assetformat: string;
+  licensetype: string;
+  previousval = '';
+
   constructor(
     formService: FormService,
     private _cacheService: CacheService,
@@ -260,8 +261,8 @@ if (this.path === 'Live') {
   this.contentService.get(req).subscribe(data => {
     console.log('read content', data);
     this.formInputData = data.result.content;
-    this.assetformat=data.result.content.assetformat;
-    this.licensetype=data.result.content.licensetype;
+    this.assetformat = data.result.content.assetformat;
+    this.licensetype = data.result.content.licensetype;
    if (data.result.content.topic) {
      this.showFramework = true;
    } else {
@@ -278,9 +279,9 @@ if (this.path === 'Live') {
   this.contentService.get(req).subscribe(data => {
     console.log('read content', data);
     this.formInputData = data.result.content;
-    
-    this.assetformat=data.result.content.assetformat;
-    this.licensetype=data.result.content.licensetype;
+
+    this.assetformat = data.result.content.assetformat;
+    this.licensetype = data.result.content.licensetype;
     // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel);
     this.keywords = data.result.content.keywords;
     // this.formInputData['versionKey'] = data.result.asset.versionKey;
@@ -462,14 +463,14 @@ if (this.path === 'Live') {
   get alllicensetype(): string[] | undefined {
     return this.map.get(this.assetformat);
   }
-  resetattribute(){
-    if(this.previousval !== this.assetformat){
-      this.licensetype=undefined;
+  resetattribute() {
+    if (this.previousval !== this.assetformat) {
+      this.licensetype = undefined;
     }
-    this.previousval=this.assetformat;
- 
+    this.previousval = this.assetformat;
+
   }
-  showall(){
+  showall() {
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'large';
@@ -480,9 +481,9 @@ if (this.path === 'Live') {
       .open(config)
       .onApprove(result => {
       })
-    .onDeny(result =>{
+    .onDeny(result => {
 
     });
-   
+
   }
 }

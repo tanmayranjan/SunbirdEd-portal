@@ -124,7 +124,8 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
   user: string[];
   openmodal = false;
   flag: boolean;
-  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService, public router: Router,public userstatus:UserstatusService) {
+  constructor(public activatedRoute: ActivatedRoute, public resourceService: ResourceService,
+    public router: Router, public userstatus: UserstatusService) {
     this.resourceService = resourceService;
   }
   playContent(event) {
@@ -140,9 +141,9 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
     // this.route.navigate(['/play/content', data.identifier]);
   }
   ngOnInit() {
-    this.userstatus.checklogginstatus$.subscribe((data)=>{
-      this.flag=data;
-    })
+    this.userstatus.checklogginstatus$.subscribe((data) => {
+      this.flag = data;
+    });
     this.find_user =  window.location.href;
     this.user = this.find_user.split('/');
     console.log('icarousal data = ', this.section, this.user, this.enable);
