@@ -216,11 +216,17 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   */
   fetchFrameworkMetaData() {
 
+    if(this._cacheService.exists(this.contentType + this.formAction) && this._cacheService.exists('SpaceCategoryMasterListforLiveContentUpdate')) {
+      this.categoryMasterList = this._cacheService.get('SpaceCategoryMasterListforLiveContentUpdate');
+      this.formFieldProperties = this._cacheService.get(this.contentType + this.formAction);
+    }
+
     this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
 
       if (!frameworkData.err) {
 
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
+        this._cacheService.set('SpaceCategoryMasterListforLiveContentUpdate',this.categoryMasterList);
         // this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
@@ -241,6 +247,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
             (data: ServerResponse) => {
 
               this.formFieldProperties = data;
+              this._cacheService.set(this.contentType + this.formAction,this.formFieldProperties);
               this.getFormConfig();
             },
             (err: ServerResponse) => {
