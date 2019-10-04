@@ -16,6 +16,7 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
   @Input() enable: string;
   inviewLogs = [];
   cardIntractEdata: IInteractEventEdata;
+  isResourcePage;
   /**
   * slug input
   */
@@ -154,6 +155,7 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
         pageid: this.pageid
       };
     }
+    this.isResourcePage = this.router.url.indexOf('resources') > -1;
   }
   /**
    * get inview  Data
