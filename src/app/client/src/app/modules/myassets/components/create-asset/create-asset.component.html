@@ -66,6 +66,13 @@
                 </p>
 
             </div>
+           <div *ngIf="!!!content?.artifactUrl">
+                <p>
+                        <span (click)="contentClick()" class="pdfStyle">Upload</span>
+                        <span class="editorStyle" (click)="contentClick()">(click here)</span>
+                        
+                    </p>
+           </div>
             <div class="actions mt-10" *ngIf="enableLink">
                 <p class="text-align-center pt-20">
                     <button class="btn btn-default btn-sec mr-5 btn-lg text-light" (click)="checkFields()"
@@ -75,13 +82,7 @@
                 </p>
 
             </div>
-           <div *ngIf="!!!content?.artifactUrl">
-                <p>
-                        <span (click)="contentClick()" class="pdfStyle">Upload</span>
-                        <span class="editorStyle" (click)="contentClick()">(click here)</span>
-                        
-                    </p>
-           </div>
+         
         </div>
     </form>
 </div>
