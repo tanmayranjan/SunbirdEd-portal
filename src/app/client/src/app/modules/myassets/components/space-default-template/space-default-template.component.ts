@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService } from '@sunbird/core';
@@ -10,12 +10,14 @@ import { TemplateModalConfig, ModalTemplate, SuiModalService } from 'ng2-semanti
 import { combineLatest, takeUntil } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
+declare var $: any;
+
 @Component({
   selector: 'app-space-default-template',
   templateUrl: './space-default-template.component.html',
   styleUrls: ['./space-default-template.component.scss']
 })
-export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
+export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit, OnDestroy {
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
   @Input() submited: boolean;
@@ -410,7 +412,7 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       .onApprove(result => {
       })
     .onDeny(result => {
-
+      
     });
 
   }
@@ -448,6 +450,9 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       this.newlicensearray = [];
     }
     return this.newlicenseobject;
+  }
+  ngOnDestroy(){
+   $('sui-modal').css('display', 'none');
   }
 }
 

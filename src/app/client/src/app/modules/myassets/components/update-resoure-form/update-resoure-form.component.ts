@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterContentInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterContentInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService, ContentService, AssetService } from '@sunbird/core';
@@ -25,7 +25,7 @@ import { forkJoin } from 'rxjs';
   //    }
   //  `]
 })
-export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
+export class UpdateResoureFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
@@ -501,4 +501,7 @@ if (this.path === 'Live') {
     });
 
   }
+  ngOnDestroy(){
+    $('sui-modal').css('display', 'none');
+   }
 }
