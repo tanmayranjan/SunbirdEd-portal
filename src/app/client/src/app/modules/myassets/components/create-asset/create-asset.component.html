@@ -8,7 +8,7 @@
                     [categoryMasterList]="categoryMasterList">
                 </app-update-resoure-form>
             </div>
-            <div *ngIf="enabled && content?.mimeType === 'text/x-url'" class="mt-10">
+            <div *ngIf="content?.mimeType === 'text/x-url'" class="mt-10">
                 <!-- <p>
                                 File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                             </p> -->
@@ -21,7 +21,7 @@
                             
                                   </div>
             </div>
-            <div *ngIf="enabled && content?.mimeType !== 'text/x-url'" class="mt-10">
+            <div class="mt-10" *ngIf="enabled && content?.mimeType !== 'text/x-url' && content?.mimeType !== 'video/x-youtube'" class="mt-10">
                 <!-- <p>
                     File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                 </p> -->
@@ -31,7 +31,7 @@
                 </p>
 
             </div>
-            <div *ngIf="content?.artifactUrl && content?.mimeType === 'video/x-youtube'">
+            <div class="mt-10" *ngIf="content?.artifactUrl && content?.mimeType === 'video/x-youtube'">
                 <p>
                     Video : <span (click)="contentClick()" class="pdfStyle">{{content?.artifactUrl}}</span>
                     <span class="editorStyle" (click)="contentClick()">- (click here)</span>
