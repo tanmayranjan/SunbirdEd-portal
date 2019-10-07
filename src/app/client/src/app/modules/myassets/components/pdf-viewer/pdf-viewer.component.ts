@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService,PlayerService } from '@sunbird/core';
+import { ContentService, PlayerService } from '@sunbird/core';
 import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -58,11 +58,11 @@ export class PdfViewerComponent implements OnInit {
       };
       this.contentService.getupForReviewData(option).subscribe(data => {
           console.log('read content', data);
-          if(data.result.content[0].mimeType === 'application/epub'){
-            this.epub=true;
-            var newobj={'contentData':data.result.content[0],'contentId':data.result.content[0].identifier};
+          if (data.result.content[0].mimeType === 'application/epub') {
+            this.epub = true;
+            const newobj = {'contentData': data.result.content[0], 'contentId': data.result.content[0].identifier};
            this.playerConfig = this.playerservice.getConfig(newobj);
-          
+
           }
           this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content[0].artifactUrl);
           this.showLoader = false;
@@ -74,11 +74,11 @@ export class PdfViewerComponent implements OnInit {
     };
     this.contentService.get(req).subscribe(data => {
       console.log('data in pdf = ', data);
-    if(data.result.content['mimeType'] === 'application/epub'){
-      this.epub=true;
-      var newobj={'contentData':data.result.content,'contentId':data.result.content.identifier};
+    if (data.result.content['mimeType'] === 'application/epub') {
+      this.epub = true;
+      const newobj = {'contentData': data.result.content, 'contentId': data.result.content.identifier};
      this.playerConfig = this.playerservice.getConfig(newobj);
-    
+
     }
       this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
       this.showLoader = false;
@@ -117,7 +117,7 @@ export class PdfViewerComponent implements OnInit {
       }
 
     });
-    if (this.path === 'pdfReview') {
+     if (this.path === 'pdfReview' || this.route.url.indexOf('upForReview') > -1) {
       this.status = 'Review';
       this.route.navigate(['upForReview/review/detail', this.contentId]);
     } else {

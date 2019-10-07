@@ -20,7 +20,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   @Input() categoryMasterList: any;
   @Input() submited: boolean;
   @Input() org: string;
-  
+
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -75,12 +75,12 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
    * formInputData is to take input data's from form
    */
   public formInputData = {};
-  
+
 
    // Modal
    @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
-  
+
   /**
    * categoryList is category list of dropdown values
    */
@@ -91,7 +91,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   public masterList: {};
 
   // boolean variable for licensetype field
-  disableprop : boolean = true;
+  disableprop = true;
 
 
   // Form input for software type license
@@ -382,12 +382,12 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
     }
     return years;
   }
-  removedisabledattribute(){
-    this.disableprop=false;
-    if(this.previousval !== this.assetformat){
-      this.licensetype=undefined;
+  removedisabledattribute() {
+    this.disableprop = false;
+    if (this.previousval !== this.assetformat) {
+      this.licensetype = undefined;
     }
-    this.previousval=this.assetformat;
+    this.previousval = this.assetformat;
   }
   get allassetformat(): string[] {
     return Array.from(this.map.keys());
@@ -397,7 +397,7 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
     return this.map.get(this.assetformat);
   }
 
-  showall(){
+  showall() {
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'large';
@@ -408,10 +408,10 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       .open(config)
       .onApprove(result => {
       })
-    .onDeny(result =>{
+    .onDeny(result => {
 
     });
-   
+
   }
   manipulatedataofform() {
     forkJoin(this.formService.getFormConfig(this.formServiceInputParams1), this.formService.getFormConfig(this.formServiceInputParams2))

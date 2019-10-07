@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class UserstatusService {
   public _checklogginstatus = new BehaviorSubject<boolean>(false);
   checklogginstatus$ = this._checklogginstatus.asObservable();
-  
+
   constructor() { }
 
   public setloggin(flag) {
