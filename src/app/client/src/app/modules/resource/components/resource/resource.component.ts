@@ -69,7 +69,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
     public searchService: SearchService,
     public paginationService: PaginationService,
-    public navigationhelperService: NavigationHelperService,public userstatus: UserstatusService) {
+    public navigationhelperService: NavigationHelperService, public userstatus: UserstatusService) {
     window.scroll({
       top: 0,
       left: 0,

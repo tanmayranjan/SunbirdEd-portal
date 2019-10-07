@@ -210,10 +210,16 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   */
   fetchFrameworkMetaData() {
 
+    if (this._cacheService.exists('SpaceCategoryMasterList') && this._cacheService.exists(this.contentType + this.formAction)) {
+      this.categoryMasterList = this._cacheService.get('SpaceCategoryMasterList');
+      this.formFieldProperties = this._cacheService.get(this.contentType + this.formAction);
+    }
+
     this.frameworkService.frameworkData$.subscribe((frameworkData: Framework) => {
 
       if (!frameworkData.err) {
         this.categoryMasterList = _.cloneDeep(frameworkData.frameworkdata['defaultFramework'].categories);
+        this._cacheService.set('SpaceCategoryMasterList', this.categoryMasterList);
         this.framework = frameworkData.frameworkdata['defaultFramework'].code;
         /**
   * isCachedDataExists will check data is exists in cache or not. If exists should not call
@@ -289,8 +295,8 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
    // data.creators = requestData.creators;
    // data.source = requestData.link;
       requestData.name = data.name ? data.name : this.name,
-      requestData.assetformat=data.assetformat ? data.assetformat : null;
-      requestData.licensetype=data.licensetype ? data.licensetype : null ;
+      requestData.assetformat = data.assetformat ? data.assetformat : null;
+      requestData.licensetype = data.licensetype ? data.licensetype : null ;
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
       requestData.createdFor = this.userProfile.organisationIds,
@@ -352,11 +358,12 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   }
   checkFields() {
     this.formData.formInputData['link'] = this.link;
-    this.formData.formInputData['assetformat']=this.formData.assetformat;
-    this.formData.formInputData['licensetype']=this.formData.licensetype;
+    this.formData.formInputData['assetformat'] = this.formData.assetformat;
+    this.formData.formInputData['licensetype'] = this.formData.licensetype;
      const data = _.pickBy(this.formData.formInputData);
     console.log('data in checking fields = ', data);
-    if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.description && !!data.board && (!!data.keywords && data.keywords.length > 0)
+    if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.description &&
+      !!data.board && (!!data.keywords && data.keywords.length > 0)
       && !!data.creators && !!data.version
       && !!data.year && !!data.region && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;

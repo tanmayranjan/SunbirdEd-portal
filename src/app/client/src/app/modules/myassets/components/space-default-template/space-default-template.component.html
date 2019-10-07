@@ -185,7 +185,10 @@
           </tr></thead>
           <tbody>
             <tr *ngFor="let data of contentlicenses;let i=index">
-              <td *ngFor="let content of data[i]">{{content}}</td>
+              <td *ngFor="let content of data[i]; let j=last">
+                  <span *ngIf="!j">{{content}}</span>
+                  <span *ngIf="j"><a href="{{content}}" target="_blank">{{content}}</a></span> 
+              </td>
             </tr>
           </tbody>
         </table>
@@ -208,7 +211,10 @@
           </tr></thead>
           <tbody>
             <tr *ngFor="let data of softwarelicenses;let i=index">
-              <td *ngFor="let content of data[i]">{{content}}</td>
+              <td *ngFor="let content of data[i];let j=last">
+                <span *ngIf="!j">{{content}}</span>
+                <span *ngIf="j"><a href="{{content}}" target="_blank">{{content}}</a></span>    
+              </td>
             </tr>
           </tbody>
         </table>

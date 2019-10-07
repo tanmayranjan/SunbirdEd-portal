@@ -18,7 +18,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   @Input() categoryMasterList: any;
   @Input() submited: boolean;
   @Input() org: string;
-  
+
   /**
     * This variable hepls to show and hide page loader.
     * It is kept true by default as at first when we comes
@@ -73,12 +73,12 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
    * formInputData is to take input data's from form
    */
   public formInputData = {};
-  
+
 
    // Modal
    @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
-  
+
   /**
    * categoryList is category list of dropdown values
    */
@@ -89,13 +89,14 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   public masterList: {};
 
   // boolean variable for licensetype field
-  disableprop : boolean = true;
+  disableprop = true;
 
   // data of dropdown of asset format and license type
   private map = new Map<string, string[]>([
-    ['Content', ['CC0', 'CC BY (4.0)','CC BY-SA (4.0)', 'CC BY-ND (4.0)','CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)','CC BY-NC-ND (4.0)', 'Other']],
+    ['Content', ['CC0', 'CC BY (4.0)', 'CC BY-SA (4.0)', 'CC BY-ND (4.0)',
+    'CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)', 'CC BY-NC-ND (4.0)', 'Other']],
     ['Software Code', ['MIT License', 'Apache License', 'Other']],
-  ])
+  ]);
 
 // data of table of Content
 
@@ -128,7 +129,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
       'Yes', 'No', 'No', '', 'https://creativecommons.org/licenses/by-nc-nd/4.0/']
 
 
-  }]
+  }];
 
   softwarelicenses = [{
     0: ['Apache License', 'Apache Software Foundation', 'Permissive',
@@ -139,10 +140,10 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
     1: ['MIT License', 'MIT', 'Permissive',
       'Permissive', 'Permissive', 'Permissive', 'Yes',
        'Manually', 'Manually', 'http://opensource.org/licenses/MIT']
-  }]
+  }];
 
-  assetformat : string;
-  licensetype : string;
+  assetformat: string;
+  licensetype: string;
   /**
    * years is used to get years from getYearsForCreateTextBook
    */
@@ -154,7 +155,7 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   orgname: string;
   modalMessage: string;
   loaderMessage: { 'loaderMessage': any; };
-  previousval: string = '';
+  previousval = '';
 
   constructor(
     formService: FormService,
@@ -399,12 +400,12 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
     }
     return years;
   }
-  removedisabledattribute(){
-    this.disableprop=false;
-    if(this.previousval !== this.assetformat){
-      this.licensetype=undefined;
+  removedisabledattribute() {
+    this.disableprop = false;
+    if (this.previousval !== this.assetformat) {
+      this.licensetype = undefined;
     }
-    this.previousval=this.assetformat;
+    this.previousval = this.assetformat;
   }
   get allassetformat(): string[] {
     return Array.from(this.map.keys());
@@ -414,7 +415,7 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
     return this.map.get(this.assetformat);
   }
 
-  showall(){
+  showall() {
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
     config.isClosable = true;
     config.size = 'large';
@@ -425,10 +426,10 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       .open(config)
       .onApprove(result => {
       })
-    .onDeny(result =>{
+    .onDeny(result => {
 
     });
-   
+
   }
 }
 

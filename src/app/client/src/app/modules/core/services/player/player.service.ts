@@ -104,7 +104,7 @@ export class PlayerService {
       configuration.context.dims = cloneDims;
     }
     const tags = [];
-    if(this.userService.loggedIn){
+    if (this.userService.loggedIn) {
       configuration.context.contextRollup =  this.getRollUpData(this.userService.userProfile.hashTagIds);
       _.forEach(this.userService.userProfile.organisations, (org) => {
         if (org.hashTagId) {
