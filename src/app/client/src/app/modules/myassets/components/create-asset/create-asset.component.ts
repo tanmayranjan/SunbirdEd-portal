@@ -206,6 +206,18 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
         // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel)
         // this.formInputData['versionKey'] = data.result.asset.versionKey;
       });
+    this.telemetryImpression = {
+      context: {
+        env: 'asset-update-page'
+      },
+      edata: {
+        type: 'view',
+        pageid: 'asset-update-page',
+        uri: this.router.url,
+        subtype: 'paginate',
+        duration: this.navigationHelperService.getPageLoadTime()
+      }
+    };
   }
   ngOnDestroy() {
     if (this.modal && this.modal.deny) {

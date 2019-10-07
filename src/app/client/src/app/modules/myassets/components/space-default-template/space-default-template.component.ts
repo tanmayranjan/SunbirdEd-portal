@@ -412,7 +412,7 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
       .onApprove(result => {
       })
     .onDeny(result => {
-      
+
     });
 
   }
@@ -451,7 +451,7 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
     }
     return this.newlicenseobject;
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
    $('sui-modal').css('display', 'none');
   }
 }
