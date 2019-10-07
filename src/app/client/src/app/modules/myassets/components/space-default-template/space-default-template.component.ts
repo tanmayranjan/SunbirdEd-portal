@@ -111,15 +111,16 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   };
   // data of dropdown of asset format and license type
   /* private map = new Map<string, string[]>([
-    ['Content', ['CC0', 'CC BY (4.0)','CC BY-SA (4.0)', 'CC BY-ND (4.0)','CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)','CC BY-NC-ND (4.0)', 'Other']],
+    ['Content', ['CC0', 'CC BY (4.0)','CC BY-SA (4.0)', 'CC BY-ND (4.0)',
+    'CC BY-NC (4.0)', 'CC BY-NC-SA (4.0)','CC BY-NC-ND (4.0)', 'Other']],
     ['Software Code', ['MIT License', 'Apache License', 'Other']],
   ]) */
-  private map=new Map<string, string[]>([
-    ['Content',[]],['Software Code',[]]
+  private map = new Map<string, string[]>([
+    ['Content', []], ['Software Code', []]
   ]);
   dropdownitems = [];
-  assetformat : string;
-  licensetype : string;
+  assetformat: string;
+  licensetype: string;
   /**
    * years is used to get years from getYearsForCreateTextBook
    */
@@ -131,10 +132,10 @@ export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit {
   orgname: string;
   modalMessage: string;
   loaderMessage: { 'loaderMessage': any; };
-  previousval: string = '';
+  previousval = '';
   softwarelicenses: any;
   contentlicenses: any;
-  newlicensearray=[];
+  newlicensearray = [];
   newcontentlicenseobject: any = {};
   newsoftwarelicenseobject: any = {};
   newlicenseobject: any = {};
@@ -416,27 +417,27 @@ console.log('coutry and language list = ', this.configService.countryConfig, thi
   manipulatedataofform() {
     forkJoin(this.formService.getFormConfig(this.formServiceInputParams1), this.formService.getFormConfig(this.formServiceInputParams2))
   .subscribe((result) => {
-    this.contentlicenses = result[0]; 
+    this.contentlicenses = result[0];
     this.softwarelicenses = result[1];
-    this.newcontentlicenseobject=this.getDataofform(this.contentlicenses);
+    this.newcontentlicenseobject = this.getDataofform(this.contentlicenses);
     this.dropdownitems.push('Other');
-    this.map.set('Content',this.dropdownitems);
-    this.newsoftwarelicenseobject=this.getDataofform(this.softwarelicenses);
+    this.map.set('Content', this.dropdownitems);
+    this.newsoftwarelicenseobject = this.getDataofform(this.softwarelicenses);
     this.dropdownitems.push('Other');
-    this.map.set('Software Code',this.dropdownitems);
+    this.map.set('Software Code', this.dropdownitems);
   });
   }
   getDataofform(data: any) {
     let flag = false;
-    this.newlicenseobject={};
+    this.newlicenseobject = {};
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data.length; j++) {
         if (data[j].range[i] === undefined) {
           flag = true;
           break;
         }
-        if(data[j].code === "licensetype"){
-          this.dropdownitems=data[j].range;
+        if (data[j].code === 'licensetype') {
+          this.dropdownitems = data[j].range;
         }
         this.newlicensearray.push(data[j].range[i]);
       }
