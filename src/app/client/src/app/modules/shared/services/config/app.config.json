@@ -1091,7 +1091,9 @@
     "explore-course": "explore-course",
     "framework-code": "framework-code",
     "courses": "courses",
-    "organization": "organization"
+    "organization": "organization",
+    "contentlicenses":"contentlicenses",
+    "softwarelicenses":"softwarelicenses"
   },
   "cacheServiceConfig": {
     "setTimeInMinutes": 10,

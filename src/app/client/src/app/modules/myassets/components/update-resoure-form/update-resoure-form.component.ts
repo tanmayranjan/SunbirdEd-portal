@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterContentInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, AfterContentInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService, ContentService, AssetService } from '@sunbird/core';
@@ -8,6 +8,7 @@ import { SpaceEditorService } from '../../services/space-editor/space-editor.ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { domainToASCII } from 'url';
 import { TemplateModalConfig, ModalTemplate, SuiModalService } from 'ng2-semantic-ui';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { TemplateModalConfig, ModalTemplate, SuiModalService } from 'ng2-semanti
   //    }
   //  `]
 })
-export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
+export class UpdateResoureFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
@@ -109,60 +110,39 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
   keywords = [];
   path: string;
   showFramework: any;
+  softwarelicenses: any;
+  contentlicenses: any;
+  newlicensearray = [];
+  dropdownitems = [];
+  newcontentlicenseobject: any = {};
+  newsoftwarelicenseobject: any = {};
+  newlicenseobject: any = {};
+  // Form input for software type license
+  private formServiceInputParams2 = {
+    formType: 'licensetypedropdown',
+    formAction: 'showpopup',
+    contentType: 'softwarelicenses',
+    rootOrgId: '01279840588057804865'
+  };
+
+  // Form Input for content type license
+  private formServiceInputParams1 = {
+    formType: 'licensetypedropdown',
+    formAction: 'showpopup',
+    contentType: 'contentlicenses',
+    rootOrgId: '01279840588057804865'
+  };
 
    // Modal
    @ViewChild('modalTemplate')
   public modalTemplate: ModalTemplate<{ data: string }, string, string>;
 
   private map = new Map<string, string[]>([
-    ['Content', ['CC0', 'CC BY (4.0)', 'CC BY-SA (4.0)', 'CC BY-ND (4.0)', 'CC BY-NC (4.0)',
-    'CC BY-NC-SA (4.0)', 'CC BY-NC-ND (4.0)', 'Other']],
-    ['Software Code', ['MIT License', 'Apache License', 'Other']],
+    ['Content', []], ['Software Code', []]
   ]);
 
 // data of table of Content
 
-  contentlicenses = [{
-    0: ['CC0', 'Creative Commons', 'Freeing content globally without restrictions',
-      'No', 'Yes', 'Yes', 'Yes', 'https://creativecommons.org/share-your-work/public-domain/cc0/']
-  },
-  {
-    1: ['CC BY (4.0)', 'Creative Commons', 'Attribution alone',
-      'Yes', 'Yes', 'Yes', 'Yes', 'https://creativecommons.org/licenses/by/4.0/']
-  },
-  {
-    2: ['CC BY-SA (4.0)', 'Creative Commons', 'Attribution + ShareAlike',
-      'Yes', 'Yes', 'Yes', 'No', 'https://creativecommons.org/licenses/by-sa/4.0/']
-  },
-  {
-    3: ['CC BY-ND (4.0)', 'Creative Commons', 'Attribution + NoDerivatives',
-      'Yes', 'Yes', 'No', '', 'https://creativecommons.org/licenses/by-nd/4.0/']
-  },
-  {
-    4: ['CC BY-NC (4.0)', 'Creative Commons', 'Attribution + NonCommercial',
-      'Yes', 'No', 'Yes', 'Yes', 'https://creativecommons.org/licenses/by-nc/4.0/']
-  },
-  {
-    5: ['CC BY-NC-SA (4.0)', 'Creative Commons', 'Attribution + NonCommercial + ShareAlike',
-      'Yes', 'No', 'Yes', 'No', 'https://creativecommons.org/licenses/by-nc-sa/4.0/']
-  },
-  {
-    6: ['CC BY-NC-ND (4.0)', 'Creative Commons', 'Attribution + NonCommercial + NoDerivatives',
-      'Yes', 'No', 'No', '', 'https://creativecommons.org/licenses/by-nc-nd/4.0/']
-
-
-  }];
-
-  softwarelicenses = [{
-    0: ['Apache License', 'Apache Software Foundation', 'Permissive',
-      'Permissive', 'Permissive', 'Permissive', 'Yes',
-       'No', 'Yes', 'https://www.apache.org/licenses/']
-  },
-  {
-    1: ['MIT License', 'MIT', 'Permissive',
-      'Permissive', 'Permissive', 'Permissive', 'Yes',
-       'Manually', 'Manually', 'http://opensource.org/licenses/MIT']
-  }];
 
   assetformat: string;
   licensetype: string;
@@ -241,6 +221,7 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
 
+    this.manipulatedataofform();
 console.log('semantic column width = ', this.formFieldProperties);
     /***
  * Call User service to get user data
@@ -299,7 +280,41 @@ if (this.path === 'Live') {
     this.years = this.getYearsForCreateTextBook();
     this.mapMasterCategoryList('');
   }
+  manipulatedataofform() {
+    forkJoin(this.formService.getFormConfig(this.formServiceInputParams1), this.formService.getFormConfig(this.formServiceInputParams2))
+  .subscribe((result) => {
+    this.contentlicenses = result[0];
+    this.softwarelicenses = result[1]; this.newcontentlicenseobject = this.getDataofform(this.contentlicenses);
+    this.dropdownitems.push('Other');
+    this.map.set('Content', this.dropdownitems);
+    this.newsoftwarelicenseobject = this.getDataofform(this.softwarelicenses);
+    this.dropdownitems.push('Other');
+    this.map.set('Software Code', this.dropdownitems);
 
+  });
+  }
+  getDataofform(data: any) {
+    let flag = false;
+    this.newlicenseobject = {};
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data.length; j++) {
+        if (data[j].range[i] === undefined) {
+          flag = true;
+          break;
+        }
+        if (data[j].code === 'licensetype') {
+          this.dropdownitems = data[j].range;
+        }
+        this.newlicensearray.push(data[j].range[i]);
+      }
+      if (flag === true) {
+        break;
+      }
+      this.newlicenseobject[i] = this.newlicensearray;
+      this.newlicensearray = [];
+    }
+    return this.newlicenseobject;
+  }
   /**
 * to get selected concepts from concept picker.
 */
@@ -486,4 +501,7 @@ if (this.path === 'Live') {
     });
 
   }
+  ngOnDestroy(){
+    $('sui-modal').css('display', 'none');
+   }
 }

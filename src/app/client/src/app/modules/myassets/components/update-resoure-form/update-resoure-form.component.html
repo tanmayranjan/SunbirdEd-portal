@@ -193,45 +193,36 @@
 
 <ng-template let-context let-modal="modal" #modalTemplate>
    
-    <div *ngIf="assetformat === 'Content'">
+    <div style="overflow-x: scroll;" *ngIf="assetformat === 'Content'">
         <table class="ui celled table">
-            <thead>
-              <tr>
-              <th>License Type</th>
-              <th>Author</th>
-              <th>Description</th>
-              <th>Attribution Required</th>
-                <th>Allows Commercial Use</th>
-                <th>Allows Derivatives</th>
-                <th>Allows Derivatives Under Different License Terms</th>
-              <th>License Link</th>
-            </tr></thead>
+            <thead >
+                <tr>
+                <th *ngFor="let data of contentlicenses">{{data.label}}</th>
+                
+              </tr></thead>
             <tbody>
               <tr *ngFor="let data of contentlicenses;let i=index">
-                <td *ngFor="let content of data[i]">{{content}}</td>
+                  <td *ngFor="let content of newcontentlicenseobject[i]; let j=last">
+                      <span *ngIf="!j">{{content}}</span>
+                      <span *ngIf="j"><a href="{{content}}" target="_blank">{{content}}</a></span> 
+                  </td>
               </tr>
             </tbody>
           </table>
     </div>
-    <div *ngIf="assetformat === 'Software Code'">
+    <div style="overflow-x: scroll;" *ngIf="assetformat === 'Software Code'">
         <table class="ui celled table">
             <thead>
               <tr>
-              <th>License Type</th>
-              <th>Author</th>
-              <th>Distribution to Third Parties</th>
-              <th>Modification</th>
-                <th>Licensing Modified Code Under Different License Terms</th>
-                <th>Linking of Licensed Code with Code Licensed Under Different Licenses</th>
-                <th>Private Use</th>
-              <th>Use of Trademark Associated with Licensed Code or its Contributors</th>
-              <th>Protection of Licensees and Code Contributors from Patent Claims Filed by Each Other</th>
-              <th>License Link</th>
+              <th  *ngFor="let data of softwarelicenses">{{data.label}}</th>
               
             </tr></thead>
             <tbody>
               <tr *ngFor="let data of softwarelicenses;let i=index">
-                <td *ngFor="let content of data[i]">{{content}}</td>
+                  <td *ngFor="let content of newsoftwarelicenseobject[i];let j=last">
+                      <span *ngIf="!j">{{content}}</span>
+                      <span *ngIf="j"><a href="{{content}}" target="_blank">{{content}}</a></span>    
+                    </td>
               </tr>
             </tbody>
           </table>
