@@ -501,7 +501,7 @@ if (this.path === 'Live') {
     });
 
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     $('sui-modal').css('display', 'none');
    }
 }

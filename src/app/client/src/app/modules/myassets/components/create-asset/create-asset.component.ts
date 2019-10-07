@@ -213,11 +213,11 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       edata: {
         type: 'view',
         pageid: 'asset-update-page',
-        uri:this.router.url,
+        uri: this.router.url,
         subtype: 'paginate',
         duration: this.navigationHelperService.getPageLoadTime()
       }
-    }
+    };
   }
   ngOnDestroy() {
     if (this.modal && this.modal.deny) {
