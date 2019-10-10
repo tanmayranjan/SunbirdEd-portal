@@ -57,29 +57,7 @@ export class ExploreDetailPageComponent implements OnInit {
   public contentId;
   public route: Router;
   counterVar = false;
-  public assetDetail: IassessDetail = {
-    name: '',
-    link: '',
-    since: '',
-    year: '',
-    region: '',
-    board: '',
-    gradeLevel: [],
-    topic: [],
-    keywords: [],
-    description: '',
-    version: '',
-    creators: '',
-    creator: '',
-    artifactUrl: '',
-    mimeType: '',
-    lastSubmittedOn: '',
-    sector: '',
-    assetType: '',
-    source: '',
-    submittedBy: ''
-
-  };
+  assetDetail: any;
   public resourceService: ResourceService;
   private toasterService: ToasterService;
   pdfs: any;

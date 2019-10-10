@@ -53,7 +53,7 @@
         Link:
         <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
       </p>
-      <p class="card-text">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
+      <p class="card-text" *ngIf="assetDetail?.creator && assetDetail?.creators">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
       <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date :
         {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
       <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
@@ -116,9 +116,9 @@
 
     </div>
     <div class="card-footer text-muted pt-30 pb-0">
-      <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 <span
-          *ngIf="assetDetail?.creators"></span> | Created By :
-        {{assetDetail?.creators}} <span *ngIf="assetDetail?.since"> | Created Year :
+      <p><span *ngIf="assetDetail?.version">Version : {{assetDetail?.version}}.0</span> <span
+          *ngIf="assetDetail?.creators">| Created By :
+          {{assetDetail?.creators}}</span>  <span *ngIf="assetDetail?.since"> | Created Year :
           {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region"> | Country : {{assetDetail?.region}}</span>
           <span *ngIf="assetDetail?.assetformat"> | Asset Format :
               {{assetDetail?.assetformat }}</span> <span *ngIf="assetDetail?.licensetype"> | License Type :
