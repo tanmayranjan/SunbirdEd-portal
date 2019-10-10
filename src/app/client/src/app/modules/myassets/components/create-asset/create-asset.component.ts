@@ -329,7 +329,7 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
    // delete requestData.framework;
    // delete requestData.contentType;
 
-    if (this.contentType === 'studymaterial' && data.link) {
+    if (this.contentType === 'studymaterial' && data.link && data.mimeType === 'text/x-url') {
       requestData.mimeType = 'text/x-url';
       requestData['artifactUrl'] = data.link;
       // requestData.mimeType = 'application/pdf'
