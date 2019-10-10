@@ -27,10 +27,13 @@
             <div class="ui grid" style="margin-left : 1rem !important">       
             <div  *ngFor="let content of searchList;let i = index;">
     
-                        <app-space-card *ngIf="!isOffline" appContentDirection appTelemetryInteract 
+                        <app-space-card *ngIf="!isOffline && !userService.loggedIn" appContentDirection appTelemetryInteract 
                         [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content',ver:content.metaData.pkgVersion ? content.metaData.pkgVersion.toString():'1.0'}"
                             (clickEvent)="playContent($event)" [data]="content" [slug]="slug"></app-space-card>
-                        
+                        <app-space-card-loggedin *ngIf="!isOffline && userService.loggedIn" appContentDirection appTelemetryInteract 
+                            [telemetryInteractEdata]="cardIntractEdata" [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content',ver:content.metaData.pkgVersion ? content.metaData.pkgVersion.toString():'1.0'}"
+                                (clickEvent)="playContent($event)" [data]="content" [slug]="slug"></app-space-card-loggedin>
+                            
                         <app-offline-card *ngIf="isOffline" appContentDirection appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata"
                             [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content',ver:content.metaData.pkgVersion ? content.metaData.pkgVersion.toString():'1.0'}" [telemetryInteractCdata]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content'}" (clickEvent)="playContent($event)" [data]="content"></app-offline-card>
                             

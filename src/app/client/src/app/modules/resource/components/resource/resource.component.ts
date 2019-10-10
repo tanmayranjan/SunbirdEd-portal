@@ -213,7 +213,7 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           organisation: this.configService.appConfig.ExplorePage.orgName,
           channel: [],
           region: [],
-         objectType: ['Asset'],
+         objectType: ['Content'],
           status: ['Live'],
           assetType: [],
           sector: [],

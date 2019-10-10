@@ -44,6 +44,7 @@ export class UtilService {
       lastUpdatedOn: data.lastUpdatedOn,
       source: data.source,
       assetType: data.assetType,
+      mimeType: data.mimeType,
       region: data.region,
       organization: data.organization || data.organisation,
       board: data.board,

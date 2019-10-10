@@ -53,6 +53,7 @@ import { SpaceCardLoggedinComponent } from './components/space-card-loggedin/spa
     CustomMultiSelectComponent, InstallAppComponent, LockInfoPopupComponent,
     ContentDirectionDirective, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective,
+    SpaceCardLoggedinComponent,
      FullPageModalComponent, SpacePageSectionComponent, SpaceCustomMultiSelectComponent]
 })
 export class SharedModule {
