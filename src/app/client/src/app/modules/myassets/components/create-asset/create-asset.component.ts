@@ -109,6 +109,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
   public contentID: string;
 
+  public link: any;
+
   public formUpdateData: any;
   uploadSuccess = false;
   showMessage = false;
@@ -342,6 +344,10 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     } else {
       delete requestData.versionKey;
     }
+    if (this.link) {
+      requestData.mimeType = 'text/x-url';
+      requestData['artifactUrl'] = this.link;
+    }
     if (this.resourceType) {
       requestData.resourceType = this.resourceType;
     }
@@ -358,8 +364,13 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
     this.formData.formInputData['assetformat'] = this.formData['assetformat'];
     this.formData.formInputData['licensetype'] = this.formData['licensetype'];
+     if (this.link !== undefined) {
+    this.formData.formInputData['artifactUrl'] = this.link;
+    this.formData.formInputData['link'] = this.link;
+  } else {
     this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
-   this.formData.formInputData['link'] = this.content.artifactUrl;
+    this.formData.formInputData['link'] = this.content.artifactUrl; 
+  }
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
     if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.board && !!data.description
@@ -377,8 +388,13 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
    this.formData.formInputData['assetformat'] = this.formData['assetformat'];
    this.formData.formInputData['licensetype'] = this.formData['licensetype'];
-   this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
-   this.formData.formInputData['link'] = this.content.artifactUrl;
+   if (this.link !== undefined) {
+    this.formData.formInputData['artifactUrl'] = this.link;
+    this.formData.formInputData['link'] = this.link;
+  } else {
+    this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
+    this.formData.formInputData['link'] = this.content.artifactUrl;
+  }
     const data = _.pickBy(this.formData.formInputData);
     if (!!data.name &&  !!data.assetformat && !!data.licensetype && !!data.board && !!data.description  &&
        (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
@@ -403,9 +419,9 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   }
 
   updateContentFile() {
-
+const genData = this.generateData(_.pickBy(this.formData.formInputData));
     const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData)),
+      content: genData,
     };
 
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
@@ -424,8 +440,9 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
     }
   }
   updateContent() {
+    const genData = this.generateData(_.pickBy(this.formData.formInputData));
     const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData)),
+      content: genData,
     };
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
       this.editorService.update(requestData, this.activatedRoute.snapshot.params.contentId).subscribe(res => {

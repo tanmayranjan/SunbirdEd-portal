@@ -8,16 +8,23 @@
                     [categoryMasterList]="categoryMasterList">
                 </app-update-resoure-form>
             </div>
-            <div *ngIf="content?.mimeType === 'text/x-url'" class="mt-10">
+            <div class="mt-10">
                 <!-- <p>
                                 File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                             </p> -->
             
-                            <div class="field required">
+                            <div *ngIf="content?.mimeType === 'text/x-url'" class="field required">
                                     <label>
                                      Link :
                                     </label>
-                                    <input style=" border: 1px solid #e4e4e4;border-radius: 7px" name="content.name" type=text [(ngModel)]="content['artifactUrl']">
+                                    <input  style=" border: 1px solid #e4e4e4;border-radius: 7px" name="content.name" type=text [(ngModel)]="content['artifactUrl']">
+                                  
+                                  </div>
+                                  <div *ngIf="content?.mimeType !== 'text/x-url'" class="field">
+                                    <label>
+                                     Link :
+                                    </label>
+                                    <input  style=" border: 1px solid #e4e4e4;border-radius: 7px" name="content.name" type=text [(ngModel)]="link">
                             
                                   </div>
             </div>
@@ -67,7 +74,7 @@
 
             </div>
           <br><br>
-           <div *ngIf="!!!content?.artifactUrl">
+           <div *ngIf="content?.mimeType === 'text/x-url' || !!!content?.artifactUrl">
                 <p>
                         <span (click)="contentClick()" class="pdfStyle">Upload</span>
                         <span class="editorStyle" (click)="contentClick()">(click here)</span>
