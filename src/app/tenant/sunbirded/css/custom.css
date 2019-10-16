@@ -42,6 +42,29 @@ body{
 video{
 	width:100%;
 }
+.backgroundimg{
+ height: 480px;
+}
+.linktoabout,.linktoexplore{
+	color: white;
+	font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.btn-default {
+    background: #fb4b00;
+    color: #fff;
+	border: 1px solid #fb4b00;
+	margin-right: 16px;
+	padding: 4px;
+	font-size: 15px;
+}
+.btn-default:hover,
+.btn-default:focus {
+  background: #f7946a;
+  color: #fff;
+  border: 1px solid #f7946a;
+}
 img{
 	max-width:100%;
 }
@@ -321,16 +344,17 @@ h1.logo img{
 /*Slideshow*/
 .slide{
 	position:relative;
+	height: auto;
 }
 .slide-details{
 	padding:0;
-	color:#333;
+	color:white;
 	position:absolute;
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
-	font-weight:500;
-	font-size:15px;
+	font-weight:600;
+	font-size:45px;
 	text-shadow:1px 1px 1px #000;
 	width:100%;
 }
@@ -353,11 +377,9 @@ h1.logo img{
 	text-transform:uppercase;
 }
 .slide-details a{
-	padding: 5px 10px;
     line-height: 1;
     font-size: 15px;
-    color:#333;
-	border: 2px solid #333;
+    color:white;
 	display:inline-block;
 }
 .slide-desc{
@@ -379,8 +401,8 @@ h1.logo img{
 	margin:5px 15px;
 }
 .slide-details h2{
-	font-weight:300;
-	font-size:14px;
+	font-weight:600;
+	font-size:45px;
 	line-height:1.1;
 	margin:0;
 }
@@ -471,8 +493,8 @@ address{margin:0;}
 		margin:5px 20px;
 	}
 	.slide-details h2{
-		font-weight:300;
-		font-size:34px;
+		font-weight:600;
+		font-size:45px;
 		line-height:1.5;
 	}
 	.slide-details h2 strong{

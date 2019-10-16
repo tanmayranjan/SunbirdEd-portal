@@ -349,7 +349,9 @@ setFingerPrintTelemetry() {
        this.tenantname = 'World Bank';
     } else if (this.slug === 'sunbirdorg') {
        this.tenantname = 'Sunbird';
-         }
+         } else if (this.slug === 'sunbirded') {
+          this.tenantname = 'SunbirdEd';
+            }
   this.tenantService.tenantData$.subscribe(data => {
       if (!data.err) {
         document.title = this.tenantname || this.userService.rootOrgName ;
