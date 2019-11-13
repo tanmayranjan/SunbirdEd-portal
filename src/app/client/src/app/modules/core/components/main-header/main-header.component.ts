@@ -299,7 +299,7 @@ if (key.length > 0) {
 
   logout() {
     if (this.slugInfo === 'MHRD') {
-      this.slugInfo = 'sunbirded';
+      this.slugInfo = 'education';
     }
     window.location.replace(`/${this.slugInfo}/logoff`);
     this.cacheService.removeAll();
