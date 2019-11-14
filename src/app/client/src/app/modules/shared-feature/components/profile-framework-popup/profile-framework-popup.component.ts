@@ -51,12 +51,13 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
     this.selectedOption = _.cloneDeep(this.formInput) || {}; // clone selected field inputs from parent
     this.unsubscribe = this.isCustodianOrgUser().pipe(
       mergeMap((custodianOrgUser: boolean) => {
-        this.custodianOrg = custodianOrgUser;
+        /* this.custodianOrg = custodianOrgUser;
         if (custodianOrgUser) {
           return this.getFormOptionsForCustodianOrg();
         } else {
           return this.getFormOptionsForOnboardedUser();
-        }
+        } */
+        return this.getFormOptionsForOnboardedUser();
       }), first()).subscribe(data => {
         this.formFieldOptions = data;
       }, err => {

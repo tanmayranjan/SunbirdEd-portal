@@ -207,7 +207,9 @@ setFingerPrintTelemetry() {
       this.showFrameWorkPopUp = false;
     } else {
       if (this.userService.loggedIn && _.isEmpty(_.get(this.userProfile, 'framework'))) {
-        this.resourceService.showpopup$.subscribe(data => this.showFrameWorkPopUp = data);
+        this.showFrameWorkPopUp = true;
+      } else if (this.userService.loggedIn && !(_.isEmpty(_.get(this.userProfile, 'framework')))) {
+          this.showFrameWorkPopUp = false;
       }
     }
   }
