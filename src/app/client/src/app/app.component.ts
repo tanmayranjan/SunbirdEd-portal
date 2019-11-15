@@ -94,6 +94,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private shepherdService: ShepherdService) {
       this.instance = (<HTMLInputElement>document.getElementById('instance'))
         ? (<HTMLInputElement>document.getElementById('instance')).value : 'sunbird';
+        this.toasterService = toasterService;
   }
   /**
    * dispatch telemetry window unload event before browser closes
@@ -371,6 +372,7 @@ setFingerPrintTelemetry() {
     this.profileService.updateProfile(req).subscribe(res => {
       this.frameWorkPopUp.modal.deny();
       this.showFrameWorkPopUp = false;
+      this.toasterService.success('Profile submitted successfully');
       this.utilService.toggleAppPopup();
       this.showAppPopUp = this.utilService.showAppPopUp;
     }, err => {
