@@ -50,15 +50,16 @@
             </p>
             <!-- <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
-                        {{ hero }} <span *ngIf="!last"> ,</span>
+                        {{ hero }} <span *ngIf="!last && assetDetail?.keywords.length!=1"> ,</span>
                     </li>
                 </span></p> -->
-            <p class="card-text" *ngIf="assetDetail?.keywords">Keywords : <span>
-                    <li *ngFor="let hero of assetDetail?.keywords; let first = first;let last = last">
-                        {{ hero | titlecase}} <span *ngIf="!last && assetDetail?.keywords.length!=1"> ,</span>
-                    </li>
-                </span>
-            </p>
+            <p class="card-text" style="margin: 0;" *ngIf="assetDetail?.keywords">Keywords : </p>
+                <div class="keywords-list-section">
+                    <p class="keyword-name" *ngFor="let item of assetDetail?.keywords; let first = first;let last = last">
+                        {{ item | titlecase}}
+                        <span *ngIf="!last && assetDetail?.keywords.length!=1">,</span>
+                    </p>
+                </div>
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">Link: 
                 <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>

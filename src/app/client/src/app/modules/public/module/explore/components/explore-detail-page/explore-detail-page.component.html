@@ -38,12 +38,19 @@
                         {{ hero }}<span *ngIf="!last">,</span>
                     </li>
                 </span></p> -->
-      <p class="card-text" *ngIf="assetDetail?.keywords">Keywords : <span>
+      <!-- <p class="card-text" *ngIf="assetDetail?.keywords">Keywords : <span>
           <li *ngFor="let hero of assetDetail?.keywords;  let first = first;let last = last">
             {{ hero | titlecase}}<span *ngIf="!last && assetDetail?.keywords.length!=1">,</span>
           </li>
         </span>
-      </p>
+      </p> -->
+      <p style="margin: 0;" class="card-text" *ngIf="assetDetail?.keywords">Keywords : </p>
+                <div class="keywords-list-section">
+                    <p class="keyword-name" *ngFor="let item of assetDetail?.keywords; let first = first;let last = last">
+                        {{ item | titlecase}}
+                        <span *ngIf="!last && assetDetail?.keywords.length!=1">,</span>
+                    </p>
+                </div>
       <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description | titlecase}}</p>
       <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">
         Link:

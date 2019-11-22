@@ -80,3 +80,11 @@
   cursor: pointer;
   color: #6e71c3
 }
+
+.keywords-list-section {
+  word-wrap:break-word;
+  margin-bottom: 1rem;
+  p.keyword-name {
+    display: inline;
+  }
+}

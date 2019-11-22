@@ -285,10 +285,10 @@ if (this.path === 'Live') {
   .subscribe((result) => {
     this.contentlicenses = result[0];
     this.softwarelicenses = result[1]; this.newcontentlicenseobject = this.getDataofform(this.contentlicenses);
-    this.dropdownitems.push('Other');
+   // this.dropdownitems.push('Other');
     this.map.set('Content', this.dropdownitems);
     this.newsoftwarelicenseobject = this.getDataofform(this.softwarelicenses);
-    this.dropdownitems.push('Other');
+  //  this.dropdownitems.push('Other');
     this.map.set('Software Code', this.dropdownitems);
 
   });
