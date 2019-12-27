@@ -31,7 +31,7 @@
                   </div>
                   <div class="col-sm-8">
                       <div class="text-light pt-3">
-                    <h5 class="card-title" id="res-title">{{content?.name | titlecase | slice:0:35}}<span *ngIf="content.name && content.name.length > 35">...</span></h5>
+                    <h5 class="card-title" id="res-title" data-toggle="tooltip" data-placement="top" title="{{content?.name}}">{{content?.name | titlecase | slice:0:35}}<span *ngIf="content.name && content.name.length > 35">...</span></h5>
                     <p class="card-text">version : {{content?.version}}.0</p>
                   </div>
                   </div>

@@ -146,7 +146,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private fetchPageData() {
     let option;
-   if (this.slug === 'sbwb') {
+   if (this.slug !== 'sunbirdorg' && this.slug !== 'space') {
     //  console.log('in explore page');
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {

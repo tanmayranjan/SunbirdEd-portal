@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   shepherdData: Array<any>;
   private fingerprintInfo: any;
   hideHeaderNFooter = true;
+  title: any;
   constructor(private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService,
     public userService: UserService, private navigationHelperService: NavigationHelperService,
     private permissionService: PermissionService, public resourceService: ResourceService,
@@ -131,6 +132,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       }))
       .subscribe(data => {
         this.tenantService.getTenantInfo(this.slug);
+        this.title = data['rootOrg'] ? data['rootOrg'].description : data.description;
         this.setPortalTitleLogo();
         this.telemetryService.initialize(this.getTelemetryContext());
         this.logCdnStatus();
@@ -346,15 +348,7 @@ setFingerPrintTelemetry() {
    */
   private setPortalTitleLogo(): void {
     localStorage.setItem('tenant', this.slug);
-    if (this.slug === 'space') {
-      this.tenantname = 'SPace';
-    } else if (this.slug === 'sbwb') {
-       this.tenantname = 'World Bank';
-    } else if (this.slug === 'sunbirdorg') {
-       this.tenantname = 'Sunbird';
-         } else if (this.slug === 'education') {
-          this.tenantname = 'Education';
-            }
+    this.tenantname = this.title;
   this.tenantService.tenantData$.subscribe(data => {
       if (!data.err) {
         document.title = this.tenantname || this.userService.rootOrgName ;

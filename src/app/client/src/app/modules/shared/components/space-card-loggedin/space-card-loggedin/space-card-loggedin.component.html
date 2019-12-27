@@ -14,8 +14,8 @@
         </div>
         <div class="col-sm-8">
           <div class="text-light pt-3">
-            <h5 class="card-title" id="res-title">{{data?.name | titlecase | slice:0:25}}<span
-                *ngIf="data.name && data.name.length > 25">...</span></h5>
+            <h5 class="card-title" id="res-title" data-toggle="tooltip" data-placement="top" title="{{data?.name}}">{{data?.name | titlecase | slice:0:25}}<span
+                *ngIf="data.name && data.name.length > 25" >...</span></h5>
             <p class="card-text1 text-light" id="res-para">version : {{data?.version}}.0</p>
           </div>
         </div>
