@@ -146,62 +146,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   private fetchPageData() {
     let option;
-   if (this.slug !== 'sunbirdorg' && this.slug !== 'space') {
-    //  console.log('in explore page');
-    const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
-      if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
-        return false;
-      }
-      return value.length;
-    });
-    const softConstraintData = {
-      filters: {
-        channel: this.hashTagId,
-        board: [this.dataDrivenFilters.board]
-      },
-      // softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
-      mode: 'soft'
-    };
-    const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
-      softConstraintData);
-     option = {
-      organisationId: this.organisationId,
-      source: 'web',
-      name: 'Explore',
-      filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
-      mode: _.get(manipulatedData, 'mode'),
-      exists: [],
-      params: this.configService.appConfig.ExplorePage.contentApiQueryParams
-    };
-    if (_.get(manipulatedData, 'filters')) {
-      option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
-    }
-    /*
-    adding channel code in the filters to show relevant courses only
-
-    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
-    */
-   option.filters['channel'] = [this.hashTagId];
-
-    this.pageApiService.getPageData(option)
-      .subscribe(data => {
-        this.showLoader = false;
-        this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
-        if (!this.carouselMasterData.length) {
-          return; // no page section
-        }
-        if (this.carouselMasterData.length >= 2) {
-          this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
-        } else if (this.carouselMasterData.length >= 1) {
-          this.pageSections = [this.carouselMasterData[0]];
-        }
-      }, err => {
-        this.showLoader = false;
-        this.carouselMasterData = [];
-        this.pageSections = [];
-        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
-      });
-   }
+   
    if (this.slug === 'sunbirdorg') {
  //  console.log('in explore page');
  let filters = _.pickBy(this.queryParams, (value: Array<string> | string) => value && value.length);
@@ -269,8 +214,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.configService.appConfig.SEARCH.PAGE_LIMIT);
                     this.toasterService.error(this.resourceService.messages.fmsg.m0051);
                 });
-   }
-   if (this.slug === 'space') {
+   } else if (this.slug === 'space') {
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
       if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
         return false;
@@ -351,6 +295,61 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   });
 //  this.contentCompositeSearch(option);
  this.callingPageApi(option);
+   } else if (this.slug !== 'sunbirdorg' && this.slug !== 'space') {
+    //  console.log('in explore page');
+    const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {
+      if (_.includes(['sort_by', 'sortType', 'appliedFilters'], key)) {
+        return false;
+      }
+      return value.length;
+    });
+    const softConstraintData = {
+      filters: {
+        channel: this.hashTagId,
+        board: [this.dataDrivenFilters.board]
+      },
+      // softConstraints: _.get(this.activatedRoute.snapshot, 'data.softConstraints'),
+      mode: 'soft'
+    };
+    const manipulatedData = this.utilService.manipulateSoftConstraint(_.get(this.queryParams, 'appliedFilters'),
+      softConstraintData);
+     option = {
+      organisationId: this.organisationId,
+      source: 'web',
+      name: 'Explore',
+      filters: _.get(this.queryParams, 'appliedFilters') ? filters : _.get(manipulatedData, 'filters'),
+      mode: _.get(manipulatedData, 'mode'),
+      exists: [],
+      params: this.configService.appConfig.ExplorePage.contentApiQueryParams
+    };
+    if (_.get(manipulatedData, 'filters')) {
+      option['softConstraints'] = _.get(manipulatedData, 'softConstraints');
+    }
+    /*
+    adding channel code in the filters to show relevant courses only
+
+    change made by RISHABH KALRA, NIIT LTD on 12-06-2019
+    */
+   option.filters['channel'] = [this.hashTagId];
+
+    this.pageApiService.getPageData(option)
+      .subscribe(data => {
+        this.showLoader = false;
+        this.carouselMasterData = this.prepareCarouselData(_.get(data, 'sections'));
+        if (!this.carouselMasterData.length) {
+          return; // no page section
+        }
+        if (this.carouselMasterData.length >= 2) {
+          this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+        } else if (this.carouselMasterData.length >= 1) {
+          this.pageSections = [this.carouselMasterData[0]];
+        }
+      }, err => {
+        this.showLoader = false;
+        this.carouselMasterData = [];
+        this.pageSections = [];
+        this.toasterService.error(this.resourceService.messages.fmsg.m0004);
+      });
    }
   }
   contentCompositeSearch(option) {
