@@ -12,7 +12,7 @@
     </div>
     <div class="mx-auto">
       <div class="mt-20">
-        <p *ngIf="!disableResendButton" class="line-height-1-3 grey text text-center mb-30">{{otpData.instructions}}</p>
+        <p *ngIf="!disableResendButton" class="line-height-1-3 grey text text-center mb-30">{{otpData.instructions}} on <span style="font-weight: bold;">{{otpData.value}}</span></p>
         <div *ngIf="disableResendButton" class="grey text fs-1 text-center mb-30 line-height-1-3">
           {{otpData.retryMessage}}<br><span (click)="redirectToParentComponent()"
             class="fs-1 blue text font-weight-bold cursor-pointer" role="button"
@@ -39,7 +39,7 @@
 
 <!--Actions-->
 <div class="sb-modal-actions">
-  <button style="color:white" appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
+  <button style="border-color: #585858;" appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
     [telemetryInteractEdata]="submitInteractEdata"
     [ngClass]="{'disabled':!enableSubmitBtn,'darkgreybg': spaceeditemail}" class="sb-btn sb-btn-normal sb-btn-primary"
     (click)="verifyOTP()">
