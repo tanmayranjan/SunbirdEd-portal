@@ -5,7 +5,8 @@
         "announcementRole" : ["ANNOUNCEMENT_SENDER"],
         "myActivityRole" : ["CONTENT_CREATOR"],
         "orgSetupRole" : ["SYSTEM_ADMINISTRATION"],
-        "upForReviewRole": ["CONTENT_REVIEWER", "CONTENT_REVIEW"]
+        "upForReviewRole": ["CONTENT_REVIEWER", "CONTENT_REVIEW"],
+        "orgAdminRole" : ["ORG_ADMIN","SYSTEM_ADMINISTRATION"]
     },
 
     "workSpaceRole":{

@@ -2,8 +2,11 @@ import { CoreModule } from '@sunbird/core';
 import { SharedModule } from '@sunbird/shared';
 import { NgModule , ModuleWithProviders} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent,
-  OtpPopupComponent, BatchInfoComponent } from './components';
+import {
+  ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent,
+  OtpPopupComponent, BatchInfoComponent, SsoMergeConfirmationComponent, ValidateTeacherIdentifierPopupComponent,
+  UserLocationComponent
+} from './components';
 import { SlickModule } from 'ngx-slick';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { RouterModule } from '@angular/router';
@@ -24,7 +27,12 @@ import { SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, Su
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent, OtpPopupComponent, BatchInfoComponent],
-  exports: [ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent, OtpPopupComponent, BatchInfoComponent]
+  declarations: [ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent,
+    OtpPopupComponent, BatchInfoComponent, SsoMergeConfirmationComponent, ValidateTeacherIdentifierPopupComponent,
+    UserLocationComponent
+  ],
+  exports: [ViewAllComponent, ProfileFrameworkPopupComponent, TermsAndConditionsPopupComponent,
+    OtpPopupComponent, BatchInfoComponent, SsoMergeConfirmationComponent, ValidateTeacherIdentifierPopupComponent,
+    UserLocationComponent]
 })
 export class SharedFeatureModule { }

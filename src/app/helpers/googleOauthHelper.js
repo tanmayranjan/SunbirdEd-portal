@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const _ = require('lodash');
 const { GOOGLE_OAUTH_CONFIG } = require('./environmentVariablesHelper.js')
 const redirectPath = '/google/auth/callback';
-const defaultScope = ['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email', ' https://www.googleapis.com/auth/plus.login'];
+const defaultScope = ['https://www.googleapis.com/auth/userinfo.email', 'openid', 'email', 'profile', 'https://www.googleapis.com/auth/userinfo.profile'];
 const { getKeyCloakClient } = require('./keyCloakHelper')
 const envHelper = require('./environmentVariablesHelper.js')
 const request = require('request-promise'); //  'request' npm package with Promise support
@@ -10,6 +10,9 @@ const uuid = require('uuid/v1')
 const dateFormat = require('dateformat')
 'use strict';
 var sessionstorage = require('sessionstorage');
+const {decodeToken} = require('./jwtHelper');
+const logger = require('sb_logger_util_v2')
+
 const keycloakGoogle = getKeyCloakClient({
   resource: envHelper.KEYCLOAK_GOOGLE_CLIENT.clientId,
   bearerOnly: true,
@@ -24,6 +27,15 @@ const keycloakGoogleAndroid = getKeyCloakClient({
   resource: envHelper.KEYCLOAK_GOOGLE_ANDROID_CLIENT.clientId,
   bearerOnly: true,
   serverUrl: envHelper.PORTAL_AUTH_SERVER_URL,
+  realm: envHelper.PORTAL_REALM,
+  credentials: {
+    secret: envHelper.KEYCLOAK_GOOGLE_ANDROID_CLIENT.secret
+  }
+})
+const keycloakMergeGoogleAndroid = getKeyCloakClient({
+  resource: envHelper.KEYCLOAK_GOOGLE_ANDROID_CLIENT.clientId,
+  bearerOnly: true,
+  serverUrl: envHelper.PORTAL_MERGE_AUTH_SERVER_URL,
   realm: envHelper.PORTAL_REALM,
   credentials: {
     secret: envHelper.KEYCLOAK_GOOGLE_ANDROID_CLIENT.secret
@@ -51,16 +63,42 @@ class GoogleOauth {
     }
     const { tokens } = await client.getToken(req.query.code).catch(this.handleError)
     client.setCredentials(tokens)
+    const tokenInfo = decodeToken(tokens.id_token);
+    let userInfo = {
+      email: tokenInfo.email,
+      name: tokenInfo.name
+    };
+    // TODO: Remove console logs
+    if (!_.get(userInfo, 'name') || !_.get(userInfo, 'email')) {
+      logger.info('userInformation being fetched from oauth2 api');
+      var oauth2 = google.oauth2({
+        auth: client,
+        version: 'v2'
+      });
+      const googleProfileFetched = await oauth2.userinfo.get().catch(this.handleError) || {};
+      userInfo = googleProfileFetched.data || {};
+      logger.info('userInformation fetched from oauth2 api', userInfo);
+    }
+    console.log('user information', userInfo);
+    logger.info({
+      msg: 'token fetched'
+    });
     const plus = google.plus({ version: 'v1', auth: client})
     const { data } = await plus.people.get({ userId: 'me' }).catch(this.handleError)
+    logger.info({
+      msg: 'fetched user profile'
+    });
     return {
-      name: data.displayName,
-      emailId: _.get(_.find(data.emails, function (email) {
-        return email && email.type && email.type.toLowerCase() === 'account';
-      }), 'value')
+      name: userInfo.name,
+      emailId: userInfo.email
     }
   }
-  handleError(error){
+
+  handleError(error) {
+    logger.info({
+      msg: 'googleOauthHelper: getProfile failed',
+      error: error
+    });
     if(_.get(error, 'response.data')){
       throw error.response.data
     } else if(error instanceof Error) {
@@ -74,19 +112,46 @@ const googleOauth = new GoogleOauth()
 const createSession = async (emailId, reqQuery, req, res) => {
   let grant;
   let keycloakClient = keycloakGoogle;
+  let keycloakMergeClient = keycloakMergeGoogle;
   let scope = 'openid';
   if (reqQuery.client_id === 'android') {
+    console.log('reqQuery.client_id', reqQuery.client_id);
     keycloakClient = keycloakGoogleAndroid;
+    keycloakMergeClient = keycloakMergeGoogleAndroid;
     scope = 'offline_access';
   }
-  grant = await keycloakClient.grantManager.obtainDirectly(emailId, undefined, undefined, scope);
-  keycloakClient.storeGrant(grant, req, res)
-  req.kauth.grant = grant
-  keycloakClient.authenticated(req)
-  return {
-    access_token: grant.access_token.token,
-    refresh_token: grant.refresh_token.token
-  };
+
+  // merge account in progress
+  if (_.get(req, 'session.mergeAccountInfo.initiatorAccountDetails') || reqQuery.merge_account_process === '1') {
+    console.log('merge in progress', emailId, reqQuery.client_id);
+    grant = await keycloakMergeClient.grantManager.obtainDirectly(emailId, undefined, undefined, scope);
+    console.log('grant received', JSON.stringify(grant.access_token.token));
+    if (reqQuery.client_id !== 'android') {
+      req.session.mergeAccountInfo.mergeFromAccountDetails = {
+        sessionToken: grant.access_token.token
+      };
+    }
+    return {
+      access_token: grant.access_token.token,
+      refresh_token: grant.refresh_token.token
+    };
+  } else {
+    console.log('login in progress');
+    grant = await keycloakClient.grantManager.obtainDirectly(emailId, undefined, undefined, scope).catch(function (error) {
+      logger.info({
+        msg: 'googleOauthHelper: createSession failed',
+        error: error
+      });
+      throw 'unable to create session';
+    });
+    keycloakClient.storeGrant(grant, req, res);
+    req.kauth.grant = grant;
+    keycloakClient.authenticated(req)
+    return {
+      access_token: grant.access_token.token,
+      refresh_token: grant.refresh_token.token
+    };
+  }
 }
 const fetchUserByEmailId = async (emailId, req) => {
   const options = {
@@ -95,10 +160,12 @@ const fetchUserByEmailId = async (emailId, req) => {
     headers: getHeaders(req),
     json: true
   }
+  console.log('fetch user request', JSON.stringify(options));
   return request(options).then(data => {
     if (data.responseCode === 'OK') {
       return data;
     } else {
+      logger.error({msg: 'googleOauthHelper: fetchUserByEmailId failed', additionalInfo: {data}});
       throw new Error(_.get(data, 'params.errmsg') || _.get(data, 'params.err'));
     }
   })
@@ -131,6 +198,7 @@ const createUserWithMailId = async (accountDetails, client_id, req) => {
     if (data.responseCode === 'OK') {
       return data;
     } else {
+      logger.error({msg: 'googleOauthHelper: createUserWithMailId failed', additionalInfo: {data}});
       throw new Error(_.get(data, 'params.errmsg') || _.get(data, 'params.err'));
     }
   })

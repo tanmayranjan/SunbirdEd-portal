@@ -34,6 +34,7 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
   telemetryInteractObject: IInteractEventObject;
   slug: any;
   userProfile: any;
+  private editMode: boolean;
   constructor(private router: Router, private userService: UserService, private frameworkService: FrameworkService,
     private formService: FormService, public resourceService: ResourceService, private cacheService: CacheService,
     private toasterService: ToasterService, private channelService: ChannelService, private orgDetailsService: OrgDetailsService
@@ -48,7 +49,8 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.selectedOption = _.cloneDeep(this.formInput) || {}; // clone selected field inputs from parent
+    this.selectedOption = _.pickBy(_.cloneDeep(this.formInput), 'length') || {}; // clone selected field inputs from parent
+    this.editMode = _.some(this.selectedOption, 'length') || false ;
     this.unsubscribe = this.isCustodianOrgUser().pipe(
       mergeMap((custodianOrgUser: boolean) => {
         /* this.custodianOrg = custodianOrgUser;
@@ -91,12 +93,10 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
   private getFormOptionsForOnboardedUser() {
     return this.getFormatedFilterDetails().pipe(map((formFieldProperties) => {
       this._formFieldProperties = formFieldProperties;
-      let editMode = false;
       if (_.get(this.selectedOption, 'board[0]')) {
         this.selectedOption.board = _.get(this.selectedOption, 'board[0]');
-        editMode = true;
       }
-      return this.getUpdatedFilters({index: 0}, editMode); // get filters for first field i.e index 0 incase of init
+      return this.getUpdatedFilters({index: 0}, this.editMode); // get filters for first field i.e index 0 incase of init
     }));
   }
   private getFormatedFilterDetails() {
@@ -216,13 +216,16 @@ export class ProfileFrameworkPopupComponent implements OnInit, OnDestroy {
   }
   onSubmitForm() {
     const selectedOption = _.cloneDeep(this.selectedOption);
-    selectedOption.board = [this.selectedOption.board];
+    selectedOption.board = _.get(this.selectedOption, 'board') ? [this.selectedOption.board] : [];
     selectedOption.id = this.frameWorkId;
     this.submit.emit(selectedOption);
   }
   private enableSubmitButton() {
-    if (_.get(this.selectedOption, 'board.length') && _.get(this.selectedOption, 'medium.length')
-      && _.get(this.selectedOption, 'gradeLevel.length')) {
+    const optionalFields = _.map(_.filter(this._formFieldProperties, formField => !_.get(formField, 'required')), 'code');
+    const enableSubmitButton = _.every(this.selectedOption, (value, index) => {
+      return _.includes(optionalFields, index) ? true : value.length;
+    });
+    if (enableSubmitButton) {
       this.showButton = true;
     } else {
       this.showButton = false;

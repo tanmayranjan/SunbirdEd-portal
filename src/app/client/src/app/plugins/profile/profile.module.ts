@@ -6,10 +6,8 @@ import { SharedModule } from '@sunbird/shared';
 import { SlickModule } from 'ngx-slick';
 import { ProfileRoutingModule } from './profile-routing.module';
 import {
-  ProfilePageComponent,
-  ProfileBadgeComponent,
-  UpdateContactDetailsComponent,
-  UpdateUserDetailsComponent
+  ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent,
+  AccountRecoveryInfoComponent
 } from './components';
 import {
   SuiSelectModule,
@@ -54,13 +52,8 @@ import { EditemailComponent } from './components/editemail/editemail.component';
     AvatarModule,
     SharedFeatureModule
   ],
-  declarations: [
-    ProfilePageComponent,
-    ProfileBadgeComponent,
-    UpdateContactDetailsComponent,
-    UpdateUserDetailsComponent,
-    EditemailComponent
-  ],
+  declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent,
+   AccountRecoveryInfoComponent],
   providers: []
 })
 export class ProfileModule {}

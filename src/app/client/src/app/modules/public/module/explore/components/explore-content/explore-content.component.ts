@@ -15,6 +15,8 @@ import { CacheService } from 'ng2-cache-service';
 import { environment } from '@sunbird/environment';
 import { DownloadManagerService } from './../../../../../offline/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ContentManagerService
+} from './../../../../../../../../projects/desktop/src/app/modules/offline/services/content-manager/content-manager.service';
 
 @Component({
     templateUrl: './explore-content.component.html',
@@ -49,6 +51,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     contentName: string;
     modalRef: any;
     openmodal = false;
+    showDownloadLoader = false;
 
     constructor(public searchService: SearchService, public router: Router,
         public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -58,7 +61,7 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         public userService: UserService, public frameworkService: FrameworkService,
         private modalService: NgbModal,
         public cacheService: CacheService, public navigationhelperService: NavigationHelperService,
-        public downloadManagerService: DownloadManagerService) {
+        public contentManagerService: ContentManagerService) {
         this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
         this.filterType = this.configService.appConfig.explore.filterType;
     }
@@ -83,7 +86,12 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         );
 
         if (this.isOffline) {
-            this.downloadManagerService.downloadListEvent.subscribe((data) => {
+            this.contentManagerService.downloadEvent.pipe(tap(() => {
+                this.showDownloadLoader = false;
+              }), takeUntil(this.unsubscribe$)).subscribe(() => {});
+
+            this.contentManagerService.downloadListEvent.pipe(
+                takeUntil(this.unsubscribe$)).subscribe((data) => {
                 this.updateCardData(data);
             });
         }
@@ -321,6 +329,8 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
         // For offline environment content will only play when event.action is open
         if (event.action === 'download' && this.isOffline) {
             this.startDownload(event.data.metaData.identifier);
+            this.showDownloadLoader = true;
+            this.contentName = event.data.name;
             return false;
         } else if (event.action === 'export' && this.isOffline) {
             this.showExportLoader = true;
@@ -392,52 +402,34 @@ export class ExploreContentComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     startDownload(contentId) {
-        this.downloadManagerService.downloadContentId = contentId;
-        this.downloadManagerService.startDownload({}).subscribe(data => {
-            this.downloadManagerService.downloadContentId = '';
+        this.contentManagerService.downloadContentId = contentId;
+        this.contentManagerService.startDownload({}).subscribe(data => {
+            this.contentManagerService.downloadContentId = '';
         }, error => {
-            this.downloadManagerService.downloadContentId = '';
+            this.contentManagerService.downloadContentId = '';
+            this.showDownloadLoader = false;
             _.each(this.contentList, (contents) => {
-                contents['addedToLibrary'] = false;
-                contents['showAddingToLibraryButton'] = false;
+                contents['downloadStatus'] = this.resourceService.messages.stmsg.m0138;
             });
             this.toasterService.error(this.resourceService.messages.fmsg.m0090);
         });
     }
 
     exportOfflineContent(contentId) {
-        this.downloadManagerService.exportContent(contentId).subscribe(data => {
-            const link = document.createElement('a');
-            link.href = data.result.response.url;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        this.contentManagerService.exportContent(contentId).subscribe(data => {
             this.showExportLoader = false;
+      this.toasterService.success(this.resourceService.messages.smsg.m0059);
         }, error => {
             this.showExportLoader = false;
-            this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+            if (error.error.responseCode !== 'NO_DEST_FOLDER') {
+                this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+              }
         });
     }
 
     updateCardData(downloadListdata) {
         _.each(this.contentList, (contents) => {
-
-            // If download is completed card should show added to library
-            _.find(downloadListdata.result.response.downloads.completed, (completed) => {
-                if (contents.metaData.identifier === completed.contentId) {
-                    contents['addedToLibrary'] = true;
-                    contents['showAddingToLibraryButton'] = false;
-                }
-            });
-
-            // If download failed, card should show again add to library
-            _.find(downloadListdata.result.response.downloads.failed, (failed) => {
-                if (contents.metaData.identifier === failed.contentId) {
-                    contents['addedToLibrary'] = false;
-                    contents['showAddingToLibraryButton'] = false;
-                }
-            });
+            this.publicPlayerService.updateDownloadStatus(downloadListdata, contents);
         });
     }
 }

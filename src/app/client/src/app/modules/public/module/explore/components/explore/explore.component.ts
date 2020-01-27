@@ -1,4 +1,3 @@
-import { OfflineFileUploaderService } from '../../../../../offline/services';
 import { combineLatest, Subject } from 'rxjs';
 import { PageApiService, OrgDetailsService, UserService, SearchService, FrameworkService } from '@sunbird/core';
 import { PublicPlayerService } from './../../../../services';
@@ -10,7 +9,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
-import { takeUntil, map, mergeMap, first, filter } from 'rxjs/operators';
+import { takeUntil, map, mergeMap, first, filter, tap } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 import { DownloadManagerService } from './../../../../../offline/services';
 import { environment } from '@sunbird/environment';
@@ -18,6 +17,12 @@ import { IPagination } from '@sunbird/announcement';
 import { ICard } from '@sunbird/shared';
 import { PaginationService } from '@sunbird/shared';
 // import { open } from 'fs';
+import { environment } from '@sunbird/environment';
+import {
+  ContentManagerService
+} from './../../../../../../../../projects/desktop/src/app/modules/offline/services/content-manager/content-manager.service';
+
+
 @Component({
   selector: 'app-explore-component',
   templateUrl: './explore.component.html',
@@ -71,6 +76,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   public facetsList: any;
   public paginationDetails: IPagination;
   public contentList: Array<ICard> = [];
+  showDownloadLoader = false;
+
 
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
@@ -86,7 +93,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
     public navigationhelperService: NavigationHelperService,
-    public downloadManagerService: DownloadManagerService, public frameworkService: FrameworkService) {
+    public downloadManagerService: DownloadManagerService, public frameworkService: FrameworkService, public contentManagerService: ContentManagerService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
     this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
@@ -113,14 +120,19 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     if (this.isOffline) {
-      const self = this;
-      this.offlineFileUploaderService.isUpload.subscribe(() => {
-        self.fetchPageData();
-      });
-
-      this.downloadManagerService.downloadListEvent.subscribe((data) => {
+      this.contentManagerService.downloadListEvent.pipe(
+        takeUntil(this.unsubscribe$)).subscribe((data) => {
         this.updateCardData(data);
       });
+      this.contentManagerService.completeEvent.pipe(
+        takeUntil(this.unsubscribe$)).subscribe((data) => {
+          if (this.router.url === '/') {
+            this.fetchPageData();
+          }
+      });
+      this.contentManagerService.downloadEvent.pipe(tap(() => {
+        this.showDownloadLoader = false;
+      }), takeUntil(this.unsubscribe$)).subscribe(() => {});
     }
   }
 
@@ -438,6 +450,8 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     // For offline environment content will only play when event.action is open
     if (event.action === 'download' && this.isOffline) {
       this.startDownload(event.data.metaData.identifier);
+      this.showDownloadLoader = true;
+      this.contentName = event.data.name;
       return false;
     } else if (event.action === 'export' && this.isOffline) {
       this.showExportLoader = true;
@@ -517,15 +531,15 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   startDownload (contentId) {
-    this.downloadManagerService.downloadContentId = contentId;
-    this.downloadManagerService.startDownload({}).subscribe(data => {
-      this.downloadManagerService.downloadContentId = '';
+    this.contentManagerService.downloadContentId = contentId;
+    this.contentManagerService.startDownload({}).subscribe(data => {
+      this.contentManagerService.downloadContentId = '';
     }, error => {
-      this.downloadManagerService.downloadContentId = '';
+      this.contentManagerService.downloadContentId = '';
+      this.showDownloadLoader = false;
       _.each(this.pageSections, (pageSection) => {
         _.each(pageSection.contents, (pageData) => {
-          pageData['addedToLibrary'] = false;
-          pageData['showAddingToLibraryButton'] = false;
+          pageData['downloadStatus'] = this.resourceService.messages.stmsg.m0138;
         });
       });
       this.toasterService.error(this.resourceService.messages.fmsg.m0090);
@@ -533,39 +547,21 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   exportOfflineContent(contentId) {
-    this.downloadManagerService.exportContent(contentId).subscribe(data => {
-      const link = document.createElement('a');
-      link.href = data.result.response.url;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    this.contentManagerService.exportContent(contentId).subscribe(data => {
       this.showExportLoader = false;
+      this.toasterService.success(this.resourceService.messages.smsg.m0059);
     }, error => {
       this.showExportLoader = false;
-      this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+      if (error.error.responseCode !== 'NO_DEST_FOLDER') {
+        this.toasterService.error(this.resourceService.messages.fmsg.m0091);
+      }
     });
   }
 
   updateCardData(downloadListdata) {
     _.each(this.pageSections, (pageSection) => {
       _.each(pageSection.contents, (pageData) => {
-
-        // If download is completed card should show added to library
-        _.find(downloadListdata.result.response.downloads.completed, (completed) => {
-          if (pageData.metaData.identifier === completed.contentId) {
-            pageData['addedToLibrary'] = true;
-            pageData['showAddingToLibraryButton'] = false;
-          }
-        });
-
-        // If download failed, card should show again add to library
-        _.find(downloadListdata.result.response.downloads.failed, (failed) => {
-          if (pageData.metaData.identifier === failed.contentId) {
-            pageData['addedToLibrary'] = false;
-            pageData['showAddingToLibraryButton'] = false;
-          }
-        });
+        this.publicPlayerService.updateDownloadStatus(downloadListdata, pageData);
       });
     });
   }

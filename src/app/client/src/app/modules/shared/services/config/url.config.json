@@ -3,7 +3,7 @@
     "userReadParam": {
       "fields": "organisations,roles,locations"
     },
-    "contentGet": "creator,body,editorState,templateId,template,gradeLevel,status,concepts,versionKey,name,appIcon,contentType,owner,domain,code,visibility,createdBy,description,language,mediaType,osId,languageCode,audience,ageGroup,attributions,artifactUrl,mimeType,medium,year,publisher,subject,author,flagReasons,flaggedBy,flags,createdOn,lastUpdatedOn,board,keywords,resourceType,framework,license,badgeAssertions,pkgVersion,contentCredits,attributions,channel,contributors,creators,streamingUrl,originData,copyright",
+    "contentGet": "copyrightYear,creator,body,editorState,templateId,template,gradeLevel,status,concepts,versionKey,name,appIcon,contentType,owner,domain,code,visibility,createdBy,description,language,mediaType,osId,languageCode,audience,ageGroup,attributions,artifactUrl,mimeType,medium,year,publisher,subject,author,flagReasons,flaggedBy,flags,createdOn,lastUpdatedOn,board,keywords,resourceType,framework,license,badgeAssertions,pkgVersion,contentCredits,attributions,channel,contributors,creators,streamingUrl,originData,copyright,questions,totalQuestions,totalScore",
     "enrolledCourses": {
       "fields": "contentType,topic,name,channel",
       "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates"
@@ -12,6 +12,7 @@
   "URLS": {
     "LEARNER_PREFIX": "/learner/",
     "CONTENT_PREFIX": "/content/",
+    "ELECTRON_DIALOG_PREFIX": "/dialog/",
     "PUBLIC_PREFIX": "/api/",
     "EXT_PLUGIN_PREFIX": "/plugin/",
     "ANNOUNCEMENT_PREFIX": "/announcement/v1",
@@ -43,7 +44,9 @@
       "LOCATION_SEARCH": "data/v1/location/search",
       "TYPE": "user/v1/type/list",
       "VALIDATE_CERTIFICATE": "user/v1/certs/validate",
-      "DOWNLOAD_CERTIFICATE": "user/v1/certs/download"
+      "DOWNLOAD_CERTIFICATE": "user/v1/certs/download",
+      "GET_USER_FEED": "user/v1/feed",
+      "USER_MIGRATE": "user/v1/migrate"      
     },
     "COMPOSITE": {
       "SEARCH": "composite/v1/search"
@@ -97,6 +100,10 @@
       "COURSE_CONSUMPTION": "dashboard/v1/consumption/course",
       "COURSE_PROGRESS_V2":"dashboard/v2/progress/course"
     },
+    "DEVICE": {	
+      "REGISTER": "v3/device/register/",	
+      "PROFILE": "v3/device/profile/"	
+    },
     "NOTES": {
       "SEARCH": "notes/v1/search",
       "CREATE": "notes/v1/create",
@@ -122,9 +129,10 @@
       "GET_ORG": "org/v1/read",
       "REMOVE_USER": "org/v1/member/remove",
       "BULK": {
-        "USERS_UPLOAD": "user/v1/upload",
+        "USERS_UPLOAD": "user/v2/upload",
         "ORGANIZATIONS_UPLOAD": "org/v1/upload",
-        "STATUS": "data/v1/upload/status"
+        "STATUS": "data/v1/upload/status",
+        "USER_UPLOAD_SHADOW": "user/v2/bulk/upload"
       },
       "DELETE_USER": "user/v1/block",
       "UPDATE_USER_ORG_ROLES": "user/v1/role/assign",
@@ -183,11 +191,27 @@
     "OFFLINE": {
       "DOWNLOAD": "content/v1/download",
       "DOWNLOAD_LIST": "content/v1/download/list",
-      "EXPORT": "content/v1/export"
+      "EXPORT": "content/v1/export",
+      "UPDATE":"content/v1/update",
+      "APP_UPDATE": "desktop/v1/update",
+      "RESUME_IMPORT":"content/v1/import/resume",
+      "CANCEL_IMPORT":"content/v1/import/cancel",
+      "PAUSE_IMPORT":"content/v1/import/pause",
+      "REPORT_OTHER_ISSUE":"help/v1/report/issue",
+      "READ_FAQ": "faqs/v1/read",
+      "CREATE_USER": "desktop/user/v1/create",
+      "READ_USER": "desktop/user/v1/read",
+      "LOCATION_SAVE": "data/v1/location/save",
+      "LOCATION_READ": "data/v1/location/read"
+
     },
     "ACCOUNT_RECOVERY": {
       "FUZZY_SEARCH": "user/v1/fuzzy/search",
       "RESET_PASSWORD": "user/v1/password/reset"
+    },
+    "ELECTRON_DIALOG": {
+      "CONTENT_IMPORT": "content/import",
+      "CONTENT_EXPORT": "content/export"
     }
   }
 }

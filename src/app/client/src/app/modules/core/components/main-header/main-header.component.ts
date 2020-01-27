@@ -1,6 +1,6 @@
 import { filter, first } from 'rxjs/operators';
 import { UserService, PermissionService, TenantService, OrgDetailsService, FormService } from './../../services';
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit , Input } from '@angular/core';
 import { ConfigService, ResourceService, IUserProfile, IUserData } from '@sunbird/shared';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash-es';
@@ -8,13 +8,14 @@ import { IInteractEventObject, IInteractEventEdata } from '@sunbird/telemetry';
 import { CacheService } from 'ng2-cache-service';
 import { environment } from '@sunbird/environment';
 declare var jQuery: any;
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './main-header.component.html'
 })
 export class MainHeaderComponent implements OnInit, AfterViewInit {
-
+  @Input() routerEvents;
   languageFormQuery = {
     formType: 'content',
     formAction: 'search',
@@ -29,6 +30,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   adminDashboard: Array<string>;
   announcementRole: Array<string>;
   myActivityRole: Array<string>;
+  orgAdminRole: Array<string>;
   orgSetupRole: Array<string>;
   avtarMobileStyle = {
     backgroundColor: 'transparent',
@@ -82,12 +84,13 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
       this.announcementRole = this.config.rolesConfig.headerDropdownRoles.announcementRole;
       this.myActivityRole = this.config.rolesConfig.headerDropdownRoles.myActivityRole;
       this.orgSetupRole = this.config.rolesConfig.headerDropdownRoles.orgSetupRole;
+      this.orgAdminRole = this.config.rolesConfig.headerDropdownRoles.orgAdminRole;
   }
   ngOnInit() {
       window.sessionStorage.clear();
     console.log('activated route', this.activatedRoute);
     if (this.userService.loggedIn) {
-      this.userService.userData$.pipe(first()).subscribe((user: any) => {
+      this.userService.userData$.subscribe((user: any) => {
         if (user && !user.err) {
           this.userProfile = user.userProfile;
           this.slugInfo = this.userProfile.channel;
@@ -109,7 +112,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.subscribe(queryParams => this.queryParam = { ...queryParams });
     this.tenantService.tenantData$.subscribe(({tenantData}) => {
       this.tenantInfo.logo = tenantData ? tenantData.logo : undefined;
-      this.tenantInfo.titleName = tenantData ? tenantData.titleName.toUpperCase() : undefined;
+      this.tenantInfo.titleName = (tenantData && tenantData.titleName) ? tenantData.titleName.toUpperCase() : undefined;
     });
     this.setInteractEventData();
     this.cdr.detectChanges();
@@ -222,7 +225,7 @@ if (key.length > 0) {
   }
 
   getUrl() {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
+    this.routerEvents.subscribe((urlAfterRedirects: NavigationEnd) => {
       let currentRoute = this.activatedRoute.root;
       console.log('getting url');
       if (currentRoute.children) {

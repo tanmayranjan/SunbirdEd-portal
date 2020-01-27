@@ -200,7 +200,7 @@ export class UpdateBatchComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.batchUpdateForm.get('startDate').valueChanges.subscribe(value => {
-      const startDate = moment(value);
+      const startDate: any = moment(value);
       if (startDate.isValid()) {
         if (!moment(startDate).isBefore(moment(this.pickerMinDate).format('YYYY-MM-DD'))) {
           this.pickerMinDateForEnrollmentEndDate = new Date(new Date(startDate).setHours(0, 0, 0, 0));
@@ -488,6 +488,15 @@ export class UpdateBatchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setTelemetryCData(cdata: []) {
     this.telemetryCdata = _.unionBy(this.telemetryCdata, cdata, 'id');
+  }
+
+  public clearForm() {
+    this.batchUpdateForm.controls['name'].reset();
+    this.batchUpdateForm.controls['mentors'].reset();
+    this.batchUpdateForm.controls['enrollmentEndDate'].reset();
+    this.batchUpdateForm.controls['endDate'].reset();
+    this.batchUpdateForm.controls['description'].reset();
+    this.batchUpdateForm.controls['users'].reset();
   }
 
   ngOnDestroy() {

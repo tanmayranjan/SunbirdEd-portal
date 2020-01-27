@@ -1,7 +1,7 @@
 export interface ICard {
     name: string;
     image?: string;
-   // addedToLibrary?: boolean;
+    downloadStatus?: string;
     imageVisibility?: boolean;
     description?: string;
     subject?: string;
@@ -19,6 +19,7 @@ export interface ICard {
    // assetTtpe?: string;
    // submittedBy?: string;
    // source?: string;
+    contentType?: string;
     ribbon?: {
         right?: { class: string, name: string }
         left?: { class: string, name: string , image: string }

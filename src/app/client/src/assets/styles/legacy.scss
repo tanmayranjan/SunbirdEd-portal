@@ -341,7 +341,7 @@ h4.ui.header.sectionHeading {
 .ui.secondary.pointing.menu {
   background: #fff;
   margin: 0rem;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .ui.dropdown .menu > .item.headerDropdownProfile {
   cursor: text;
@@ -950,13 +950,13 @@ ul.subList-padding {
   color: #7c7b7b;
   line-height: 1.6;
   font-size: 1em;
-  padding-left: 12px;
 }
 .courseupdate b {
   font-weight: 400;
 }
 .courseupdate span{
   font-weight: 600;
+  color: $gray-800;
 }
 .container-with-button {
   width: 100% !important;
@@ -1190,6 +1190,12 @@ ul.subList-padding {
 }
 .ui.multiple.dropdown > .text {
   white-space: nowrap;
+}
+.ui.selection.dropdown{
+  line-height: $sb-input-line-height;
+}
+.ui.multiple.dropdown > .search{
+  padding: 0 !important;
 }
 .filtercolumn.ui.grid > .column:not(.row) {
   padding-left: 1.7em;

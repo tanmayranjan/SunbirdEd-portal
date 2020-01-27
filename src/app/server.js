@@ -72,6 +72,8 @@ app.get('/health', healthService.createAndValidateRequestBody, healthService.che
 
 app.get('/service/health', healthService.createAndValidateRequestBody, healthService.checkSunbirdPortalHealth)
 
+require('./routes/desktopAppRoutes.js')(app) // desktop app routes
+
 require('./routes/googleSignInRoutes.js')(app, keycloak) // google sign in routes
 
 require('./routes/ssoRoutes.js')(app, keycloak) // sso routes
@@ -186,7 +188,7 @@ telemetry.init({
 
 process.on('unhandledRejection', (reason, p) => console.log('Unhandled Rejection', p, reason));
 process.on('uncaughtException', (err) => {
-  console.log('Uncaught Exception', error)
+  console.log('Uncaught Exception', err)
   process.exit(1);
 });
 exports.close = () => portal.server.close()

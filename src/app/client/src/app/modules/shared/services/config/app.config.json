@@ -90,12 +90,14 @@
   },
   "CourseConsumption": {
     "contentApiQueryParams": {
-      "orgdetails": "orgName,email"
+      "orgdetails": "orgName,email",
+      "licenseDetails": "name,description,url"
     }
   },
   "Course": {
     "contentApiQueryParams": {
-      "orgdetails": "orgName,email"
+      "orgdetails": "orgName,email",
+      "licenseDetails": "name,description,url"
     },
     "otherCourse": {
       "constantData": {
@@ -315,12 +317,14 @@
   },
   "PublicPlayer": {
     "contentApiQueryParams": {
-      "orgdetails": "orgName,email"
+      "orgdetails": "orgName,email",
+      "licenseDetails": "name,description,url"
     }
   },
   "ContentPlayer": {
     "contentApiQueryParams": {
-      "orgdetails": "orgName,email"
+      "orgdetails": "orgName,email",
+      "licenseDetails": "name,description,url"
     }
   },
   "ExplorePage": {
@@ -563,6 +567,12 @@
       },
       "config": {
         "showEndPage": false,
+        "endPage": [
+          {
+          "template": "assessment",
+          "contentType": ["SelfAssess"]
+          }
+        ],
         "showStartPage": true,
         "host": "",
         "overlay": {
@@ -630,7 +640,14 @@
       "TextBook",
       "Course",
       "LessonPlan",
-      "Resource"
+      "Resource",
+      "FocusSpot",
+      "LearningOutcomeDefinition",
+      "PracticeQuestionSet",
+      "CuriosityQuestions",
+      "MarkingSchemeRubric",
+      "ExplanationResource",
+      "ExperientialResource"
     ],
     "mimeType": [
       "application/vnd.ekstep.ecml-archive",
@@ -1094,7 +1111,8 @@
     "organization": "organization",
     "contentlicenses":"contentlicenses",
     "softwarelicenses":"softwarelicenses",
-    "orgTitle": "orgTitle"
+    "orgTitle": "orgTitle",
+    "externalIdVerification": "externalIdVerification"
   },
   "cacheServiceConfig": {
     "setTimeInMinutes": 10,

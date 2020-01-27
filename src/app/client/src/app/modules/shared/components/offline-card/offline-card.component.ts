@@ -1,10 +1,11 @@
-import { ResourceService } from '../../services/index';
+import { ResourceService, UtilService, OfflineCardService } from '../../services';
 import { Component, Input, EventEmitter, Output, HostListener, OnChanges, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { ICard } from '../../interfaces';
-import { IImpressionEventInput, IInteractEventObject } from '@sunbird/telemetry';
-import { Router } from '@angular/router';
+import { IInteractEventEdata, IInteractEventObject } from '@sunbird/telemetry';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash-es';
-import { ConnectionService } from './../../../offline/services/connection-service/connection.service';
+import { ConnectionService
+} from './../../../../../../projects/desktop/src/app/modules/offline/services/connection-service/connection.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -25,13 +26,17 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
   telemetryCdata: Array<{}> = [];
   hover: Boolean;
   route: string;
-  checkOfflineRoutes: string;
+  currentRoute: string;
   contentId: string;
-  showAddingToLibraryButton: boolean;
   isConnected = navigator.onLine;
   status = this.isConnected ? 'ONLINE' : 'OFFLINE';
   onlineContent = false;
   public unsubscribe = new Subject<void>();
+  showModal = false;
+  message;
+  public telemetryInteractObject: IInteractEventObject;
+  public downloadContentEdata: IInteractEventEdata;
+  public cancelDownloadYoutubeContentEdata: IInteractEventEdata;
 
   @HostListener('mouseenter') onMouseEnter() {
     this.hover = true;
@@ -41,20 +46,19 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
     this.hover = false;
   }
   constructor(public resourceService: ResourceService, private router: Router,
-    private cdr: ChangeDetectorRef, private connectionService: ConnectionService) {
+    private cdr: ChangeDetectorRef, private connectionService: ConnectionService,
+    public offlineCardService: OfflineCardService, public utilService: UtilService,
+    public activatedRoute: ActivatedRoute) {
     this.resourceService = resourceService;
     if (this.dialCode) {
       this.telemetryCdata = [{ 'type': 'dialCode', 'id': this.dialCode }];
     }
     this.route = this.router.url;
-    if (_.includes(this.route, 'browse')) {
-      this.checkOfflineRoutes = 'browse';
-    } else if (!_.includes(this.route, 'browse')) {
-      this.checkOfflineRoutes = 'library';
-    }
+    this.currentRoute = _.includes(this.route, 'browse') ? 'browse' : 'library';
   }
 
   ngOnInit() {
+    this.setTelemetryData();
     if (_.includes(['video/youtube', 'video/x-youtube'], this.data.metaData.mimeType)) {
       this.onlineContent = true;
     }
@@ -69,8 +73,21 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
   public onAction(data, action) {
     this.contentId = data.metaData.identifier;
     if (action === 'download') {
-      data.showAddingToLibraryButton = true;
+      this.showModal = this.offlineCardService.isYoutubeContent(data);
+      if (this.showModal === false)  {
+        data['downloadStatus'] = this.resourceService.messages.stmsg.m0140;
+        this.clickEvent.emit({ 'action': action, 'data': data });
+      } else {
+        this.message = data.metaData.mimeType !== 'application/vnd.ekstep.content-collection' ? this.resourceService.messages.stmsg.m0141 :
+        this.resourceService.messages.stmsg.m0137;
+      }
+    } else {
+      this.clickEvent.emit({ 'action': action, 'data': data });
     }
+  }
+
+  download(data, action) {
+    data['downloadStatus'] = this.resourceService.messages.stmsg.m0140;
     this.clickEvent.emit({ 'action': action, 'data': data });
   }
 
@@ -81,6 +98,28 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  checkStatus(status) {
+    return this.utilService.getPlayerDownloadStatus(status, this.data, this.currentRoute);
+  }
+
+  setTelemetryData() {
+    this.telemetryInteractObject = {
+      id: this.contentId,
+      type: this.data.contentType,
+      ver: '1.0'
+    };
+    this.downloadContentEdata = {
+      id: 'download-content',
+      type: 'click',
+      pageid: this.activatedRoute.snapshot.data.telemetry.pageid
+    };
+    this.cancelDownloadYoutubeContentEdata = {
+      id: 'cancel-download-content',
+      type: 'click',
+      pageid: this.activatedRoute.snapshot.data.telemetry.pageid
+    };
   }
 }
 

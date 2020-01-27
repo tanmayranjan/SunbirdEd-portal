@@ -14,6 +14,7 @@ import {
   DataDrivenFilterComponent, ErrorPageComponent, SortByComponent, FlagContentComponent,
   LanguageDropdownComponent, ProminentFilterComponent, TopicPickerComponent
 } from './components';
+import { ManageModule } from '../manage/manage.module';
 import { AuthGuard } from './guard/auth-gard.service';
 import { CacheService } from 'ng2-cache-service';
 import { WebExtensionModule } from '@project-sunbird/web-extensions';
@@ -45,6 +46,7 @@ import { SunbirdProminentFilterComponent } from './components/sunbird-prominent-
     SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
     SuiRatingModule, SuiCollapseModule,
     SharedModule,
+    ManageModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

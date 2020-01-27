@@ -18,7 +18,7 @@
                         (clickEvent)="playContent($event)" [data]="content"></app-card>
                     
                     <app-offline-card *ngIf="isOffline" appContentDirection appTelemetryInteract [telemetryInteractEdata]="cardIntractEdata"
-                        [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content',ver:content.metaData.pkgVersion ? content.metaData.pkgVersion.toString():'1.0'}" [telemetryInteractCdata]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content'}" (clickEvent)="playContent($event)" [data]="content"></app-offline-card>
+                        [telemetryInteractObject]="{id:content.metaData.identifier,type:content.metaData.contentType || 'Content',ver:content.metaData.pkgVersion ? content.metaData.pkgVersion.toString():'1.0'}" [telemetryInteractCdata]="[{id:content.metaData.identifier,type:content.metaData.contentType || 'Content'}]" (clickEvent)="playContent($event)" [data]="content"></app-offline-card>
                         
                 </div>
             </div>
@@ -116,3 +116,8 @@
     <h2 class="mt-8"> {{resourceService.frmelmnts?.lbl?.exportingContent | interpolate:'{contentName}':contentName}}
     </h2>
 </sui-dimmer>
+<sui-dimmer *ngIf="isOffline" class="page offline content" [isDimmed]="showDownloadLoader" [isClickable]="false">
+    <div class="ui active centered inline loader"></div>
+    <h2 class="mt-8"> {{resourceService.frmelmnts?.lbl?.downloadingContent | interpolate:'{contentName}':contentName}}
+    </h2>
+  </sui-dimmer>

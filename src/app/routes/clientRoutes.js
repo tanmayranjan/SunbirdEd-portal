@@ -78,6 +78,8 @@ module.exports = (app, keycloak) => {
     next()
   })
 
+  app.all('/play/quiz/*', playContent);
+
   app.all(['/', '/get', '/:slug/get', '/:slug/get/dial/:dialCode',  '/get/dial/:dialCode', '/explore',
     '/explore/*', 
     '/:slug/explore', '/:slug/explore/*',
@@ -100,7 +102,7 @@ module.exports = (app, keycloak) => {
     '/orgType', '/orgType/*', '/dashBoard', '/dashBoard/*','/home', '/spacehome',
     '/Workspace','/Workspace/*', '/upForReview', '/upForReview/*',
     '/workspace', '/workspace/*', '/profile', '/profile/*', '/learn', '/learn/*', '/resources',
-    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*','/:slug/shared/*'], keycloak.protect(), indexPage(true))
+    '/resources/*', '/myassets', '/myassets/*', '/myActivity', '/myActivity/*','/:slug/shared/*', '/org/*', '/manage'], keycloak.protect(), indexPage(true))
 
   app.all('/:tenantName', renderTenantPage)
 }
@@ -129,10 +131,19 @@ function getLocals(req) {
   locals.cloudStorageUrls = envHelper.CLOUD_STORAGE_URLS
   locals.userUploadRefLink = envHelper.sunbird_portal_user_upload_ref_link
   locals.deviceRegisterApi = envHelper.DEVICE_REGISTER_API
+  locals.deviceApi = envHelper.sunbird_device_api
   locals.googleCaptchaSiteKey = envHelper.sunbird_google_captcha_site_key
   locals.videoMaxSize = envHelper.sunbird_portal_video_max_size
   locals.reportsLocation = envHelper.sunbird_azure_report_container_name
   locals.previewCdnUrl = envHelper.sunbird_portal_preview_cdn_url
+  locals.offlineDesktopAppTenant = envHelper.sunbird_portal_offline_tenant
+  locals.offlineDesktopAppVersion = envHelper.sunbird_portal_offline_app_version
+  locals.offlineDesktopAppReleaseDate = envHelper.sunbird_portal_offline_app_release_date
+  locals.offlineDesktopAppSupportedLanguage = envHelper.sunbird_portal_offline_supported_languages,
+  locals.offlineDesktopAppDownloadUrl = envHelper.sunbird_portal_offline_app_download_url
+  locals.logFingerprintDetails = envHelper.LOG_FINGERPRINT_DETAILS,
+  locals.deviceId = '';
+  locals.deviceProfileApi = envHelper.DEVICE_PROFILE_API;
   return locals
 }
 
@@ -199,5 +210,37 @@ const loadTenantFromLocal = (req, res) => {
     res.sendFile(path.join(__dirname, './../tenant', tenantName, 'index.html'))
   } else {
     renderDefaultIndexPage(req, res)
+  }
+}
+const redirectTologgedInPage = (req, res) => {
+	let redirectRoutes = { '/explore': '/resources', '/explore/1': '/search/Library/1', '/explore-course': '/learn', '/explore-course/1': '/search/Courses/1' };
+	if (req.params.slug) {
+		redirectRoutes = {
+			[`/${req.params.slug}/explore`]: '/resources',
+			[`/${req.params.slug}/explore-course`]: '/learn'
+		}
+	}
+	if (_.get(req, 'sessionID') && _.get(req, 'session.userId')) {
+		if (_.get(redirectRoutes, req.originalUrl)) {
+			const routes = _.get(redirectRoutes, req.originalUrl);
+			res.redirect(routes)
+		} else {
+			if (_.get(redirectRoutes, `/${req.originalUrl.split('/')[1]}`)) {
+				const routes = _.get(redirectRoutes, `/${req.originalUrl.split('/')[1]}`);
+				res.redirect(routes)
+			} else {
+				renderDefaultIndexPage(req, res)
+			}
+		}
+	} else {
+		renderDefaultIndexPage(req, res)
+	}
+}
+
+const playContent = (req, res) => {
+  if (req.path.includes('/play/quiz') && fs.existsSync(path.join(__dirname, '../tenant/quiz/', 'index.html'))){
+    res.sendFile(path.join(__dirname, '../tenant/quiz/', 'index.html'));
+  } else {
+    renderDefaultIndexPage(req, res);
   }
 }
