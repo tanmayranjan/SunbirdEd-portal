@@ -225,7 +225,7 @@ if (key.length > 0) {
   }
 
   getUrl() {
-    this.routerEvents.subscribe((urlAfterRedirects: NavigationEnd) => {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((urlAfterRedirects: NavigationEnd) => {
       let currentRoute = this.activatedRoute.root;
       console.log('getting url');
       if (currentRoute.children) {

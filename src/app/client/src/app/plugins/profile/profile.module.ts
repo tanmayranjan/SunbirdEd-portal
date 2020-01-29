@@ -53,7 +53,7 @@ import { EditemailComponent } from './components/editemail/editemail.component';
     SharedFeatureModule
   ],
   declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent, UpdateUserDetailsComponent,
-   AccountRecoveryInfoComponent],
+   AccountRecoveryInfoComponent, EditemailComponent],
   providers: []
 })
 export class ProfileModule {}

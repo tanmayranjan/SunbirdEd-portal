@@ -18,7 +18,6 @@ import { CacheService } from 'ng2-cache-service';
 import { DOCUMENT } from '@angular/platform-browser';
 import { debug } from 'util';
 import { ShepherdService } from 'angular-shepherd';
-import {builtInButtons, defaultStepOptions} from './shepherd-data';
 import { forEach } from '@angular/router/src/utils/collection';
 
 
@@ -222,12 +221,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isCustodianOrgUser = true;
         this.deviceProfile = deviceProfile;
         if (this.userService.loggedIn) {
-          if (!deviceProfile.userDeclaredLocation ||
+          if (!deviceProfile['userDeclaredLocation'] ||
             !(this.usersProfile && this.usersProfile.userLocations && this.usersProfile.userLocations.length >= 1)) {
             this.isLocationConfirmed = false;
           }
         } else {
-          if (!deviceProfile.userDeclaredLocation) {
+          if (!deviceProfile['userDeclaredLocation']) {
             this.isLocationConfirmed = false;
           }
         }
@@ -235,11 +234,11 @@ export class AppComponent implements OnInit, OnDestroy {
         // state user
         this.isCustodianOrgUser = false;
         if (this.userService.loggedIn) {
-          if (!deviceProfile.userDeclaredLocation) {
+          if (!deviceProfile['userDeclaredLocation']) {
             this.isLocationConfirmed = false;
           }
         } else {
-          if (!deviceProfile.userDeclaredLocation) {
+          if (!deviceProfile['userDeclaredLocation']) {
             this.isLocationConfirmed = false;
           }
         }

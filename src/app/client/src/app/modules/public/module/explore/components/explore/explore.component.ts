@@ -11,13 +11,11 @@ import * as _ from 'lodash-es';
 import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, tap } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
-import { DownloadManagerService } from './../../../../../offline/services';
 import { environment } from '@sunbird/environment';
 import { IPagination } from '@sunbird/announcement';
 import { ICard } from '@sunbird/shared';
 import { PaginationService } from '@sunbird/shared';
 // import { open } from 'fs';
-import { environment } from '@sunbird/environment';
 import {
   ContentManagerService
 } from './../../../../../../../../projects/desktop/src/app/modules/offline/services/content-manager/content-manager.service';
@@ -85,15 +83,13 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       this.pageSections.push(this.carouselMasterData[this.pageSections.length]);
     }
   }
-  constructor(private pageApiService: PageApiService, private toasterService: ToasterService,
-    public offlineFileUploaderService: OfflineFileUploaderService, public searchService: SearchService,
+  constructor(private pageApiService: PageApiService, private toasterService: ToasterService, public searchService: SearchService,
     public paginationService: PaginationService, public resourceService: ResourceService,
     private configService: ConfigService, private activatedRoute: ActivatedRoute,
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService,
-    public downloadManagerService: DownloadManagerService, public frameworkService: FrameworkService, public contentManagerService: ContentManagerService) {
+    public navigationhelperService: NavigationHelperService, public frameworkService: FrameworkService, public contentManagerService: ContentManagerService) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
     this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);

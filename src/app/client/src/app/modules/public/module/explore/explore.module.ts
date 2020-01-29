@@ -28,6 +28,6 @@ import { PlayerHelperModule } from '../../../../modules/player-helper';
     PlayerHelperModule
   ],
   declarations: [ ExploreContentComponent, ExploreComponent, ExploreDetailPageComponent, SpacepdfViewerComponent],
-  exports: [ExploreComponent]
+  exports: [ExploreComponent, ExploreContentComponent]
 })
 export class ExploreModule { }

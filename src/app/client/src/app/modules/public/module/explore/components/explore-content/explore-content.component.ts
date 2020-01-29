@@ -13,7 +13,6 @@ import { IInteractEventEdata, IImpressionEventInput } from '@sunbird/telemetry';
 import { takeUntil, map, mergeMap, first, filter, debounceTime, tap, delay } from 'rxjs/operators';
 import { CacheService } from 'ng2-cache-service';
 import { environment } from '@sunbird/environment';
-import { DownloadManagerService } from './../../../../../offline/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContentManagerService
 } from './../../../../../../../../projects/desktop/src/app/modules/offline/services/content-manager/content-manager.service';

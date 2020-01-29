@@ -181,8 +181,7 @@ export class ViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     private orgDetailsService: OrgDetailsService,
     userService: UserService,
     private browserCacheTtlService: BrowserCacheTtlService,
-    public navigationhelperService: NavigationHelperService,
-    public downloadManagerService: DownloadManagerService, public contentManagerService: ContentManagerService
+    public navigationhelperService: NavigationHelperService, public contentManagerService: ContentManagerService
   ) {
     this.searchService = searchService;
     this.router = router;

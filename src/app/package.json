@@ -87,12 +87,7 @@
     "express-cassandra": "2.1.0",
     "express-http-proxy": "^1.0.6",
     "express-session": "^1.15.3",
-<<<<<<< HEAD
-    "fibers": "^4.0.1",
-    "googleapis": "^36.0.0",
-=======
     "googleapis": "^45.0.0",
->>>>>>> sunbirdportal/release-2.6.0
     "gulp-brotli": "^1.2.1",
     "gulp-inject-string": "^1.1.2",
     "helmet": "3.8.1",

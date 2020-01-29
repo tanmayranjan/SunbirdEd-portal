@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ErrorPageComponent, AuthGuard } from '@sunbird/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExploreDetailPageComponent } from './modules/public/module/explore';
 const appRoutes: Routes = [
   {
     path: 'learn', loadChildren: 'app/modules/learn/learn.module#LearnModule'

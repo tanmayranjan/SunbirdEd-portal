@@ -17,7 +17,7 @@ export class OrgDetailsService {
   orgDetails: any;
   orgInfo: any;
   timeDiff: any;
-
+  custodianOrgDetails: any;
   private _orgDetails$ = new BehaviorSubject<any>(undefined);
   /**
    * Contains root org id
@@ -143,6 +143,15 @@ export class OrgDetailsService {
 
   public getOrg(): void {
     return this.orgInfo;
+  }
+  public getCustodianOrgDetails() {
+    if (this.custodianOrgDetails) {
+      return of(this.custodianOrgDetails);
+    }
+    return this.getCustodianOrg().pipe(map(custodianOrgDetails => {
+      this.custodianOrgDetails = custodianOrgDetails;
+      return custodianOrgDetails;
+    }));
   }
 
   getCustodianOrg() {
