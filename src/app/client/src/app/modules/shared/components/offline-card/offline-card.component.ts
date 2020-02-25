@@ -4,8 +4,7 @@ import { ICard } from '../../interfaces';
 import { IInteractEventEdata, IInteractEventObject } from '@sunbird/telemetry';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash-es';
-import { ConnectionService
-} from './../../../../../../projects/desktop/src/app/modules/offline/services/connection-service/connection.service';
+
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -46,7 +45,7 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
     this.hover = false;
   }
   constructor(public resourceService: ResourceService, private router: Router,
-    private cdr: ChangeDetectorRef, private connectionService: ConnectionService,
+    private cdr: ChangeDetectorRef,
     public offlineCardService: OfflineCardService, public utilService: UtilService,
     public activatedRoute: ActivatedRoute) {
     this.resourceService = resourceService;
@@ -62,12 +61,6 @@ export class OfflineCardComponent implements OnInit, OnChanges, OnDestroy {
     if (_.includes(['video/youtube', 'video/x-youtube'], this.data.metaData.mimeType)) {
       this.onlineContent = true;
     }
-    this.connectionService.monitor().pipe(
-      takeUntil(this.unsubscribe))
-      .subscribe(isConnected => {
-        this.isConnected = isConnected;
-        this.status = isConnected ? 'ONLINE' : 'OFFLINE';
-      });
   }
 
   public onAction(data, action) {

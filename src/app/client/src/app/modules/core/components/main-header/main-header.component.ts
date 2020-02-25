@@ -25,6 +25,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   queryParam: any = {};
   showExploreHeader = false;
   showQrmodal = false;
+  showAccountMergemodal = false;
   tenantInfo: any = {};
   userProfile: IUserProfile;
   adminDashboard: Array<string>;

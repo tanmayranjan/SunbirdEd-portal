@@ -29,6 +29,7 @@ import { SpacePageSectionComponent } from './components/space-page-section/space
 import { HighlightTextDirective } from './directives/highlight-text/highlight-text.directive';
 import { SunbirdCustomMultiSelectComponent } from './components/sunbird-custom-multi-select/sunbird-custom-multi-select.component';
 import { SpaceCardLoggedinComponent } from './components/space-card-loggedin/space-card-loggedin/space-card-loggedin.component';
+import { AccountMergeModalComponent } from './components/account-merge-modal/account-merge-modal.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { SpaceCardLoggedinComponent } from './components/space-card-loggedin/spa
     ShareLinkComponent, BrowserCompatibilityComponent, QrCodeModalComponent, CdnprefixPipe, RedirectComponent, CustomMultiSelectComponent,
     InstallAppComponent, LockInfoPopupComponent, ContentDirectionDirective, OfflineCardComponent, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective, FullPageModalComponent, SpaceCustomMultiSelectComponent,
-    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent, SpaceCardLoggedinComponent],
+    SpaceCardComponent, SpacePageSectionComponent, SunbirdCustomMultiSelectComponent, SpaceCardLoggedinComponent,
+    AccountMergeModalComponent],
   exports: [AppLoaderComponent, AnnouncementInboxCardComponent, DateFormatPipe, DateFilterXtimeAgoPipe, AssetCardComponent,
     PageSectionComponent, BatchCardComponent, NoResultComponent,
      CardComponent, OfflineCardComponent, CardCreationComponent,
@@ -55,7 +57,7 @@ import { SpaceCardLoggedinComponent } from './components/space-card-loggedin/spa
     ContentDirectionDirective, OfflineBannerComponent,
     OfflineApplicationDownloadComponent, HighlightTextDirective,
     SpaceCardLoggedinComponent,
-     FullPageModalComponent, SpacePageSectionComponent, SpaceCustomMultiSelectComponent]
+     FullPageModalComponent, SpacePageSectionComponent, SpaceCustomMultiSelectComponent, AccountMergeModalComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

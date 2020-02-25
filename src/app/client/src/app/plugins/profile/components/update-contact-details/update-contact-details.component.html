@@ -44,7 +44,7 @@
     <div class="sb-modal-actions">
       <button appTelemetryInteract [telemetryInteractObject]="telemetryInteractObject"
         [telemetryInteractEdata]="submitInteractEdata" (click)="onSubmitForm()"
-        class="sb-btn sb-btn-normal sb-btn-primary" [ngClass]="{'disabled':!enableSubmitBtn,'darkgreybg': spaceeditemail}">
+        class="sb-btn sb-btn-normal sb-btn-primary" [ngClass]="{'darkgreybg': spaceeditemail}" [disabled]="!enableSubmitBtn">
         {{resourceService?.frmelmnts?.btn?.submit}}
       </button>
     </div>

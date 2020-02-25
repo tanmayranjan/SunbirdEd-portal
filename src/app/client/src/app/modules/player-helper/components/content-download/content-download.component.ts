@@ -3,7 +3,6 @@ import { takeUntil, first, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { IInteractEventEdata, IInteractEventObject } from '@sunbird/telemetry';
 import { PublicPlayerService } from '@sunbird/public';
-import { ContentManagerService, ConnectionService } from '@sunbird/offline';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResourceService, ICard, UtilService, ToasterService, ContentData, OfflineCardService, ConfigService } from '@sunbird/shared';
 import * as _ from 'lodash-es';
@@ -33,24 +32,21 @@ export class ContentDownloadComponent implements OnInit, OnDestroy {
   showUpdated = false;
   message;
   constructor(public resourceService: ResourceService, public utilService: UtilService,
-    public router: Router,  public contentManagerService: ContentManagerService,
+    public router: Router,
     public toasterService: ToasterService, public playerService: PublicPlayerService,
     public activatedRoute: ActivatedRoute, public offlineCardService: OfflineCardService,
-    private connectionService: ConnectionService, public configService: ConfigService ) { }
+     public configService: ConfigService ) { }
 
   ngOnInit() {
     this.currentRoute = _.includes(this.router.url, 'browse') ? 'browse' : 'library';
     this.setTelemetryData();
 
-    this.contentManagerService.downloadListEvent.pipe(takeUntil(this.unsubscribe$)).subscribe((data) => {
-      this.checkDownloadStatus(data);
-    });
 
     if (!_.isEmpty(this.collectionId)) {
       this.checkContentIsUpdated(this.contentData);
     }
 
-    this.checkOnlineStatus();
+   // this.checkOnlineStatus();
     this.checkForUpdate(this.contentData);
 
   }
@@ -83,18 +79,7 @@ export class ContentDownloadComponent implements OnInit, OnDestroy {
 
   }
 
-  startDownload(content) {
-    this.showUpdate = false;
-    this.contentManagerService.downloadContentId = content.identifier;
-    this.contentManagerService.startDownload({}).subscribe(data => {
-      this.contentManagerService.downloadContentId = '';
-      content['downloadStatus'] = this.resourceService.messages.stmsg.m0140;
-    }, error => {
-      this.contentManagerService.downloadContentId = '';
-      content['downloadStatus'] = this.resourceService.messages.stmsg.m0138;
-      this.toasterService.error(this.resourceService.messages.fmsg.m0090);
-    });
-  }
+  
 
   checkStatus(status) {
   return this.utilService.getPlayerDownloadStatus(status, this.contentData, this.currentRoute);
@@ -110,7 +95,7 @@ export class ContentDownloadComponent implements OnInit, OnDestroy {
   download(content) {
     this.showModal = this.offlineCardService.isYoutubeContent(content);
     if (!this.showModal) {
-      this.startDownload(content);
+     // this.startDownload(content);
     } else {
       this.message = content.mimeType !== 'application/vnd.ekstep.content-collection' ? this.resourceService.messages.stmsg.m0141 :
       this.resourceService.messages.stmsg.m0137;
@@ -126,14 +111,7 @@ export class ContentDownloadComponent implements OnInit, OnDestroy {
       this.resourceService.frmelmnts.lbl.updatecontent : this.resourceService.frmelmnts.lbl.updatecollection;
   }
 
-  checkOnlineStatus() {
-    this.connectionService.monitor().subscribe(isConnected => {
-      this.isConnected = isConnected;
-      if (!this.isConnected) {
-        this.checkForUpdate(this.contentData);
-      }
-    });
-  }
+  
 
   checkForUpdate(contentData) {
     this.showUpdate = _.get(contentData, 'desktopAppMetadata.updateAvailable') && this.currentRoute === 'library';
@@ -145,13 +123,6 @@ export class ContentDownloadComponent implements OnInit, OnDestroy {
       contentId: content.identifier,
       parentId: this.collectionId
     };
-    this.contentManagerService.updateContent(request).pipe(takeUntil(this.unsubscribe$)).subscribe(data => {
-      content['downloadStatus'] = this.resourceService.messages.stmsg.m0140;
-    }, err => {
-      const errorMessage = !this.isConnected ? _.replace(this.resourceService.messages.smsg.m0056, '{contentName}', content.name) :
-                                              this.resourceService.messages.fmsg.m0096;
-      this.toasterService.error(errorMessage);
-    });
   }
 
   checkContentIsUpdated(content) {

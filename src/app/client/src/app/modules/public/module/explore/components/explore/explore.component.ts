@@ -16,9 +16,6 @@ import { IPagination } from '@sunbird/announcement';
 import { ICard } from '@sunbird/shared';
 import { PaginationService } from '@sunbird/shared';
 // import { open } from 'fs';
-import {
-  ContentManagerService
-} from './../../../../../../../../projects/desktop/src/app/modules/offline/services/content-manager/content-manager.service';
 
 
 @Component({
@@ -89,7 +86,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router, private utilService: UtilService, private orgDetailsService: OrgDetailsService,
     private publicPlayerService: PublicPlayerService, private cacheService: CacheService,
     private browserCacheTtlService: BrowserCacheTtlService, private userService: UserService,
-    public navigationhelperService: NavigationHelperService, public frameworkService: FrameworkService, public contentManagerService: ContentManagerService) {
+    public navigationhelperService: NavigationHelperService, public frameworkService: FrameworkService ) {
     this.router.onSameUrlNavigation = 'reload';
     this.filterType = this.configService.appConfig.explore.filterType;
     this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
@@ -115,21 +112,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-    if (this.isOffline) {
-      this.contentManagerService.downloadListEvent.pipe(
-        takeUntil(this.unsubscribe$)).subscribe((data) => {
-        this.updateCardData(data);
-      });
-      this.contentManagerService.completeEvent.pipe(
-        takeUntil(this.unsubscribe$)).subscribe((data) => {
-          if (this.router.url === '/') {
-            this.fetchPageData();
-          }
-      });
-      this.contentManagerService.downloadEvent.pipe(tap(() => {
-        this.showDownloadLoader = false;
-      }), takeUntil(this.unsubscribe$)).subscribe(() => {});
-    }
+    
   }
 
   public getFilters(filters) {
@@ -445,14 +428,14 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // For offline environment content will only play when event.action is open
     if (event.action === 'download' && this.isOffline) {
-      this.startDownload(event.data.metaData.identifier);
+    //  this.startDownload(event.data.metaData.identifier);
       this.showDownloadLoader = true;
       this.contentName = event.data.name;
       return false;
     } else if (event.action === 'export' && this.isOffline) {
       this.showExportLoader = true;
       this.contentName = event.data.name;
-      this.exportOfflineContent(event.data.metaData.identifier);
+    //  this.exportOfflineContent(event.data.metaData.identifier);
       return false;
     }
 
@@ -526,33 +509,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  startDownload (contentId) {
-    this.contentManagerService.downloadContentId = contentId;
-    this.contentManagerService.startDownload({}).subscribe(data => {
-      this.contentManagerService.downloadContentId = '';
-    }, error => {
-      this.contentManagerService.downloadContentId = '';
-      this.showDownloadLoader = false;
-      _.each(this.pageSections, (pageSection) => {
-        _.each(pageSection.contents, (pageData) => {
-          pageData['downloadStatus'] = this.resourceService.messages.stmsg.m0138;
-        });
-      });
-      this.toasterService.error(this.resourceService.messages.fmsg.m0090);
-    });
-  }
-
-  exportOfflineContent(contentId) {
-    this.contentManagerService.exportContent(contentId).subscribe(data => {
-      this.showExportLoader = false;
-      this.toasterService.success(this.resourceService.messages.smsg.m0059);
-    }, error => {
-      this.showExportLoader = false;
-      if (error.error.responseCode !== 'NO_DEST_FOLDER') {
-        this.toasterService.error(this.resourceService.messages.fmsg.m0091);
-      }
-    });
-  }
+  
 
   updateCardData(downloadListdata) {
     _.each(this.pageSections, (pageSection) => {
