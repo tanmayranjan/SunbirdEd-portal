@@ -86,13 +86,15 @@ export class ExploreDetailPageComponent implements OnInit {
   ngOnInit() {
     // this.activatedRoute.queryParams()
     const req = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+      // url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+      url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
-    this.contentService.get(req).subscribe(data => {
-      this.assetDetail = data.result.content;
-      if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
+    // this.contentService.get(req).subscribe(data => {
+      this.assetService.read(req).subscribe(data => {
+      this.assetDetail = data.result.asset;
+      if (data.result.asset.source ) {
 
-      this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+      this.contentuploaded = data.result.asset.source.substring(data.result.asset.source.lastIndexOf('/')).slice(1);
       }
       /*telemetry inplementation for space*/
       this.telemetryImpressionObject = {
@@ -101,7 +103,7 @@ export class ExploreDetailPageComponent implements OnInit {
         rollup: {
           name: this.assetDetail['name'],
           resource: 'asset',
-          assetType : this.assetDetail['contentType']
+          assetType : this.assetDetail['assetType']
       }
       };
       if (this.counterVar === false) {

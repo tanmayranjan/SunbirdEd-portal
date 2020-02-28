@@ -102,14 +102,18 @@ export class SharedDetailPageComponent implements OnInit {
   ngOnInit() {
 console.log('param = ', this.activatedRoute.snapshot.params.contentId);
 this.contentId = this.activatedRoute.snapshot.params.contentId;
-const req = {
-  url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
-};
-this.contentService.get(req).subscribe(data => {
+// const req = {
+//   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+// };
+// this.contentService.get(req).subscribe(data => {
+  const req = {
+    url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+  };
+  this.assetService.read(req).subscribe(data => {
 
-  this.assetDetail = data.result.content;
-  this.pdfs = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/'),
-  data.result.content.artifactUrl.lastIndexOf('pdf'));
+  this.assetDetail = data.result.asset;
+  this.pdfs = data.result.asset.source.substring(data.result.asset.source.lastIndexOf('/') + 1 ,
+  data.result.asset.source.lastIndexOf('.'));
 
   this.telemetryImpressionObject = {
     id: this.assetDetail['identifier'],
@@ -117,7 +121,7 @@ this.contentService.get(req).subscribe(data => {
     rollup: {
       name: this.assetDetail['name'],
       resource: 'asset',
-      assetType : this.assetDetail['contentType']
+      assetType : this.assetDetail['assetType']
   }
   };
   this.telemetryImpression = {

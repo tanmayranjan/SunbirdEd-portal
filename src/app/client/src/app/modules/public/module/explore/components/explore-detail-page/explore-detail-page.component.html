@@ -52,24 +52,24 @@
                     </p>
                 </div>
       <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description | titlecase}}</p>
-      <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">
+      <p class="card-text" *ngIf="assetDetail?.link &&  assetDetail?.link !== '' &&  assetDetail?.link.slice(0,4) === 'http' ">
         Link:
         <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
       </p>
-      <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.link.slice(0,4) !== 'http' ">
+      <p class="card-text" *ngIf="assetDetail?.link &&  assetDetail?.link !== '' && assetDetail?.link.slice(0,4) !== 'http' ">
         Link:
         <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
       </p>
       <p class="card-text" *ngIf="assetDetail?.creator && assetDetail?.creators">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
       <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date :
         {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
-      <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
+      <div *ngIf="assetDetail?.source && assetDetail?.source !== ''">
         <p>
           File : <span (click)="navigateToView()" class="pdfStyle">{{contentuploaded}}</span>
         </p>
 
       </div>
-      <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
+      <!-- <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
         <p>
             File : <span (click)="navigateToView()" class="pdfStyle">{{contentuploaded}}</span>
             
@@ -92,7 +92,7 @@
             Video : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
             
         </p>
-    </div>
+    </div> -->
       <div *ngFor="let role of user">
         <div *ngIf="role === 'TEACHER_BADGE_ISSUER'">
           <p class="card-text" *ngIf="assetDetail?.status === 'Live'"> Assign Badges:

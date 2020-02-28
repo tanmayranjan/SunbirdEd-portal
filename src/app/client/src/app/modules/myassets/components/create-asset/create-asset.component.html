@@ -8,20 +8,20 @@
                     [categoryMasterList]="categoryMasterList">
                 </app-update-resoure-form>
             </div>
-            <div *ngIf="content?.mimeType === 'text/x-url'" class="mt-10">
+            <div *ngIf="(!content?.source) || (content?.link && content?.link !== '')" class="mt-10">
                 <!-- <p>
                                 File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                             </p> -->
             
-                            <div class="field required">
+                            <div class="field">
                                     <label>
                                      Link :
                                     </label>
-                                    <input style=" border: 1px solid #e4e4e4;border-radius: 7px" name="content.name" type=text [(ngModel)]="content['artifactUrl']">
+                                    <input style=" border: 1px solid #e4e4e4;border-radius: 7px" name="content.name" type=text [(ngModel)]="content['link']">
                             
                                   </div>
             </div>
-            <div class="mt-10" *ngIf="enabled && content?.mimeType !== 'text/x-url' && content?.mimeType !== 'video/x-youtube'" class="mt-10">
+            <div class="mt-10" *ngIf="enabled && !content?.link && !content?.source" class="mt-10">
                 <!-- <p>
                     File : <span routerLink="play" class="pdfStyle">{{pdf | titlecase | slice: 1}}pdf</span>
                 </p> -->
@@ -31,9 +31,9 @@
                 </p>
 
             </div>
-            <div class="mt-10" *ngIf="content?.artifactUrl && content?.mimeType === 'video/x-youtube'">
+            <div class="mt-10" *ngIf="content?.source && content?.source !== ''">
                 <p>
-                    Video : <span (click)="contentClick()" class="pdfStyle">{{content?.artifactUrl}}</span>
+                    File : <span (click)="contentClick()" class="pdfStyle">{{uploadedcontent}}</span>
                     <span class="editorStyle" (click)="contentClick()">- (click here)</span>
                     
                 </p>
@@ -67,7 +67,7 @@
 
             </div>
           <br><br>
-           <div *ngIf="!!!content?.artifactUrl">
+           <div *ngIf="!!!content?.source && !!!content.link">
                 <p>
                         <span (click)="contentClick()" class="pdfStyle">Upload</span>
                         <span class="editorStyle" (click)="contentClick()">(click here)</span>

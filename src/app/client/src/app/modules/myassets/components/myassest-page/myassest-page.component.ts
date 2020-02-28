@@ -347,13 +347,14 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
     } else {
       this.sort = { lastUpdatedOn: this.config.appConfig.WORKSPACE.lastUpdatedOn };
     }
-    /*  const preStatus = [];
+     // const preStatus = [];
       const searchParams = {
         filters: {
-          status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
+       //   status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
           // createdBy: this.userService.userid,
           // contentType: this.config.appConfig.WORKSPACE.contentType,
           objectType: 'Asset',
+          status: ['Live', 'Review' , 'Draft'],
           assetType: [],
           subject: bothParams.queryParams.subject,
           medium: bothParams.queryParams.medium,
@@ -373,38 +374,38 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
         query: '' || bothParams.queryParams.query,
         // sort_by: this.sort
       };
-      */
-    const preStatus = ['Draft', 'Review', 'Live'];
-    const searchParams = {
-      filters: {
-        status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
-        createdBy: this.userService.userid,
-        contentType: this.config.appConfig.WORKSPACE.contentType,
-        objectType: this.config.appConfig.WORKSPACE.objectType,
-        board: [],
-        subject: bothParams.queryParams.subject,
-        medium: bothParams.queryParams.medium,
-        gradeLevel: bothParams.queryParams.gradeLevel,
-        resourceType: bothParams.queryParams.resourceType,
-        keywords: bothParams.queryParams.keywords,
-        region: [],
-        creators: [],
-        languages: [],
-        organisation: [],
-        channel: [],
-        topic: [],
-        country: []
-      },
-      // limit: limit,
-      offset: (pageNumber - 1) * (limit),
-      query: '' || bothParams.queryParams.query,
-      sort_by: this.sort
-    };
+      
+    // const preStatus = ['Draft', 'Review', 'Live'];
+    // const searchParams = {
+    //   filters: {
+    //     status: bothParams.queryParams.status ? bothParams.queryParams.status : preStatus,
+    //     createdBy: this.userService.userid,
+    //     contentType: this.config.appConfig.WORKSPACE.contentType,
+    //     objectType: this.config.appConfig.WORKSPACE.objectType,
+    //     board: [],
+    //     subject: bothParams.queryParams.subject,
+    //     medium: bothParams.queryParams.medium,
+    //     gradeLevel: bothParams.queryParams.gradeLevel,
+    //     resourceType: bothParams.queryParams.resourceType,
+    //     keywords: bothParams.queryParams.keywords,
+    //     region: [],
+    //     creators: [],
+    //     languages: [],
+    //     organisation: [],
+    //     channel: [],
+    //     topic: [],
+    //     country: []
+    //   },
+    //   // limit: limit,
+    //   offset: (pageNumber - 1) * (limit),
+    //   query: '' || bothParams.queryParams.query,
+    //   sort_by: this.sort
+    // };
     console.log('filter param = ', searchParams);
     this.paramType.forEach(param => {
       if (bothParams.queryParams.hasOwnProperty(param)) {
         if (param === 'board') {
-          searchParams.filters.board.push(bothParams.queryParams[param][0]);
+          searchParams.filters.assetType.push(bothParams.queryParams[param][0]);
         }
         if (param === 'channel') {
           searchParams.filters.creators.push(bothParams.queryParams[param][0]);
@@ -414,13 +415,13 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
           searchParams.filters.region.push(bothParams.queryParams[param][0]);
         }
         if (param === 'gradeLevel') {
-          searchParams.filters.gradeLevel.push(bothParams.queryParams[param][0]);
+          searchParams.filters.sector.push(bothParams.queryParams[param][0]);
         }
         if (param === 'topic') {
           searchParams.filters.topic.push(bothParams.queryParams[param][0]);
         }
         if (param === 'languages') {
-          searchParams.filters.languages.push(bothParams.queryParams[param][0]);
+          searchParams.filters.language.push(bothParams.queryParams[param][0]);
         }
         // if (param === 'country') {
         //   searchParams.filters.country = this.queryParams[param];
@@ -439,12 +440,15 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
           if (this.route.url === '/upForReview') {
             if (this.route.url === '/upForReview') {
               this.noResultsForReview = false;
+              // const option = {
+              //   url: '/content/v1/search',
               const option = {
-                url: '/content/v1/search',
+                url : 'content/composite/v1/search',
                 param: '',
                 filters: {
-                  language: ['English'],
-                  contentType: ['Resource'],
+                //  language: ['English'],
+                 // contentType: ['Resource'],
+                 objectType: 'Asset',
                   status: ['Review'],
                   channel: [this.userDetails.organisationIds[0], this.channelname],
                   organisation: this.config.appConfig.Library.orgName
@@ -452,10 +456,11 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
                 sort_by: { me_averageRating: 'desc' }
               };
               //   delete option.sort_by;
-              this.contentService.getupForReviewData(option).subscribe(response => {
+            //  this.contentService.getupForReviewData(option).subscribe(response => {
                 //   console.log(' res param in review page = ', option);
+                this.assetService.getupForAssetReviewData(option).subscribe(response => {
                 if (response.result.count > 0) {
-                  this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
+                  this.upForReviewContent = response.result.Asset.filter(Asset => Asset.createdBy !== this.userId);
                   // console.log('upfor review content = ', this.upForReviewContent, response);
                   if (this.upForReviewContent.length <= 0) {
                     this.noResultsForReview = true;
@@ -489,23 +494,38 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
               });
             }
           } else {
-            if (data.result.count && data.result.content.length > 0) {
-              this.allContent = data.result.content;
-              console.log('Data in myasset', this.allContent);
+            if (data.result.count && data.result.Asset.length > 0) {
+              // this.allContent = data.result.content;
+              // console.log('Data in myasset', this.allContent);
+              const asset = [];
+              _.map(data.result.Asset, object => {
+                if (object.status !== 'Retired') {
+               asset.push(object);
+                }
+              }
+              );
+                    console.log('my asset page content = ', asset);
+                  // this is the tem area
+                  this.allContent = asset;
+                  if (this.allContent.length === 0) {
+                    this.noResultMessage = {
+                      'messageText' : this.resourceService.messages.stmsg.m0006
+                    };
+                  }
               this.totalCount = data.result.count;
               let i;
               for (i = 0; i < this.totalCount; i++) {
                 if (this.allContent[i]['status'] === 'Draft') {
                   const req = {
-                    url: `${this.config.urlConFig.URLS.CONTENT.GET}/${this.allContent[i].identifier}`,
+                    url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${this.allContent[i].identifier}`,
                   };
                   this.copied[this.allContent[i]['versionKey']] = false;
-                  this.contentService.get(req).subscribe(data2 => {
-                    this.copystate = data2.result.content.status;
+                  this.assetService.read(req).subscribe(data2 => {
+                    this.copystate = data2.result.asset.status;
                     if (this.copystate === 'Live') {
-                      this.copied[data2.result.content.versionKey] = true;
+                      this.copied[data2.result.asset.versionKey] = true;
                     } else {
-                      this.copied[data2.result.content.versionKey] = true;
+                      this.copied[data2.result.asset.versionKey] = true;
                     }
                   });
                 } else {
@@ -551,7 +571,14 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
         };
-        this.delete(contentIds).subscribe(
+        // this.delete(contentIds).subscribe(
+          const param = {
+            asset: {
+              identifier: contentIds,
+              status: 'Retired'
+            }
+          };
+          this.workSpaceService.updateAsset(param).subscribe(
           (data: ServerResponse) => {
             this.showLoader = false;
             this.allContent = this.removeAllMyContent(this.allContent, contentIds);
@@ -595,21 +622,25 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
           }
         };
         const req = {
-          url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentIds}`,
+          url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${contentIds}`,
         };
-        this.contentService.get(req).subscribe(data => {
-          this.mainState = data.result.content.status;
+        this.assetService.read(req).subscribe(data => {
+          this.mainState = data.result.asset.status;
           if (this.mainState === 'Live') {
             localStorage.setItem('CopiedContent' + contentIds, JSON.stringify('Review'));
           }
         });
 
         const option = {
-          url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
-          data: requestBody
+          // url: `${this.config.urlConFig.URLS.CONTENT.REVIEW}/${contentIds}`,
+          // data: requestBody
+          asset: {
+            identifier: contentIds,
+            status: 'Review'
+          }
         };
 
-        this.contentService.post(option).subscribe(
+        this.workSpaceService.updateAsset(option).subscribe(
           (data: ServerResponse) => {
             console.log('data after sending for review = ', data);
             localStorage.setItem(contentIds, JSON.stringify('Review'));
@@ -750,14 +781,14 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
           'loaderMessage': 'Enabling editing of live content',
         };
         const req = {
-          url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentId}`,
+          url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${contentId}`,
         };
-        this.contentService.get(req).subscribe(data => {
+        this.assetService.read(req).subscribe(data => {
           console.log('this is live data ', data);
           const requestData = {
-            content: this.generateData(_.pickBy(data.result.content)),
+            asset: this.generateData(_.pickBy(data.result.asset)),
           };
-          this.editorService.update(requestData, contentId).subscribe(res => {
+          this.workSpaceService.updateAsset(requestData).subscribe(res => {
             setTimeout(() => {
 
             this.showLoader = false;
@@ -786,15 +817,15 @@ export class MyassestPageComponent extends MyAsset implements OnInit, OnDestroy,
     requestData.version = parseFloat(requestData.version);
     delete requestData.status;
 
-    if (data.contentType === 'studymaterial' && data.link) {
-      requestData.mimeType = 'text/x-url';
-      requestData['artifactUrl'] = data.link;
-      // requestData.mimeType = 'application/pdf'
-    } else if (data.mimeType === 'application/vnd.ekstep.ecml-archive') {
-      requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
-    } else {
-      requestData.mimeType = 'application/pdf';
-    }
+    // if (data.contentType === 'studymaterial' && data.link) {
+    //   requestData.mimeType = 'text/x-url';
+    //   requestData['artifactUrl'] = data.link;
+    //   // requestData.mimeType = 'application/pdf'
+    // } else if (data.mimeType === 'application/vnd.ekstep.ecml-archive') {
+    //   requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
+    // } else {
+    //   requestData.mimeType = 'application/pdf';
+    // }
     if (data.resourceType) {
       requestData.resourceType = data.resourceType;
     }

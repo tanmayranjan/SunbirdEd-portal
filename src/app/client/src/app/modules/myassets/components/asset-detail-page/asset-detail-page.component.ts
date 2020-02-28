@@ -12,6 +12,7 @@ import {
 import { IImpressionEventInput, TelemetryObject } from '@sunbird/telemetry';
 import { MyassetsService } from '../../services/my-assets/myassets.service';
 import * as _ from 'lodash-es';
+import { SearchService } from '../../../core/services/search/search.service';
 export interface IassessDetail {
   name: string;
   link: string;
@@ -28,6 +29,10 @@ export interface IassessDetail {
   artifactUrl: string;
   mimeType: string;
   badgeAssertions: Array<any>;
+  submittedBy: string;
+  source: string;
+  assetType: string;
+  sector: string;
 }
 @Component({
   selector: 'app-asset-detail-page',
@@ -67,7 +72,11 @@ export class AssetDetailPageComponent implements OnInit {
     creators: '',
     artifactUrl: '',
     mimeType: '',
-    badgeAssertions: []
+    badgeAssertions: [],
+    submittedBy: '',
+    source: '',
+    assetType: '',
+    sector: ''
   };
   public resourceService: ResourceService;
   private toasterService: ToasterService;
@@ -95,7 +104,8 @@ export class AssetDetailPageComponent implements OnInit {
   constructor(activated: ActivatedRoute, public modalServices: SuiModalService, public modalService: SuiModalService,
     badgeService: BadgesService, toasterService: ToasterService, resourceService: ResourceService, userService: UserService,
     config: ConfigService, contentServe: ContentService, rout: Router, private location: Location,
-    public workSpaceService: MyassetsService, public assetService: AssetService, public navigationhelperService: NavigationHelperService) {
+    public workSpaceService: MyassetsService, public assetService: AssetService, public navigationhelperService: NavigationHelperService,
+    public searchService: SearchService) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
       this.contentId = url[1].path;
@@ -121,124 +131,136 @@ export class AssetDetailPageComponent implements OnInit {
       this.path = url[2].path;
     });
     if (this.path === 'Live') {
+      // const req = {
+      //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+      // };
       const req = {
-        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
       };
-    // const req = {
-    //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-    // };
-     this.contentService.get(req).subscribe(data => {
-       this.content = data.result.content;
-       this.assetDetail = data.result.content;
-       this.showLoader = false;
-       if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
-       this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
-       }
-       this.telemetryImpressionObject = {
-           id: this.assetDetail['identifier'],
-           type: 'asset',
-           rollup: {
-             name: this.assetDetail['name'],
-             resource: 'asset',
-             assetType : this.assetDetail['contentType']
-         }
-         };
-         this.telemetryImpression = {
-           context: {
-             env: this.pageid
-           }, object: this.telemetryImpressionObject,
-           edata: {
-             type: 'view',
-             pageid: this.pageid,
-             uri: this.route.url,
-             subtype: 'paginate',
-             duration: this.navigationhelperService.getPageLoadTime()
-           }
-         };
-     });
-   } else if (this.path === 'Draft' || this.path === 'Review' ) {
-       const req = {
-         url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
-       };
-     // const req = {
-     //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-     // };
-      this.contentService.get(req).subscribe(data => {
-        console.log('read content', data);
-        this.content = data.result.content;
-        this.assetDetail = data.result.content;
+      this.assetService.read(req).subscribe(data => {
+        this.content = data.result.asset;
+        this.assetDetail = data.result.asset;
         this.showLoader = false;
-        if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube') {
-        this.contentuploaded = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+        if (this.content.source) {
+          if (this.content.source.includes('youtube')) {
+            this.contentuploaded = this.content.source;
+          } else {
+            this.contentuploaded = this.content.source.substring(this.content.source.lastIndexOf('/') + 1);
+          }
         }
         this.telemetryImpressionObject = {
-            id: this.assetDetail['identifier'],
-            type: 'asset',
-            rollup: {
-              name: this.assetDetail['name'],
-              resource: 'asset',
-              assetType : this.assetDetail['contentType']
+          id: this.assetDetail['identifier'],
+          type: 'asset',
+          rollup: {
+            name: this.assetDetail['name'],
+            resource: 'asset',
+            assetType: this.assetDetail['assetType']
           }
-          };
-          this.telemetryImpression = {
-            context: {
-              env: this.pageid
-            }, object: this.telemetryImpressionObject,
-            edata: {
-              type: 'view',
-              pageid: this.pageid,
-              uri: this.route.url,
-              subtype: 'paginate',
-              duration: this.navigationhelperService.getPageLoadTime()
-            }
-          };
+        };
+        this.telemetryImpression = {
+          context: {
+            env: this.pageid
+          }, object: this.telemetryImpressionObject,
+          edata: {
+            type: 'view',
+            pageid: this.pageid,
+            uri: this.route.url,
+            subtype: 'paginate',
+            duration: this.navigationhelperService.getPageLoadTime()
+          }
+        };
+      });
+    } else if (this.path === 'Draft' || this.path === 'Review') {
+      //  const req = {
+      //    url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+      //  };
+      const req = {
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+      };
+      this.assetService.read(req).subscribe(data => {
+        console.log('read content', data);
+        this.content = data.result.asset;
+        this.assetDetail = data.result.asset;
+        this.showLoader = false;
+        if (this.content.source) {
+
+          if (this.content.source.includes('youtube')) {
+            this.contentuploaded = this.content.source;
+          } else {
+            this.contentuploaded = this.content.source.substring(this.content.source.lastIndexOf('/') + 1);
+          }
+        }
+        this.telemetryImpressionObject = {
+          id: this.assetDetail['identifier'],
+          type: 'asset',
+          rollup: {
+            name: this.assetDetail['name'],
+            resource: 'asset',
+            assetType: this.assetDetail['assetType']
+          }
+        };
+        this.telemetryImpression = {
+          context: {
+            env: this.pageid
+          }, object: this.telemetryImpressionObject,
+          edata: {
+            type: 'view',
+            pageid: this.pageid,
+            uri: this.route.url,
+            subtype: 'paginate',
+            duration: this.navigationhelperService.getPageLoadTime()
+          }
+        };
       });
     } else {
 
-   //   const req = {
-     //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
-     // };
-     const option = {
-      url : '/content/v1/search',
-      param : '',
-      filters: {
-        language: ['English'],
-        contentType: ['Resource'],
-        status: ['Review'],
-        identifier: [this.path]
-    },
-      sort_by: {me_averageRating: 'desc'}
-    };
-    this.contentService.getupForReviewData(option).subscribe(data => {
+      //   const req = {
+      //   url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+      // };
+      const option = {
+        url: this.configService.urlConFig.URLS.COMPOSITE.SEARCH,
+        param: '',
+        filters: {
+          objectType: 'Asset',
+          status: ['Review'],
+          identifier: [this.path]
+        },
+        sort_by: { me_averageRating: 'desc' }
+      };
+      this.searchService.compositeSearch(option).subscribe(data => {
         console.log('read content', data);
-        this.content = data.result.content;
-        this.assetDetail = data.result.content[0];
+        this.content = data.result.Asset[0];
+        this.assetDetail = data.result.Asset[0];
         this.showLoader = false;
-        if (data.result.content[0].artifactUrl && data.result.content[0].mimeType !== 'video/x-youtube') {
-          this.contentuploaded = data.result.content[0].artifactUrl.substring(data.result.content[0].artifactUrl.lastIndexOf('/')).slice(1);
+        if (this.content.source) {
+          if (this.content.source.includes('youtube')) {
+            this.contentuploaded = this.content.source;
+          } else {
+            this.contentuploaded = this.content.source.substring(this.content.source.lastIndexOf('/') + 1);
           }
-          this.telemetryImpressionObject = {
-            id: this.assetDetail['identifier'],
-            type: 'asset',
-            rollup: {
-              name: this.assetDetail['name'],
-              resource: 'asset',
-              assetType : this.assetDetail['contentType']
+        }
+        this.telemetryImpressionObject = {
+          id: this.assetDetail['identifier'],
+          type: 'asset',
+          rollup: {
+            name: this.assetDetail['name'],
+            resource: 'asset',
+            assetType: this.assetDetail['assetType']
           }
-          };
-          this.telemetryImpression = {
-            context: {
-              env: this.pageid
-            }, object: this.telemetryImpressionObject,
-            edata: {
-              type: 'view',
-              pageid: this.pageid,
-              uri: this.route.url,
-              subtype: 'paginate',
-              duration: this.navigationhelperService.getPageLoadTime()
-            }
-          };
-    });
+        };
+        this.telemetryImpression = {
+          context: {
+            env: this.pageid
+          }, object: this.telemetryImpressionObject,
+          edata: {
+            type: 'view',
+            pageid: this.pageid,
+            uri: this.route.url,
+            subtype: 'paginate',
+            duration: this.navigationhelperService.getPageLoadTime()
+          }
+        };
+      });
     }
     this.userService.userData$.subscribe(
       (user: IUserData) => {
@@ -323,10 +345,17 @@ export class AssetDetailPageComponent implements OnInit {
       });
   }
   rejectAsset(contentId) {
+    // const option = {
+    //   url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}`
+    //  };
+    // this.contentService.post(option).subscribe(
     const option = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}`
-     };
-    this.contentService.post(option).subscribe(
+      asset: {
+        identifier: contentId,
+        status: 'Draft'
+      }
+    };
+    this.assetService.update(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
         // this.resourceService.messages.smsg.m0004
@@ -369,15 +398,18 @@ export class AssetDetailPageComponent implements OnInit {
         }
       }
     };
-     const option = {
-       url: `${this.configService.urlConFig.URLS.CONTENT.PUBLISH}/${contentId}`,
-       data: requestBody
-     };
-  //  const option = {
-   //   url: `${this.configService.urlConFig.URLS.CONTENT.REJECT}/${contentId}` ,
-   //   data: requestBody
-   //  };
-    this.contentService.post(option).subscribe(
+    //  const option = {
+    //    url: `${this.configService.urlConFig.URLS.CONTENT.PUBLISH}/${contentId}`,
+    //    data: requestBody
+    //  };
+    // this.contentService.post(option).subscribe(
+    const option = {
+      asset: {
+        identifier: contentId,
+        status: 'Live'
+      }
+    };
+    this.assetService.update(option).subscribe(
       (data: ServerResponse) => {
         this.showLoader = false;
         this.toasterService.success('Asset has been sucessfully published');

@@ -17,6 +17,7 @@ export class SpaceCardLoggedinComponent implements OnInit {
   constructor(public router: Router) { }
 
   ngOnInit() {
+    console.log('Card data in space logged in comp' , this.data);
   }
   public onAction(data, action, event, link) {
     this.url = link;

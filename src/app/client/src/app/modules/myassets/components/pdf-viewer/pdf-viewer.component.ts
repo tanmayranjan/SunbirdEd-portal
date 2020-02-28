@@ -5,6 +5,7 @@ import { ConfigService, NavigationHelperService } from '@sunbird/shared';
 import { BadgesService } from '../../../core/services/badges/badges.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IImpressionEventInput } from '@sunbird/telemetry';
+import { AssetService } from '../../../core/services/asset/asset.service';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -28,7 +29,7 @@ export class PdfViewerComponent implements OnInit {
   epub = false;
   constructor(activated: ActivatedRoute, sanitizers: DomSanitizer,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
-   public playerservice: PlayerService
+   public playerservice: PlayerService, public assetService: AssetService,
   ) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
@@ -46,41 +47,37 @@ export class PdfViewerComponent implements OnInit {
 
     if (this.activatedRoute.params['value'].status === 'Review') {
       const option = {
-        url : '/content/v1/search',
-        param : '',
-        filters: {
-          language: ['English'],
-          contentType: ['Resource'],
-          status: ['Review'],
-          identifier: [this.activatedRoute.snapshot.params.contentId]
-      },
-        sort_by: {me_averageRating: 'desc'}
+        url : `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
       };
-      this.contentService.getupForReviewData(option).subscribe(data => {
+      this.assetService.read(option).subscribe(data => {
           console.log('read content', data);
-          if (data.result.content[0].mimeType === 'application/epub') {
-            this.epub = true;
-            const newobj = {'contentData': data.result.content[0], 'contentId': data.result.content[0].identifier};
-           this.playerConfig = this.playerservice.getConfig(newobj);
+          // if (data.result.content[0].mimeType === 'application/epub') {
+          //   this.epub = true;
+          //   const newobj = {'contentData': data.result.content[0], 'contentId': data.result.content[0].identifier};
+          //  this.playerConfig = this.playerservice.getConfig(newobj);
 
-          }
-          this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content[0].artifactUrl);
+          // }
+          this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.asset.source);
           this.showLoader = false;
 
     });
   } else {
-    const req = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
-    };
-    this.contentService.get(req).subscribe(data => {
+    // const req = {
+    //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+    // };
+    // this.contentService.get(req).subscribe(data => {
+      const option = {
+        url : `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
+      };
+      this.assetService.read(option).subscribe(data => {
       console.log('data in pdf = ', data);
-    if (data.result.content['mimeType'] === 'application/epub') {
-      this.epub = true;
-      const newobj = {'contentData': data.result.content, 'contentId': data.result.content.identifier};
-     this.playerConfig = this.playerservice.getConfig(newobj);
+    // if (data.result.content['mimeType'] === 'application/epub') {
+    //   this.epub = true;
+    //   const newobj = {'contentData': data.result.content, 'contentId': data.result.content.identifier};
+    //  this.playerConfig = this.playerservice.getConfig(newobj);
 
-    }
-      this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
+    // }
+      this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.asset.source);
       this.showLoader = false;
     });
   }

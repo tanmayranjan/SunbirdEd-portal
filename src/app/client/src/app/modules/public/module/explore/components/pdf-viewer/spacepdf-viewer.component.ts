@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { UserService } from '@sunbird/core';
 import { Location } from '@angular/common';
+import { AssetService } from '../../../../../core/services/asset/asset.service';
 
 @Component({
   selector: 'app-spacepdf-viewer',
@@ -31,7 +32,7 @@ export class SpacepdfViewerComponent implements OnInit {
   playerConfig: any;
   constructor(activated: ActivatedRoute, sanitizers: DomSanitizer, userService: UserService, public location: Location,
     config: ConfigService, contentServe: ContentService, private router: Router, public navigationHelperService: NavigationHelperService,
-    public playerservice: PlayerService
+    public playerservice: PlayerService, public assetService: AssetService
   ) {
     this.activatedRoute = activated;
     this.activatedRoute.url.subscribe(url => {
@@ -48,19 +49,19 @@ export class SpacepdfViewerComponent implements OnInit {
 
   ngOnInit() {
 
-    const req = {
-      url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}`,
+    const option = {
+      url : `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}`,
     };
-    this.contentService.get(req).subscribe(data => {
+    this.assetService.read(option).subscribe(data => {
       console.log('data in pdf = ', data);
-      if (data.result.content['mimeType'] === 'application/epub') {
-        this.epub = true;
-        const newobj = {'contentData': data.result.content, 'contentId': data.result.content.identifier};
-       this.playerConfig = this.playerservice.getConfig(newobj);
+      // if (data.result.content['mimeType'] === 'application/epub') {
+      //   this.epub = true;
+      //   const newobj = {'contentData': data.result.content, 'contentId': data.result.content.identifier};
+      //  this.playerConfig = this.playerservice.getConfig(newobj);
 
-      }
+      // }
 
-      this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.content.artifactUrl);
+      this.assetDetail = this.sanitizer.bypassSecurityTrustResourceUrl(data.result.asset.source);
       this.showLoader = false;
     });
     this.checkForPreviousRouteForRedirect();

@@ -30,7 +30,7 @@
       <div class="details">
         <!-- <span class="creator" *ngIf="data?.creators !== 'SPace'">Created By : {{data?.creators | titlecase}}</span> -->
         <span class="creator" *ngIf="data?.creators">Created By : {{data?.creators }}</span>
-        <span class="creator contentlink" *ngIf="data?.mimeType === 'text/x-url' && data?.link" id="link">Link : {{data?.link}}</span>
+        <span class="creator contentlink" *ngIf="data?.link && data?.link !== ''" id="link">Link : {{data?.link}}</span>
         <!-- <span class="creator" *ngIf="data?.region ">Country : {{data?.region | titlecase}}</span> -->
         <span class="creator" *ngIf="data?.year">Created Year : {{data?.year}}</span>
       </div>

@@ -15,10 +15,10 @@
 
                 </div>
                 <div class="col-sm-7 pr-30 res-para">
-                    <p *ngIf="assetDetail?.gradeLevel" class="float-right">Sector :
+                    <p *ngIf="assetDetail?.sector" class="float-right">Sector :
                         <span>
                             <!-- <li *ngFor="let hero of assetDetail?.sector; let first = first;let last = last"> -->
-                             <li>   {{ assetDetail?.gradeLevel }} 
+                             <li>   {{ assetDetail?.sector }} 
                                  <!-- <span *ngIf="!last && assetDetail?.sector.length!=1"> ,</span> -->
                             </li>
                         </span>
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <p *ngIf="assetDetail?.gradeLevel" class="card-text">Asset Type : {{assetDetail?.board}}
+            <p *ngIf="assetDetail?.assetType" class="card-text">Asset Type : {{assetDetail?.assetType}}
             </p>
             <!-- <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
@@ -61,17 +61,17 @@
                     </p>
                 </div>
             <p class="card-text" *ngIf="assetDetail?.description">Description : {{assetDetail?.description}}</p>
-            <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' &&  assetDetail?.link.slice(0,4) === 'http' ">Link: 
+            <p class="card-text" *ngIf="assetDetail?.link && assetDetail?.link !== '' && assetDetail?.link.slice(0,4) === 'http' ">Link: 
                 <a href="{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
             </p>
-             <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.link.slice(0,4) !== 'http' ">Link:
+             <p class="card-text" *ngIf="assetDetail?.link && assetDetail?.link !== '' && assetDetail?.link.slice(0,4) !== 'http' ">Link:
                  <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
             </p>
             <p class="card-text">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
             <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
 
 
-            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
+            <div *ngIf="assetDetail?.source && assetDetail?.source !== ''">
                 <p>
                     File : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
                     
@@ -81,7 +81,7 @@
                     
                 </p> -->
             </div>
-            <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
+            <!-- <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/epub'">
                 <p>
                     File : <span (click)="navigateToplay()" class="pdfStyle">{{contentuploaded}}</span>
                     
@@ -110,7 +110,7 @@
                     View Content <span  class="pdfStyle"></span>
                     
                 </p>
-            </div>
+            </div> -->
             <div class="ui buttons" *ngIf="visible">
                 <button class="ui negative button" (click)="rejectAsset(assetDetail?.identifier)">REJECT</button>
                 <div class="or"></div>

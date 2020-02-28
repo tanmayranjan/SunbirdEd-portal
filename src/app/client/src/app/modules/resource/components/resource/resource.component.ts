@@ -211,9 +211,9 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         name: 'Resource',
         filters: {
           organisation: this.configService.appConfig.ExplorePage.orgName,
-          channel: [],
+          channel: [this.userService.hashTagId],
           region: [],
-         objectType: ['Content'],
+         objectType: ['Asset'],
           status: ['Live'],
           assetType: [],
           sector: [],
@@ -227,13 +227,13 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
         mode: _.get(manipulatedData, 'mode'),
         params: this.configService.appConfig.ExplorePage.contentApiQueryParams
       };
-       option.filters.contentType = ['Resource'];
+     //  option.filters.contentType = ['Resource'];
 
       console.log('query param', this.queryParams);
       this.paramType.forEach(param => {
         if (this.queryParams.hasOwnProperty(param)) {
           if (param === 'board') {
-            option.filters.board = this.queryParams[param];
+            option.filters.assetType = this.queryParams[param];
           }
           if (param === 'organization') {
             option.filters.organisation = this.queryParams[param];
@@ -245,33 +245,33 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
             option.filters.region = this.queryParams[param];
           }
           if (param === 'gradeLevel') {
-            option.filters.gradeLevel = this.queryParams[param];
+            option.filters.sector = this.queryParams[param];
           }
           if (param === 'topic') {
             option.filters.topic = this.queryParams[param];
           }
           if (param === 'languages') {
-            option.filters.languages = this.queryParams[param];
+            option.filters.language = this.queryParams[param];
           }
           // if (param === 'country') {
           //   option.filters.country = this.queryParams[param];
           // }
-          this.contentSearch(option);
           // this.contentSearch(option);
+           this.contentCompositeSearch(option);
         }
       });
-      this.contentSearch(option);
+        this.contentCompositeSearch(option);
       // this.contentSearch(option);
     }
   }
   contentCompositeSearch(option) {
     this.searchService.compositeSearch(option).subscribe(data => {
       this.showLoader = false;
-          // this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
-          // this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
-          //     this.configService.appConfig.SEARCH.PAGE_LIMIT);
+          this.facetsList = this.searchService.processFilterData(_.get(data, 'result.facets'));
+         this.paginationDetails = this.paginationService.getPager(data.result.count, this.paginationDetails.currentPage,
+              this.configService.appConfig.SEARCH.PAGE_LIMIT);
           const { constantData, metaData, dynamicFields } = this.configService.appConfig.LibrarySearch;
-          // this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
+          this.contentList = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
 
           this.showLoader = false;
           this.carouselMasterData = this.utilService.getDataForCard(data.result.Asset, constantData, dynamicFields, metaData);
@@ -287,16 +287,16 @@ export class ResourceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           this.cdr.detectChanges();
 
-          const asset = [];
-          _.map(this.carouselMasterData, object => {
-            // console.log('obj = ', object);
-            if (object.creators === 'SPace') {
-           asset.push(object);
-            }
-          });
-       this.carouselMasterData = asset;
-       this.carouselData = asset;
-          console.log('this.contentList = ', this.contentList, asset);
+      //     const asset = [];
+      //     _.map(this.carouselMasterData, object => {
+      //       // console.log('obj = ', object);
+      //       if (object.creators === 'SPace') {
+      //      asset.push(object);
+      //       }
+      //     });
+      //  this.carouselMasterData = asset;
+      //  this.carouselData = asset;
+          console.log('this.contentList = ', this.contentList);
       }, err => {
         this.showLoader = false;
         this.carouselMasterData = [];

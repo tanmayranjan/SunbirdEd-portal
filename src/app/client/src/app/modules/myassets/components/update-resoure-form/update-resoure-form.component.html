@@ -120,8 +120,8 @@
         <label>
           {{field.name}}
         </label>
-        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
-          (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
+        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData['assetType']"
+          (ngModelChange)="updateForm({index:i, field:field, value:formInputData['assetType']})">
           <sui-select-option *ngFor="let option of categoryList[field.code]" [value]="option.name"></sui-select-option>
         </sui-select>
       </div>
@@ -148,7 +148,7 @@
       <label>{{field.name}}</label>
       <form class="conceptSelector ui form">
 
-        <app-concept-picker [selectedConcepts]="formInputData[field.code]"
+        <app-concept-picker [selectedConcepts]="formInputData['sector']"
           [categoryName]="field.name" [category]="categoryList[field.code]"
           [conceptPickerClass]="'content-creation-concept-picker'" (Concepts)="concepts($event)"></app-concept-picker>
       </form>

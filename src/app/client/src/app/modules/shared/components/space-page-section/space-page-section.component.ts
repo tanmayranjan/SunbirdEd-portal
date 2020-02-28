@@ -133,8 +133,8 @@ export class SpacePageSectionComponent implements OnInit, OnChanges {
     console.log('event =', event);
     // this.playEvent.emit(event);
     if (this.user[4] === 'explore') {
-     // this.openmodal = true;
-       this.router.navigate(['space/explore/player/content/', event.data.identifier]);
+      this.openmodal = true;
+     //  this.router.navigate(['space/explore/player/content/', event.data.identifier]);
     } else {
       this.router.navigate(['resources/player/content/', event.data.identifier]);
     }

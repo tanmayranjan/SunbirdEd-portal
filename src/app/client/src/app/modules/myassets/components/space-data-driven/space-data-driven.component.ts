@@ -291,32 +291,32 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     this.showLoader = true;
     const requestData = _.cloneDeep(data);
     console.log('request data from asset creation = ', requestData);
-  //  data.submittedBy = requestData.creator;
-   // data.creators = requestData.creators;
-   // data.source = requestData.link;
+    data.submittedBy = this.userProfile.firstName + ' ' + this.userProfile.lastName;
+    data.creators = requestData.creators;
+    data.source = requestData.link;
       requestData.name = data.name ? data.name : this.name,
       requestData.assetformat = data.assetformat ? data.assetformat : null;
       requestData.licensetype = data.licensetype ? data.licensetype : null ;
       requestData.description = data.description ? data.description : this.description,
       requestData.createdBy = this.userProfile.id,
       requestData.createdFor = this.userProfile.organisationIds,
-       requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
-       requestData.framework = this.framework;
-  //  requestData.region = [data.region];
+     //  requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
+     //  requestData.framework = this.framework;
+    requestData.region = [data.region];
     requestData.version = '' + parseFloat(requestData.version);
     requestData.organisation = this.userProfile.organisationNames;
 
-    if (!!data.link && this.uploadLink === 'link') {
-      requestData.mimeType = 'text/x-url';
-      requestData['artifactUrl'] = data.link;
-    } else if (this.contentType === 'studymaterial' && this.uploadLink === 'uploadContent') {
-      requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
-    } else if (this.uploadLink === 'uploadFile') {
-      console.log('file name = ', this.fileList);
-      requestData.mimeType = 'application/pdf';
-    } else if (!!data.mimeType) {
-      requestData.mimeType = data.mimeType;
-    }
+    // if (!!data.link && this.uploadLink === 'link') {
+    //   requestData.mimeType = 'text/x-url';
+    //   requestData['artifactUrl'] = data.link;
+    // } else if (this.contentType === 'studymaterial' && this.uploadLink === 'uploadContent') {
+    //   requestData.mimeType = this.configService.appConfig.CONTENT_CONST.CREATE_LESSON;
+    // } else if (this.uploadLink === 'uploadFile') {
+    //   console.log('file name = ', this.fileList);
+    //   requestData.mimeType = 'application/pdf';
+    // } else if (!!data.mimeType) {
+    //   requestData.mimeType = data.mimeType;
+    // }
      if (this.resourceType) {
        requestData.resourceType = this.resourceType;
      }
@@ -368,13 +368,13 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
       && !!data.year && !!data.region && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
       this.uploadbtnStatus = true;
-      this.createContent();
-     // this.createContent(data);
+     // this.createContent();
+      this.createContent(data);
     } else {
       this.toasterService.error('Asset creation failed please provide required fields');
     }
   }
- /* createContent(data) {
+  createContent(data) {
 
     const requestData = {
       asset: this.generateData(_.pickBy(this.formData.formInputData))
@@ -384,9 +384,12 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     requestData.asset.sector = data.gradeLevel[0];
     }
     requestData.asset.language = data.languages;
-    requestData.asset.artifactUrl = data.link;
-    requestData.asset.creator = data.creator;
-    requestData.asset.source = data.link;
+   // requestData.asset.artifactUrl = data.link;
+   if (data.link && data.link !== '') {
+    requestData.asset.link = data.link;
+   }
+  //  requestData.asset.creator = data.creator;
+  //  requestData.asset.source = data.link;
     requestData.asset.lastSubmittedOn = data.lastSubmittedOn;
     requestData.asset.resourceType = 'Learn';
     requestData.asset.contentType = 'Resource';
@@ -446,46 +449,46 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     this.toasterService.error(this.resourceService.messages.fmsg.m0022);
   }
 );
-  } */
-
-  createContent() {
-
-    const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData))
-    };
-
-    if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-      this.editorService.create(requestData).subscribe(res => {
-
-       // localStorage.setItem(res.result.content_id, JSON.stringify('Review'));
-        localStorage.setItem('creator', JSON.stringify(this.userService.userid));
-        const state = JSON.parse(localStorage.getItem(res.result.content_id));
-        const creatorId = JSON.parse(localStorage.getItem(res.result.content_id));
-        console.log('state = ', state, 'creator id = ', creatorId);
-
-        this.contentId = res.result.content_id;
-        if (this.uploadLink === 'uploadFile') {
-          this.callInteractEvent(); /*telemetry implementation for space*/
-          this.toasterService.info('Redirected to upload File Page');
-          this.routetoediter();
-        } else if (this.uploadLink === 'uploadContent') {
-          this.toasterService.success('Asset created successfully');
-          this.routeToContentEditor({ identifier: res.result.content_id });
-        } else {
-          this.toasterService.success('Asset created successfully');
-          this.callInteractEvent(); /*telemetry implementation for space*/
-          this.goToCreate();
-        }
-      }, err => {
-        this.toasterService.error('Asset creation failed please check the required fields.');
-        this.uploadbtnStatus = false;
-      });
-    } else {
-      this.toasterService.error('Asset creation failed');
-      this.uploadbtnStatus = false;
-    }
-    // this.goToCreate();
   }
+
+  // createContent() {
+
+  //   const requestData = {
+  //     content: this.generateData(_.pickBy(this.formData.formInputData))
+  //   };
+
+  //   if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
+  //     this.editorService.create(requestData).subscribe(res => {
+
+  //      // localStorage.setItem(res.result.content_id, JSON.stringify('Review'));
+  //       localStorage.setItem('creator', JSON.stringify(this.userService.userid));
+  //       const state = JSON.parse(localStorage.getItem(res.result.content_id));
+  //       const creatorId = JSON.parse(localStorage.getItem(res.result.content_id));
+  //       console.log('state = ', state, 'creator id = ', creatorId);
+
+  //       this.contentId = res.result.content_id;
+  //       if (this.uploadLink === 'uploadFile') {
+  //         this.callInteractEvent(); /*telemetry implementation for space*/
+  //         this.toasterService.info('Redirected to upload File Page');
+  //         this.routetoediter();
+  //       } else if (this.uploadLink === 'uploadContent') {
+  //         this.toasterService.success('Asset created successfully');
+  //         this.routeToContentEditor({ identifier: res.result.content_id });
+  //       } else {
+  //         this.toasterService.success('Asset created successfully');
+  //         this.callInteractEvent(); /*telemetry implementation for space*/
+  //         this.goToCreate();
+  //       }
+  //     }, err => {
+  //       this.toasterService.error('Asset creation failed please check the required fields.');
+  //       this.uploadbtnStatus = false;
+  //     });
+  //   } else {
+  //     this.toasterService.error('Asset creation failed');
+  //     this.uploadbtnStatus = false;
+  //   }
+  //   // this.goToCreate();
+  // }
   routeToContentEditor(content) {
     setTimeout(() => {
       this.router.navigate(['/myassets']);

@@ -228,17 +228,17 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       filters: {
         organisation: this.configService.appConfig.ExplorePage.orgName,
         region: [],
-         contentType: ['Resource'],
+        objectType: 'Asset',
         status: ['Live'],
         board: [],
         channel: [],
         gradeLevel: [],
         topic: [],
-        languages: [],
+        language: [],
         country: [],
         creators: [],
-       // sector: [],
-       // assetType: [],
+        sector: [],
+        assetType: [],
       },
       mode: _.get(manipulatedData, 'mode'),
       exists: [],
@@ -257,7 +257,7 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   this.paramType.forEach(param => {
     if (this.queryParams.hasOwnProperty(param)) {
       if (param === 'board') {
-        option.filters.board = this.queryParams[param];
+        option.filters.assetType = this.queryParams[param];
       }
       if (param === 'organization') {
         option.filters.organisation = this.queryParams[param];
@@ -269,23 +269,23 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
         option.filters.region = this.queryParams[param];
       }
       if (param === 'gradeLevel') {
-        option.filters.gradeLevel = this.queryParams[param];
+        option.filters.sector = this.queryParams[param];
       }
       if (param === 'topic') {
         option.filters.topic = this.queryParams[param];
       }
       if (param === 'languages') {
-        option.filters.languages = this.queryParams[param];
+        option.filters.language = this.queryParams[param];
       }
       // if (param === 'country') {
       //   option.filters.country = this.queryParams[param];
       // }
-     // this.contentCompositeSearch(option);
-       this.callingPageApi(option);
+      this.contentCompositeSearch(option);
+     //  this.callingPageApi(option);
     }
   });
-//  this.contentCompositeSearch(option);
- this.callingPageApi(option);
+  this.contentCompositeSearch(option);
+// this.callingPageApi(option);
    } else if (this.slug !== 'sunbirdorg' && this.slug !== 'space') {
     //  console.log('in explore page');
     const filters = _.pickBy(this.queryParams, (value: Array<string> | string, key) => {

@@ -113,12 +113,30 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.router.navigate([], {relativeTo: this.activatedRoute, queryParams: data.result});
     }));
   }
+  // private getContentDetails() {
+  //   if (this.routeParams.contentId) {
+  //   return this.editorService.getContent(this.routeParams.contentId).
+  //     pipe(map((data) => {
+  //       if (data) {
+  //         this.contentDetails = data.result.content;
+  //         return of(data);
+  //       } else  {
+  //         return throwError(data);
+  //       }
+  //     }));
+  //   } else {
+  //     return of({});
+  //   }
+  // }
   private getContentDetails() {
     if (this.routeParams.contentId) {
-    return this.editorService.getContent(this.routeParams.contentId).
+      const req = {
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.routeParams.contentId}`,
+      };
+    return this.assetService.read(req).
       pipe(map((data) => {
         if (data) {
-          this.contentDetails = data.result.content;
+          this.contentDetails = data['result'].asset;
           return of(data);
         } else  {
           return throwError(data);
@@ -128,24 +146,6 @@ export class EditorComponent implements OnInit, OnDestroy {
       return of({});
     }
   }
- /* private getContentDetails() {
-    if (this.routeParams.contentId) {
-      const req = {
-        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.routeParams.contentId}`,
-      };
-    return this.assetService.read(req).
-      pipe(map((data) => {
-        if (data) {
-          this.contentDetails = data.result.asset;
-          return of(data);
-        } else  {
-          return throwError(data);
-        }
-      }));
-    } else {
-      return of({});
-    }
-  } */
   /**
    *Launch Generic Editor in the modal
    */

@@ -318,19 +318,12 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
     if (this.userId === this.creatorId) {
       const params = {
         filters: {
-          contentType: [
-            'Collection',
-            'TextBook',
-            'Course',
-            'LessonPlan',
-            'Resource'
-          ],
           status: [
             'Draft',
             'Review',
             'Live'
           ],
-          objectType: 'content',
+          objectType: 'Asset',
           createdBy: this.userId
 
         },
@@ -339,8 +332,8 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         }
 
       };
-      this.searchService.compositeSearch(params).subscribe((result) => {
-        const contentlist = result.result.content;
+      this.searchService.compositeSearch(params).subscribe((res) => {
+        const contentlist = res.result.Asset;
         this.reviewAssetData = [];
         this.reviewAssetData2 = [];
         let mainState;
@@ -351,7 +344,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         for (; key = keys[i]; i++) {
           archive.push(key);
         }
-        if (archive.length > 0) {
+        if (archive.length > 0 && contentlist && contentlist.length > 0) {
           for (let j = 0; j < archive.length; j++) {
             console.log('j = ', archive[j]);
             if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) {
@@ -441,11 +434,11 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
                         this.notificationCount++;
                         const contentid = contentlist[index[l]].identifier;
                         const req = {
-                          url: `${this.config.urlConFig.URLS.CONTENT.GET}/${contentid}`,
+                          url: `${this.config.urlConFig.URLS.ASSET.READASSET}/${contentid}`,
                         };
-                        this.contentService.get(req).subscribe((originalcontent) => {
+                        this.assetService.read(req).subscribe((originalcontent) => {
                           if (this.reviewAssetData2[contentlist[index[l]].identifier] === undefined) {
-                            this.reviewAssetData.push(originalcontent.result.content);
+                            this.reviewAssetData.push(originalcontent.result.asset);
                             this.reviewAssetData2[contentlist[index[l]].identifier] = contentlist[index[l]];
                             this.reviewAssetData2[contentlist[index[l]].identifier].message = 'Rejected';
                             localStorage.setItem(contentlist[index[l]].identifier, JSON.stringify('Draft'));
@@ -466,20 +459,20 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
 
     } else if (this.userRole !== undefined && this.userRole[1] === 'CONTENT_REVIEWER') {
       const option = {
-        url: '/content/v1/search',
+        url: this.config.urlConFig.URLS.COMPOSITE.SEARCH,
         param: '',
         filters: {
-          language: ['English'],
-          contentType: ['Resource'],
           status: ['Review'],
           channel: [this.org, this.slug],
+          objectType: 'Asset',
           organisation: this.config.appConfig.Library.orgName
         },
         sort_by: { me_averageRating: 'desc' }
       };
-      this.contentService.getupForReviewData(option).subscribe(response => {
+      // this.assetService.readupForReviewData(option).subscribe(response => {
+        this.searchService.compositeSearch(option).subscribe(response => {
         if (response.result.count > 0) {
-          this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);
+          this.upForReviewContent = response.result.Asset.filter(asset => asset.createdBy !== this.userId);
           if (this.upForReviewContent.length > 0) {
             for (let i = 0; i < this.upForReviewContent.length; i++) {
               this.notificationCount++;
@@ -510,7 +503,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
             const req = {
               url: `${this.config.urlConFig.URLS.CONTENT.GET}/${archive[j]}`,
             };
-            this.contentService.get(req).subscribe(data => {
+            this.assetService.read(req).subscribe(data => {
               console.log('data in main header = ', data);
               mainState = data.result.content.status;
               state = JSON.parse(localStorage.getItem(archive[j]));
@@ -576,7 +569,7 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         sort_by: { me_averageRating: 'desc' }
       };
       //   delete option.sort_by;
-      this.contentService.getupForReviewData(option).subscribe(response => {
+      this.assetService.readupForReviewData(option).subscribe(response => {
         //   console.log(' res param in review page = ', option);
         if (response.result.count > 0) {
           this.upForReviewContent = response.result.content.filter(content => content.createdBy !== this.userId);

@@ -187,20 +187,26 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
           this.userProfile = user.userProfile;
         }
       });
+      // const req = {
+      //   url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+      // };
       const req = {
-        url: `${this.configService.urlConFig.URLS.CONTENT.GET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
+        url: `${this.configService.urlConFig.URLS.ASSET.READASSET}/${this.activatedRoute.snapshot.params.contentId}/?mode=edit`,
       };
-      this.contentService.get(req).subscribe(data => {
+      // this.contentService.get(req).subscribe(data => {
+        this.assetService.read(req).subscribe(data => {
         console.log('read content', data);
-        this.content = data.result.content;
-        if (data.result.content.artifactUrl && data.result.content.mimeType !== 'video/x-youtube'
-        && data.result.content.mimeType !== 'text/x-url') {
+        this.content = data.result.asset;
+        // if (data.result.asset.artifactUrl && data.result.content.mimeType !== 'video/x-youtube'
+        // && data.result.content.mimeType !== 'text/x-url') {
+          if (data.result.asset.source && data.result.asset.source !== '') {
           this.enabled = true;
-          this.uploadedcontent = data.result.content.artifactUrl.substring(data.result.content.artifactUrl.lastIndexOf('/')).slice(1);
+          this.uploadedcontent = data.result.asset.source.substring(data.result.asset.source.lastIndexOf('/') + 1);
 
-        } else if (data.result.content.mimeType === 'application/vnd.ekstep.ecml-archive') {
-        this.enableContent = true;
-               } else {
+        // } else if (data.result.content.mimeType === 'application/vnd.ekstep.ecml-archive') {
+        // this.enableContent = true;
+        //        }
+           } else if (data.result.asset.link && data.result.asset.link !== '') {
          this.enableLink = true;
                }
         // this.formInputData['gradeLevel'] = this.mutateData(data.result.asset.gradeLevel)
@@ -329,19 +335,19 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
    // delete requestData.framework;
    // delete requestData.contentType;
 
-    if (this.contentType === 'studymaterial' && data.link && data.mimeType === 'text/x-url') {
-      requestData.mimeType = 'text/x-url';
-      requestData['artifactUrl'] = data.link;
-      // requestData.mimeType = 'application/pdf'
-    } else if (this.enableContent) {
-      requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
-    } else if (!!data.mimeType && (data.artifactUrl !== '' && data.artifactUrl !== undefined)) {
-      requestData.mimeType = data.mimeType;
-    } else if (data.mimeType === 'application/pdf') {
-      requestData.mimeType = 'application/pdf';
-    } else {
-      delete requestData.versionKey;
-    }
+    // if (this.contentType === 'studymaterial' && data.link) {
+    //   requestData.mimeType = 'text/x-url';
+    //   requestData['source'] = data.link;
+    //   // requestData.mimeType = 'application/pdf'
+    // } else if (this.enableContent) {
+    //   requestData.mimeType = 'application/vnd.ekstep.ecml-archive';
+    // } else if (!!data.mimeType && (data.source !== '' && data.source !== undefined)) {
+    //   requestData.mimeType = data.mimeType;
+    // } else if (data.mimeType === 'application/pdf') {
+    //   requestData.mimeType = 'application/pdf';
+    // } else {
+    //   delete requestData.versionKey;
+    // }
     if (this.resourceType) {
       requestData.resourceType = this.resourceType;
     }
@@ -358,8 +364,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
     this.formData.formInputData['assetformat'] = this.formData['assetformat'];
     this.formData.formInputData['licensetype'] = this.formData['licensetype'];
-    this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
-   this.formData.formInputData['link'] = this.content.artifactUrl;
+    this.formData.formInputData['artifactUrl'] = this.content.source;
+   this.formData.formInputData['link'] = this.content.source;
     const data = _.pickBy(this.formData.formInputData);
     console.log('data in update form = ', data);
     if (!!data.name && !!data.assetformat && !!data.licensetype && !!data.board && !!data.description
@@ -367,6 +373,8 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
 
       this.uploadSuccess = true;
+
+    data.version = '' + parseFloat(data.version);
       this.updateContent();
     } else {
       this.showMessage = true;
@@ -377,10 +385,10 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
 
    this.formData.formInputData['assetformat'] = this.formData['assetformat'];
    this.formData.formInputData['licensetype'] = this.formData['licensetype'];
-   this.formData.formInputData['artifactUrl'] = this.content.artifactUrl;
-   this.formData.formInputData['link'] = this.content.artifactUrl;
+   this.formData.formInputData['artifactUrl'] = this.content.source;
+   this.formData.formInputData['link'] = this.content.source;
     const data = _.pickBy(this.formData.formInputData);
-    if (!!data.name &&  !!data.assetformat && !!data.licensetype && !!data.board && !!data.description  &&
+    if (!!data.name &&  !!data.assetformat && !!data.licensetype && !!data.assetType && !!data.description  &&
        (!!data.keywords && data.keywords.length > 0) && !!data.creators &&
       !!data.version && !!data.region && !!data.year && (!!data.languages && data.languages.length > 0)) {
       this.uploadSuccess = true;
@@ -425,12 +433,21 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
   }
   updateContent() {
     const requestData = {
-      content: this.generateData(_.pickBy(this.formData.formInputData)),
+      asset: this.generateData(_.pickBy(this.formData.formInputData)),
     };
+    if (requestData.asset.sector !== undefined && requestData.asset.sector.constructor === Array) {
+      requestData.asset.sector = requestData.asset.sector[0];
+     }
+
+    requestData.asset.version = '' + parseFloat(requestData.asset.version);
     if (this.contentType === 'studymaterial' && this.uploadSuccess === true) {
-      this.editorService.update(requestData, this.activatedRoute.snapshot.params.contentId).subscribe(res => {
+      this.assetService.update(requestData).subscribe(res => {
 
         this.toasterService.success('Asset updated Successfully');
+        if (this.content.status === 'Live') {
+          this.updateAssetStatus(this.content.identifier);
+
+        }
         this.goToCreate();
       }, err => {
         this.toasterService.error('Asset updation failed please try after some time');
@@ -441,7 +458,26 @@ export class CreateAssetComponent extends MyAsset implements OnInit, OnDestroy {
       this.updatebtnStatus =  false;
     }
   }
-
+  updateAssetStatus(assetId) {
+    const assetStatus = 'Draft';
+    const option = {
+      asset: {
+        identifier: assetId,
+        status: assetStatus
+      }
+    };
+    console.log('updating asset status');
+ this.workSpaceService.updateAsset(option).subscribe(
+  (data: ServerResponse) => {
+    this.showLoader = false;
+    this.toasterService.success('Asset status updated ');
+  },
+  (err: ServerResponse) => {
+    this.showLoader = false;
+    this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+  }
+);
+  }
   basicUploadFile(event) {
     this.fileList = event.target.files[0];
   }
