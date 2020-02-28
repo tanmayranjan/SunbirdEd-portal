@@ -19,6 +19,14 @@
         </sui-select>
       </div>
     </div>
+    <div *ngIf="field.inputType==='select' && field.code==='license'" class="sb-field-group" [ngClass]="{ 'disabled':!field.editable}">
+      <label>{{field.label}}  License</label>
+      <div class="sb-field">
+        <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
+          <sui-select-option *ngFor="let option of field.range" [value]="option"></sui-select-option>
+        </sui-select>
+      </div>
+    </div>
     <div *ngIf="field.inputType==='multiSelect'" class="sb-field-group" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.label}}</label>
       <div class="sb-field">
