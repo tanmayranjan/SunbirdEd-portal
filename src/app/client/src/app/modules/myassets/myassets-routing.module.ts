@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../core/guard/auth-gard.service';
-import { MyassestPageComponent, AssetDetailPageComponent, CreateAssetComponent, PdfViewerComponent, EditorComponent } from './components';
+import { MyassestPageComponent, AssetDetailPageComponent, CreateAssetComponent, PdfViewerComponent,
+  EditorComponent, AssetEditorComponent } from './components';
 import { SpaceDataDrivenComponent } from './components/space-data-driven/space-data-driven.component';
+// import { AssetEditorComponent } from './components/asset-editor/asset-editor.component';
 // import { GenericEditorComponent } from '../workspace';
 
 const routes: Routes = [
@@ -32,6 +34,10 @@ const routes: Routes = [
     },
     {
       path: 'edit/generic', component: EditorComponent,
+      canActivate: [AuthGuard], data: { roles: 'workspace' }
+    },
+    {
+      path: ':component/edit/asseteditor/:contentId/:state/:contentStatus', component: AssetEditorComponent,
       canActivate: [AuthGuard], data: { roles: 'workspace' }
     },
     {

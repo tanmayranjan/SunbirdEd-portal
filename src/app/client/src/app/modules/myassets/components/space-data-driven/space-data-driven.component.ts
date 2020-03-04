@@ -426,12 +426,7 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
     // this.goToCreate();
   }
   updateAssetStatus(assetId, state) {
-    let assetStatus;
-    if (state === 'file') {
-      assetStatus = 'Review';
-    } else {
-      assetStatus = 'Draft';
-    }
+    let assetStatus= 'Draft';
     const option = {
       asset: {
         identifier: assetId,
@@ -514,13 +509,13 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
   }
 
 
-  routetoediter() {
+   routetoediter() {
     // edit/generic/:contentId/:state/:framework/:contentStatus
     setTimeout(() => {
       this.router.navigate(['/myassets']);
     }, 1700);
     setTimeout(() => {
-      this.router.navigate(['myassets/create/edit/generic', this.contentId, this.status, 'Draft']);
+      this.router.navigate(['myassets/create/edit/asseteditor', this.contentId, this.status, 'Draft']);
     }, 1800);
   }
 /*telemetry implementation for space, function for calling interact event on successful asset craeion*/

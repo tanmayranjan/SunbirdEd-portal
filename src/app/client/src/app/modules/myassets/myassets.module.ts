@@ -21,6 +21,7 @@ import { ContentFilterComponent } from './components/content-filter/content-filt
 import { SpaceDataDrivenComponent } from './components/space-data-driven/space-data-driven.component';
 import { SpaceDefaultTemplateComponent } from './components/space-default-template/space-default-template.component';
 import { EditorComponent } from './components/editor/editor.component';
+import { AssetEditorComponent } from './components/asset-editor/asset-editor.component';
 
 @NgModule({
     imports: [
@@ -49,7 +50,8 @@ import { EditorComponent } from './components/editor/editor.component';
       SpaceDataDrivenComponent,
       SpaceDefaultTemplateComponent,
       // GenericEditorComponent,
-      EditorComponent
+      EditorComponent,
+      AssetEditorComponent
 
     ],
     providers: [MyassetsService, SpaceEditorService],

@@ -8,10 +8,51 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\src\\app\\client\\src\\assets\\libs\\semantic-ui-topic-picker\\semantic-ui-topic-picker.js",
+            "program": "${workspaceFolder}/src/app/server.js",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
-            ]
+            ],
+            "env": {
+                "sunbird_default_channel" : "education",
+                " sunbird_learner_player_url" : "https://sb2.centralindia.cloudapp.azure.com/api/",
+                " sunbird_content_player_url" : "https://sb2.centralindia.cloudapp.azure.com/api/",
+                " sunbird_dataservice_url" : "https://sb2.centralindia.cloudapp.azure.com/api/",
+                " sunbird_content_proxy_url" : "http://knowledge-mw-service:5000",
+                " sunbird_portal_auth_server_url" : "https://sb2.centralindia.cloudap,p.azure.com/auth",
+                " sunbird_api_auth_token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_appid" : "sunbird.portal",
+                " sunbird_environment" : "sunbird.env",
+                " sunbird_instance" : "sunbird.ins",
+                " sunbird_content_provider_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_image_storage_url" : "https://sunbirddev.blob.core.windows.net/dial/",
+                " sunbird_azure_account_name" : "sb2env",
+                " sunbird_azure_account_key" : "dyV/ADf2OO6Pk/LtWRkb02SeXIX/0uuLgtRDki/cT+C8B9m8NMb4P98A61d1Jcb2DG188QXISm2+TTDL6LglWw : ",
+                " sunbird_dial_code_registry_url" : "https://dev.open-sunbird.org/dial/",
+                " sunbird_learner_service_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_redis_host" : "127.0.0.1",
+                " sunbird_redis_port" : "6379",
+                " sunbird_cache_debug" : "true",
+                " sunbird_cache_enabled ": "true",
+                " sunbird_cache_duration" : "5 minutes",
+                " sunbird_cache_redis_store ": "true",
+                " telemetry_local_storage_type" : "kafka",
+                " sunbird_content_repo_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_search_service_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_dial_repo_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_plugin_repo_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_data_service_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_content_service_enable_logging" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_language_service_api_key" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkNjAwMGZkMjkwNGQ0YzI4OGU2OTk2MzcxZjY3N2U2MiJ9.xJveSc4FCT_46OafkmU6Y0SX2MNL6L6lW7kfUD7lkhU",
+                " sunbird_google_oauth_clientId" : "671624305038-e8pbpmidst6lf0j5qplp6g6odan3lbf5.apps.googleusercontent.com",
+                " sunbird_google_oauth_clientSecret" : "mDO2MM68iW23f47ZFtvREld9",
+                " sunbird_google_keycloak_client_id ": "google-auth",
+                " sunbird_google_keycloak_secret" : "8486df4b-2ec0-4249-92d8-5f3a7064cd07",
+                " sunbird_trampoline_secret" : "sunbird-sunbird",
+                " sunbird_content_editor_artifact_url" : "https://sunbirdpublic.blob.core.windows.net/sunbird-public-dev/artefacts/editor/content-editor-iframe-2.0.0.zip",
+                " sunbird_collection_editor_artifact_url" : "https://sunbirdpublic.blob.core.windows.net/sunbird-public-dev/artefacts/editor/collection-editor-iframe-2.0.0.zip",
+                " sunbird_generic_editor_artifact_url" : "https://sunbirdpublic.blob.core.windows.net/sunbird-public-dev/artefacts/editor/generic-editor-iframe-2.0.0.zip",
+                " logout_redirect_url" : "http://localhost:3000/"
+            }
         }
     ]
 }

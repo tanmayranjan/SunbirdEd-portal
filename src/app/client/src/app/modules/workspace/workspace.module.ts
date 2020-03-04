@@ -63,7 +63,7 @@ import { PlayerHelperModule } from '@sunbird/player-helper';
     CollaboratingOnComponent,
     CollaborationContentFilterComponent,
     ReviewCommentsComponent,
-    CollaborationContentFilterComponent,
+    CollaborationContentFilterComponent
     // MyassestPageComponent,
     // CreateAssetComponent,
     // AssetDetailPageComponent,
