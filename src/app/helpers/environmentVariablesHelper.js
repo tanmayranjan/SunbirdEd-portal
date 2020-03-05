@@ -4,7 +4,7 @@ const fs = require('fs')
 const packageObj = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 
 let envVariables = {
-  LOGOUT_REDIRECT_URL:env.logout_redirect_url || 'https://sb2.sunbird.org/',
+  LOGOUT_REDIRECT_URL:env.logout_redirect_url || 'https://sb2.centralindia.cloudapp.azure.com/',
   LEARNER_URL: env.sunbird_learner_player_url || 'https://staging.open-sunbird.org/api/',
   CONTENT_URL: env.sunbird_content_player_url || 'https://staging.open-sunbird.org/api/',
   CONFIG_URL: env.sunbird_config_service_url || 'https://staging.open-sunbird.org/api/config/',
