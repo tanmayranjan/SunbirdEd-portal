@@ -354,7 +354,8 @@ export class SpaceHeaderComponent implements OnInit, OnDestroy {
         if (archive.length > 0) {
           for (let j = 0; j < archive.length; j++) {
             console.log('j = ', archive[j]);
-            if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j])) {
+            if (archive[j] !== 'creator' && archive[j] !== 'tenant' && archive[j] !== ('CopiedContent' + archive[j]) &&
+            (contentlist !== undefined)) {
               let flag = 0;
               const index = [];
               const tempobj = {};

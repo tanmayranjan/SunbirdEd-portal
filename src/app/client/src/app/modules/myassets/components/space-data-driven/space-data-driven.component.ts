@@ -303,7 +303,9 @@ export class SpaceDataDrivenComponent extends MyAsset implements OnInit, OnDestr
        requestData.contentType = this.configService.appConfig.contentCreateTypeForEditors[this.contentType],
        requestData.framework = this.framework;
   //  requestData.region = [data.region];
-    requestData.version = '' + parseFloat(requestData.version);
+   // requestData.version = '' + parseFloat(requestData.version);
+   requestData.version = parseFloat(requestData.version);
+
     requestData.organisation = this.userProfile.organisationNames;
 
     if (!!data.link && this.uploadLink === 'link') {

@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div *ngIf="field.inputType==='select' && field.code!='year'" class="sb-field-group" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='select' && field.code!='license' && field.code!='year'" class="sb-field-group" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.label}}</label>
       <div class="sb-field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]" (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})">
