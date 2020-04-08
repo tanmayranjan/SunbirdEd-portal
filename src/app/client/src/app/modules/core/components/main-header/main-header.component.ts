@@ -71,6 +71,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
   slugInfo: any;
   showOfflineHelpCentre = false;
   exploreRoutingUrl: string;
+  tenantValue: string;
 
   constructor(public config: ConfigService, public resourceService: ResourceService, public router: Router,
     public permissionService: PermissionService, public userService: UserService, public tenantService: TenantService,
@@ -101,6 +102,9 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     } else {
 
       this.slug = this.activatedRoute.firstChild.firstChild.children[0].params['value'].slug;
+      if(this.slug) {
+        this.tenantValue = this.slug;
+      }
       this.slugInfo = 'loggedIn';
           this.showExploreHeader = true;
       this.orgDetailsService.orgDetails$.pipe(first()).subscribe((data) => {
@@ -158,7 +162,7 @@ export class MainHeaderComponent implements OnInit, AfterViewInit {
     } else if (this.userService.loggedIn) {
       this.router.navigate(['resources']);
     } else {
-      window.location.href = this.slug ? (this.slug + '/explore-library')  : '';
+      window.location.href = this.slug ? (this.slug + '/explore-library')  : (this.tenantValue + '/explore-library');
     }
   }
   onEnter(key) {

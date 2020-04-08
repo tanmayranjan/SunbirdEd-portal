@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <p *ngIf="assetDetail?.gradeLevel" class="card-text">Asset Type : {{assetDetail?.board}}
+            <p *ngIf="assetDetail?.board" class="card-text">Asset Type : {{assetDetail?.board}}
             </p>
             <!-- <p class="card-text" *ngIf="assetDetail?.topic">Category : <span>
                     <li *ngFor="let hero of assetDetail?.topic; let first = first;let last = last">
@@ -67,8 +67,8 @@
              <p class="card-text" *ngIf="assetDetail?.mimeType === 'text/x-url' && assetDetail?.link.slice(0,4) !== 'http' ">Link:
                  <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
             </p>
-            <p class="card-text">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
-            <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
+            <p class="card-text" *ngIf="assetDetail?.mimeType !=='text/x-url'">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
+            <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn && assetDetail?.mimeType !=='text/x-url'">Submitted Date : {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
 
 
             <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
@@ -141,11 +141,15 @@
         
    
     <div class="card-footer text-muted pt-30 pb-0">
-        <p><span *ngIf="assetDetail?.version"></span> Version : {{assetDetail?.version}}.0 <span
-                *ngIf="assetDetail?.creators"></span> | Created By :
-            {{assetDetail?.creators}} <span *ngIf="assetDetail?.since"> | Created Year :
-                {{assetDetail?.year}} </span> <span *ngIf="assetDetail?.region"> | Country :
-                {{assetDetail?.region}} </span>  <span *ngIf="assetDetail?.licensetype"> &nbsp; | License Type :
+        <p>
+            <span *ngIf="assetDetail?.version && assetDetail?.mimeType !=='text/x-url'">Version : {{assetDetail?.version}}.0</span>  
+            <span style="font-weight: bold;" *ngIf="assetDetail?.creators">
+                {{assetDetail?.creators}}</span>
+                  <span *ngIf="assetDetail?.since"> | Created Year :
+                {{assetDetail?.year}} </span>
+                 <span *ngIf="assetDetail?.region && assetDetail?.mimeType !=='text/x-url'"> | Country :
+                {{assetDetail?.region}} </span> 
+                 <span *ngIf="assetDetail?.licensetype && assetDetail?.mimeType !=='text/x-url'"> &nbsp; | License Type :
                                 {{assetDetail?.licensetype }}</span> </p>
         <p class="float-right"></p>
     </div>
