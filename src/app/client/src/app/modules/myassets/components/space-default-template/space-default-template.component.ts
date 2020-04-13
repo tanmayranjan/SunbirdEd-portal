@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, Output, EventEmitter, ViewChild, OnDestroy, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ResourceService, ConfigService, ToasterService, ServerResponse, IUserData, IUserProfile, Framework } from '@sunbird/shared';
 import { FormService, FrameworkService, UserService } from '@sunbird/core';
@@ -18,8 +18,12 @@ declare var $: any;
   styleUrls: ['./space-default-template.component.scss']
 })
 export class SpaceDefaultTemplateComponent implements OnInit,  AfterViewInit, OnDestroy {
+  toUploadFile = false;
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
+  @Input() set uploadContent(radiobtnFlag){
+     this.toUploadFile = radiobtnFlag;
+  }
   @Input() submited: boolean;
   @Input() org: string;
 

@@ -16,10 +16,10 @@
 
       </div>
     </div>
-    <div *ngIf="field.inputType==='text' && field.code==='creators'" class="required field"
-      [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='text' && field.code==='creators'" class="field"
+      [ngClass]="{ 'disabled':!field.editable , 'required' : toUploadFile}">
 
-      <div class="field required">
+      <div class="field" [ngClass]= "{'required' : toUploadFile}">
         <label>
           {{field.name}}
         </label>
@@ -40,18 +40,17 @@
 
       </div>
     </div> -->
-    <div *ngIf="field.inputType==='number'" class="required field" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='number'" class="field" [ngClass]="{ 'disabled':!field.editable , 'required' : toUploadFile}">
       <label>
         {{field.name}}
       </label>
-      <div class="field">
+      <div class="field" [ngClass]="{'required' : toUploadFile}">
         <input name={{field.code}} type={{field.inputType}} [(ngModel)]="formInputData[field.code]"
           placeholder={{field.placeholder}} id="style">
       </div>
     </div>
     <div *ngIf="field.inputType==='textarea'" class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>
-        testing
         {{field.name}}
       </label>
       <div class="field">
@@ -75,10 +74,10 @@
         </select>
       </div>
     </div>
-    <div *ngIf="field.inputType==='select' && field.code!='year' && field.code!='region'" class="field required"
-      [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='select' && field.code!='year' && field.code!='region'" class="field"
+      [ngClass]="{ 'disabled':!field.editable , 'required' : toUploadFile}">
       <!-- <label>{{field.name}}</label> -->
-      <div class="required field">
+      <div class="field" [ngClass]="{'required' : toUploadFile}">
         <label>
           {{field.name}}
 
@@ -90,10 +89,10 @@
         </sui-select>
       </div>
     </div>
-    <div *ngIf="field.code!='year' && field.code==='region'" class="field required"
+    <div *ngIf="field.code!='year' && field.code==='region'" class="field"
       [ngClass]="{ 'disabled':!field.editable}">
       <!-- <label>{{field.name}}</label> -->
-      <div class="required field">
+      <div class="field">
         <label>
           {{field.name}}
 
@@ -109,9 +108,9 @@
         </select>
       </div>
     </div>
-    <div *ngIf="field.inputType==='multiSelect'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.inputType==='multiSelect'" class="field" [ngClass]="{ 'disabled':!field.editable , 'required' : toUploadFile}">
       <label>{{field.name}} </label>
-      <div class="required field">
+      <div class="field" [ngClass]= "{'required' : toUploadFile}">
         <sui-multi-select style="padding: 8px 17px !important" id={{field.code}} name={{field.code}} class="selection"
           [(ngModel)]="formInputData[field.code]" [hasLabels]="false"
           (ngModelChange)="updateForm({index:i, field:field, value:formInputData[field.code]})" #multiSelect>
@@ -119,7 +118,7 @@
         </sui-multi-select>
       </div>
     </div>
-    <div *ngIf="field.code==='year'" class="field required" [ngClass]="{ 'disabled':!field.editable}">
+    <div *ngIf="field.code==='year'" class="field" [ngClass]="{ 'disabled':!field.editable}">
       <label>{{field.name}}</label>
       <div class="field">
         <sui-select id={{field.code}} name={{field.code}} class="selection" [(ngModel)]="formInputData[field.code]"
@@ -145,7 +144,7 @@
           (Framework)="conceptspFramework($event)"></app-space-framwork-selector>
       </form>
     </div>
-    <div *ngIf="i === 4" class="required field">
+    <div *ngIf="i === 4" class="field" [ngClass]= "{'required' : toUploadFile}">
          <label>Asset Format</label>
             <div class="field">
                   <sui-select [(ngModel)]="assetformat" class="selection" [placeholder]="'Select'" (ngModelChange)=removedisabledattribute()>
@@ -153,7 +152,7 @@
                   </sui-select>
                 </div>
     </div>
-    <div *ngIf="i === 4" class="required field">
+    <div *ngIf="i === 4" class="field" [ngClass]= "{'required' : toUploadFile}">
          <label>License Type</label>
                 <button style="background-color: transparent;border:transparent" [disabled]="disableprop" (click)='showall()'><i class="fas fa-info-circle"></i></button>
                 <div class="field" id="licencetype" >

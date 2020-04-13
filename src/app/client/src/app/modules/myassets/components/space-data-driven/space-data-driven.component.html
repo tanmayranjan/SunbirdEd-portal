@@ -5,7 +5,7 @@
     <form class="ui form">
         <div class="content">
             <div *ngIf="formFieldProperties && categoryMasterList">
-                <app-space-default-template #formData [formFieldProperties]="formFieldProperties"
+                <app-space-default-template #formData [uploadContent]="uploadContent" [formFieldProperties]="formFieldProperties"
                     [categoryMasterList]="categoryMasterList">
                 </app-space-default-template>
             </div>
