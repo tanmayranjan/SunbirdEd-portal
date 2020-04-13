@@ -32,6 +32,7 @@ export class UtilService {
       image: data.appIcon || data.courseLogoUrl,
       downloadStatus: data.downloadStatus,
       description: data.description,
+      keywords: data.keywords || [],
       rating: data.me_averageRating || '0',
       subject: data.subject,
       medium: data.medium,
