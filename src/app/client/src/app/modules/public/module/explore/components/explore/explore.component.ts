@@ -72,8 +72,9 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
   public paginationDetails: IPagination;
   public contentList: Array<ICard> = [];
   showDownloadLoader = false;
+  sectionObj: { slug: any, sectionUrl: string, pageNumber: number, queryParams: any};
 
-
+  sectionData = false;
   @HostListener('window:scroll', []) onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight * 2 / 3)
       && this.pageSections.length < this.carouselMasterData.length) {
@@ -387,8 +388,14 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.carouselMasterData.length >= 2) {
         this.pageSections = [this.carouselMasterData[0], this.carouselMasterData[1]];
+        if(this.slug === 'space') {
+          this.viewAll(this.pageSections[0]);
+        }
       } else if (this.carouselMasterData.length >= 1) {
         this.pageSections = [this.carouselMasterData[0]];
+        if(this.slug === 'space') {
+          this.viewAll(this.pageSections)
+        }
       }
     }, err => {
       this.showLoader = false;
@@ -451,21 +458,31 @@ export class ExploreComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   public viewAll(event) {
-    const searchQuery = JSON.parse(event.searchQuery);
-    const softConstraintsFilter = {
-      board: [this.dataDrivenFilters.board],
-      channel: this.hashTagId,
-    };
-    if (_.includes(this.router.url, 'browse') || !this.isOffline) {
-      searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
-      searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
-      searchQuery.request.filters.exists = searchQuery.request.exists;
+    if (event) {
+
+      const searchQuery = JSON.parse(event.searchQuery);
+      const softConstraintsFilter = {
+        board: [this.dataDrivenFilters.board],
+        channel: this.hashTagId,
+      };
+      if (_.includes(this.router.url, 'browse') || !this.isOffline) {
+        searchQuery.request.filters.defaultSortBy = JSON.stringify(searchQuery.request.sort_by);
+        searchQuery.request.filters.softConstraintsFilter = JSON.stringify(softConstraintsFilter);
+        searchQuery.request.filters.exists = searchQuery.request.exists;
+      }
+      this.cacheService.set('viewAllQuery', searchQuery.request.filters);
+      this.cacheService.set('pageSection', event, { maxAge: this.browserCacheTtlService.browserCacheTtl });
+      const queryParams = { ...searchQuery.request.filters, ...this.queryParams };
+      const sectionUrl = this.router.url.split('?')[0] + '/view-all/' + event.name.replace(/\s/g, '-');
+      this.sectionObj = {
+        slug: this.slug,
+        sectionUrl : sectionUrl,
+        pageNumber : 1,
+        queryParams : queryParams
+      };
+      this.sectionData = true;
     }
-    this.cacheService.set('viewAllQuery', searchQuery.request.filters);
-    this.cacheService.set('pageSection', event, { maxAge: this.browserCacheTtlService.browserCacheTtl });
-    const queryParams = { ...searchQuery.request.filters, ...this.queryParams };
-    const sectionUrl = this.router.url.split('?')[0] + '/view-all/' + event.name.replace(/\s/g, '-');
-    this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
+   // this.router.navigate([sectionUrl, 1], { queryParams: queryParams });
   }
   ngAfterViewInit() {
     setTimeout(() => {

@@ -29,9 +29,10 @@
 <div class="ui container width" *ngIf="slug === 'space'">
     <div class="ui grid stackable my-0">
       <div class="twelve wide column mb-30"  [ngClass]="{'last mb-30':last}">
-        <app-space-page-section *ngIf="slug === 'space'" [enable]="true" (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="carouselData" [slug]="slug"
+        <!-- <app-space-page-section *ngIf="slug === 'space'" [enable]="true" (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="carouselData" [slug]="slug"
         (viewAll)="viewAll($event)">
-        </app-space-page-section>
+        </app-space-page-section> -->
+        <app-space-view-all *ngIf="sectionData === true && slug === 'space'" [sectionObj]="sectionObj"></app-space-view-all>
        </div>
       <div class="twelve wide column" *ngIf="showLoader">
         <app-loader [data]='loaderMessage'></app-loader>

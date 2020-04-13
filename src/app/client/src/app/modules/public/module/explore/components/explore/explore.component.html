@@ -21,9 +21,10 @@
           [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug !== 'sunbirdorg' && slug !== 'space'"></app-page-section>
         </div>
       </div>
-        <div class="twelve wide column">
-        <app-space-page-section (visits)="prepareVisits($event)" [enable]="true" (playEvent)="playContent($event)" [section]="pageSections "
-          [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section>
+        <div *ngIf="sectionData === true" class="twelve wide column">
+        <!-- <app-space-page-section (visits)="prepareVisits($event)" [enable]="true" (playEvent)="playContent($event)" [section]="pageSections "
+          [slug]="slug" (viewAll)="viewAll($event)" *ngIf="slug === 'space'"></app-space-page-section> -->
+          <app-space-view-all [sectionObj]="sectionObj"></app-space-view-all>
         </div>
 
       <div class="twelve wide column" *ngIf="showLoader">
