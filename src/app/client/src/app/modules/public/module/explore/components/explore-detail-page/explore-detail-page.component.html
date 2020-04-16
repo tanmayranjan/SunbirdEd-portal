@@ -60,7 +60,7 @@
         Link:
         <a href="http://{{assetDetail?.link}}" target="_blank">{{assetDetail?.link}} </a>
       </p>
-      <p class="card-text" *ngIf="assetDetail?.creator && assetDetail?.creators && assetDetail?.mimeType !=='text/x-url' ">Submitted By : {{ assetDetail?.creator }}@{{ assetDetail?.creators }}</p>
+      <p class="card-text" *ngIf=" assetDetail?.mimeType !=='text/x-url'">Submitted By : {{ assetDetail?.organisation[assetDetail.organisation.length - 1] }}</p>
       <p class="card-text" *ngIf="assetDetail?.lastSubmittedOn && assetDetail?.mimeType !=='text/x-url'">Submitted Date :
         {{assetDetail?.lastSubmittedOn | dateFormat}}</p>
       <div *ngIf="assetDetail?.artifactUrl && assetDetail?.mimeType === 'application/pdf'">
@@ -126,9 +126,9 @@
       <p>
         <span *ngIf="assetDetail?.version && assetDetail?.mimeType !=='text/x-url'">
           Version : {{assetDetail?.version}}.0</span> 
-        <span style="font-weight: bold;"
+        <span 
           *ngIf="assetDetail?.creators">
-          {{assetDetail?.creators}}</span>  
+          &nbsp;<span *ngIf="assetDetail?.mimeType !=='text/x-url'">|</span> {{assetDetail?.creators}}</span>  
           <span *ngIf="assetDetail?.since"> &nbsp;| Created Year :
           {{assetDetail?.year}} </span>
            <span *ngIf="assetDetail?.region && assetDetail?.mimeType !=='text/x-url'"> &nbsp;| Country : {{assetDetail?.region}} </span>
