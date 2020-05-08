@@ -25,7 +25,7 @@
 .text{
   font-family:'Roboto Slab' !important; 
   font-weight: 400;
-  font-size: 1.25em;
+  font-size: 1.2em;
   color: black !important;
 }
 .ui.basic.button.qr-code-btn.disabled {
@@ -36,7 +36,7 @@ a.item:hover {
 }
 a.item {
   font-family: 'Roboto Slab';
-  font-size: 1.25em;
+  font-size: 1.2em;
 }
 .item1 {
 // color: black!important;
@@ -59,9 +59,9 @@ transition: opacity .1s ease;
     color: white;
     font-weight: bold;
 }
-#a {
-  font-family: 'Muli', sans-serif;
-}
+// #a {
+//   font-family: 'Muli', sans-serif;
+// }
 .nav-item{
   color: white !important;
 }
@@ -152,9 +152,9 @@ background: #007b5e;
   }
 }
 
-.primary-nav-item .item {
-  font-size: 1rem;
-}
+// .primary-nav-item .item {
+//   font-size: 1rem;
+// }
 
 .ui.menu .primary-nav-item a.item.active {
   background: none;

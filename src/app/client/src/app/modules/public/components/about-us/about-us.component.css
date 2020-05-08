@@ -68,11 +68,15 @@ p {
     width: 100%;
     color: #FFFFFF;
   }
+  .text-ac {
+    font-family: 'Roboto Slab';
+    font-weight: bold;
+  }
   .text {
     font-size: 17px;
     line-height: 2.0;
     text-align: center;
-    font-family: 'Muli', sans-serif;
+    font-family: 'Montserrat';
   }
   a:hover {
     text-decoration: none;

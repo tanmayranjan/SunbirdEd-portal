@@ -26,7 +26,13 @@
     height: 42px;
     cursor: pointer;
 }
-
+.field {
+    label {
+        font-family: 'Roboto Slab';
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+}
 hr {
     border-top: 1px solid rgba(0,0,0,.1);
 }
