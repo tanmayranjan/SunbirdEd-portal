@@ -60,8 +60,9 @@ transition: opacity .1s ease;
 // }
 a.item {
   font-family: 'Roboto Slab';
-  font-size: 1.25em;
+  font-size: 1.2em;
 }
+
 .nav-item{
   color: white !important;
 }
@@ -152,9 +153,9 @@ background: #007b5e;
   }
 }
 
-.primary-nav-item .item {
-  font-size: 1rem;
-}
+// .primary-nav-item .item {
+//   font-size: 1rem;
+// }
 
 .ui.menu .primary-nav-item a.item.active {
   background: none;

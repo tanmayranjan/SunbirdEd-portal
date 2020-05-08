@@ -799,6 +799,8 @@ address{margin:0;}
   a.menuItem {
 	  font-family: 'Roboto Slab' !important;
 	  font-size: 1.25em;
+	  font-weight: 600;
+    padding: 12px;
   }
   .ui.icon.button {
 	background: #edf4f9;
