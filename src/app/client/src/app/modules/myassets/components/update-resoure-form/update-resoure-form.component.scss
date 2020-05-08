@@ -7,6 +7,13 @@
 .ui.dropdown .text {
     color: white;
 }
+.field {
+    label {
+        font-family: 'Roboto Slab';
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+}
 .ui.selection.dropdown {
     border: 1px solid #e4e4e4;
     background: #f6f6f6;
@@ -15,7 +22,9 @@
     cursor: pointer;
     padding: 12px 10px !important;
 }
-
+::-webkit-input-placeholder {
+    font-family: 'Montserrat';
+}
 hr {
     border-top: 1px solid rgba(0,0,0,.1);
 }

@@ -49,7 +49,7 @@ export class OtpPopupComponent implements OnInit, OnDestroy {
       data => {
         if (data && !data.err) {
           if (this.spaceeditemail) {
-            this.logo = '../../../../../assets/images/space_logo.png';
+            this.logo = '../../../../../assets/images/spacelogonew.png.png';
             this.tenantName = 'space';
           } else {
             this.logo = data.tenantData.logo;

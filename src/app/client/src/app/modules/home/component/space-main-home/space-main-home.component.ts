@@ -193,7 +193,7 @@ export class SpaceMainHomeComponent implements OnInit, OnDestroy {
  workSpaceRole: Array<string>;
  public userContents = [];
  userlogged;
- images = [1, 2, 3].map(() => `../../.../../../../../assets/images/banner_bg.jpg${Math.random()}`);
+ images = [1, 2, 3].map(() => `../../.../../../../../assets/images/spacebannernew.jpg${Math.random()}`);
  public permissionService: PermissionService;
  showNavigationArrows = false;
  showNavigationIndicators = false;

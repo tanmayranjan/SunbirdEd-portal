@@ -16,6 +16,13 @@
     cursor: pointer;
     padding: 12px 17px !important;
 }
+.field {
+    label {
+        font-family: 'Roboto Slab';
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+}
 ::ng-deep #licencetype .ui.dropdown .menu {
     padding:0 !important
 }
@@ -52,7 +59,9 @@ sui-select {
     border: 1px solid #707070;
     background: #707070;
 }
-
+::-webkit-input-placeholder {
+    font-family: 'Montserrat';
+}
 
     label 
         { float: left; width: 10em; margin-right: 1em;
