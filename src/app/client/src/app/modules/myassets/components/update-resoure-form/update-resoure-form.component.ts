@@ -29,6 +29,7 @@ export class UpdateResoureFormComponent implements OnInit, AfterViewInit, OnDest
 
   @Input() formFieldProperties: any;
   @Input() categoryMasterList: any;
+  @Input() enableLink: any;
   //  @Input() formSaveData: any;
   /**
     * This variable hepls to show and hide page loader.

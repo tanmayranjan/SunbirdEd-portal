@@ -25,7 +25,7 @@ i.fas.fa-database.fa-lg {
 }
 .card-header {
   cursor: pointer;
-  background: #585858
+  background: #3E418A
 }
 .creator {
   display: block;
@@ -53,8 +53,11 @@ i.fas.fa-database.fa-lg {
   padding: 2px 2px;
   margin-top: -32px;
  }
+ span {
+  font-family: 'Montserrat' !important;
+ }
  #pub {
-  background-color: #a8abe3 !important;
+  background-color: #83838a !important;
    border-radius: 4rem;
    font-family: "Muli",sans-serif;
    color: white ;
@@ -173,11 +176,15 @@ i.fas.fa-database.fa-lg {
   height: 3.6rem
   
 }
+button {
+  font-family: 'Montserrat' !important;
+}
 .card-body {
   height: 17rem;
+  font-family: 'Montserrat';
 }
 .btn-sec {
-  background-color: #a8abe3 !important;
+  background-color: #865BA0 !important;
   border: none;
   border-radius: 5px;
   height: 40px;

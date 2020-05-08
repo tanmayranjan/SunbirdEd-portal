@@ -3,20 +3,24 @@
 h4 {
     font-size: 40px;
     color: #636363;
+    font-family: 'Roboto Slab';
 }
 
 .container {
     width: 950px !important;
-    font-family: 'Muli', sans-serif;
 }
 #style {
     border: 1px solid #e4e4e4;
     color: #707070;
     border-radius: 7px;
 }
-
+label {
+    font-family: 'Roboto Slab';
+    font-size: 1.25em;
+    font-weight: 400;
+}
 .btn-sec {
- background-color: #a8abe3 !important;
+ background-color: #865BA0 !important;
 
   border: none;
   border-radius: 5px;

@@ -74,17 +74,22 @@
     justify-content: center !important;
     position: unset !important;
 }
+a.item {
+  font-family: 'Roboto Slab' !important;
+  font-size: 1.2em;
+}
 .head{
   font-family: 'Muli', sans-serif;
   font-size: 26px;
   margin-bottom: 0rem;
 }
 .text{
-  font-family:'Muli' !important; 
+  font-family:'Roboto Slab Reguar' !important; 
+  font-weight: 500;
   color: black !important;
 }
 .btn-info {
-  background-color: #a8abe3 !important;
+  background-color: #865BA0 !important;
   border-radius:4px;
   border: none;
   border-radius: 5px;

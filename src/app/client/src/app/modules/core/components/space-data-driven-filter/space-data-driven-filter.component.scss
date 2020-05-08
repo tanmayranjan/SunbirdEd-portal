@@ -16,9 +16,15 @@
     font-family: 'Muli', sans-serif;
 
 }
-
+.field {
+    label {
+        font-family: 'Roboto Slab' !important;
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+}
 .button {
-    background-color: #a8abe3 !important;
+    background-color: #865BA0 !important;
     border: none;
     width: fit-content;
     border-radius: 5px;

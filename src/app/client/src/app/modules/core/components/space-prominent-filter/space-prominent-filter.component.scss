@@ -1,6 +1,6 @@
 
 .button {
-    background-color: #a8abe3 !important;
+    background-color: #865BA0 !important;
     border: none;
     width: fit-content;
     border-radius: 5px;
@@ -14,6 +14,14 @@
     color: white !important ;
     padding: 11px 21px !important;
 }
+.field {
+    label {
+        font-family: 'Roboto Slab' !important;
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+}
+
 .ui.segment:first-child {
     margin-top: 0;
 }
