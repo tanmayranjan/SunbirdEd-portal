@@ -36,7 +36,7 @@ a.item:hover {
 }
 a.item {
   font-family: 'Roboto Slab';
-  font-size: 1.2em;
+  font-size: 1.25em;
 }
 .item1 {
 // color: black!important;
@@ -68,8 +68,12 @@ transition: opacity .1s ease;
 #ab{
   border-radius:4px !important;
   text-align: center;
-  font-weight: bold;
+  font-weight: 400 !important;
   color: white !important;
+  height: 46px;
+}
+.sunblogin {
+  background-color: #865BA0 !important;
 }
 .green1 {
   background-color:lightgreen !important;
