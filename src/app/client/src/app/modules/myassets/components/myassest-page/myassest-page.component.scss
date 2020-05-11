@@ -181,8 +181,10 @@ button {
 }
 .card-body {
   height: 17rem;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat Light' !important;
+  // font-family: 'Montserrat';
 }
+
 .btn-sec {
   background-color: #865BA0 !important;
   border: none;
