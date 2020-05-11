@@ -60,7 +60,7 @@ transition: opacity .1s ease;
 // }
 a.item {
   font-family: 'Roboto Slab';
-  font-size: 1.2em;
+  font-size: 1.25em;
 }
 
 .nav-item{
@@ -69,8 +69,9 @@ a.item {
 #ab{
   border-radius:4px !important;
   text-align: center;
-  font-weight: bold;
+  font-weight: 400 !important;
   color: white !important;
+  height: 46px;
 }
 .green1 {
   background-color:lightgreen !important;
@@ -152,7 +153,9 @@ background: #007b5e;
     padding-top: 8px;
   }
 }
-
+.sunblogin {
+  background-color: #865BA0 !important;
+}
 // .primary-nav-item .item {
 //   font-size: 1rem;
 // }

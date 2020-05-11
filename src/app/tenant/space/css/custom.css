@@ -615,7 +615,7 @@ address{margin:0;}
     font-family: 'Muli', sans-serif;
   }
   .btn-purple {
-	background-color: #865BA0 !important;
+	background-color: #72458d !important;
 	border-radius:4px !important;
 	border: none;
 	color:#fff !important;
@@ -635,7 +635,7 @@ address{margin:0;}
 .image {
 	/*height: 44px !important;
 	*/
-	max-height: 56px;
+	/* max-height: 56px; */
     vertical-align: middle;
     border-style: none;
 }
@@ -699,7 +699,12 @@ address{margin:0;}
   #ab{
 	border-radius:4px !important;
 	text-align: center;
-	font-weight: bold;
+	font-weight: 400 !important;
+	z-index: 11;
+	font-size: 1.4em !important;
+	height: 47px;
+	padding: 15px !important;
+	margin: 4px;
   }
   .green1 {
 	background-color:lightgreen !important;
@@ -799,8 +804,7 @@ address{margin:0;}
   a.menuItem {
 	  font-family: 'Roboto Slab' !important;
 	  font-size: 1.25em;
-	  font-weight: 600;
-    padding: 12px;
+    padding: 14px;
   }
   .ui.icon.button {
 	background: #edf4f9;
@@ -941,9 +945,6 @@ a:not([href]):not([tabindex]) {
 .font-weight-bold[_ngcontent-c2] {
     font-weight: 700!important;
 }
-.sunblogin {
-    z-index: 11;
-}
 .p-10 {
 	padding: 10px;
 }
@@ -1057,7 +1058,7 @@ a:hover, a:active {
 .ft-1 a {
     text-decoration: none;
 	font-size:1.3em;
-	font-family: 'Roboto Slab';
+	font-family: 'Montserrat Light';
     color: #707070 !important;
     cursor: pointer;
 }
@@ -1162,6 +1163,6 @@ a:hover {
 }
 @media (min-width: 1200px) {
 .col-lg-6 {
-    width: 46%;
+    width: 43%;
 }
 }

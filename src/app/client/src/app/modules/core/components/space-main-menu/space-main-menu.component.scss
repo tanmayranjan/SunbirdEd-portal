@@ -41,7 +41,7 @@
     color: #585858 !important;
   }
   .item:hover {
-    color: black !important;
+    color: #865BA0 !important;
   }
 .item:active {
   color: black !important;
@@ -76,7 +76,8 @@
 }
 a.item {
   font-family: 'Roboto Slab' !important;
-  font-size: 1.2em;
+  font-size: 1.25em;
+  font-weight: 500 !important;
 }
 .closebtn {
   background-color: white !important;
@@ -88,9 +89,9 @@ a.item {
   font-size: 26px;
   margin-bottom: 0rem;
 }
-.text{
+.text2{
   font-family:'Roboto Slab Reguar' !important; 
-  font-weight: 500;
+  font-weight: 500 !important;
   color: black !important;
 }
 .btn-info {
