@@ -30,6 +30,11 @@ footer{text-align:center;}
 
 }
 
+@font-face {
+	font-family: 'CampaignMedium';
+	src: url('../fonts/CampaignMedium.woff')
+}
+
 body{
 	font-family: 'Muli', sans-serif;
 	overflow-x: hidden;
@@ -612,20 +617,21 @@ address{margin:0;}
     display: block;
 	font-size: 17px;
 	color: black;
-    font-family: 'Muli', sans-serif;
+    font-family: 'Montserrat';
+    font-weight: 400;
   }
   .btn-purple {
-	background-color: #72458d !important;
+	background-color: #865BA0 !important;
 	border-radius:4px !important;
 	border: none;
 	color:#fff !important;
 	border-radius: 5px;
 	height: 40px;
-	font-family: "Muli",sans-serif;
+	font-family: 'CampaignMedium';
 	font-size: 15px;
 	width: fit-content;
 	/* text-transform: uppercase; */
-	font-weight: 700;
+	font-weight: 500;
 	box-shadow: none;
 	cursor: pointer;
   }
@@ -802,7 +808,7 @@ address{margin:0;}
 	margin-right: 10px;
   }
   a.menuItem {
-	  font-family: 'Roboto Slab' !important;
+	  font-family: 'CampaignMedium' !important;
 	  font-size: 1.25em;
     padding: 14px;
   }
@@ -939,7 +945,7 @@ a:not([href]):not([tabindex]) {
     padding: 0.8em 1.14285714em;
     text-transform: none;
     color: #212121;
-    font-weight: 400;
+    /* font-weight: 400; */
     transition: background .1s ease,box-shadow .1s ease,color .1s ease;
 }
 .font-weight-bold[_ngcontent-c2] {

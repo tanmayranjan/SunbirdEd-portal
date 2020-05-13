@@ -26,6 +26,10 @@ body {
     }
   }
 }
+@font-face {
+  font-family: 'CampaignMedium';
+  src: url('../styles/fonts/campaign-medium/CampaignMedium.woff');
+}
 @include respond-above(lg) {
   body {
     .footer-fix {
@@ -115,38 +119,51 @@ body {
     }
   }
 }
-.btn-purple {
-  background-color: #865BA0 !important;
+.btn-purple , .btn-lightgrey , .btn-lightgrey2 , .btn-purple2 {
   border-radius: 4px !important;
-  border: none;
   color: #fff !important;
   border-radius: 5px;
   height: 40px;
-  font-family: "Muli",sans-serif;
   font-size: 15px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   text-transform: uppercase;
-  font-weight: 700;
   box-shadow: none;
   cursor: pointer;
+}
+.btn-purple {
+  background-color: #a8abe3 !important;
+  color: #fff !important;
+  border: none;
+  font-family: "Muli",sans-serif;
+  font-weight: 700;
+
 }
 .btn-lightgrey {
   background-color: #e4e4e4 !important;
-  border-radius:4px !important;
+  
+  color: black !important;
   border: none;
-  border-radius: 5px;
-  height: 40px;
+ 
   font-family: "Muli",sans-serif;
-  font-size: 15px;
-  width: fit-content;
-  text-transform: uppercase;
-  font-weight: 700;
-  box-shadow: none;
-  cursor: pointer;
-}
 
+  font-weight: 700;
+}
+.btn-purple2 {
+  background-color: #865BA0 !important;
+  color: #fff !important;
+  border: none;
+  font-family: 'Montserrat';
+  font-weight: 400;
+ }
+.btn-lightgrey2 {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #865BA0 !important;
+  font-family: 'Montserrat';
+  font-weight: 400;
+}
 .description.annannouncement-description{
   .sb-label-status-error {
     color: $sb-label-status-error-color;

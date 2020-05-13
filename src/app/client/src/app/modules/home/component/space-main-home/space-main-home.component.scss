@@ -27,14 +27,14 @@
 //  }
  .fa-1{
   font-size: 32px;
-  font-weight: 700;
-  font-family: 'Roboto Slab',Bold;
+ // font-weight: 700;
+  font-family: 'CampaignMedium',Bold;
   margin-bottom: 0!important;
  }
  .text-1{
   font-size: 24px;
   font-style: italic;
-  font-family:Roboto Slab;
+  font-family:'CampaignMedium';
  }
 p {
   margin: 0 0 1rem;
@@ -46,8 +46,12 @@ p {
   display: block;
   font-size: 17px;
   font-family: 'Montserrat';
+  font-weight: 500 !important;
   margin-bottom: 1rem!important;
  }
+ .btn-purple {
+  background-color: #865BA0 !important;
+}
  .pb-5 {
   padding-bottom: 5px!important;
 }

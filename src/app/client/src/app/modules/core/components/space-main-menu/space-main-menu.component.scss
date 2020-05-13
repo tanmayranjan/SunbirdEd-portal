@@ -75,9 +75,9 @@
     position: unset !important;
 }
 a.item {
-  font-family: 'Roboto Slab' !important;
+  font-family: 'CampaignMedium' !important;
   font-size: 1.25em;
-  font-weight: 500 !important;
+  // font-weight: 500 !important;
 }
 .closebtn {
   background-color: white !important;
@@ -85,14 +85,18 @@ a.item {
     border: 1px solid rgb(133, 90, 159);
 }
 .head{
-  font-family: 'Muli', sans-serif;
+  font-family:'CampaignMedium Reguar' !important; 
+  // font-weight: 500 !important;
   font-size: 26px;
   margin-bottom: 0rem;
 }
 .text2{
-  font-family:'Roboto Slab Reguar' !important; 
-  font-weight: 500 !important;
+  font-family:'CampaignMedium Reguar' !important; 
+  // font-weight: 500 !important;
   color: black !important;
+}
+.btn-purple {
+  background-color: #865BA0 !important;
 }
 .btn-info {
   background-color: #865BA0 !important;

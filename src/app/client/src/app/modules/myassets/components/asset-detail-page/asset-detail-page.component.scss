@@ -27,12 +27,16 @@
     display: -webkit-inline-box;
     list-style: none;
     font-family: 'Montserrat' !important;
+    font-weight: 500 !important;
   }
   .card-body {
     font-family: 'Montserrat Light' !important;
     p {
       font-size: 15px;
     }
+  }
+  .btn-purple {
+    background-color: #865BA0 !important;
   }
   h5 {
     padding-top: 0.5rem;
@@ -46,7 +50,7 @@
 }
 .card {
  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
- font-family: 'Roboto Slab';
+ font-family: 'CampaignMedium';
 }
 
 #stylefav {

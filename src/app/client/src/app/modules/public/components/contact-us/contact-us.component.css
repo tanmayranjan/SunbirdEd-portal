@@ -11,6 +11,9 @@
  font-size: 28px;
  color:#373737;
 }
+.btn-purple {
+  background-color: #865BA0 !important;
+}
 .p{
  font-family: Arial Regular;
  font-size: 16px;

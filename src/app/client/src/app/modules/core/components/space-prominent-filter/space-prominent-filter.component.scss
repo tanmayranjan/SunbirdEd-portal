@@ -5,10 +5,10 @@
     width: fit-content;
     border-radius: 5px;
     // height: 40px;
-    font-family: "Muli",sans-serif;
-    font-size: 15px;
+    font-family: 'Montserrat';
+    font-size: 13px !important;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 400 !important;
     box-shadow: none;
     cursor: pointer;
     color: white !important ;
@@ -16,9 +16,10 @@
 }
 .field {
     label {
-        font-family: 'Roboto Slab' !important;
+        font-family: 'CampaignMedium' !important;
         font-size: 1.25em;
-        font-weight: 400;
+        font-weight: 500 !important;
+       // font-weight: 400;
     }
 }
 .ui.segment:first-child {
@@ -43,7 +44,7 @@
     padding-bottom: 1rem;
 }
 #search {
-    margin-top: 31px !important;
+    margin-top: 33px !important;
 }
 @media screen and (min-width:312px) and (max-width:424px) {
     .prominent-filter {

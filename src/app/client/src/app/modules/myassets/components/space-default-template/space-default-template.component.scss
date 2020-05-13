@@ -18,9 +18,10 @@
 }
 .field {
     label {
-        font-family: 'Roboto Slab';
+        font-family: 'CampaignMedium';
         font-size: 1.25em;
-        font-weight: 400;
+        font-weight: 500 !important;
+       // font-weight: 400;
     }
 }
 ::ng-deep #licencetype .ui.dropdown .menu {
@@ -61,6 +62,7 @@ sui-select {
 }
 ::-webkit-input-placeholder {
     font-family: 'Montserrat';
+    font-weight: 500 !important;
 }
 
     label 

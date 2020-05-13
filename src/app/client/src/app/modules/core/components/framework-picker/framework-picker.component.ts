@@ -28,6 +28,9 @@ export class FrameworkPickerComponent implements OnInit, OnDestroy {
 
   @Output() topicChanges = new EventEmitter();
 
+
+  @Input() tenant = 'space';
+  
   public placeHolder: string;
 
   public selectedNodes: any;

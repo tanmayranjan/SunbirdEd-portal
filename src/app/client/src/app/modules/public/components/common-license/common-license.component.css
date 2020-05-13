@@ -23,11 +23,12 @@
     display: block;
     font-size: 17px;
     font-family: 'Montserrat';
+    font-weight: 500 !important;
     line-height: 2em;
   }
   .text-ac {
-    font-family: 'Roboto Slab';
-    font-weight: bold;
+    font-family: 'CampaignMedium';
+    /* font-weight: bold; */
   }
   ol li {
     line-height: 2em;

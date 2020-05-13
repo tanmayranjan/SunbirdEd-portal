@@ -23,8 +23,8 @@
   }
 }
 .text{
-  font-family:'Roboto Slab' !important; 
-  font-weight: 400;
+  font-family:'CampaignMedium' !important; 
+  // font-weight: 400;
   font-size: 1.25em;
   color: black !important;
 }
@@ -59,10 +59,12 @@ transition: opacity .1s ease;
 //   font-family: 'Muli', sans-serif;
 // }
 a.item {
-  font-family: 'Roboto Slab';
+  font-family: 'CampaignMedium';
   font-size: 1.25em;
 }
-
+.btn-purple {
+  background-color: #865BA0 !important;
+}
 .nav-item{
   color: white !important;
 }
