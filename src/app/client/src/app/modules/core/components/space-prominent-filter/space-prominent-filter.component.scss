@@ -5,10 +5,10 @@
     width: fit-content;
     border-radius: 5px;
     // height: 40px;
-    font-family: "Muli",sans-serif;
-    font-size: 15px;
+    font-family: 'Montserrat';
+    font-size: 13px !important;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 400 !important;
     box-shadow: none;
     cursor: pointer;
     color: white !important ;
@@ -16,13 +16,13 @@
 }
 .field {
     label {
-        font-family: 'Roboto Slab' !important;
+        font-family: 'CampaignMedium' !important;
         font-size: 1.25em;
-        font-weight: 400;
+        font-weight: 500 !important;
     }
 }
 #search {
-    margin-top: 31px !important;
+    margin-top: 33px !important;
 }
 
 .ui.segment:first-child {

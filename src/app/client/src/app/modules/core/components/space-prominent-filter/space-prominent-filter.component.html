@@ -31,7 +31,7 @@
                             <app-topic-picker [selectedTopics]="formInputData[field.code]" [formTopic]="field" (topicChange)="handleTopicChange($event)"></app-topic-picker>
                           </ng-container>
                           <ng-container *ngIf="field.code==='gradeLevel'">
-                              <app-framework-picker [selectedTopics]="formInputData[field.code]" [formTopics]="field" (topicChanges)="handleGradeLevelChange($event)"></app-framework-picker>
+                              <app-framework-picker [selectedTopics]="formInputData[field.code]" [formTopics]="field" [tenant]="slugInfo" (topicChanges)="handleGradeLevelChange($event)"></app-framework-picker>
                             </ng-container>
                         </div>
                       </div>

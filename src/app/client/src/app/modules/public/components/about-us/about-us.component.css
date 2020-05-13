@@ -69,14 +69,15 @@ p {
     color: #FFFFFF;
   }
   .text-ac {
-    font-family: 'Roboto Slab';
-    font-weight: bold;
+    font-family: 'CampaignMedium';
+    /* font-weight: bold; */
   }
   .text {
     font-size: 17px;
     line-height: 2.0;
     text-align: center;
     font-family: 'Montserrat';
+    font-weight: 500 !important;
   }
   a:hover {
     text-decoration: none;

@@ -2,7 +2,7 @@
 
 /* fonts */
   .font-w-bold {
-    font-weight: bold !important;
+   // font-weight: bold !important;
   }
 
   /* colors */
@@ -25,10 +25,11 @@
   }
   span {
     font-family: 'Montserrat' !important;
+    font-weight: 500 !important;
   }
   .card , .username {
-    font-family: 'Roboto Slab';
-    font-weight: 400;
+    font-family: 'CampaignMedium';
+   // font-weight: 400;
   }
   .ui.dodger-blue.basic.label {
     border: 1px solid #024f9d!important;

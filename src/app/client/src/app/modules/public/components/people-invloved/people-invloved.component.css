@@ -3,6 +3,7 @@
   text-align: center;
   font-size: 3rem;
   color: black;
+  font-family: 'CampaignMedium' !important;
 }
 p {
   margin: 0 0 10px;
@@ -11,6 +12,8 @@ p {
   font-size: 17px;
   line-height: 2.0;
   text-align: center;
+  font-family: 'Montserrat';
+  font-weight: 500 !important;
 }
 .container-fluid {
   margin-right: auto;

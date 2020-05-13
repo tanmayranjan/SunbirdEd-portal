@@ -26,12 +26,13 @@
     overflow: hidden;
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
-    font-weight: 600;
+   // font-weight: 600;
     margin-bottom: 10px;
-    font-family: 'Roboto Slab';
+    font-family: 'CampaignMedium';
   }
   span {
     font-family: 'Montserrat' !important;
+    font-weight: 500 !important;
   }
   .card-text1{
     min-height: 30px;
@@ -64,7 +65,7 @@ background-color: #585858;
    min-height: 335px;
     max-height: 335px;
    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-   font-family: 'Roboto Slab';
+   font-family: 'CampaignMedium';
    cursor: pointer;
  }
  .card-header {

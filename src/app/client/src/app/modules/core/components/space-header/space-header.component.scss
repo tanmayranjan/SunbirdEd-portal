@@ -23,8 +23,8 @@
   }
 }
 .text{
-  font-family:'Roboto Slab' !important; 
-  font-weight: 400;
+  font-family:'CampaignMedium' !important; 
+ // font-weight: 400;
   font-size: 1.2em;
   color: black !important;
 }
@@ -35,7 +35,7 @@ a.item:hover {
   color: #865BA0 !important;
 }
 a.item {
-  font-family: 'Roboto Slab';
+  font-family: 'CampaignMedium';
   font-size: 1.25em;
 }
 .item1 {
@@ -125,7 +125,9 @@ background: #007b5e;
   font-size: 13px !important;
   color:white;
 }
-
+.btn-purple {
+  background-color: #865BA0 !important;
+}
 // @media only screen and (max-width: 767px) {
 //   .primary-searchbar-alignment {
 //     width: 100%;  
