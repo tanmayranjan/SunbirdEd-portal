@@ -631,11 +631,11 @@ address{margin:0;}
 	color:#fff !important;
 	border-radius: 5px;
 	height: 40px;
-	font-family: 'CampaignMedium';
+	font-family: 'Montserrat';
 	font-size: 15px;
 	width: fit-content;
 	/* text-transform: uppercase; */
-	font-weight: 500;
+	font-weight: 400;
 	box-shadow: none;
 	cursor: pointer;
   }
@@ -707,16 +707,7 @@ address{margin:0;}
   .nav-item{
 	color: white !important;
   }
-  #ab{
-	border-radius:4px !important;
-	text-align: center;
-	font-weight: 400 !important;
-	z-index: 11;
-	font-size: 1.4em !important;
-	height: 47px;
-	padding: 15px !important;
-	margin: 4px;
-  }
+  
   .green1 {
 	background-color:lightgreen !important;
   }
@@ -812,12 +803,22 @@ address{margin:0;}
 	border-width: 2px;
 	margin-right: 10px;
   }
-  a.menuItem {
+  a.links {
 	font-family: 'CampaignMedium' !important;
 	font-size: 1.25em;
     padding: 14px;
 }
-  
+#ab{
+	border-radius:4px !important;
+	text-align: center;
+	font-style: 'Montserrat' !important;
+	font-weight: 400 !important;
+	z-index: 11;
+	font-size: 1.25em !important;
+	height: 47px;
+	padding: 15px !important;
+	margin: 4px;
+  }
   .ui.icon.button {
 	background: #edf4f9;
 	padding: 1px 7px 4px 7px;
@@ -927,7 +928,7 @@ address{margin:0;}
     /* display: flex; */
 	align-items: center;
 	cursor: pointer;
-	opacity: 0.8;
+	/* opacity: 0.8; */
 }
 a.menuItem:hover {
 	color: #865BA0;
