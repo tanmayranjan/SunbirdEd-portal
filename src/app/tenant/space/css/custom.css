@@ -705,9 +705,10 @@ address{margin:0;}
   #ab{
 	border-radius:4px !important;
 	text-align: center;
+	font-style: 'Montserrat' !important;
 	font-weight: 400 !important;
 	z-index: 11;
-	font-size: 1.4em !important;
+	font-size: 1.25em !important;
 	height: 47px;
 	padding: 15px !important;
 	margin: 4px;
@@ -807,7 +808,7 @@ address{margin:0;}
 	border-width: 2px;
 	margin-right: 10px;
   }
-  a.menuItem {
+  a.links {
 	  font-family: 'CampaignMedium' !important;
 	  font-size: 1.25em;
     padding: 14px;
@@ -921,7 +922,7 @@ address{margin:0;}
     /* display: flex; */
 	align-items: center;
 	cursor: pointer;
-	opacity: 0.8;
+	/* opacity: 0.8; */
 }
 a.menuItem:hover {
 	color: #865BA0;
