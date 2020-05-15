@@ -2,11 +2,14 @@
 .partnerTitle {
   text-align: center;
   font-size: 3rem;
-  color: black;
+  color: white;
   font-family: 'CampaignMedium' !important;
 }
 p {
   margin: 0 0 10px;
+}
+.jumbotron {
+  background-color: #686365;
 }
 .partnerBody {
   font-size: 17px;
@@ -25,7 +28,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-bottom: 20px;
 }
 .row {
@@ -39,6 +42,7 @@ p {
 .box {
   width: 34%;
   padding: 5.5em 1em 0em 1em;
+  margin-right: 10px;
 }
 
 img {

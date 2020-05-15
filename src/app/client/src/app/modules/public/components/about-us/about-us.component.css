@@ -70,6 +70,7 @@ p {
   }
   .text-ac {
     font-family: 'CampaignMedium';
+    color: white;
     /* font-weight: bold; */
   }
   .text {
@@ -81,6 +82,9 @@ p {
   }
   a:hover {
     text-decoration: none;
+  }
+  .jumbotron {
+    background-color: #686365;
   }
   .cimage{
     background-image: url('../../../../../assets/images/slide-04.png');

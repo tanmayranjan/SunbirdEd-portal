@@ -25,11 +25,15 @@
   }
   .text-ac {
     font-family: 'CampaignMedium';
+    color: white;
     // font-weight: bold;
   }
   .text p {
     line-height: 2em;
     font-size: 17px;
+  }
+  .jumbotron {
+    background-color: #686365;
   }
   .cimage{
     background-image: url('../../../../../assets/images/slide-04.png');
