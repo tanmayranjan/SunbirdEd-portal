@@ -49,13 +49,13 @@
         <div class="twelve wide column right aligned py-0" *ngIf="searchList && totalCount > 10 && !showLoader && !noResult && !isOffline">
             <div class="sb-pagination-container flex-jc-flex-end" *ngIf="pager.pages.length">
                 <div class="sb-pagination my-0">
-                <!-- <a [ngClass]="{disabled:pager.currentPage===1 }" class="sb-item " (click)="navigateToPage(1) ">&laquo;</a>
-                <a [ngClass]="{disabled:pager.currentPage===1 }" class="sb-item " (click)="navigateToPage(pager.currentPage - 1)">&lt;</a> -->
+                 <a [ngClass]="{disabled:pager.currentPage===1 }" class="sb-item " (click)="navigateToPage(1) ">&laquo;</a>  
+                <a [ngClass]="{disabled:pager.currentPage===1 }" class="sb-item " (click)="navigateToPage(pager.currentPage - 1)">&lt;</a>
                 <a *ngFor="let page of pager.pages;let i=index" [ngClass]="{active: page === activePage}" (click)="navigateToPage(page)"
                     class="sb-item">{{page}}</a>
                     <a [ngClass]="{disabled:activePage=== pager.totalPages}" (click)="navigateToPage(activePage + 1)"
                     class="sb-item">&gt;</a>
-                <a [ngClass]="{disabled:activePage=== pager.totalPages}" (click)="navigateToPage(pager.totalPages)"
+                <a [ngClass]="{disabled:activePage=== pager.totalPages}" (click)="navigateToPage(pager.totalPages > 10 ? 10 : pager.totalPages)"
                     class="sb-item ">&raquo;</a>
                 </div>
             </div>

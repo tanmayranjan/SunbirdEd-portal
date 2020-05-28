@@ -1,5 +1,5 @@
 import { PublicPlayerService } from '@sunbird/public';
-import { Component, OnInit, OnDestroy, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Input, OnChanges } from '@angular/core';
 import { combineLatest, Subject } from 'rxjs';
 import {
   ServerResponse,
@@ -39,7 +39,7 @@ import { environment } from '@sunbird/environment';
   selector: 'app-space-view-all',
   templateUrl: './space-view-all.component.html'
 })
-export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
   @Input() sectionObj = {};
 
@@ -102,7 +102,7 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * totalCount of the list
    */
-  totalCount: Number;
+  totalCount;
   /**
    * Current page number of inbox list
    */
@@ -142,6 +142,7 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
   hashTagId: string;
   formAction: string;
   showFilter = false;
+  totalpages = 1;
   /**
    * To show / hide login popup on click of content
    */
@@ -266,6 +267,10 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
+  ngOnChanges() {
+    console.log('Change detected', this.sectionObj);
+    this.ngOnInit();
+  }
   getContents(data) {
     this.getContentList(data).subscribe(
       (response: any) => {
@@ -278,6 +283,9 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
           this.contentResponse = response;
           this.allContent = response.contentData.result.content;
           this.totalCount = response.contentData.result.count;
+          if (this.totalCount > 100) {
+            this.totalCount = 100;
+          }
           response.contentData.result.content = this.assignContent(this.allContent);
           this.pager = this.paginationService.getPager(
             response.contentData.result.count,
@@ -413,6 +421,9 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
         'softConstraints'
       );
     }
+    if (requestParams.filters['channel']) {
+      requestParams.filters['organisation'] = requestParams.filters['channel'];
+    }
     if (this.userService.hashTagId) {
       requestParams.filters['channel'] = [this.userService.hashTagId];
     }
@@ -454,7 +465,7 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     return response.contentData.result.content;
   }
 
-  navigateToPage(page: number): undefined | void {
+  navigateToPage(page): undefined | void {
     window.scroll({
       top: 0,
       behavior: 'smooth'
@@ -486,8 +497,8 @@ export class SpaceViewAllComponent implements OnInit, OnDestroy, AfterViewInit {
     this.activePage = page;
     this.contentResponse.contentData.result.content = this.assignContent(this.allContent,page);
     this.pager = this.paginationService.getPager(
-      this.contentResponse.contentData.result.count,
-      this.pageNumber,
+      this.contentResponse.contentData.result.count > 100 ? 100 : this.contentResponse.contentData.result.count,
+      this.activePage,
       this.pageLimit
     );
     this.searchList = this.formatSearchresults(this.contentResponse);

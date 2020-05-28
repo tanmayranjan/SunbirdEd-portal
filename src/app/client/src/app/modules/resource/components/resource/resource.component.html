@@ -32,7 +32,7 @@
           <!-- <app-space-page-section *ngIf="slug === 'space'" [enable]="true" (visits)="prepareVisits($event)" (playEvent)="playContent($event)" [section]="carouselData" [slug]="slug"
           (viewAll)="viewAll($event)">
           </app-space-page-section> -->
-          <app-space-view-all *ngIf="sectionData === true && slug === 'space'" [sectionObj]="sectionObj"></app-space-view-all>
+          <app-space-view-all *ngIf="sectionData === true && slug === 'space' && carouselData.length !== 0" [sectionObj]="sectionObj"></app-space-view-all>
          </div>
         <div class="twelve wide column" *ngIf="showLoader">
           <app-loader [data]='loaderMessage'></app-loader>
